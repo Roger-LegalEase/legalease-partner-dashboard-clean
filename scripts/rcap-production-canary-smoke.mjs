@@ -19,10 +19,10 @@ const APPLICATION_SHA = "8682bd00731e247a4fe93f39075c532476eb5c74";
 const WORKER_SOURCE_SHA = "8682bd00731e247a4fe93f39075c532476eb5c74";
 const WORKER_DIGEST = "sha256:d11728c41116e76c92aa26220f9328708197e9ae185b71b13e2410bafba1e8ea";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-// Read back from Vercel by preflight 35352773233, which staged the candidate
+// Read back from Vercel by preflight 35364055423, which staged the candidate
 // and recorded the live deployment before touching anything: staged
-// dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx, rollback (current Production)
-// dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz.
+// dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK, rollback (current Production)
+// dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx.
 //
 // Both move together, because the pair only means anything as a pair: the
 // deployment that was the staged candidate of the previous release is the
@@ -31,18 +31,20 @@ const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // run 35276699023 refuse on exact_staged_application_worker_identity, which is
 // the control working: it declined to smoke-test the live site and call a
 // release sound on the strength of it.
-const STAGED_DEPLOYMENT_ID = "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx";
-// The recovery target is the deployment live now: dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz,
-// the candidate the previous release staged and activated. It is
-// payment-compatible -- it post-dates 20260917090000, so it calls the current
-// record_consumer_packet_payment signature rather than the retired one, and it
-// can settle an order as well as serve the site.
+const STAGED_DEPLOYMENT_ID = "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK";
+// The recovery target is the deployment live now:
+// dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx, the candidate the previous release staged
+// and activated. It is payment-compatible -- it post-dates 20260917090000, so
+// it calls the current record_consumer_packet_payment signature rather than
+// the retired one, and it can settle an order as well as serve the site. It
+// also already sells the Grade-A catalog Product prod_VHEHkvH7dSvGv7.
 //
-// What it cannot do is sell the Grade-A catalog Product: it is the application
-// that names the superseded live Product, so a rollback restores a Production
-// whose live coupons are refused. That is the state Production is in today,
-// not a regression this release would cause.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz";
+// What it cannot do is take a $0 order: it builds every Checkout Session
+// guest-capable, and Stripe does not support no-cost orders for guest
+// customers, so a promotion code that clears the total is refused on it. That
+// is the state Production is in today and the single thing this release
+// changes, not a regression a rollback would introduce.
+const ROLLBACK_DEPLOYMENT_ID = "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx";
 const REQUIRED_MIGRATION_HASHES = Object.freeze([
   "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef",
   "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835",

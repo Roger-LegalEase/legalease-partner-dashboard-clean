@@ -23,15 +23,15 @@ check(workflow.includes("node scripts/verify-rcap-production-activation.mjs"), "
 check(workflow.includes("node scripts/test-rcap-production-activation-mutations.mjs"), "workflow runs activation mutation proof");
 check(workflow.includes("node scripts/rcap-production-activate.mjs"), "workflow invokes only the dedicated activation control");
 
-check(script.includes('const STAGED_DEPLOYMENT_ID = "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx"'), "exact staged deployment is pinned");
-check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz"'), "exact rollback deployment is pinned");
+check(script.includes('const STAGED_DEPLOYMENT_ID = "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK"'), "exact staged deployment is pinned");
+check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx"'), "exact rollback deployment is pinned");
 check(!script.includes('"dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL"'), "the pre-migration deployment is named by no pin, so it cannot be a recovery target");
 // The pair and the smoke run this release supersedes. The superseded staged id
 // is the deployment Production serves now, so carrying it forward would promote
 // the alias onto the deployment it is already on and report success having
 // shipped nothing. Naming all three here keeps the stale set from returning by
 // any one of its parts.
-check(!script.includes('"dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM"'), "the superseded rollback deployment is named by no pin");
+check(!script.includes('"dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz"'), "the superseded rollback deployment is named by no pin");
 check(!script.includes('"35300111459"'), "the superseded smoke run is named by no pin");
 check(script.includes('const SMOKE_RUN_ID = "35353387959"'), "exact successful smoke run is pinned");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "canonical Production Supabase project is pinned");

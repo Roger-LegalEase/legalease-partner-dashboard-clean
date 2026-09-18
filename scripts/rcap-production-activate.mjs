@@ -19,10 +19,10 @@ const WORKER_SOURCE_SHA = "8682bd00731e247a4fe93f39075c532476eb5c74";
 const WORKER_DIGEST = "sha256:d11728c41116e76c92aa26220f9328708197e9ae185b71b13e2410bafba1e8ea";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // This is the promotion, so a stale pin here is the most expensive kind. The
-// pair is read back from Vercel by preflight 35352773233, which staged the
+// pair is read back from Vercel by preflight 35364055423, which staged the
 // candidate and recorded the live deployment before touching anything: staged
-// dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx, rollback (current Production)
-// dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz.
+// dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK, rollback (current Production)
+// dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx.
 //
 // Both move together each release: the deployment that was the staged
 // candidate last time is the deployment live now, so it becomes the rollback
@@ -30,9 +30,9 @@ const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // deployment it was already on, report success and ship nothing; smoke run
 // 35276699023 caught exactly that staleness before this control could act on
 // it.
-const STAGED_DEPLOYMENT_ID = "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx";
+const STAGED_DEPLOYMENT_ID = "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK";
 // The recovery target is the deployment live now:
-// dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz, the candidate the previous release staged
+// dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx, the candidate the previous release staged
 // and activated.
 //
 // It IS payment-compatible. 20260917090000 retired the legacy 14- and
@@ -50,7 +50,7 @@ const STAGED_DEPLOYMENT_ID = "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx";
 // failed activation is settled by replaying its Stripe event through the
 // idempotent reconciliation path, never by reversing a migration or restoring
 // a retired writer.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz";
+const ROLLBACK_DEPLOYMENT_ID = "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx";
 const SMOKE_RUN_ID = "35353387959";
 const SMOKE_FILE = path.resolve(
   process.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE

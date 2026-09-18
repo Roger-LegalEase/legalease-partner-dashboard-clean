@@ -13,16 +13,16 @@ const files = [
   "scripts/verify-rcap-production-activation.mjs"
 ];
 const mutations = [
-  ["staged deployment", "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx", "dpl_wrongstaged"],
-  ["rollback deployment", "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz", "dpl_wrongrollback"],
+  ["staged deployment", "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK", "dpl_wrongstaged"],
+  ["rollback deployment", "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx", "dpl_wrongrollback"],
   ["smoke run", "35353387959", "32900000000"],
   // The superseded set specifically, not just any wrong value. This is the
   // failure the release actually hit: the previous staged candidate became the
   // live deployment, so reusing the old pins would have promoted Production onto
   // itself against a smoke run that never tested this release. Each of the three
   // is a rejected mutation rather than a silent regression.
-  ["superseded staged deployment", "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx", "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz"],
-  ["superseded rollback deployment", "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz", "dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM"],
+  ["superseded staged deployment", "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK", "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx"],
+  ["superseded rollback deployment", "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx", "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz"],
   ["superseded smoke run", "35353387959", "35300111459"],
   ["Production project", "wwtwtsmywnckfkdaqqeg", "hyflxnlhpmiqxvvcoiia"],
   ["application SHA", "8682bd00731e247a4fe93f39075c532476eb5c74", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
