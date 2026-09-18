@@ -22,6 +22,25 @@ const { packetFulfillmentAuthority, assertPacketFulfillmentProven, packetFulfill
 const { documentPacketRendererFor, SUPPORTED_DOCUMENT_PACKET_STATES } =
   await import("@/components/rcap/documents/DocumentPacketRenderer");
 const { getAllJurisdictionProfiles } = await import("@/lib/rcap-engine/profile-registry");
+const { composablePacketSpecificationFor } = await import("@/lib/rcap/grade-a/packet-specification");
+
+/**
+ * Ask the authority the question it can actually answer.
+ *
+ * Since 65851c3d1 (2026-09-05) consumer fulfillment resolves through canonical
+ * Grade-A authority, and that binding refuses outright without a track: a route
+ * match alone is not enough where two legal-design tracks share one runtime
+ * pathway, so `packetFulfillmentAuthority(code, pathwayId)` with no binding can
+ * never return allowed, for any route. These checks were left asking it anyway,
+ * so they reported every record as unearned regardless of its proof.
+ *
+ * The track comes from the specification registered for the route. That is not
+ * a shortcut around the check: the substantive comparisons inside the binding —
+ * record against specification, specification against its bytes on disk, and
+ * the exact provider and renderer identity — all still run, and the record's
+ * own specification id and version are asserted separately below.
+ */
+const boundTrackFor = (routeKey) => composablePacketSpecificationFor(routeKey)?.trackId ?? null;
 
 let checks = 0;
 const failures = [];
@@ -38,7 +57,9 @@ const ledger = JSON.parse(fs.readFileSync("data/rcap-ledger/packet-fulfillment-r
 ok("no route has a fulfillment record it has not earned",
   Array.isArray(ledger.records));
 for (const record of ledger.records ?? []) {
-  const decision = packetFulfillmentAuthority(...record.routeKey.split(/:(.+)/));
+  const [recordCode, recordPathwayId] = record.routeKey.split(/:(.+)/);
+  const decision = packetFulfillmentAuthority(recordCode, recordPathwayId, undefined,
+    { trackId: boundTrackFor(record.routeKey) });
   ok(`${record.routeKey}: its record actually proves delivery`, decision.allowed === true,
     decision.allowed ? "" : decision.missing.join(", "));
 }
@@ -62,33 +83,39 @@ const SURFACES = [
 const proven = new Set((ledger.records ?? []).map((record) => record.routeKey));
 for (const row of census.rows) {
   const [code, pathwayId] = row.route.split(/:(.+)/);
-  const decision = packetFulfillmentAuthority(code, pathwayId);
+  const decision = packetFulfillmentAuthority(code, pathwayId, undefined, { trackId: boundTrackFor(row.route) });
   if (proven.has(row.route)) {
     ok(`${row.route}: proven, so the packet itself is established`, decision.allowed === true,
       decision.allowed ? "" : decision.missing.join(", "));
     // Proven is not sold. A record with a held posture proves the packet exists
     // and still refuses every surface where money or an entitlement changes
     // hands, which is the whole point of separating the two questions.
-    const record = (ledger.records ?? []).find((entry) => entry.routeKey === row.route);
+    // The posture that governs, not the one the superseded ledger file records.
+    // Canonical authority composes the effective postures and may open a
+    // channel the old ledger still holds — the Mississippi paid-consumer
+    // successor does exactly that for consumer surfaces while sponsored stays
+    // held. Reading the file here asserted a refusal the system had already
+    // been authorized to stop making.
+    const record = decision.record ?? (ledger.records ?? []).find((entry) => entry.routeKey === row.route);
     for (const surface of MONEY_SURFACES) {
       const posture = surface === "sponsored entitlement" || surface === "packet credit consumption"
         ? record.sponsoredPosture
         : record.consumerPosture;
       if (posture !== "held") continue;
       ok(`${row.route}: ${surface} refuses while its posture is held`,
-        refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface)));
+        refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface, { trackId: boundTrackFor(row.route) })));
     }
     // Generation and delivery are reachable, because they are only ever reached
     // through an entitlement the surfaces above already gated.
     for (const surface of ["packet generation", "participant delivery"]) {
       ok(`${row.route}: ${surface} is open on a proven packet`,
-        !refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface)));
+        !refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface, { trackId: boundTrackFor(row.route) })));
     }
     continue;
   }
   ok(`${row.route}: no proof, so no commercial authority`, decision.allowed === false, decision.allowed ? "allowed" : "");
   for (const surface of SURFACES) {
-    ok(`${row.route}: ${surface} refuses`, refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface)));
+    ok(`${row.route}: ${surface} refuses`, refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface, { trackId: boundTrackFor(row.route) })));
   }
 }
 

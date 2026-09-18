@@ -87,13 +87,24 @@ ok("assertCheckoutAllowed refuses this route", refuses(assertCheckoutAllowed));
 // neighbour is no longer sellable either and the old form of this control —
 // "the neighbour still sells" — would now be asserting something the owner
 // decision withdrew. The control's actual job survives the retirement: the
-// correction row is route-scoped, so the neighbour must receive the ordinary
-// retired treatment rather than the correction. Two distinct classifications
-// inside one state is the evidence; sellability never was.
+// correction row is route-scoped, so the neighbour must receive its own
+// treatment rather than the correction. Two distinct classifications inside one
+// state is the evidence; sellability never was.
+//
+// The neighbour's own treatment has since moved, and this control had not
+// followed it. It was `legacy_retired` when this was written. It is now
+// `factory_v2`: the route was productized under Grade-A fulfillment record
+// grade-a-ms-nonconv-paid-consumer-successor-20260914 (version 16,
+// COMPLETE_PACKET_PROVEN against legal decision
+// auth-2026-08-19-owner-legal-approval-completed-output), and the 2026-09-14
+// owner scope decision opened its consumer surfaces. Pinning the exact current
+// classification rather than "anything but the correction" keeps this a real
+// pin: it fails if the neighbour ever inherits the correction, and equally if
+// it silently changes treatment again.
 const neighbour = resolvePacketRoute({
   state: "MS", pathway: "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal", trackId: null });
 ok("a Mississippi route with no correction row does not inherit the correction",
-  neighbour.routeKind === "legacy_retired", neighbour.routeKind);
+  neighbour.routeKind === "factory_v2", neighbour.routeKind);
 ok("the correction stays route-scoped rather than state-wide",
   neighbour.routeKind !== "packet_correction_required", neighbour.routeKind);
 

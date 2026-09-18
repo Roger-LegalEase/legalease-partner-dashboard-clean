@@ -230,7 +230,14 @@ ok("the record is complete", packetFulfillmentShortfall(record).length === 0,
   packetFulfillmentShortfall(record).join(", "));
 
 const [code, pathwayId] = ROUTE_KEY.split(/:(.+)/);
-ok("the packet itself is established", packetFulfillmentAuthority(code, pathwayId).allowed === true);
+// Since 65851c3d1 (2026-09-05) the binding refuses outright without a track,
+// because a route match alone is not enough where two legal-design tracks share
+// one runtime pathway. Asking without one can never return allowed, for any
+// route, so this asked a question no answer could satisfy.
+const boundTrackId = specification.trackId;
+const establishedDecision = packetFulfillmentAuthority(code, pathwayId, undefined, { trackId: boundTrackId });
+ok("the packet itself is established", establishedDecision.allowed === true,
+  establishedDecision.allowed ? "" : establishedDecision.missing.join(", "));
 
 function refuses(run) { try { run(); return false; } catch { return true; } }
 
@@ -247,7 +254,7 @@ for (const [surface, posture] of [
     continue;
   }
   ok(`${surface} refuses while its posture is held`,
-    refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface)));
+    refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface, { trackId: boundTrackId })));
   const decision = packetFulfillmentAuthority(code, pathwayId, surface);
   ok(`the ${surface} refusal names the hold reason`,
     decision.allowed === false && decision.reason.includes(record.holdReason.slice(0, 40)));
@@ -257,7 +264,7 @@ for (const [surface, posture] of [
 // only ever reached through an entitlement the surfaces above already gated.
 for (const surface of ["packet generation", "participant delivery"]) {
   ok(`${surface} is open on a proven packet`,
-    !refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface)));
+    !refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface, { trackId: boundTrackId })));
 }
 
 // A machine-verified artifact does not carry a sale even if a posture is opened.
