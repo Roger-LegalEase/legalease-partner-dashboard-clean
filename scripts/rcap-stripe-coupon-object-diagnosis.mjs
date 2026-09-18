@@ -22,7 +22,13 @@ import {
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
+// Either a promo_ id or the customer-facing code. A code that was created in
+// the dashboard is known by the string customers type long before anyone has
+// its id, and looking it up by that string is also the one query that
+// distinguishes "this code does not exist in live mode" from every other
+// reason Stripe refuses it.
 const PROMOTION_CODE_ID = (process.env.RCAP_PROMOTION_CODE_ID ?? "").trim();
+const PROMOTION_CODE = (process.env.RCAP_PROMOTION_CODE ?? "").trim();
 const COUPON_ID = (process.env.RCAP_COUPON_ID ?? "").trim();
 const CHECKOUT_SESSION_ID = (process.env.RCAP_CHECKOUT_SESSION_ID ?? "").trim();
 const EXPECTED_PRODUCT_ID = (process.env.RCAP_EXPECTED_PRODUCT_ID ?? "prod_Sx3T2wUkaYKqg9").trim();
@@ -119,8 +125,9 @@ async function readProductionStripeKey(identity) {
 
 async function main() {
   if (!VERCEL_TOKEN) fail("VERCEL_TOKEN is required to read the production Stripe key");
-  if (!PROMOTION_CODE_ID) fail("RCAP_PROMOTION_CODE_ID is required");
-  if (!CHECKOUT_SESSION_ID) fail("RCAP_CHECKOUT_SESSION_ID is required");
+  if (!PROMOTION_CODE_ID && !PROMOTION_CODE) {
+    fail("one of RCAP_PROMOTION_CODE_ID or RCAP_PROMOTION_CODE is required");
+  }
 
   say("RCAP Stripe object diagnosis — read-only. No Stripe object is created, modified or deleted.");
 
@@ -151,19 +158,52 @@ async function main() {
   say(`Stripe key resolved from ${keySource} and masked; its prefix says mode=${keyMode}`);
 
   // 7. The account the production key actually belongs to.
+  // A restricted key is commonly not granted Account read, and that is not a
+  // reason to abandon the diagnosis: every other object below carries livemode
+  // itself, and those are what the question turns on.
   const account = await stripeGet(secretKey, "/v1/account");
-  if (!account.ok) fail(`Stripe refused /v1/account (HTTP ${account.status})`);
-  const accountId = account.json?.id ?? null;
+  const accountId = account.ok ? (account.json?.id ?? null) : null;
+  const accountError = account.ok
+    ? null
+    : (account.json?.error?.message ?? account.json?.error?.code ?? `http_${account.status}`);
+  if (!account.ok) {
+    say(`/v1/account is not readable with this key (${accountError}); continuing, since livemode is carried by each object below.`);
+  }
 
   // 1-4. The promotion code, its flags, its coupon and the coupon's product
   // restriction. A 404 here with a live key means the object lives in another
   // account or another mode, which is itself the answer.
-  const promo = await stripeGet(
-    secretKey,
-    `/v1/promotion_codes/${encodeURIComponent(PROMOTION_CODE_ID)}?expand[]=coupon.applies_to`
-  );
+  //
+  // A lookup BY CODE is listed rather than retrieved, so it answers even when
+  // the code does not exist: an empty list is the account stating it holds no
+  // such code in this mode, which a 404 on an id cannot distinguish from a
+  // typo. Every promotion code carrying the string is reported, because two of
+  // them -- one active, one not -- is a shape that looks correct in a dashboard
+  // and refuses at Checkout.
+  let promo = null;
+  let byCodeMatches = [];
+  if (PROMOTION_CODE) {
+    const listed = await stripeGet(
+      secretKey,
+      `/v1/promotion_codes?limit=100&code=${encodeURIComponent(PROMOTION_CODE)}&expand[]=data.coupon.applies_to`
+    );
+    byCodeMatches = Array.isArray(listed.json?.data) ? listed.json.data : [];
+    // Prefer an active one; otherwise report whatever the account holds.
+    promo = byCodeMatches.find(entry => entry?.active === true) ?? byCodeMatches[0] ?? null;
+    if (promo) promo = { ok: true, status: 200, json: promo };
+  }
+  if (!promo && PROMOTION_CODE_ID) {
+    promo = await stripeGet(
+      secretKey,
+      `/v1/promotion_codes/${encodeURIComponent(PROMOTION_CODE_ID)}?expand[]=coupon.applies_to`
+    );
+  }
+  if (!promo) promo = { ok: false, status: 404, json: null };
   const promoFound = promo.ok;
-  const promoError = promoFound ? null : (promo.json?.error?.code ?? promo.json?.error?.type ?? `http_${promo.status}`);
+  const promoError = promoFound
+    ? null
+    : (promo.json?.error?.code ?? promo.json?.error?.type
+      ?? (PROMOTION_CODE ? `no live promotion code carries the code ${JSON.stringify(PROMOTION_CODE)}` : `http_${promo.status}`));
 
   const coupon = promoFound ? promo.json?.coupon ?? null : null;
   const couponFromId = COUPON_ID
@@ -197,10 +237,25 @@ async function main() {
   const expectedProduct = await stripeGet(secretKey, `/v1/products/${encodeURIComponent(EXPECTED_PRODUCT_ID)}`);
 
   // 6. What the refused Checkout Session was actually selling.
-  const session = await stripeGet(
-    secretKey,
-    `/v1/checkout/sessions/${encodeURIComponent(CHECKOUT_SESSION_ID)}?expand[]=line_items.data.price.product`
-  );
+  //
+  // The id is optional because the run that produced the latest refusal did not
+  // capture it -- the checkout response body came back empty -- and the account
+  // itself knows which Session is most recent. Listing newest-first and taking
+  // the head is that same Session, read from the provider rather than from a
+  // log that did not record it.
+  const session = CHECKOUT_SESSION_ID
+    ? await stripeGet(
+      secretKey,
+      `/v1/checkout/sessions/${encodeURIComponent(CHECKOUT_SESSION_ID)}?expand[]=line_items.data.price.product`
+    )
+    : await (async () => {
+      const listed = await stripeGet(
+        secretKey,
+        "/v1/checkout/sessions?limit=1&expand[]=data.line_items.data.price.product"
+      );
+      const latest = Array.isArray(listed.json?.data) ? listed.json.data[0] ?? null : null;
+      return latest ? { ok: true, status: 200, json: latest } : { ok: false, status: listed.status, json: listed.json };
+    })();
   const sessionFound = session.ok;
   const lineItem = sessionFound ? session.json?.line_items?.data?.[0] ?? null : null;
   const sessionProduct = lineItem?.price?.product ?? null;
@@ -222,6 +277,17 @@ async function main() {
     if (resolvedCoupon && resolvedCoupon.valid !== true) {
       mismatches.push(`the coupon ${resolvedCoupon.id} is valid=${resolvedCoupon.valid}.`);
     }
+    if (resolvedCoupon && resolvedCoupon.livemode !== true) {
+      mismatches.push(`the coupon ${resolvedCoupon.id} is livemode=${resolvedCoupon.livemode}.`);
+    }
+    // An amount_off coupon carries its own currency and Stripe will not apply
+    // it to an order in another one, which it reports as the same sentence it
+    // uses for a code that does not exist.
+    const sessionCurrency = sessionFound ? (session.json?.currency ?? null) : null;
+    if (resolvedCoupon && resolvedCoupon.amount_off != null && sessionCurrency
+      && String(resolvedCoupon.currency ?? "").toLowerCase() !== String(sessionCurrency).toLowerCase()) {
+      mismatches.push(`the coupon gives amount_off in ${String(resolvedCoupon.currency ?? "(none)").toUpperCase()} but the Checkout Session is in ${String(sessionCurrency).toUpperCase()}.`);
+    }
     if (appliesToProducts && sessionProductId && !appliesToProducts.includes(sessionProductId)) {
       mismatches.push(`the coupon is restricted to product(s) ${JSON.stringify(appliesToProducts)} but the Checkout Session sells ${sessionProductId}. A coupon matches on the line item's product, so it can only be refused.`);
     }
@@ -234,9 +300,14 @@ async function main() {
   }
 
   say("");
+  say(`Promotion codes carrying that code: ${byCodeMatches.length
+    ? byCodeMatches.map(entry => `${entry.id} (code=${JSON.stringify(entry.code)}, active=${entry.active}, livemode=${entry.livemode}, coupon=${entry.coupon?.id ?? "?"}, times_redeemed=${entry.times_redeemed}, max_redemptions=${entry.max_redemptions ?? "(none)"}, expires_at=${entry.expires_at ?? "(none)"}, customer=${entry.customer ?? "(none)"})`).join(" | ")
+    : "(none in this account and mode)"}`);
+  say(`Promotion code object: ${promoFound ? promo.json?.id : "NOT FOUND"}`);
   say(`Promotion code account/mode: ${promoFound ? `${accountId} / livemode=${promo.json?.livemode}` : `NOT FOUND with production's key (${promoError})`}`);
   say(`Promotion code active: ${promoFound ? String(promo.json?.active) : "(unreadable)"}`);
-  say(`Coupon valid: ${resolvedCoupon ? `${resolvedCoupon.id} valid=${resolvedCoupon.valid} percent_off=${resolvedCoupon.percent_off ?? "(none)"} duration=${resolvedCoupon.duration ?? "(none)"}` : "(unreadable)"}`);
+  say(`Promotion code restrictions: ${promoFound ? JSON.stringify(promo.json?.restrictions ?? null) : "(unreadable)"}`);
+  say(`Coupon valid: ${resolvedCoupon ? `${resolvedCoupon.id} valid=${resolvedCoupon.valid} livemode=${resolvedCoupon.livemode} percent_off=${resolvedCoupon.percent_off ?? "(none)"} amount_off=${resolvedCoupon.amount_off ?? "(none)"} currency=${resolvedCoupon.currency ?? "(none)"} duration=${resolvedCoupon.duration ?? "(none)"}` : "(unreadable)"}`);
   say(`Coupon applies_to product ID: ${appliesToProducts ? JSON.stringify(appliesToProducts) : "(no product restriction on the coupon)"}`);
   say(`Dashboard ${DASHBOARD_PRODUCT_NAME} product ID: ${named.length ? named.map(p => `${p.id} (active=${p.active})`).join(", ") : "(no product with that exact name found)"}`);
   say(`Live Checkout Session product ID: ${sessionProductId ?? "(unreadable)"}`);
@@ -251,7 +322,10 @@ async function main() {
     vercelProjectId: identity.projectId,
     stripeAccountId: accountId,
     stripeKeyMode: keyMode,
-    promotionCodeId: PROMOTION_CODE_ID,
+    promotionCodeId: PROMOTION_CODE_ID || null,
+    promotionCodeString: PROMOTION_CODE || null,
+    promotionCodesCarryingThatCode: byCodeMatches.map(e => ({ id: e.id, code: e.code, active: e.active, livemode: e.livemode, couponId: e.coupon?.id ?? null, timesRedeemed: e.times_redeemed ?? null, maxRedemptions: e.max_redemptions ?? null, expiresAt: e.expires_at ?? null, customer: e.customer ?? null })),
+    resolvedPromotionCodeId: promoFound ? (promo.json?.id ?? null) : null,
     promotionCodeFound: promoFound,
     promotionCodeError: promoError,
     promotionCodeActive: promoFound ? promo.json?.active ?? null : null,
@@ -266,6 +340,8 @@ async function main() {
     couponValid: resolvedCoupon?.valid ?? null,
     couponLivemode: resolvedCoupon?.livemode ?? null,
     couponPercentOff: resolvedCoupon?.percent_off ?? null,
+    couponAmountOff: resolvedCoupon?.amount_off ?? null,
+    couponCurrency: resolvedCoupon?.currency ?? null,
     couponAppliesToProducts: appliesToProducts,
     productsNamedLikeDashboard: named,
     expectedProductId: EXPECTED_PRODUCT_ID,
@@ -273,6 +349,9 @@ async function main() {
     expectedProductName: expectedProduct.ok ? expectedProduct.json?.name ?? null : null,
     checkoutSessionId: CHECKOUT_SESSION_ID,
     checkoutSessionFound: sessionFound,
+    checkoutSessionResolvedId: sessionFound ? (session.json?.id ?? null) : null,
+    checkoutSessionCurrency: sessionFound ? (session.json?.currency ?? null) : null,
+    checkoutSessionAmountTotal: sessionFound ? (session.json?.amount_total ?? null) : null,
     checkoutSessionLivemode: sessionFound ? session.json?.livemode ?? null : null,
     checkoutSessionAllowPromotionCodes: sessionFound ? session.json?.allow_promotion_codes ?? null : null,
     checkoutSessionStatus: sessionFound ? session.json?.status ?? null : null,
