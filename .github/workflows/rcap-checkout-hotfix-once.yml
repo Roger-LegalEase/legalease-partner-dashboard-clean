@@ -1,4 +1,4 @@
-name: Publish customer-creation worker once
+name: Resolve the customer-creation worker digest once
 
 on:
   push:
@@ -9,64 +9,23 @@ on:
 
 permissions:
   contents: read
-  packages: write
+  packages: read
 
 jobs:
-  publish:
+  resolve:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 10
     env:
       SOURCE_SHA: 8682bd00731e247a4fe93f39075c532476eb5c74
       IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
-      DOCKERFILE_PATH: deploy/rcap-render-worker/Dockerfile
     steps:
-      - name: Check out repository history
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Verify exact source is canonical and check it out
+      - name: Resolve the immutable digest of the published tag
         run: |
           set -euo pipefail
-          git fetch --no-tags origin claude/legalease-sprint-captain-utucnw
-          git cat-file -e "$SOURCE_SHA^{commit}"
-          git merge-base --is-ancestor "$SOURCE_SHA" origin/claude/legalease-sprint-captain-utucnw
-          git checkout --detach "$SOURCE_SHA"
-      - name: Set up Node for tag guard
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Refuse an existing source tag
-        env:
-          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RCAP_WORKER_TAG: ${{ env.SOURCE_SHA }}
-          RCAP_WORKER_TAG_REPLACEMENT_AUTHORIZATION: ""
-        run: node scripts/verify-rcap-worker-tag-integrity.mjs --guard
-      - name: Set up Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Log in to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push exact source
-        id: build
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ${{ env.DOCKERFILE_PATH }}
-          push: true
-          tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.SOURCE_SHA }}
-          labels: |
-            org.opencontainers.image.revision=${{ env.SOURCE_SHA }}
-            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
-            org.opencontainers.image.version=${{ env.SOURCE_SHA }}
-          provenance: false
-          sbom: false
-      - name: Record publication
-        run: |
-          set -euo pipefail
-          DIGEST="${{ steps.build.outputs.digest }}"
-          printf '%s' "$DIGEST" | grep -Eq '^sha256:[0-9a-f]{64}$'
-          echo "WORKER_DIGEST=$DIGEST"
-          echo "WORKER_SOURCE_SHA=$SOURCE_SHA"
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin >/dev/null
+          docker pull "$IMAGE_REPOSITORY:$SOURCE_SHA" >/dev/null
+          DIGEST="$(docker inspect --format='{{index .RepoDigests 0}}' "$IMAGE_REPOSITORY:$SOURCE_SHA" | sed 's/.*@//')"
+          REVISION="$(docker inspect --format='{{index .Config.Labels "org.opencontainers.image.revision"}}' "$IMAGE_REPOSITORY:$SOURCE_SHA")"
+          [ "$REVISION" = "$SOURCE_SHA" ]
+          echo "RESOLVED_WORKER_SOURCE_SHA=$REVISION"
+          echo "RESOLVED_WORKER_DIGEST=$DIGEST"
