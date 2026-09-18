@@ -13,15 +13,15 @@ const files = [
   "scripts/verify-rcap-production-smoke.mjs"
 ];
 const mutations = [
-  ["staged deployment", "dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV", "dpl_wrongstaged"],
-  ["rollback deployment", "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51", "dpl_wrongrollback"],
+  ["staged deployment", "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz", "dpl_wrongstaged"],
+  ["rollback deployment", "dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM", "dpl_wrongrollback"],
   // The superseded pair specifically, not just any wrong id. A stale pin is the
   // failure this release actually hit: the previous staged candidate became the
   // live deployment, so reusing it would have smoke-tested Production against
   // itself. These two cases make each half of that pair a rejected mutation
   // rather than a silent regression.
-  ["superseded staged deployment", "dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV", "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51"],
-  ["superseded rollback deployment", "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51", "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU"],
+  ["superseded staged deployment", "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz", "dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM"],
+  ["superseded rollback deployment", "dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM", "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU"],
   ["Production project", "wwtwtsmywnckfkdaqqeg", "hyflxnlhpmiqxvvcoiia"],
   ["staged identity", "exact_staged_application_worker_identity", "staged_identity_removed"],
   ["rollback readiness", "rollback_target_is_ready_and_still_active", "rollback_readiness_removed"],
