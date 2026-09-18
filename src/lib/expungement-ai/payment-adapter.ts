@@ -525,8 +525,10 @@ export async function createConsumerPacketCheckout({
     // writer refuses once any Session is stored — that refusal is what stops a
     // second Session being written over an existing order — so a replacement
     // goes through the compare-and-swap writer, naming the exact predecessor it
-    // expired. Losing that race is not an error to overwrite: the Session this
-    // request created is expired and the winner is reconciled instead.
+    // expired. Losing that race is not an error to overwrite: the winner is
+    // reconciled and returned instead. The losing Session is expired only when
+    // it is actually a different Session from the winner — under an idempotent
+    // create the two can be the same id.
     if (replacedCheckoutSessionId) {
       const replacement = await replaceConsumerCheckoutSession({
         userId: binding.userId,
@@ -545,10 +547,24 @@ export async function createConsumerPacketCheckout({
           outcome: "conflicted",
           reason: "checkout_replacement_conflict"
         };
-        const cleanupFailure = session.status === "open"
+        // The winner is read BEFORE anything is expired, because the winner can
+        // be this request's own Session.
+        //
+        // Creation is idempotent: two concurrent requests deriving the same key
+        // are handed the SAME Session id. One of them wins the swap and that id
+        // becomes authoritative; the other is told `conflicted` with the winning
+        // id — which is the id it is itself holding. Expiring "the Session this
+        // request created" would then destroy the order the other request just
+        // made authoritative, and the matter would be left storing a Session
+        // nobody can pay. Convergence on one Session is the correct outcome of
+        // that race, not a collision to clean up after.
+        const winner = replacement.winningCheckoutSessionId;
+        const thisRequestLostADifferentSession = winner !== session.id;
+        // Only ever this request's own losing Session, and only when it is not
+        // the winner.
+        const cleanupFailure = thisRequestLostADifferentSession && session.status === "open"
           ? await expireUnboundSession(stripe as Stripe, "expire_lost_replacement_session", session.id)
           : null;
-        const winner = replacement.winningCheckoutSessionId;
         if (winner) {
           let winning: Stripe.Checkout.Session;
           try {

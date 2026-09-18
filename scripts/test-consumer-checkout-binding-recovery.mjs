@@ -110,14 +110,17 @@ function buildAdapter({
   creates = [],
   replace = { outcome: "replaced" },
   persist = { outcome: "bound" },
-  expireThrows = null
+  expireThrows = null,
+  // Shared across two adapters to model two concurrent requests talking to the
+  // SAME Stripe: an idempotency key one of them has already used hands the
+  // other the identical Session, which is the whole point of the key.
+  idempotency = new Map()
 } = {}) {
   const createCalls = [];
   const retrieveCalls = [];
   const expireCalls = [];
   const persistCalls = [];
   const replaceCalls = [];
-  const idempotency = new Map();
   const queued = [...creates];
 
   const stripeClient = {
@@ -210,7 +213,7 @@ function buildAdapter({
       },
       replaceConsumerCheckoutSession: async (input) => {
         replaceCalls.push(input);
-        return replace;
+        return typeof replace === "function" ? replace(input) : replace;
       }
     },
     // Every case here starts from a matter with either no stored Session or one
@@ -395,7 +398,203 @@ const baseKey = `${PRODUCT}:${ITEM}:${HASH}:${REVISION}:${OLD_ABSENT}:inline`;
 }
 
 // ---------------------------------------------------------------------------
-// 3. A cleanup failure never becomes the reported cause
+// 3. Losing the compare-and-swap race
+// ---------------------------------------------------------------------------
+
+// (A) SAME-ID convergence. Creation is idempotent, so two concurrent requests
+//     deriving the same key are handed the SAME Session. One wins the swap and
+//     that id becomes authoritative; the other is told `conflicted` with the
+//     winning id -- which is the id it is itself holding. Expiring it would
+//     destroy the order the winner just recorded.
+{
+  const WON = "cs_live_converged";
+  // One Stripe, two requests: the shared idempotency store is what makes the
+  // second create hand back the first request's Session rather than a new one.
+  const stripe = new Map();
+  const shared = {
+    sessions: { [OLD_ABSENT]: undefined, [WON]: openSession(WON) },
+    creates: [openSession(WON)],
+    idempotency: stripe
+  };
+
+  const winnerRequest = buildAdapter({ ...shared, replace: { outcome: "replaced" } });
+  const first = await winnerRequest.adapter.createConsumerPacketCheckout({
+    userId: USER,
+    item: eligibleItem({ checkoutSessionId: OLD_ABSENT })
+  });
+  assert.equal(first.checkoutSessionId, WON);
+
+  // The second request reaches Stripe with the same key and is handed the same
+  // Session; its swap then finds OLD already replaced, by that very id.
+  const loserRequest = buildAdapter({
+    ...shared,
+    replace: { outcome: "conflicted", winningCheckoutSessionId: WON }
+  });
+  const second = await loserRequest.adapter.createConsumerPacketCheckout({
+    userId: USER,
+    item: eligibleItem({ checkoutSessionId: OLD_ABSENT })
+  });
+
+  assert.equal(loserRequest.createCalls.length, 1);
+  assert.equal(loserRequest.createCalls[0].options.idempotencyKey, baseKey,
+    "both requests derive the same deterministic key, which is why they converge");
+  assert.equal(loserRequest.replaceCalls[0].checkoutSessionId, WON,
+    "the loser is holding the very Session that won");
+  ok("two concurrent requests converge on one Session through the deterministic key");
+
+  assert.deepEqual(loserRequest.expireCalls, [],
+    "the winning Session must never be expired -- doing so leaves the matter storing a Session nobody can pay");
+  ok("the loser does not expire the winning Session when it is its own");
+
+  assert.ok(loserRequest.retrieveCalls.some((call) => call.id === WON),
+    "the winner is freshly retrieved before anything is returned");
+  ok("the winner is freshly retrieved");
+
+  assert.equal(second.outcome, "checkout_reused");
+  assert.equal(second.checkoutSessionId, WON);
+  assert.equal(second.checkoutUrl, `https://checkout.stripe.com/c/pay/${WON}`);
+  ok("an OPEN winner is returned to the loser as checkout_reused");
+}
+
+// A COMPLETE winner that is this request's own Session is reported as pending,
+// and is likewise never expired.
+{
+  const WON = "cs_live_converged_complete";
+  // Open when this request reads back what it created; complete by the time it
+  // reads the winner, because the request that won the swap was paid in between.
+  let reads = 0;
+  const h = buildAdapter({
+    sessions: {
+      [WON]: () => (reads++ === 0
+        ? openSession(WON)
+        : { id: WON, mode: "payment", status: "complete", url: null })
+    },
+    creates: [openSession(WON)],
+    replace: { outcome: "conflicted", winningCheckoutSessionId: WON }
+  });
+  const result = await h.adapter.createConsumerPacketCheckout({
+    userId: USER,
+    item: eligibleItem({ checkoutSessionId: OLD_ABSENT })
+  });
+  assert.equal(result.outcome, "payment_pending");
+  assert.equal(result.paymentPending, true);
+  assert.equal(result.checkoutSessionId, WON);
+  assert.deepEqual(h.expireCalls, [], "money already collected is never expired");
+  ok("a COMPLETE winner that is this request's own Session is reported as pending, not expired");
+}
+
+// A winner that is this request's own Session but is neither open nor complete
+// refuses -- and is still not expired, because it is the authoritative order.
+{
+  const WON = "cs_live_converged_odd";
+  let reads = 0;
+  const h = buildAdapter({
+    sessions: {
+      [WON]: () => (reads++ === 0
+        ? openSession(WON)
+        : { id: WON, mode: "payment", status: "expired", url: null })
+    },
+    creates: [openSession(WON)],
+    replace: { outcome: "conflicted", winningCheckoutSessionId: WON }
+  });
+  let thrown = null;
+  try {
+    await h.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem({ checkoutSessionId: OLD_ABSENT }) });
+  } catch (error) {
+    thrown = error;
+  }
+  assert.equal(thrown?.name, "ConsumerCheckoutTemporarilyUnavailableError");
+  assert.deepEqual(thrown.bindingFailure, {
+    operation: "replacement",
+    outcome: "conflicted",
+    reason: "checkout_replacement_conflict"
+  });
+  assert.deepEqual(h.expireCalls, [], "an unusable winner is still the stored order, and expiring it helps nobody");
+  ok("an unusable winner refuses without expiring the authoritative Session");
+}
+
+// (B) DIFFERENT-ID conflict. Here this request really is holding a Session
+//     nobody recorded, so that one -- and only that one -- is expired.
+{
+  const MINE = "cs_live_mine";
+  const WON = "cs_live_theirs";
+  const h = buildAdapter({
+    sessions: { [MINE]: openSession(MINE), [WON]: openSession(WON) },
+    creates: [openSession(MINE)],
+    replace: { outcome: "conflicted", winningCheckoutSessionId: WON }
+  });
+  const result = await h.adapter.createConsumerPacketCheckout({
+    userId: USER,
+    item: eligibleItem({ checkoutSessionId: OLD_ABSENT })
+  });
+
+  assert.deepEqual(h.expireCalls, [MINE], "only this request's own losing Session is expired");
+  assert.ok(!h.expireCalls.includes(WON), "the winner is never expired");
+  ok("a genuinely different losing Session is expired, and only it");
+
+  assert.ok(h.retrieveCalls.some((call) => call.id === WON));
+  assert.equal(result.outcome, "checkout_reused");
+  assert.equal(result.checkoutSessionId, WON);
+  ok("the winner is retrieved and reused");
+}
+
+// The losing expiry failing does not change what is reported: the conflict is
+// still the primary cause when the winner cannot be handed back.
+{
+  const MINE = "cs_live_mine";
+  const WON = "cs_live_theirs";
+  const h = buildAdapter({
+    sessions: { [MINE]: openSession(MINE) },
+    creates: [openSession(MINE)],
+    replace: { outcome: "conflicted", winningCheckoutSessionId: WON },
+    expireThrows: stripeError({ code: null, statusCode: 400, requestId: "req_lost_cleanup" })
+  });
+  let thrown = null;
+  try {
+    await h.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem({ checkoutSessionId: OLD_ABSENT }) });
+  } catch (error) {
+    thrown = error;
+  }
+  assert.deepEqual(h.expireCalls, [MINE]);
+  assert.deepEqual(thrown?.bindingFailure, {
+    operation: "replacement",
+    outcome: "conflicted",
+    reason: "checkout_replacement_conflict"
+  });
+  assert.equal(thrown?.cleanupFailure?.phase, "expire_lost_replacement_session");
+  assert.equal(thrown?.cleanupFailure?.requestId, "req_lost_cleanup");
+  assert.equal(thrown?.providerFailure?.phase, "retrieve_winning_session",
+    "the provider call that actually blocked this request is the winner read, not the tidy-up");
+  ok("a failed losing-session expiry stays secondary to the conflict");
+}
+
+// No winner at all: this request's unbound Session is cleaned up and the
+// conflict is the primary failure.
+{
+  const MINE = "cs_live_mine";
+  const h = buildAdapter({
+    sessions: { [MINE]: openSession(MINE) },
+    creates: [openSession(MINE)],
+    replace: { outcome: "conflicted", winningCheckoutSessionId: null }
+  });
+  let thrown = null;
+  try {
+    await h.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem({ checkoutSessionId: OLD_ABSENT }) });
+  } catch (error) {
+    thrown = error;
+  }
+  assert.deepEqual(h.expireCalls, [MINE], "with no winner named, this request's own Session is the one to clean up");
+  assert.deepEqual(thrown?.bindingFailure, {
+    operation: "replacement",
+    outcome: "conflicted",
+    reason: "checkout_replacement_conflict"
+  });
+  assert.equal(thrown?.cleanupFailure, null);
+  ok("a conflict naming no winner cleans up this request's Session and reports the conflict");
+}
+
+// ---------------------------------------------------------------------------
+// 4. A cleanup failure never becomes the reported cause
 // ---------------------------------------------------------------------------
 {
   const NEW = "cs_live_new";

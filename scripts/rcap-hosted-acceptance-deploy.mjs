@@ -32,6 +32,7 @@ import { fileURLToPath } from "node:url";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
 import {
+  HOSTED_PREVIEW_VARIANTS,
   expectedHostedReturnOrigin,
   hostedVercelScopedUrl,
   resolveHostedVercelIdentity
@@ -50,6 +51,20 @@ const ROUTE_STATE = (process.env.HOSTED_ROUTE_STATE ?? "").trim();
 const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
 const MISSISSIPPI_PREVIEW_MODE = CLINIC_DEMO_MODE === "mississippi_preview";
 const CLINIC_DEMO_PASSWORD = (process.env.HOSTED_CLINIC_DEMO_PASSWORD ?? "").trim();
+// A SECOND Preview of the SAME application SHA, differing only in its
+// per-deployment environment.
+//
+// Two required acceptance cases cannot both run on one deployment. Proving that
+// a stored Session which CANNOT be verified is refused needs a deployment with
+// no expected Stripe account; proving that one POSITIVELY VERIFIED as absent is
+// replaced needs a deployment that has one. Configuring the ordinary Preview
+// would silently convert the first case's refusal into a replacement, so the
+// second half runs here instead, on its own Preview with its own alias.
+const PREVIEW_VARIANT = (process.env.HOSTED_PREVIEW_VARIANT ?? "").trim() || null;
+if (PREVIEW_VARIANT !== null && !HOSTED_PREVIEW_VARIANTS.includes(PREVIEW_VARIANT)) {
+  console.error(`DEPLOY: HOSTED_PREVIEW_VARIANT must be one of ${HOSTED_PREVIEW_VARIANTS.join(", ")}`);
+  process.exit(1);
+}
 const LEGAL_AID_EMAIL = (() => {
   const apiKey = (process.env.HOSTED_LEGAL_AID_RESEND_API_KEY ?? "").trim();
   const from = (process.env.HOSTED_LEGAL_AID_EMAIL_FROM ?? "").trim();
@@ -65,7 +80,7 @@ if (!VERCEL_TOKEN || !SUPABASE_ACCESS_TOKEN || PROJECT_REF !== EXPECTED_PROJECT_
   process.exit(1);
 }
 const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
-const RETURN_ORIGIN = expectedHostedReturnOrigin(APPLICATION_SHA);
+const RETURN_ORIGIN = expectedHostedReturnOrigin(APPLICATION_SHA, PREVIEW_VARIANT);
 const RETURN_ALIAS_HOST = new URL(RETURN_ORIGIN).host;
 
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
@@ -76,6 +91,12 @@ function record(caseId, passed, observed) {
 }
 
 const REQUIRED_CASES = [
+  // The verified-account Preview must prove it actually carries the expectation
+  // it exists for. Without this, the narrow phase that runs on it could pass by
+  // taking the ordinary Preview's refusal path and calling it success.
+  ...((process.env.HOSTED_PREVIEW_VARIANT ?? "").trim() === "verified-account"
+    ? ["verified_stripe_account_bound_to_this_preview"]
+    : []),
   "deployed_to_preview_not_production",
   "deployment_carries_the_final_application_sha",
   "deterministic_nonproduction_return_alias_bound",
@@ -197,6 +218,42 @@ if (CATALOG_PRODUCT_ID && !CATALOG_PRODUCT_ID.startsWith("prod_")) {
 }
 const CATALOG_PRODUCT_TAG = CATALOG_PRODUCT_ID || "inline";
 
+/**
+ * The Stripe account the TEST key belongs to, read from Stripe rather than
+ * configured by hand.
+ *
+ * The application concludes that a stored Session is absent only when the
+ * account and mode that answered are the ones it expects to sell through. On a
+ * Preview there is no such expectation unless one is supplied, so the
+ * verified-account variant supplies it — and supplies the REAL id, discovered
+ * from the very key this deployment will hold. A typed-in value would prove
+ * nothing: it would either be the right one by luck or make the check
+ * unsatisfiable. This is a read; it creates and changes nothing at Stripe.
+ */
+async function resolveStripeTestAccountId() {
+  const key = (process.env.HOSTED_STRIPE_TEST_SECRET ?? "").trim();
+  if (!key) throw new Error("the verified-account Preview needs the acceptance Stripe TEST key");
+  if (!key.startsWith("sk_test_")) throw new Error("only a Stripe TEST key may reach an acceptance Preview");
+  const res = await fetch("https://api.stripe.com/v1/account", {
+    headers: { Authorization: `Bearer ${key}` },
+    redirect: "error",
+    signal: AbortSignal.timeout(15000)
+  });
+  const json = await res.json().catch(() => null);
+  if (res.status !== 200 || typeof json?.id !== "string") {
+    throw new Error(`Stripe did not identify the account for this key (HTTP ${res.status})`);
+  }
+  if (!/^acct_[A-Za-z0-9]+$/.test(json.id)) {
+    throw new Error("Stripe returned something that is not an account id");
+  }
+  // A test key must belong to a test-mode account. If Stripe says otherwise,
+  // this deployment is not the one this variant is for.
+  if (json.livemode === true) throw new Error("a TEST key resolved to a live-mode account");
+  return json.id;
+}
+
+const STRIPE_ACCOUNT_ID = PREVIEW_VARIANT === "verified-account" ? await resolveStripeTestAccountId() : null;
+
 async function findReusableDeployment() {
   const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_IDENTITY.projectId)}&limit=100&state=READY`);
   if (res.status !== 200 || !Array.isArray(res.json?.deployments)) return null;
@@ -211,7 +268,9 @@ async function findReusableDeployment() {
       d.meta?.rcapRouteState === ROUTE_STATE_TAG &&
       d.meta?.rcapReturnOrigin === RETURN_ORIGIN &&
       d.meta?.rcapClinicDemoMode === (CLINIC_DEMO_MODE || "none") &&
-      d.meta?.rcapStagingScopeSha256 === sha256(SCOPE_IDS)
+      d.meta?.rcapStagingScopeSha256 === sha256(SCOPE_IDS) &&
+      d.meta?.rcapPreviewVariant === (PREVIEW_VARIANT ?? "primary") &&
+      d.meta?.rcapStripeAccountId === (STRIPE_ACCOUNT_ID ?? "none")
   );
   return match ? { url: `https://${match.url}`, id: match.uid ?? match.id ?? null } : null;
 }
@@ -306,6 +365,11 @@ const runtimeEnv = {
   // live catalog entry: the application picks its production default only when
   // this is absent and the deployment is production.
   ...(CATALOG_PRODUCT_ID ? { STRIPE_CONSUMER_PACKET_PRODUCT_ID: CATALOG_PRODUCT_ID } : {}),
+  // The account this Preview is expected to sell through, discovered from the
+  // key above. Passed per-deployment like everything else here: the project's
+  // own environment and Production's are untouched, and the ordinary Preview
+  // carries no expectation at all, which is what lets its refusal case stand.
+  ...(STRIPE_ACCOUNT_ID ? { STRIPE_ACCOUNT_ID } : {}),
   ...(ROUTE_STATE ? { RCAP_CONSUMER_DELIVERY_ROUTE_STATE: ROUTE_STATE } : {}),
   ...(SCOPE_IDS ? { RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: SCOPE_IDS } : {}),
   // Acceptance-only server secrets, derived per acceptance environment from a
@@ -379,7 +443,12 @@ const deploymentMeta = {
   rcapRouteState: ROUTE_STATE_TAG,
   rcapReturnOrigin: RETURN_ORIGIN,
   rcapClinicDemoMode: CLINIC_DEMO_MODE || "none",
-  rcapStagingScopeSha256: sha256(SCOPE_IDS)
+  rcapStagingScopeSha256: sha256(SCOPE_IDS),
+  rcapPreviewVariant: PREVIEW_VARIANT ?? "primary",
+  // The account id, not a credential: it appears on every object the account
+  // owns. It is in the identity so a Preview built for one account is never
+  // reused under a run proving something about another.
+  rcapStripeAccountId: STRIPE_ACCOUNT_ID ?? "none"
 };
 
 let deploymentUrl = null;
@@ -393,7 +462,7 @@ if (reusable) {
   console.log(`  creating one REST Preview from exact Git SHA ${APPLICATION_SHA}`);
   try {
     const created = await createRestPreview({token: VERCEL_TOKEN, identity: VERCEL_IDENTITY,
-      applicationSha: APPLICATION_SHA, runtimeEnv, buildEnv, meta: deploymentMeta}, {
+      applicationSha: APPLICATION_SHA, runtimeEnv, buildEnv, meta: deploymentMeta, variant: PREVIEW_VARIANT}, {
       onState: receipt => {
         evidence.restCreation = receipt;
         fs.writeFileSync(path.join(EVIDENCE_DIR, "deploy.json"), `${JSON.stringify({...evidence, passed:false, status:"REST_ATTEMPT_PENDING_VERIFICATION"}, null, 2)}\n`);
@@ -415,6 +484,10 @@ console.log(`  immutable deployment URL: ${deploymentUrl}`);
 
 // --- 2. Prove Preview identity, then bind the build-time return alias --------
 let deployedAcceptanceProjectRef = null;
+// The metadata Vercel reports back for the deployment actually serving, read
+// once here and asserted against below. It is the deployment's own account of
+// itself, not this script's intent.
+let deployedMeta = {};
 let deploymentId = null;
 {
   const host = deploymentUrl.replace(/^https:\/\//, "");
@@ -433,6 +506,7 @@ let deploymentId = null;
     `deployment metadata records rcapApplicationSha=${meta.rcapApplicationSha ?? "(absent)"} and rcapReturnOrigin=${meta.rcapReturnOrigin ?? "(absent)"}`
   );
   deployedAcceptanceProjectRef = meta.rcapAcceptanceProjectRef ?? null;
+  deployedMeta = meta;
   evidence.deployment = { id: deploymentId, target, readyState: detail.json?.readyState ?? null, immutableHostname: host };
   evidence.deploymentAliases = Array.isArray(detail.json?.alias) ? detail.json.alias : [];
 }
@@ -472,6 +546,35 @@ if (deploymentId && verdicts.get("deployed_to_preview_not_production")?.passed &
 const previewUrl = RETURN_ORIGIN;
 evidence.previewUrl = previewUrl;
 console.log(`  exact acceptance return origin: ${previewUrl}`);
+
+// --- 2a. The verified-account Preview declares the account it was built for --
+//
+// This lives here, in the identity section, rather than inside the
+// production-untouched comparison below: that block is frozen bytes, because it
+// is what proves this deployment disturbed nothing, and a release's additions do
+// not belong in it.
+if (PREVIEW_VARIANT === "verified-account") {
+  const boundVariant = deployedMeta?.rcapPreviewVariant ?? null;
+  const boundAccount = deployedMeta?.rcapStripeAccountId ?? null;
+  record(
+    "verified_stripe_account_bound_to_this_preview",
+    boundVariant === "verified-account"
+      && boundAccount === STRIPE_ACCOUNT_ID
+      && /^acct_[A-Za-z0-9]+$/.test(String(boundAccount))
+      && RETURN_ORIGIN === expectedHostedReturnOrigin(APPLICATION_SHA, "verified-account"),
+    `this deployment declares rcapPreviewVariant=${boundVariant ?? "(absent)"} and rcapStripeAccountId=`
+      + `${boundAccount ?? "(absent)"}, which is the account Stripe itself named for the TEST key this`
+      + ` deployment holds — not a value typed into a workflow. It answers on its own variant-scoped alias`
+      + ` ${new URL(RETURN_ORIGIN).host}, so it can never be mistaken for the ordinary Preview, which carries`
+      + ` no expected account at all and therefore still refuses a stored Session it cannot verify.`
+  );
+  evidence.verifiedAccountPreview = {
+    variant: boundVariant,
+    stripeAccountId: boundAccount,
+    returnOrigin: RETURN_ORIGIN,
+    liveMode: false
+  };
+}
 
 // --- 2b. Where does the Stripe webhook now have to point? --------------------
 //

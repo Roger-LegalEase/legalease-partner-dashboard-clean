@@ -1,5 +1,5 @@
 import {sanitizeVercelDiagnostic} from './rcap-hosted-vercel-diagnostics.mjs';
-import {HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
+import {HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, HOSTED_PREVIEW_VARIANTS, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
 
 export const FROZEN_APPLICATION_SHA = '62425c837b5edf3d7e22b110910885abdaec1692';
 export const CREATE_PREVIEW_URL = `https://api.vercel.com/v13/deployments?teamId=${HOSTED_VERCEL_TEAM_ID}`;
@@ -8,13 +8,23 @@ const ACCEPTANCE_PROJECT = 'hyflxnlhpmiqxvvcoiia';
 // API source contract: https://vercel.com/docs/rest-api/deployments/create-a-new-deployment
 // Per-deployment env/build.env: vercel/vercel packages/client/src/types.ts
 // and packages/client/src/deploy.ts (deploymentOptions serialized into POST).
-export function createPreviewRequest({identity, applicationSha, runtimeEnv, buildEnv, meta}) {
+export function createPreviewRequest({identity, applicationSha, runtimeEnv, buildEnv, meta, variant=null}) {
   if (identity?.teamId !== HOSTED_VERCEL_TEAM_ID || identity?.projectId !== HOSTED_VERCEL_PROJECT_ID || identity?.projectName !== HOSTED_VERCEL_PROJECT_NAME) throw new Error('REST_PINNED_IDENTITY_MISMATCH');
-  if (applicationSha !== FROZEN_APPLICATION_SHA || meta?.rcapApplicationSha !== applicationSha || meta?.rcapAcceptanceProjectRef !== ACCEPTANCE_PROJECT || meta?.rcapReturnOrigin !== expectedHostedReturnOrigin(applicationSha)) throw new Error('REST_FROZEN_METADATA_MISMATCH');
-  for (const name of ['rcapStripeConfigured','rcapRouteState','rcapClinicDemoMode','rcapStagingScopeSha256']) if (typeof meta[name] !== 'string') throw new Error('REST_METADATA_MISSING');
+  // A variant is a second Preview of the SAME frozen SHA, differing only in its
+  // per-deployment environment. It gets its own scoped return origin and says so
+  // in its metadata, so the two deployments can never be confused for one
+  // another -- and an unlisted variant name cannot reach a hostname at all.
+  if (variant !== null && !HOSTED_PREVIEW_VARIANTS.includes(variant)) throw new Error('REST_UNKNOWN_PREVIEW_VARIANT');
+  if (meta?.rcapPreviewVariant !== (variant ?? 'primary')) throw new Error('REST_PREVIEW_VARIANT_MISMATCH');
+  if (applicationSha !== FROZEN_APPLICATION_SHA || meta?.rcapApplicationSha !== applicationSha || meta?.rcapAcceptanceProjectRef !== ACCEPTANCE_PROJECT || meta?.rcapReturnOrigin !== expectedHostedReturnOrigin(applicationSha, variant)) throw new Error('REST_FROZEN_METADATA_MISMATCH');
+  for (const name of ['rcapStripeConfigured','rcapRouteState','rcapClinicDemoMode','rcapStagingScopeSha256','rcapPreviewVariant']) if (typeof meta[name] !== 'string') throw new Error('REST_METADATA_MISSING');
   for (const env of [runtimeEnv, buildEnv]) {
     if (!env || Object.values(env).some(value => typeof value !== 'string')) throw new Error('REST_ENV_INVALID');
     if (env.STRIPE_SECRET_KEY && !env.STRIPE_SECRET_KEY.startsWith('sk_test_')) throw new Error('REST_LIVE_STRIPE_REFUSED');
+    // An expected merchant account is an account id, never a credential, and it
+    // must look like one: an arbitrary string here would make the application's
+    // account check unsatisfiable rather than satisfied.
+    if (env.STRIPE_ACCOUNT_ID !== undefined && !/^acct_[A-Za-z0-9]+$/.test(env.STRIPE_ACCOUNT_ID)) throw new Error('REST_STRIPE_ACCOUNT_ID_INVALID');
     if (env.VERCEL_ENV || env.VERCEL_TARGET_ENV) throw new Error('REST_TARGET_OVERRIDE_REFUSED');
   }
   if (runtimeEnv.SUPABASE_URL !== `https://${ACCEPTANCE_PROJECT}.supabase.co` || runtimeEnv.NEXT_PUBLIC_SUPABASE_URL !== runtimeEnv.SUPABASE_URL || buildEnv.NEXT_PUBLIC_SUPABASE_URL !== runtimeEnv.SUPABASE_URL) throw new Error('REST_SUPABASE_MISMATCH');

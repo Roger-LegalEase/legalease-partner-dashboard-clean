@@ -13,22 +13,75 @@ const require = createRequire(import.meta.url);
 const ts = require("typescript");
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
+// Loads a TypeScript module with a named set of stand-ins.
+//
+// A specifier named in `mocks` gets the stand-in. Anything else that resolves
+// inside this repository is loaded FOR REAL, through this same loader and the
+// same mock map, so a guard that lives one module deeper is still the real
+// guard. Only what a harness explicitly lists is replaced -- which is the
+// property these suites depend on: a permissive stub for a decision under test
+// makes every case pass for the wrong reason.
+const EXTENSIONS = [".ts", ".tsx", ".mts", ".js", ".mjs", ".json"];
+
+function resolveRepoFile(candidate) {
+  if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) return candidate;
+  for (const ext of EXTENSIONS) {
+    if (fs.existsSync(candidate + ext)) return candidate + ext;
+  }
+  for (const ext of EXTENSIONS) {
+    const indexed = path.join(candidate, `index${ext}`);
+    if (fs.existsSync(indexed)) return indexed;
+  }
+  return null;
+}
+
 function loadTsWithMocks(relPath, mocks) {
-  const resolved = path.join(rootDir, relPath);
-  const transpiled = ts.transpileModule(fs.readFileSync(resolved, "utf8"), {
-    compilerOptions: {
-      esModuleInterop: true,
-      module: ts.ModuleKind.CommonJS,
-      target: ts.ScriptTarget.ES2020
-    }
-  }).outputText;
+  return loadRepoModule(path.join(rootDir, relPath), mocks, new Map());
+}
+
+function loadRepoModule(resolved, mocks, cache) {
+  if (cache.has(resolved)) return cache.get(resolved);
+
+  const source = fs.readFileSync(resolved, "utf8");
+  if (resolved.endsWith(".json")) {
+    const parsed = JSON.parse(source);
+    cache.set(resolved, parsed);
+    return parsed;
+  }
+  const transpiled = /\.(ts|tsx|mts)$/.test(resolved)
+    ? ts.transpileModule(source, {
+      compilerOptions: {
+        esModuleInterop: true,
+        module: ts.ModuleKind.CommonJS,
+        target: ts.ScriptTarget.ES2020
+      }
+    }).outputText
+    : source;
 
   const mod = new Module(resolved);
   const compiledFilename = `${resolved}.cjs`;
   mod.filename = compiledFilename;
   mod.paths = Module._nodeModulePaths(path.dirname(resolved));
-  mod.require = (specifier) => (specifier in mocks ? mocks[specifier] : require(specifier));
+  cache.set(resolved, mod.exports);
+  mod.require = (specifier) => {
+    if (specifier in mocks) return mocks[specifier];
+    const repoPath = specifier.startsWith("@/")
+      ? resolveRepoFile(path.join(rootDir, "src", specifier.slice(2)))
+      : (specifier.startsWith(".")
+        ? resolveRepoFile(path.resolve(path.dirname(resolved), specifier))
+        : null);
+    if (repoPath) {
+      const loaded = loadRepoModule(repoPath, mocks, cache);
+      cache.set(repoPath, loaded);
+      return loaded;
+    }
+    if (specifier.startsWith("@/")) {
+      throw new Error(`no mock and no repository file for ${specifier}`);
+    }
+    return require(specifier);
+  };
   mod._compile(transpiled, compiledFilename);
+  cache.set(resolved, mod.exports);
   return mod.exports;
 }
 
@@ -43,6 +96,50 @@ const MATTER = "44444444-4444-4444-8444-444444444444";
 const PRODUCT = "expungement_packet";
 const PATHWAY_ID = "pa-path-a-non-conviction-expungement";
 const APP_ORIGIN = "https://axis-serving-believed-century.trycloudflare.com";
+// The account the Stripe double answers with. This environment configures no
+// expected account, so the verified-absence branch is never reached here and
+// these cases never depend on it.
+const STRIPE_ACCOUNT = "acct_testguards00000";
+// No catalog product is configured for this environment, so the inline line
+// item is used and no catalog confirmation call is made. The catalog-product
+// path is proven against a real sandbox product by the hosted acceptance suite.
+delete process.env.STRIPE_CONSUMER_PACKET_PRODUCT_ID;
+
+// The REAL catalog and order-reconciliation modules. The reuse decision -- "is
+// this stored Session still the order this application would create?" -- is one
+// of the guards under test, so it is not stubbed. Stubbing it permissive would
+// make every reuse assertion below pass for the wrong reason.
+const catalogModule = loadTsWithMocks("src/lib/expungement-ai/consumer-packet-catalog.ts", {
+  "server-only": {},
+  "@/lib/server-runtime-environment": { resolveDeploymentEnvironment: () => "preview" }
+});
+// The commercial admission gate, stubbed permissive in the harnesses below for
+// the same reason the delivery resolver is: a route the gate denies
+// short-circuits every other guard, so each case would report green without
+// exercising what it names. The gate's own bindings are proven against the real
+// records by scripts/verify-rcap-lane-f-commercial-admission.mjs and
+// scripts/verify-rcap-grade-a-fulfillment-authority.mjs. Its error class is the
+// real one, so modules that branch on `instanceof` branch correctly.
+const realAdmission = loadTsWithMocks("src/lib/rcap/render/commercial-admission.ts", { "server-only": {} });
+const admissionStandIn = {
+  commercialRouteIdentity: () => ({ packetFamilyId: "pa_custom_pleading" }),
+  finalVerificationSnapshotFrom: () => ({}),
+  fulfillmentRequestContext: (input) => input,
+  governCommercialAdmission: () => {},
+  governProviderDispatch: () => {},
+  entitlementContext: (input) => input,
+  isOperationallySellable: () => true,
+  CommercialAdmissionDeniedError: realAdmission.CommercialAdmissionDeniedError
+};
+
+const reconciliationModule = loadTsWithMocks("src/lib/expungement-ai/consumer-order-reconciliation.ts", {
+  "@/lib/expungement-ai/consumer-payment-authority": {
+    CONSUMER_PACKET_CURRENCY: "usd",
+    CONSUMER_PACKET_PRICE_CENTS: 5000,
+    CONSUMER_PACKET_PRODUCT_ID: PRODUCT
+  },
+  "@/lib/expungement-ai/consumer-packet-catalog": catalogModule
+});
 
 function eligibleItem(overrides = {}) {
   return {
@@ -72,6 +169,18 @@ function openSession(overrides = {}) {
     success_url: `${APP_ORIGIN}/expungement-ai/packet-ready?briefcaseItemId=${ITEM}`,
     cancel_url: `${APP_ORIGIN}/expungement-ai/pay?briefcaseItemId=${ITEM}`,
     url: "https://checkout.stripe.com/c/pay/cs_test_legacy",
+    // An OPEN Session created before promotion codes were enabled offers no
+    // field to enter one, so the application expires and replaces it rather
+    // than handing the customer a page where their code can only be refused.
+    // These cases are about the OTHER reuse conditions, so the fixture is
+    // current on that flag.
+    allow_promotion_codes: true,
+    // The pricing half of the reuse decision, which the real reconciliation
+    // checks two independent ways: the subtotal Stripe charged before discounts
+    // and what the price object says the packet costs. A fixture missing either
+    // is not a Session this application would have created.
+    amount_subtotal: 5000,
+    total_details: { amount_discount: 0, amount_shipping: 0, amount_tax: 0 },
     metadata: {
       channel: "expungement_ai_consumer",
       user_id: USER,
@@ -84,8 +193,13 @@ function openSession(overrides = {}) {
     line_items: {
       data: [{
         quantity: 1,
+        currency: "usd",
+        amount_subtotal: 5000,
         amount_total: 5000,
-        price: { product: { id: "prod_legacy", name: "Expungement.ai self-help packet" } }
+        price: {
+          unit_amount: 5000,
+          product: { id: "prod_legacy", name: "Expungement.ai self-help packet" }
+        }
       }]
     },
     ...overrides
@@ -192,30 +306,52 @@ function buildPaymentAdapter({
   verificationSnapshotOverrides = {},
   verificationHash = "a".repeat(64),
   verificationRevision = 4,
-  stripeConfigurationError = null
+  stripeConfigurationError = null,
+  replaceOutcome = { outcome: "replaced" },
+  catalogProduct = { active: true, defaultPrice: { active: true, type: "one_time", currency: "usd", unit_amount: 5000 } }
 } = {}) {
   const createCalls = [];
   const retrieveCalls = [];
   const updateCalls = [];
   const expireCalls = [];
   const persistCalls = [];
+  const replaceCalls = [];
   const routeInputs = [];
   let verificationCalls = 0;
 
+  const createdSession = {
+    id: "cs_test_new",
+    mode: "payment",
+    status: "open",
+    url: "https://checkout.stripe.com/c/pay/cs_test_new"
+  };
+
   const stripeClient = {
+    products: {
+      retrieve: async (id) => ({
+        id,
+        active: catalogProduct.active,
+        deleted: false,
+        default_price: catalogProduct.defaultPrice
+      })
+    },
+    // The account the loaded key belongs to. The adapter reads it rather than
+    // assuming it; this environment configures no expectation, so absence is
+    // never concluded and no case here depends on that branch.
+    accounts: { retrieve: async () => ({ id: STRIPE_ACCOUNT }) },
     checkout: {
       sessions: {
         create: async (params, options) => {
           createCalls.push({ params, options });
-          return {
-            id: "cs_test_new",
-            mode: "payment",
-            status: "open",
-            url: "https://checkout.stripe.com/c/pay/cs_test_new"
-          };
+          return createdSession;
         },
+        // Id-aware, because the adapter re-reads the Session it just created
+        // rather than trusting the create response: an idempotent create
+        // replays the body stored at the key's first use, which may describe a
+        // Session that has since expired.
         retrieve: async (id, params) => {
           retrieveCalls.push({ id, params });
+          if (id === createdSession.id) return createdSession;
           return retrievedSession;
         },
         update: async (id, params) => {
@@ -241,8 +377,24 @@ function buildPaymentAdapter({
         return stripeClient;
       },
       isProductionRuntime: () => false,
-      isStripeConfigurationError: (error) => error?.name === "StripeConfigurationError"
+      isStripeConfigurationError: (error) => error?.name === "StripeConfigurationError",
+      stripeSecretKeyIsLiveMode: () => false
     },
+    "@/lib/server-runtime-environment": { resolveDeploymentEnvironment: () => "preview" },
+    // The real order reconciliation and the real catalog resolver. The reuse
+    // decision is a guard under test, not scaffolding: a permissive stub here
+    // would let a Session that no longer matches the binding, the price or the
+    // product be reused, and every case below would still report green.
+    "@/lib/expungement-ai/consumer-order-reconciliation": reconciliationModule,
+    "@/lib/expungement-ai/consumer-packet-catalog": catalogModule,
+    // The Grade-A commercial admission and the packet-fulfillment gate, stubbed
+    // permissive for the same reason the delivery resolver below is: a route
+    // that cannot be admitted short-circuits every other guard, so each case
+    // would pass without exercising what it names. Their real bindings are
+    // proven by scripts/verify-rcap-lane-f-commercial-admission.mjs and
+    // scripts/verify-rcap-grade-a-fulfillment-authority.mjs.
+    "@/lib/expungement-ai/packet-fulfillment-authority": { assertPacketFulfillmentProven: () => {} },
+    "@/lib/rcap/render/commercial-admission": admissionStandIn,
     "@/lib/expungement-ai/eligibility-adapter": {
       isConsumerPaymentAllowed: () => true
     },
@@ -279,6 +431,10 @@ function buildPaymentAdapter({
       persistConsumerCheckoutBinding: async (input) => {
         persistCalls.push(input);
         return { outcome: persistOutcome };
+      },
+      replaceConsumerCheckoutSession: async (input) => {
+        replaceCalls.push(input);
+        return replaceOutcome;
       }
     },
     "@/lib/expungement-ai/packet-information": {
@@ -312,6 +468,7 @@ function buildPaymentAdapter({
     updateCalls,
     expireCalls,
     persistCalls,
+    replaceCalls,
     routeInputs,
     verificationCalls: () => verificationCalls
   };
@@ -382,7 +539,7 @@ async function checkoutBehavior() {
       Object.fromEntries(["user_id", "briefcase_item_id", "product_id", "person_id", "matter_id"].map((key) => [key, h.createCalls[0].params.metadata[key]])),
       { user_id: USER, briefcase_item_id: ITEM, product_id: PRODUCT, person_id: PERSON, matter_id: MATTER }
     );
-    assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:${"a".repeat(64)}:4:initial`);
+    assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:${"a".repeat(64)}:4:initial:inline`);
     assert.equal(h.persistCalls.length, 1);
     assert.equal(h.persistCalls[0].checkoutSessionId, "cs_test_new");
     assert.equal(h.persistCalls[0].expectedVerificationHash, "a".repeat(64), "checkout binding carries the exact verified snapshot hash");
@@ -483,7 +640,7 @@ async function checkoutBehavior() {
       item: eligibleItem({ checkoutSessionId: expired.id })
     });
     assert.equal(h.createCalls.length, 1);
-    assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:${"a".repeat(64)}:4:${expired.id}`);
+    assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:${"a".repeat(64)}:4:${expired.id}:inline`);
   }
 
   {
@@ -533,6 +690,238 @@ async function checkoutBehavior() {
       (error) => error?.name === "ConsumerCheckoutTemporarilyUnavailableError"
     );
     assert.deepEqual(h.expireCalls, [], "ambiguous binding transport failure cannot expire a Session that may have committed");
+  }
+
+  // --- the reuse decision is the real order reconciliation --------------------
+  //
+  // "Is this stored Session still the order this application would create?" is
+  // answered by reconcileConsumerOrder, and these cases plant Sessions that fail
+  // it one dimension at a time. Without them the reuse path could be reached
+  // with the reconciliation stubbed out and every case above would still report
+  // green -- which is exactly how this suite could drift while looking healthy.
+  const unreusable = [
+    [
+      "a line item selling something other than the packet",
+      openSession({
+        line_items: {
+          data: [{
+            quantity: 1,
+            currency: "usd",
+            amount_subtotal: 5000,
+            amount_total: 5000,
+            price: { unit_amount: 5000, product: { id: "prod_other", name: "Something else entirely" } }
+          }]
+        }
+      })
+    ],
+    [
+      "a regular price that is not the packet price",
+      openSession({
+        amount_subtotal: 9900,
+        amount_total: 9900,
+        line_items: {
+          data: [{
+            quantity: 1,
+            currency: "usd",
+            amount_subtotal: 9900,
+            amount_total: 9900,
+            price: { unit_amount: 9900, product: { id: "prod_legacy", name: "Expungement.ai self-help packet" } }
+          }]
+        }
+      })
+    ],
+    [
+      // Consistent everywhere except the arithmetic: nothing was discounted, yet
+      // the amount due is less than the regular price. Only the reconciliation's
+      // own sum catches this one.
+      "a total that does not equal the regular price less the discount",
+      openSession({
+        amount_total: 4000,
+        total_details: { amount_discount: 0, amount_shipping: 0, amount_tax: 0 },
+        line_items: {
+          data: [{
+            quantity: 1,
+            currency: "usd",
+            amount_subtotal: 5000,
+            amount_total: 4000,
+            price: { unit_amount: 5000, product: { id: "prod_legacy", name: "Expungement.ai self-help packet" } }
+          }]
+        }
+      })
+    ],
+    [
+      "shipping on a product that has none",
+      openSession({ total_details: { amount_discount: 0, amount_shipping: 500, amount_tax: 0 } })
+    ],
+    [
+      "tax on a product that has none",
+      openSession({ total_details: { amount_discount: 0, amount_shipping: 0, amount_tax: 300 } })
+    ],
+    [
+      // Two half-price units reach the same regular price, so the price checks
+      // are satisfied and only the quantity rule refuses. The packet is sold one
+      // at a time; a Session selling two of anything is not this order.
+      "a quantity that is not one",
+      openSession({
+        line_items: {
+          data: [{
+            quantity: 2,
+            currency: "usd",
+            amount_subtotal: 5000,
+            amount_total: 5000,
+            price: { unit_amount: 2500, product: { id: "prod_legacy", name: "Expungement.ai self-help packet" } }
+          }]
+        }
+      })
+    ],
+    [
+      "a client_reference_id naming a different matter",
+      openSession({ client_reference_id: "99999999-9999-4999-8999-999999999999" })
+    ],
+    [
+      "a channel this application does not sell through",
+      openSession({ metadata: { ...openSession().metadata, channel: "somebody_elses_channel" } })
+    ],
+    [
+      // Setup mode collects a payment method; it does not take money. A stored
+      // Session in it is not an order for this packet.
+      "a Session that is not in payment mode",
+      openSession({ mode: "setup" })
+    ]
+  ];
+
+  // --- an OPEN Session that predates promotion codes is replaced ---------------
+  //
+  // It offers the customer no field to enter a code, so reusing it would look
+  // to them like their code being refused. It is expired and replaced, the same
+  // thing this branch already does for a stale verification -- and a completed
+  // order, which is money that changed hands, is never touched this way.
+  {
+    const preCodes = openSession({ id: "cs_test_pre_codes", allow_promotion_codes: false });
+    const h = buildPaymentAdapter({ retrievedSession: preCodes });
+    const result = await h.adapter.createConsumerPacketCheckout({
+      userId: USER,
+      item: eligibleItem({ checkoutSessionId: preCodes.id })
+    });
+    assert.equal(result.checkoutSessionId, "cs_test_new", "a Session that cannot take a promotion code is replaced");
+    assert.deepEqual(h.expireCalls, [preCodes.id]);
+    assert.equal(h.createCalls[0].params.allow_promotion_codes, true, "the replacement can take one");
+    assert.equal(h.persistCalls.length, 0, "a replacement never uses the initial binding writer");
+    assert.equal(h.replaceCalls[0].expectedCheckoutSessionId, preCodes.id);
+  }
+
+  {
+    const completedPreCodes = openSession({
+      id: "cs_test_complete_pre_codes",
+      status: "complete",
+      allow_promotion_codes: false,
+      payment_status: "paid"
+    });
+    const h = buildPaymentAdapter({ retrievedSession: completedPreCodes });
+    const result = await h.adapter.createConsumerPacketCheckout({
+      userId: USER,
+      item: eligibleItem({ checkoutSessionId: completedPreCodes.id })
+    });
+    assert.equal(result.outcome, "payment_pending", "a COMPLETED order is recovered, never disowned over a capability flag");
+    assert.deepEqual(h.expireCalls, [], "money already collected is never expired");
+    assert.equal(h.createCalls.length, 0, "and no replacement is minted over it");
+  }
+
+  // --- the catalog guard ------------------------------------------------------
+  //
+  // Where a catalog Product is configured, the packet is sold ON it, and a
+  // Session built on an ad-hoc product sells something the catalog does not
+  // contain -- so a coupon restricted to the catalog Product can only be
+  // refused on it, and the customer reads that as their code being rejected.
+  // These cases run with the environment variable set, then clear it again.
+  {
+    const CATALOG = "prod_catalog_guard";
+    process.env.STRIPE_CONSUMER_PACKET_PRODUCT_ID = CATALOG;
+    try {
+      {
+        const adHoc = openSession();
+        const h = buildPaymentAdapter({ retrievedSession: adHoc });
+        const result = await h.adapter.createConsumerPacketCheckout({
+          userId: USER,
+          item: eligibleItem({ checkoutSessionId: adHoc.id })
+        });
+        assert.equal(result.checkoutSessionId, "cs_test_new", "a Session on an ad-hoc product is replaced, not reused");
+        assert.deepEqual(h.expireCalls, [adHoc.id], "the incompatible Session is expired");
+        assert.equal(h.persistCalls.length, 0, "a replacement never goes through the initial binding writer");
+        assert.equal(h.replaceCalls.length, 1, "a replacement goes through the compare-and-swap writer");
+        assert.equal(h.replaceCalls[0].expectedCheckoutSessionId, adHoc.id, "the swap names the exact predecessor it expired");
+        assert.equal(
+          h.createCalls[0].params.line_items[0].price_data.product,
+          CATALOG,
+          "the replacement line item names the catalog Product, so a product-restricted coupon matches it"
+        );
+        assert.ok(
+          !("product_data" in h.createCalls[0].params.line_items[0].price_data),
+          "a configured catalog must never fall back to a fresh ad-hoc Product"
+        );
+        assert.equal(h.createCalls[0].params.line_items[0].price_data.unit_amount, 5000,
+          "the price stays server-set; it is not delegated to the catalog");
+        assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:${"a".repeat(64)}:4:${adHoc.id}:${CATALOG}`,
+          "the catalog identity is part of the key: a Session on a different Product is a different order");
+      }
+
+      {
+        const onCatalog = openSession({
+          id: "cs_test_on_catalog",
+          line_items: {
+            data: [{
+              quantity: 1,
+              currency: "usd",
+              amount_subtotal: 5000,
+              amount_total: 5000,
+              price: { unit_amount: 5000, product: { id: CATALOG, name: "Expungement.ai self-help packet" } }
+            }]
+          }
+        });
+        const h = buildPaymentAdapter({ retrievedSession: onCatalog });
+        const result = await h.adapter.createConsumerPacketCheckout({
+          userId: USER,
+          item: eligibleItem({ checkoutSessionId: onCatalog.id })
+        });
+        assert.equal(result.outcome, "checkout_reused", "a Session already on the catalog Product is still reusable");
+        assert.deepEqual(h.expireCalls, []);
+        assert.equal(h.createCalls.length, 0);
+      }
+
+      // A confirmed Product is remembered, so each refusal case needs its own id
+      // rather than re-asking about one an earlier case already confirmed.
+      for (const [label, id, product] of [
+        ["an archived catalog Product", "prod_catalog_archived", { active: false, defaultPrice: null }],
+        ["a catalog default price that is not the packet price", "prod_catalog_wrong_price", { active: true, defaultPrice: { active: true, type: "one_time", currency: "usd", unit_amount: 9900 } }],
+        ["a catalog default price that is a subscription", "prod_catalog_recurring", { active: true, defaultPrice: { active: true, type: "recurring", currency: "usd", unit_amount: 5000 } }],
+        ["a catalog default price in another currency", "prod_catalog_eur", { active: true, defaultPrice: { active: true, type: "one_time", currency: "eur", unit_amount: 5000 } }],
+        ["an inactive catalog default price", "prod_catalog_inactive_price", { active: true, defaultPrice: { active: false, type: "one_time", currency: "usd", unit_amount: 5000 } }]
+      ]) {
+        process.env.STRIPE_CONSUMER_PACKET_PRODUCT_ID = id;
+        const h = buildPaymentAdapter({ catalogProduct: product });
+        await assert.rejects(
+          h.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem() }),
+          (error) => error?.name === "ConsumerCheckoutTemporarilyUnavailableError",
+          `${label} must refuse rather than open a Checkout page on it`
+        );
+        assert.equal(h.createCalls.length, 0, `${label}: no Session is built on an unconfirmed catalog entry`);
+        assert.equal(h.persistCalls.length, 0);
+      }
+    } finally {
+      delete process.env.STRIPE_CONSUMER_PACKET_PRODUCT_ID;
+    }
+  }
+
+  for (const [label, session] of unreusable) {
+    const h = buildPaymentAdapter({ retrievedSession: session });
+    await assert.rejects(
+      h.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem({ checkoutSessionId: session.id }) }),
+      (error) => error?.name === "ConsumerCheckoutTemporarilyUnavailableError",
+      `a stored Session with ${label} must not be reused`
+    );
+    assert.deepEqual(h.expireCalls, [session.id], `${label}: the unreusable Session is expired`);
+    assert.equal(h.createCalls.length, 0, `${label}: refusing is not an excuse to mint a second Session`);
+    assert.equal(h.persistCalls.length, 0, `${label}: nothing is bound`);
   }
 }
 
@@ -675,6 +1064,53 @@ async function protectedCasBehavior() {
   assert.deepEqual(attached.value.artifact, artifact);
 }
 
+/**
+ * The Session as Stripe returns it on retrieval, with line items expanded.
+ *
+ * Every field the order reconciliation reads is here, because the reconciliation
+ * is a guard under test: the regular price read two independent ways, the
+ * arithmetic that has to leave exactly the amount due, and the absence of
+ * shipping and tax on a product that has neither.
+ */
+function paidSession(overrides = {}) {
+  return {
+    id: "cs_test_bound",
+    mode: "payment",
+    status: "complete",
+    payment_status: "paid",
+    currency: "usd",
+    amount_subtotal: 5000,
+    amount_total: 5000,
+    total_details: { amount_discount: 0, amount_shipping: 0, amount_tax: 0 },
+    client_reference_id: ITEM,
+    payment_intent: "pi_test_bound",
+    allow_promotion_codes: true,
+    discounts: [],
+    metadata: {
+      channel: "expungement_ai_consumer",
+      user_id: USER,
+      briefcase_item_id: ITEM,
+      product_id: PRODUCT,
+      person_id: PERSON,
+      matter_id: MATTER,
+      verification_hash: "a".repeat(64)
+    },
+    line_items: {
+      data: [{
+        quantity: 1,
+        currency: "usd",
+        amount_subtotal: 5000,
+        amount_total: 5000,
+        price: {
+          unit_amount: 5000,
+          product: { id: "prod_legacy", name: "Expungement.ai self-help packet" }
+        }
+      }]
+    },
+    ...overrides
+  };
+}
+
 function completedEvent(overrides = {}) {
   const base = {
     id: "evt_test_paid",
@@ -755,6 +1191,7 @@ function buildReconciliation({
     },
     "@/lib/expungement-ai/consumer-payment-authority": {
       CONSUMER_PACKET_CURRENCY: "usd",
+      CONSUMER_PACKET_PRICE_CENTS: 5000,
       CONSUMER_PACKET_PRODUCT_ID: PRODUCT,
       recordConsumerPacketPayment: async (input) => {
         paymentCalls.push(input);
@@ -792,6 +1229,24 @@ function buildReconciliation({
     },
     "@/lib/supabase/server": {
       getSupabaseAdminClient: () => supabase
+    },
+    // A real `checkout.session.completed` event carries the Session WITHOUT its
+    // line items, so the product, the quantity and the regular price are not in
+    // it: the server retrieves them from Stripe with the secret key and
+    // reconciles the order against what the provider says was sold. This
+    // double stands in for that round trip, and the retrieved Session it
+    // returns is a complete one -- the real reconciliation runs against it.
+    "@/lib/stripe/server": {
+      getStripeServerClient: () => ({
+        checkout: {
+          sessions: {
+            retrieve: async (id) => ({ ...paidSession(), id })
+          }
+        }
+      }),
+      isProductionRuntime: () => false,
+      isStripeConfigurationError: (error) => error?.name === "StripeConfigurationError",
+      stripeSecretKeyIsLiveMode: () => false
     }
   });
 
@@ -968,6 +1423,16 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
 
   const renderRequest = loadTsWithMocks("src/lib/expungement-ai/consumer-render-request.ts", {
     "server-only": {},
+    // Same stand-in, same reason, as in the checkout harness: these cases
+    // exercise the render-request guards, and a route the admission gate denies
+    // short-circuits all of them. The admission's own bindings are proven by
+    // scripts/verify-rcap-lane-f-commercial-admission.mjs.
+    "@/lib/rcap/render/commercial-admission": {
+      ...admissionStandIn,
+      // The real error class, so the module's own `instanceof` check is the
+      // real one rather than a shape this harness invented.
+      CommercialAdmissionDeniedError: realAdmission.CommercialAdmissionDeniedError
+    },
     "@/lib/expungement-ai/consumer-identity": {
       CONSUMER_PERSON_NAMESPACE: "expungement-ai-consumer",
       resolveConsumerPersonId: async () => ({ ok: true, personId: PERSON }),

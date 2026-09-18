@@ -215,6 +215,33 @@ check(
     && adapter.includes('providerCall("retrieve_winning_session"'),
   "losing the race expires the Session this request created and reconciles the winner instead of overwriting it"
 );
+// --- the loser never destroys the winner -------------------------------------------
+// Creation is idempotent, so two concurrent requests deriving the same key are
+// handed the SAME Session id. The one that loses the swap is told the winning
+// id -- which is the id it is itself holding. Expiring it would destroy the
+// order the winner just recorded and leave the matter storing a dead Session.
+{
+  const conflictBlock = adapter.slice(
+    adapter.indexOf('if (replacement.outcome === "conflicted") {'),
+    adapter.indexOf('if (replacement.outcome !== "replaced") {')
+  );
+  check(conflictBlock.length > 0, "the replacement-conflict branch is locatable");
+  check(
+    conflictBlock.indexOf("replacement.winningCheckoutSessionId")
+      < conflictBlock.indexOf("expireUnboundSession("),
+    "the winner is read BEFORE anything is expired"
+  );
+  check(
+    conflictBlock.includes("const thisRequestLostADifferentSession = winner !== session.id;")
+      && /const cleanupFailure = thisRequestLostADifferentSession && session\.status === "open"/.test(conflictBlock),
+    "the losing Session is expired only when it is genuinely a different Session from the winner"
+  );
+  check(
+    (conflictBlock.match(/expireUnboundSession\(/g) ?? []).length === 1
+      && !/sessions\.expire\(/.test(conflictBlock),
+    "the conflict branch has exactly one expiry, and it is the guarded one"
+  );
+}
 
 // --- a cleanup failure never becomes the reported cause -----------------------------
 // The live $0 order refused with a Stripe fault named at the

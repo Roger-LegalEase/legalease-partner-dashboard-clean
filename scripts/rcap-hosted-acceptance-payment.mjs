@@ -54,6 +54,31 @@ const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 // rather than a separate near-copy of it existing per discount shape. Empty
 // means the ordinary $50 order.
 const PROMOTION_CODE = (process.env.HOSTED_STRIPE_PROMOTION_CODE ?? "").trim() || null;
+// Which acceptance phase this run is.
+//
+// The default is the full payment matrix, on the ORDINARY Preview, which
+// deliberately configures no expected Stripe account -- that is what makes
+// `resumed_checkout_refuses_an_unresolvable_stored_session_it_cannot_verify`
+// mean something.
+//
+// `verified_absent_session` is the narrow second phase, on the verified-account
+// Preview. It proves the OTHER half of the same contract: a stored Session
+// POSITIVELY PROVEN absent from the verified account is replaced, and the
+// replacement is recorded. The two cannot share a deployment, because the
+// configuration one needs is the configuration that would silently convert the
+// other's refusal into a replacement.
+//
+// It runs here rather than in a script of its own for a reason that matters
+// more than convenience: the matter it plants an id on has to be verified by
+// the identical path the ordinary journey uses. A second, hand-written seeder
+// is a second thing that can drift, and a narrow case seeded differently from
+// the real journey proves less than it appears to.
+const PAYMENT_PHASE = (process.env.HOSTED_PAYMENT_PHASE ?? "").trim() || "full";
+if (!["full", "verified_absent_session"].includes(PAYMENT_PHASE)) {
+  console.error(`PAYMENT: HOSTED_PAYMENT_PHASE must be "full" or "verified_absent_session"`);
+  process.exit(1);
+}
+const NARROW_VERIFIED_ABSENCE = PAYMENT_PHASE === "verified_absent_session";
 // The catalog Product this run's coupon is restricted to. The released
 // correction exists so that a product-restricted coupon can match the line
 // item; without asserting the product, a passing discount would only show that
@@ -148,7 +173,21 @@ function record(caseId, passed, observed) {
   console.log(`  ${passed ? "ok  " : "FAIL"} ${caseId} — ${observed}`);
 }
 
-const REQUIRED_CASES = [
+// The narrow phase proves ONE thing, on the verified-account Preview, and it
+// still has to get there honestly: the matter it plants an unresolvable id on is
+// seeded and verified by the same path the full journey uses, and the real
+// Checkout Session it replaces is one the deployed application created.
+const NARROW_REQUIRED_CASES = [
+  "payment_preview_deployment_discovered",
+  "bypass_reaches_the_application_not_the_protection_layer",
+  "renderable_route_selected_from_the_registry",
+  "seeded_item_agrees_with_the_authoritative_resolver",
+  "unpaid_render_is_refused_for_payment",
+  "checkout_session_created_against_stripe_sandbox",
+  "resumed_checkout_replaces_a_verified_absent_stored_session"
+];
+
+const FULL_REQUIRED_CASES = [
   "payment_preview_deployment_discovered",
   "bypass_reaches_the_application_not_the_protection_layer",
   "renderable_route_selected_from_the_registry",
@@ -193,13 +232,16 @@ const REQUIRED_CASES = [
   "resumed_checkout_reuses_the_open_session",
   "resumed_checkout_refuses_an_unresolvable_stored_session_it_cannot_verify",
   ...(CATALOG_PRODUCT_ID ? ["resumed_checkout_replaces_an_incompatible_open_session"] : []),
-  // The exact path the live $0 order took, and the one this suite had no case
-  // for: a stored Session PROVEN ABSENT from the verified account is replaced,
-  // and the replacement is recorded. The refusal case above covers the half
-  // where absence cannot be established; it stays, and this is the other half.
-  "resumed_checkout_replaces_a_verified_absent_stored_session",
+  // The other half of that contract -- a stored Session PROVEN ABSENT from the
+  // verified account is replaced, and the replacement is recorded -- cannot run
+  // here. It needs a deployment with an expected Stripe account, and this
+  // Preview deliberately has none, which is exactly what makes the refusal case
+  // above meaningful. It runs as its own phase, on its own Preview:
+  // scripts/rcap-hosted-verified-absent-session.mjs. Both are required evidence.
   "resumed_checkout_never_duplicates_a_completed_order"
 ];
+
+const REQUIRED_CASES = NARROW_VERIFIED_ABSENCE ? NARROW_REQUIRED_CASES : FULL_REQUIRED_CASES;
 
 const bypassHeaders = BYPASS ? { "x-vercel-protection-bypass": BYPASS } : {};
 
@@ -789,10 +831,6 @@ const itemId = crypto.randomUUID();
 // the browser was left driving an expired Checkout page. A case that can
 // manufacture unrecorded verdicts for everything after it is not evidence.
 const isolatedItemId = crypto.randomUUID();
-// The verified-absence replacement case owns its own matter for the same
-// reason: it plants an id that resolves to nothing, and a failure there must
-// not strand the journey the rest of the run depends on.
-const absentItemId = crypto.randomUUID();
 let seedVerifiedMatter = null;
 // Single-quoted SQL literal, doubling embedded quotes. Never JSON.stringify:
 // that produces double quotes, which Postgres reads as an identifier.
@@ -1864,8 +1902,90 @@ let session = null;
     return { total: mine.length, open: mine.filter((s) => s.status === "open").length, ids: mine.map((s) => s.id) };
   };
 
+  // (d) NARROW PHASE ONLY — a stored id POSITIVELY PROVEN ABSENT from the
+  //     verified account is REPLACED, and the replacement is recorded.
+  //
+  //     This is the exact path the live $0 order took: the matter carried a
+  //     Checkout Session id Stripe no longer knew, the adapter proved it absent
+  //     — and then wrote the replacement through the INITIAL binding writer,
+  //     which refuses any new id once the row holds one. Case (b) below covers
+  //     the half where absence CANNOT be established and the order is refused;
+  //     it needs a deployment with no expected account, so the two halves run on
+  //     two Previews and never in the same process.
+  //
+  //     It runs on this run's own matter, and it is the last thing this phase
+  //     does, so it strands nothing.
+  if (NARROW_VERIFIED_ABSENCE) {
+    const beforeStored = await storedSessionIdNow();
+    // An id of the right shape that names no Session in any account. Stripe
+    // answers `resource_missing` for it, which — against a POSITIVELY VERIFIED
+    // account and mode — is the one refusal that proves there is no order
+    // behind the id.
+    const plantedId = "cs_test_a1RCAPacceptanceVerifiedAbsentSession000000000000";
+
+    // This run's real Session is expired first: this case is about a stored id
+    // with nothing behind it, not about abandoning a live order.
+    await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(session.id)}/expire`, {
+      method: "POST", headers: { Authorization: `Bearer ${STRIPE_KEY}` }
+    }).catch(() => null);
+    const planted = await setStoredSessionId(plantedId);
+    const plantedOk = planted.status === 200 || planted.status === 201;
+
+    const replaced = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
+    const replacementId = replaced.json?.checkoutSessionId ?? null;
+    const storedAfter = await storedSessionIdNow();
+    const after = await openSessionCount();
+    const recovery = replaced.json?.storedSessionRecovery ?? null;
+    const replacementSession = replacementId ? await stripeSession(replacementId) : null;
+
+    evidence.resumedVerifiedAbsence = {
+      matterId: itemId,
+      storedBefore: beforeStored,
+      expiredSessionId: session.id,
+      plantedId,
+      plantedOk,
+      status: replaced.status,
+      outcome: replaced.json?.outcome ?? null,
+      resultCode: replaced.json?.resultCode ?? null,
+      replacementId,
+      replacementStatus: replacementSession?.status ?? null,
+      storedCheckoutSessionIdAfter: storedAfter,
+      storedSessionRecovery: recovery,
+      bindingFailure: replaced.json?.bindingFailure ?? null,
+      cleanupFailure: replaced.json?.cleanupFailure ?? null,
+      providerFailure: replaced.json?.providerFailure ?? null,
+      sessionsAfter: after
+    };
+
+    record(
+      "resumed_checkout_replaces_a_verified_absent_stored_session",
+      plantedOk
+        && (replaced.status === 200 || replaced.status === 201)
+        && Boolean(replacementId) && replacementId !== plantedId && replacementId !== session.id
+        && storedAfter === replacementId
+        && recovery?.phase === "recover_completed_session" && recovery?.code === "resource_missing"
+        && replacementSession?.status === "open"
+        && after.open === 1,
+      `on this run's verified matter ${itemId}, a Checkout Session id that names nothing at Stripe`
+        + ` (${plantedId}) was stored, reproducing the live order exactly. This Preview positively identifies`
+        + ` its Stripe account and mode, so absence is provable here — which is precisely what the ordinary`
+        + ` Preview cannot do, and why its refusal case is the other half of this contract rather than a`
+        + ` contradiction of it. The deployed route answered HTTP ${replaced.status}`
+        + ` outcome=${replaced.json?.outcome ?? "(none)"} with ${replacementId ?? "(no session)"}`
+        + ` (Stripe reports it ${replacementSession?.status ?? "(unknown)"}); the matter now stores`
+        + ` ${storedAfter ?? "(nothing)"} and Stripe holds ${after.open} open session(s) for it.`
+        + ` storedSessionRecovery=${JSON.stringify(recovery)}`
+        + `${replaced.json?.bindingFailure ? ` bindingFailure=${JSON.stringify(replaced.json.bindingFailure)}` : ""}`
+        + `${replaced.json?.cleanupFailure ? ` cleanupFailure=${JSON.stringify(replaced.json.cleanupFailure)}` : ""}.`
+        + ` The stored id read back is the whole point: the live order created a usable Session and then failed`
+        + ` to record it, because the absent branch selected the initial binding writer instead of the`
+        + ` compare-and-swap writer, and the initial writer refuses any new id once the row holds one. A`
+        + ` replacement the database did not record is not a replacement.`
+    );
+  }
+
   // (a) An OPEN session that is still the right order is REUSED, never doubled.
-  {
+  if (!NARROW_VERIFIED_ABSENCE) {
     const before = await openSessionCount();
     const again = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
     const returnedId = again.json?.checkoutSessionId ?? null;
@@ -1886,7 +2006,7 @@ let session = null;
   //     acceptance deployment deliberately configures no expected account, so
   //     this is the unverified branch exactly as a mis-keyed deployment would
   //     hit it. The planted id is restored immediately afterwards.
-  {
+  if (!NARROW_VERIFIED_ABSENCE) {
     const wrote = (result) => result.status === 200 || result.status === 201;
     const realId = await storedSessionIdNow();
     const before = await openSessionCount();
@@ -1930,7 +2050,7 @@ let session = null;
   //     page and turned every later case into "no verdict": run 35261840247
   //     reported 2 failures and 15 unrecorded of 27. Isolating it means a
   //     failure here is one failing case and nothing else.
-  if (CATALOG_PRODUCT_ID) {
+  if (CATALOG_PRODUCT_ID && !NARROW_VERIFIED_ABSENCE) {
     const seedFailure = typeof seedVerifiedMatter === "function"
       ? await seedVerifiedMatter(isolatedItemId)
       : "the isolated matter seeder was never defined";
@@ -2036,105 +2156,6 @@ let session = null;
     );
   }
 
-  // (d) A stored id that is POSITIVELY PROVEN ABSENT from the verified account
-  //     is REPLACED, and the replacement is recorded.
-  //
-  //     Case (b) above covers the half where absence cannot be established, and
-  //     it stays exactly as it is. This is the other half, and it is the exact
-  //     path the live $0 order took: the matter carried a Checkout Session id
-  //     Stripe no longer knew, the adapter proved it absent — and then wrote the
-  //     replacement through the INITIAL binding writer, which refuses any new id
-  //     once the row holds one. Nothing about that is visible from a fresh
-  //     journey, from case (b)'s refusal, or from case (c), which reaches the
-  //     compare-and-swap writer down a different branch. Case (c) proves the
-  //     writer works; this proves the absent branch actually selects it.
-  //
-  //     It runs on its own matter, because it plants an id that resolves to
-  //     nothing and a failure here must strand no other case.
-  {
-    const seedFailure = typeof seedVerifiedMatter === "function"
-      ? await seedVerifiedMatter(absentItemId)
-      : "the isolated matter seeder was never defined";
-
-    let firstId = null;
-    let plantedOk = false;
-    let replaced = null;
-    let replacementId = null;
-    let storedAfter = null;
-    let sessionsAfter = null;
-    // An id of the right shape that names no Session in any account. Stripe
-    // answers `resource_missing` for it, which — against a verified account and
-    // mode — is the one refusal that proves there is no order behind the id.
-    const plantedId = "cs_test_a1RCAPacceptanceVerifiedAbsentSession000000000000";
-
-    if (seedFailure === null) {
-      const firstRes = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: absentItemId } });
-      firstId = firstRes.json?.checkoutSessionId ?? null;
-      if (firstId) {
-        // The matter's real Session is expired first: this case is about a
-        // stored id with nothing behind it, not about abandoning a live order.
-        await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(firstId)}/expire`, {
-          method: "POST", headers: { Authorization: `Bearer ${STRIPE_KEY}` }
-        }).catch(() => null);
-        const plant = await sql(`update public.consumer_briefcase_items set checkout_session_id = '${sqlText(plantedId)}' where id = '${absentItemId}'`);
-        plantedOk = plant.status === 200 || plant.status === 201;
-        replaced = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: absentItemId } });
-        replacementId = replaced.json?.checkoutSessionId ?? null;
-
-        const rows = await sql(`select checkout_session_id from public.consumer_briefcase_items where id = '${absentItemId}' limit 1`);
-        storedAfter = Array.isArray(rows.json) ? rows.json[0]?.checkout_session_id ?? null : null;
-
-        const list = await fetch("https://api.stripe.com/v1/checkout/sessions?limit=100", {
-          headers: { Authorization: `Bearer ${STRIPE_KEY}` }
-        }).then((r) => r.json()).catch(() => null);
-        const mine = Array.isArray(list?.data) ? list.data.filter((s) => s.client_reference_id === absentItemId) : [];
-        sessionsAfter = { total: mine.length, open: mine.filter((s) => s.status === "open").length, ids: mine.map((s) => s.id) };
-      }
-    }
-
-    const recovery = replaced?.json?.storedSessionRecovery ?? null;
-    evidence.resumedVerifiedAbsence = {
-      absentItemId,
-      seedFailure,
-      firstSessionId: firstId,
-      plantedId,
-      plantedOk,
-      status: replaced?.status ?? null,
-      outcome: replaced?.json?.outcome ?? null,
-      resultCode: replaced?.json?.resultCode ?? null,
-      replacementId,
-      storedCheckoutSessionIdAfter: storedAfter,
-      storedSessionRecovery: recovery,
-      bindingFailure: replaced?.json?.bindingFailure ?? null,
-      cleanupFailure: replaced?.json?.cleanupFailure ?? null,
-      providerFailure: replaced?.json?.providerFailure ?? null,
-      sessionsAfter
-    };
-
-    record(
-      "resumed_checkout_replaces_a_verified_absent_stored_session",
-      seedFailure === null && plantedOk
-        && (replaced?.status === 200 || replaced?.status === 201)
-        && Boolean(replacementId) && replacementId !== plantedId && replacementId !== firstId
-        && storedAfter === replacementId
-        && recovery?.phase === "recover_completed_session" && recovery?.code === "resource_missing"
-        && sessionsAfter?.open === 1,
-      `on its own verified matter ${absentItemId} (seed: ${seedFailure ?? "ok"}), a Checkout Session id that names`
-        + ` nothing at Stripe (${plantedId}) was stored, reproducing the live order exactly. The deployed route`
-        + ` answered HTTP ${replaced?.status ?? "(none)"} outcome=${replaced?.json?.outcome ?? "(none)"}`
-        + ` with ${replacementId ?? "(no session)"}; the matter now stores ${storedAfter ?? "(nothing)"} and`
-        + ` Stripe holds ${sessionsAfter?.open ?? "(unknown)"} open session(s) for it.`
-        + ` storedSessionRecovery=${JSON.stringify(recovery)}`
-        + `${replaced?.json?.bindingFailure ? ` bindingFailure=${JSON.stringify(replaced.json.bindingFailure)}` : ""}`
-        + `${replaced?.json?.cleanupFailure ? ` cleanupFailure=${JSON.stringify(replaced.json.cleanupFailure)}` : ""}.`
-        + ` The stored id read back is the whole point: the live order created a usable Session and then failed to`
-        + ` record it, because the absent branch selected the initial binding writer instead of the compare-and-swap`
-        + ` writer, and the initial writer refuses any new id once the row holds one. A replacement the database`
-        + ` did not record is not a replacement.`
-        + ` This case needs the deployment to have a verified expected Stripe account: absence cannot be concluded`
-        + ` without one, which is the rule case (b) proves from the other side.`
-    );
-  }
 }
 
 // Stripe is the only authority on the discount. A code is created and managed in
@@ -3712,8 +3733,5 @@ await sql(`delete from public.consumer_briefcase_items where id = '${itemId}'`);
 await sql(`delete from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${isolatedItemId}'`);
 await sql(`delete from public.consumer_packet_verifications where briefcase_item_id = '${isolatedItemId}'`);
 await sql(`delete from public.consumer_briefcase_items where id = '${isolatedItemId}'`);
-await sql(`delete from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${absentItemId}'`);
-await sql(`delete from public.consumer_packet_verifications where briefcase_item_id = '${absentItemId}'`);
-await sql(`delete from public.consumer_briefcase_items where id = '${absentItemId}'`);
 
 finish();

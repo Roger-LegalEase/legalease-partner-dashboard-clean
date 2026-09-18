@@ -9,9 +9,9 @@ const identity={teamId:HOSTED_VERCEL_TEAM_ID,projectId:HOSTED_VERCEL_PROJECT_ID,
 const source=fs.readFileSync(new URL('./rcap-hosted-acceptance-deploy.mjs',import.meta.url),'utf8');
 function fixture(route='') {
   // Evaluate the actual unchanged env construction, including every env/build-env value.
-  const context={RETURN_ORIGIN:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA),SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',keys:{anon:'synthetic-anon',service:'synthetic-service'},ROUTE_STATE:route,SCOPE_IDS:route?'synthetic-id':'',process:{env:{HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}}};
+  const context={RETURN_ORIGIN:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA),SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',keys:{anon:'synthetic-anon',service:'synthetic-service'},ROUTE_STATE:route,SCOPE_IDS:route?'synthetic-id':'',CATALOG_PRODUCT_ID:'',STRIPE_ACCOUNT_ID:null,LEGAL_AID_EMAIL:null,acceptanceServerSecret:(purpose,bytes)=>Buffer.alloc(bytes,1),process:{env:{HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}}};
   const env=vm.runInNewContext(source.slice(source.indexOf('const runtimeEnv ='),source.indexOf('// A live Stripe key'))+'\nJSON.stringify({runtimeEnv,buildEnv});',context);
-  return {identity,token:'synthetic-token',applicationSha:FROZEN_APPLICATION_SHA,...JSON.parse(env),meta:{rcapApplicationSha:FROZEN_APPLICATION_SHA,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapStripeConfigured:'true',rcapRouteState:route||'disabled',rcapReturnOrigin:context.RETURN_ORIGIN,rcapClinicDemoMode:'none',rcapStagingScopeSha256:'a'.repeat(64)}};
+  return {identity,token:'synthetic-token',applicationSha:FROZEN_APPLICATION_SHA,...JSON.parse(env),meta:{rcapApplicationSha:FROZEN_APPLICATION_SHA,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapStripeConfigured:'true',rcapRouteState:route||'disabled',rcapReturnOrigin:context.RETURN_ORIGIN,rcapClinicDemoMode:'none',rcapStagingScopeSha256:'a'.repeat(64),rcapPreviewVariant:'primary'}};
 }
 function response(o,changes={}) {return {id:'dpl_Synthetic123',url:'synthetic-preview.vercel.app',target:null,projectId:HOSTED_VERCEL_PROJECT_ID,gitSource:{sha:FROZEN_APPLICATION_SHA},meta:o.meta,readyState:'READY',...changes};}
 function mock(o,{status=200,changes={}}={}) {
@@ -32,6 +32,35 @@ test('wrong team, project, project name, SHA, acceptance project and live Stripe
   for(const patch of [{identity:{...identity,teamId:'team_wrong'}},{identity:{...identity,projectId:'prj_wrong'}},{identity:{...identity,projectName:'wrong'}},{applicationSha:'0'.repeat(40)},{meta:{...fixture().meta,rcapAcceptanceProjectRef:'wrong'}},{runtimeEnv:{...fixture().runtimeEnv,STRIPE_SECRET_KEY:'sk_live_never'}},{buildEnv:{...fixture().buildEnv,VERCEL_ENV:'production'}}]) {
     const o={...fixture(),...patch};const m=mock(o);await assert.rejects(createRestPreview(o,m));assert.equal(m.calls.length,0);
   }
+});
+test('a variant Preview gets its own scoped return origin, says so in metadata, and an unlisted variant never reaches a host',async()=>{
+  const base=fixture();
+  const variantOrigin=expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA,'verified-account');
+  assert.notEqual(variantOrigin,expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA));
+  const o={...base,variant:'verified-account',
+    runtimeEnv:{...base.runtimeEnv,NEXT_PUBLIC_EXPUNGEMENT_AI_URL:variantOrigin,STRIPE_ACCOUNT_ID:'acct_1SyntheticTest'},
+    meta:{...base.meta,rcapPreviewVariant:'verified-account',rcapReturnOrigin:variantOrigin}};
+  const m=mock(o);await createRestPreview(o,m);
+  const b=JSON.parse(m.calls[0].init.body);
+  assert.equal(b.meta.rcapPreviewVariant,'verified-account');
+  assert.equal(b.meta.rcapReturnOrigin,variantOrigin);
+  assert.equal(b.env.STRIPE_ACCOUNT_ID,'acct_1SyntheticTest');
+  assert.equal(Object.hasOwn(b,'target'),false);
+  // Every way a variant could go wrong refuses BEFORE any HTTP call.
+  for(const patch of [
+    {variant:'not-a-listed-variant'},
+    {variant:'verified-account',meta:{...o.meta,rcapPreviewVariant:'primary'}},
+    {variant:null,meta:{...o.meta}},
+    {variant:'verified-account',meta:{...o.meta,rcapReturnOrigin:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA)}},
+    {variant:'verified-account',runtimeEnv:{...o.runtimeEnv,STRIPE_ACCOUNT_ID:'not-an-account'}},
+    {variant:'verified-account',runtimeEnv:{...o.runtimeEnv,STRIPE_SECRET_KEY:'sk_live_never'}}
+  ]) {
+    const bad={...o,...patch};const bm=mock(bad);
+    await assert.rejects(createRestPreview(bad,bm));assert.equal(bm.calls.length,0);
+  }
+  // And the ordinary Preview still declares itself the primary one.
+  const bm=mock(base);await createRestPreview(base,bm);
+  assert.equal(JSON.parse(bm.calls[0].init.body).meta.rcapPreviewVariant,'primary');
 });
 test('REST identity resolves pinned name, ID and owner and refuses wrong owners before creation',async()=>{
   for(const [patch,valid] of [[{},true],[{id:'prj_wrong'},false],[{accountId:'team_wrong'},false],[{name:'wrong'},false]]) {
@@ -58,10 +87,38 @@ test('build polling is GET-only, exact ID-bound, and never creates twice',async(
 test('reuse, metadata inputs, snapshots and post-probes preserved; alias gated after identity',()=>{
   const baseline=execFileSync('git',['show','6a0217b024c3c00409a5fef9338ad3f7976dbadf:scripts/rcap-hosted-acceptance-deploy.mjs'],{encoding:'utf8'});
   const segment=(s,a,b)=>s.slice(s.indexOf(a),s.indexOf(b,s.indexOf(a)));
-  for(const [a,b] of [['async function findReusableDeployment()','// Resolve the acceptance'],['const runtimeEnv =','// `--archive=tgz`'],['// --- 0. Before-picture','// --- 0b.'],['// --- 2b.','// --- verdict']]) {
-    if(a==='const runtimeEnv =')assert.equal(segment(source,a,'const deploymentMeta ='),segment(baseline,a,b));
-    else assert.equal(segment(source,a,b),segment(baseline,a,b));
+  // The before/after snapshots and the post-probe section still have to be the
+  // frozen bytes: they are what prove Production was not disturbed, and nothing
+  // a release adds belongs in them.
+  for(const [a,b] of [['// --- 0. Before-picture','// --- 0b.'],['// --- 2b.','// --- verdict']]) {
+    assert.equal(segment(source,a,b),segment(baseline,a,b));
   }
+  // The reuse identity and the per-deployment environment are NOT frozen byte
+  // for byte, because both legitimately gain a dimension when a release does --
+  // the catalog product, the acceptance server secrets, the expected Stripe
+  // account. Freezing their text only guaranteed that this guard would rot,
+  // which is what happened: it had been failing against a baseline several
+  // releases behind. What actually has to hold is the property the freeze was
+  // protecting, so that is asserted directly.
+  //
+  // Reuse completeness: EVERY metadata key a deployment is created with is also
+  // a key reuse matches on. A dimension in one and not the other is how a run
+  // ends up proving something about a Preview built for a different purpose.
+  const reuse=segment(source,'async function findReusableDeployment()','// Resolve the acceptance');
+  const metaKeys=[...segment(source,'const deploymentMeta = {','\n};').matchAll(/^\s{2}(rcap[A-Za-z0-9]*):/gm)].map(m=>m[1]);
+  assert(metaKeys.length>=8,`the deployment metadata should name every dimension (found ${metaKeys.length})`);
+  for(const key of metaKeys)assert(reuse.includes(`d.meta?.${key} ===`),`reuse ignores ${key}`);
+  // And the per-deployment environment never overrides the target, never
+  // carries a live key, and names the acceptance Supabase project only. The
+  // transport refuses each of these independently; this keeps the deploy
+  // script's own literal honest as it grows.
+  // Comments are stripped first: this is about the values the literal sets, not
+  // the prose explaining why a live prefix is refused.
+  const env=segment(source,'const runtimeEnv =','const deploymentMeta =')
+    .split('\n').filter(line=>!line.trim().startsWith('//')).join('\n');
+  assert.doesNotMatch(env,/VERCEL_ENV|VERCEL_TARGET_ENV/);
+  assert.doesNotMatch(env,/sk_live_|whsec_live|expungement\.ai/);
+  assert(env.includes('SUPABASE_URL,')&&env.includes('NEXT_PUBLIC_SUPABASE_URL: SUPABASE_URL'));
   assert(source.indexOf('await resolveHostedVercelIdentity')<source.indexOf('await createRestPreview'));
   assert(source.indexOf('if (reusable)')<source.indexOf('await createRestPreview'));
   const aliasGuard='if (deploymentId && verdicts.get("deployed_to_preview_not_production")?.passed && verdicts.get("deployment_carries_the_final_application_sha")?.passed)';

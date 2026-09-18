@@ -5,14 +5,37 @@ export const HOSTED_VERCEL_TEAM_ID = "team_4qLmZK9WI6xIy5vjYC0IF3ae";
 export const HOSTED_VERCEL_PROJECT_ID = "prj_cdgwGzFqIHgEUlzEburSLaZETdQV";
 export const HOSTED_VERCEL_PROJECT_NAME = "legalease-partner-dashboard-clean";
 
-export function expectedHostedReturnOrigin(applicationSha) {
+/**
+ * The Preview variants this repository will deploy, and nothing else.
+ *
+ * A variant is a SECOND Preview of the SAME application SHA that differs only
+ * in its per-deployment environment. It exists because two required acceptance
+ * cases are mutually exclusive inside one deployment: proving that a stored
+ * Session which cannot be verified is REFUSED needs a deployment with no
+ * expected Stripe account, and proving that one positively verified as absent
+ * is REPLACED needs a deployment that has one. Both halves are required
+ * evidence, so they run on two Previews rather than one being dropped.
+ *
+ * The list is closed because the variant becomes part of a hostname. An
+ * open-ended value here would let a caller name a host this repository never
+ * meant to deploy to.
+ */
+export const HOSTED_PREVIEW_VARIANTS = Object.freeze(["verified-account"]);
+
+export function expectedHostedReturnOrigin(applicationSha, variant = null) {
   if (!/^[0-9a-f]{40}$/.test(applicationSha ?? "")) {
     throw new Error("one exact lowercase 40-character application SHA is required for the hosted return origin");
   }
+  if (variant !== null && !HOSTED_PREVIEW_VARIANTS.includes(variant)) {
+    throw new Error("an unknown Preview variant cannot name a deployment host");
+  }
   // A SHA-scoped Preview alias is known before `next build`, so Checkout
   // return URLs can be baked into one exact deployment without naming
-  // Production or a mutable shared alias.
-  return `https://legalease-rcap-${applicationSha.slice(0, 12)}-${HOSTED_VERCEL_TEAM_SLUG}.vercel.app`;
+  // Production or a mutable shared alias. A variant extends the same scoping
+  // with its own segment, so two Previews of one SHA never collide on an alias
+  // and neither can be mistaken for the other.
+  const scope = variant ? `${applicationSha.slice(0, 12)}-${variant}` : applicationSha.slice(0, 12);
+  return `https://legalease-rcap-${scope}-${HOSTED_VERCEL_TEAM_SLUG}.vercel.app`;
 }
 
 const TEAM_ID = /^team_[A-Za-z0-9_]+$/;
