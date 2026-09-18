@@ -30,7 +30,7 @@ check(script.includes('const WORKER_SOURCE_SHA = "7c883693830ce063115779cd6cd7f7
 check(script.includes('const WORKER_DIGEST = "sha256:94adca2182ea841e7b6942d597569e8e3132b239abe1d8bf208cdda6f3449369"'), "worker digest is exact");
 check(script.includes('const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"'), "acceptance project is an explicit negative control");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "canonical Production project is pinned explicitly");
-check(script.includes('const ACCEPTANCE_DEPLOYMENT_ID = "dpl_33LqnGJMj6zE6zoQcqzL5tTMCRMu"'), "accepted Preview deployment is pinned exactly");
+check(script.includes('const ACCEPTANCE_DEPLOYMENT_ID = "dpl_AbvdvR2gk57Mbhr9v3rZCpKCZBKV"'), "accepted Preview deployment is pinned exactly");
 check(script.includes("production_environment_is_separate_from_acceptance"), "environment separation is a required verdict");
 check(script.includes("staged_production_deployment_is_exact"), "exact READY staged Production deployment is a required verdict");
 check(script.includes("accepted_preview_deployment_is_exact"), "accepted Preview deployment identity is required before runtime inspection");
