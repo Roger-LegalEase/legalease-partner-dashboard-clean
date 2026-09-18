@@ -119,6 +119,70 @@ export function chooseOption(questionId, prompt, optionValues) {
  * answered by the same identity-based rules as before; nothing about how a
  * single control is recognised or set has changed.
  */
+/**
+ * What a participant actually meets on one builder screen.
+ *
+ * Page count is not the measure of a good experience: several sections that
+ * each present a wall of fields is the same defect wearing a different shape.
+ * This records the real shape of each screen from the rendered DOM, before it
+ * is answered, so the reference route can be judged on what a participant
+ * sees rather than on how many times they press Continue.
+ *
+ * `prefilled` is the honest count of fields that already carry a value when
+ * the screen opens: information the participant gave in the guided check, or
+ * that this route derived, and does not have to type again.
+ */
+export async function measureBuilderScreen(page) {
+  const builder = page.locator(PACKET_BUILDER);
+  await builder.waitFor({ state: "visible", timeout: 20_000 });
+  return builder.evaluate((node) => {
+    const visible = (element) => {
+      const box = element.getBoundingClientRect();
+      return box.width > 0 && box.height > 0;
+    };
+    const controls = [...node.querySelectorAll("input, select, textarea")].filter(visible);
+    const named = controls.filter((control) => (control.getAttribute("name") ?? control.id ?? "").startsWith("q-"));
+    const questionIds = new Set();
+    const duplicated = [];
+    for (const control of named) {
+      const raw = control.getAttribute("name") ?? control.id ?? "";
+      const id = raw.replace(/^q-/, "").replace(/-(month|day|year|unknown|prompt|helper|error)$/, "");
+      if (!id) continue;
+      if (questionIds.has(id) && control.type !== "radio" && control.type !== "checkbox") duplicated.push(id);
+      questionIds.add(id);
+    }
+    const textInputs = named.filter((control) =>
+      control.tagName === "TEXTAREA"
+      || (control.tagName === "INPUT" && ["text", "number", "email", "tel"].includes(control.type)));
+    const choiceGroups = new Set(
+      named.filter((control) => control.type === "radio" || control.type === "checkbox")
+        .map((control) => control.getAttribute("name") ?? control.id)
+    );
+    const selects = named.filter((control) => control.tagName === "SELECT");
+    const prefilled = named.filter((control) => {
+      if (control.tagName === "SELECT") return Boolean(control.value);
+      if (control.type === "radio" || control.type === "checkbox") return control.checked;
+      return Boolean(String(control.value ?? "").trim());
+    });
+    const heading = node.querySelector("h2")?.textContent?.trim() ?? node.querySelector("h1")?.textContent?.trim() ?? "";
+    return {
+      heading,
+      status: node.querySelector("[data-packet-section-status]")?.getAttribute("data-packet-section-status") ?? null,
+      sectionId: node.querySelector("[data-packet-section]")?.getAttribute("data-packet-section") ?? null,
+      questions: questionIds.size,
+      textInputs: textInputs.length,
+      choiceDecisions: choiceGroups.size,
+      selects: selects.length,
+      prefilledFields: prefilled.length,
+      duplicateAsks: duplicated,
+      // A screen taller than roughly two viewports is a wall of fields, whatever
+      // its heading says.
+      screenHeightPx: Math.round(node.getBoundingClientRect().height),
+      viewportHeightPx: window.innerHeight
+    };
+  });
+}
+
 export async function answerBuilderStep(page, options = {}) {
   const builder = page.locator(PACKET_BUILDER);
   await builder.waitFor({ state: "visible", timeout: 20_000 });
