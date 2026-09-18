@@ -48,10 +48,14 @@ function optionGroup(questionId, type, options) {
     .join("");
 }
 
-/** The "I don't know" box a `_or_unknown` question renders: a real control's neighbour, with no name. */
-const UNKNOWN_BOX = `
-  <label for="q-unknown-box">
-    <input id="q-unknown-box" type="checkbox" />
+/**
+ * The "I don't know" box a `_or_unknown` question renders: its real
+ * neighbour, carrying the question's own id with an `-unknown` suffix and no
+ * `name`, exactly as OrUnknownField and DateOrUnknownField emit it.
+ */
+const unknownBox = (questionId) => `
+  <label for="q-${questionId}-unknown">
+    <input id="q-${questionId}-unknown" type="checkbox" />
     <span>I don't know</span>
   </label>`;
 
@@ -59,6 +63,37 @@ const CASE_ENDED_PROMPT = "What exactly does the certified record say about how 
 const COUNTY_PROMPT = "Which county handled this matter?";
 
 const CASES = [
+  {
+    // The shape the builder renders now: one Product Contract section per
+    // screen, several questions under one heading, each keeping its own
+    // q-<factId> identity. Every unanswered control has to be filled before
+    // Continue, so the filler answers the whole screen rather than the first
+    // control on it.
+    name: "a grouped section screen with several questions",
+    questionId: "county",
+    prompt: "Court and case number",
+    sectionScreen: true,
+    body: `<h2 id="packet-section-court_and_case_number">Court and case number</h2>
+      <h3 id="q-county-prompt">Which county handled this matter?</h3>
+      <input id="q-county" type="text" />${unknownBox("county")}
+      <h3 id="q-court-prompt">Which court handled this matter?</h3>
+      <input id="q-court" type="text" />
+      <h3 id="q-record_type-prompt">What kind of court record is this?</h3>
+      ${optionGroup("record_type", "radio", [
+        ["Court case", "A case handled by a court"],
+        ["Arrest only", "An arrest that never reached a court"]
+      ])}`,
+    async assert(page) {
+      equal(await page.locator("#q-county").inputValue(), "Hinds County", "the county is entered");
+      equal(await page.locator("#q-court").inputValue(), "Hinds County Circuit Court", "the court is entered");
+      equal(
+        await page.locator("input[type='radio']:checked").getAttribute("value"),
+        "Court case",
+        "the option group on the same screen is answered too"
+      );
+      await unchecked(page);
+    }
+  },
   {
     name: "single choice, localized labels — the certified-record question",
     questionId: "statutory_disposition_category",
@@ -78,7 +113,7 @@ const CASES = [
     name: "text with an 'I don't know' neighbour — the county question",
     questionId: "county",
     prompt: COUNTY_PROMPT,
-    body: `<input id="q-county" type="text" />${UNKNOWN_BOX}`,
+    body: `<input id="q-county" type="text" />${unknownBox("county")}`,
     async assert(page) {
       equal(await page.locator("#q-county").inputValue(), "Hinds County", "the county is entered");
       await unchecked(page);
@@ -88,7 +123,7 @@ const CASES = [
     name: "textarea with an 'I don't know' neighbour — the record-wording question",
     questionId: "disposition_record_wording",
     prompt: CASE_ENDED_PROMPT,
-    body: `<textarea id="q-disposition_record_wording"></textarea>${UNKNOWN_BOX}`,
+    body: `<textarea id="q-disposition_record_wording"></textarea>${unknownBox("disposition_record_wording")}`,
     async assert(page) {
       equal(
         await page.locator("#q-disposition_record_wording").inputValue(),
@@ -131,7 +166,7 @@ const CASES = [
     body: `<select id="q-sentence_completion_date-month"><option value=""></option><option value="01">January</option></select>
       <select id="q-sentence_completion_date-day"><option value=""></option><option value="15">15</option></select>
       <select id="q-sentence_completion_date-year"><option value=""></option><option value="2015">2015</option></select>
-      <input type="hidden" id="q-sentence_completion_date" />${UNKNOWN_BOX}`,
+      <input type="hidden" id="q-sentence_completion_date" />${unknownBox("sentence_completion_date")}`,
     async assert(page) {
       const parts = await page.locator("select").evaluateAll((nodes) => nodes.map((node) => node.value));
       equal(parts.join("-"), "01-15-2015", "every date part is set");
@@ -154,7 +189,7 @@ function equal(actual, expected, what) {
  */
 function unchecked(page) {
   return page
-    .locator("#q-unknown-box")
+    .locator("input[id$='-unknown']")
     .isChecked()
     .then((checked) => {
       if (checked) failures.push("the \"I don't know\" box was ticked, which answers the question differently");
@@ -168,7 +203,9 @@ const page = await browser.newPage();
 for (const testCase of CASES) {
   const before = failures.length;
   try {
-    await page.setContent(builderPage(testCase.questionId, testCase.prompt, testCase.body));
+    await page.setContent(testCase.sectionScreen
+      ? `<!doctype html><meta charset="utf-8"><body><div data-packet-information-builder="active">${testCase.body}</div></body>`
+      : builderPage(testCase.questionId, testCase.prompt, testCase.body));
     await answerBuilderStep(page);
     await testCase.assert(page);
   } catch (error) {

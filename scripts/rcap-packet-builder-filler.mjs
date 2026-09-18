@@ -110,11 +110,46 @@ export function chooseOption(questionId, prompt, optionValues) {
  * refuse at save with "Please answer this question to continue" and leave the
  * failure to be guessed at from a screenshot.
  */
-export async function answerBuilderStep(page, { redact = (value) => value } = {}) {
+/**
+ * Answers a whole builder screen.
+ *
+ * The builder used to render one question per screen. It now renders one
+ * packet-information SECTION per screen, so a screen may carry several
+ * controls and every unanswered one has to be filled before Continue. Each is
+ * answered by the same identity-based rules as before; nothing about how a
+ * single control is recognised or set has changed.
+ */
+export async function answerBuilderStep(page, options = {}) {
   const builder = page.locator(PACKET_BUILDER);
   await builder.waitFor({ state: "visible", timeout: 20_000 });
-  const prompt = await builder.locator("h1").innerText().catch(() => "");
-  const questionId = (await builderQuestionId(builder)) ?? "detail";
+  // Every question on this screen, by the id the application gives it.
+  const questionIds = await builder.evaluate((node) => {
+    const ids = new Set();
+    for (const control of node.querySelectorAll("[id^='q-'], [name^='q-']")) {
+      const raw = control.getAttribute("name") ?? control.getAttribute("id") ?? "";
+      const id = raw.replace(/^q-/, "").replace(/-(month|day|year|unknown|prompt|helper|error)$/, "");
+      if (id) ids.add(id);
+    }
+    return [...ids];
+  });
+  if (questionIds.length <= 1) return answerOneControl(page, options);
+  for (const questionId of questionIds) {
+    await answerOneControl(page, { ...options, questionId });
+  }
+}
+
+async function answerOneControl(page, { redact = (value) => value, questionId: only } = {}) {
+  const builder = page.locator(PACKET_BUILDER);
+  // The screen's own heading is an h1 when one question owns the screen and an
+  // h2 when a section does; the question's own prompt is an h3 inside a
+  // section. Whichever is present is read, so the refusal below can quote it.
+  const prompt = await builder.locator(only ? `[id='q-${only}-prompt']` : "h1, h2").first().innerText().catch(() => "");
+  const questionId = only ?? (await builderQuestionId(builder)) ?? "detail";
+  // When a section screen names the question, every selector below is scoped to
+  // that question's own controls. Without a name the screen carries one
+  // question and the unscoped selectors mean the same thing.
+  const named = only ? `[name='q-${only}']` : "[name^='q-']";
+  const identified = only ? `[id='q-${only}']` : "";
   const refuse = (kind, detail) => {
     throw new Error(
       `packet-information control not answerable: question ${JSON.stringify(questionId)}`
@@ -128,35 +163,37 @@ export async function answerBuilderStep(page, { redact = (value) => value } = {}
   // their control: OptionGroup gives every option the question's name, and the
   // unknown box has none. That box is a refusal to answer and is never ticked,
   // which also keeps this filler from inventing an answer the map never made.
-  const radios = builder.locator("input[type='radio'][name^='q-']:visible:enabled");
+  const radios = builder.locator(`input[type='radio']${named}:visible:enabled`);
   if (await radios.count()) {
-    if (await builder.locator("input[type='radio'][name^='q-']:visible:checked").count()) return;
+    if (await builder.locator(`input[type='radio']${named}:visible:checked`).count()) return;
     const values = await radios.evaluateAll((nodes) => nodes.map((node) => node.value).filter(Boolean));
     const chosen = chooseOption(questionId, prompt, values);
     if (!chosen) refuse("single-choice", `options ${JSON.stringify(values)}`);
-    await builder.locator(`input[type='radio'][name^='q-'][value=${JSON.stringify(chosen)}]`).first().check();
-    if (!(await builder.locator("input[type='radio'][name^='q-']:visible:checked").count())) {
+    await builder.locator(`input[type='radio']${named}[value=${JSON.stringify(chosen)}]`).first().check();
+    if (!(await builder.locator(`input[type='radio']${named}:visible:checked`).count())) {
       refuse("single-choice", `selecting ${JSON.stringify(chosen)} left nothing checked`);
     }
     return;
   }
 
-  const checkboxes = builder.locator("input[type='checkbox'][name^='q-']:visible:enabled");
+  const checkboxes = builder.locator(`input[type='checkbox']${named}:visible:enabled`);
   if (await checkboxes.count()) {
-    if (await builder.locator("input[type='checkbox'][name^='q-']:visible:checked").count()) return;
+    if (await builder.locator(`input[type='checkbox']${named}:visible:checked`).count()) return;
     const values = await checkboxes.evaluateAll((nodes) => nodes.map((node) => node.value).filter(Boolean));
     const chosen = values.length ? chooseOption(questionId, prompt, values) : null;
     const target = chosen
-      ? builder.locator(`input[type='checkbox'][name^='q-'][value=${JSON.stringify(chosen)}]`).first()
+      ? builder.locator(`input[type='checkbox']${named}[value=${JSON.stringify(chosen)}]`).first()
       : checkboxes.first();
     await target.check();
-    if (!(await builder.locator("input[type='checkbox'][name^='q-']:visible:checked").count())) {
+    if (!(await builder.locator(`input[type='checkbox']${named}:visible:checked`).count())) {
       refuse("multi-select", `options ${JSON.stringify(values)}`);
     }
     return;
   }
 
-  const text = builder.locator("input[type='text']:visible:enabled, input[type='number']:visible:enabled").first();
+  const text = builder.locator(only
+    ? `input${identified}[type='text']:visible:enabled, input${identified}[type='number']:visible:enabled`
+    : "input[type='text']:visible:enabled, input[type='number']:visible:enabled").first();
   if (await text.count()) {
     const current = (await text.inputValue().catch(() => "")).trim();
     if (!current) {
@@ -166,7 +203,7 @@ export async function answerBuilderStep(page, { redact = (value) => value } = {}
     return;
   }
 
-  const textarea = builder.locator("textarea:visible:enabled").first();
+  const textarea = builder.locator(only ? `textarea${identified}:visible:enabled` : "textarea:visible:enabled").first();
   if (await textarea.count()) {
     const current = (await textarea.inputValue().catch(() => "")).trim();
     if (!current) {
@@ -176,7 +213,9 @@ export async function answerBuilderStep(page, { redact = (value) => value } = {}
     return;
   }
 
-  const selects = builder.locator("select:visible:enabled");
+  const selects = builder.locator(only
+    ? `select[id^='q-${only}']:visible:enabled`
+    : "select:visible:enabled");
   const selectCount = await selects.count();
   if (selectCount === 3) {
     await selects.nth(0).selectOption("01");

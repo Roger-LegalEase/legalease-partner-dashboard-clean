@@ -19,6 +19,10 @@ import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
 import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
 import {
+  ConsumerCheckoutRenderPreflightError,
+  readyToPurchase
+} from "@/lib/expungement-ai/render-preflight";
+import {
   CONSUMER_PACKET_PRODUCT_ID,
   persistConsumerCheckoutBinding
 } from "@/lib/expungement-ai/consumer-payment-authority";
@@ -297,6 +301,38 @@ export async function createConsumerPacketCheckout({
     })
   }));
 
+  /**
+   * READY_TO_PURCHASE.
+   *
+   * Checkout does not open because packet information reached 100%. It opens
+   * because this exact matter can actually be bought: the owner and the matter
+   * are confirmed above, the route still verifies, the Grade-A fulfillment
+   * admission has passed, and now the packet the money is for is proven
+   * renderable from the facts the verification is bound to.
+   *
+   * The preflight composes nothing that anyone can reach. It persists nothing,
+   * creates no entitlement, consumes no credit and produces no artifact; it
+   * runs the real composer over the real verified facts and discards the
+   * result. What it leaves behind is a hash of the canonical render input, so
+   * the thing the participant pays against is nameable and comparable later.
+   *
+   * Refusing here costs a participant a wait. Not refusing here costs them $50
+   * for a packet this route cannot produce.
+   */
+  const purchaseReadiness = readyToPurchase({
+    snapshot: verifiedSnapshot,
+    verificationHash: verification.hash,
+    facts: {
+      ...verifiedSnapshot.screeningAnswers,
+      ...verifiedSnapshot.prefilledAnswers,
+      ...verifiedSnapshot.packetAnswers,
+      ...verifiedSnapshot.serverFacts
+    }
+  });
+  if (!purchaseReadiness.ready) {
+    throw new ConsumerCheckoutRenderPreflightError(purchaseReadiness.reason, purchaseReadiness.missingFactIds);
+  }
+
   const person = await resolveConsumerPersonId(userId);
   if (!person.ok) throw new ConsumerCheckoutTemporarilyUnavailableError();
   const binding: ConsumerCheckoutBinding = {
@@ -308,6 +344,11 @@ export async function createConsumerPacketCheckout({
     pathwayId: verifiedSnapshot.pathwayId,
     verificationHash: verification.hash
   };
+  // Evidence, not authority. The render-input hash is derived from the verified
+  // snapshot, so the render path recomputes it rather than trusting a stored
+  // copy; carrying it on the Session records which exact input the money was
+  // taken against.
+  const renderInputHashAtCheckout = purchaseReadiness.renderInputHash;
 
   const defaultSuccessUrl = absoluteExpungementAiUrl(`/briefcase/${encodeURIComponent(item.id)}?payment=return&session_id={CHECKOUT_SESSION_ID}`);
   const defaultCancelUrl = absoluteExpungementAiUrl(`/briefcase/${encodeURIComponent(item.id)}?checkout=canceled`);
@@ -400,7 +441,13 @@ export async function createConsumerPacketCheckout({
       throw new ConsumerCheckoutTemporarilyUnavailableError();
     }
 
-    const metadata = checkoutMetadata(binding, item);
+    const metadata = {
+      ...checkoutMetadata(binding, item),
+      // Which exact render input this order was taken against. Evidence for
+      // reconciliation and support; the render path recomputes the hash from
+      // the verified snapshot rather than trusting this copy.
+      render_input_hash: renderInputHashAtCheckout
+    };
     const session = await providerCall("create_session", () => (stripe as Stripe).checkout.sessions.create({
       mode: "payment",
       success_url: successUrl ?? defaultSuccessUrl,
