@@ -1,5 +1,7 @@
 import "server-only";
 
+import { createHash } from "node:crypto";
+
 import type Stripe from "stripe";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError, stripeSecretKeyIsLiveMode } from "@/lib/stripe/server";
@@ -507,7 +509,7 @@ export async function createConsumerPacketCheckout({
       // key would mint one Session per retry; a loop would mint one per
       // iteration. There is one attempt and no loop: if the successor is not
       // usable either, the request refuses.
-      const successorKey = `${createKey}:successor:${session.id}`;
+      const successorKey = checkoutSuccessorIdempotencyKey(createKey, session.id, sessionParams);
       const successor = await providerCall("create_successor_session", () =>
         (stripe as Stripe).checkout.sessions.create(sessionParams, { idempotencyKey: successorKey }));
       // Freshly read for the same reason as above: the successor key may itself
@@ -808,6 +810,27 @@ function sameOrigin(actual: string | null, expected: string): boolean {
   } catch {
     return false;
   }
+}
+
+function checkoutSuccessorIdempotencyKey(
+  createKey: string,
+  expiredSessionId: string,
+  sessionParams: Stripe.Checkout.SessionCreateParams
+) {
+  // Stripe caps idempotency keys at 255 characters and refuses reuse of a key
+  // with different request parameters. The old successor key appended a real
+  // Checkout Session id to the already-long base key, which can exceed that
+  // limit, and it survived request-shape changes without changing identity.
+  //
+  // Hash the complete successor identity instead: concurrent requests with the
+  // same order and exact parameters still converge on one Session, while a
+  // parameter-changing release gets a different key rather than colliding with
+  // Stripe's stored request. The v2 prefix also guarantees no collision with
+  // any successor key produced by the retired concatenated format.
+  const digest = createHash("sha256")
+    .update(JSON.stringify({ createKey, expiredSessionId, sessionParams }))
+    .digest("hex");
+  return `${CONSUMER_PACKET_PRODUCT_ID}:successor:v2:${digest}`;
 }
 
 function checkoutIdempotencyKey(
