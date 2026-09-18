@@ -1,4 +1,4 @@
-name: Customer creation production activate once
+name: Customer creation live zero-dollar order with CLAUDE4 once
 
 on:
   push:
@@ -9,63 +9,58 @@ on:
 
 permissions:
   contents: read
-  packages: read
   actions: read
 
 jobs:
-  activate:
+  live_order:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 45
     env:
-      APPLICATION_SHA: 8682bd00731e247a4fe93f39075c532476eb5c74
       TOOLS_SHA: 28593adbc0c20c51ea130d127c99d9a7e777422e
-      WORKER_SOURCE_SHA: 8682bd00731e247a4fe93f39075c532476eb5c74
-      WORKER_DIGEST: sha256:d11728c41116e76c92aa26220f9328708197e9ae185b71b13e2410bafba1e8ea
-      SMOKE_RUN_ID: "35364686186"
+      PRODUCTION_DEPLOYMENT_ID: dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK
+      RESUME_MATTER_ID: ""
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Verify exact tools commit is canonical and check it out
+      - name: Verify tools commit is canonical and check it out
         run: |
           set -euo pipefail
           git fetch --no-tags origin claude/legalease-sprint-captain-utucnw
           git cat-file -e "$TOOLS_SHA^{commit}"
           git merge-base --is-ancestor "$TOOLS_SHA" origin/claude/legalease-sprint-captain-utucnw
-          git diff --quiet "$APPLICATION_SHA" "$TOOLS_SHA" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts
-          git diff --quiet "$WORKER_SOURCE_SHA" "$TOOLS_SHA" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src
           git checkout --detach "$TOOLS_SHA"
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
-      - name: Download exact successful smoke evidence
-        uses: actions/download-artifact@v4
-        with:
-          name: customer-creation-smoke-35364686186
-          path: prior-production-smoke-evidence
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: 35364686186
+      - name: Install frozen dependencies
+        run: npm ci
 
-      - name: Activate customer-creation deployment
+      - name: Run exact authorized live order
         env:
-          RCAP_PRODUCTION_PHASE: activate
-          RCAP_APPLICATION_SHA: ${{ env.APPLICATION_SHA }}
-          RCAP_WORKER_SOURCE_SHA: ${{ env.WORKER_SOURCE_SHA }}
-          RCAP_WORKER_DIGEST: ${{ env.WORKER_DIGEST }}
-          RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE: prior-production-smoke-evidence/production-canary-smoke.json
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          RCAP_PRODUCTION_PHASE: live_zero_dollar_order
+          RCAP_PUBLIC_ORIGIN: https://expungement.ai
+          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
+          RCAP_PRODUCTION_SUPABASE_URL: https://wwtwtsmywnckfkdaqqeg.supabase.co
+          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+          RCAP_PROBE_BROWSERS: chromium
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-        run: node scripts/rcap-production-activate.mjs
+          RCAP_LIVE_PROMOTION_CODE: CLAUDE4
+          RCAP_RESUME_MATTER_ID: ${{ env.RESUME_MATTER_ID }}
+          RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ env.PRODUCTION_DEPLOYMENT_ID }}
+          RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: node scripts/rcap-production-save-transition-probe.mjs
 
-      - name: Upload activation evidence
+      - name: Upload live-order evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: customer-creation-activation-${{ github.run_id }}
+          name: customer-creation-live-order-${{ github.run_id }}
           path: production-canary-evidence/
           if-no-files-found: error
