@@ -23,8 +23,8 @@ check(workflow.includes("node scripts/verify-rcap-production-activation.mjs"), "
 check(workflow.includes("node scripts/test-rcap-production-activation-mutations.mjs"), "workflow runs activation mutation proof");
 check(workflow.includes("node scripts/rcap-production-activate.mjs"), "workflow invokes only the dedicated activation control");
 
-check(script.includes('const STAGED_DEPLOYMENT_ID = "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51"'), "exact staged deployment is pinned");
-check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP"'), "exact rollback deployment is pinned");
+check(script.includes('const STAGED_DEPLOYMENT_ID = "dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV"'), "exact staged deployment is pinned");
+check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51"'), "exact rollback deployment is pinned");
 check(!script.includes('"dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL"'), "the pre-migration deployment is named by no pin, so it cannot be a recovery target");
 // The pair and the smoke run this release supersedes. The superseded staged id
 // is the deployment Production serves now, so carrying it forward would promote
