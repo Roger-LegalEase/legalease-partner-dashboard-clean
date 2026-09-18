@@ -1,4 +1,4 @@
-name: Read the exact refused CLAUDE4 Session once
+name: Inspect the CLAUDE4 Session customer shape once
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      TOOLS_SHA: 681ca7a7b225258cbce399f4bca5327c26f01c9d
+      TOOLS_SHA: c71bd4a67f366d47302aeba7aebe1a1095a535e9
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -45,6 +45,7 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           RCAP_STRIPE_READ_KEY: ${{ secrets.RCAP_STRIPE_READ_KEY }}
           RCAP_PROMOTION_CODE: CLAUDE4
+          RCAP_CHECKOUT_SESSION_ID: cs_live_b1H8b8JhxrBq0nrDDPEizF9Fkv8UeXMsna8ipJpHydTUYWekCR3sVyprjj
           RCAP_EXPECTED_PRODUCT_ID: prod_VHEHkvH7dSvGv7
           RCAP_DASHBOARD_PRODUCT_NAME: RCAP acceptance consumer packet
         run: node scripts/rcap-stripe-coupon-object-diagnosis.mjs
@@ -53,6 +54,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: claude4-refused-session-${{ github.run_id }}
+          name: claude4-session-shape-${{ github.run_id }}
           path: production-canary-evidence/
           if-no-files-found: error
