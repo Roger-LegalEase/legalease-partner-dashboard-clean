@@ -23,8 +23,19 @@ import {
 } from "@/lib/expungement-ai/verification-cas";
 import {
   packetSpecificationFactFor,
+  packetSpecificationFor,
   type PacketSpecificationFact
 } from "@/lib/rcap/grade-a/packet-specification";
+import { MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS, routeSafetyGateFactIds } from "@/lib/expungement-ai/packet-route-safety";
+import { routeCollectionOverrideFor } from "@/lib/expungement-ai/packet-collection-overrides";
+import {
+  participantOwesFact,
+  prepayGateFactIds,
+  resolvePacketCollection,
+  resolvedFactValues,
+  type PacketCollectionResolution
+} from "@/lib/expungement-ai/packet-collection";
+import { pathwayRelevantFactIds } from "@/lib/rcap-engine/route-fact-relevance";
 
 export type PacketInformationStage = "not_started" | "in_progress" | "facts_complete" | "ready_to_generate";
 
@@ -52,6 +63,21 @@ export type PacketVerificationManifest = {
   systemContextKeys: string[];
 };
 
+/**
+ * One participant section of the builder, carrying the questions it asks.
+ *
+ * The heading travels with its Spanish translation because the section is
+ * authored here rather than in the component, and a heading that reached the
+ * participant without one would be an English-only surface.
+ */
+export type PacketInformationSection = {
+  id: string;
+  heading: string;
+  description: string;
+  translations: { es: { heading: string; description: string } };
+  questionIds: string[];
+};
+
 export type PacketInformationModel = {
   stateCode: string;
   stateName: string;
@@ -60,6 +86,8 @@ export type PacketInformationModel = {
   packetPlan: PacketPlan | null;
   questions: ProfileQuestion[];
   builderQuestions: ProfileQuestion[];
+  /** The grouping the builder renders. Empty where the route cannot be resolved. */
+  builderSections: PacketInformationSection[];
   initialAnswers: Record<string, AnswerValue>;
   screeningAnswers: Record<string, AnswerValue>;
   /** Explicit protected-authority facts; arbitrary persisted serverFacts are discarded. */
@@ -83,6 +111,7 @@ export type ProtectedPacketInformationModel = Pick<
   | "packetPlan"
   | "questions"
   | "builderQuestions"
+  | "builderSections"
   | "initialAnswers"
   | "screeningAnswers"
   | "serverFacts"
@@ -170,6 +199,25 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     }
   }
 
+  // The collection policy, applied to every route rather than to one. It only
+  // ever ADDS a value the participant already gave or that follows
+  // deterministically from one; an id already present keeps whatever it has,
+  // so nothing above this line is overwritten and no saved answer is touched.
+  const collection = packetCollectionFor({
+    jurisdiction: profile.jurisdiction.code,
+    pathwayId,
+    requiredInputIds,
+    serverFacts,
+    screeningAnswers,
+    prefilledAnswers,
+    savedAnswers
+  });
+  if (collection) {
+    for (const [id, value] of Object.entries(resolvedFactValues(collection))) {
+      if (!(id in serverFacts) && !answerIsKnown(initialAnswers[id])) initialAnswers[id] = value;
+    }
+  }
+
   const questionById = new Map<string, ProfileQuestion>();
   for (const question of allPublicQuestions(publicProfile)) {
     questionById.set(question.id, toProfileQuestion(question));
@@ -197,10 +245,12 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
       if (known && !questions.some((question) => question.id === id)) questions.push({ ...known, required: true, contextOnly: false });
     }
   }
-  const builderQuestions = mississippiNonConviction
-    ? questions.filter((question) => !["offense_category", "offense_level", "sentence_completion_date", "court_requirements_completed", "ownership_scope", "jurisdiction_scope", "resolved_timing_bucket"].includes(question.id))
-    : questions;
-  const missingInputIds = missingRequiredInputs(requiredInputIds, serverFacts, initialAnswers);
+  const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
+  const missingInputIds = missingRequiredInputs(
+    collectionGateInputIds(collection, requiredInputIds, serverFacts),
+    serverFacts,
+    initialAnswers
+  );
   const verificationSummary = verificationSummaryFor(flow, questionById, serverFacts);
   const verificationContext = verificationContextFor(
     verificationContextSourceFor(item, flow, profile, pathwayId)
@@ -221,6 +271,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     packetPlan,
     questions,
     builderQuestions,
+    builderSections: builderSectionsFor(collection, builderQuestions),
     initialAnswers,
     screeningAnswers,
     serverFacts,
@@ -515,14 +566,22 @@ export function protectedPacketInformationModelFor(
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
   const requiredInputIds = stringArray(snapshot.requiredInputIds);
   if (!canonicalEqual(requiredInputIds, packetPlan?.requiredInputIds ?? [])) return null;
-  const missingInputIds = missingRequiredInputs(requiredInputIds, serverFacts, initialAnswers);
   const questionSurface = protectedPacketQuestionSurface(
     profile,
     snapshot.pathwayId,
     screeningAnswers,
     requiredInputIds,
     serverFacts,
-    new Set(Object.keys(initialAnswers).filter((id) => answerIsKnown(initialAnswers[id])))
+    prefilledAnswers,
+    packetAnswers
+  );
+  // What the participant still owes, which is what "missing" has always meant.
+  // Where the route cannot be resolved this is every required input the server
+  // does not own -- the behaviour this line had before the collection policy.
+  const missingInputIds = missingRequiredInputs(
+    collectionGateInputIds(questionSurface.collection, requiredInputIds, serverFacts),
+    serverFacts,
+    initialAnswers
   );
   const summaryFlow: CommercialFlow = {
     screening: { answers: screeningAnswers },
@@ -548,6 +607,7 @@ export function protectedPacketInformationModelFor(
     packetPlan,
     questions: questionSurface.questions,
     builderQuestions: questionSurface.builderQuestions,
+    builderSections: questionSurface.builderSections,
     initialAnswers,
     screeningAnswers,
     prefilledAnswers,
@@ -570,45 +630,169 @@ export function protectedPacketInformationModelFor(
 
 type ProtectedPacketAuthoritySnapshot = PacketVerificationSnapshot | ProtectedPacketDraftSnapshot;
 
-// Packet inputs the Mississippi non-conviction route carries forward from the
-// participant's own screening answers instead of asking again: the offense
-// category is the charge level the participant chose, and sentence completion
-// is the court-requirements answer (the evaluator treats the two as the same
-// completion fact). Nothing is invented: an unsure or absent screening answer
-// carries nothing, and the builder then asks the question itself.
+/**
+ * Resolve one route's required facts to their collection classes.
+ *
+ * This is the single point where packet authority ("what the finished packet
+ * must know") meets collection policy ("how each of those facts is obtained").
+ * It returns null only where the route itself cannot be read, which every
+ * caller treats as it always has: fail closed, ask everything.
+ */
+export function packetCollectionFor(input: {
+  jurisdiction: string;
+  pathwayId: string | null;
+  requiredInputIds: string[];
+  serverFacts: Record<string, AnswerValue>;
+  screeningAnswers: Record<string, AnswerValue>;
+  prefilledAnswers?: Record<string, AnswerValue>;
+  savedAnswers?: Record<string, AnswerValue>;
+}): PacketCollectionResolution | null {
+  const profile = getProfileByJurisdiction(input.jurisdiction);
+  if (!profile) return null;
+  const pathway = profile.pathways.find((candidate) => candidate.id === input.pathwayId) ?? null;
+  const decidingFactIds = new Set<string>([
+    ...(pathway ? pathwayRelevantFactIds(profile, pathway) : []),
+    ...routeSafetyGateFactIds(input.jurisdiction, input.pathwayId)
+  ]);
+  return resolvePacketCollection({
+    jurisdiction: input.jurisdiction,
+    pathwayId: input.pathwayId,
+    requiredInputIds: input.requiredInputIds,
+    serverFacts: input.serverFacts,
+    screeningAnswers: input.screeningAnswers,
+    prefilledAnswers: input.prefilledAnswers,
+    savedAnswers: input.savedAnswers,
+    specification: packetSpecificationFor(`${input.jurisdiction}:${input.pathwayId ?? ""}`) ?? null,
+    routeDecidingFactIds: decidingFactIds,
+    override: routeCollectionOverrideFor(`${input.jurisdiction}:${input.pathwayId ?? ""}`)
+  });
+}
+
+/**
+ * Packet inputs a route carries forward instead of asking again.
+ *
+ * This used to be one hand-written Mississippi rule. It is now the collection
+ * policy's own answer for every route: a fact the participant already gave in
+ * screening is reused under the id the packet knows it by, and a fact that
+ * follows deterministically from another is computed. The two Mississippi
+ * carries this function used to perform are both still performed, by the
+ * general rule rather than by a special case —
+ *
+ *   offense_category, which has no question of its own and is the
+ *   classification of the offense the participant already chose as the charge
+ *   level, and which carries nothing when that answer is unsure or absent;
+ *
+ *   sentence_completion_date, which the profile defines as a completion STATUS
+ *   rather than a date, and which carries only from an explicit "yes" to
+ *   everything the court ordered. "No", "not sure" and "not applicable" are
+ *   about obligations this fact does not cover, so none of them carries and
+ *   the builder asks the profile's own question.
+ *
+ * Nothing is invented anywhere: where the inputs do not determine the answer,
+ * nothing carries and the fact stays a question.
+ */
 export function carriedForwardPacketAnswers(
   jurisdiction: string,
   pathwayId: string | null,
-  screeningAnswers: Record<string, AnswerValue>
+  screeningAnswers: Record<string, AnswerValue>,
+  savedAnswers: Record<string, AnswerValue> = {},
+  requiredInputIds?: string[]
 ): Record<string, AnswerValue> {
-  if (jurisdiction !== "MS" || pathwayId !== "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") return {};
-  const carried: Record<string, AnswerValue> = {};
+  const serverFacts = canonicalServerFacts(jurisdiction, pathwayId);
+  const required = requiredInputIds
+    ?? packetRequiredInputIdsFor(jurisdiction, pathwayId);
+  if (required.length === 0) return {};
+  const resolution = packetCollectionFor({
+    jurisdiction,
+    pathwayId,
+    requiredInputIds: required,
+    serverFacts,
+    screeningAnswers,
+    savedAnswers
+  });
+  if (!resolution) return {};
+  // Server facts travel in their own map and are stripped from the prefilled
+  // one anyway; carrying them here would only make two maps disagree.
+  return Object.fromEntries(
+    Object.entries(resolvedFactValues(resolution)).filter(([id]) => !(id in serverFacts))
+  );
+}
 
-  // offense_category has no question of its own; it is the classification of
-  // the offense, which is exactly what the participant chose as the charge
-  // level. An unsure or absent charge level classifies nothing and carries
-  // nothing.
-  const offenseLevel = answerTextRaw(screeningAnswers.offense_level).trim();
-  if (offenseLevel && !/not sure/i.test(offenseLevel)) carried.offense_category = offenseLevel;
+/**
+ * The questions the builder actually renders, in section order.
+ *
+ * A question survives here only while its fact is still the participant's to
+ * answer, and the order follows the participant sections rather than the order
+ * the packet plan happens to list its inputs in. Questions the review surface
+ * needs but the builder never asked — the route facts appended for
+ * verification — are not required inputs and so are never included, which is
+ * the behaviour they already had.
+ *
+ * Without a resolution this falls back to exactly what the builder rendered
+ * before: every required input the server does not own.
+ */
+function builderQuestionsFor(
+  questions: ProfileQuestion[],
+  collection: PacketCollectionResolution | null,
+  requiredInputIds: string[],
+  serverFacts: Record<string, AnswerValue>
+): ProfileQuestion[] {
+  const requiredOfParticipant = new Set(requiredInputIds.filter((id) => !(id in serverFacts)));
+  if (!collection) return questions.filter((question) => requiredOfParticipant.has(question.id));
 
-  // sentence_completion_date is named like a date but the profile defines it as
-  // a yes/no/unsure completion STATUS ("Is the sentence complete, including
-  // incarceration, probation, parole, supervision, treatment, and community
-  // service?"), and the evaluator only ever reads it through isNegative and
-  // isExplicitUnknownAnswer. "Yes, I completed everything the court ordered"
-  // entails that the sentence the court ordered is complete, so that one
-  // answer, and only that one, carries.
-  //
-  // Nothing else carries. "No" and "not sure" are about everything the court
-  // ordered, which includes obligations this fact does not cover, so they
-  // would be an inference rather than the participant's answer; "not
-  // applicable" is not an assertion that anything is complete. In each of
-  // those cases the builder asks the profile's own completion question and an
-  // unknown answer stays unknown.
-  if (answerTextRaw(screeningAnswers.court_requirements_completed).trim().toLowerCase() === "yes") {
-    carried.sentence_completion_date = "Yes";
+  const owed = new Set(prepayGateFactIds(collection));
+  const order = new Map<string, number>();
+  let position = 0;
+  for (const section of collection.groupedParticipantSections) {
+    for (const factId of section.factIds) order.set(factId, position++);
   }
-  return carried;
+  return questions
+    .filter((question) => owed.has(question.id))
+    .sort((left, right) => (order.get(left.id) ?? Number.MAX_SAFE_INTEGER) - (order.get(right.id) ?? Number.MAX_SAFE_INTEGER));
+}
+
+/** The participant sections, carrying only the facts the builder still asks. */
+function builderSectionsFor(
+  collection: PacketCollectionResolution | null,
+  builderQuestions: ProfileQuestion[]
+): PacketInformationSection[] {
+  if (!collection) return [];
+  const rendered = new Set(builderQuestions.map((question) => question.id));
+  return collection.groupedParticipantSections
+    .map((section) => ({
+      id: section.id,
+      heading: section.heading,
+      description: section.description,
+      translations: section.translations,
+      questionIds: section.factIds.filter((factId) => rendered.has(factId))
+    }))
+    .filter((section) => section.questionIds.length > 0);
+}
+
+function packetRequiredInputIdsFor(jurisdiction: string, pathwayId: string | null): string[] {
+  if (!pathwayId) return [];
+  const profile = getProfileByJurisdiction(jurisdiction);
+  if (!profile) return [];
+  return packetPlanForPathway(profile, pathwayId)?.requiredInputIds ?? [];
+}
+
+/**
+ * The facts the participant still owes on this route, which is what "missing"
+ * has always meant. A fact leaves this set only by ceasing to be theirs to
+ * answer — the server owns it, it follows deterministically from another
+ * answer, another actor fills it later, or its own gate says it does not apply
+ * to this matter — and each of those keeps a recorded disposition.
+ *
+ * Where the route cannot be resolved, every required input is owed, which is
+ * exactly the behaviour this function had before the collection policy existed.
+ */
+function collectionGateInputIds(
+  resolution: PacketCollectionResolution | null,
+  requiredInputIds: string[],
+  serverFacts: Record<string, AnswerValue>
+): string[] {
+  if (!resolution) return requiredInputIds.filter((id) => !(id in serverFacts));
+  return prepayGateFactIds(resolution);
 }
 
 function protectedPacketQuestionSurface(
@@ -617,7 +801,8 @@ function protectedPacketQuestionSurface(
   screeningAnswers: Record<string, AnswerValue>,
   requiredInputIds: string[],
   serverFacts: Record<string, AnswerValue>,
-  answeredIds: ReadonlySet<string> = new Set()
+  prefilledAnswers: Record<string, AnswerValue> = {},
+  savedAnswers: Record<string, AnswerValue> = {}
 ) {
   const questionById = new Map<string, ProfileQuestion>();
   for (const question of allPublicQuestions(projectPublicProfile(profile))) {
@@ -651,17 +836,23 @@ function protectedPacketQuestionSurface(
       }
     }
   }
-  // Screening-answered inputs never re-appear in the builder. The two carried-
-  // forward inputs stay hidden only while they are answered; when nothing could
-  // be carried forward the builder asks them, so a matter can never be stuck
-  // as incomplete on a question it never shows.
-  const builderQuestions = mississippiNonConviction
-    ? questions.filter((question) => !(
-      ["offense_level", "court_requirements_completed", "ownership_scope", "jurisdiction_scope", "resolved_timing_bucket"].includes(question.id)
-      || (["offense_category", "sentence_completion_date"].includes(question.id) && answeredIds.has(question.id))
-    ))
-    : questions;
-  return { questionById, questions, builderQuestions };
+  // Which of these the builder actually asks, and in what grouping, is the
+  // collection policy's decision. A fact leaves the builder only by ceasing to
+  // be the participant's to answer, and a fact that could not be carried
+  // forward is asked, so a matter can never be stuck as incomplete on a
+  // question it never shows.
+  const collection = packetCollectionFor({
+    jurisdiction: profile.jurisdiction.code,
+    pathwayId,
+    requiredInputIds,
+    serverFacts,
+    screeningAnswers,
+    prefilledAnswers,
+    savedAnswers
+  });
+  const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
+  const builderSections = builderSectionsFor(collection, builderQuestions);
+  return { questionById, questions, builderQuestions, builderSections, collection };
 }
 
 function protectedAuthoritySnapshotFor(
@@ -762,7 +953,13 @@ export function protectedPacketDraftSeedFromAuthoritative(input: {
   const factMaps = sourceDisjointFactMaps({
     screeningAnswers: input.screeningAnswers,
     prefilledAnswers: {
-      ...carriedForwardPacketAnswers(evaluation.jurisdiction, evaluation.pathwayId ?? null, input.screeningAnswers),
+      ...carriedForwardPacketAnswers(
+        evaluation.jurisdiction,
+        evaluation.pathwayId ?? null,
+        input.screeningAnswers,
+        input.packetAnswers ?? {},
+        packetPlan?.requiredInputIds
+      ),
       ...(input.prefilledAnswers ?? {})
     },
     packetAnswers: input.packetAnswers,
@@ -1123,17 +1320,10 @@ export function packetInformationReviewSafety(
 export function mississippiNonConvictionPacketSafety(
   answers: Record<string, AnswerValue>
 ): { safe: true; reason: string } | { safe: false; reason: string } {
-  const requiredNeutralFacts: Array<[string, string]> = [
-    ["pending_cases", "No"],
-    ["trafficking_status", "No"],
-    ["prior_relief", "No"],
-    ["sentence_completion_date", "Yes"],
-    ["financial_obligations", "Yes"],
-    ["nonadjudication_or_diversion", "No"],
-    ["open_co_defendant_matter", "No"],
-    ["actual_arrest", "Yes"],
-    ["release_confirmed", "Yes"]
-  ];
+  // The same list the collection policy reads, so a fact this gate decides on
+  // can never be classified as one the participant is not asked before
+  // Checkout. The gate and its thresholds are unchanged.
+  const requiredNeutralFacts = MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS;
   for (const [id, expected] of requiredNeutralFacts) {
     if (answerText(answers[id]) !== expected.toLowerCase()) {
       return { safe: false, reason: `route_changing_answer:${id}` };

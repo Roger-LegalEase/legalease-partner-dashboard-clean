@@ -131,6 +131,31 @@ export function pathwayRelevantFactIds(profile: EngineProfile, pathway: Compiled
 }
 
 /**
+ * Facts that decide whether this route is the right one and whether it may be
+ * sold: the universal prepay facts, this pathway's own clauses, the decision
+ * rules that name it, the exclusions and the waiting rules.
+ *
+ * This is deliberately NARROWER than `pathwayRelevantFactIds`, which also
+ * sweeps in the packet generator's own inputs. That sweep is right for
+ * deciding whether an "I'm not sure" should block, and wrong for deciding
+ * which facts confirm the paid route: it would classify every caption and
+ * identity field the packet needs as a payment-deciding fact. Neither function
+ * changes the other; they answer different questions.
+ */
+export function routeDecidingFactIds(profile: EngineProfile, pathway: CompiledPathway): Set<string> {
+  const deciding = new Set<string>(UNIVERSAL_PREPAY_FACT_IDS);
+  collectFieldIds(pathway, deciding);
+  for (const rule of ((profile as { orderedDecisionRules?: DecisionRule[] }).orderedDecisionRules ?? [])) {
+    const candidates = rule.candidatePathwayIds ?? [];
+    if (candidates.length === 0 || candidates.includes(pathway.id)) collectFieldIds(rule, deciding);
+  }
+  collectFieldIds((profile as { exclusionRules?: unknown }).exclusionRules, deciding);
+  collectFieldIds((profile as { waitingPeriodRules?: unknown }).waitingPeriodRules, deciding);
+  for (const id of ROUTE_ESCALATION_FACT_IDS[`${profile.jurisdiction.code}:${pathway.id}`] ?? []) deciding.add(id);
+  return deciding;
+}
+
+/**
  * Facts relevant to the participant right now.
  *
  * With a route selected, that route decides. With none selected, every pathway
