@@ -62,6 +62,17 @@ const PHASE_VERIFY = "save_transition_verify";
 // promotion code that must clear the total to zero. The code is never committed:
 // it arrives as an input and is redacted out of every artifact.
 const PHASE_LIVE_ORDER = "live_zero_dollar_order";
+// The ordinary payable checkout. It runs the same verify journey and opens the
+// same Stripe Checkout Session, at the regular price and with no promotion code
+// at all, and then stops: the participant's own payment is a human action taken
+// on Stripe's page, not something this probe performs. It enters no promotion
+// code, no email and no card, and submits nothing.
+//
+// It exists because the zero-dollar phase refuses to run without a code, by
+// design -- that refusal is what stops this file from ever placing a paid order
+// on its own. Opening a payable Session and handing it over is a different act
+// from paying for one, and this phase does only the first.
+const PHASE_OPEN_PAYABLE = "live_open_payable_checkout";
 const SUPPORTED_BROWSERS = Object.freeze(["chromium", "webkit"]);
 
 const SCREENING_PATH = "/expungement-ai/screening/ms";
@@ -123,11 +134,17 @@ const EVIDENCE_FILE = path.join(EVIDENCE_DIR, `production-save-transition-${PHAS
 const SHOTS_DIR = path.join(EVIDENCE_DIR, "save-transition-screenshots", PHASE);
 
 // --- input contract -----------------------------------------------------------
-if (PHASE !== PHASE_REPRODUCE && PHASE !== PHASE_VERIFY && PHASE !== PHASE_LIVE_ORDER) {
-  fail(`RCAP_PRODUCTION_PHASE must be ${PHASE_REPRODUCE}, ${PHASE_VERIFY} or ${PHASE_LIVE_ORDER}.`);
+if (PHASE !== PHASE_REPRODUCE && PHASE !== PHASE_VERIFY && PHASE !== PHASE_LIVE_ORDER && PHASE !== PHASE_OPEN_PAYABLE) {
+  fail(`RCAP_PRODUCTION_PHASE must be ${PHASE_REPRODUCE}, ${PHASE_VERIFY}, ${PHASE_LIVE_ORDER} or ${PHASE_OPEN_PAYABLE}.`);
 }
 if (PHASE === PHASE_LIVE_ORDER && !LIVE_PROMOTION_CODE) {
   fail(`${PHASE_LIVE_ORDER} requires RCAP_LIVE_PROMOTION_CODE. Without a code that clears the total, this phase would place a paid order, which it is not authorized to do.`);
+}
+// The payable phase refuses a promotion code outright. Accepting one would
+// make it the zero-dollar phase wearing another name, and the point of this
+// phase is that the order it opens is the ordinary one.
+if (PHASE === PHASE_OPEN_PAYABLE && LIVE_PROMOTION_CODE) {
+  fail(`${PHASE_OPEN_PAYABLE} must not be given RCAP_LIVE_PROMOTION_CODE: it opens the ordinary payable order and enters no code.`);
 }
 if (RESUME_MATTER_ID && !validUuid(RESUME_MATTER_ID)) {
   fail("RCAP_RESUME_MATTER_ID must be one exact matter id.");
@@ -983,6 +1000,38 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
   // ad-hoc Product is invisible by id and the catalog one has to be recognised
   // by the name it carries in the catalog. The ids are still recorded for the
   // cases where the page does carry them.
+  // The ordinary payable order stops here, with the Session open and handed
+  // over. Everything below this point belongs to the zero-dollar path: a
+  // promotion code, and past it a submit. Neither is this phase's to perform,
+  // and the payment itself is the participant's own action on Stripe's page.
+  if (PHASE === PHASE_OPEN_PAYABLE) {
+    order.checkoutUrl = page.url();
+    const opened = await managementApi(`/v1/projects/${PRODUCTION_PROJECT_REF}/database/query`, {
+      method: "POST",
+      body: {
+        query: `select checkout_session_id, payment_status, packet_status, amount_cents, regular_price_cents
+                  from public.consumer_briefcase_items where id = '${matterId.replaceAll("'", "''")}' limit 1`
+      }
+    });
+    const openedRow = Array.isArray(opened.json) ? opened.json[0] ?? null : null;
+    order.persistedCheckoutSessionId = openedRow?.checkout_session_id ?? null;
+    order.settlement = openedRow;
+    record(
+      "payable_checkout_is_open_and_nothing_was_submitted",
+      order.reachedStripe
+        && typeof order.persistedCheckoutSessionId === "string"
+        && order.persistedCheckoutSessionId.startsWith("cs_live_")
+        && order.promotionEntered === false
+        && order.submitted === false,
+      `Stripe's hosted Checkout page is open at ${JSON.stringify(order.checkoutUrl)};`
+        + ` the Session persisted against matter ${matterId} is ${JSON.stringify(order.persistedCheckoutSessionId)};`
+        + ` the matter row reads payment_status=${openedRow?.payment_status}, packet_status=${openedRow?.packet_status},`
+        + ` regular_price_cents=${openedRow?.regular_price_cents}.`
+        + ` No promotion code was entered, no email or card details were filled, and nothing was submitted.`
+    );
+    return order;
+  }
+
   order.checkoutProductIds = await readStripeProductIds(page);
   order.couponProductId = COUPON_ALLOWED_PRODUCT_ID;
   const checkoutBody = await page.locator("body").innerText().catch(() => "");
@@ -1573,7 +1622,7 @@ async function verifyPhase() {
         + ` the review page rendered the verification panel (${journey.panelStateBeforeVerify} before, ${journey.panelStateAfterVerify} after)`
         + ` and Final verification returned HTTP ${journey.verifyStatus}`
     );
-    if (PHASE === PHASE_LIVE_ORDER) {
+    if (PHASE === PHASE_LIVE_ORDER || PHASE === PHASE_OPEN_PAYABLE) {
       // The authorized live order continues from exactly here, in this same
       // signed-in session, on the matter this journey just verified.
       record(
