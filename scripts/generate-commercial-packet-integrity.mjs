@@ -37,6 +37,8 @@ const { legalRouteContract } = await import("@/lib/legal-authority/index");
 const { resolveRoute } = await import("@/lib/legal-authority/resolve-route");
 const { isConsumerPaymentAllowed } = await import("@/lib/expungement-ai/eligibility-adapter");
 const { packetFulfillmentAuthority } = await import("@/lib/expungement-ai/packet-fulfillment-authority");
+const { fulfillmentAuthorityFor } = await import("@/lib/rcap/fulfillment/grade-a-admission");
+const { composablePacketSpecificationFor } = await import("@/lib/rcap/grade-a/packet-specification");
 const fulfillmentLedger = JSON.parse(fs.readFileSync("data/rcap-ledger/packet-fulfillment-records.json", "utf8"));
 const FULFILLED = new Map((fulfillmentLedger.records ?? []).map((record) => [record.routeKey, record]));
 const withdrawalLedger = JSON.parse(fs.readFileSync("data/rcap-ledger/fulfillment-authority-withdrawals.json", "utf8"));
@@ -112,6 +114,21 @@ for (const witness of witnesses) {
   const packetRoute = resolvePacketRoute({ state: jurisdiction, pathway: pathwayId, trackId: terminal.selectedTrackId ?? null });
   const evaluatorPaymentAllowed = terminal.paymentAllowed === true;
   const creditConsumable = packetRoute.creditConsumable === true;
+  /**
+   * The denominator is the intended-commercial universe, and a fulfillment
+   * record is not part of deciding it.
+   *
+   * Membership used to include "or a fulfillment record vouches for it", which
+   * made the denominator a function of the proof ledger: withdrawing an
+   * unearned record then deleted the route from the census, which is the one
+   * thing a census must never do. A route is here because the product intends
+   * to sell it or to spend a sponsored credit on it. Whether it may is the
+   * next question, answered per row, and answering it can never change who is
+   * being asked.
+   */
+  const authority = fulfillmentAuthorityFor(witness.pathwayKey);
+  const intendedPaid = authority?.serviceDisposition === "paid_packet_intended";
+  const inDenominator = evaluatorPaymentAllowed || creditConsumable || intendedPaid;
   // Commercial means it can take money or a sponsored credit. Either is enough
   // to require an account of what the participant receives.
   // A route enters the census if it can take money or a sponsored credit, OR if
@@ -119,31 +136,16 @@ for (const witness of witnesses) {
   // packet be proven while both its commercial postures stay held, and a proven
   // packet that nothing accounts for is exactly the gap this census exists to
   // close — in the other direction.
-  if (!evaluatorPaymentAllowed && !creditConsumable && !FULFILLED.has(witness.pathwayKey)) {
+  if (!inDenominator) {
     // A route leaving the commercial denominator is accounted for by name. The
     // census fell from 54 routes to 30 the moment ADR-0004 withdrew the legacy
     // generators' credit-consumability, and a denominator that shrinks without
     // an explanation is indistinguishable from one that was quietly edited.
-    // A withdrawn fulfillment record is the other way a route leaves this
-    // denominator, and it leaves for a different reason than ADR-0004 gave.
-    // Recording it with the legacy wording would file it under a retirement it
-    // was never part of, and recording it nowhere would be the unexplained
-    // shrink this accounting exists to prevent.
-    const withdrawn = WITHDRAWN.get(witness.pathwayKey);
-    if (withdrawn) {
-      departures.push({
-        route: witness.pathwayKey,
-        jurisdiction,
-        pathway: pathwayId,
-        wasCommercialBecause: "it held a fulfillment record, which is what put it in this denominator",
-        leftBecause: `${withdrawn.reason} The record was withdrawn on ${withdrawn.withdrawnOn}, missing ${withdrawn.missingProofs.join(", ")}.`,
-        stillRenders: packetRoute.rendererKind,
-        note: "The route, its packet specification, its sources and its mappings are preserved; only the "
-          + "claim of proven authority was withdrawn. No live commercial authority was removed, because "
-          + "checkout, sponsorship and credit consumption were already refused. It may earn a new record "
-          + "once every required proof exists. Recorded in data/rcap-ledger/fulfillment-authority-withdrawals.json."
-      });
-    } else if (packetRoute.routeKind === "legacy_retired") {
+    // Departure means the route left the intended commercial universe, by a
+    // decision, and nothing else. Losing a fulfillment record is not departure:
+    // a route whose unearned record was withdrawn is still a route we intend to
+    // sell, still owed a census row, and still owed a refusal at every surface.
+    if (packetRoute.routeKind === "legacy_retired") {
       departures.push({
         route: witness.pathwayKey,
         jurisdiction,
@@ -151,6 +153,8 @@ for (const witness of witnesses) {
         wasCommercialBecause: "the packet route resolver classified its jurisdiction legacy_verified, which made every route in that state credit-consumable",
         leftBecause: "ADR-0004 retired the five legacy generators as commercial fulfillment paths. The route resolves legacy_retired with sellable false and creditConsumable false, so it can no longer take money or a sponsored credit and is not a commercial route.",
         stillRenders: packetRoute.rendererKind,
+        decidedOn: "2026-08-28",
+        decisionRecord: "data/record-clearing/legal-decisions/2026-08-28-legacy-generator-retirement.json (ADR-0004)",
         note: "Its renderer is retained so an already-generated artifact stays reachable. That is historical access, not commercial authority."
       });
     }
@@ -243,10 +247,53 @@ for (const witness of witnesses) {
     delta = `Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a ${Buffer.byteLength(artifact)}-byte text/plain summary. Missing: ${missing}.`;
   }
 
+  // Fulfillment authority, joined onto the fixed universe rather than deciding
+  // it. Every question below is answered for this route whether or not a record
+  // exists, so a missing record produces a refusal with a reason instead of an
+  // absent row.
+  const withdrawal = WITHDRAWN.get(witness.pathwayKey) ?? null;
+  const admission = packetFulfillmentAuthority(jurisdiction, pathwayId, undefined,
+    { trackId: composablePacketSpecificationFor(witness.pathwayKey)?.trackId ?? null });
+  // "Valid" means a record exists AND the authority admits it. Authority that
+  // admits a route holding no record is reported separately rather than folded
+  // in here, so the two questions stay distinguishable.
+  const admitted = admission.allowed === true;
+  const recordValid = Boolean(fulfillment) && admitted;
+  const refusedBecause = admitted
+    ? null
+    : (authority?.missingProof?.length
+      ? `Grade-A proof incomplete: ${authority.missingProof.join("; ")}.`
+      : admission.reason ?? "No fulfillment record proves this route delivers the packet it promises.");
+
   rows.push({
     route: witness.pathwayKey,
     jurisdiction,
     pathway: pathwayId,
+    intendedCommercialStatus: intendedPaid
+      ? "paid_packet_intended"
+      : evaluatorPaymentAllowed
+        ? "evaluator_payment_allowed"
+        : "sponsored_credit_consumable",
+    fulfillmentRecordPresent: Boolean(fulfillment),
+    fulfillmentRecordValid: recordValid,
+    withdrawalRecord: withdrawal
+      ? {
+        withdrawnOn: withdrawal.withdrawnOn,
+        reason: withdrawal.reason,
+        missingProofs: withdrawal.missingProofs,
+        priorRecordSha256: withdrawal.priorRecordSha256,
+        ledger: "data/rcap-ledger/fulfillment-authority-withdrawals.json"
+      }
+      : null,
+    gradeAProofState: authority?.state ?? "NO_RECORD",
+    gradeAMissingProof: authority?.missingProof ?? [],
+    gradeAProofValid: admitted,
+    commercialAdmissionState: admitted ? "admitted" : "refused",
+    checkoutState: checkoutOpen ? "open" : "refused",
+    sponsorshipState: resolution.sponsorshipAuthority === "open" ? "open" : "refused",
+    creditConsumptionState: creditConsumable ? "consumable" : "refused",
+    commercialAuthorityRefusedBecause: refusedBecause,
+    routeAndLegalWorkPreserved: Boolean(composablePacketSpecificationFor(witness.pathwayKey)),
     packetFamily: contract?.packetFamily ?? null,
     currentResultCode: terminal.resultCode ?? null,
     currentPaymentAuthority: {
@@ -287,6 +334,44 @@ for (const witness of witnesses) {
   });
 }
 rows.sort((a, b) => a.route.localeCompare(b.route));
+departures.sort((a, b) => a.route.localeCompare(b.route));
+
+/**
+ * The denominator, pinned.
+ *
+ * A census whose membership can change without anybody noticing is not a
+ * census. The current universe is hashed, the universe before the only
+ * decision that has ever removed routes from it is hashed, and each departure
+ * names both. A route that leaves for any other reason produces a hash nobody
+ * recorded, which is the point.
+ */
+const denominatorRoutes = rows.map((row) => row.route).sort();
+const priorDenominatorRoutes = [...denominatorRoutes, ...departures.map((entry) => entry.route)].sort();
+const sha = (list) => crypto.createHash("sha256").update(list.join("\n")).digest("hex");
+const denominatorSha256 = sha(denominatorRoutes);
+const priorDenominatorSha256 = sha(priorDenominatorRoutes);
+for (const entry of departures) {
+  entry.priorDenominatorVersion = 1;
+  entry.priorDenominatorSha256 = priorDenominatorSha256;
+  entry.newDenominatorVersion = 2;
+  entry.newDenominatorSha256 = denominatorSha256;
+}
+
+fs.writeFileSync("data/rcap-ledger/commercial-denominator.json", `${JSON.stringify({
+  schemaVersion: "rcap-commercial-denominator/v1",
+  note: "Who the commercial census asks about, and nothing else. Membership is intent: a route is here "
+    + "because the product intends to sell it or to spend a sponsored credit on it. A fulfillment record "
+    + "never creates membership and withdrawing one never removes it, so a route can lose its proof and "
+    + "still be answered for. Leaving requires a decision, recorded in the census departure ledger with "
+    + "the denominator hash on each side of it.",
+  generatedBy: "scripts/generate-commercial-packet-integrity.mjs",
+  version: 2,
+  sha256: denominatorSha256,
+  count: denominatorRoutes.length,
+  priorVersion: 1,
+  priorSha256: priorDenominatorSha256,
+  routes: denominatorRoutes
+}, null, 2)}\n`);
 
 const counts = rows.reduce((acc, row) => ({ ...acc, [row.currentClassification]: (acc[row.currentClassification] ?? 0) + 1 }), {});
 const doc = {
@@ -296,8 +381,18 @@ const doc = {
   evaluatedAt: process.env.RCAP_EVALUATOR_TODAY,
   provenIsTheOnlyClassificationThatCanOpenPayment: "COMPLETE_PACKET_PROVEN is set from the fulfillment record and from nothing else, and every other classification leaves the route refused at all six commercial surfaces. COMPLETE_PACKET_PROVEN_COMMERCIALLY_HELD is a proven packet whose postures are still closed: it opens nothing either.",
   finding: "The direct-consumer paid path has one artifact builder and it takes no branch. buildConsumerPacketArtifact returns provider rcap_source_engine, contentType text/plain and a filename ending -packet.txt for every jurisdiction, route, packet family and plan mode, and its body is the route's own metadata plus the packet plan's readiness conditions under a heading that reads FILING CHECKLIST. So the § 99-15-59 finding is a property of the path, not of that route.",
+  denominator: {
+    note: "Membership is intent, never proof. See data/rcap-ledger/commercial-denominator.json.",
+    version: 2,
+    sha256: denominatorSha256,
+    count: denominatorRoutes.length
+  },
   totals: {
     commercialRoutes: rows.length,
+    withValidFulfillmentRecord: rows.filter((row) => row.fulfillmentRecordValid).length,
+    admittedByGradeAAuthority: rows.filter((row) => row.gradeAProofValid).length,
+    refusedForIncompleteProof: rows.filter((row) => !row.gradeAProofValid).length,
+    withWithdrawnRecord: rows.filter((row) => row.withdrawalRecord !== null).length,
     evaluatorPaymentAllowed: rows.filter((row) => row.currentPaymentAuthority.evaluatorPaymentAllowed).length,
     checkoutActuallyOpen: rows.filter((row) => row.currentPaymentAuthority.checkoutActuallyOpen).length,
     provenByFulfillmentRecord: rows.filter((row) => row.fulfillmentRecord !== null).length,
@@ -307,7 +402,7 @@ const doc = {
   departuresFromTheCommercialDenominator: {
     note: "Routes that were in this census and no longer are, each with the exact reason. A denominator that changes silently is not a denominator.",
     count: departures.length,
-    reconciliation: `The previous census carried 54 commercial routes. ${departures.filter((entry) => !WITHDRAWN.has(entry.route)).length} left when ADR-0004 withdrew the legacy generators' credit-consumability, ${departures.filter((entry) => WITHDRAWN.has(entry.route)).length} left when a fulfillment record was withdrawn for want of proof, and ${rows.filter((row) => row.fulfillmentRecord !== null && !row.currentPaymentAuthority.evaluatorPaymentAllowed && !row.currentSponsorshipAuthority.routeCreditConsumable).length} entered on a fulfillment record rather than on a commercial capability. 54 - ${departures.length} + ${rows.filter((row) => row.fulfillmentRecord !== null && !row.currentPaymentAuthority.evaluatorPaymentAllowed && !row.currentSponsorshipAuthority.routeCreditConsumable).length} = ${rows.length}.`,
+    reconciliation: `${witnesses.length} witnessed routes were examined. ${rows.length} are in the commercial denominator because the product intends to sell them or to spend a sponsored credit on them; ${departures.length} left that universe by decision and are named below; the remaining ${witnesses.length - rows.length - departures.length} were never in it, because they can take neither money nor a credit and no record intends them to be paid. ${witnesses.length} = ${rows.length} + ${departures.length} + ${witnesses.length - rows.length - departures.length}. Membership is intent, so withdrawing a fulfillment record moves nobody: ${rows.filter((row) => row.withdrawalRecord !== null).length} route(s) in this denominator have a withdrawn record and are still answered for here, refused at every surface.`,
     routes: departures.sort((a, b) => a.route.localeCompare(b.route))
   },
   rows

@@ -326,16 +326,30 @@ if (proofComplete) {
 
   // Operational sellability is false at the census too, so a missing record is
   // never read as "unconfigured, therefore permitted".
-  // A route without a record is no longer in the commercial denominator, and a
-  // denominator that shrinks silently is indistinguishable from one that was
-  // quietly edited. So the census must still name it, with the reason it left.
+  // Losing a record is not leaving the denominator. The product still intends
+  // to sell this route, so it is still owed a census row that answers every
+  // commercial question and says exactly why authority is refused. A route that
+  // vanished from the census because its proof was withdrawn would be the
+  // silent shrink this accounting exists to prevent.
   const census = JSON.parse(readFileSync(path.join(process.cwd(), "data/rcap-ledger/commercial-packet-integrity.json"), "utf8"));
-  const departure = census.departuresFromTheCommercialDenominator.routes.find((entry) => entry.route === ROUTE_KEY);
-  ok("the census accounts for the route by name rather than dropping it", Boolean(departure));
-  ok("the departure gives the real reason, not a retirement it was never part of",
-    departure?.leftBecause?.includes("before proof was complete") === true, departure?.leftBecause);
-  ok("the departure records that the route and its work are preserved",
-    departure?.note?.includes("preserved") === true);
+  const denominator = JSON.parse(readFileSync(path.join(process.cwd(), "data/rcap-ledger/commercial-denominator.json"), "utf8"));
+  const censusRow = census.rows.find((entry) => entry.route === ROUTE_KEY);
+  ok("the route is still in the commercial denominator", denominator.routes.includes(ROUTE_KEY));
+  ok("the census answers for it with its own row", Boolean(censusRow));
+  ok("it is in the denominator on intent, not on a record",
+    censusRow?.intendedCommercialStatus === "paid_packet_intended", censusRow?.intendedCommercialStatus);
+  ok("its census row shows no fulfillment record", censusRow?.fulfillmentRecordPresent === false);
+  ok("its census row records the withdrawal", Boolean(censusRow?.withdrawalRecord));
+  ok("its census row names the missing proof as the reason authority is refused",
+    censusRow?.commercialAuthorityRefusedBecause?.includes("Grade-A proof incomplete") === true,
+    censusRow?.commercialAuthorityRefusedBecause);
+  ok("its census row refuses every commercial surface",
+    censusRow?.commercialAdmissionState === "refused" && censusRow?.checkoutState === "refused"
+    && censusRow?.sponsorshipState === "refused" && censusRow?.creditConsumptionState === "refused");
+  ok("its census row records that the route and its legal work are preserved",
+    censusRow?.routeAndLegalWorkPreserved === true);
+  ok("a withdrawn record is not recorded as leaving the denominator",
+    !census.departuresFromTheCommercialDenominator.routes.some((entry) => entry.route === ROUTE_KEY));
   // Operational sellability, driven at the resolver rather than read from a
   // census row that no longer exists.
   const { resolvePacketRoute, packetRouteCanRender } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
