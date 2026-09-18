@@ -1,4 +1,4 @@
-name: Authority hotfix production activate once
+name: Checkout hotfix live zero-dollar order once
 
 on:
   push:
@@ -9,24 +9,22 @@ on:
 
 permissions:
   contents: read
-  packages: read
   actions: read
 
 jobs:
-  activate:
+  live_order:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 45
     env:
-      APPLICATION_SHA: e52628aa420677d30dd4a8a14bc9243b4e339c5e
-      TOOLS_SHA: be8873371e37ceae8a653370ca505c1e9fb5b06b
-      WORKER_SOURCE_SHA: 8517a9b0ecf107605fe3094f23175d6a344f0244
-      WORKER_DIGEST: sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534
+      TOOLS_SHA: 194f1555f2eaf5182c15200f3a3da5b317ffc883
+      PRODUCTION_DEPLOYMENT_ID: dpl_4rwbPYsHvj92tfZr4rWqZWBF4M9C
+      RESUME_MATTER_ID: c824787c-737e-484e-bb43-ff9a5c42c8f0
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Verify exact tools commit is canonical and check it out
+      - name: Verify tools commit is canonical and check it out
         run: |
           set -euo pipefail
           git fetch --no-tags origin claude/legalease-sprint-captain-utucnw
@@ -37,27 +35,27 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Download exact successful smoke evidence
-        uses: actions/download-artifact@v4
-        with:
-          name: authority-hotfix-smoke-35303179580
-          path: prior-production-smoke-evidence
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: 35303179580
-      - name: Activate exact staged authority hotfix
+          cache: npm
+      - name: Install frozen dependencies
+        run: npm ci
+      - name: Run exact authorized live order
         env:
-          RCAP_PRODUCTION_PHASE: activate
-          RCAP_APPLICATION_SHA: ${{ env.APPLICATION_SHA }}
-          RCAP_WORKER_SOURCE_SHA: ${{ env.WORKER_SOURCE_SHA }}
-          RCAP_WORKER_DIGEST: ${{ env.WORKER_DIGEST }}
-          RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE: prior-production-smoke-evidence/production-canary-smoke.json
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          RCAP_PRODUCTION_PHASE: live_zero_dollar_order
+          RCAP_PUBLIC_ORIGIN: https://expungement.ai
+          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
+          RCAP_PRODUCTION_SUPABASE_URL: https://wwtwtsmywnckfkdaqqeg.supabase.co
+          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+          RCAP_PROBE_BROWSERS: chromium
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-        run: node scripts/rcap-production-activate.mjs
-      - name: Upload activation evidence
+          RCAP_LIVE_PROMOTION_CODE: CLAUDE
+          RCAP_RESUME_MATTER_ID: ${{ env.RESUME_MATTER_ID }}
+          RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ env.PRODUCTION_DEPLOYMENT_ID }}
+          RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: node scripts/rcap-production-save-transition-probe.mjs
+      - name: Upload live-order evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: authority-hotfix-activation-${{ github.run_id }}
+          name: checkout-hotfix-live-order-${{ github.run_id }}
           path: production-canary-evidence/
           if-no-files-found: error
