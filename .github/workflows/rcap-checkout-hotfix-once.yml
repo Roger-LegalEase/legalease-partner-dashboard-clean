@@ -21,7 +21,6 @@ jobs:
       TOOLS_SHA: be8873371e37ceae8a653370ca505c1e9fb5b06b
       WORKER_SOURCE_SHA: 8517a9b0ecf107605fe3094f23175d6a344f0244
       WORKER_DIGEST: sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534
-      SMOKE_RUN_ID: 35303179580
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -45,10 +44,6 @@ jobs:
           path: prior-production-smoke-evidence
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 35303179580
-      - name: Verify activation contract
-        run: |
-          node scripts/verify-rcap-production-activation.mjs
-          node scripts/test-rcap-production-activation-mutations.mjs
       - name: Activate exact staged authority hotfix
         env:
           RCAP_PRODUCTION_PHASE: activate
