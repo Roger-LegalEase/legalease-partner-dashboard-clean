@@ -4,7 +4,7 @@
   "workerSourceSha": "62425c837b5edf3d7e22b110910885abdaec1692",
   "workerDigest": "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
   "workerInputFingerprint": "sha256:6a8ce968eadbb3979b67419c7126c0a008fbd83e49f9508ea93dd37049b54c01",
-  "toolsSha": "6aec5e5d7b14e9b0b7c55711aa18fac96a6fff46",
+  "toolsSha": "fe5424205a7508005792fa6b5eade1d37ea7f622",
   "orchestrationFiles": [
     ".github/workflows/rcap-f1-ephemeral-staging.yml",
     ".github/workflows/rcap-hosted-acceptance-staging.yml",
@@ -37,17 +37,17 @@
     "scripts/verify-rcap-production-save-transition-probe.mjs",
     "scripts/verify-rcap-production-smoke.mjs"
   ],
-  "previousToolsSha": "cde66f34c24af91b29bcabddf30549a9885e41a3",
+  "previousToolsSha": "6aec5e5d7b14e9b0b7c55711aa18fac96a6fff46",
   "supersededToolsSha": "d61f091f859ab6ca0f9eb7cfc211f4a0c0c59377",
-  "why": "The prior hosted-tools binding named application cc4d8275 with worker c177eef1 / sha256:57bb99a8 and tools d7aa3808 -- stale by several releases. verify-release-candidate-binding.mjs was independently stale too, frozen on 436520e4 / sha256:98e3e820, and the two contradicted each other, so the verifier returned STALE_OR_UNVERIFIED for every binding regardless of contents. 6aec5e5d7b14e9b0b7c55711aa18fac96a6fff46 is the exact current approved tools snapshot: 525550b9c moved the frozen identity to this release, and cde66f34c classified the eight remaining release paths without removing or loosening a single check. Application and worker are 62425c837b5edf3d7e22b110910885abdaec1692 / sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855. Publication run 35268909210 succeeded; image acceptance run 35282061289 accepted that exact digest; hosted acceptance run 35273348552 passed every required case; Production application activation run 35279704399 succeeded. Production worker deployment run 35286447453 succeeded. After it, 6aec5e5d7 corrected only the stale public-verification deployment pair in scripts/rcap-production-public-verify.mjs -- that control still named the deployment Production served before this release as its staged id -- and changed nothing else; cde66f34c24af91b29bcabddf30549a9885e41a3 remains its predecessor. Public verification and the authorized live $0 order remain PENDING. This binding performs nothing -- it records the tools snapshot the gates compare against.",
+  "why": "Public verification run 35288810764 passed on workflow and tools head 11dfa7364aefa6d3105910af77c4fb5f0419c2c5, and its artifact 10525905964 independently proves the activated Production release. fe5424205a7508005792fa6b5eade1d37ea7f622 post-dates that run and does ONE thing: it corrects the live-order read-only Vercel diagnostic deployment id from dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP, which is now the READY rollback deployment, to dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51, which Production actually serves. That variable is read only when an unhandled application 5xx needs a runtime log, and pointed at a non-serving deployment it would answer about the wrong runtime. Public verification was NOT rerun on this commit and this commit does not claim to have rerun it. No application bytes and no worker inputs changed; application and worker remain 62425c837b5edf3d7e22b110910885abdaec1692 / sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855. Earlier in the chain: publication run 35268909210 succeeded, image acceptance 35282061289 accepted that exact digest, hosted acceptance 35273348552 passed every required case, Production application activation 35279704399 succeeded and worker deployment 35286447453 proved the accepted image serving its queue. Production public verification is COMPLETE. The authorized live $0 order remains PENDING. This binding performs no runtime mutation -- it records the tools snapshot the gates compare against.",
   "authorization": "Roger Roman's PRODUCTION RELEASE AUTHORIZATION (2026-09-16; chat and issue #160 comment 5690402065): targeted repairs, builds, tests, commits, pushes, worker publication, workflow executions, production deployment through the existing release process with rollback, and the existing expungement.ai domain cutover. No destructive migrations, no new purchases, no real test charges, no weakening of security or eligibility controls.",
   "deploymentAuthorized": true,
   "deploymentScope": "Vercel project prj_cdgwGzFqIHgEUlzEburSLaZETdQV (team team_4qLmZK9WI6xIy5vjYC0IF3ae): one acceptance Preview bound to acceptance Supabase hyflxnlhpmiqxvvcoiia with test-only Stripe and synthetic participants, then the production preflight/smoke/activate phases against production Supabase wwtwtsmywnckfkdaqqeg with a recorded rollback deployment. The public domain is never attached to the acceptance-database Preview.",
   "supersededToolsBinding": {
-    "applicationSha": "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
-    "workerSourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
-    "workerDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
-    "workerInputFingerprint": "sha256:de034e8b43a3673e8b4de8f1049f7d7d4d3b5c1b585323f327c99b867ccf727e",
-    "toolsSha": "d7aa3808106f449ed8e57ed6e44a53b72a437a78"
+    "applicationSha": "62425c837b5edf3d7e22b110910885abdaec1692",
+    "workerSourceSha": "62425c837b5edf3d7e22b110910885abdaec1692",
+    "workerDigest": "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
+    "workerInputFingerprint": "sha256:6a8ce968eadbb3979b67419c7126c0a008fbd83e49f9508ea93dd37049b54c01",
+    "toolsSha": "6aec5e5d7b14e9b0b7c55711aa18fac96a6fff46"
   }
 }

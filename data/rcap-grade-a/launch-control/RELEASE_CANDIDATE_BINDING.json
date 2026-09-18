@@ -66,7 +66,7 @@
     "rollbackDeploymentId": "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP",
     "rollbackIsPaymentCompatible": false,
     "rollbackNote": "Availability rollback target. It does not carry this release's resumed incompatible-Checkout-Session replacement behaviour, because it predates migration 20260917200000 and the application path that calls the replacement writer. That is the narrow limit of the claim: nothing here says it cannot process payments generally.",
-    "result": "APPLICATION ACTIVATED AND PRODUCTION WORKER DEPLOYED -- Production serves dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51, and worker deploy run 35286447453 proved the accepted image running on the production execution target with the queue served. Public verification and the authorized live $0 order remain pending, so the release is NOT YET COMPLETE.",
+    "result": "APPLICATION, WORKER AND PUBLIC RELEASE VERIFIED -- Production serves dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51, the accepted Production worker is running and serving its queue, and public verification run 35288810764 passed. The authorized live $0 resumed order remains pending, so the release is NOT YET COMPLETE.",
     "workerDeployRunId": 35286447453,
     "workerDeployConclusion": "success",
     "workerDeploy": {
@@ -99,6 +99,63 @@
       "customerRowsRead": false,
       "workerExecution": "PASS",
       "result": "PRODUCTION WORKER EXECUTION PROVEN -- exact image running on the production execution target; queue served."
+    },
+    "publicVerifyRunId": 35288810764,
+    "publicVerifyConclusion": "success",
+    "publicVerify": {
+      "runId": 35288810764,
+      "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35288810764",
+      "conclusion": "success",
+      "headSha": "11dfa7364aefa6d3105910af77c4fb5f0419c2c5",
+      "toolsSha": "11dfa7364aefa6d3105910af77c4fb5f0419c2c5",
+      "evidenceArtifact": {
+        "id": 10525905964,
+        "name": "rcap-production-public-verify-35288810764",
+        "sizeBytes": 758272,
+        "zipSha256": "sha256:6abaf94d4595e59615070f36d083c804c293935766eebe02ce550edd10431f57"
+      },
+      "result": "PASS",
+      "activatedDeploymentId": "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51",
+      "rollbackDeploymentId": "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP",
+      "productionDomainCount": 7,
+      "resolvableProductionDomainCount": 6,
+      "allResolvableProductionDomainsOnActivatedDeployment": true,
+      "publicRootStatus": 200,
+      "healthStatus": 200,
+      "healthDbCheck": "ok",
+      "wwwStatus": 200,
+      "wwwFinalUrl": "https://expungement.ai/",
+      "buildAssetsReferenced": 11,
+      "buildAssetsIdenticalOnCanonicalDomain": 11,
+      "publicSupabaseOriginCount": 1,
+      "canonicalOriginMatch": true,
+      "canonicalProjectHost": true,
+      "runtimePagesInspected": 3,
+      "runtimeChunksInspected": 14,
+      "screening": {
+        "freshContext": true,
+        "initialCookies": 0,
+        "initialStorageOrigins": 0,
+        "visibleAnswersClicked": 7,
+        "reachedResult": true,
+        "expectedPathwayNamed": true,
+        "expectedPathway": "Non-conviction expungement for dismissal, no disposition, or acquittal",
+        "forbiddenPromptSeen": false,
+        "unplannedScreenSeen": false,
+        "checkoutOpened": false,
+        "externalRequestHosts": []
+      },
+      "mutations": {
+        "deploymentTriggered": false,
+        "productionAliasChanged": false,
+        "environmentVariableChanged": false,
+        "productionDatabaseMutated": false,
+        "accountCreated": false,
+        "checkoutOpened": false,
+        "realChargesCreated": false
+      },
+      "provenanceNote": "This run executed on workflow and tools head 11dfa7364. The later tools commit fe5424205a7508005792fa6b5eade1d37ea7f622 did NOT rerun public verification; it changed only the live-order workflow's read-only Vercel diagnostic deployment id. The two facts are kept separate here deliberately.",
+      "screenshotNote": "The nine screening screenshots live in artifact 10525905964; no image bytes are copied into this record."
     }
   },
   "regressions": {
@@ -114,7 +171,8 @@
     "publishedWorkerDigest": "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855",
     "syntheticPublicationFixture": false,
     "scope": "Run identities established by this release. Static verifier counts from the prior release are deliberately absent rather than restated.",
-    "productionWorkerDeployRunId": 35286447453
+    "productionWorkerDeployRunId": 35286447453,
+    "productionPublicVerifyRunId": 35288810764
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
@@ -131,6 +189,6 @@
   "independentReviewerIdentities": [],
   "productionAuthorized": true,
   "productionAuthorization": "Roger Roman, 2026-09-17 (chat): complete the Grade A production rollout to expungement.ai, including Illinois, covering in-scope application fixes, test-harness repairs, release configuration, truthful publication and Grade-A evidence updates, reviewed migrations, worker deployment, production activation, public verification and the authorized live $0 order.",
-  "scope": "Freezes the current application and worker tuple, 62425c837 / sha256:a1cb0d96, and the evidence already earned for it: publication 35268909210, image acceptance 35282061289, hosted acceptance 35273348552, and the Production phases through activation and worker deployment. Application activation is COMPLETE. Production worker deployment is COMPLETE. Public verification is PENDING. The authorized live $0 order is PENDING. The full release is NOT YET COMPLETE. This JSON record performs no deployment and no hosted mutation; it records what was proven and is read by the gates that do.",
+  "scope": "Freezes the current application and worker tuple, 62425c837 / sha256:a1cb0d96, and the evidence already earned for it: publication 35268909210, image acceptance 35282061289, hosted acceptance 35273348552, and the Production phases through activation, worker deployment and public verification. Application activation is COMPLETE. Production worker deployment is COMPLETE. Production public verification is COMPLETE. The authorized live $0 order is PENDING. The full release is NOT YET COMPLETE. This JSON record performs no deployment and no hosted mutation; it records what was proven and is read by the gates that do.",
   "workerInputFingerprintProvenance": "createWorkerInputPlan().aggregateInputSha256, recomputed deterministically from the committed worker inputs at 62425c837b5edf3d7e22b110910885abdaec1692 (rebuildRequired false, changedPaths empty, 30 canonical inputs). It is NOT emitted by publication artifact 10518291851 -- that artifact records no worker-input fingerprint, which is why data/rcap-render/worker-publication-evidence.json keeps workerInputFingerprint null. Two different quantities from two different sources; neither is copied onto the other."
 }
