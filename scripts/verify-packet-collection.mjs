@@ -313,6 +313,35 @@ check(
 );
 
 // ---------------------------------------------------------------------------
+// 6b. EXISTING MATTERS. A matter saved before this change carries a prefilled
+//     map derived by the old rules. It must still resolve, still account for
+//     every fact, and never lose a saved answer.
+// ---------------------------------------------------------------------------
+
+// The old shape: only what the accepted baseline carried, plus whatever the
+// participant had already typed into the builder.
+const legacyPrefilled = { offense_category: "Misdemeanor", sentence_completion_date: "Yes" };
+const legacySaved = { county: "Hinds County", court: "Hinds County Circuit Court", case_number: "25-CR-000123" };
+const legacyResolution = resolveMs({ prefilledAnswers: legacyPrefilled, savedAnswers: legacySaved });
+check(
+  legacyResolution.facts.length === new Set(msPlan.requiredInputIds).size,
+  "a matter saved under the old rules still accounts for every required fact"
+);
+const legacyGate = new Set(prepayGateFactIds(legacyResolution));
+check(
+  Object.keys(legacySaved).every((factId) => legacyGate.has(factId)),
+  "answers the participant already saved stay in the builder, editable, rather than disappearing"
+);
+check(
+  Object.keys(legacyPrefilled).every((factId) => !legacyGate.has(factId)),
+  "facts the old rules had already carried forward are not asked again"
+);
+check(
+  legacyResolution.unresolvedRequiredFacts.length === 0,
+  "an existing matter needs no migration to resolve: nothing about it is unclassifiable"
+);
+
+// ---------------------------------------------------------------------------
 // 7. Render preflight fails closed.
 // ---------------------------------------------------------------------------
 
