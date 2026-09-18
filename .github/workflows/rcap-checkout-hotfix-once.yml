@@ -1,4 +1,4 @@
-name: Stale checkout binding recovery production activate once
+name: Authoritative predecessor checkout recovery tests once
 
 on:
   push:
@@ -9,63 +9,41 @@ on:
 
 permissions:
   contents: read
-  packages: read
-  actions: read
 
 jobs:
-  activate:
+  test:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 30
     env:
-      APPLICATION_SHA: 44ed5e395818503c0c878fd418fb9a896d591313
-      TOOLS_SHA: b2eabfda4acd24a0f4d2a7461ee9b07752430dc3
-      WORKER_SOURCE_SHA: 44ed5e395818503c0c878fd418fb9a896d591313
-      WORKER_DIGEST: sha256:c1443d8cc027588b3cbc6c6b3514b356fcedec5bba6058f950e4646eb2787ea0
-      SMOKE_RUN_ID: "35333847021"
+      APPLICATION_SHA: 7c883693830ce063115779cd6cd7f7d939924633
+      TOOLS_SHA: ab35cf6ae02b316fdceede80b78c843d745af288
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Verify exact tools commit is canonical and check it out
+      - name: Verify tools are canonical and application bytes are exact
         run: |
           set -euo pipefail
           git fetch --no-tags origin claude/legalease-sprint-captain-utucnw
           git cat-file -e "$TOOLS_SHA^{commit}"
           git merge-base --is-ancestor "$TOOLS_SHA" origin/claude/legalease-sprint-captain-utucnw
           git diff --quiet "$APPLICATION_SHA" "$TOOLS_SHA" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts
-          git diff --quiet "$WORKER_SOURCE_SHA" "$TOOLS_SHA" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src
           git checkout --detach "$TOOLS_SHA"
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
-      - name: Download exact successful smoke evidence
-        uses: actions/download-artifact@v4
-        with:
-          name: stale-binding-smoke-35333847021
-          path: prior-production-smoke-evidence
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: 35333847021
+      - name: Install frozen dependencies
+        run: npm ci
 
-      - name: Activate stale-binding recovery deployment
-        env:
-          RCAP_PRODUCTION_PHASE: activate
-          RCAP_APPLICATION_SHA: ${{ env.APPLICATION_SHA }}
-          RCAP_WORKER_SOURCE_SHA: ${{ env.WORKER_SOURCE_SHA }}
-          RCAP_WORKER_DIGEST: ${{ env.WORKER_DIGEST }}
-          RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE: prior-production-smoke-evidence/production-canary-smoke.json
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-        run: node scripts/rcap-production-activate.mjs
-
-      - name: Upload activation evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: stale-binding-activation-${{ github.run_id }}
-          path: production-canary-evidence/
-          if-no-files-found: error
+      - name: Run focused checkout recovery gates
+        run: |
+          node scripts/test-consumer-checkout-binding-recovery.mjs
+          node scripts/test-consumer-checkout-stored-session.mjs
+          node scripts/verify-consumer-checkout-refusals-are-classified.mjs
+          npx tsc --noEmit
