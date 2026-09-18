@@ -14,22 +14,22 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "8517a9b0ecf107605fe3094f23175d6a344f0244";
-const WORKER_SOURCE_SHA = "8517a9b0ecf107605fe3094f23175d6a344f0244";
-const WORKER_DIGEST = "sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534";
+const APPLICATION_SHA = "1f9e1e9a8654c7c41ddae64fad230b55b5912620";
+const WORKER_SOURCE_SHA = "7c883693830ce063115779cd6cd7f7d939924633";
+const WORKER_DIGEST = "sha256:94adca2182ea841e7b6942d597569e8e3132b239abe1d8bf208cdda6f3449369";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // This is the promotion, so a stale pin here is the most expensive kind. The
 // pair is read back from Vercel by preflight 35275288657, which staged the
 // candidate and recorded the live deployment before touching anything: staged
-// dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV, rollback (current Production)
-// dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51.
+// dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz, rollback (current Production)
+// dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM.
 //
 // These pins carried the previous release's pair, one release out of date: the
 // deployment that was the staged candidate then is the deployment live now, so
 // promoting would have moved the alias onto the deployment it was already on,
 // reported success, and shipped nothing. Smoke run 35276699023 caught the same
 // staleness in the smoke control before this one could act on it.
-const STAGED_DEPLOYMENT_ID = "dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV";
+const STAGED_DEPLOYMENT_ID = "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz";
 // The recovery target is the deployment live now: dpl_BJMUzi, the candidate the
 // previous release staged and activated.
 //
@@ -48,7 +48,7 @@ const STAGED_DEPLOYMENT_ID = "dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV";
 // failed activation is settled by replaying its Stripe event through the
 // idempotent reconciliation path, never by reversing a migration or restoring
 // a retired writer.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51";
+const ROLLBACK_DEPLOYMENT_ID = "dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM";
 const SMOKE_RUN_ID = "35300111459";
 const SMOKE_FILE = path.resolve(
   process.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE

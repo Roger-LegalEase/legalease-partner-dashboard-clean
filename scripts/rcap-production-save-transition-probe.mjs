@@ -1250,11 +1250,20 @@ const CONSUMER_CHECKOUT_LABEL = "Pay $50 and generate my packet";
 const CONSUMER_CHECKOUT_PATH = "/api/expungement-ai/checkout";
 // The catalog Product the owner's 100%-off coupon is restricted to. A catalog
 // identifier, not a credential.
-const COUPON_ALLOWED_PRODUCT_ID = "prod_Sx3T2wUkaYKqg9";
+const COUPON_ALLOWED_PRODUCT_ID = "prod_VHEHkvH7dSvGv7";
 // That product's catalog name, as Stripe's Checkout page prints it. The page
 // names the line item without printing its Product id, so the name is how a
 // catalog line item is told apart from an ad-hoc one from the outside.
-const CATALOG_PRODUCT_NAME_PATTERN = /DIY\s+Expung\w*/i;
+//
+// It is overridable because the name is the weakest of the three signals and
+// the only one that changes when a catalog entry is replaced. The binding
+// proof is not this: it is the coupon being accepted and the total reading
+// $0.00, which can only happen when the line item is on the exact Product the
+// coupon is restricted to.
+const CATALOG_PRODUCT_NAME_PATTERN = new RegExp(
+  process.env.RCAP_CATALOG_PRODUCT_NAME_PATTERN?.trim() || "DIY\\s+Expung\\w*",
+  "i"
+);
 
 function packetFieldValue(id, prompt) {
   if (PACKET_SAFE_ANSWERS[id]) return PACKET_SAFE_ANSWERS[id];

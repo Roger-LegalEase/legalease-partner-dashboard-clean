@@ -308,6 +308,11 @@ function buildPaymentAdapter({
   verificationRevision = 4,
   stripeConfigurationError = null,
   replaceOutcome = { outcome: "replaced" },
+  // What a fresh read of the stored Checkout Session id answers. The adapter
+  // consults it only on a compare-and-swap conflict, where storage is the
+  // authority on which Session won. The default reproduces exactly that: the
+  // winner the swap reported is what a later read of the row would find.
+  storedSession = null,
   catalogProduct = { active: true, defaultPrice: { active: true, type: "one_time", currency: "usd", unit_amount: 5000 } }
 } = {}) {
   const createCalls = [];
@@ -435,6 +440,10 @@ function buildPaymentAdapter({
       replaceConsumerCheckoutSession: async (input) => {
         replaceCalls.push(input);
         return replaceOutcome;
+      },
+      readStoredConsumerCheckoutSession: async () => storedSession ?? {
+        readable: true,
+        checkoutSessionId: replaceOutcome?.winningCheckoutSessionId ?? null
       }
     },
     "@/lib/expungement-ai/packet-information": {
