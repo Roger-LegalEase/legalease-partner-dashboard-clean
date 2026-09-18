@@ -1,4 +1,4 @@
-name: Inspect the CLAUDE4 Session customer shape once
+name: Read payment_method_collection on the CLAUDE4 Session once
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      TOOLS_SHA: c71bd4a67f366d47302aeba7aebe1a1095a535e9
+      TOOLS_SHA: 265337b1d463152b59204fe2aa5b9624bc6ffccc
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -54,6 +54,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: claude4-session-shape-${{ github.run_id }}
+          name: claude4-pmc-${{ github.run_id }}
           path: production-canary-evidence/
           if-no-files-found: error
