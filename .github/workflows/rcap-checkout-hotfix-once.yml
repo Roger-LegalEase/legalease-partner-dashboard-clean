@@ -1,4 +1,4 @@
-name: Live Stripe CLAUDE2 object diagnosis once
+name: Live Stripe CLAUDE3 object diagnosis once
 
 on:
   push:
@@ -44,7 +44,7 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           RCAP_STRIPE_READ_KEY: ${{ secrets.RCAP_STRIPE_READ_KEY }}
-          RCAP_PROMOTION_CODE: CLAUDE2
+          RCAP_PROMOTION_CODE: CLAUDE3
           RCAP_EXPECTED_PRODUCT_ID: prod_VHEHkvH7dSvGv7
           RCAP_DASHBOARD_PRODUCT_NAME: DIY Expungment
         run: node scripts/rcap-stripe-coupon-object-diagnosis.mjs
@@ -53,6 +53,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: claude2-object-diagnosis-${{ github.run_id }}
+          name: claude3-object-diagnosis-${{ github.run_id }}
           path: production-canary-evidence/
           if-no-files-found: error
