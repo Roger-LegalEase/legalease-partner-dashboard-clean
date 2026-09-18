@@ -47,6 +47,7 @@ import { chromium, webkit } from "playwright";
 // same "Add promotion code" entry the sandbox journeys drive, rather than
 // keeping a second description of Stripe's markup here.
 import { applyPromotionCode } from "./rcap-stripe-checkout-browser.mjs";
+import { answerBuilderStep as answerBuilderControl } from "./rcap-packet-builder-filler.mjs";
 // Read-only. The one Vercel surface this probe may touch is the serving
 // deployment's runtime log, and only to recover the application's own error
 // behind an unhandled 5xx. It reads; it never deploys, aliases or reads,
@@ -104,6 +105,7 @@ const MISSISSIPPI = Object.freeze([
   ["Have you completed everything the court ordered in this case?", "Yes"]
 ]);
 
+const answerBuilderStep = (page) => answerBuilderControl(page, { redact });
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
 const ORIGIN = safeOrigin(process.env.RCAP_PUBLIC_ORIGIN?.trim() || "https://expungement.ai", "RCAP_PUBLIC_ORIGIN");
 const PROJECT_REF_INPUT = (process.env.RCAP_PRODUCTION_PROJECT_REF ?? "").trim();
@@ -1270,24 +1272,9 @@ async function signInAndClaim(page, section, credentials, label) {
 }
 
 // --- packet information through Final verification -------------------------
-// The Mississippi non-conviction packet re-checks these route facts before it
-// will verify (mississippiNonConvictionPacketSafety). A first-option or
-// placeholder answer makes the review unsafe and withholds the verify action.
-const PACKET_SAFE_ANSWERS = Object.freeze({
-  pending_cases: "No",
-  trafficking_status: "No",
-  prior_relief: "No",
-  sentence_completion_date: "Yes",
-  financial_obligations: "Yes",
-  nonadjudication_or_diversion: "No",
-  open_co_defendant_matter: "No",
-  actual_arrest: "Yes",
-  release_confirmed: "Yes",
-  disposition_record_wording: "Charges dropped",
-  statutory_disposition_category: "Charges dropped"
-});
-const PACKET_ISO_DATE = "2015-01-15";
-const PACKET_BUILDER = "[data-packet-information-builder='active']";
+// The answers themselves, and the controls they are entered into, live in
+// rcap-packet-builder-filler.mjs so they can be exercised against real markup
+// without a Production journey.
 const VERIFICATION_PANEL = "[data-packet-verification-state]";
 const UNAVAILABLE_BRANCH = "[data-review-branch='unavailable']";
 const CONSUMER_VERIFY_LABEL = "I verified these packet facts";
@@ -1304,87 +1291,6 @@ const COUPON_ALLOWED_PRODUCT_ID = "prod_Sx3T2wUkaYKqg9";
 // names the line item without printing its Product id, so the name is how a
 // catalog line item is told apart from an ad-hoc one from the outside.
 const CATALOG_PRODUCT_NAME_PATTERN = /DIY\s+Expung\w*/i;
-
-function packetFieldValue(id, prompt) {
-  if (PACKET_SAFE_ANSWERS[id]) return PACKET_SAFE_ANSWERS[id];
-  if (/_date$|_date_/.test(id) || /\bdate\b/i.test(prompt)) return PACKET_ISO_DATE;
-  const known = {
-    participant_full_legal_name: "Acceptance Participant",
-    full_legal_name: "Acceptance Participant",
-    contact_information: "100 Acceptance Way, Jackson, MS 39201",
-    county: "Hinds County",
-    court: "Hinds County Circuit Court",
-    court_name: "Hinds County Circuit Court",
-    charge: "Acceptance test misdemeanor charge",
-    record_type: "Court case",
-    residency_or_location: "Jackson, Mississippi",
-    age_at_offense: "30"
-  };
-  if (known[id]) return known[id];
-  if (/name/i.test(prompt)) return "Acceptance Participant";
-  if (/number|docket|case/i.test(prompt)) return "25-CR-000123";
-  if (/county/i.test(prompt)) return "Hinds County";
-  if (/court/i.test(prompt)) return "Hinds County Circuit Court";
-  if (/age|year/i.test(prompt)) return "30";
-  return "Acceptance test information";
-}
-
-// Answers whichever control the builder is showing, exactly as a participant
-// would. A prefilled value is the participant's own answer projected into the
-// packet and is never overwritten.
-async function answerBuilderStep(page) {
-  const builder = page.locator(PACKET_BUILDER);
-  await builder.waitFor({ state: "visible", timeout: 20_000 });
-  const prompt = await builder.locator("h1").innerText().catch(() => "");
-
-  const text = builder.locator("input[type='text']:visible:enabled, input[type='number']:visible:enabled").first();
-  if (await text.count()) {
-    const id = (await text.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
-    const current = (await text.inputValue().catch(() => "")).trim();
-    if (!current) await text.fill(packetFieldValue(id, prompt));
-    return;
-  }
-  const textarea = builder.locator("textarea:visible:enabled").first();
-  if (await textarea.count()) {
-    const id = (await textarea.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
-    const current = (await textarea.inputValue().catch(() => "")).trim();
-    if (!current) await textarea.fill(packetFieldValue(id, prompt));
-    return;
-  }
-  const selects = builder.locator("select:visible:enabled");
-  const selectCount = await selects.count();
-  if (selectCount === 3) {
-    await selects.nth(0).selectOption("01");
-    await selects.nth(1).selectOption("15");
-    const years = await selects.nth(2).locator("option").evaluateAll((options) => options.map((option) => option.value).filter(Boolean));
-    await selects.nth(2).selectOption(years.includes("2015") ? "2015" : years.at(-1) ?? "2000");
-    return;
-  }
-  if (selectCount === 1) {
-    const id = ((await selects.first().getAttribute("id")) ?? "").replace(/^q-/, "");
-    const safe = PACKET_SAFE_ANSWERS[id];
-    if (safe) { await selects.first().selectOption({ label: safe }).catch(() => null); return; }
-  }
-  const radios = builder.locator("input[type='radio']:visible:enabled");
-  const radioCount = await radios.count();
-  if (radioCount) {
-    if (await builder.locator("input[type='radio']:visible:checked").count()) return;
-    const id = ((await radios.first().getAttribute("name")) ?? "").replace(/^q-/, "");
-    const safe = PACKET_SAFE_ANSWERS[id];
-    const preferred = safe ? new RegExp(`^${safe.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\s|$)`, "i") : null;
-    for (let index = 0; index < radioCount; index += 1) {
-      const radio = radios.nth(index);
-      const label = await radio.locator("xpath=ancestor::label").innerText().catch(() => "");
-      if (preferred ? preferred.test(label) : !/not sure|prefer not|unknown/i.test(label)) { await radio.check(); return; }
-    }
-    await radios.first().check();
-    return;
-  }
-  const checkboxes = builder.locator("input[type='checkbox']:visible:enabled");
-  if (await checkboxes.count() && !(await builder.locator("input[type='checkbox']:visible:checked").count())) {
-    await checkboxes.first().check().catch(() => null);
-  }
-}
 
 /**
  * Navigates to an application URL without racing the application's own routing.
