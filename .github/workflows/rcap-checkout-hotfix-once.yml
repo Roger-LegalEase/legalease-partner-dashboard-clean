@@ -31,6 +31,9 @@ jobs:
       - name: Install frozen dependencies
         run: npm ci
 
+      - name: Install PDF inspection dependency
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+
       - name: Regenerate Grade-A authority from committed evidence
         run: node scripts/generate-rcap-grade-a-fulfillment-authority.mjs
 
