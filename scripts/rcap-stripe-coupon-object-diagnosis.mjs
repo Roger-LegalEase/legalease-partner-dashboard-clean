@@ -249,12 +249,16 @@ async function main() {
       `/v1/checkout/sessions/${encodeURIComponent(CHECKOUT_SESSION_ID)}?expand[]=line_items.data.price.product`
     )
     : await (async () => {
-      const listed = await stripeGet(
+      // line_items is expandable on a RETRIEVE and not on a LIST, so the list
+      // names the newest Session and the retrieve reads what it sells. Asking
+      // the list to expand it is an HTTP 400, which run 35356458280 spent.
+      const listed = await stripeGet(secretKey, "/v1/checkout/sessions?limit=1");
+      const latestId = Array.isArray(listed.json?.data) ? listed.json.data[0]?.id ?? null : null;
+      if (!latestId) return { ok: false, status: listed.status, json: listed.json };
+      return await stripeGet(
         secretKey,
-        "/v1/checkout/sessions?limit=1&expand[]=data.line_items.data.price.product"
+        `/v1/checkout/sessions/${encodeURIComponent(latestId)}?expand[]=line_items.data.price.product`
       );
-      const latest = Array.isArray(listed.json?.data) ? listed.json.data[0] ?? null : null;
-      return latest ? { ok: true, status: 200, json: latest } : { ok: false, status: listed.status, json: listed.json };
     })();
   const sessionFound = session.ok;
   const lineItem = sessionFound ? session.json?.line_items?.data?.[0] ?? null : null;
@@ -310,7 +314,14 @@ async function main() {
   say(`Coupon valid: ${resolvedCoupon ? `${resolvedCoupon.id} valid=${resolvedCoupon.valid} livemode=${resolvedCoupon.livemode} percent_off=${resolvedCoupon.percent_off ?? "(none)"} amount_off=${resolvedCoupon.amount_off ?? "(none)"} currency=${resolvedCoupon.currency ?? "(none)"} duration=${resolvedCoupon.duration ?? "(none)"}` : "(unreadable)"}`);
   say(`Coupon applies_to product ID: ${appliesToProducts ? JSON.stringify(appliesToProducts) : "(no product restriction on the coupon)"}`);
   say(`Dashboard ${DASHBOARD_PRODUCT_NAME} product ID: ${named.length ? named.map(p => `${p.id} (active=${p.active})`).join(", ") : "(no product with that exact name found)"}`);
+  say(`Live Checkout Session: ${sessionFound
+    ? `${session.json?.id} status=${session.json?.status} livemode=${session.json?.livemode} currency=${String(session.json?.currency ?? "").toUpperCase()} amount_subtotal=${session.json?.amount_subtotal} amount_total=${session.json?.amount_total} allow_promotion_codes=${session.json?.allow_promotion_codes}`
+    : "(unreadable)"}`);
   say(`Live Checkout Session product ID: ${sessionProductId ?? "(unreadable)"}`);
+  say(`Live Checkout Session line item: ${lineItem
+    ? `${JSON.stringify(lineItem.description ?? null)} amount_subtotal=${lineItem.amount_subtotal} price=${lineItem.price?.id ?? "(ad-hoc)"} unit_amount=${lineItem.price?.unit_amount}`
+    : "(unreadable)"}`);
+  say(`Discount headroom: coupon amount_off=${resolvedCoupon?.amount_off ?? "(none)"} vs Session amount_total=${sessionFound ? session.json?.amount_total : "(unreadable)"}`);
   say(`Production Stripe account ID: ${accountId ?? "(unreadable)"}`);
   say(`Expected product ${EXPECTED_PRODUCT_ID}: ${expectedProduct.ok ? `present, name=${JSON.stringify(expectedProduct.json?.name)}, active=${expectedProduct.json?.active}` : `NOT readable (HTTP ${expectedProduct.status})`}`);
   say(`MISMATCH: ${mismatches.length ? mismatches.join(" ALSO: ") : "none found — every object-level fact above is consistent."}`);
