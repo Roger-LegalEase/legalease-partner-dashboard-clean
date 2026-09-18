@@ -27,7 +27,7 @@ export default async function LegalAidAdminPage({ params }: { params: Promise<{ 
   }
   const event = await getLegalAidEventById(eventId);
   if (!event) notFound();
-  if (actor.kind === "partner" && actor.partnerSlug !== event.partnerSlug) return <Denied message="Cross-tenant Clinic access is denied." />;
+  if (actor.kind === "partner" && actor.partnerSlug !== event.partnerSlug) return <Denied message="This clinic belongs to a different organization." />;
   const branding = getLegalAidBranding(event.partnerSlug);
   if (!branding) return <Denied message="Legal Aid Clinic Mode is not enabled for this organization." />;
   const [profiles, staff] = await Promise.all([listPolicyProfiles(event.partnerSlug), listStaffCandidates(eventId, actor.kind === "partner" ? { kind: "partner", partnerSlug: actor.partnerSlug } : { kind: "internal_admin" })]);
