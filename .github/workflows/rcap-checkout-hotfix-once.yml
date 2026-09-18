@@ -1,4 +1,4 @@
-name: Predecessor recovery production preflight once
+name: Predecessor recovery production smoke once
 
 on:
   push:
@@ -13,15 +13,14 @@ permissions:
   actions: read
 
 jobs:
-  preflight:
+  smoke:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
       APPLICATION_SHA: 7c883693830ce063115779cd6cd7f7d939924633
-      TOOLS_SHA: 515899a1017a90d2fb460232392a7730926b043c
+      TOOLS_SHA: 9a13cb45f7b35405947d01c381c8cac70978e3c5
       WORKER_SOURCE_SHA: 7c883693830ce063115779cd6cd7f7d939924633
       WORKER_DIGEST: sha256:94adca2182ea841e7b6942d597569e8e3132b239abe1d8bf208cdda6f3449369
-      IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -42,35 +41,31 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
-      - name: Pull and identify accepted worker
+      - name: Install frozen dependencies
+        run: npm ci
+
+      - name: Verify smoke control
         run: |
-          set -euo pipefail
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin >/dev/null
-          REF="$IMAGE_REPOSITORY@$WORKER_DIGEST"
-          docker pull "$REF" >/dev/null
-          ACTUAL="$(docker inspect --format='{{index .RepoDigests 0}}' "$REF" | sed 's/.*@//')"
-          REVISION="$(docker inspect --format='{{index .Config.Labels "org.opencontainers.image.revision"}}' "$REF")"
-          [ "$ACTUAL" = "$WORKER_DIGEST" ]
-          [ "$REVISION" = "$WORKER_SOURCE_SHA" ]
+          node scripts/verify-rcap-production-smoke.mjs
+          node scripts/test-rcap-production-smoke-mutations.mjs
 
-      - name: Run recovery Production preflight
+      - name: Run recovery Production smoke
         env:
-          RCAP_PRODUCTION_PHASE: preflight
+          RCAP_PRODUCTION_PHASE: smoke
           RCAP_APPLICATION_SHA: ${{ env.APPLICATION_SHA }}
-          RCAP_ACCEPTED_TOOLS_SHA: ${{ env.APPLICATION_SHA }}
-          RCAP_TOOLS_SHA: ${{ env.TOOLS_SHA }}
           RCAP_WORKER_SOURCE_SHA: ${{ env.WORKER_SOURCE_SHA }}
           RCAP_WORKER_DIGEST: ${{ env.WORKER_DIGEST }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-        run: node scripts/rcap-production-canary.mjs
+        run: node scripts/rcap-production-canary-smoke.mjs
 
-      - name: Upload preflight evidence
+      - name: Upload smoke evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: predecessor-preflight-${{ github.run_id }}
+          name: predecessor-smoke-${{ github.run_id }}
           path: production-canary-evidence/
           if-no-files-found: error
