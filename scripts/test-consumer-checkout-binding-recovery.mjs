@@ -22,6 +22,7 @@
 //      fails too.
 
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import fs from "node:fs";
 import Module from "node:module";
 import path from "node:path";
@@ -315,6 +316,46 @@ const baseKey = `${PRODUCT}:${ITEM}:${HASH}:${REVISION}:${OLD_ABSENT}:inline`;
   ok("a paid matter can never be replaced");
 }
 
+// A request can arrive with a stale item snapshot that says no Session even
+// though a prior request has already written one to the matter row. The fresh
+// row read must recover that predecessor before any initial bind is attempted.
+{
+  const STORED = "cs_live_fresh_row_expired";
+  const NEW = "cs_live_fresh_row_successor";
+  const h = buildAdapter({
+    storedBinding: { readable: true, checkoutSessionId: STORED },
+    sessions: {
+      [STORED]: { id: STORED, mode: "payment", status: "expired", url: null },
+      [NEW]: openSession(NEW)
+    },
+    creates: [openSession(NEW)],
+    replace: { outcome: "replaced" }
+  });
+
+  const result = await h.adapter.createConsumerPacketCheckout({
+    userId: USER,
+    item: eligibleItem({ checkoutSessionId: null })
+  });
+
+  assert.equal(h.storedReads.length, 1, "a null request snapshot triggers one fresh row read");
+  assert.deepEqual(h.storedReads[0], { userId: USER, briefcaseItemId: ITEM });
+  assert.ok(h.retrieveCalls.some((call) => call.id === STORED),
+    "the Session named by the fresh row is retrieved from Stripe before creating a replacement");
+  assert.equal(
+    h.createCalls[0].options.idempotencyKey,
+    `${PRODUCT}:${ITEM}:${HASH}:${REVISION}:${STORED}:inline`,
+    "the Stripe order key must advance from the fresh stored predecessor, not replay the stale null snapshot"
+  );
+  assert.equal(h.persistCalls.length, 0,
+    "a row that already holds a Session must never fall through to the initial binding writer");
+  assert.equal(h.replaceCalls.length, 1);
+  assert.equal(h.replaceCalls[0].expectedCheckoutSessionId, STORED);
+  assert.equal(h.replaceCalls[0].checkoutSessionId, NEW);
+  assert.equal(result.checkoutSessionId, NEW);
+  assert.equal(result.outcome, "checkout_created");
+  ok("a stale null item snapshot recovers the fresh stored predecessor and replaces it by CAS");
+}
+
 // ---------------------------------------------------------------------------
 // 2. An idempotent create is read back, and an expired replay earns ONE successor
 // ---------------------------------------------------------------------------
@@ -347,9 +388,18 @@ const baseKey = `${PRODUCT}:${ITEM}:${HASH}:${REVISION}:${OLD_ABSENT}:inline`;
 
   assert.equal(h.createCalls.length, 2, "exactly one successor is created — no loop, no retry storm");
   assert.equal(h.createCalls[0].options.idempotencyKey, baseKey);
-  assert.equal(h.createCalls[1].options.idempotencyKey, `${baseKey}:successor:${REPLAYED}`,
-    "the successor key is derived from the expired Session's own id, so concurrent requests derive the same one");
-  ok("exactly one deterministic successor is created under <base>:successor:<expired-session-id>");
+  const successorKey = h.createCalls[1].options.idempotencyKey;
+  const expectedSuccessorKey = `${PRODUCT}:successor:v2:${createHash("sha256")
+    .update(JSON.stringify({
+      createKey: baseKey,
+      expiredSessionId: REPLAYED,
+      sessionParams: h.createCalls[1].params
+    }))
+    .digest("hex")}`;
+  assert.equal(successorKey, expectedSuccessorKey,
+    "the successor key is a deterministic digest of the base order, expired Session and exact create parameters");
+  assert.ok(successorKey.length <= 255, "the successor key must stay within Stripe's 255-character limit");
+  ok("one deterministic, parameter-bound successor key is created within Stripe's length limit");
 
   assert.ok(h.retrieveCalls.some((call) => call.id === SUCCESSOR),
     "the successor is freshly retrieved too — its key may itself be a replay");
@@ -383,6 +433,36 @@ const baseKey = `${PRODUCT}:${ITEM}:${HASH}:${REVISION}:${OLD_ABSENT}:inline`;
   }
   assert.equal(keys[0], keys[1], "the successor key must be deterministic, never a fresh random retry key");
   ok("the successor idempotency key is deterministic across attempts");
+}
+
+ 
+// A request-shape change must advance the successor key. Stripe rejects reuse
+// of one idempotency key with different create parameters, which is the exact
+// live failure this regression exists for.
+{
+  const REPLAYED = "cs_live_replayed";
+  const keys = [];
+  for (const successUrl of [
+    "https://example.invalid/first-success",
+    "https://example.invalid/second-success"
+  ]) {
+    const h = buildAdapter({
+      sessions: {
+        [REPLAYED]: { id: REPLAYED, mode: "payment", status: "expired", url: null },
+        cs_live_successor: openSession("cs_live_successor")
+      },
+      creates: [openSession(REPLAYED), openSession("cs_live_successor")]
+    });
+    await h.adapter.createConsumerPacketCheckout({
+      userId: USER,
+      item: eligibleItem({ checkoutSessionId: OLD_ABSENT }),
+      successUrl
+    });
+    keys.push(h.createCalls[1].options.idempotencyKey);
+  }
+  assert.notEqual(keys[0], keys[1],
+    "different Stripe Session-create parameters must never reuse the same successor idempotency key");
+  ok("a changed Session-create request advances the successor idempotency key");
 }
 
 // A successor that is ALSO unusable refuses. It does not try a third time.
