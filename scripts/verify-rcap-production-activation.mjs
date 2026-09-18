@@ -17,8 +17,8 @@ check(dispatcher.includes("production_activate"), "dispatcher exposes one isolat
 check(workflow.includes("inputs.phase == 'activate'"), "activation is isolated from preflight, migration, and smoke");
 check(workflow.includes("actions: read"), "workflow can read only the exact prior smoke artifact");
 check(dispatcher.includes("permissions:\n  contents: read\n  packages: read\n  actions: read"), "dispatcher grants the reusable workflow prior-artifact read access");
-check(workflow.includes("run-id: 35353387959"), "workflow pins the successful Production smoke run");
-check(workflow.includes("catalog-correction-smoke-35353387959"), "workflow pins the exact successful smoke artifact");
+check(workflow.includes("run-id: 35364686186"), "workflow pins the successful Production smoke run");
+check(workflow.includes("customer-creation-smoke-35364686186"), "workflow pins the exact successful smoke artifact");
 check(workflow.includes("node scripts/verify-rcap-production-activation.mjs"), "workflow self-verifies the activation contract");
 check(workflow.includes("node scripts/test-rcap-production-activation-mutations.mjs"), "workflow runs activation mutation proof");
 check(workflow.includes("node scripts/rcap-production-activate.mjs"), "workflow invokes only the dedicated activation control");
@@ -32,8 +32,8 @@ check(!script.includes('"dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL"'), "the pre-migration
 // shipped nothing. Naming all three here keeps the stale set from returning by
 // any one of its parts.
 check(!script.includes('"dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz"'), "the superseded rollback deployment is named by no pin");
-check(!script.includes('"35300111459"'), "the superseded smoke run is named by no pin");
-check(script.includes('const SMOKE_RUN_ID = "35353387959"'), "exact successful smoke run is pinned");
+check(!script.includes('"35353387959"'), "the superseded smoke run is named by no pin");
+check(script.includes('const SMOKE_RUN_ID = "35364686186"'), "exact successful smoke run is pinned");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "canonical Production Supabase project is pinned");
 check(script.includes('const APPLICATION_SHA = "8682bd00731e247a4fe93f39075c532476eb5c74"'), "final application SHA is pinned");
 check(script.includes('const WORKER_SOURCE_SHA = "8682bd00731e247a4fe93f39075c532476eb5c74"'), "accepted worker source is pinned");

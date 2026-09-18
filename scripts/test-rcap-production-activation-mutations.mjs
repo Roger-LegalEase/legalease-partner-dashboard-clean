@@ -15,7 +15,7 @@ const files = [
 const mutations = [
   ["staged deployment", "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK", "dpl_wrongstaged"],
   ["rollback deployment", "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx", "dpl_wrongrollback"],
-  ["smoke run", "35353387959", "32900000000"],
+  ["smoke run", "35364686186", "32900000000"],
   // The superseded set specifically, not just any wrong value. This is the
   // failure the release actually hit: the previous staged candidate became the
   // live deployment, so reusing the old pins would have promoted Production onto
@@ -23,7 +23,7 @@ const mutations = [
   // is a rejected mutation rather than a silent regression.
   ["superseded staged deployment", "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK", "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx"],
   ["superseded rollback deployment", "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx", "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz"],
-  ["superseded smoke run", "35353387959", "35300111459"],
+  ["superseded smoke run", "35364686186", "35353387959"],
   ["Production project", "wwtwtsmywnckfkdaqqeg", "hyflxnlhpmiqxvvcoiia"],
   ["application SHA", "8682bd00731e247a4fe93f39075c532476eb5c74", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
   ["worker digest", "sha256:d11728c41116e76c92aa26220f9328708197e9ae185b71b13e2410bafba1e8ea", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],
