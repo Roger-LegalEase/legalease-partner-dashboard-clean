@@ -6,6 +6,21 @@ import { spawnSync } from "node:child_process";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
 import { completeHostedCheckout, STRIPE_TEST_CARD } from "./rcap-stripe-checkout-browser.mjs";
+import { captureSurface, reviewJourneyCopy } from "./rcap-journey-copy-review.mjs";
+
+/** Customer-facing text from the screens that only exist after payment. */
+const postPaymentCopy = [];
+
+/** A Cookie header, as Playwright wants it for one origin. */
+function playwrightCookies(header, origin) {
+  if (!header) return [];
+  const { hostname } = new URL(origin);
+  return String(header).split(/;\s*/).map((pair) => {
+    const index = pair.indexOf("=");
+    if (index < 1) return null;
+    return { name: pair.slice(0, index), value: pair.slice(index + 1), domain: hostname, path: "/" };
+  }).filter(Boolean);
+}
 import {
   HOSTED_VERCEL_TEAM_SLUG,
   hostedVercelCliEnvironment,
@@ -1974,7 +1989,28 @@ const stripeApi = async (pathname, init) => {
     // stalled on exactly that, because an earlier run had paid with this email.
     email: `acceptance-consumer-${String(itemId).replace(/-/g, "").slice(0, 12)}@rcap-acceptance.test`,
     screenshotDir: path.join(EVIDENCE_DIR, "checkout-screenshots"),
-    label: PROMOTION_CODE ? `checkout-${PROMOTION_CODE}` : "checkout-no-code"
+    label: PROMOTION_CODE ? `checkout-${PROMOTION_CODE}` : "checkout-no-code",
+    // Return as the participant, so the screens captured after payment are the
+    // ones a paying participant actually reads rather than an anonymous
+    // visitor's version of them.
+    sessionCookies: playwrightCookies(A.cookie, PREVIEW),
+    onReturn: async (page) => {
+      postPaymentCopy.push(await captureSurface(page, "payment_return"));
+      // The packet is prepared asynchronously, so both states are real: the
+      // participant meets "we're preparing it" first and "it's ready" after.
+      // Whichever this run shows is captured, and the wait is bounded so a
+      // slow render costs a capture rather than the payment proof.
+      await page.goto(`${PREVIEW}/briefcase/${itemId}`, { waitUntil: "domcontentloaded" }).catch(() => null);
+      postPaymentCopy.push(await captureSurface(page, "packet_preparation").catch(() => null));
+      for (let attempt = 0; attempt < 10; attempt += 1) {
+        await page.waitForTimeout(6_000);
+        await page.reload({ waitUntil: "domcontentloaded" }).catch(() => null);
+        const text = await page.locator("main").first().innerText().catch(() => "");
+        if (/download|ready/i.test(text)) break;
+      }
+      postPaymentCopy.push(await captureSurface(page, "packet_ready").catch(() => null));
+      postPaymentCopy.push(await captureSurface(page, "filing_next_steps").catch(() => null));
+    }
   });
 
   // Stripe is the witness, not the page. The session is read back and every
@@ -3028,6 +3064,25 @@ let finalCycleResult = null;
     initialClaimOrder: journey.initialClaimOrder ?? null,
     failure: journey.failure
   };
+
+  // The screens only a paying participant ever sees, read as a consumer would
+  // read them. Implementation vocabulary here is a release failure exactly as
+  // it is before payment; tone is reported for a person to judge.
+  {
+    const captured = postPaymentCopy.filter(Boolean);
+    const copyReview = reviewJourneyCopy(captured);
+    fs.writeFileSync(
+      path.join(EVIDENCE_DIR, "post-payment-copy.json"),
+      `${JSON.stringify({ captures: captured, review: copyReview }, null, 2)}\n`
+    );
+    console.log(`POST_PAYMENT_COPY ${JSON.stringify({ ...copyReview, findings: undefined })}`);
+    if (copyReview.advisory.length > 0) {
+      console.log(`NOTE post-payment copy flagged for human review: ${JSON.stringify(copyReview.advisory, null, 2)}`);
+    }
+    for (const failure of copyReview.failures) {
+      console.log(`POST_PAYMENT_COPY_FAILURE [${failure.category}] ${failure.surface}: ${failure.note} - ${JSON.stringify(failure.sentence)}`);
+    }
+  }
 
   fs.writeFileSync(path.join(EVIDENCE_DIR, "worker-diagnostics.json"), `${JSON.stringify(diagnostics, null, 2)}\n`);
   fs.writeFileSync(

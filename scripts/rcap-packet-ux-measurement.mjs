@@ -14,7 +14,9 @@
  *     describe what the participant met, not what the filler left behind;
  *   - a fact asked twice anywhere in the journey is a duplicate, not just a
  *     fact asked twice on one screen;
- *   - facts the guided check already settled must arrive already resolved;
+ *   - facts the guided check already settled never come back as empty
+ *     controls; prefilled, read-only or behind an explicit Edit is fine,
+ *     because correcting a wrong screening answer must stay possible;
  *   - facts the route derives must create no participant work at all;
  *   - conditional controls are counted only where they were actually rendered,
  *     and at least one conditional branch must be shown to reveal its
@@ -57,7 +59,35 @@ export function createPacketUxMeasurement({ expectedReusedFactIds = [], expected
         .map(([factId, count]) => ({ factId, askedOnSections: count }));
 
       const askedFactIds = new Set(askedOn.keys());
-      const reusedStillAsked = expectedReusedFactIds.filter((factId) => askedFactIds.has(factId));
+
+      /**
+       * Never ask twice — while still letting somebody fix a wrong answer.
+       *
+       * A fact the guided check already settled must not come back as an
+       * empty control the participant has to fill: that is asking twice, and
+       * it is the defect. Showing it prefilled, or read-only, or behind an
+       * explicit Edit, is not asking twice — it is showing them what we have
+       * and letting them correct it. So the rule is about the control's
+       * state, not its presence.
+       */
+      const stateOf = (factId) => {
+        for (const section of sections) {
+          const state = section.factStates?.[factId];
+          if (state) return state;
+        }
+        return null;
+      };
+      const reusedStillAsked = expectedReusedFactIds.filter((factId) => {
+        const state = stateOf(factId);
+        return state ? state.editable && !state.answered : false;
+      });
+      const reusedShownPrefilled = expectedReusedFactIds.filter((factId) => {
+        const state = stateOf(factId);
+        return state ? state.answered || !state.editable : false;
+      });
+
+      // A derived fact is different: the route computes it, so any control at
+      // all is work we created for no reason.
       const derivedStillAsked = expectedDerivedFactIds.filter((factId) => askedFactIds.has(factId));
 
       const tallest = sections.reduce(
@@ -94,7 +124,7 @@ export function createPacketUxMeasurement({ expectedReusedFactIds = [], expected
         failures.push(`the participant is asked for ${duplicates.length} fact(s) more than once: ${duplicates.map((entry) => entry.factId).join(", ")}`);
       }
       if (reusedStillAsked.length > 0) {
-        failures.push(`${reusedStillAsked.length} fact(s) the guided check already answered are asked again: ${reusedStillAsked.join(", ")}`);
+        failures.push(`${reusedStillAsked.length} fact(s) the guided check already answered come back as empty controls the participant must fill again: ${reusedStillAsked.join(", ")}`);
       }
       if (derivedStillAsked.length > 0) {
         failures.push(`${derivedStillAsked.length} deterministically derived fact(s) create participant work: ${derivedStillAsked.join(", ")}`);
@@ -109,7 +139,8 @@ export function createPacketUxMeasurement({ expectedReusedFactIds = [], expected
         selects: total("selects"),
         conditionalControlsShown: total("conditionalControls"),
         screeningFactsReused: expectedReusedFactIds.length - reusedStillAsked.length,
-        screeningFactsReusedIds: expectedReusedFactIds.filter((factId) => !askedFactIds.has(factId)),
+        screeningFactsReusedIds: expectedReusedFactIds.filter((factId) => !reusedStillAsked.includes(factId)),
+        screeningFactsShownPrefilledOrReadOnly: reusedShownPrefilled,
         derivedFactsRequiringNoInput: expectedDerivedFactIds.length - derivedStillAsked.length,
         derivedFactsRequiringNoInputIds: expectedDerivedFactIds.filter((factId) => !askedFactIds.has(factId)),
         fieldsAlreadyPopulatedOnArrival: total("prefilledFields"),
@@ -136,18 +167,43 @@ export async function readBuilderScreen(page, builderSelector, conditionalFactId
   const builder = page.locator(builderSelector);
   await builder.waitFor({ state: "visible", timeout: 20_000 });
   return builder.evaluate((node, conditionalIds) => {
-    const usable = (element) => {
-      if (element.disabled) return false;
+    const onScreen = (element) => {
       const box = element.getBoundingClientRect();
       return box.width > 0 && box.height > 0;
     };
-    const controls = [...node.querySelectorAll("input, select, textarea")].filter(usable);
-    const named = controls.filter((control) => (control.getAttribute("name") ?? control.id ?? "").startsWith("q-"));
+    const usable = (element) => !element.disabled && onScreen(element);
+    // Disabled and read-only controls are collected too, not skipped. A
+    // screening-carried fact shown read-only is a correct design; a
+    // screening-carried fact shown as an empty control the participant must
+    // fill is the defect. Telling those apart needs both in view.
+    const all = [...node.querySelectorAll("input, select, textarea")].filter(onScreen);
+    const controls = all.filter(usable);
+    const isNamed = (control) => (control.getAttribute("name") ?? control.id ?? "").startsWith("q-");
+    const named = controls.filter(isNamed);
+    const factOf = (control) => (control.getAttribute("name") ?? control.id ?? "")
+      .replace(/^q-/, "").replace(/-(month|day|year|unknown|prompt|helper|error)$/, "");
+    const hasValue = (control) => {
+      if (control.tagName === "SELECT") return Boolean(control.value);
+      if (control.type === "radio" || control.type === "checkbox") return control.checked;
+      return Boolean(String(control.value ?? "").trim());
+    };
     const factIds = new Set();
     for (const control of named) {
-      const raw = control.getAttribute("name") ?? control.id ?? "";
-      const id = raw.replace(/^q-/, "").replace(/-(month|day|year|unknown|prompt|helper|error)$/, "");
+      const id = factOf(control);
       if (id) factIds.add(id);
+    }
+
+    // Per-fact state, which is what the screening-carry rule is judged on.
+    // A fact counts as answered when ANY of its controls holds a value (a
+    // radio group is answered by one of its options), and as editable when
+    // ANY of them can still be changed.
+    const factStates = {};
+    for (const control of all.filter(isNamed)) {
+      const id = factOf(control);
+      if (!id) continue;
+      const state = factStates[id] ?? (factStates[id] = { editable: false, answered: false, present: true });
+      if (usable(control) && !control.readOnly) state.editable = true;
+      if (hasValue(control)) state.answered = true;
     }
     const textInputs = named.filter((control) =>
       control.tagName === "TEXTAREA"
@@ -156,12 +212,9 @@ export async function readBuilderScreen(page, builderSelector, conditionalFactId
       named.filter((control) => control.type === "radio" || control.type === "checkbox")
         .map((control) => control.getAttribute("name") ?? control.id)
     );
-    const prefilled = named.filter((control) => {
-      if (control.tagName === "SELECT") return Boolean(control.value);
-      if (control.type === "radio" || control.type === "checkbox") return control.checked;
-      return Boolean(String(control.value ?? "").trim());
-    });
+    const prefilled = named.filter(hasValue);
     return {
+      factStates,
       sectionId: node.querySelector("[data-packet-section]")?.getAttribute("data-packet-section") ?? null,
       status: node.querySelector("[data-packet-section-status]")?.getAttribute("data-packet-section-status") ?? null,
       heading: node.querySelector("h2")?.textContent?.trim() ?? node.querySelector("h1")?.textContent?.trim() ?? "",

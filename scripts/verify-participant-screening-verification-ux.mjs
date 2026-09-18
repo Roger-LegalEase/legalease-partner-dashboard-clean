@@ -190,7 +190,7 @@ requireSource(
 requireSource(
   verificationAction.includes("sponsoredReviewCopy(verified, packetReady)")
     && verificationAction.includes("Packet facts verified and current")
-    && verificationAction.includes("Complete final verification")
+    && verificationAction.includes("Confirm your information before we prepare your packet")
     && verificationAction.includes("Your covered packet remains available in this matter")
     && verificationAction.includes("Covered packet generation is now available"),
   "Sponsored review copy must vary across unverified, ready, and generation-available states without consumer commerce language."
@@ -592,7 +592,7 @@ requireSource(
     && reviewPage.includes("summary.screeningAnswers")
     && reviewPage.includes("summary.packetAnswers")
     && reviewPage.includes("summary.context")
-    && reviewPage.includes("Read-only matter and system details")
+    && reviewPage.includes("Details we already have")
     && reviewPage.includes("aria-describedby=\"verification-context-description\"")
     && reviewPage.includes("verificationAnswers={model.initialAnswers}")
     && reviewPage.includes("canVerify={summary.complete")

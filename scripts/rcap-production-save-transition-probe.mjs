@@ -658,8 +658,8 @@ async function completePacketInformationAndVerify(page, section, matterId) {
   }
   await page.waitForURL((url) => url.pathname.endsWith("/review"), { timeout: 30_000 });
 
-  // "Final verification" is also the heading of the review page's unavailable
-  // branch, so the panel itself is the only honest signal.
+  // The review page's unavailable branch carries a heading of its own, so a
+  // text wait cannot tell the two apart; the panel is the only honest signal.
   const panel = page.locator(VERIFICATION_PANEL);
   const unavailable = page.locator(UNAVAILABLE_BRANCH);
   await Promise.race([

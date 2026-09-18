@@ -5,7 +5,7 @@
 //
 // Before the fix, readPacketPlan dropped packetReadyWhen while the stored
 // verification context kept it, verificationSummary returned null and the
-// review page rendered "Final verification is not available for this matter"
+// review page rendered "We can’t review this matter yet."
 // for every matter (hosted runs 35120640545 and 35122300936). This proof
 // builds the model from the real modules with no database and no browser.
 import { register } from "node:module";

@@ -48,7 +48,7 @@ export default async function PacketAccuracyReviewPage({
       caseState={item?.jurisdiction ?? undefined}
       briefcaseItemId={item?.id}
       activeNav="matters"
-      breadcrumb={item ? <><Link href="/briefcase/matters">My matters</Link> / <Link href={`/briefcase/${item.id}`}>{item.title}</Link> / <b>Final verification</b></> : <b>Final verification</b>}
+      breadcrumb={item ? <><Link href="/briefcase/matters">My matters</Link> / <Link href={`/briefcase/${item.id}`}>{item.title}</Link> / <b>Review and confirm</b></> : <b>Review and confirm</b>}
     >
       {item && model && summary ? (
         <section data-accuracy-review="true">
@@ -89,9 +89,9 @@ export default async function PacketAccuracyReviewPage({
           ) : null}
 
           <div className="mt-6">
-            <ReviewCard title="Read-only matter and system details" icon={<ShieldCheck className="h-5 w-5" aria-hidden="true" />}>
+            <ReviewCard title="Details we already have" icon={<ShieldCheck className="h-5 w-5" aria-hidden="true" />}>
               <p className="text-sm leading-6 text-[#475A6E]" id="verification-context-description">
-                These saved details determine the packet route and verification record. They cannot be edited on this page.
+                We used these to work out which forms your packet needs. They can’t be changed here.
               </p>
               <dl aria-describedby="verification-context-description" className="mt-4 grid gap-3 text-sm">
                 {summary.context.map((entry) => <SummaryLine key={entry.key} label={entry.label} value={entry.value} />)}
@@ -123,9 +123,9 @@ export default async function PacketAccuracyReviewPage({
 
           <ReviewCard title="Your packet" icon={<FileText className="h-5 w-5" aria-hidden="true" />}>
             <dl className="grid gap-3 text-sm">
-              <SummaryLine label="Result" value={reviewSafety.safe ? "A packet path remains available based on these answers." : "These answers need review before final verification."} />
+              <SummaryLine label="Result" value={reviewSafety.safe ? "Based on these answers, a packet is still available to you." : "Check these answers before you continue."} />
               <SummaryLine label="Coverage" value={sponsored ? "Covered by your partner program" : "This packet belongs to your private Briefcase matter."} />
-              {!sponsored ? <SummaryLine label="Cost" value={item.paymentState === "paid" ? "Already paid for this matter" : "$50 one time after final verification"} /> : null}
+              {!sponsored ? <SummaryLine label="Cost" value={item.paymentState === "paid" ? "Already paid for this matter" : "$50 one time, after you confirm your information"} /> : null}
             </dl>
           </ReviewCard>
 
@@ -163,7 +163,7 @@ export default async function PacketAccuracyReviewPage({
           data-packet-draft-status={item?.packetDraft.status ?? ""}
           data-verification-summary={model ? (summary ? "present" : "null") : "no_model"}
         >
-          <h1 className="text-2xl font-extrabold text-[#0B1320]">Final verification is not available for this matter.</h1>
+          <h1 className="text-2xl font-extrabold text-[#0B1320]">We can’t review this matter yet.</h1>
           <Link className="mt-5 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href={item ? `/briefcase/${item.id}` : "/briefcase"}>Open matter</Link>
         </section>
       )}

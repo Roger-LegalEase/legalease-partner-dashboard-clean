@@ -3,6 +3,8 @@ import path from "node:path";
 import { chromium } from "playwright";
 import { answerBuilderStep } from "./rcap-packet-builder-filler.mjs";
 import { createPacketUxMeasurement, readBuilderScreen } from "./rcap-packet-ux-measurement.mjs";
+import { createPacketReadbackInvariant } from "./rcap-packet-readback-invariant.mjs";
+import { captureSurface, reviewJourneyCopy } from "./rcap-journey-copy-review.mjs";
 
 const PACKET_BUILDER_SELECTOR = "[data-packet-information-builder='active']";
 /**
@@ -26,6 +28,38 @@ const packetUx = createPacketUxMeasurement({
   expectedReusedFactIds: MS_REUSED_FROM_SCREENING,
   expectedDerivedFactIds: MS_DERIVED_NO_INPUT
 });
+
+/**
+ * What the route says may legitimately appear or disappear, read from the
+ * generated collection ledger rather than restated here. The allowance for a
+ * growing missing set has to come from the same authority that decides what is
+ * conditional; a list maintained by hand beside it would drift into a
+ * loophole the first time the route changed.
+ */
+const ledger = JSON.parse(fs.readFileSync("data/expungement-ai/reports/mississippi-collection-ledger.json", "utf8"));
+const conditionalDependentsByGate = new Map();
+const supportingFactsByFact = new Map();
+for (const row of ledger.rows ?? []) {
+  const gate = row.conditional ? row.condition?.factId ?? row.condition : null;
+  if (gate) {
+    const dependants = conditionalDependentsByGate.get(gate) ?? [];
+    dependants.push(row.factId);
+    conditionalDependentsByGate.set(gate, dependants);
+  }
+  // The ledger states a derivation's inputs as a "(from a, b)" suffix it
+  // generates itself, and structured inputs as an explicit fact list.
+  const inputs = [...(row.structuredWithFacts ?? [])];
+  const derivedFrom = /\(from ([^)]+)\)/.exec(row.derivationRule ?? "");
+  if (derivedFrom) inputs.push(...derivedFrom[1].split(",").map((id) => id.trim()).filter(Boolean));
+  if (inputs.length > 0) supportingFactsByFact.set(row.factId, [...new Set(inputs)]);
+}
+const packetReadback = createPacketReadbackInvariant({
+  conditionalDependents: (factId) => conditionalDependentsByGate.get(factId) ?? [],
+  supportingFacts: (factId) => supportingFactsByFact.get(factId) ?? []
+});
+
+/** Customer-facing text captured surface by surface, reviewed as a journey. */
+const journeyCopy = [];
 
 // Hosted browser proof for the direct-to-consumer commercial journey. This
 // intentionally stops on Stripe Checkout before card entry. It creates one
@@ -114,6 +148,7 @@ try {
   await expectText(page, "Mississippi");
   await expectText(page, "$50 one time when you are ready to generate this packet");
   check(checkoutRequests.length === 0, "Checkout was requested from the screening result.");
+  journeyCopy.push(await captureSurface(page, "preliminary_result"));
   await screenshotPair(page, "01-dtc-packet-ready-result");
 
   // 3. Save the exact pending result, sign in, and require an exact matter
@@ -166,6 +201,7 @@ try {
   await expectText(page, "Your Briefcase is free. Complete your packet information and pay only when you're ready to generate your packet.");
   check(await page.locator(`[data-briefcase-matter-id="${itemId}"]`).isVisible(), "Exact saved DTC matter did not render.");
   check(checkoutRequests.length === 0, "Checkout was requested while saving the matter.");
+  journeyCopy.push(await captureSurface(page, "briefcase_handoff"));
   await screenshotPair(page, "02-free-briefcase-matter");
 
   // 4. Open the free pre-payment builder, save and leave once, then resume.
@@ -175,9 +211,21 @@ try {
   await page.waitForURL((url) => url.pathname === `/briefcase/${itemId}/packet-information`);
   await expectText(page, "Complete packet information");
   check(checkoutRequests.length === 0, "Checkout was requested before the packet builder.");
+  journeyCopy.push(await captureSurface(page, "packet_information_landing"));
   await screenshotPair(page, "03-free-packet-builder");
 
   const firstQuestion = await currentBuilderQuestionId(page);
+
+  // Provoke the validation surface once, before anything is answered. This is
+  // both a copy capture and a real invariant: a required section that saves
+  // while empty would let a participant walk to Checkout with nothing behind
+  // the packet, so the builder must refuse and say what it needs.
+  await page.getByRole("button", { name: "Save and continue", exact: true }).click().catch(() => null);
+  await page.waitForTimeout(250);
+  check(await currentBuilderQuestionId(page) === firstQuestion,
+    "The builder accepted an empty required section and moved on.");
+  journeyCopy.push(await captureSurface(page, "validation_error", { selector: PACKET_BUILDER_SELECTOR }));
+
   await answerCurrentBuilderQuestion(page);
   const firstSaveResponsePromise = packetInformationResponse(page, itemId);
   await page.getByRole("button", { name: "Save and leave", exact: true }).click();
@@ -192,13 +240,14 @@ try {
   await page.waitForURL((url) => url.pathname === `/briefcase/${itemId}/packet-information`);
   check(await currentBuilderQuestionId(page) === firstQuestion, "Resumed builder did not restore its first saved question and answer state.");
   check(await currentBuilderQuestionHasAnswer(page), "Resumed builder did not retain the saved answer.");
+  journeyCopy.push(await captureSurface(page, "save_and_resume"));
 
   // 5. Complete every required packet field. The builder may use any profile
   // question type; the helper answers its actual rendered control, not a
   // hardcoded packet-field list.
-  let packetSaveRemaining = Number.POSITIVE_INFINITY;
   for (let step = 0; step < 80 && safePath(page.url()).endsWith("/packet-information"); step += 1) {
-    await answerCurrentBuilderQuestion(page);
+    const sectionLabel = (await currentBuilderQuestionId(page)) ?? `section ${step + 1}`;
+    const submitted = await answerCurrentBuilderQuestion(page);
     const saveResponsePromise = packetInformationResponse(page, itemId);
     const finalButton = page.getByRole("button", { name: "Review packet facts", exact: true });
     if (await finalButton.isVisible().catch(() => false)) {
@@ -209,22 +258,23 @@ try {
     const saveResponse = await saveResponsePromise;
     check(saveResponse.ok(), `Packet-information save returned ${saveResponse.status()}.`);
     if (!saveResponse.ok()) break;
-    // Readback. The section's values have to have travelled the real server
-    // path, not merely left the browser: the save answers with the server's own
-    // recomputed missing list, and it has to be shrinking.
+    // Readback. The values have to have travelled the real server path, not
+    // merely left the browser, and the server's own recomputed missing list is
+    // what proves it. The rule is about identity rather than arithmetic: every
+    // value just submitted is resolved afterwards, nothing resolved earlier
+    // falls out unless what supported it changed, and the set may grow only by
+    // conditional dependants this answer activated.
     const savedBody = await saveResponse.json().catch(() => null);
-    const remaining = Array.isArray(savedBody?.missingInputIds) ? savedBody.missingInputIds.length : null;
-    check(remaining !== null, "Packet-information save did not answer with the server's own missing-fact list.");
-    if (remaining !== null) {
-      check(
-        remaining < packetSaveRemaining,
-        `Saving a section did not reduce the server's missing-fact count (${packetSaveRemaining} -> ${remaining}).`
-      );
-      packetSaveRemaining = remaining;
-    }
+    check(Array.isArray(savedBody?.missingInputIds),
+      "Packet-information save did not answer with the server's own missing-fact list.");
+    if (!Array.isArray(savedBody?.missingInputIds)) break;
+    packetReadback.record({ submitted, missingInputIds: savedBody.missingInputIds, label: sectionLabel });
     await page.waitForTimeout(30);
   }
-  check(packetSaveRemaining === 0, `Packet information finished with ${packetSaveRemaining} fact(s) the server still considers missing.`);
+  const readback = packetReadback.atReview();
+  for (const failure of readback.failures) check(false, `Packet-information readback: ${failure}.`);
+  check(readback.failures.length === 0, "Every submitted value persisted and every resolved fact stayed resolved.");
+  console.log(`PACKET_READBACK ${JSON.stringify(readback)}`);
 
   // The journey in participant terms, held to invariants a false green cannot
   // satisfy: no fact asked twice anywhere, nothing the guided check already
@@ -238,12 +288,13 @@ try {
   console.log(`PACKET_UX ${JSON.stringify(ux)}`);
 
   await page.waitForURL((url) => url.pathname === `/briefcase/${itemId}/review`, { timeout: 20_000 });
-  await expectText(page, "Final verification");
-  await expectText(page, "$50 one time after final verification");
+  await expectText(page, "Review and confirm");
+  await expectText(page, "$50 one time, after you confirm your information");
   const finalCta = page.getByRole("button", { name: "Pay $50 and generate my packet", exact: true });
   check((await finalCta.count()) === 0, "Checkout was requested before explicit final verification.");
   check((await page.getByText("All required information is here.", { exact: false }).count()) > 0, "Final verification still reports missing packet information.");
   check(checkoutRequests.length === 0, "Checkout was requested before final verification.");
+  journeyCopy.push(await captureSurface(page, "review_and_edit"));
   await screenshotPair(page, "04-packet-facts-before-verification");
 
   const verificationResponsePromise = packetInformationResponse(page, itemId);
@@ -252,6 +303,8 @@ try {
   check(verificationResponse.ok(), `Explicit packet verification returned ${verificationResponse.status()}.`);
   check(await finalCta.isVisible(), "Verified review did not render the exact final $50 CTA.");
   check(checkoutRequests.length === 0, "Checkout was requested by final verification instead of the checkout CTA.");
+  journeyCopy.push(await captureSurface(page, "eligibility_confirmation"));
+  journeyCopy.push(await captureSurface(page, "checkout_cta"));
   await screenshotPair(page, "05-verified-final-cta");
 
   // 6. Create Checkout only at final review and stop before card entry.
@@ -272,6 +325,23 @@ try {
 
   const cookies = (await context.cookies(baseUrl)).filter((cookie) => /^sb-.*-auth-token/.test(cookie.name));
   check(cookies.length > 0, "Authenticated session cookie was lost during the DTC journey.");
+
+  // Read the journey as a consumer would. Implementation vocabulary that
+  // reached a real screen, and a surface that asks for action while offering
+  // none, are failures a machine can be sure of. Tone is reported for a person
+  // to read: whether this sounds like one finished product is not a question a
+  // regular expression gets to answer, and pretending otherwise would only
+  // teach us to write around the checker.
+  const copyReview = reviewJourneyCopy(journeyCopy);
+  for (const failure of copyReview.failures) {
+    check(false, `Customer copy [${failure.category}] on ${failure.surface}: ${failure.note} — ${JSON.stringify(failure.sentence)}`);
+  }
+  check(copyReview.failures.length === 0, "Customer-facing copy carries no implementation language and every surface names its next action.");
+  if (copyReview.advisory.length > 0) {
+    console.log(`NOTE customer copy flagged for human review: ${JSON.stringify(copyReview.advisory, null, 2)}`);
+  }
+  console.log(`JOURNEY_COPY ${JSON.stringify(copyReview)}`);
+  fs.writeFileSync(path.join(evidenceDir, "journey-copy.json"), `${JSON.stringify({ captures: journeyCopy, review: copyReview }, null, 2)}\n`);
   if (browserErrors.length > 0) failures.push(...browserErrors);
   if (failures.length > 0) throw new Error(failures.join("\n"));
 
@@ -344,13 +414,17 @@ async function answerCurrentBuilderQuestion(page) {
   // Measured BEFORE anything is entered, so the counts describe the screen the
   // participant met rather than the one the filler left behind.
   packetUx.record(await readBuilderScreen(page, PACKET_BUILDER_SELECTOR, MS_CONDITIONAL_FACTS));
+  journeyCopy.push(await captureSurface(page, "packet_information_section", { selector: PACKET_BUILDER_SELECTOR }));
   const before = await builderFieldValues(builder);
   await answerBuilderStep(page);
   const after = await builderFieldValues(builder);
+  const submitted = {};
   for (const [id, entry] of Object.entries(after)) {
     if (before[id]?.value === entry.value) continue;
     recordPacketField(id, entry.label, entry.inputType, entry.value);
+    submitted[id] = entry.value;
   }
+  return submitted;
 }
 
 /** Every named builder control, by question id, with what it currently holds. */

@@ -237,12 +237,21 @@ export async function completeHostedCheckout({
   // later run into a two-factor prompt nobody can answer.
   email = "acceptance-consumer-a@rcap-acceptance.test",
   screenshotDir = null,
-  label = "checkout"
+  label = "checkout",
+  // The participant's own session, so the page Stripe returns to is the page
+  // the participant would actually see. Without it the return lands
+  // anonymous, and an anonymous return screen is not evidence about what a
+  // paying participant reads.
+  sessionCookies = [],
+  // Called once with the live page after Stripe hands the browser back, for
+  // capturing the post-payment screens. It observes; it must not act.
+  onReturn = null
 }) {
   const notes = [];
   const screenshots = [];
   const browser = await chromium.launch({ args: ["--no-sandbox"] });
   const context = await browser.newContext();
+  if (sessionCookies.length > 0) await context.addCookies(sessionCookies).catch(() => {});
   const page = await context.newPage();
 
   const shoot = async (name) => {
@@ -339,6 +348,13 @@ export async function completeHostedCheckout({
     }
     if (leftStripe) {
       notes.push(`returned to ${new URL(page.url()).host}`);
+      if (onReturn) {
+        try {
+          await onReturn(page);
+        } catch (error) {
+          notes.push(`post-payment capture failed: ${String(error?.message ?? error).slice(0, 200)}`);
+        }
+      }
     } else {
       // Say what the page is complaining about. "Still on Stripe's page" on its
       // own sent this harness round another cycle guessing at the cause; the

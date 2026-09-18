@@ -24,7 +24,7 @@ function sponsoredReviewCopy(verified: boolean, packetReady: boolean) {
       }
     : {
         eyebrow: "Covered by your partner program",
-        heading: "Complete final verification before covered generation.",
+        heading: "Confirm your information before we prepare your packet.",
         body: "Confirm that the saved packet facts match the participant’s records."
       };
 }
@@ -86,7 +86,7 @@ export function PacketVerificationAction({
   return (
     <div className="mt-5 rounded-[16px] bg-[#0B1320] p-6 text-white" data-packet-verification-state={verified ? "verified" : "unverified"}>
       <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#7FE9DE]">
-        {mode === "sponsored" ? sponsoredCopy.eyebrow : verified ? "Packet facts verified" : "Final verification"}
+        {mode === "sponsored" ? sponsoredCopy.eyebrow : verified ? "Information confirmed" : "Review and confirm"}
       </p>
       <h2 className="mt-2 text-xl font-extrabold">
         {mode === "sponsored"
@@ -119,7 +119,7 @@ export function PacketVerificationAction({
           </button>
         ) : (
           <p className="mt-4 rounded-[10px] bg-white/10 px-4 py-3 text-sm font-semibold">
-            Complete every required packet detail before final verification.
+            Finish the rest of your information before you continue.
           </p>
         )
       ) : (

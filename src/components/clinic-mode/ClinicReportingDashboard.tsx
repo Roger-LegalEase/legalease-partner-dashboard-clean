@@ -8,7 +8,7 @@ export function ClinicReportingDashboard({ report }: { report: ClinicEventReport
       <Metric label="Event entries" value={report.entries} note={`capacity ${report.capacity}`} />
       <Metric label="Clinic cases" value={report.participants} note="aggregate only" />
       <Metric label="Packets consumed" value={report.sponsorship.consumed} note={`${report.sponsorship.reserved} reserved`} />
-      <Metric label="Allocation remaining" value={allocation === null ? "Base entitlement" : Math.max(0, allocation - committed)} note={`${report.sponsorship.released} released`} />
+      <Metric label="Allocation remaining" value={allocation === null ? "Base allocation" : Math.max(0, allocation - committed)} note={`${report.sponsorship.released} released`} />
     </section>
     <section className="grid gap-6 lg:grid-cols-3">
       <Breakdown title="Queue" counts={report.queueCounts} />

@@ -276,8 +276,8 @@ try {
     if (!saveResponse.ok()) break;
   }
   await page.waitForURL((url) => url.pathname === `/briefcase/${packetItemId}/review`, { timeout: 20_000 });
-  // The review page has an outer "Final verification is not available" branch
-  // whose heading also matches a partial "Final verification" text wait (runs
+  // The review page has an outer "We can’t review this matter yet" branch
+  // whose heading also matches a partial "Review and confirm" text wait (runs
   // 35120640545 and 35122300936). Require the actual verification panel and
   // report the page's own branch diagnostics when it is absent.
   const verificationPanel = page.locator("[data-packet-verification-state]");
@@ -294,7 +294,7 @@ try {
     await screenshotPair(page, "04-partner-review-unavailable");
     throw new Error(`The review page rendered its unavailable branch instead of the verification panel: ${JSON.stringify(branch)}; breadcrumb ${JSON.stringify(crumbs.replace(/\s+/g, " ").trim())}`);
   }
-  await expectText(page, "Final verification");
+  await expectText(page, "Review and confirm");
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner final verification");
   check((await page.getByRole("button", { name: "Generate my packet", exact: true }).count()) === 0, "Sponsored generation was available before explicit verification.");
   check(generationRequests.length === 0, "Sponsored generation was requested before explicit verification.");

@@ -13,7 +13,7 @@ import { LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai
 const DTC_STAGES = [
   { label: "Free screening", key: "briefcase.stage.free_screening" },
   { label: "Packet information", key: "briefcase.stage.packet_information" },
-  { label: "Final verification", key: "briefcase.stage.accuracy_review" },
+  { label: "Review and confirm", key: "briefcase.stage.accuracy_review" },
   { label: "Payment", key: "briefcase.stage.payment" },
   { label: "Preparing packet", key: "briefcase.stage.preparing_packet" },
   { label: "Packet ready", key: "briefcase.stage.packet_generated" },
@@ -227,7 +227,7 @@ function pickNextStep(matters: BriefcasePresentationItem[]): NextStep | null {
           return { headline: humanMatterState(item), body: "Reopen the verified facts for this matter before generation.", ctaLabel: "Review verified facts", href: `/briefcase/${item.id}/review` };
         }
         if (item.packetProgress === "facts_complete") {
-          return { headline: "Packet facts complete", body: "Review every saved packet fact and complete final verification before generation.", ctaLabel: "Review packet facts", href: `/briefcase/${item.id}/review` };
+          return { headline: "Packet facts complete", body: "Review your information and confirm it before we prepare your packet.", ctaLabel: "Review packet facts", href: `/briefcase/${item.id}/review` };
         }
         if (item.packetProgress === "in_progress") {
           return { headline: "Packet details in progress", body: "Your saved packet details are waiting in this matter.", ctaLabel: "Resume packet information", href: `/briefcase/${item.id}/packet-information` };
