@@ -60,6 +60,11 @@ const VIEWPORTS = [
 
 const event = {
   id: "20000000-0000-4000-8000-0000000000a1",
+  // Standard Clinic Mode, stated rather than assumed. This test covers the
+  // standard participant entry surface — access code, continue to consent,
+  // rejection — and Legal Aid registration is a different experience with its
+  // own surface, so the fixture has to say which one it is.
+  experience: "standard",
   public_slug: "synthetic-a11y-clinic",
   name: "Synthetic accessibility clinic",
   starts_at: "2026-09-01T13:00:00.000Z",
@@ -70,10 +75,40 @@ const event = {
   status: "published"
 };
 
+/**
+ * Honour the filters, because a stub that answers every query with the same
+ * row is not standing in for the database, it is overriding it.
+ *
+ * The clinic entry route asks whether this slug is a Legal Aid event before it
+ * serves the standard surface. This stub used to return its synthetic event for
+ * every clinic_events query, so that lookup matched, the route correctly
+ * redirected what it had been told was a Legal Aid event, and this test never
+ * reached the surface it exists to measure. The product was right; the stub was
+ * answering a question it had not been asked.
+ */
+function matchesFilters(searchParams, row) {
+  for (const [key, raw] of searchParams) {
+    if (key === "select" || key === "limit" || key === "order" || key === "offset") continue;
+    const [operator, ...rest] = raw.split(".");
+    const value = rest.join(".");
+    if (operator !== "eq") continue;
+    if (String(row[key] ?? "") !== value) return false;
+  }
+  return true;
+}
+
 const stub = http.createServer((request, response) => {
   const requestUrl = new URL(request.url ?? "/", `http://127.0.0.1:${stubPort}`);
   const single = request.headers.accept?.includes("vnd.pgrst.object");
   if (requestUrl.pathname.startsWith("/rest/v1/clinic_events")) {
+    if (!matchesFilters(requestUrl.searchParams, event)) {
+      // PostgREST answers "no row" rather than "no table". maybeSingle() reads
+      // an empty set as null, which is what lets the route fall through to the
+      // standard surface instead of redirecting.
+      response.writeHead(200, { "content-type": "application/json", "content-range": "*/0" });
+      response.end(single ? "null" : "[]");
+      return;
+    }
     const row = requestUrl.searchParams.get("select") === "public_slug" ? { public_slug: event.public_slug } : event;
     response.writeHead(200, { "content-type": "application/json", "content-range": "0-0/1" });
     response.end(JSON.stringify(single ? row : [row]));
@@ -82,6 +117,14 @@ const stub = http.createServer((request, response) => {
   response.writeHead(404, { "content-type": "application/json" });
   response.end(JSON.stringify({ message: "synthetic endpoint not configured" }));
 });
+
+// The stub must not classify this standard event as Legal Aid. Asserted here
+// rather than left to the page's behaviour, so the reason a redirect would
+// reappear is named at its source.
+assert.equal(event.experience, "standard");
+assert.equal(matchesFilters(new URLSearchParams("public_slug=eq.synthetic-a11y-clinic&experience=eq.legal_aid"), event), false);
+assert.equal(matchesFilters(new URLSearchParams("public_slug=eq.synthetic-a11y-clinic&status=eq.published"), event), true);
+assert.equal(matchesFilters(new URLSearchParams("public_slug=eq.some-other-clinic&status=eq.published"), event), false);
 await listen(stub, stubPort);
 
 let output = "";
