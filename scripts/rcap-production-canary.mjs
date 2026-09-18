@@ -23,10 +23,10 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "8517a9b0ecf107605fe3094f23175d6a344f0244";
-const TOOLS_SHA = "8517a9b0ecf107605fe3094f23175d6a344f0244";
-const WORKER_SOURCE_SHA = "8517a9b0ecf107605fe3094f23175d6a344f0244";
-const WORKER_DIGEST = "sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534";
+const APPLICATION_SHA = "44ed5e395818503c0c878fd418fb9a896d591313";
+const TOOLS_SHA = "44ed5e395818503c0c878fd418fb9a896d591313";
+const WORKER_SOURCE_SHA = "44ed5e395818503c0c878fd418fb9a896d591313";
+const WORKER_DIGEST = "sha256:c1443d8cc027588b3cbc6c6b3514b356fcedec5bba6058f950e4646eb2787ea0";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 // The Preview this release's acceptance actually ran on, and the current holder
@@ -41,7 +41,7 @@ const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 // application 4e16d6d8. This control's job is to compare Production against
 // the deployment acceptance was earned on, so it names the deployment this
 // release's journey actually touched and no other.
-const ACCEPTANCE_DEPLOYMENT_ID = "dpl_33LqnGJMj6zE6zoQcqzL5tTMCRMu";
+const ACCEPTANCE_DEPLOYMENT_ID = "dpl_8bvnd8AHB4Wm9s2NmeV5n2CWmuKm";
 const PUBLIC_ROUTES = ["/", "/sign-in", "/expungement-ai/sign-in"];
 
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
