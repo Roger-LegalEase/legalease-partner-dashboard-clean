@@ -1,4 +1,4 @@
-name: Regenerate accepted checkout hotfix Grade-A authority once
+name: Checkout hotfix production activate once
 
 on:
   push:
@@ -8,50 +8,69 @@ on:
       - .github/workflows/rcap-checkout-hotfix-once.yml
 
 permissions:
-  contents: write
+  contents: read
+  packages: read
+  actions: read
 
 jobs:
-  regenerate:
+  activate:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
+    env:
+      APPLICATION_SHA: 8517a9b0ecf107605fe3094f23175d6a344f0244
+      TOOLS_SHA: 49af7c6acdd28af05090770bbd970eddeaae4baa
+      WORKER_SOURCE_SHA: 8517a9b0ecf107605fe3094f23175d6a344f0244
+      WORKER_DIGEST: sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534
+      SMOKE_RUN_ID: 35300111459
     steps:
-      - name: Check out hotfix branch
+      - name: Check out repository history
         uses: actions/checkout@v4
         with:
-          ref: claude/hotfix-release-3e3a528b5
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-node@v4
+
+      - name: Verify exact tools commit is canonical and check it out
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin claude/legalease-sprint-captain-utucnw
+          git cat-file -e "$TOOLS_SHA^{commit}"
+          git merge-base --is-ancestor "$TOOLS_SHA" origin/claude/legalease-sprint-captain-utucnw
+          git diff --quiet "$APPLICATION_SHA" "$TOOLS_SHA" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts
+          git diff --quiet "$WORKER_SOURCE_SHA" "$TOOLS_SHA" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src
+          git checkout --detach "$TOOLS_SHA"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
-      - run: npm ci
-      - run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
-      - name: Generate authority against accepted hotfix worker
-        run: node scripts/generate-rcap-grade-a-fulfillment-authority.mjs
-      - name: Refuse worker-static or unrelated drift
+
+      - name: Download exact successful smoke evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: checkout-hotfix-smoke-35300111459
+          path: prior-production-smoke-evidence
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 35300111459
+
+      - name: Verify activation contract
         run: |
-          set -euo pipefail
-          git diff --quiet -- data/rcap-grade-a/worker-static-authority.json || { echo "::error::worker-static authority changed"; exit 1; }
-          unexpected="$(git diff --name-only | grep -vE '^(data/rcap-grade-a/fulfillment-authority-registry\.json|data/rcap-grade-a/fulfillment-observation-snapshot\.json|data/rcap-grade-a/fulfillment-authority-projection\.json)$' || true)"
-          [ -z "$unexpected" ] || { echo "::error::unexpected drift: $unexpected"; exit 1; }
-      - name: Verify authority and Mississippi commercial status
-        run: |
-          set -euo pipefail
-          node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check
-          node scripts/verify-rcap-grade-a-fulfillment-authority.mjs
-          node - <<'JS'
-          const p=require('./data/rcap-grade-a/fulfillment-authority-projection.json');
-          const route=p.routes.find(r=>r.routeId==='MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal');
-          console.log(JSON.stringify(route));
-          if (!route || route.state!=='COMPLETE_PACKET_PROVEN' || route.commercialStatus!=='commercially_eligible') process.exit(1);
-          JS
-      - name: Commit generated authority
-        run: |
-          set -euo pipefail
-          git config user.name "Roger-LegalEase"
-          git config user.email "roger@legalease.com"
-          git add data/rcap-grade-a/fulfillment-authority-registry.json data/rcap-grade-a/fulfillment-observation-snapshot.json data/rcap-grade-a/fulfillment-authority-projection.json
-          git diff --cached --quiet && { echo "::error::no generated authority change"; exit 1; }
-          git commit -m "Regenerate Grade-A authority for accepted checkout hotfix worker"
-          git push origin HEAD:claude/hotfix-release-3e3a528b5
+          node scripts/verify-rcap-production-activation.mjs
+          node scripts/test-rcap-production-activation-mutations.mjs
+
+      - name: Activate exact staged hotfix deployment
+        env:
+          RCAP_PRODUCTION_PHASE: activate
+          RCAP_APPLICATION_SHA: ${{ env.APPLICATION_SHA }}
+          RCAP_WORKER_SOURCE_SHA: ${{ env.WORKER_SOURCE_SHA }}
+          RCAP_WORKER_DIGEST: ${{ env.WORKER_DIGEST }}
+          RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE: prior-production-smoke-evidence/production-canary-smoke.json
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node scripts/rcap-production-activate.mjs
+
+      - name: Upload activation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkout-hotfix-activation-${{ github.run_id }}
+          path: production-canary-evidence/
+          if-no-files-found: error
