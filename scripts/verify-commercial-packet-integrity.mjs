@@ -66,99 +66,122 @@ for (const record of ledger.records ?? []) {
 }
 
 /**
- * The denominator's own invariants.
+ * The layered model, held at every layer.
  *
- * The census used to take its membership from the fulfillment ledger, which
- * made the question "who are we answering for?" a function of the answers.
- * Withdrawing one unearned record then deleted its route from the census
- * entirely — a route we still intend to sell, quietly stopped being asked
- * about. These hold the separation: intent decides who is in, proof decides
- * what they may do, and only a recorded decision changes who is in.
+ *   paid-pathway universe -> evidence and proofs -> Grade-A fulfillment
+ *   authority -> commercial admission
+ *
+ * Membership belongs to the first layer only. The census once built its own
+ * out of registry flags and evaluator capability, which answered for 40 routes
+ * while 227 intended-paid pathways went unasked, and made withdrawing one
+ * unearned record delete its route entirely. Everything downstream is now
+ * joined onto a fixed set: a missing witness, a missing track, a missing proof
+ * and a withdrawn record are all columns, never absences.
  */
-const denominator = JSON.parse(fs.readFileSync("data/rcap-ledger/commercial-denominator.json", "utf8"));
+const denominator = JSON.parse(fs.readFileSync("data/rcap-ledger/paid-pathway-denominator.json", "utf8"));
+const registryCensus = JSON.parse(fs.readFileSync("data/rcap-ledger/registry-route-census.json", "utf8"));
+const closure = JSON.parse(fs.readFileSync("data/rcap-ledger/sellable-pathway-closure.json", "utf8"));
+const reclassifications = JSON.parse(fs.readFileSync("data/rcap-ledger/sellable-pathway-reclassifications.json", "utf8"));
 const withdrawals = JSON.parse(fs.readFileSync("data/rcap-ledger/fulfillment-authority-withdrawals.json", "utf8"));
-const departures = census.departuresFromTheCommercialDenominator;
 
-// 1. Every route in the denominator appears exactly once.
-const seen = new Map();
-for (const row of census.rows) seen.set(row.route, (seen.get(row.route) ?? 0) + 1);
-ok("every denominator route appears exactly once in the census",
-  denominator.routes.every((route) => seen.get(route) === 1) && seen.size === denominator.routes.length,
-  `${seen.size} row keys for ${denominator.routes.length} denominator routes`);
-ok("the census and the denominator are pinned to the same set",
-  createHash("sha256").update([...seen.keys()].sort().join("\n")).digest("hex") === denominator.sha256);
+// The denominator is READ from the closure, never derived here.
+const closurePaid = closure.pathways.filter((entry) => entry.category === "paid_packet_intended").map((entry) => entry.pathwayKey).sort();
+ok("the paid denominator is exactly the closure's paid_packet_intended set",
+  denominator.pathways.join("\n") === closurePaid.join("\n"),
+  `${denominator.pathways.length} recorded vs ${closurePaid.length} in the closure`);
+ok("the denominator ledger names the closure as its source and the register as its only exit",
+  denominator.source === "data/rcap-ledger/sellable-pathway-closure.json"
+  && denominator.exitMechanism === "data/rcap-ledger/sellable-pathway-reclassifications.json");
+ok("the denominator is pinned by hash",
+  createHash("sha256").update(denominator.pathways.join("\n")).digest("hex") === denominator.sha256);
 
-// 2. A fulfillment record does not create membership.
-ok("no route is in the denominator only because it holds a record",
-  census.rows.every((row) => row.intendedCommercialStatus !== undefined
-    && ["paid_packet_intended", "evaluator_payment_allowed", "sponsored_credit_consumable"]
-      .includes(row.intendedCommercialStatus)));
+// 1. Every intended-paid pathway gets exactly one census row.
+const rowKeys = census.rows.map((row) => row.route);
+const counted = new Map();
+for (const key of rowKeys) counted.set(key, (counted.get(key) ?? 0) + 1);
+ok("every intended-paid pathway appears exactly once in the census",
+  denominator.pathways.every((key) => counted.get(key) === 1) && counted.size === denominator.pathways.length,
+  `${counted.size} distinct rows for ${denominator.pathways.length} pathways`);
+ok("the census invents no route outside the denominator",
+  rowKeys.every((key) => denominator.pathways.includes(key)),
+  rowKeys.filter((key) => !denominator.pathways.includes(key)).join(", "));
+ok("every row carries exactly one commercial classification",
+  census.rows.every((row) => typeof row.currentClassification === "string" && row.currentClassification.length > 0));
 
-// 3 and 7. A route without a record is still answered for, not absent.
-const recordless = census.rows.filter((row) => !row.fulfillmentRecordPresent);
-ok("routes with no fulfillment record are still carried in the census", recordless.length > 0);
-ok("every refused route states exactly why its commercial authority is refused",
-  census.rows.filter((row) => !row.gradeAProofValid).every((row) =>
-    typeof row.commercialAuthorityRefusedBecause === "string" && row.commercialAuthorityRefusedBecause.length > 0),
-  census.rows.filter((row) => !row.gradeAProofValid && !row.commercialAuthorityRefusedBecause).map((row) => row.route).join(", "));
+// 2 and 3. Nothing downstream defines membership.
+ok("no row is in the census for any reason other than being intended-paid",
+  census.rows.every((row) => row.intendedCommercialStatus === "paid_packet_intended"));
+ok("routes holding no fulfillment record are still answered for",
+  census.rows.some((row) => !row.fulfillmentRecordPresent));
+ok("routes with no public witness keep their row rather than disappearing",
+  census.rows.filter((row) => row.publicWitness === "absent").length === census.registryRouteCensus.gaps);
 
-// 4. A record may exist only when every required Grade-A proof is valid.
+// The acceptance identities.
+ok("267 = witness-backed + witness-missing",
+  census.accounting.paidPathwayDenominator
+    === census.accounting.examinedInRegistryCensus + census.accounting.censusGaps,
+  `${census.accounting.paidPathwayDenominator} vs ${census.accounting.examinedInRegistryCensus} + ${census.accounting.censusGaps}`);
+ok("the denominator equals every commercial-state classification counted exactly once",
+  Object.entries(census.totals).filter(([key]) => key === key.toUpperCase())
+    .reduce((sum, [, value]) => sum + value, 0) === denominator.pathways.length,
+  JSON.stringify(Object.fromEntries(Object.entries(census.totals).filter(([key]) => key === key.toUpperCase()))));
+ok("the closure lineage closes",
+  census.accounting.paidPathwayDenominator + census.reclassifiedOutOfPaidDenominator.count === 302);
+
+// 4. A fulfillment record may exist only when every required proof is valid.
 ok("no route holds a fulfillment record its proofs do not support",
   census.rows.every((row) => !row.fulfillmentRecordPresent || row.gradeAProofValid),
   census.rows.filter((row) => row.fulfillmentRecordPresent && !row.gradeAProofValid).map((row) => row.route).join(", "));
 
-// 5. A denominator route with no valid authority fails closed at the gate that
-//    actually governs money. `checkoutState` is the route resolver's posture,
-//    and the two disagreeing is this census's central finding rather than
-//    something to assert away: 25 routes have checkout open at the resolver
-//    while nothing proves they deliver a packet, and what stops them is the
-//    commercial admission gate, driven surface by surface below.
+// 5. No valid authority means refused commercial admission, with a reason.
 ok("every route without valid fulfillment authority is refused commercial admission",
   census.rows.every((row) => row.gradeAProofValid || row.commercialAdmissionState === "refused"),
   census.rows.filter((row) => !row.gradeAProofValid && row.commercialAdmissionState !== "refused").map((row) => row.route).join(", "));
-ok("the census still reports the routes whose resolver posture disagrees with their proof",
-  census.rows.some((row) => !row.gradeAProofValid && row.checkoutState === "open"));
+ok("every refused route states exactly why",
+  census.rows.filter((row) => !row.gradeAProofValid).every((row) =>
+    typeof row.commercialAuthorityRefusedBecause === "string" && row.commercialAuthorityRefusedBecause.length > 0));
 
-// 6. A withdrawn record stays traceable and carries no authority.
-//
-//    Checked in both directions, because a loop over the ledger proves nothing
-//    when the ledger is empty: erasing it would have satisfied every assertion
-//    below by having none to make. The census is generated from the ledger, so
-//    the two must agree on how many withdrawals exist, and a census row that
-//    remembers a withdrawal the ledger has forgotten is an erasure.
+// 6. A withdrawn record stays traceable, carries no authority, and is not an exit.
+//    Checked in both directions: a loop over the ledger proves nothing when the
+//    ledger is empty, so the two must agree on the count first.
 const rowsWithWithdrawal = census.rows.filter((row) => row.withdrawalRecord !== null);
 ok("the withdrawal ledger and the census agree on how many records were withdrawn",
   rowsWithWithdrawal.length === (withdrawals.withdrawals ?? []).length,
   `${rowsWithWithdrawal.length} census row(s) vs ${(withdrawals.withdrawals ?? []).length} ledger entr(ies)`);
-for (const row of rowsWithWithdrawal) {
-  ok(`${row.route}: the withdrawal its census row cites is still in the ledger`,
-    (withdrawals.withdrawals ?? []).some((entry) => entry.routeKey === row.route));
-}
 for (const withdrawal of withdrawals.withdrawals ?? []) {
   const row = census.rows.find((entry) => entry.route === withdrawal.routeKey);
-  ok(`${withdrawal.routeKey}: a withdrawn record leaves the route in the census`, Boolean(row));
-  ok(`${withdrawal.routeKey}: the withdrawal is visible on its census row`,
+  ok(`${withdrawal.routeKey}: a withdrawn record leaves the pathway in the denominator`,
+    denominator.pathways.includes(withdrawal.routeKey));
+  ok(`${withdrawal.routeKey}: and leaves it with its census row`, Boolean(row));
+  ok(`${withdrawal.routeKey}: the withdrawal is visible on that row`,
     row?.withdrawalRecord?.priorRecordSha256 === withdrawal.priorRecordSha256);
-  ok(`${withdrawal.routeKey}: the withdrawal carries no commercial authority`,
+  ok(`${withdrawal.routeKey}: it carries no commercial authority`,
     row?.commercialAdmissionState === "refused" && row?.checkoutState === "refused"
     && row?.sponsorshipState === "refused" && row?.creditConsumptionState === "refused");
   ok(`${withdrawal.routeKey}: the route and its legal work are preserved`, row?.routeAndLegalWorkPreserved === true);
-  ok(`${withdrawal.routeKey}: a withdrawal is not a departure from the denominator`,
-    !departures.routes.some((entry) => entry.route === withdrawal.routeKey));
+  ok(`${withdrawal.routeKey}: withdrawal is not a reclassification`,
+    !reclassifications.reclassifications.some((entry) => entry.pathwayKey === withdrawal.routeKey));
 }
 
-// 8. Every actual removal is an explicit, provenanced departure.
-ok("every departure names its decision, date and both denominator hashes",
-  departures.routes.every((entry) => typeof entry.leftBecause === "string" && entry.leftBecause.length > 0
-    && typeof entry.decisionRecord === "string" && entry.decisionRecord.length > 0
-    && /^\d{4}-\d{2}-\d{2}$/.test(entry.decidedOn ?? "")
-    && /^[0-9a-f]{64}$/.test(entry.priorDenominatorSha256 ?? "")
-    && /^[0-9a-f]{64}$/.test(entry.newDenominatorSha256 ?? "")
-    && entry.priorDenominatorSha256 !== entry.newDenominatorSha256));
-ok("no route is both in the denominator and recorded as having left it",
-  departures.routes.every((entry) => !denominator.routes.includes(entry.route)));
-ok("the accounting closes over every witnessed route",
-  departures.reconciliation.includes(`= ${census.rows.length} + ${departures.count} +`));
+// 7 and 8. The one exit, and no other.
+ok("every pathway recorded as leaving is gone from the denominator, and signed",
+  census.reclassifiedOutOfPaidDenominator.pathways.every((entry) =>
+    !denominator.pathways.includes(entry.pathway) && typeof entry.id === "string" && entry.id.length > 0
+    && typeof entry.reason === "string" && entry.reason.length > 0));
+ok("the census names the reclassification register as the only exit",
+  census.reclassifiedOutOfPaidDenominator.register === "data/rcap-ledger/sellable-pathway-reclassifications.json");
+ok("the census has no exit mechanism of its own",
+  census.departuresFromTheCommercialDenominator === undefined);
+
+// The crosswalk: paid pathway -> registry route/track, with gaps named.
+ok("the crosswalk covers every intended-paid pathway exactly once",
+  registryCensus.crosswalk.length === denominator.pathways.length
+  && new Set(registryCensus.crosswalk.map((entry) => entry.paidPathway)).size === denominator.pathways.length);
+ok("every crosswalk gap gives its reason",
+  registryCensus.crosswalk.filter((entry) => entry.publicWitness === "absent")
+    .every((entry) => typeof entry.gapReason === "string" && entry.gapReason.length > 0));
+ok("a registry track gap is recorded rather than hidden",
+  census.rows.every((row) => ["present", "gap"].includes(row.registryTrackState)));
 
 const MONEY_SURFACES = [
   "checkout creation",

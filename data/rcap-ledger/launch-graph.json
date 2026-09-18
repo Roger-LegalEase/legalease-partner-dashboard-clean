@@ -7,19 +7,19 @@
   "oneDenominator": {
     "source": "data/rcap-ledger/sellable-pathway-closure.json",
     "category": "paid_packet_intended",
-    "pathways": 262,
-    "sha256": "8748b29cf552334082525166dada63d67e906c11b80d31af5dbf55365af0aaa2",
+    "pathways": 267,
+    "sha256": "81db46ab7ad4feea0eb659457ac16e095605075707f98552f755e25b281dc2e2",
     "enforcement": "Every consumed ledger is required to describe exactly this pathway set. A ledger that adds or drops a pathway fails this generator rather than being reconciled quietly, so there is no second denominator to disagree with."
   },
   "inputs": {
-    "data/rcap-ledger/sellable-pathway-closure.json": "fc8fddcc40cd523ddea2b59bb0aeaab60bbb6b443847fb3e4f2d8f3d2ea6f3c6",
-    "data/rcap-ledger/paid-pathway-legal-join.json": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
+    "data/rcap-ledger/sellable-pathway-closure.json": "402b5a798f8072ecc5c2b4ca72f992cc99bfd16553cab45121101a47484143c2",
+    "data/rcap-ledger/paid-pathway-legal-join.json": "2107414b68900c64f1858a0d3cbe8592a6f01f3d354a2b5b9ff5586c82ecd8f4",
     "data/record-clearing/legal-design-packet-set-manifests.json": "9034e44d95da99cc5f2bc14db11d8a4dee049b0f229c9410b098e30c427043b4",
-    "data/rcap-ledger/public-witness-answer-sets.json": "1c47de971663ae3a3b24e2ab2a153d7184e3a1a1c288e3355da5bce4f03cb9ed",
-    "data/record-clearing/factory-v2-route-registry.json": "82ed680bbad2f10a2e1e88bcfaa300d21849ff329e06f843789fb49932e86545",
-    "data/rcap-all50/problematic-pdf-register.json": "e0ca5c8c7a95fb13812dff2bc0ed8b3945ac8f5d95b613dc7e2a2df9596a8de6",
+    "data/rcap-ledger/public-witness-answer-sets.json": "20ae5e20b591d6a043a4de6aa416552d7f2dbb61603153c8892d307d94b55ce9",
+    "data/record-clearing/factory-v2-route-registry.json": "23bbdc9eb5fd74f9a0af27192d233f7e9816a2966a6515c80c9139151793745d",
+    "data/rcap-all50/problematic-pdf-register.json": "aee39d15e5ff23c25eb87f026607d1dfe8fa99e38a793d32a7cbcdb1f1de0b17",
     "data/record-clearing/source-artifact-registry.json": "2134cc5e43a69bd7c7cd2f0f096726925b37320886a2f46b9409c4771bbd703b",
-    "data/rcap-ledger/session-a-evidence-packet.json": "ed01b5fe9ada9ffa052401ede5aebcedab75d43d9b4f62a9d5a3c28a0d5b8342"
+    "data/rcap-ledger/session-a-evidence-packet.json": "b7793f541aab25cabfffd36c8aa80fbe6ec4d8cc6069d4c8f7c52ea890786e6a"
   },
   "ownerLegalDecision": {
     "approved": true,
@@ -43,16 +43,16 @@
     "limitation": "Official-form filling cannot be exercised here: the source PDFs live under private/Nationwide Record Clearing/, which this worktree does not carry. A route whose named official forms are not held is recorded as such and is NOT counted as deterministically rendered."
   },
   "counters": {
-    "intendedPaid": 262,
-    "correctPathwayPublicWitnesses": 262,
+    "intendedPaid": 267,
+    "correctPathwayPublicWitnesses": 267,
     "wrongPathwayWitnesses": 0,
     "nonConvergingWitnesses": 0,
-    "exactTrackAndPacketSet": 222,
+    "exactTrackAndPacketSet": 227,
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
-    "ownerApprovedLegal": 95,
-    "factoryV2Selected": 169,
-    "factoryV2Resolved": 169,
+    "ownerApprovedLegal": 96,
+    "factoryV2Selected": 173,
+    "factoryV2Resolved": 173,
     "factoryV2AdmittedButSuppressed": [
       {
         "pathwayKey": "AR:situation-b-misdemeanor-convictions",
@@ -60,6 +60,10 @@
       },
       {
         "pathwayKey": "CT:absolute-pardon-resulting-in-erasure",
+        "suppressedBy": "guidance_only"
+      },
+      {
+        "pathwayKey": "CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
         "suppressedBy": "guidance_only"
       },
       {
@@ -96,18 +100,18 @@
       }
     ],
     "paymentAllowed": 28,
-    "deterministicallyRenderedComposedText": 169,
-    "deterministicallyRendered": 43,
-    "officialFormsNamedButNotHeldInThisRepository": 126,
+    "deterministicallyRenderedComposedText": 173,
+    "deterministicallyRendered": 45,
+    "officialFormsNamedButNotHeldInThisRepository": 128,
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
-    "ownerApprovedLegalDesign": 167,
-    "technicalApprovalCurrent": 192,
-    "deterministicArtifactProven": 219,
-    "noProblematicPdfHold": 19,
-    "paymentAllowed": 234,
-    "rendererSelected": 68,
+    "ownerApprovedLegalDesign": 171,
+    "technicalApprovalCurrent": 196,
+    "deterministicArtifactProven": 222,
+    "noProblematicPdfHold": 22,
+    "paymentAllowed": 239,
+    "rendererSelected": 69,
     "packetSpecificationComplete": 40
   },
   "availability": {
@@ -127,9 +131,9 @@
       "CUSTOM_PLEADING_READY": 0,
       "GUIDANCE_READY": 0,
       "HANDOFF_READY": 5,
-      "MAINTENANCE_HOLD": 25,
+      "MAINTENANCE_HOLD": 28,
       "LEGAL_HOLD": 8,
-      "UNFINISHED": 224
+      "UNFINISHED": 226
     },
     "byState": {
       "AK": {
@@ -166,7 +170,7 @@
         "HANDOFF_READY": 0,
         "MAINTENANCE_HOLD": 0,
         "LEGAL_HOLD": 0,
-        "UNFINISHED": 3
+        "UNFINISHED": 4
       },
       "CA": {
         "PACKET_READY": 0,
@@ -175,16 +179,16 @@
         "HANDOFF_READY": 0,
         "MAINTENANCE_HOLD": 0,
         "LEGAL_HOLD": 0,
-        "UNFINISHED": 5
+        "UNFINISHED": 6
       },
       "CO": {
         "PACKET_READY": 0,
         "CUSTOM_PLEADING_READY": 0,
         "GUIDANCE_READY": 0,
         "HANDOFF_READY": 0,
-        "MAINTENANCE_HOLD": 0,
+        "MAINTENANCE_HOLD": 2,
         "LEGAL_HOLD": 0,
-        "UNFINISHED": 3
+        "UNFINISHED": 1
       },
       "CT": {
         "PACKET_READY": 0,
@@ -193,7 +197,7 @@
         "HANDOFF_READY": 0,
         "MAINTENANCE_HOLD": 0,
         "LEGAL_HOLD": 0,
-        "UNFINISHED": 2
+        "UNFINISHED": 3
       },
       "DC": {
         "PACKET_READY": 0,
@@ -290,7 +294,7 @@
         "CUSTOM_PLEADING_READY": 0,
         "GUIDANCE_READY": 0,
         "HANDOFF_READY": 0,
-        "MAINTENANCE_HOLD": 2,
+        "MAINTENANCE_HOLD": 3,
         "LEGAL_HOLD": 0,
         "UNFINISHED": 1
       },
@@ -436,7 +440,7 @@
         "HANDOFF_READY": 1,
         "MAINTENANCE_HOLD": 0,
         "LEGAL_HOLD": 0,
-        "UNFINISHED": 6
+        "UNFINISHED": 7
       },
       "NY": {
         "PACKET_READY": 0,
@@ -1800,6 +1804,103 @@
       "allOperationalGatesMet": false
     },
     {
+      "pathwayKey": "AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "jurisdiction": "AZ",
+      "pathwayId": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "pathwayLabel": "Notation of clearance after a wrongful arrest, indictment or charge",
+      "availability": "UNFINISHED",
+      "compiledPathway": {
+        "present": true,
+        "profileVersion": "2026-06-19-source-conversion-1"
+      },
+      "registryTracks": [
+        "az_wrongful_arrest_clearance"
+      ],
+      "registryGap": false,
+      "pathwayLevelPacketRecord": null,
+      "packetFamilies": [],
+      "packetSets": [
+        {
+          "packetSetId": "az_wrongful_arrest_clearance-set",
+          "trackId": "az_wrongful_arrest_clearance",
+          "components": 1
+        }
+      ],
+      "ownerApprovedLegalStatus": "approved_by_decision_owner",
+      "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalBasis": "owner_approved_existing_legal_design_packet_set",
+      "packetSpecification": {
+        "complete": true,
+        "componentCount": 1,
+        "participantActionsRequired": 7
+      },
+      "sourceAssets": {
+        "officialFormIdsNamed": [],
+        "officialFormIdsHeldInThisRepository": [],
+        "allNamedSourcesHeld": false
+      },
+      "technicalStatus": {
+        "completedOutputVerifierResults": [],
+        "current": false
+      },
+      "pdfStatus": {
+        "problematicAssets": [],
+        "hold": false
+      },
+      "renderer": {
+        "routeKind": "factory_v2",
+        "rendererKind": "packet_document_v1",
+        "packetSetIds": [
+          "az_wrongful_arrest_clearance-set"
+        ],
+        "reason": "AZ notation-of-clearance-after-a-wrongful-arrest-under-13-4051 builds through the shared packet factory from packet set az_wrongful_arrest_clearance-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+      },
+      "publicWitness": {
+        "reachesThisPathway": true,
+        "settled": true,
+        "resultCode": "guidance_only",
+        "rounds": 2
+      },
+      "paymentResult": {
+        "allowedAtTheEvaluator": false,
+        "sellableAtTheResolver": false,
+        "creditConsumable": false
+      },
+      "artifactResult": {
+        "rendered": true,
+        "deterministic": true,
+        "sha256": "af8bfb0ae5929ff629dd7c82369fdb50690f5dc36919a4bdb99df71155907bfb",
+        "characters": 2680,
+        "sections": 10,
+        "warnings": 0,
+        "errors": []
+      },
+      "dtcResult": {
+        "deliverable": false
+      },
+      "rcapResult": {
+        "creditConsumable": false
+      },
+      "operationalGates": {
+        "publicWitnessReachesThisPathway": true,
+        "authoritativeIntendedPathway": true,
+        "paymentAllowed": false,
+        "packetSpecificationComplete": true,
+        "ownerApprovedLegalDesign": true,
+        "technicalApprovalCurrent": false,
+        "rendererSelected": true,
+        "deterministicArtifactProven": true,
+        "noProblematicPdfHold": true
+      },
+      "unmetOperationalGates": [
+        "paymentAllowed",
+        "technicalApprovalCurrent"
+      ],
+      "fulfillmentAuthorityAdmitted": false,
+      "operationallySellable": false,
+      "allOperationalGatesMet": false
+    },
+    {
       "pathwayKey": "AZ:remedy-1-record-sealing",
       "jurisdiction": "AZ",
       "pathwayId": "remedy-1-record-sealing",
@@ -2095,6 +2196,110 @@
       },
       "unmetOperationalGates": [
         "paymentAllowed",
+        "technicalApprovalCurrent",
+        "deterministicArtifactProven"
+      ],
+      "fulfillmentAuthorityAdmitted": false,
+      "operationallySellable": false,
+      "allOperationalGatesMet": false
+    },
+    {
+      "pathwayKey": "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "jurisdiction": "CA",
+      "pathwayId": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "pathwayLabel": "Dismissal and set-aside of a conviction for which probation was not granted",
+      "availability": "UNFINISHED",
+      "compiledPathway": {
+        "present": true,
+        "profileVersion": "2026-06-19-source-conversion-1"
+      },
+      "registryTracks": [
+        "ca-1203-4a"
+      ],
+      "registryGap": false,
+      "pathwayLevelPacketRecord": null,
+      "packetFamilies": [],
+      "packetSets": [
+        {
+          "packetSetId": "ca-1203-4a-set",
+          "trackId": "ca-1203-4a",
+          "components": 4
+        }
+      ],
+      "ownerApprovedLegalStatus": "owner_approval_pending",
+      "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalBasis": "owner_approved_existing_legal_design_packet_set",
+      "packetSpecification": {
+        "complete": true,
+        "componentCount": 4,
+        "participantActionsRequired": 10
+      },
+      "sourceAssets": {
+        "officialFormIdsNamed": [
+          "CR-106",
+          "CR-180",
+          "CR-181",
+          "MC-031"
+        ],
+        "officialFormIdsHeldInThisRepository": [],
+        "allNamedSourcesHeld": false
+      },
+      "technicalStatus": {
+        "completedOutputVerifierResults": [],
+        "current": false
+      },
+      "pdfStatus": {
+        "problematicAssets": [],
+        "hold": false
+      },
+      "renderer": {
+        "routeKind": "factory_v2",
+        "rendererKind": "packet_document_v1",
+        "packetSetIds": [
+          "ca-1203-4a-set"
+        ],
+        "reason": "CA dismissal-and-set-aside-without-probation-under-penal-code-1203-4a builds through the shared packet factory from packet set ca-1203-4a-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+      },
+      "publicWitness": {
+        "reachesThisPathway": true,
+        "settled": true,
+        "resultCode": "needs_more_info",
+        "rounds": 2
+      },
+      "paymentResult": {
+        "allowedAtTheEvaluator": false,
+        "sellableAtTheResolver": false,
+        "creditConsumable": false
+      },
+      "artifactResult": {
+        "rendered": true,
+        "deterministic": true,
+        "sha256": "d3cec6a4553d550e90949554ad26aa67bf66630ad4af71a7738f69938e5ec247",
+        "characters": 3408,
+        "sections": 12,
+        "warnings": 0,
+        "errors": []
+      },
+      "dtcResult": {
+        "deliverable": false
+      },
+      "rcapResult": {
+        "creditConsumable": false
+      },
+      "operationalGates": {
+        "publicWitnessReachesThisPathway": true,
+        "authoritativeIntendedPathway": true,
+        "paymentAllowed": false,
+        "packetSpecificationComplete": true,
+        "ownerApprovedLegalDesign": false,
+        "technicalApprovalCurrent": false,
+        "rendererSelected": true,
+        "deterministicArtifactProven": false,
+        "noProblematicPdfHold": true
+      },
+      "unmetOperationalGates": [
+        "paymentAllowed",
+        "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
@@ -2714,7 +2919,7 @@
       "jurisdiction": "CO",
       "pathwayId": "petition-based-conviction-sealing-jdf-612-24-72-706",
       "pathwayLabel": "Petition-based conviction sealing (JDF 612 / § 24-72-706)",
-      "availability": "UNFINISHED",
+      "availability": "MAINTENANCE_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -2755,8 +2960,19 @@
         "current": false
       },
       "pdfStatus": {
-        "problematicAssets": [],
-        "hold": false
+        "problematicAssets": [
+          {
+            "assetId": "CO|JDF-612|8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+            "formId": "JDF-612",
+            "owner": "Terminal A route owner"
+          },
+          {
+            "assetId": "CO|JDF-615|106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+            "formId": "JDF-615",
+            "owner": "Terminal A route owner"
+          }
+        ],
+        "hold": true
       },
       "renderer": {
         "routeKind": "factory_v2",
@@ -2801,13 +3017,14 @@
         "technicalApprovalCurrent": false,
         "rendererSelected": true,
         "deterministicArtifactProven": false,
-        "noProblematicPdfHold": true
+        "noProblematicPdfHold": false
       },
       "unmetOperationalGates": [
         "paymentAllowed",
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
-        "deterministicArtifactProven"
+        "deterministicArtifactProven",
+        "noProblematicPdfHold"
       ],
       "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
@@ -2818,7 +3035,7 @@
       "jurisdiction": "CO",
       "pathwayId": "petition-based-non-conviction-sealing-jdf-417-24-72-704",
       "pathwayLabel": "Petition-based non-conviction sealing (JDF 417 / § 24-72-704)",
-      "availability": "UNFINISHED",
+      "availability": "MAINTENANCE_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -2859,8 +3076,14 @@
         "current": false
       },
       "pdfStatus": {
-        "problematicAssets": [],
-        "hold": false
+        "problematicAssets": [
+          {
+            "assetId": "CO|JDF-417|e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
+            "formId": "JDF-417",
+            "owner": "Terminal A route owner"
+          }
+        ],
+        "hold": true
       },
       "renderer": {
         "routeKind": "factory_v2",
@@ -2905,12 +3128,13 @@
         "technicalApprovalCurrent": false,
         "rendererSelected": true,
         "deterministicArtifactProven": false,
-        "noProblematicPdfHold": true
+        "noProblematicPdfHold": false
       },
       "unmetOperationalGates": [
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
-        "deterministicArtifactProven"
+        "deterministicArtifactProven",
+        "noProblematicPdfHold"
       ],
       "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
@@ -3007,6 +3231,96 @@
       },
       "unmetOperationalGates": [
         "paymentAllowed",
+        "rendererSelected",
+        "deterministicArtifactProven"
+      ],
+      "fulfillmentAuthorityAdmitted": false,
+      "operationallySellable": false,
+      "allOperationalGatesMet": false
+    },
+    {
+      "pathwayKey": "CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "jurisdiction": "CT",
+      "pathwayId": "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "pathwayLabel": "Petition for erasure of cannabis conviction records",
+      "availability": "UNFINISHED",
+      "compiledPathway": {
+        "present": true,
+        "profileVersion": "2026-06-19-source-conversion-1"
+      },
+      "registryTracks": [
+        "ct-cannabis-petition"
+      ],
+      "registryGap": false,
+      "pathwayLevelPacketRecord": null,
+      "packetFamilies": [],
+      "packetSets": [
+        {
+          "packetSetId": "ct-cannabis-petition-set",
+          "trackId": "ct-cannabis-petition",
+          "components": 2
+        }
+      ],
+      "ownerApprovedLegalStatus": "owner_approval_pending",
+      "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalBasis": "owner_approved_existing_legal_design_packet_set",
+      "packetSpecification": {
+        "complete": true,
+        "componentCount": 2,
+        "participantActionsRequired": 13
+      },
+      "sourceAssets": {
+        "officialFormIdsNamed": [],
+        "officialFormIdsHeldInThisRepository": [],
+        "allNamedSourcesHeld": false
+      },
+      "technicalStatus": {
+        "completedOutputVerifierResults": [],
+        "current": false
+      },
+      "pdfStatus": {
+        "problematicAssets": [],
+        "hold": false
+      },
+      "renderer": {
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
+        "packetSetIds": [],
+        "reason": "CT has a compiled profile but no certified packet renderer, so it serves guidance."
+      },
+      "publicWitness": {
+        "reachesThisPathway": true,
+        "settled": true,
+        "resultCode": "needs_review",
+        "rounds": 2
+      },
+      "paymentResult": {
+        "allowedAtTheEvaluator": false,
+        "sellableAtTheResolver": false,
+        "creditConsumable": false
+      },
+      "artifactResult": null,
+      "dtcResult": {
+        "deliverable": false
+      },
+      "rcapResult": {
+        "creditConsumable": false
+      },
+      "operationalGates": {
+        "publicWitnessReachesThisPathway": true,
+        "authoritativeIntendedPathway": true,
+        "paymentAllowed": false,
+        "packetSpecificationComplete": true,
+        "ownerApprovedLegalDesign": false,
+        "technicalApprovalCurrent": false,
+        "rendererSelected": false,
+        "deterministicArtifactProven": false,
+        "noProblematicPdfHold": true
+      },
+      "unmetOperationalGates": [
+        "paymentAllowed",
+        "ownerApprovedLegalDesign",
+        "technicalApprovalCurrent",
         "rendererSelected",
         "deterministicArtifactProven"
       ],
@@ -6780,7 +7094,7 @@
       "publicWitness": {
         "reachesThisPathway": true,
         "settled": true,
-        "resultCode": "likely_not_eligible",
+        "resultCode": "guidance_only",
         "rounds": 1
       },
       "paymentResult": {
@@ -8331,6 +8645,115 @@
         "paymentAllowed",
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
+        "deterministicArtifactProven",
+        "noProblematicPdfHold"
+      ],
+      "fulfillmentAuthorityAdmitted": false,
+      "operationallySellable": false,
+      "allOperationalGatesMet": false
+    },
+    {
+      "pathwayKey": "KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "jurisdiction": "KY",
+      "pathwayId": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "pathwayLabel": "Void and seal a first qualifying possession conviction under KRS 218A.276",
+      "availability": "MAINTENANCE_HOLD",
+      "compiledPathway": {
+        "present": true,
+        "profileVersion": "2026-06-19-source-conversion-1"
+      },
+      "registryTracks": [
+        "ky_void_seal_marijuana_synthetic_salvia"
+      ],
+      "registryGap": false,
+      "pathwayLevelPacketRecord": null,
+      "packetFamilies": [],
+      "packetSets": [
+        {
+          "packetSetId": "ky_void_seal_marijuana_synthetic_salvia-set",
+          "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+          "components": 3
+        }
+      ],
+      "ownerApprovedLegalStatus": "owner_approval_pending",
+      "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalBasis": "owner_approved_existing_legal_design_packet_set",
+      "packetSpecification": {
+        "complete": true,
+        "componentCount": 3,
+        "participantActionsRequired": 10
+      },
+      "sourceAssets": {
+        "officialFormIdsNamed": [
+          "AOC-334"
+        ],
+        "officialFormIdsHeldInThisRepository": [],
+        "allNamedSourcesHeld": false
+      },
+      "technicalStatus": {
+        "completedOutputVerifierResults": [
+          "passed"
+        ],
+        "current": true
+      },
+      "pdfStatus": {
+        "problematicAssets": [
+          {
+            "assetId": "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+            "formId": "AOC-334",
+            "owner": "Terminal A route owner"
+          }
+        ],
+        "hold": true
+      },
+      "renderer": {
+        "routeKind": "factory_v2",
+        "rendererKind": "packet_document_v1",
+        "packetSetIds": [
+          "ky_void_seal_marijuana_synthetic_salvia-set"
+        ],
+        "reason": "KY void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276 builds through the shared packet factory from packet set ky_void_seal_marijuana_synthetic_salvia-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+      },
+      "publicWitness": {
+        "reachesThisPathway": true,
+        "settled": true,
+        "resultCode": "needs_review",
+        "rounds": 2
+      },
+      "paymentResult": {
+        "allowedAtTheEvaluator": false,
+        "sellableAtTheResolver": false,
+        "creditConsumable": false
+      },
+      "artifactResult": {
+        "rendered": true,
+        "deterministic": true,
+        "sha256": "b6ef130c21cbd6e78b67043fb96e8b41926eaef43112b298ce69352b7ccb69ab",
+        "characters": 3365,
+        "sections": 12,
+        "warnings": 0,
+        "errors": []
+      },
+      "dtcResult": {
+        "deliverable": false
+      },
+      "rcapResult": {
+        "creditConsumable": false
+      },
+      "operationalGates": {
+        "publicWitnessReachesThisPathway": true,
+        "authoritativeIntendedPathway": true,
+        "paymentAllowed": false,
+        "packetSpecificationComplete": true,
+        "ownerApprovedLegalDesign": false,
+        "technicalApprovalCurrent": true,
+        "rendererSelected": true,
+        "deterministicArtifactProven": false,
+        "noProblematicPdfHold": false
+      },
+      "unmetOperationalGates": [
+        "paymentAllowed",
+        "ownerApprovedLegalDesign",
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
@@ -17351,6 +17774,104 @@
       },
       "unmetOperationalGates": [
         "paymentAllowed"
+      ],
+      "fulfillmentAuthorityAdmitted": false,
+      "operationallySellable": false,
+      "allOperationalGatesMet": false
+    },
+    {
+      "pathwayKey": "NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "jurisdiction": "NV",
+      "pathwayId": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "pathwayLabel": "Removal of a record from the Central Repository after a favourable disposition",
+      "availability": "UNFINISHED",
+      "compiledPathway": {
+        "present": true,
+        "profileVersion": "2026-06-19-source-conversion-1"
+      },
+      "registryTracks": [
+        "nv_repository_removal"
+      ],
+      "registryGap": false,
+      "pathwayLevelPacketRecord": null,
+      "packetFamilies": [],
+      "packetSets": [
+        {
+          "packetSetId": "nv_repository_removal-set",
+          "trackId": "nv_repository_removal",
+          "components": 6
+        }
+      ],
+      "ownerApprovedLegalStatus": "owner_approval_pending",
+      "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalBasis": "owner_approved_existing_legal_design_packet_set",
+      "packetSpecification": {
+        "complete": true,
+        "componentCount": 6,
+        "participantActionsRequired": 10
+      },
+      "sourceAssets": {
+        "officialFormIdsNamed": [],
+        "officialFormIdsHeldInThisRepository": [],
+        "allNamedSourcesHeld": false
+      },
+      "technicalStatus": {
+        "completedOutputVerifierResults": [],
+        "current": false
+      },
+      "pdfStatus": {
+        "problematicAssets": [],
+        "hold": false
+      },
+      "renderer": {
+        "routeKind": "factory_v2",
+        "rendererKind": "packet_document_v1",
+        "packetSetIds": [
+          "nv_repository_removal-set"
+        ],
+        "reason": "NV removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160 builds through the shared packet factory from packet set nv_repository_removal-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+      },
+      "publicWitness": {
+        "reachesThisPathway": true,
+        "settled": true,
+        "resultCode": "needs_review",
+        "rounds": 2
+      },
+      "paymentResult": {
+        "allowedAtTheEvaluator": false,
+        "sellableAtTheResolver": false,
+        "creditConsumable": false
+      },
+      "artifactResult": {
+        "rendered": true,
+        "deterministic": true,
+        "sha256": "143a3b169467a3adcd521e51bd158513957b83a0f5515ed584dfc8c66b7c6007",
+        "characters": 2720,
+        "sections": 10,
+        "warnings": 0,
+        "errors": []
+      },
+      "dtcResult": {
+        "deliverable": false
+      },
+      "rcapResult": {
+        "creditConsumable": false
+      },
+      "operationalGates": {
+        "publicWitnessReachesThisPathway": true,
+        "authoritativeIntendedPathway": true,
+        "paymentAllowed": false,
+        "packetSpecificationComplete": true,
+        "ownerApprovedLegalDesign": false,
+        "technicalApprovalCurrent": false,
+        "rendererSelected": true,
+        "deterministicArtifactProven": true,
+        "noProblematicPdfHold": true
+      },
+      "unmetOperationalGates": [
+        "paymentAllowed",
+        "ownerApprovedLegalDesign",
+        "technicalApprovalCurrent"
       ],
       "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,

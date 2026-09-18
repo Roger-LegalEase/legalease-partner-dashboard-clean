@@ -22,7 +22,8 @@ import { spawnSync } from "node:child_process";
 const rootDir = process.cwd();
 const LEDGER = "data/rcap-ledger/packet-fulfillment-records.json";
 const CENSUS = "data/rcap-ledger/commercial-packet-integrity.json";
-const DENOMINATOR = "data/rcap-ledger/commercial-denominator.json";
+const DENOMINATOR = "data/rcap-ledger/paid-pathway-denominator.json";
+const REGISTRY = "data/rcap-ledger/registry-route-census.json";
 const WITHDRAWALS = "data/rcap-ledger/fulfillment-authority-withdrawals.json";
 const DOC = "docs/record-clearing/COMMERCIAL_PACKET_INTEGRITY.md";
 const ND = "ND:first-offense-possession-sealing";
@@ -74,25 +75,24 @@ console.log("Commercial denominator — mutations that must be caught\n");
 //    record must not remove ND from the census: membership is intent.
 mutation(
   "deleting ND's fulfillment record removes ND from the census",
-  [CENSUS, DENOMINATOR, DOC],
+  [CENSUS, DENOMINATOR, REGISTRY, DOC],
   () => {
     generate();
   },
   () => {
     const census = json(CENSUS);
-    const present = census.rows.some((row) => row.route === ND);
-    const departed = census.departuresFromTheCommercialDenominator.routes.some((row) => row.route === ND);
-    if (!present) return null;
-    if (departed) return null;
-    return `ND stayed in the census with no fulfillment record: admission ${
-      census.rows.find((row) => row.route === ND).commercialAdmissionState}`;
+    const denominator = json(DENOMINATOR);
+    const row = census.rows.find((entry) => entry.route === ND);
+    if (!row) return null;
+    if (!denominator.pathways.includes(ND)) return null;
+    return `ND kept its row and its place in the denominator with no fulfillment record: admission ${row.commercialAdmissionState}`;
   }
 );
 
 // 2. A record whose proofs are incomplete must never count as authorized.
 mutation(
   "an incomplete fulfillment record counts as authorized",
-  [LEDGER, CENSUS, DENOMINATOR, DOC],
+  [LEDGER, CENSUS, DENOMINATOR, REGISTRY, DOC],
   () => {
     const withdrawn = json(WITHDRAWALS).withdrawals.find((entry) => entry.routeKey === ND);
     const ledger = json(LEDGER);
@@ -103,10 +103,10 @@ mutation(
   () => verifierRefusal()
 );
 
-// 3. A route may not leave the denominator without a recorded decision.
+// 3. A pathway may not leave the census without a signed reclassification.
 mutation(
-  "a denominator route disappears with no departure record",
-  [CENSUS, DENOMINATOR, DOC],
+  "an intended-paid pathway disappears from the census with no reclassification",
+  [CENSUS, DENOMINATOR, REGISTRY, DOC],
   () => {
     const census = json(CENSUS);
     const victim = census.rows.find((row) => row.route !== ND);
@@ -119,7 +119,7 @@ mutation(
 // 4. Checkout may not be admitted for a route nothing proves.
 mutation(
   "checkout is admitted for a census route with no valid fulfillment authority",
-  [CENSUS, DENOMINATOR, DOC],
+  [CENSUS, DENOMINATOR, REGISTRY, DOC],
   () => {
     const census = json(CENSUS);
     const victim = census.rows.find((row) => !row.gradeAProofValid);
@@ -134,7 +134,7 @@ mutation(
 //    record may not be held by a route whose proofs are incomplete.
 mutation(
   "a route is marked proven while its Grade-A proofs are incomplete",
-  [CENSUS, DENOMINATOR, DOC],
+  [CENSUS, DENOMINATOR, REGISTRY, DOC],
   () => {
     const census = json(CENSUS);
     const victim = census.rows.find((row) => !row.gradeAProofValid);
@@ -172,7 +172,7 @@ checks += 1;
   const withdrawal = withdrawals.withdrawals.find((entry) => entry.routeKey === ND);
   const expected = {
     "ND remains in the census": Boolean(row),
-    "ND remains in the denominator": denominator.routes.includes(ND),
+    "ND remains in the denominator": denominator.pathways.includes(ND),
     "its invalid authority record is absent": row?.fulfillmentRecordPresent === false,
     "its withdrawal is preserved": Boolean(withdrawal?.priorRecord) && Boolean(withdrawal?.priorRecordSha256),
     "commercial admission refuses": row?.commercialAdmissionState === "refused",
@@ -181,9 +181,11 @@ checks += 1;
     "credit consumption refuses": row?.creditConsumptionState === "refused",
     "the refusal names the missing proof": (row?.commercialAuthorityRefusedBecause ?? "").includes("Grade-A proof incomplete"),
     "route and legal work preserved": row?.routeAndLegalWorkPreserved === true,
-    "ND is not recorded as a departure":
-      !census.departuresFromTheCommercialDenominator.routes.some((entry) => entry.route === ND),
-    "the denominator is unchanged": denominator.sha256 === census.denominator.sha256
+    "the census has no departure mechanism of its own":
+      census.departuresFromTheCommercialDenominator === undefined,
+    "the denominator is unchanged": denominator.sha256 === census.paidPathwayDenominator.sha256,
+    "ND is one of the intended-paid pathways": denominator.pathways.includes(ND),
+    "ND has not been reclassified out": !census.reclassifiedOutOfPaidDenominator.pathways.some((entry) => entry.pathway === ND)
   };
   const wrong = Object.entries(expected).filter(([, held]) => !held).map(([label]) => label);
   if (wrong.length > 0) failures.push(`the expected green state does not hold: ${wrong.join("; ")}`);

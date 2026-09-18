@@ -332,9 +332,9 @@ if (proofComplete) {
   // vanished from the census because its proof was withdrawn would be the
   // silent shrink this accounting exists to prevent.
   const census = JSON.parse(readFileSync(path.join(process.cwd(), "data/rcap-ledger/commercial-packet-integrity.json"), "utf8"));
-  const denominator = JSON.parse(readFileSync(path.join(process.cwd(), "data/rcap-ledger/commercial-denominator.json"), "utf8"));
+  const denominator = JSON.parse(readFileSync(path.join(process.cwd(), "data/rcap-ledger/paid-pathway-denominator.json"), "utf8"));
   const censusRow = census.rows.find((entry) => entry.route === ROUTE_KEY);
-  ok("the route is still in the commercial denominator", denominator.routes.includes(ROUTE_KEY));
+  ok("the route is still one of the intended-paid pathways", denominator.pathways.includes(ROUTE_KEY));
   ok("the census answers for it with its own row", Boolean(censusRow));
   ok("it is in the denominator on intent, not on a record",
     censusRow?.intendedCommercialStatus === "paid_packet_intended", censusRow?.intendedCommercialStatus);
@@ -348,8 +348,10 @@ if (proofComplete) {
     && censusRow?.sponsorshipState === "refused" && censusRow?.creditConsumptionState === "refused");
   ok("its census row records that the route and its legal work are preserved",
     censusRow?.routeAndLegalWorkPreserved === true);
-  ok("a withdrawn record is not recorded as leaving the denominator",
-    !census.departuresFromTheCommercialDenominator.routes.some((entry) => entry.route === ROUTE_KEY));
+  ok("a withdrawn record is not a reclassification out of the denominator",
+    !census.reclassifiedOutOfPaidDenominator.pathways.some((entry) => entry.pathway === ROUTE_KEY));
+  ok("the census has no exit of its own to have used",
+    census.departuresFromTheCommercialDenominator === undefined);
   // Operational sellability, driven at the resolver rather than read from a
   // census row that no longer exists.
   const { resolvePacketRoute, packetRouteCanRender } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");

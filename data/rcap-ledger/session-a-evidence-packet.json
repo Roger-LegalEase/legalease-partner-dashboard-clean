@@ -7,7 +7,7 @@
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
     "source": "working_tree",
     "ref": null,
-    "sha256": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05"
+    "sha256": "2107414b68900c64f1858a0d3cbe8592a6f01f3d354a2b5b9ff5586c82ecd8f4"
   },
   "doesNotMaintainASeparateDenominator": "The denominator here is Session A's graph, consumed as-is: every pathway key, registry track list and disposition comes from data/rcap-ledger/paid-pathway-legal-join.json and none is recomputed. data/rcap-ledger/sellable-pathway-closure.json remains only as the denominator input Session A already integrated; it is not a rival canonical record and nothing in this packet re-derives it.",
   "createsApproval": false,
@@ -17,13 +17,13 @@
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05"
+      "sha256": "2107414b68900c64f1858a0d3cbe8592a6f01f3d354a2b5b9ff5586c82ecd8f4"
     },
     "packetFamilyBridge": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572"
+      "sha256": "9034e44d95da99cc5f2bc14db11d8a4dee049b0f229c9410b098e30c427043b4"
     },
     "trackSourceRelationships": {
       "path": "data/record-clearing/legal-design-track-source-relationships.json",
@@ -41,13 +41,13 @@
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "120fd18ca819f5332a030913df9f9015e6ebf2ae7cd09c48f377f21097380862"
+      "sha256": "20ae5e20b591d6a043a4de6aa416552d7f2dbb61603153c8892d307d94b55ce9"
     },
     "problematicPdfRegister": {
       "path": "data/rcap-all50/problematic-pdf-register.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "e0ca5c8c7a95fb13812dff2bc0ed8b3945ac8f5d95b613dc7e2a2df9596a8de6"
+      "sha256": "aee39d15e5ff23c25eb87f026607d1dfe8fa99e38a793d32a7cbcdb1f1de0b17"
     },
     "completedOutputPacketProofs": {
       "path": "data/record-clearing/production-factory/packet-proofs",
@@ -65,30 +65,30 @@
     }
   },
   "totals": {
-    "pathways": 262,
+    "pathways": 267,
     "sessionADispositions": {
-      "family_bridge_missing_no_family": 151,
+      "family_bridge_missing_no_family": 156,
       "approved_by_decision_owner": 70,
       "family_bridge_missing_no_track": 40,
       "owner_approval_pending": 1
     },
     "registryClassifications": {
-      "exact_track_and_packet_set": 222,
+      "exact_track_and_packet_set": 227,
       "registry_gap_no_track": 40
     },
-    "bridgeImportResolved": 151,
-    "pathwaysWithCompletedOutputEvidence": 70,
-    "ownerApprovedLegal": 227,
+    "bridgeImportResolved": 156,
+    "pathwaysWithCompletedOutputEvidence": 71,
+    "ownerApprovedLegal": 232,
     "ownerApprovalBases": {
-      "owner_approved_existing_legal_design_packet_set": 152,
+      "owner_approved_existing_legal_design_packet_set": 157,
       "owner_approved_packet_family": 70,
       "registry_gap_no_track": 35,
       "owner_approved_exception_annex": 5
     },
     "escalationsToTheDecisionOwner": 0,
     "publicWitness": {
-      "settled": 262,
-      "landedOnTheirOwnPathway": 262,
+      "settled": 267,
+      "landedOnTheirOwnPathway": 267,
       "paymentAllowedAtTheEvaluator": 28
     }
   },
@@ -102,11 +102,11 @@
     },
     "importedBridge": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572",
+      "sha256": "9034e44d95da99cc5f2bc14db11d8a4dee049b0f229c9410b098e30c427043b4",
       "trackCount": 497,
       "scope": "every registry track"
     },
-    "effect": "Session A's join reported 151 pathway(s) as family_bridge_missing_no_family because the bridge it reads covers lane D only. Importing the all-497 packet-set manifest supplies an exact packet set for 151 of them. That changes the REASON, never the coverage answer: a bridged pathway is one whose family can now be named, not one an adoption has been shown to cover.",
+    "effect": "Session A's join reported 156 pathway(s) as family_bridge_missing_no_family because the bridge it reads covers lane D only. Importing the all-497 packet-set manifest supplies an exact packet set for 156 of them. That changes the REASON, never the coverage answer: a bridged pathway is one whose family can now be named, not one an adoption has been shown to cover.",
     "stillUnbridgeable": 40
   },
   "ownerLegalDecision": {
@@ -2577,6 +2577,172 @@
       }
     },
     {
+      "pathwayKey": "AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "jurisdiction": "AZ",
+      "pathwayId": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "pathwayLabel": "Notation of clearance after a wrongful arrest, indictment or charge",
+      "sessionAGraph": {
+        "disposition": "family_bridge_missing_no_family",
+        "statement": "Tracks az_wrongful_arrest_clearance map to this pathway, but this repository carries no track-to-family bridge for them. Roger Roman approved AZ family coverage through the exception annex under auth-2026-08-19-owner-legal-approval-completed-output. Which family this route uses is still unknown to this repository.",
+        "registryTrackIds": [
+          "az_wrongful_arrest_clearance"
+        ],
+        "packetFamilies": [],
+        "lawrenceRatification": null,
+        "ledgerSaysLegalReviewPending": true,
+        "consumedVerbatim": true
+      },
+      "packetFamilyBridge": {
+        "source": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "scope": "all 497 registry tracks",
+        "supersedesForThisPurpose": "data/rcap-codex/d-track-terminalization/track-family-map.json",
+        "packetSets": [
+          {
+            "packetSetId": "az_wrongful_arrest_clearance-set",
+            "trackId": "az_wrongful_arrest_clearance",
+            "version": "1.0.0",
+            "components": [
+              {
+                "componentId": "az_wrongful_arrest_clearance-primary-filing-1",
+                "role": "primary_filing",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              }
+            ],
+            "requiredBeforeFiling": [
+              "Signature and date — Petition, signature block.",
+              "The petitioner signs their own petition.",
+              "The source review does not state a notarization requirement.",
+              "The source review does not state a filing fee for this petition.",
+              "The source review does not address a fee waiver."
+            ],
+            "participantActionRequired": [
+              {
+                "kind": "complete_field",
+                "description": "Signature and date — Petition, signature block.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "sign",
+                "description": "The petitioner signs their own petition.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "notarize",
+                "description": "The source review does not state a notarization requirement.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "pay_fee",
+                "description": "The source review does not state a filing fee for this petition.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "apply_fee_waiver",
+                "description": "The source review does not address a fee waiver.",
+                "requirement": "conditional",
+                "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "serve_party",
+                "description": "The source review does not state a service requirement for this petition.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "file",
+                "description": "Petition in the superior court.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              }
+            ]
+          }
+        ],
+        "tracksWithNoPacketSet": [],
+        "sourceRelationshipCount": 0
+      },
+      "registryClassification": {
+        "kind": "exact_track_and_packet_set",
+        "statement": "Tracks az_wrongful_arrest_clearance map to this pathway and each carries an exact packet set (az_wrongful_arrest_clearance-set)."
+      },
+      "bridgeImportEffect": {
+        "changed": true,
+        "sessionADisposition": "family_bridge_missing_no_family",
+        "sessionAReason": "Tracks az_wrongful_arrest_clearance map to this pathway, but this repository carries no track-to-family bridge for them. Roger Roman approved AZ family coverage through the exception annex under auth-2026-08-19-owner-legal-approval-completed-output. Which family this route uses is still unknown to this repository.",
+        "afterImport": "packet_set_bridge_present",
+        "statement": "Session A's join reported no track-to-family bridge because it read the lane-D map. The all-497 packet-set manifest in this repository does carry a set for these tracks, so the bridge is present. Whether the adoption reaches it is still counsel's determination."
+      },
+      "adoptionJoin": {
+        "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "adoptedOn": "2026-08-08",
+        "scopeLevel": "packet_family",
+        "recordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
+        "jurisdictionIsBound": false,
+        "boundFamiliesInThisJurisdiction": [],
+        "sessionAAdoptionRecordId": null,
+        "sessionABoundFamilyEvidence": []
+      },
+      "completedOutput": [],
+      "problematicPdfAssets": [],
+      "publicWitness": {
+        "publicRoute": "/expungement-ai/screening/arizona",
+        "evaluationEndpoint": "POST /api/expungement-ai/screening",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "pathwayContextOffered": "Notation of clearance after a wrongful arrest, indictment or charge",
+        "seedAnswers": {
+          "ownership_scope": "Yes",
+          "jurisdiction_scope": "State or local",
+          "state_exclusion_categories": [
+            "None of these"
+          ],
+          "pending_cases": "No",
+          "new_convictions_during_waiting_period": "No",
+          "sentence_completion_date": "Yes",
+          "financial_obligations": "Yes",
+          "court_requirements_completed": "yes",
+          "special_preconditions_confirmed": "Yes",
+          "trafficking_status": "No",
+          "pardon_status": "No",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "possible_pathway_context": "Notation of clearance after a wrongful arrest, indictment or charge"
+        },
+        "rounds": 2,
+        "finalAnswerCount": 14,
+        "terminalEvaluation": {
+          "resultCode": "guidance_only",
+          "pathwayId": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+          "pathwayLabel": "Notation of clearance after a wrongful arrest, indictment or charge",
+          "paymentAllowed": false,
+          "treatmentClassification": null,
+          "selectedTrackId": null,
+          "reasonCodes": [
+            "az.guidance_only_no_user_filed_court_petition"
+          ],
+          "missingQuestionIds": []
+        },
+        "landedOnThisPathway": true,
+        "error": null,
+        "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051]"
+      },
+      "ownerApprovedLegal": {
+        "status": "approved_by_decision_owner",
+        "basis": "owner_approved_existing_legal_design_packet_set",
+        "escalationRequired": false,
+        "packetSetIds": [
+          "az_wrongful_arrest_clearance-set"
+        ],
+        "statement": "Every track on this pathway carries an exact legal-design packet set (az_wrongful_arrest_clearance-set). Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment."
+      }
+    },
+    {
       "pathwayKey": "AZ:remedy-1-record-sealing",
       "jurisdiction": "AZ",
       "pathwayId": "remedy-1-record-sealing",
@@ -3122,6 +3288,227 @@
           "az_marijuana_expungement_arrest_no_charges-set"
         ],
         "statement": "Every track on this pathway carries an exact legal-design packet set (az_marijuana_expungement_arrest_no_charges-set). Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment."
+      }
+    },
+    {
+      "pathwayKey": "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "jurisdiction": "CA",
+      "pathwayId": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "pathwayLabel": "Dismissal and set-aside of a conviction for which probation was not granted",
+      "sessionAGraph": {
+        "disposition": "family_bridge_missing_no_family",
+        "statement": "Tracks ca-1203-4a map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "registryTrackIds": [
+          "ca-1203-4a"
+        ],
+        "packetFamilies": [],
+        "lawrenceRatification": null,
+        "ledgerSaysLegalReviewPending": true,
+        "consumedVerbatim": true
+      },
+      "packetFamilyBridge": {
+        "source": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "scope": "all 497 registry tracks",
+        "supersedesForThisPurpose": "data/rcap-codex/d-track-terminalization/track-family-map.json",
+        "packetSets": [
+          {
+            "packetSetId": "ca-1203-4a-set",
+            "trackId": "ca-1203-4a",
+            "version": "1.0.0",
+            "components": [
+              {
+                "componentId": "ca-1203-4a-primary-filing-1",
+                "role": "primary_filing",
+                "requirement": "required",
+                "outputStrategy": "official_pdf_fill",
+                "officialFormId": "CR-180",
+                "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms"
+              },
+              {
+                "componentId": "ca-1203-4a-proposed-order-2",
+                "role": "proposed_order",
+                "requirement": "required",
+                "outputStrategy": "official_pdf_fill",
+                "officialFormId": "CR-181",
+                "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms"
+              },
+              {
+                "componentId": "ca-1203-4a-proof-of-service-3",
+                "role": "proof_of_service",
+                "requirement": "conditional",
+                "outputStrategy": "official_pdf_fill",
+                "officialFormId": "CR-106",
+                "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms"
+              },
+              {
+                "componentId": "ca-1203-4a-supporting-declaration-4",
+                "role": "supporting_declaration",
+                "requirement": "conditional",
+                "outputStrategy": "official_pdf_fill",
+                "officialFormId": "MC-031",
+                "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms"
+              }
+            ],
+            "requiredBeforeFiling": [
+              "Check your answer to \"Were you placed on probation in this case?\" against Court docket and disposition, and correct the packet if they disagree.",
+              "Signature and date — CR-180, petitioner signature block.",
+              "Interests-of-justice explanation — CR-180 box 3 and MC-031 where attached.",
+              "The petitioner signs CR-180.",
+              "The source review does not state a notarization requirement.",
+              "Reimbursement of up to $60 to the county and $60 to the city, subject to an ability-to-pay determination under the PC 987.8(g)(2) standard, and expressly not a prerequisite to eligibility. § 1203.4a(e). Any court filing fee is unresolved and county-specific.",
+              "FW-001 is the general California fee waiver form. Inability to pay the § 1203.4a(e) reimbursement does not defeat eligibility."
+            ],
+            "participantActionRequired": [
+              {
+                "kind": "obtain_document",
+                "description": "Obtain Court docket and disposition. Ask the clerk of the Superior Court in the county of conviction. The docket is what settles the probation question and therefore the statute box.",
+                "obtainedFrom": "Superior Court of the county of conviction",
+                "requirement": "conditional",
+                "conditionDescription": "Where the participant is unsure whether probation was granted.",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "confirm_answer",
+                "description": "Check your answer to \"Were you placed on probation in this case?\" against Court docket and disposition, and correct the packet if they disagree.",
+                "requirement": "conditional",
+                "conditionDescription": "Where the participant is unsure whether probation was granted.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Signature and date — CR-180, petitioner signature block.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Interests-of-justice explanation — CR-180 box 3 and MC-031 where attached.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "sign",
+                "description": "The petitioner signs CR-180.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "notarize",
+                "description": "The source review does not state a notarization requirement.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "pay_fee",
+                "description": "Reimbursement of up to $60 to the county and $60 to the city, subject to an ability-to-pay determination under the PC 987.8(g)(2) standard, and expressly not a prerequisite to eligibility. § 1203.4a(e). Any court filing fee is unresolved and county-specific.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "apply_fee_waiver",
+                "description": "FW-001 is the general California fee waiver form. Inability to pay the § 1203.4a(e) reimbursement does not defeat eligibility.",
+                "requirement": "conditional",
+                "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "serve_party",
+                "description": "Serve the prosecuting attorney where notice is required and file CR-106 proof of service.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "file",
+                "description": "File CR-180 with box 3 elected, together with the proposed CR-181, in the Superior Court of the county of conviction. Petition for dismissal of an infraction is by written declaration except on a showing of compelling need.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              }
+            ]
+          }
+        ],
+        "tracksWithNoPacketSet": [],
+        "sourceRelationshipCount": 4
+      },
+      "registryClassification": {
+        "kind": "exact_track_and_packet_set",
+        "statement": "Tracks ca-1203-4a map to this pathway and each carries an exact packet set (ca-1203-4a-set)."
+      },
+      "bridgeImportEffect": {
+        "changed": true,
+        "sessionADisposition": "family_bridge_missing_no_family",
+        "sessionAReason": "Tracks ca-1203-4a map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "afterImport": "packet_set_bridge_present",
+        "statement": "Session A's join reported no track-to-family bridge because it read the lane-D map. The all-497 packet-set manifest in this repository does carry a set for these tracks, so the bridge is present. Whether the adoption reaches it is still counsel's determination."
+      },
+      "adoptionJoin": {
+        "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "adoptedOn": "2026-08-08",
+        "scopeLevel": "packet_family",
+        "recordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
+        "jurisdictionIsBound": true,
+        "boundFamiliesInThisJurisdiction": [
+          {
+            "familyJobId": "rcap-ca-guidance-implementation",
+            "legalDesignMemoSha256": "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3",
+            "packetProofSha256": "859e34be09d3e0fea488f4d58bc9cefdc5eeb8aef88e11b8148c612ffcc6901c",
+            "implementationCommit": "26b4661089849a67eb99bfae6598ba101f75cbbc",
+            "carriesSupersededTechnicalResult": false
+          }
+        ],
+        "sessionAAdoptionRecordId": null,
+        "sessionABoundFamilyEvidence": []
+      },
+      "completedOutput": [],
+      "problematicPdfAssets": [],
+      "publicWitness": {
+        "publicRoute": "/expungement-ai/screening/california",
+        "evaluationEndpoint": "POST /api/expungement-ai/screening",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "pathwayContextOffered": "Dismissal and set-aside of a conviction for which probation was not granted",
+        "seedAnswers": {
+          "ownership_scope": "Yes",
+          "jurisdiction_scope": "State or local",
+          "state_exclusion_categories": [
+            "None of these"
+          ],
+          "pending_cases": "No",
+          "new_convictions_during_waiting_period": "No",
+          "sentence_completion_date": "Yes",
+          "financial_obligations": "Yes",
+          "court_requirements_completed": "yes",
+          "special_preconditions_confirmed": "Yes",
+          "trafficking_status": "No",
+          "pardon_status": "No",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "possible_pathway_context": "Dismissal and set-aside of a conviction for which probation was not granted"
+        },
+        "rounds": 2,
+        "finalAnswerCount": 14,
+        "terminalEvaluation": {
+          "resultCode": "needs_more_info",
+          "pathwayId": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+          "pathwayLabel": "Dismissal and set-aside of a conviction for which probation was not granted",
+          "paymentAllowed": false,
+          "treatmentClassification": null,
+          "selectedTrackId": null,
+          "reasonCodes": [
+            "ca.route_identified_packet_not_yet_available"
+          ],
+          "missingQuestionIds": []
+        },
+        "landedOnThisPathway": true,
+        "error": null,
+        "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a]"
+      },
+      "ownerApprovedLegal": {
+        "status": "approved_by_decision_owner",
+        "basis": "owner_approved_existing_legal_design_packet_set",
+        "escalationRequired": false,
+        "packetSetIds": [
+          "ca-1203-4a-set"
+        ],
+        "statement": "Every track on this pathway carries an exact legal-design packet set (ca-1203-4a-set). Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment. CA additionally carries 1 bound family in EXT-ADOPT-01."
       }
     },
     {
@@ -4270,7 +4657,7 @@
                 "role": "required_filing",
                 "requirement": "required",
                 "outputStrategy": "official_pdf_fill",
-                "officialFormId": null,
+                "officialFormId": "JDF-614",
                 "officialSourceUrl": null
               },
               {
@@ -4278,6 +4665,14 @@
                 "role": "proposed_order",
                 "requirement": "required",
                 "outputStrategy": "official_pdf_fill",
+                "officialFormId": "JDF-613",
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "co_motion_seal_conviction-jdf-205-206-fee-waiver-5",
+                "role": "conditional_filing",
+                "requirement": "conditional",
+                "outputStrategy": "process_guidance",
                 "officialFormId": null,
                 "officialSourceUrl": null
               }
@@ -4290,8 +4685,8 @@
               "Signature and date — JDF 612, signature block.",
               "The movant signs their own motion.",
               "The source review does not state a notarization requirement.",
-              "The source review does not state a filing fee for this motion.",
-              "The source review does not address a fee waiver."
+              "JDF 611 § ③ Filing Fees: “The Clerk will let you know the fee (if any) when filing.”",
+              "JDF 611 § ③ Filing Fees: “If you cannot afford the fees, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C).”"
             ],
             "participantActionRequired": [
               {
@@ -4344,13 +4739,13 @@
               },
               {
                 "kind": "pay_fee",
-                "description": "The source review does not state a filing fee for this motion.",
+                "description": "JDF 611 § ③ Filing Fees: “The Clerk will let you know the fee (if any) when filing.” No held source states an amount, and none is invented.",
                 "requirement": "required",
                 "requiredBeforeFiling": true
               },
               {
                 "kind": "apply_fee_waiver",
-                "description": "The source review does not address a fee waiver.",
+                "description": "JDF 611 § ③ Filing Fees: “If you cannot afford the fees, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C).” Neither JDF 205 nor JDF 206 is in this packet or anywhere in data/rcap-all50/local-source-corpus-index.json; the participant obtains them from the Colorado Judicial Department.",
                 "requirement": "conditional",
                 "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
                 "requiredBeforeFiling": true
@@ -4403,7 +4798,22 @@
         "sessionABoundFamilyEvidence": []
       },
       "completedOutput": [],
-      "problematicPdfAssets": [],
+      "problematicPdfAssets": [
+        {
+          "trackId": "co_motion_seal_conviction",
+          "assetId": "CO|JDF-612|8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+          "formId": "JDF-612",
+          "postLaunchPriority": "medium",
+          "owner": "Terminal A route owner"
+        },
+        {
+          "trackId": "co_motion_seal_conviction",
+          "assetId": "CO|JDF-615|106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+          "formId": "JDF-615",
+          "postLaunchPriority": "medium",
+          "owner": "Terminal A route owner"
+        }
+      ],
       "publicWitness": {
         "publicRoute": "/expungement-ai/screening/colorado",
         "evaluationEndpoint": "POST /api/expungement-ai/screening",
@@ -4502,7 +4912,7 @@
                 "role": "required_filing",
                 "requirement": "required",
                 "outputStrategy": "official_pdf_fill",
-                "officialFormId": null,
+                "officialFormId": "JDF-419",
                 "officialSourceUrl": null
               },
               {
@@ -4510,14 +4920,14 @@
                 "role": "required_filing",
                 "requirement": "required",
                 "outputStrategy": "official_pdf_fill",
-                "officialFormId": null,
+                "officialFormId": "JDF-435",
                 "officialSourceUrl": null
               },
               {
                 "componentId": "co_petition_seal_arrest-jdf-205-206-fee-waiver-5",
                 "role": "conditional_filing",
                 "requirement": "conditional",
-                "outputStrategy": "official_pdf_fill",
+                "outputStrategy": "process_guidance",
                 "officialFormId": null,
                 "officialSourceUrl": null
               }
@@ -4528,8 +4938,8 @@
               "Signature and date — JDF 417, signature block.",
               "The petitioner signs their own petition.",
               "The source review does not state a notarization requirement.",
-              "The filing fee for this petition remains unresolved.",
-              "The source review does not address a fee waiver for this petition."
+              "JDF 416 § Filing Fees: “The Clerk will let you know the fee (if any) when filing.”",
+              "JDF 416 § Filing Fees: “If you cannot afford the fee, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C).”"
             ],
             "participantActionRequired": [
               {
@@ -4567,13 +4977,13 @@
               },
               {
                 "kind": "pay_fee",
-                "description": "The filing fee for this petition remains unresolved.",
+                "description": "JDF 416 § Filing Fees: “The Clerk will let you know the fee (if any) when filing.” No held source states an amount, and none is invented.",
                 "requirement": "required",
                 "requiredBeforeFiling": true
               },
               {
                 "kind": "apply_fee_waiver",
-                "description": "The source review does not address a fee waiver for this petition.",
+                "description": "JDF 416 § Filing Fees: “If you cannot afford the fee, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C).” Neither JDF 205 nor JDF 206 is rendered by this packet; the participant obtains them from the Colorado Judicial Department.",
                 "requirement": "conditional",
                 "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
                 "requiredBeforeFiling": true
@@ -4626,7 +5036,15 @@
         "sessionABoundFamilyEvidence": []
       },
       "completedOutput": [],
-      "problematicPdfAssets": [],
+      "problematicPdfAssets": [
+        {
+          "trackId": "co_petition_seal_arrest",
+          "assetId": "CO|JDF-417|e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
+          "formId": "JDF-417",
+          "postLaunchPriority": "medium",
+          "owner": "Terminal A route owner"
+        }
+      ],
       "publicWitness": {
         "publicRoute": "/expungement-ai/screening/colorado",
         "evaluationEndpoint": "POST /api/expungement-ai/screening",
@@ -4985,6 +5403,233 @@
           "rcap-ct-guidance-implementation"
         ],
         "statement": "Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved the completed output of rcap-ct-guidance-implementation, the packet family this pathway resolves to."
+      }
+    },
+    {
+      "pathwayKey": "CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "jurisdiction": "CT",
+      "pathwayId": "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "pathwayLabel": "Petition for erasure of cannabis conviction records",
+      "sessionAGraph": {
+        "disposition": "family_bridge_missing_no_family",
+        "statement": "Tracks ct-cannabis-petition map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "registryTrackIds": [
+          "ct-cannabis-petition"
+        ],
+        "packetFamilies": [],
+        "lawrenceRatification": null,
+        "ledgerSaysLegalReviewPending": true,
+        "consumedVerbatim": true
+      },
+      "packetFamilyBridge": {
+        "source": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "scope": "all 497 registry tracks",
+        "supersedesForThisPurpose": "data/rcap-codex/d-track-terminalization/track-family-map.json",
+        "packetSets": [
+          {
+            "packetSetId": "ct-cannabis-petition-set",
+            "trackId": "ct-cannabis-petition",
+            "version": "1.0.0",
+            "components": [
+              {
+                "componentId": "ct-cannabis-petition-primary-filing-1",
+                "role": "primary_filing",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ct-cannabis-petition-supporting-affidavit-2",
+                "role": "supporting_affidavit",
+                "requirement": "conditional",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              }
+            ],
+            "requiredBeforeFiling": [
+              "Obtain Copy of the arrest record. Ask the arresting police department or the clerk of the court where the conviction was effected for a copy of the arrest record. LegalEase does not obtain, receive or inspect it.",
+              "Check your answer to \"What quantity was involved, or how many plants were grown in your own primary residence for personal use?\" against Copy of the arrest record, and correct the packet if they disagree.",
+              "Check your answer to \"How many counts are on this docket, and have you confirmed from the record that every one of them is erasable?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+              "The quantity or paraphernalia-use fact, sworn by the petitioner — Supporting affidavit, factual allegations.",
+              "Signature and verification — Petition and affidavit signature blocks.",
+              "Confirmation that all counts on the docket are erasable — Petition, factual allegations.",
+              "The petitioner signs the petition, and swears the affidavit where the affidavit route is used.",
+              "The affidavit is sworn. The source review does not state whether a notary or another proper officer is required.",
+              "No fee. § 54-142v(a)(4).",
+              "Not applicable. No fee is charged."
+            ],
+            "participantActionRequired": [
+              {
+                "kind": "obtain_document",
+                "description": "Obtain Copy of the arrest record. Ask the arresting police department or the clerk of the court where the conviction was effected for a copy of the arrest record. LegalEase does not obtain, receive or inspect it.",
+                "obtainedFrom": "The arresting police department or the Superior Court clerk",
+                "requirement": "conditional",
+                "conditionDescription": "The statute requires either a copy of the arrest record or an affidavit. Where the arrest record does not establish the quantity, the affidavit is the vehicle.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "confirm_answer",
+                "description": "Check your answer to \"What quantity was involved, or how many plants were grown in your own primary residence for personal use?\" against Copy of the arrest record, and correct the packet if they disagree.",
+                "requirement": "conditional",
+                "conditionDescription": "The statute requires either a copy of the arrest record or an affidavit. Where the arrest record does not establish the quantity, the affidavit is the vehicle.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "obtain_document",
+                "description": "Obtain Judicial Branch case look-up printout. Look the case up to confirm the docket number, the conviction date and the full count list.",
+                "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "confirm_answer",
+                "description": "Check your answer to \"How many counts are on this docket, and have you confirmed from the record that every one of them is erasable?\" against Judicial Branch case look-up printout, and correct the packet if they disagree.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "The quantity or paraphernalia-use fact, sworn by the petitioner — Supporting affidavit, factual allegations.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Signature and verification — Petition and affidavit signature blocks.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Confirmation that all counts on the docket are erasable — Petition, factual allegations.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "sign",
+                "description": "The petitioner signs the petition, and swears the affidavit where the affidavit route is used.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "notarize",
+                "description": "The affidavit is sworn. The source review does not state whether a notary or another proper officer is required.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "pay_fee",
+                "description": "No fee. § 54-142v(a)(4).",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "apply_fee_waiver",
+                "description": "Not applicable. No fee is charged.",
+                "requirement": "conditional",
+                "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "serve_party",
+                "description": "Unresolved. No service requirement was found in § 54-142v. Local practice must be confirmed before shipping.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "file",
+                "description": "File the petition, with the arrest record or the sworn affidavit attached, in the Superior Court at the location where the conviction was effected, at the location having custody of the records, or for older courts the Superior Court where venue would currently exist for criminal prosecution. Because there is no statewide form, call the clerk before filing.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              }
+            ]
+          }
+        ],
+        "tracksWithNoPacketSet": [],
+        "sourceRelationshipCount": 0
+      },
+      "registryClassification": {
+        "kind": "exact_track_and_packet_set",
+        "statement": "Tracks ct-cannabis-petition map to this pathway and each carries an exact packet set (ct-cannabis-petition-set)."
+      },
+      "bridgeImportEffect": {
+        "changed": true,
+        "sessionADisposition": "family_bridge_missing_no_family",
+        "sessionAReason": "Tracks ct-cannabis-petition map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "afterImport": "packet_set_bridge_present",
+        "statement": "Session A's join reported no track-to-family bridge because it read the lane-D map. The all-497 packet-set manifest in this repository does carry a set for these tracks, so the bridge is present. Whether the adoption reaches it is still counsel's determination."
+      },
+      "adoptionJoin": {
+        "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "adoptedOn": "2026-08-08",
+        "scopeLevel": "packet_family",
+        "recordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
+        "jurisdictionIsBound": true,
+        "boundFamiliesInThisJurisdiction": [
+          {
+            "familyJobId": "rcap-ct-guidance-implementation",
+            "legalDesignMemoSha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+            "packetProofSha256": "a119d0e46fe002003d0d858fbf8baf9cb609bbb1f5416d0c220e661a75197633",
+            "implementationCommit": "fd9ef0bfc18f11d0b34d7504682a574e2a849d06",
+            "carriesSupersededTechnicalResult": false
+          }
+        ],
+        "sessionAAdoptionRecordId": null,
+        "sessionABoundFamilyEvidence": []
+      },
+      "completedOutput": [],
+      "problematicPdfAssets": [],
+      "publicWitness": {
+        "publicRoute": "/expungement-ai/screening/connecticut",
+        "evaluationEndpoint": "POST /api/expungement-ai/screening",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "pathwayContextOffered": "Petition for erasure of cannabis conviction records",
+        "seedAnswers": {
+          "ownership_scope": "Yes",
+          "jurisdiction_scope": "State or local",
+          "state_exclusion_categories": [
+            "None of these"
+          ],
+          "pending_cases": "No",
+          "new_convictions_during_waiting_period": "No",
+          "sentence_completion_date": "Yes",
+          "financial_obligations": "Yes",
+          "court_requirements_completed": "yes",
+          "special_preconditions_confirmed": "Yes",
+          "trafficking_status": "No",
+          "pardon_status": "No",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "possible_pathway_context": "Petition for erasure of cannabis conviction records"
+        },
+        "rounds": 2,
+        "finalAnswerCount": 14,
+        "terminalEvaluation": {
+          "resultCode": "needs_review",
+          "pathwayId": "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+          "pathwayLabel": "Petition for erasure of cannabis conviction records",
+          "paymentAllowed": false,
+          "treatmentClassification": null,
+          "selectedTrackId": null,
+          "reasonCodes": [
+            "ct.selected_pathway_rule_not_matched"
+          ],
+          "missingQuestionIds": []
+        },
+        "landedOnThisPathway": true,
+        "error": null,
+        "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v]"
+      },
+      "ownerApprovedLegal": {
+        "status": "approved_by_decision_owner",
+        "basis": "owner_approved_existing_legal_design_packet_set",
+        "escalationRequired": false,
+        "packetSetIds": [
+          "ct-cannabis-petition-set"
+        ],
+        "statement": "Every track on this pathway carries an exact legal-design packet set (ct-cannabis-petition-set). Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment. CT additionally carries 1 bound family in EXT-ADOPT-01."
       }
     },
     {
@@ -5965,7 +6610,7 @@
           {
             "packetSetId": "de_discretionary_superior_court-set",
             "trackId": "de_discretionary_superior_court",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "components": [
               {
                 "componentId": "de_discretionary_superior_court-primary-filing-1",
@@ -5990,21 +6635,14 @@
                 "outputStrategy": "official_pdf_fill",
                 "officialFormId": "CIV_EXP_04_A",
                 "officialSourceUrl": null
-              },
-              {
-                "componentId": "de_discretionary_superior_court-cover-sheet-4",
-                "role": "cover_sheet",
-                "requirement": "required",
-                "outputStrategy": "custom_pleading",
-                "officialFormId": null,
-                "officialSourceUrl": null
               }
             ],
             "requiredBeforeFiling": [
               "Obtain Certified criminal history, dated within 45 days. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once. The court shall summarily reject any petition without it.",
               "Check your answer to \"List each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony.\" against Certified criminal history, dated within 45 days, and correct the packet if they disagree.",
+              "Obtain and attach the SBI Cover Letter issued by the State Bureau of Identification after its review of the certified criminal history. The Superior Court filing instructions require this letter with the petition, proposed order, and qualifying certified criminal history.",
               "Notarized signature — Petition CIV_EXP_02_A, signature and jurat.",
-              "Manifest-injustice explanation — Petition CIV_EXP_02_A, manifest-injustice section.",
+              "Manifest-injustice assertion checkbox and explanation — Petition CIV_EXP_02_A, manifest-injustice section. Review the required assertion and mark the checkbox only if the statement is true; complete your own explanation on the ruled lines or attached pages.",
               "The petition is sworn and subscribed before a clerk of court or notary.",
               "Required. Filing in person means bringing the petition unsigned and signing in front of the notary at the Prothonotary's office. Filing by mail means notarizing first.",
               "$75 filing fee, per CIV_EXP_07_A. Set by the courts under § 4374(j).",
@@ -6026,11 +6664,10 @@
               },
               {
                 "kind": "obtain_document",
-                "description": "Obtain SBI eligibility letter. The SBI issues the letter after reviewing the certified criminal history.",
+                "description": "Obtain and attach the SBI Cover Letter issued by the State Bureau of Identification after its review of the certified criminal history. The Superior Court filing instructions require this letter with the petition, proposed order, and qualifying certified criminal history.",
                 "obtainedFrom": "State Bureau of Identification",
-                "requirement": "conditional",
-                "conditionDescription": "Where the participant first applied on the mandatory path and the SBI directed them to file discretionary.",
-                "requiredBeforeFiling": false
+                "requirement": "required",
+                "requiredBeforeFiling": true
               },
               {
                 "kind": "complete_field",
@@ -6040,7 +6677,7 @@
               },
               {
                 "kind": "complete_field",
-                "description": "Manifest-injustice explanation — Petition CIV_EXP_02_A, manifest-injustice section.",
+                "description": "Manifest-injustice assertion checkbox and explanation — Petition CIV_EXP_02_A, manifest-injustice section. Review the required assertion and mark the checkbox only if the statement is true; complete your own explanation on the ruled lines or attached pages.",
                 "requirement": "required",
                 "requiredBeforeFiling": true
               },
@@ -13522,7 +14159,7 @@
         "rounds": 1,
         "finalAnswerCount": 17,
         "terminalEvaluation": {
-          "resultCode": "likely_not_eligible",
+          "resultCode": "guidance_only",
           "pathwayId": "felony-prostitution-relief",
           "pathwayLabel": "Felony-prostitution relief",
           "paymentAllowed": false,
@@ -17584,6 +18221,270 @@
           "ky_nonconviction_expungement-set"
         ],
         "statement": "Every track on this pathway carries an exact legal-design packet set (ky_nonconviction_expungement-set). Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment. KY additionally carries 1 bound family in EXT-ADOPT-01."
+      }
+    },
+    {
+      "pathwayKey": "KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "jurisdiction": "KY",
+      "pathwayId": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "pathwayLabel": "Void and seal a first qualifying possession conviction under KRS 218A.276",
+      "sessionAGraph": {
+        "disposition": "family_bridge_missing_no_family",
+        "statement": "Tracks ky_void_seal_marijuana_synthetic_salvia map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "registryTrackIds": [
+          "ky_void_seal_marijuana_synthetic_salvia"
+        ],
+        "packetFamilies": [],
+        "lawrenceRatification": null,
+        "ledgerSaysLegalReviewPending": true,
+        "consumedVerbatim": true
+      },
+      "packetFamilyBridge": {
+        "source": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "scope": "all 497 registry tracks",
+        "supersedesForThisPurpose": "data/rcap-codex/d-track-terminalization/track-family-map.json",
+        "packetSets": [
+          {
+            "packetSetId": "ky_void_seal_marijuana_synthetic_salvia-set",
+            "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+            "version": "1.0.0",
+            "components": [
+              {
+                "componentId": "ky_void_seal_marijuana_synthetic_salvia-primary-filing-1",
+                "role": "primary_filing",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ky_void_seal_marijuana_synthetic_salvia-proposed-order-2",
+                "role": "proposed_order",
+                "requirement": "required",
+                "outputStrategy": "official_pdf_fill",
+                "officialFormId": "AOC-334",
+                "officialSourceUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/334.pdf"
+              },
+              {
+                "componentId": "ky_void_seal_marijuana_synthetic_salvia-certificate-of-service-3",
+                "role": "certificate_of_service",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              }
+            ],
+            "requiredBeforeFiling": [
+              "Check your answer to \"On what date did you complete it?\" against Proof of completion of treatment, probation or sentence, and correct the packet if they disagree.",
+              "Signature on the motion — Motion, signature block.",
+              "Signature on the certificate of service, and posting or delivering the copy — Certificate of service, final page.",
+              "The movant signs the motion. No wet-signature rule beyond ordinary practice applies.",
+              "none required. The motion is not verified.",
+              "none. The Clerks' Manual records that there is no filing fee for this proceeding.",
+              "not applicable; there is no fee."
+            ],
+            "participantActionRequired": [
+              {
+                "kind": "obtain_document",
+                "description": "Obtain Proof of completion of treatment, probation or sentence. Ask your treatment provider or probation officer for a completion letter, or the clerk for the discharge order.",
+                "obtainedFrom": "The treatment provider, the probation office, or the court",
+                "requirement": "conditional",
+                "conditionDescription": "Where the participant has it. The statute does not require it to be filed.",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "confirm_answer",
+                "description": "Check your answer to \"On what date did you complete it?\" against Proof of completion of treatment, probation or sentence, and correct the packet if they disagree.",
+                "requirement": "conditional",
+                "conditionDescription": "Where the participant has it. The statute does not require it to be filed.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Signature on the motion — Motion, signature block.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Signature on the certificate of service, and posting or delivering the copy — Certificate of service, final page.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "sign",
+                "description": "The movant signs the motion. No wet-signature rule beyond ordinary practice applies.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "notarize",
+                "description": "none required. The motion is not verified.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "pay_fee",
+                "description": "none. The Clerks' Manual records that there is no filing fee for this proceeding.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "apply_fee_waiver",
+                "description": "not applicable; there is no fee.",
+                "requirement": "conditional",
+                "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "serve_party",
+                "description": "By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "file",
+                "description": "File the motion in the original criminal case with the circuit court clerk, tendering AOC-334 as the proposed order.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              }
+            ]
+          }
+        ],
+        "tracksWithNoPacketSet": [],
+        "sourceRelationshipCount": 1
+      },
+      "registryClassification": {
+        "kind": "exact_track_and_packet_set",
+        "statement": "Tracks ky_void_seal_marijuana_synthetic_salvia map to this pathway and each carries an exact packet set (ky_void_seal_marijuana_synthetic_salvia-set)."
+      },
+      "bridgeImportEffect": {
+        "changed": true,
+        "sessionADisposition": "family_bridge_missing_no_family",
+        "sessionAReason": "Tracks ky_void_seal_marijuana_synthetic_salvia map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "afterImport": "packet_set_bridge_present",
+        "statement": "Session A's join reported no track-to-family bridge because it read the lane-D map. The all-497 packet-set manifest in this repository does carry a set for these tracks, so the bridge is present. Whether the adoption reaches it is still counsel's determination."
+      },
+      "adoptionJoin": {
+        "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "adoptedOn": "2026-08-08",
+        "scopeLevel": "packet_family",
+        "recordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
+        "jurisdictionIsBound": true,
+        "boundFamiliesInThisJurisdiction": [
+          {
+            "familyJobId": "rcap-ky-guidance-implementation",
+            "legalDesignMemoSha256": "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19",
+            "packetProofSha256": "c73cae579f87d84cdfacf9038af1599cb3db4c0b93ea11bfeb4cf8695f122758",
+            "implementationCommit": "77cf1525b3333d6f69f9a76f013f39b66ad5513a",
+            "carriesSupersededTechnicalResult": false
+          }
+        ],
+        "sessionAAdoptionRecordId": null,
+        "sessionABoundFamilyEvidence": []
+      },
+      "completedOutput": [
+        {
+          "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+          "jobId": "rcap-ky-custom-pleading-clean-tracks",
+          "jurisdiction": "KY",
+          "completionCommit": "1d41f177b1301473f4a13baff8565a49cffc6e14",
+          "authorityEdition": "1.2",
+          "verifierResult": "passed",
+          "verifierPath": "scripts/verify-rcap-kentucky-custom-pleading.mjs",
+          "assembledFileName": "ky-void-seal-marijuana-district-1-technical-fixture.pdf",
+          "assembledSha256": "b197e93b98bd23b911f321924df8e2259dcecb008cf9dfd4869882355cf9d1bc",
+          "assembledPageCount": 5,
+          "familyIsAdopted": false,
+          "familyCarriesSupersededTechnicalResult": false
+        },
+        {
+          "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+          "jobId": "rcap-ky-custom-pleading-clean-tracks",
+          "jurisdiction": "KY",
+          "completionCommit": "1d41f177b1301473f4a13baff8565a49cffc6e14",
+          "authorityEdition": "1.2",
+          "verifierResult": "passed",
+          "verifierPath": "scripts/verify-rcap-kentucky-custom-pleading.mjs",
+          "assembledFileName": "ky-void-seal-marijuana-circuit-commonwealth-2-technical-fixture.pdf",
+          "assembledSha256": "ed496623f75b1d2d0c6b82677469f56b6abf674882b65edb182a2c994105540b",
+          "assembledPageCount": 5,
+          "familyIsAdopted": false,
+          "familyCarriesSupersededTechnicalResult": false
+        },
+        {
+          "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+          "jobId": "rcap-ky-custom-pleading-clean-tracks",
+          "jurisdiction": "KY",
+          "completionCommit": "1d41f177b1301473f4a13baff8565a49cffc6e14",
+          "authorityEdition": "1.2",
+          "verifierResult": "passed",
+          "verifierPath": "scripts/verify-rcap-kentucky-custom-pleading.mjs",
+          "assembledFileName": "ky-void-seal-marijuana-salvia-3-technical-fixture.pdf",
+          "assembledSha256": "09dadef98df6d84a79d10b948e9e455dacc99b5e1ebb8fdc2ed3abb2cfbe9061",
+          "assembledPageCount": 5,
+          "familyIsAdopted": false,
+          "familyCarriesSupersededTechnicalResult": false
+        }
+      ],
+      "problematicPdfAssets": [
+        {
+          "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+          "assetId": "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+          "formId": "AOC-334",
+          "postLaunchPriority": "medium",
+          "owner": "Terminal A route owner"
+        }
+      ],
+      "publicWitness": {
+        "publicRoute": "/expungement-ai/screening/kentucky",
+        "evaluationEndpoint": "POST /api/expungement-ai/screening",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "pathwayContextOffered": "Void and seal a first qualifying possession conviction under KRS 218A.276",
+        "seedAnswers": {
+          "ownership_scope": "Yes",
+          "jurisdiction_scope": "State or local",
+          "state_exclusion_categories": [
+            "None of these"
+          ],
+          "pending_cases": "No",
+          "new_convictions_during_waiting_period": "No",
+          "sentence_completion_date": "Yes",
+          "financial_obligations": "Yes",
+          "court_requirements_completed": "yes",
+          "special_preconditions_confirmed": "Yes",
+          "trafficking_status": "No",
+          "pardon_status": "No",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "possible_pathway_context": "Void and seal a first qualifying possession conviction under KRS 218A.276"
+        },
+        "rounds": 2,
+        "finalAnswerCount": 14,
+        "terminalEvaluation": {
+          "resultCode": "needs_review",
+          "pathwayId": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+          "pathwayLabel": "Void and seal a first qualifying possession conviction under KRS 218A.276",
+          "paymentAllowed": false,
+          "treatmentClassification": null,
+          "selectedTrackId": null,
+          "reasonCodes": [
+            "ky.waiting_rule_not_executed"
+          ],
+          "missingQuestionIds": []
+        },
+        "landedOnThisPathway": true,
+        "error": null,
+        "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276]"
+      },
+      "ownerApprovedLegal": {
+        "status": "approved_by_decision_owner",
+        "basis": "owner_approved_existing_legal_design_packet_set",
+        "escalationRequired": false,
+        "packetSetIds": [
+          "ky_void_seal_marijuana_synthetic_salvia-set"
+        ],
+        "statement": "Every track on this pathway carries an exact legal-design packet set (ky_void_seal_marijuana_synthetic_salvia-set). Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment. KY additionally carries 1 bound family in EXT-ADOPT-01."
       }
     },
     {
@@ -40202,6 +41103,249 @@
       }
     },
     {
+      "pathwayKey": "NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "jurisdiction": "NV",
+      "pathwayId": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "pathwayLabel": "Removal of a record from the Central Repository after a favourable disposition",
+      "sessionAGraph": {
+        "disposition": "family_bridge_missing_no_family",
+        "statement": "Tracks nv_repository_removal map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "registryTrackIds": [
+          "nv_repository_removal"
+        ],
+        "packetFamilies": [],
+        "lawrenceRatification": null,
+        "ledgerSaysLegalReviewPending": true,
+        "consumedVerbatim": true
+      },
+      "packetFamilyBridge": {
+        "source": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "scope": "all 497 registry tracks",
+        "supersedesForThisPurpose": "data/rcap-codex/d-track-terminalization/track-family-map.json",
+        "packetSets": [
+          {
+            "packetSetId": "nv_repository_removal-set",
+            "trackId": "nv_repository_removal",
+            "version": "1.0.0",
+            "components": [
+              {
+                "componentId": "nv_repository_removal-primary-filing-1",
+                "role": "primary_filing",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "nv_repository_removal-duplicate-submission-copy-2",
+                "role": "duplicate_submission_copy",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "nv_repository_removal-explanation-3",
+                "role": "explanation",
+                "requirement": "required",
+                "outputStrategy": "process_guidance",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "nv_repository_removal-parallel-screen-4",
+                "role": "parallel_screen",
+                "requirement": "required",
+                "outputStrategy": "process_guidance",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "nv_repository_removal-exclusion-screen-5",
+                "role": "exclusion_screen",
+                "requirement": "required",
+                "outputStrategy": "process_guidance",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "nv_repository_removal-referral-instructions-6",
+                "role": "referral_instructions",
+                "requirement": "required",
+                "outputStrategy": "process_guidance",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              }
+            ],
+            "requiredBeforeFiling": [
+              "The mailing address of the agency which maintains the record — Address block of the duplicate application copy.",
+              "Case or event number from the record — Identification block of both application copies.",
+              "Signature and date — Signature block of both application copies.",
+              "The applicant signs both copies of the application personally.",
+              "None required. The section prescribes no verification or notarization.",
+              "None is prescribed. NRS 179A.160 imposes, authorises and mentions no fee for a removal request. The fees the Records, Communications and Compliance Division does charge are for obtaining a copy of a criminal history record, which is a different service the participant may want first, and are not a fee for this application. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach this section.",
+              "None prescribed by this section, and none needed for the application itself. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section."
+            ],
+            "participantActionRequired": [
+              {
+                "kind": "obtain_document",
+                "description": "Obtain Proof of the favourable disposition. Request a certified copy of the dismissal, acquittal or other favourable disposition from the court that handled the case. NRS 179A.160 does not require it, but the Central Repository and the agency have to satisfy themselves that the disposition is favourable and final, and an application that carries the proof is the one that can be acted on. LegalEase names it; the participant obtains it and LegalEase does not review it.",
+                "obtainedFrom": "The court that handled the case",
+                "requirement": "conditional",
+                "conditionDescription": "Named wherever the participant's criminal history or court paperwork does not already show the disposition and its finality on its face. NRS 179A.160 does not require any attachment, so this is never a gate on generation.",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "complete_field",
+                "description": "The mailing address of the agency which maintains the record — Address block of the duplicate application copy.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Case or event number from the record — Identification block of both application copies.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Signature and date — Signature block of both application copies.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "sign",
+                "description": "The applicant signs both copies of the application personally.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "notarize",
+                "description": "None required. The section prescribes no verification or notarization.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "pay_fee",
+                "description": "None is prescribed. NRS 179A.160 imposes, authorises and mentions no fee for a removal request. The fees the Records, Communications and Compliance Division does charge are for obtaining a copy of a criminal history record, which is a different service the participant may want first, and are not a fee for this application. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach this section.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "apply_fee_waiver",
+                "description": "None prescribed by this section, and none needed for the application itself. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section.",
+                "requirement": "conditional",
+                "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "serve_party",
+                "description": "No service in the litigation sense, because there is no court proceeding. The application is delivered to both recipients directly: the Central Repository and the agency which maintains the record. The section prescribes no method, so a method that produces proof of delivery is a filing instruction rather than a legal requirement.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "file",
+                "description": "The participant applies in writing to the Central Repository for Nevada Records of Criminal History and to the agency which maintains the record, under NRS 179A.160(1). It is an agency application, not a court filing, and no order issues on it. There is no prescribed form and no prescribed manner of delivery.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              }
+            ]
+          }
+        ],
+        "tracksWithNoPacketSet": [],
+        "sourceRelationshipCount": 0
+      },
+      "registryClassification": {
+        "kind": "exact_track_and_packet_set",
+        "statement": "Tracks nv_repository_removal map to this pathway and each carries an exact packet set (nv_repository_removal-set)."
+      },
+      "bridgeImportEffect": {
+        "changed": true,
+        "sessionADisposition": "family_bridge_missing_no_family",
+        "sessionAReason": "Tracks nv_repository_removal map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "afterImport": "packet_set_bridge_present",
+        "statement": "Session A's join reported no track-to-family bridge because it read the lane-D map. The all-497 packet-set manifest in this repository does carry a set for these tracks, so the bridge is present. Whether the adoption reaches it is still counsel's determination."
+      },
+      "adoptionJoin": {
+        "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "adoptedOn": "2026-08-08",
+        "scopeLevel": "packet_family",
+        "recordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
+        "jurisdictionIsBound": true,
+        "boundFamiliesInThisJurisdiction": [
+          {
+            "familyJobId": "rcap-nv-custom-pleading",
+            "legalDesignMemoSha256": "113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5",
+            "packetProofSha256": "51148c4c1d95b43f9339dab9c483753669d4da65459def443a7e4307f80dbbee",
+            "implementationCommit": "eccb51f2846f3df93a806981a09e991c6e841c8a",
+            "carriesSupersededTechnicalResult": false
+          },
+          {
+            "familyJobId": "rcap-nv-guidance-implementation",
+            "legalDesignMemoSha256": "113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5",
+            "packetProofSha256": "bf95e89fcd685d1a93e95ef08f9d057f6a97124d26e19001ba1f188add406ad2",
+            "implementationCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+            "carriesSupersededTechnicalResult": false
+          }
+        ],
+        "sessionAAdoptionRecordId": null,
+        "sessionABoundFamilyEvidence": []
+      },
+      "completedOutput": [],
+      "problematicPdfAssets": [],
+      "publicWitness": {
+        "publicRoute": "/expungement-ai/screening/nevada",
+        "evaluationEndpoint": "POST /api/expungement-ai/screening",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "pathwayContextOffered": "Removal of a record from the Central Repository after a favourable disposition",
+        "seedAnswers": {
+          "ownership_scope": "Yes",
+          "jurisdiction_scope": "State or local",
+          "state_exclusion_categories": [
+            "None of these"
+          ],
+          "pending_cases": "No",
+          "new_convictions_during_waiting_period": "No",
+          "sentence_completion_date": "Yes",
+          "financial_obligations": "Yes",
+          "court_requirements_completed": "yes",
+          "special_preconditions_confirmed": "Yes",
+          "trafficking_status": "No",
+          "pardon_status": "No",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "possible_pathway_context": "Removal of a record from the Central Repository after a favourable disposition"
+        },
+        "rounds": 2,
+        "finalAnswerCount": 14,
+        "terminalEvaluation": {
+          "resultCode": "needs_review",
+          "pathwayId": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+          "pathwayLabel": "Removal of a record from the Central Repository after a favourable disposition",
+          "paymentAllowed": false,
+          "treatmentClassification": null,
+          "selectedTrackId": null,
+          "reasonCodes": [
+            "nv.legal_authority_not_in_force"
+          ],
+          "missingQuestionIds": []
+        },
+        "landedOnThisPathway": true,
+        "error": null,
+        "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160]"
+      },
+      "ownerApprovedLegal": {
+        "status": "approved_by_decision_owner",
+        "basis": "owner_approved_existing_legal_design_packet_set",
+        "escalationRequired": false,
+        "packetSetIds": [
+          "nv_repository_removal-set"
+        ],
+        "statement": "Every track on this pathway carries an exact legal-design packet set (nv_repository_removal-set). Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment. NV additionally carries 2 bound families in EXT-ADOPT-01."
+      }
+    },
+    {
       "pathwayKey": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
       "jurisdiction": "NV",
       "pathwayId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
@@ -47807,14 +48951,14 @@
         "rounds": 2,
         "finalAnswerCount": 14,
         "terminalEvaluation": {
-          "resultCode": "packet_ready_with_caution",
+          "resultCode": "needs_review",
           "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
           "pathwayLabel": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
           "paymentAllowed": false,
           "treatmentClassification": null,
           "selectedTrackId": null,
           "reasonCodes": [
-            "or.compiled_rule_match.route-set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+            "or.waiting_rule_not_executed"
           ],
           "missingQuestionIds": []
         },
@@ -48569,7 +49713,7 @@
               }
             ],
             "requiredBeforeFiling": [
-              "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+              "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
               "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
               "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
               "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
@@ -48590,7 +49734,7 @@
             "participantActionRequired": [
               {
                 "kind": "obtain_document",
-                "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+                "description": "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
                 "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
                 "requirement": "required",
                 "requiredBeforeFiling": true
@@ -48756,7 +49900,7 @@
               }
             ],
             "requiredBeforeFiling": [
-              "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+              "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
               "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
               "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
               "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
@@ -48777,7 +49921,7 @@
             "participantActionRequired": [
               {
                 "kind": "obtain_document",
-                "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+                "description": "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
                 "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
                 "requirement": "required",
                 "requiredBeforeFiling": true
@@ -49051,7 +50195,7 @@
               }
             ],
             "requiredBeforeFiling": [
-              "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+              "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
               "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
               "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
               "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
@@ -49072,7 +50216,7 @@
             "participantActionRequired": [
               {
                 "kind": "obtain_document",
-                "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+                "description": "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
                 "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
                 "requirement": "required",
                 "requiredBeforeFiling": true
@@ -49345,7 +50489,7 @@
               }
             ],
             "requiredBeforeFiling": [
-              "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+              "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
               "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
               "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
               "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
@@ -49368,7 +50512,7 @@
             "participantActionRequired": [
               {
                 "kind": "obtain_document",
-                "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+                "description": "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
                 "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
                 "requirement": "required",
                 "requiredBeforeFiling": true
@@ -66918,9 +68062,9 @@
               "Obtain Certified copy of the order of acquittal or dismissal. Ask the clerk of the court that handled your case for a certified copy of the order of acquittal or dismissal. Check the date on it against the date you gave us: the 60-day clock runs from that order, not from the day the case felt over.",
               "Check your answer to \"On what date were you found not guilty, or on what date were the charges dismissed?\" against Certified copy of the order of acquittal or dismissal, and correct the packet if they disagree.",
               "Check your answer to \"Were these charges dismissed as part of a deal in which you pleaded guilty to a different offence and were convicted of it?\" against Copy of the docket sheet or the plea agreement, and correct the packet if they disagree.",
-              "Signature of movant — SCA-C903, page 1, signature block beneath the prayer for relief.",
-              "Signature and date on the certificate of service — SCA-C903, page 2, certificate of service.",
-              "Prosecuting attorney's office street address — SCA-C903, page 2, address line of the certificate of service.",
+              "Signature of movant — SCA-C903, page 2, signature block beneath the prayer for relief.",
+              "Signature and date on the certificate of service — SCA-C903, page 3, certificate of service.",
+              "Prosecuting attorney's office street address — SCA-C903, page 3, address line of the certificate of service.",
               "Circuit court case number — SCA-C903, page 1, caption block.",
               "The movant signs the motion and separately signs and dates the certificate of service. A wet signature is expected; the form provides no electronic signature block.",
               "none — SCA-C903 carries no verification or notarial block.",
@@ -66958,19 +68102,19 @@
               },
               {
                 "kind": "complete_field",
-                "description": "Signature of movant — SCA-C903, page 1, signature block beneath the prayer for relief.",
+                "description": "Signature of movant — SCA-C903, page 2, signature block beneath the prayer for relief.",
                 "requirement": "required",
                 "requiredBeforeFiling": true
               },
               {
                 "kind": "complete_field",
-                "description": "Signature and date on the certificate of service — SCA-C903, page 2, certificate of service.",
+                "description": "Signature and date on the certificate of service — SCA-C903, page 3, certificate of service.",
                 "requirement": "required",
                 "requiredBeforeFiling": true
               },
               {
                 "kind": "complete_field",
-                "description": "Prosecuting attorney's office street address — SCA-C903, page 2, address line of the certificate of service.",
+                "description": "Prosecuting attorney's office street address — SCA-C903, page 3, address line of the certificate of service.",
                 "requirement": "required",
                 "requiredBeforeFiling": true
               },
@@ -67007,13 +68151,13 @@
               },
               {
                 "kind": "serve_party",
-                "description": "Serve a copy of the motion on the county prosecuting attorney's office and complete the certificate of service on page 2 of SCA-C903, choosing first class mail, hand delivery or certified mail.",
+                "description": "Serve a copy of the motion on the county prosecuting attorney's office and complete the certificate of service on page 3 of SCA-C903, choosing first class mail, hand delivery or certified mail.",
                 "requirement": "required",
                 "requiredBeforeFiling": false
               },
               {
                 "kind": "file",
-                "description": "File the completed SCA-C903 motion, with the certificate of service page, with the clerk of the circuit court of the county in which the charges were filed, not sooner than 60 days after the order of acquittal or dismissal.",
+                "description": "File the completed SCA-C903 motion, with the certificate of service on page 3, with the clerk of the circuit court of the county in which the charges were filed, not sooner than 60 days after the order of acquittal or dismissal.",
                 "requirement": "required",
                 "requiredBeforeFiling": false
               }
@@ -67062,9 +68206,9 @@
               "Check your answer to \"On what date did the court dismiss the charges after you completed the programme?\" against Certified copy of the order of dismissal, and correct the packet if they disagree.",
               "Obtain Pretrial diversion agreement, or the deferred adjudication order, together with the record of full and successful completion. Ask the clerk for the deferred adjudication order, or the prosecuting attorney's office for the signed diversion agreement, and for whatever the court entered recording that you completed it. Which of the two it was decides whether the family-or-household-member carve-out applies at all, so bring the document rather than relying on memory.",
               "Check your answer to \"Did you complete a pretrial diversion agreement signed with the prosecutor, or a deferred adjudication ordered by the court after you entered a plea?\" against Pretrial diversion agreement, or the deferred adjudication order, together with the record of full and successful completion, and correct the packet if they disagree.",
-              "Signature of movant — SCA-C903, page 1, signature block, and the supplemental pleading signature block.",
-              "Signature and date on the certificate of service — SCA-C903, page 2.",
-              "Prosecuting attorney's office street address — SCA-C903, page 2, address line of the certificate of service.",
+              "Signature of movant — SCA-C903, page 2, signature block, and the supplemental pleading signature block.",
+              "Signature and date on the certificate of service — SCA-C903, page 3.",
+              "Prosecuting attorney's office street address — SCA-C903, page 3, address line of the certificate of service.",
               "Circuit court case number — SCA-C903, page 1, caption block.",
               "The movant signs the motion and the supplemental pleading, and separately signs and dates the certificate of service.",
               "none — SCA-C903 carries no verification or notarial block.",
@@ -67100,19 +68244,19 @@
               },
               {
                 "kind": "complete_field",
-                "description": "Signature of movant — SCA-C903, page 1, signature block, and the supplemental pleading signature block.",
+                "description": "Signature of movant — SCA-C903, page 2, signature block, and the supplemental pleading signature block.",
                 "requirement": "required",
                 "requiredBeforeFiling": true
               },
               {
                 "kind": "complete_field",
-                "description": "Signature and date on the certificate of service — SCA-C903, page 2.",
+                "description": "Signature and date on the certificate of service — SCA-C903, page 3.",
                 "requirement": "required",
                 "requiredBeforeFiling": true
               },
               {
                 "kind": "complete_field",
-                "description": "Prosecuting attorney's office street address — SCA-C903, page 2, address line of the certificate of service.",
+                "description": "Prosecuting attorney's office street address — SCA-C903, page 3, address line of the certificate of service.",
                 "requirement": "required",
                 "requiredBeforeFiling": true
               },
@@ -67149,13 +68293,13 @@
               },
               {
                 "kind": "serve_party",
-                "description": "Serve a copy of the motion and the supplemental pleading on the county prosecuting attorney's office and complete the certificate of service on page 2 of SCA-C903.",
+                "description": "Serve a copy of the motion and the supplemental pleading on the county prosecuting attorney's office and complete the certificate of service on page 3 of SCA-C903.",
                 "requirement": "required",
                 "requiredBeforeFiling": false
               },
               {
                 "kind": "file",
-                "description": "File the completed SCA-C903 motion with the supplemental pleading and the certificate of service page with the clerk of the circuit court of the county in which the charges were filed, not sooner than 60 days after the order of dismissal. All charges from the same transaction or occurrence go in the one motion.",
+                "description": "File the completed SCA-C903 motion with the supplemental pleading and the certificate of service on page 3 with the clerk of the circuit court of the county in which the charges were filed, not sooner than 60 days after the order of dismissal. All charges from the same transaction or occurrence go in the one motion.",
                 "requirement": "required",
                 "requiredBeforeFiling": false
               }

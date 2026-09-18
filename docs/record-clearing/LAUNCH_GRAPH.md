@@ -5,7 +5,7 @@ packet family and packet set → owner-approved legal status → packet specific
 technical status → PDF status → renderer → public witness → payment result → artifact result →
 DTC result → RCAP result.
 
-**One denominator.** All 262 rows come from the `paid_packet_intended` set in
+**One denominator.** All 267 rows come from the `paid_packet_intended` set in
 `data/rcap-ledger/sellable-pathway-closure.json`. Every consumed ledger is required to describe
 exactly that set; one that adds or drops a pathway fails this generator rather than being
 reconciled quietly, so there is nothing here for a second denominator to disagree with.
@@ -14,18 +14,18 @@ reconciled quietly, so there is nothing here for a second denominator to disagre
 
 | | |
 |---|---:|
-| INTENDED PAID | 262 |
-| CORRECT-PATHWAY PUBLIC WITNESSES | 262 |
+| INTENDED PAID | 267 |
+| CORRECT-PATHWAY PUBLIC WITNESSES | 267 |
 | WRONG-PATHWAY WITNESSES | 0 |
 | NON-CONVERGING WITNESSES | 0 |
-| EXACT TRACK + PACKET SET | 222 |
+| EXACT TRACK + PACKET SET | 227 |
 | REGISTRY GAP + PATHWAY PACKET SET | 40 |
-| OWNER-APPROVED LEGAL | 95 |
-| FACTORY_V2 RESOLVED | 169 |
+| OWNER-APPROVED LEGAL | 96 |
+| FACTORY_V2 RESOLVED | 173 |
 | PAYMENT ALLOWED | 28 |
-| DETERMINISTICALLY RENDERED (complete packet) | 43 |
-| — composed text proven deterministic | 169 |
-| — official forms named but not held here | 126 |
+| DETERMINISTICALLY RENDERED (complete packet) | 45 |
+| — composed text proven deterministic | 173 |
+| — official forms named but not held here | 128 |
 | OPERATIONALLY SELLABLE | 0 |
 
 Operationally sellable means all nine of: correct public witness; authoritative intended pathway;
@@ -45,9 +45,9 @@ owner-authorized action through the consumer-delivery control under the all-51 l
 | `CUSTOM_PLEADING_READY` | 0 |
 | `GUIDANCE_READY` | 0 |
 | `HANDOFF_READY` | 5 |
-| `MAINTENANCE_HOLD` | 25 |
+| `MAINTENANCE_HOLD` | 28 |
 | `LEGAL_HOLD` | 8 |
-| `UNFINISHED` | 224 |
+| `UNFINISHED` | 226 |
 
 Per-state counts are carried in `availability.byState` of the JSON ledger.
 
@@ -55,13 +55,13 @@ Per-state counts are carried in `availability.byState` of the JSON ledger.
 
 | Unmet gate | Routes |
 |---|---:|
-| `paymentAllowed` | 234 |
-| `deterministicArtifactProven` | 219 |
-| `technicalApprovalCurrent` | 192 |
-| `ownerApprovedLegalDesign` | 167 |
-| `rendererSelected` | 68 |
+| `paymentAllowed` | 239 |
+| `deterministicArtifactProven` | 222 |
+| `technicalApprovalCurrent` | 196 |
+| `ownerApprovedLegalDesign` | 171 |
+| `rendererSelected` | 69 |
 | `packetSpecificationComplete` | 40 |
-| `noProblematicPdfHold` | 19 |
+| `noProblematicPdfHold` | 22 |
 
 ## The registry-gap routes
 

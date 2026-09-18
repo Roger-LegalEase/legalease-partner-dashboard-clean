@@ -38,10 +38,32 @@ const { resolveRoute } = await import("@/lib/legal-authority/resolve-route");
 const { isConsumerPaymentAllowed } = await import("@/lib/expungement-ai/eligibility-adapter");
 const { packetFulfillmentAuthority } = await import("@/lib/expungement-ai/packet-fulfillment-authority");
 const { fulfillmentAuthorityFor } = await import("@/lib/rcap/fulfillment/grade-a-admission");
+const { getCurrentFulfillmentRecord } = await import("@/lib/rcap/fulfillment/grade-a-registry");
 const { composablePacketSpecificationFor } = await import("@/lib/rcap/grade-a/packet-specification");
 const fulfillmentLedger = JSON.parse(fs.readFileSync("data/rcap-ledger/packet-fulfillment-records.json", "utf8"));
 const FULFILLED = new Map((fulfillmentLedger.records ?? []).map((record) => [record.routeKey, record]));
 const withdrawalLedger = JSON.parse(fs.readFileSync("data/rcap-ledger/fulfillment-authority-withdrawals.json", "utf8"));
+
+/**
+ * The controlling paid denominator, and the only thing that defines it.
+ *
+ * `data/rcap-ledger/sellable-pathway-closure.json` classifies every compiled
+ * pathway, and its `paid_packet_intended` rows ARE the intended-paid universe.
+ * A pathway leaves only through a signed record in
+ * `sellable-pathway-reclassifications.json`, which that register states is the
+ * only exit.
+ *
+ * This census used to build its own membership out of registry flags and
+ * evaluator capability, which quietly created a second, smaller denominator
+ * and answered for 40 routes while 227 intended-paid pathways went unasked.
+ * Membership is read here, never derived: whatever the closure says is paid is
+ * who this census owes an answer to, and fulfillment proof is joined onto that
+ * set rather than used to decide it.
+ */
+const closure = JSON.parse(fs.readFileSync("data/rcap-ledger/sellable-pathway-closure.json", "utf8"));
+const reclassifications = JSON.parse(fs.readFileSync("data/rcap-ledger/sellable-pathway-reclassifications.json", "utf8"));
+const PAID_PATHWAY_DENOMINATOR = closure.pathways.filter((entry) => entry.category === "paid_packet_intended");
+const PAID_KEYS = new Set(PAID_PATHWAY_DENOMINATOR.map((entry) => entry.pathwayKey));
 const WITHDRAWN = new Map((withdrawalLedger.withdrawals ?? []).map((entry) => [entry.routeKey, entry]));
 
 const witnesses = JSON.parse(fs.readFileSync("data/rcap-ledger/public-witness-answer-sets.json", "utf8")).witnesses;
@@ -106,8 +128,28 @@ function componentsPresentIn(text) {
 }
 
 const rows = [];
-const departures = [];
-for (const witness of witnesses) {
+const outsidePaidDenominator = [];
+/**
+ * One row per intended-paid pathway, always.
+ *
+ * The loop used to walk the witness set, which made evidence decide
+ * membership: a pathway nobody had written a witness for simply was not in the
+ * census, and a pathway whose fulfillment record was withdrawn fell out
+ * entirely. Both are the same mistake — something downstream of the
+ * classification deciding who the classification covers.
+ *
+ * So it walks the denominator. A witness is evidence joined onto a row, and
+ * its absence is a column on that row rather than a missing row.
+ */
+const witnessByKey = new Map(witnesses.map((entry) => [entry.pathwayKey, entry]));
+for (const pathway of PAID_PATHWAY_DENOMINATOR) {
+  const witness = witnessByKey.get(pathway.pathwayKey) ?? {
+    pathwayKey: pathway.pathwayKey,
+    jurisdiction: pathway.jurisdiction,
+    pathwayId: pathway.pathwayId,
+    terminalEvaluation: null
+  };
+  const publicWitnessPresent = witnessByKey.has(pathway.pathwayKey);
   const terminal = witness.terminalEvaluation ?? {};
   const jurisdiction = witness.jurisdiction;
   const pathwayId = witness.pathwayId;
@@ -127,8 +169,11 @@ for (const witness of witnesses) {
    * being asked.
    */
   const authority = fulfillmentAuthorityFor(witness.pathwayKey);
-  const intendedPaid = authority?.serviceDisposition === "paid_packet_intended";
-  const inDenominator = evaluatorPaymentAllowed || creditConsumable || intendedPaid;
+  const intendedPaid = PAID_KEYS.has(witness.pathwayKey);
+  // The authority summarises; the canonical record carries each proof's own
+  // state. Reading the summary for them reported "not_recorded" on proofs that
+  // are recorded and pending, which is a different and much softer claim.
+  const canonical = getCurrentFulfillmentRecord(witness.pathwayKey);
   // Commercial means it can take money or a sponsored credit. Either is enough
   // to require an account of what the participant receives.
   // A route enters the census if it can take money or a sponsored credit, OR if
@@ -136,30 +181,6 @@ for (const witness of witnesses) {
   // packet be proven while both its commercial postures stay held, and a proven
   // packet that nothing accounts for is exactly the gap this census exists to
   // close — in the other direction.
-  if (!inDenominator) {
-    // A route leaving the commercial denominator is accounted for by name. The
-    // census fell from 54 routes to 30 the moment ADR-0004 withdrew the legacy
-    // generators' credit-consumability, and a denominator that shrinks without
-    // an explanation is indistinguishable from one that was quietly edited.
-    // Departure means the route left the intended commercial universe, by a
-    // decision, and nothing else. Losing a fulfillment record is not departure:
-    // a route whose unearned record was withdrawn is still a route we intend to
-    // sell, still owed a census row, and still owed a refusal at every surface.
-    if (packetRoute.routeKind === "legacy_retired") {
-      departures.push({
-        route: witness.pathwayKey,
-        jurisdiction,
-        pathway: pathwayId,
-        wasCommercialBecause: "the packet route resolver classified its jurisdiction legacy_verified, which made every route in that state credit-consumable",
-        leftBecause: "ADR-0004 retired the five legacy generators as commercial fulfillment paths. The route resolves legacy_retired with sellable false and creditConsumable false, so it can no longer take money or a sponsored credit and is not a commercial route.",
-        stillRenders: packetRoute.rendererKind,
-        decidedOn: "2026-08-28",
-        decisionRecord: "data/record-clearing/legal-decisions/2026-08-28-legacy-generator-retirement.json (ADR-0004)",
-        note: "Its renderer is retained so an already-generated artifact stays reachable. That is historical access, not commercial authority."
-      });
-    }
-    continue;
-  }
 
   const profile = getProfileByJurisdiction(jurisdiction);
   const plan = profile ? packetPlanForPathway(profile, pathwayId) : undefined;
@@ -269,11 +290,18 @@ for (const witness of witnesses) {
     route: witness.pathwayKey,
     jurisdiction,
     pathway: pathwayId,
-    intendedCommercialStatus: intendedPaid
-      ? "paid_packet_intended"
-      : evaluatorPaymentAllowed
-        ? "evaluator_payment_allowed"
-        : "sponsored_credit_consumable",
+    // Everything from here is JOINED onto the pathway. None of it decides
+    // membership, and any of it may be absent without removing the row.
+    intendedCommercialStatus: "paid_packet_intended",
+    publicWitness: publicWitnessPresent ? "present" : "absent",
+    registryTrack: composablePacketSpecificationFor(witness.pathwayKey)?.trackId ?? null,
+    registryTrackState: composablePacketSpecificationFor(witness.pathwayKey) ? "present" : "gap",
+    legalApproval: canonical?.outputLegalApproval?.state ?? "no_record",
+    technicalApproval: canonical?.independentVerification?.state ?? "no_record",
+    sourceProof: (canonical?.officialSources?.length ?? 0) > 0 ? "bound" : canonical ? "none_bound" : "no_record",
+    visualProof: canonical?.visualReview?.state ?? "no_record",
+    finalVerificationBinding: canonical?.finalVerification?.state ?? "no_record",
+    paymentAllowed: evaluatorPaymentAllowed,
     fulfillmentRecordPresent: Boolean(fulfillment),
     fulfillmentRecordValid: recordValid,
     withdrawalRecord: withdrawal
@@ -334,43 +362,75 @@ for (const witness of witnesses) {
   });
 }
 rows.sort((a, b) => a.route.localeCompare(b.route));
-departures.sort((a, b) => a.route.localeCompare(b.route));
+outsidePaidDenominator.sort((a, b) => a.route.localeCompare(b.route));
 
 /**
- * The denominator, pinned.
+ * The crosswalk: every intended-paid pathway, mapped to the registry route and
+ * track that carry it, or named as a gap.
  *
- * A census whose membership can change without anybody noticing is not a
- * census. The current universe is hashed, the universe before the only
- * decision that has ever removed routes from it is hashed, and each departure
- * names both. A route that leaves for any other reason produces a hash nobody
- * recorded, which is the point.
+ * Two layers, deliberately not merged. PAID_PATHWAY_DENOMINATOR is the
+ * controlling universe and comes from the closure. REGISTRY_ROUTE_CENSUS is
+ * what this generator could actually examine: a pathway needs a committed
+ * public witness answer set before its commercial surfaces can be driven. A
+ * pathway without one is a gap in the census, never a pathway that stopped
+ * being intended-paid, and it is listed by name with the reason.
  */
-const denominatorRoutes = rows.map((row) => row.route).sort();
-const priorDenominatorRoutes = [...denominatorRoutes, ...departures.map((entry) => entry.route)].sort();
+const reclassifiedOut = reclassifications.reclassifications
+  .filter((entry) => entry.previousClassification === "paid_packet_intended");
+const censusByRoute = new Map(rows.map((row) => [row.route, row]));
+const crosswalk = PAID_PATHWAY_DENOMINATOR.map((pathway) => {
+  const row = censusByRoute.get(pathway.pathwayKey);
+  const specification = composablePacketSpecificationFor(pathway.pathwayKey);
+  return {
+    paidPathway: pathway.pathwayKey,
+    jurisdiction: pathway.jurisdiction,
+    closureCategory: pathway.category,
+    registryRoute: row ? row.route : null,
+    registryTrack: specification?.trackId ?? null,
+    packetFamily: specification?.packetFamily ?? row?.packetFamily ?? null,
+    censusRow: Boolean(row),
+    publicWitness: row?.publicWitness ?? "absent",
+    gapReason: row?.publicWitness === "absent"
+      ? "No committed public witness answer set reaches this pathway, so its commercial surfaces cannot be driven from a deterministic replay. It keeps its census row and stays intended-paid and unsold; the gap is in the evidence, not in the denominator."
+      : null
+  };
+});
+const examined = crosswalk.filter((entry) => entry.publicWitness === "present");
+const gaps = crosswalk.filter((entry) => entry.publicWitness === "absent");
+
+const denominatorRoutes = PAID_PATHWAY_DENOMINATOR.map((entry) => entry.pathwayKey).sort();
 const sha = (list) => crypto.createHash("sha256").update(list.join("\n")).digest("hex");
 const denominatorSha256 = sha(denominatorRoutes);
-const priorDenominatorSha256 = sha(priorDenominatorRoutes);
-for (const entry of departures) {
-  entry.priorDenominatorVersion = 1;
-  entry.priorDenominatorSha256 = priorDenominatorSha256;
-  entry.newDenominatorVersion = 2;
-  entry.newDenominatorSha256 = denominatorSha256;
-}
 
-fs.writeFileSync("data/rcap-ledger/commercial-denominator.json", `${JSON.stringify({
-  schemaVersion: "rcap-commercial-denominator/v1",
-  note: "Who the commercial census asks about, and nothing else. Membership is intent: a route is here "
-    + "because the product intends to sell it or to spend a sponsored credit on it. A fulfillment record "
-    + "never creates membership and withdrawing one never removes it, so a route can lose its proof and "
-    + "still be answered for. Leaving requires a decision, recorded in the census departure ledger with "
-    + "the denominator hash on each side of it.",
+fs.writeFileSync("data/rcap-ledger/paid-pathway-denominator.json", `${JSON.stringify({
+  schemaVersion: "rcap-paid-pathway-denominator/v1",
+  note: "PAID_PATHWAY_DENOMINATOR: the exact paid_packet_intended pathways from "
+    + "data/rcap-ledger/sellable-pathway-closure.json, which is the one controlling intended-paid "
+    + "denominator. This file records them; it does not decide them. A pathway leaves only through a "
+    + "signed record in data/rcap-ledger/sellable-pathway-reclassifications.json, and no fulfillment "
+    + "record, registry flag or evaluator capability adds or removes a member.",
   generatedBy: "scripts/generate-commercial-packet-integrity.mjs",
-  version: 2,
+  source: "data/rcap-ledger/sellable-pathway-closure.json",
+  exitMechanism: "data/rcap-ledger/sellable-pathway-reclassifications.json",
   sha256: denominatorSha256,
   count: denominatorRoutes.length,
-  priorVersion: 1,
-  priorSha256: priorDenominatorSha256,
-  routes: denominatorRoutes
+  pathways: denominatorRoutes
+}, null, 2)}\n`);
+
+fs.writeFileSync("data/rcap-ledger/registry-route-census.json", `${JSON.stringify({
+  schemaVersion: "rcap-registry-route-census/v1",
+  note: "REGISTRY_ROUTE_CENSUS: the registry-level route and track records this generator could examine, "
+    + "one per intended-paid pathway that has a committed public witness answer set. This is a VIEW over "
+    + "PAID_PATHWAY_DENOMINATOR, not a denominator. It cannot admit a pathway the closure does not "
+    + "classify as paid, it cannot remove one, and a pathway missing from it is a gap in this census "
+    + "rather than a pathway that stopped being intended-paid.",
+  generatedBy: "scripts/generate-commercial-packet-integrity.mjs",
+  denominator: "data/rcap-ledger/paid-pathway-denominator.json",
+  denominatorSha256,
+  examined: examined.length,
+  gaps: gaps.length,
+  routes: rows.map((row) => row.route).sort(),
+  crosswalk
 }, null, 2)}\n`);
 
 const counts = rows.reduce((acc, row) => ({ ...acc, [row.currentClassification]: (acc[row.currentClassification] ?? 0) + 1 }), {});
@@ -399,11 +459,62 @@ const doc = {
     sponsorshipCapable: rows.filter((row) => row.currentSponsorshipAuthority.routeCreditConsumable).length,
     ...counts
   },
-  departuresFromTheCommercialDenominator: {
-    note: "Routes that were in this census and no longer are, each with the exact reason. A denominator that changes silently is not a denominator.",
-    count: departures.length,
-    reconciliation: `${witnesses.length} witnessed routes were examined. ${rows.length} are in the commercial denominator because the product intends to sell them or to spend a sponsored credit on them; ${departures.length} left that universe by decision and are named below; the remaining ${witnesses.length - rows.length - departures.length} were never in it, because they can take neither money nor a credit and no record intends them to be paid. ${witnesses.length} = ${rows.length} + ${departures.length} + ${witnesses.length - rows.length - departures.length}. Membership is intent, so withdrawing a fulfillment record moves nobody: ${rows.filter((row) => row.withdrawalRecord !== null).length} route(s) in this denominator have a withdrawn record and are still answered for here, refused at every surface.`,
-    routes: departures.sort((a, b) => a.route.localeCompare(b.route))
+  paidPathwayDenominator: {
+    note: "PAID_PATHWAY_DENOMINATOR. Read from the closure, never derived here. See data/rcap-ledger/paid-pathway-denominator.json.",
+    source: "data/rcap-ledger/sellable-pathway-closure.json",
+    sha256: denominatorSha256,
+    count: denominatorRoutes.length
+  },
+  registryRouteCensus: {
+    note: "REGISTRY_ROUTE_CENSUS. A view over the denominator, not a denominator. See data/rcap-ledger/registry-route-census.json.",
+    examined: examined.length,
+    gaps: gaps.length,
+    gapRoutes: gaps.map((entry) => entry.paidPathway)
+  },
+  reclassifiedOutOfPaidDenominator: {
+    note: "The one exit. A pathway leaves paid_packet_intended only through a signed record in "
+      + "data/rcap-ledger/sellable-pathway-reclassifications.json, which states that it is the only way. "
+      + "This census has no exit of its own: losing a fulfillment record, losing a capability or losing a "
+      + "witness never removes a pathway from the denominator, only from what could be examined.",
+    register: "data/rcap-ledger/sellable-pathway-reclassifications.json",
+    count: reclassifiedOut.length,
+    pathways: reclassifications.reclassifications
+      .filter((entry) => entry.previousClassification === "paid_packet_intended")
+      .map((entry) => ({
+        pathway: entry.pathwayKey,
+        newClassification: entry.newClassification,
+        reason: entry.reason,
+        authority: entry.authority ?? null,
+        id: entry.id
+      }))
+      .sort((a, b) => a.pathway.localeCompare(b.pathway))
+  },
+  accounting: {
+    note: "Every layer closes, and each number comes from the artifact that owns it.",
+    compiledPathways: closure.universe.compiledPathways,
+    byClosureCategory: closure.categoryCounts,
+    paidPathwayDenominator: denominatorRoutes.length,
+    examinedInRegistryCensus: examined.length,
+    censusGaps: gaps.length,
+    witnessedRoutesOutsideThePaidDenominator: outsidePaidDenominator.length,
+    reconciliation: `The closure classifies ${closure.universe.compiledPathways} compiled pathways. `
+      + `${denominatorRoutes.length + reclassifiedOut.length} were originally paid_packet_intended; `
+      + `${reclassifiedOut.length} left through signed reclassifications, every one of them attributable, `
+      + `leaving ${denominatorRoutes.length}. `
+      + `${denominatorRoutes.length + reclassifiedOut.length} - ${reclassifiedOut.length} = ${denominatorRoutes.length}. `
+      + `Those ${denominatorRoutes.length} are the denominator and the only thing that defines it, and every `
+      + `one of them carries exactly one census row. Evidence is joined onto those rows rather than deciding `
+      + `who has one: ${examined.length} have a committed public witness answer set and ${gaps.length} do not. `
+      + (gaps.length === 0
+        ? "Every pathway is witness-backed today; were one not, it would keep its row and the gap would be recorded against the evidence rather than against the denominator. "
+        : `Those ${gaps.length} keep their rows, named, with the gap recorded against the evidence rather than against the denominator. `)
+      + `${denominatorRoutes.length} = ${examined.length} + ${gaps.length}. `
+      + `Every row carries exactly one commercial classification, so nothing is counted twice and nothing is `
+      + `silently omitted. Fulfillment proof then decides which members may sell, never who the members are: `
+      + `${rows.filter((row) => row.gradeAProofValid).length} are admitted, `
+      + `${rows.filter((row) => !row.gradeAProofValid).length} are refused with their missing proof named, and `
+      + `${rows.filter((row) => row.withdrawalRecord !== null).length} carry a withdrawn record and are still `
+      + `answered for here rather than removed.`
   },
   rows
 };
@@ -418,7 +529,7 @@ const md = [
   "",
   `**${doc.totals.commercialRoutes} commercial routes** — ${doc.totals.evaluatorPaymentAllowed} payment-allowed at the evaluator, ${doc.totals.checkoutActuallyOpen} with checkout actually open once the packet route resolver is consulted, ${doc.totals.sponsorshipCapable} sponsorship-capable, ${doc.totals.provenByFulfillmentRecord} proven by a fulfillment record.`,
   "",
-  `**${departures.length} routes left this denominator** when ADR-0004 retired the legacy generators' commercial authority. They are listed by name in the JSON under \`departuresFromTheCommercialDenominator\`; none of them can take money or a sponsored credit any more, and each still renders for historical access.`,
+  `**${denominatorRoutes.length} intended-paid pathways** are the denominator, read from the sellable pathway closure. ${examined.length} carry a census row and ${gaps.length} are named as census gaps for want of a public witness answer set. A pathway leaves only through a signed reclassification, never through this census.`,
   "",
   "| Classification | Routes |",
   "|---|---:|",

@@ -8,7 +8,7 @@
   "inputs": {
     "canonicalGraph": {
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-      "sha256": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05"
+      "sha256": "2107414b68900c64f1858a0d3cbe8592a6f01f3d354a2b5b9ff5586c82ecd8f4"
     },
     "packetSetManifests": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
@@ -16,11 +16,11 @@
     },
     "publicWitnessAnswerSets": {
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
-      "sha256": "1c47de971663ae3a3b24e2ab2a153d7184e3a1a1c288e3355da5bce4f03cb9ed"
+      "sha256": "20ae5e20b591d6a043a4de6aa416552d7f2dbb61603153c8892d307d94b55ce9"
     },
     "sellablePathwayClosure": {
       "path": "data/rcap-ledger/sellable-pathway-closure.json",
-      "sha256": "fc8fddcc40cd523ddea2b59bb0aeaab60bbb6b443847fb3e4f2d8f3d2ea6f3c6"
+      "sha256": "402b5a798f8072ecc5c2b4ca72f992cc99bfd16553cab45121101a47484143c2"
     }
   },
   "legacyVerifiedJurisdictions": [
@@ -32,17 +32,17 @@
   ],
   "admissionIsNotSelection": "Admitted means the factory may build the route. Selected means the resolver chose it, after every suppression ahead of the factory branch had its turn. The launch graph reports selection.",
   "totals": {
-    "intendedPaidPathways": 262,
-    "factoryV2Admitted": 174,
+    "intendedPaidPathways": 267,
+    "factoryV2Admitted": 179,
     "notAdmitted": 88,
     "reasonsItIsNotAdmitted": {
       "sourceOrApprovedComposedDocument": 21,
       "exactPacketSet+packetSpecification+sourceOrApprovedComposedDocument": 31,
       "legacy_generator_owns_this_jurisdiction": 36
     },
-    "ownerApprovedLegalDesign": 95,
+    "ownerApprovedLegalDesign": 96,
     "paymentAllowedAtTheEvaluator": 28,
-    "publicWitnessReachesItsOwnPathway": 262
+    "publicWitnessReachesItsOwnPathway": 267
   },
   "routes": [
     {
@@ -765,6 +765,60 @@
       }
     },
     {
+      "pathwayKey": "AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "jurisdiction": "AZ",
+      "pathwayId": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "pathwayLabel": "Notation of clearance after a wrongful arrest, indictment or charge",
+      "registryTrackIds": [
+        "az_wrongful_arrest_clearance"
+      ],
+      "packetSetIds": [
+        "az_wrongful_arrest_clearance-set"
+      ],
+      "packetFamilies": [],
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "requiredInputIds": [
+        "case_outcome",
+        "charge",
+        "contact_information",
+        "court",
+        "criminal_history",
+        "disposition_date",
+        "financial_obligations",
+        "jurisdiction",
+        "offense_category",
+        "offense_level",
+        "participant_full_legal_name",
+        "pathway_id",
+        "residency_or_location"
+      ],
+      "componentCount": 1,
+      "officialFormIds": [],
+      "buildInputs": {
+        "authoritativeProfile": true,
+        "authoritativePathway": true,
+        "exactPacketSet": true,
+        "packetSpecification": true,
+        "requiredParticipantFields": true,
+        "sourceOrApprovedComposedDocument": true,
+        "deterministicFixture": true
+      },
+      "unmetBuildInputs": [],
+      "factoryV2Resolves": true,
+      "legacyGeneratorOwnsThisJurisdiction": false,
+      "separateGates": {
+        "ownerApprovedLegalDesign": true,
+        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "paymentAllowedAtTheEvaluator": false,
+        "publicWitnessReachesThisPathway": true,
+        "closureCategory": "paid_packet_intended",
+        "openBlockerIds": [
+          "legal_review_pending",
+          "unclassified_route"
+        ]
+      }
+    },
+    {
       "pathwayKey": "AZ:remedy-1-record-sealing",
       "jurisdiction": "AZ",
       "pathwayId": "remedy-1-record-sealing",
@@ -929,6 +983,69 @@
         "openBlockerIds": [
           "legal_review_pending",
           "route_metadata"
+        ]
+      }
+    },
+    {
+      "pathwayKey": "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "jurisdiction": "CA",
+      "pathwayId": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "pathwayLabel": "Dismissal and set-aside of a conviction for which probation was not granted",
+      "registryTrackIds": [
+        "ca-1203-4a"
+      ],
+      "packetSetIds": [
+        "ca-1203-4a-set"
+      ],
+      "packetFamilies": [],
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "requiredInputIds": [
+        "case_outcome",
+        "charge",
+        "contact_information",
+        "county",
+        "court",
+        "criminal_history",
+        "financial_obligations",
+        "jurisdiction",
+        "offense_category",
+        "offense_level",
+        "pardon_status",
+        "participant_full_legal_name",
+        "pathway_id",
+        "pending_cases",
+        "record_type",
+        "residency_or_location",
+        "sentence_completion_date"
+      ],
+      "componentCount": 4,
+      "officialFormIds": [
+        "CR-106",
+        "CR-180",
+        "CR-181",
+        "MC-031"
+      ],
+      "buildInputs": {
+        "authoritativeProfile": true,
+        "authoritativePathway": true,
+        "exactPacketSet": true,
+        "packetSpecification": true,
+        "requiredParticipantFields": true,
+        "sourceOrApprovedComposedDocument": true,
+        "deterministicFixture": true
+      },
+      "unmetBuildInputs": [],
+      "factoryV2Resolves": true,
+      "legacyGeneratorOwnsThisJurisdiction": false,
+      "separateGates": {
+        "ownerApprovedLegalDesign": false,
+        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "paymentAllowedAtTheEvaluator": false,
+        "publicWitnessReachesThisPathway": true,
+        "closureCategory": "paid_packet_intended",
+        "openBlockerIds": [
+          "legal_review_pending",
+          "unclassified_route"
         ]
       }
     },
@@ -1314,8 +1431,7 @@
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "gate_build",
-          "legal_review_pending",
-          "renderer_unavailable"
+          "legal_review_pending"
         ]
       }
     },
@@ -1370,9 +1486,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "renderer_unavailable"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -1432,6 +1546,60 @@
           "not_paid_product",
           "packet_spec_incomplete",
           "renderer_unavailable"
+        ]
+      }
+    },
+    {
+      "pathwayKey": "CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "jurisdiction": "CT",
+      "pathwayId": "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "pathwayLabel": "Petition for erasure of cannabis conviction records",
+      "registryTrackIds": [
+        "ct-cannabis-petition"
+      ],
+      "packetSetIds": [
+        "ct-cannabis-petition-set"
+      ],
+      "packetFamilies": [],
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "requiredInputIds": [
+        "case_outcome",
+        "charge",
+        "contact_information",
+        "court",
+        "financial_obligations",
+        "jurisdiction",
+        "offense_category",
+        "offense_level",
+        "pardon_status",
+        "participant_full_legal_name",
+        "pathway_id",
+        "sentence_completion_date"
+      ],
+      "componentCount": 2,
+      "officialFormIds": [],
+      "buildInputs": {
+        "authoritativeProfile": true,
+        "authoritativePathway": true,
+        "exactPacketSet": true,
+        "packetSpecification": true,
+        "requiredParticipantFields": true,
+        "sourceOrApprovedComposedDocument": true,
+        "deterministicFixture": true
+      },
+      "unmetBuildInputs": [],
+      "factoryV2Resolves": true,
+      "legacyGeneratorOwnsThisJurisdiction": false,
+      "separateGates": {
+        "ownerApprovedLegalDesign": false,
+        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "paymentAllowedAtTheEvaluator": false,
+        "publicWitnessReachesThisPathway": true,
+        "closureCategory": "paid_packet_intended",
+        "openBlockerIds": [
+          "legal_review_pending",
+          "renderer_unavailable",
+          "unclassified_route"
         ]
       }
     },
@@ -4469,6 +4637,63 @@
       }
     },
     {
+      "pathwayKey": "KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "jurisdiction": "KY",
+      "pathwayId": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "pathwayLabel": "Void and seal a first qualifying possession conviction under KRS 218A.276",
+      "registryTrackIds": [
+        "ky_void_seal_marijuana_synthetic_salvia"
+      ],
+      "packetSetIds": [
+        "ky_void_seal_marijuana_synthetic_salvia-set"
+      ],
+      "packetFamilies": [],
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "requiredInputIds": [
+        "age_at_offense",
+        "case_outcome",
+        "charge",
+        "contact_information",
+        "county",
+        "court",
+        "jurisdiction",
+        "offense_category",
+        "offense_level",
+        "pardon_status",
+        "participant_full_legal_name",
+        "pathway_id",
+        "record_type",
+        "sentence_completion_date"
+      ],
+      "componentCount": 3,
+      "officialFormIds": [
+        "AOC-334"
+      ],
+      "buildInputs": {
+        "authoritativeProfile": true,
+        "authoritativePathway": true,
+        "exactPacketSet": true,
+        "packetSpecification": true,
+        "requiredParticipantFields": true,
+        "sourceOrApprovedComposedDocument": true,
+        "deterministicFixture": true
+      },
+      "unmetBuildInputs": [],
+      "factoryV2Resolves": true,
+      "legacyGeneratorOwnsThisJurisdiction": false,
+      "separateGates": {
+        "ownerApprovedLegalDesign": false,
+        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "paymentAllowedAtTheEvaluator": false,
+        "publicWitnessReachesThisPathway": true,
+        "closureCategory": "paid_packet_intended",
+        "openBlockerIds": [
+          "legal_review_pending",
+          "unclassified_route"
+        ]
+      }
+    },
+    {
       "pathwayKey": "LA:expungement-by-redaction-for-multi-person-records",
       "jurisdiction": "LA",
       "pathwayId": "expungement-by-redaction-for-multi-person-records",
@@ -5394,6 +5619,7 @@
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "legal_review_pending",
+          "packet_spec_incomplete",
           "renderer_unavailable",
           "route_metadata"
         ]
@@ -8568,6 +8794,7 @@
         "openBlockerIds": [
           "legal_reconfirmation",
           "legal_review_pending",
+          "packet_spec_incomplete",
           "renderer_unavailable"
         ]
       }
@@ -9253,6 +9480,7 @@
         "openBlockerIds": [
           "legal_reconfirmation",
           "legal_review_pending",
+          "packet_spec_incomplete",
           "renderer_unavailable"
         ]
       }
@@ -9866,6 +10094,63 @@
       }
     },
     {
+      "pathwayKey": "NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "jurisdiction": "NV",
+      "pathwayId": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "pathwayLabel": "Removal of a record from the Central Repository after a favourable disposition",
+      "registryTrackIds": [
+        "nv_repository_removal"
+      ],
+      "packetSetIds": [
+        "nv_repository_removal-set"
+      ],
+      "packetFamilies": [],
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "requiredInputIds": [
+        "arrest_date",
+        "case_outcome",
+        "charge",
+        "contact_information",
+        "court",
+        "criminal_history",
+        "disposition_date",
+        "jurisdiction",
+        "offense_category",
+        "offense_level",
+        "pardon_status",
+        "participant_full_legal_name",
+        "pathway_id",
+        "pending_cases",
+        "record_type",
+        "residency_or_location"
+      ],
+      "componentCount": 6,
+      "officialFormIds": [],
+      "buildInputs": {
+        "authoritativeProfile": true,
+        "authoritativePathway": true,
+        "exactPacketSet": true,
+        "packetSpecification": true,
+        "requiredParticipantFields": true,
+        "sourceOrApprovedComposedDocument": true,
+        "deterministicFixture": true
+      },
+      "unmetBuildInputs": [],
+      "factoryV2Resolves": true,
+      "legacyGeneratorOwnsThisJurisdiction": false,
+      "separateGates": {
+        "ownerApprovedLegalDesign": false,
+        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "paymentAllowedAtTheEvaluator": false,
+        "publicWitnessReachesThisPathway": true,
+        "closureCategory": "paid_packet_intended",
+        "openBlockerIds": [
+          "legal_review_pending",
+          "unclassified_route"
+        ]
+      }
+    },
+    {
       "pathwayKey": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
       "jurisdiction": "NV",
       "pathwayId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
@@ -9919,6 +10204,7 @@
         "openBlockerIds": [
           "intake_fix",
           "legal_review_pending",
+          "packet_spec_incomplete",
           "renderer_unavailable"
         ]
       }
@@ -11510,6 +11796,7 @@
         "openBlockerIds": [
           "legal_reconfirmation",
           "legal_review_pending",
+          "packet_spec_incomplete",
           "renderer_unavailable"
         ]
       }
@@ -11568,6 +11855,7 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
+          "packet_spec_incomplete",
           "renderer_unavailable"
         ]
       }
@@ -12680,6 +12968,7 @@
         "openBlockerIds": [
           "intake_fix",
           "legal_review_pending",
+          "packet_spec_incomplete",
           "renderer_unavailable"
         ]
       }

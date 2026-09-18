@@ -4,60 +4,290 @@
 
 The direct-consumer paid path has one artifact builder and it takes no branch. buildConsumerPacketArtifact returns provider rcap_source_engine, contentType text/plain and a filename ending -packet.txt for every jurisdiction, route, packet family and plan mode, and its body is the route's own metadata plus the packet plan's readiness conditions under a heading that reads FILING CHECKLIST. So the § 99-15-59 finding is a property of the path, not of that route.
 
-**40 commercial routes** — 28 payment-allowed at the evaluator, 25 with checkout actually open once the packet route resolver is consulted, 0 sponsorship-capable, 1 proven by a fulfillment record.
+**267 commercial routes** — 28 payment-allowed at the evaluator, 25 with checkout actually open once the packet route resolver is consulted, 0 sponsorship-capable, 1 proven by a fulfillment record.
 
-**21 routes left this denominator** when ADR-0004 retired the legacy generators' commercial authority. They are listed by name in the JSON under `departuresFromTheCommercialDenominator`; none of them can take money or a sponsored credit any more, and each still renders for historical access.
+**267 intended-paid pathways** are the denominator, read from the sellable pathway closure. 267 carry a census row and 0 are named as census gaps for want of a public witness answer set. A pathway leaves only through a signed reclassification, never through this census.
 
 | Classification | Routes |
 |---|---:|
-| PACKET_CORRECTION_REQUIRED | 34 |
-| GUIDANCE_OR_HANDOFF_NO_PACKET | 6 |
-| **TOTAL** | **40** |
+| PACKET_CORRECTION_REQUIRED | 193 |
+| GUIDANCE_OR_HANDOFF_NO_PACKET | 57 |
+| ARTIFACT_REVIEW_REQUIRED | 10 |
+| SOURCE_OR_CONFIGURATION_GATE | 4 |
+| ARTIFACT_GENERATION_REQUIRED | 3 |
+| **TOTAL** | **267** |
 
 ## Every commercial route
 
 | Route | Family | Result | Checkout | Credit | Provider | Type | Classification |
 |---|---|---|---|---|---|---|---|
 | `AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `AK:executive-pardon-backstop` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `AK:juvenile-record-sealing-as-47-12-300` | — | not_covered_yet | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085` | Alaska AS 12.55.085(e) Belated Set-Aside Motion | guidance_only | closed | no | none | none | ARTIFACT_GENERATION_REQUIRED |
+| `AL:eligible-conviction-expungement-under-the-redeemer-act` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `AL:human-trafficking-victim-expungement` | Alabama Trafficking-Victim Expungement Petition under §§ 15-27-1(a)(8) / 15-27-2(a)(8) | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `AL:non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `AL:pardoned-felony-expungement-under-ala-code-15-27-2-c` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `AR:situation-a-non-convictions` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `AR:situation-b-misdemeanor-convictions` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `AR:situation-c-felony-convictions` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051` | Arizona Petition for Notation of Clearance under § 13-4051 | guidance_only | closed | no | none | none | ARTIFACT_REVIEW_REQUIRED |
+| `AZ:remedy-1-record-sealing` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `AZ:remedy-2-set-aside-of-a-conviction` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `AZ:remedy-3-marijuana-expungement` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a` | California CR-180 box 3 petition for dismissal under § 1203.4a | needs_more_info | closed | no | none | none | ARTIFACT_REVIEW_REQUIRED |
+| `CA:prop-64-completed-sentence-application-11361-8` | — | likely_not_eligible | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `CA:prop-64-currently-serving-petition-11361-8` | — | likely_not_eligible | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `CA:tool-1-dismissal-set-aside` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `CA:tool-3-petition-based-felony-sealing` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `CA:tool-4-arrest-record-sealing` | — | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `CO:juvenile-expungement-19-1-306` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `CO:petition-based-conviction-sealing-jdf-612-24-72-706` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `CO:petition-based-non-conviction-sealing-jdf-417-24-72-704` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `CT:absolute-pardon-resulting-in-erasure` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v` | Connecticut § 54-142v petition for erasure of cannabis conviction records | needs_review | closed | no | none | none | ARTIFACT_REVIEW_REQUIRED |
+| `CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `DC:dc_actual_innocence_expungement_16_803` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `DC:dc_motion_seal_felony_conviction_8yr_16_806` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `DC:dc_motion_seal_nonconviction_16_806` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `DE:discretionary-court-expungement-under-11-del-c-4374` | — | packet_ready | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `DE:juvenile-expungement-under-10-del-c-1017-1019-1017a` | Delaware Juvenile Expungement Petition under 10 Del. C. §§ 1017 / 1018 | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `DE:pardon-based-discretionary-expungement-under-11-del-c-4375` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `FL:court-ordered-expunction-943-0585` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `FL:court-ordered-sealing-943-059` | Florida Petition to Seal under § 943.059 | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `FL:early-juvenile-expunction-943-0515` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `FL:human-trafficking-victim-expunction-943-0583` | Florida Trafficking-Victim Expunction Petition under § 943.0583 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `GA:non-conviction-record-restriction-through-the-agency-prosecutor-process` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `GA:restriction-and-sealing-of-a-pardoned-felony` | Georgia Restriction and Sealing Petition for a Pardoned Felony under § 35-3-37 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `GA:retroactive-first-offender-treatment-under-42-8-66` | Georgia § 42-8-66 Retroactive First Offender Petition | needs_more_info | closed | no | none | none | ARTIFACT_GENERATION_REQUIRED |
+| `GA:sb-288-misdemeanor-conviction-restriction-and-sealing` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `GA:youthful-first-offender-restriction-route` | Georgia First-Offender Restriction and Sealing Petition under § 42-8-62.1 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `HI:deferred-acceptance-one-year` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `HI:deferred-prostitution-three-year` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `HI:dui-under-21-conviction` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `HI:first-time-drug-conviction` | Hawaii First-Time Drug Offender Expungement Order Request under § 706-622.5 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `HI:nonconviction-arrest-expungement` | Hawaii Attorney General Expungement Application under § 831-3.2 | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IA:minor-prostitution-7251` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IA:misdemeanor-901c3` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IA:nonconviction-901c2` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IA:public-intoxication-12346` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IA:underage-alcohol-12347` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `ID:clean-slate-shielding-under-idaho-code-67-3004-11` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `ID:human-trafficking-survivor-vacatur-and-expungement` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `ID:juvenile-expungement` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `ID:withheld-judgment-idaho-code-19-2604-review-branch` | — | needs_more_info | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `IL:adult-conviction-sealing` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `IL:felony-prostitution-relief` | Illinois Prostitution Vacatur and Expungement Petition under 20 ILCS 2630/5.2 | likely_not_eligible | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IL:adult-non-conviction-expungement` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IL:cannabis-specific-automatic-or-petition-expungement` | Illinois Cannabis Expungement Petition under 20 ILCS 2630/5.2 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IL:criminal-identity-theft-mistaken-identity-relief` | Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IL:expungement-after-eligible-supervision-or-qualified-probation` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IL:felony-prostitution-relief` | Illinois Prostitution Vacatur and Expungement Petition under 20 ILCS 2630/5.2 | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IL:human-trafficking-survivor-vacatur-and-expungement` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IL:juvenile-automatic-or-petition-expungement` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IN:conviction-expungement-with-records-marked-expunged` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IN:conviction-expungement-with-sealed-confidential-access` | — | needs_more_info | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IN:juvenile-allegation-expungement` | — | needs_more_info | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `IN:non-conviction-arrest-or-criminal-charge-expungement` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `KS:conviction-or-diversion-216614` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `KS:municipal-arrest-record-expungement-under-12-4516a` | Kansas Municipal Arrest Record Expungement Petition under § 12-4516a | guidance_only | closed | no | none | none | ARTIFACT_REVIEW_REQUIRED |
+| `KS:municipal-conviction-or-diversion-expungement-under-12-4516` | Kansas Municipal Conviction or Diversion Expungement Petition under § 12-4516 | needs_more_info | closed | no | none | none | ARTIFACT_REVIEW_REQUIRED |
+| `KS:prostitution-coercion` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `KS:specialty-court-accelerated` | Kansas Specialty-Court Expungement Petition under § 21-6614 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `KY:felony-conviction-431073` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `KY:misdemeanor-violation-traffic-conviction` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `KY:nonconviction-431076` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276` | Kentucky KRS 218A.276 motion to void and seal, with AOC-334 tendered as the proposed order | needs_review | closed | no | none | none | ARTIFACT_REVIEW_REQUIRED |
+| `LA:expungement-by-redaction-for-multi-person-records` | Louisiana Article 985 Redaction Packet | guidance_only | closed | no | none | none | ARTIFACT_REVIEW_REQUIRED |
 | `LA:felony-article-893-e-set-aside-followed-by-expungement` | Louisiana Article 978 Felony Expungement Packet | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `LA:felony-ten-year-clean-period-expungement` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `LA:first-offender-pardon-felony-expungement` | Louisiana Article 978 First-Offender-Pardon Expungement Packet | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `LA:first-offense-marijuana-expungement-after-90-days-art-998` | Louisiana Article 977(D) First-Offense Marijuana Expungement Packet | needs_more_info | closed | no | none | none | SOURCE_OR_CONFIGURATION_GATE |
+| `LA:human-trafficking-survivor-expungement-fee-exempt-route` | Louisiana Trafficking-Survivor Expungement Packet under art. 983(H) | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `LA:immediate-expungement-after-successful-court-program-completion-art-985-3` | Louisiana Article 985.3 Immediate Expungement Packet | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction` | Louisiana Article 985.1 Interim Expungement Packet | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `LA:misdemeanor-article-894-b-set-aside-followed-by-expungement` | Louisiana Article 977 Misdemeanor Expungement Packet | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `LA:misdemeanor-five-year-clean-period-expungement` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `LA:non-conviction-arrest-expungement` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MA:adult-conviction-sealing-under-m-g-l-c-276-100a` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c` | Massachusetts § 100C Court-Requested Sealing Packet | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MA:juvenile-record-sealing-under-100b` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MA:marijuana-only-expungement` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MA:time-based-expungement-under-100f-100j` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MD:adult-non-conviction-expungement-under-crim-proc-10-105` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MD:cannabis-specific-expungement` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MD:eligible-conviction-expungement-under-crim-proc-10-110` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MD:juvenile-expungement` | — | not_covered_yet | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8` | — | likely_not_eligible | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MD:police-record-expungement-when-no-charge-was-filed-under-10-103` | Maryland § 10-103 Written Request to the Police Agency | likely_not_eligible | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `MD:second-chance-act-shielding` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `ME:adult-conviction-sealing` | Maine § 2264 Adult Conviction Sealing Motion | needs_more_info | closed | no | none | none | SOURCE_OR_CONFIGURATION_GATE |
+| `ME:juvenile-sealing` | Maine Juvenile Sealing Petition under 15 M.R.S. § 3308-C | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `ME:pardon-route` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `ME:sex-trafficking-sexual-exploitation-survivor-sealing` | Maine § 2264(7) Survivor Sealing Motion | not_covered_yet | closed | no | none | none | SOURCE_OR_CONFIGURATION_GATE |
+| `MI:first-offense-owi-set-aside-by-application` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MI:human-trafficking-related-set-aside-application` | Michigan Trafficking Set-Aside Application under MCL 780.621d | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MI:set-aside-by-application-under-mcl-780-621` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `MN:petition-based-expungement-under-609a-02-03` | Minnesota Expungement Petition under §§ 609A.02-.03 | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025` | Minnesota Prosecutor-Agreed Sealing Packet under § 609A.025 | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123` | Missouri §§ 610.122-.123 Petition | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130` | — | not_covered_yet | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MO:first-minor-in-possession-alcohol-expungement-under-311-326` | Missouri § 311.326 Minor-in-Possession Expungement Petition | guidance_only | closed | no | none | none | SOURCE_OR_CONFIGURATION_GATE |
 | `MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140` | Missouri § 610.140 Expungement Petition | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MO:stolen-or-mistaken-identity-expungement-under-610-145` | Missouri § 610.145 Identity-Error Expungement Packet | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MS:additional-justice-court-misdemeanor-relief-9-11-15-3` | Petition under § 9-11-15(3) | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MS:additional-municipal-court-misdemeanor-relief-21-23-7-6` | Petition under § 21-23-7(6) | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MS:eligible-felony-conviction-expungement-99-19-71` | Petition for Expungement of an Eligible Felony Conviction under § 99-19-71(2) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1` | First-Offender Nontraffic Misdemeanor Petition under § 99-19-71(1) | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:first-offense-controlled-substance-conditional-discharge-relief` | Post-Conditional-Discharge Application under § 41-29-150(d)(2) | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MS:first-offense-dui-expungement` | Circuit Court Petition under § 63-11-30(13) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:human-trafficking-survivor-expungement-97-3-54-6-6` | Petition or Motion to Expunge under § 97-3-54.6(6) | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:human-trafficking-survivor-vacatur-97-3-54-6-5` | Motion to Vacate under § 97-3-54.6(5) | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4` | Nonconviction Petition under § 99-19-71(4) | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MS:minor-in-possession-underage-alcohol-expungement` | Petition under § 67-3-70(6) | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` | Nonconviction Petition under current § 99-19-71(4) | packet_ready_with_caution | OPEN | no | rcap_grade_a_composer_v1 | application/pdf | PACKET_CORRECTION_REQUIRED |
+| `MS:nonadjudication-under-99-15-26` | Post-Nonadjudication Petition under § 99-15-26(5) | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:pretrial-intervention-or-diversion-expungement` | Petition After Pretrial Intervention under § 99-15-123(3) | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59` | Petition under § 99-15-59 | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59` | Petition under § 99-15-59 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MT:marijuana-related-redesignation-expungement-under-mmrta` | Montana MMRTA Redesignation or Expungement Petition under § 16-12-113 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NC:nonviolent-conviction-expunction-under-g-s-15a-145-5` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes` | North Carolina Petition for Expunction under G.S. 15A-145.8A | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `ND:deferred-imposition-dismissal-and-sealing` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `ND:dui-record-sealing-under-the-separate-dui-statute` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `ND:first-offense-possession-sealing` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `ND:marijuana-specific-summary-pardon-or-sealing-relief` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NE:juvenile-petition-backstop` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `NE:law-enforcement-error-expungement` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `NE:pardon-then-seal` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `NE:set-aside-incarceration-one-year-or-less` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `NE:set-aside-probation-fine-community-service` | Nebraska Set-Aside Application under § 29-2264 | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NE:trafficking-survivor-set-aside-and-seal` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `NH:annulment-after-dismissal-acquittal-or-nonprosecution` | — | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `NH:annulment-of-a-vacated-conviction` | New Hampshire Annulment Petition under RSA 651:5 | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `NH:conviction-annulment-under-rsa-651-5` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NH:dwi-dui-annulment` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NH:marijuana-possession-annulment-under-rsa-651-5-b` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6` | New Jersey Nonconviction Expungement Petition under 2C:52-6 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3` | New Jersey Regular Expungement Petition under 2C:52-2 / 2C:52-3 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NM:cannabis-sentence-dismissal-incarcerated-person-pathway` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `NM:conviction` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NM:no-conviction-released-without-conviction` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NV:controlled-substance-possession-sealing-under-nrs-453-3365` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211` | Nevada Sealing Packet under NRS 176.211 | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `NV:general-conviction-record-sealing-under-nrs-179-245` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NV:non-conviction-record-sealing` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NV:probation-or-specialty-court-dismissal-set-aside-sealing` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NV:reentry-program-sealing-under-nrs-179-259` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160` | Nevada NRS 179A.160 written application for removal from the Central Repository | needs_review | closed | no | none | none | ARTIFACT_REVIEW_REQUIRED |
+| `NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `NY:conditional-treatment-sealing-under-cpl-160-58` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OH:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `OH:adult-non-conviction-sealing-or-expungement-under-2953-33` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OH:certain-firearm-carry-conviction-expungement-under-2953-35` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OH:human-trafficking-survivor-conviction-expungement-under-2953-36` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `OH:human-trafficking-survivor-non-conviction-expungement-under-2953-521` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `OH:juvenile-sealing-and-expungement` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `OH:marijuana-hashish-possession-expungement-under-2953-321` | Ohio R.C. 2953.321 Marijuana or Hashish Possession Expungement Application | needs_review | closed | no | none | none | ARTIFACT_GENERATION_REQUIRED |
+| `OK:acquittal-dismissal-or-other-no-conviction-expungement` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:arrest-with-no-charges-filed` | Oklahoma § 18 Expungement Petition — arrest with no charges | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:conviction-reversed-and-case-dismissed` | Oklahoma § 18 Expungement Petition — reversal and dismissal | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:deferred-sentence-court-record-expungement-under-991-c` | Oklahoma § 991c Court-Record Expungement Packet | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:dna-factual-innocence-expungement` | Oklahoma § 18 Expungement Petition — DNA factual innocence | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:felony-reclassified-as-a-misdemeanor` | Oklahoma § 18 Expungement Petition — reclassified felony | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:fine-only-misdemeanor-conviction-expungement` | Oklahoma § 18 Expungement Petition — fine-only misdemeanor | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:human-trafficking-survivor-relief` | Oklahoma Trafficking-Survivor Relief Petition under § 19c | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `OK:juvenile-record-expungement` | Oklahoma Juvenile Expungement Petition under 10A O.S. § 2-6-109 | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `OK:misdemeanor-deferred-dismissal-expungement` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:nonviolent-felony-deferred-dismissal-expungement` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:not-more-than-two-eligible-felony-convictions-expungement` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:one-eligible-nonviolent-felony-conviction-expungement` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:other-eligible-misdemeanor-conviction-expungement` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:pardon-based-expungement` | Oklahoma § 18 Expungement Petition — full pardon | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:up-to-two-felony-deferred-dismissal-expungement` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `OK:victim-protective-order-record-relief` | Oklahoma VPO Sealing Motion under § 60.18 | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `OR:marijuana-specific-set-aside-redesignation` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `PA:path-a-non-conviction-expungement` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `RI:path-a-first-offender-conviction-expungement` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `RI:path-b-multiple-misdemeanor-expungement` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `RI:path-c-deferred-sentence-expungement` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `RI:path-d-non-conviction-sealing-expungement` | Rhode Island Nonconviction Sealing Packet under §§ 12-1-12 / 12-1-12.1 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `RI:path-e-filed-complaint-relief-under-12-10-12` | Rhode Island Filed-Complaint Expungement Packet under § 12-10-12 | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `RI:path-h-commercial-sexual-activity-related-expungement` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `SC:eligible-conviction-expungement` | South Carolina Conviction Expungement Application | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `SC:general-sessions-non-conviction-expungement` | South Carolina § 17-1-40 Nonconviction Expungement Application | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `SC:human-trafficking-survivor-expungement` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `SC:juvenile-expungement` | South Carolina Juvenile Expungement Application under § 63-19-2050 | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `SC:summary-court-non-conviction-expungement` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `SD:adult-arrest-record-expungement-under-sdcl-23a-3-27` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `SD:controlled-substance-deferred-disposition-route` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `SD:diversion-expungement` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `SD:juvenile-delinquency-sealing` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `SD:juvenile-trafficking-expungement` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `SD:suspended-imposition-of-sentence-sealing` | South Dakota SIS Sealing Packet under §§ 23A-27-13 / 23A-27-14 | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `TN:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `TN:pathway-4-two-offense-expunction-under-40-32-101-k` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `TX:expunction-after-pardon-or-actual-innocence-relief` | Texas Ex Parte Petition for Expunction under art. 55A.003 / 55A.004 | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `TX:expunction-after-qualifying-class-c-deferred-disposition` | Texas Ex Parte Petition for Expunction — Class C deferred disposition | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `TX:expunction-after-qualifying-dismissal-or-quash` | Texas Ex Parte Petition for Expunction — dismissal or quash | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `TX:expunction-for-arrest-with-no-charge-filed-after-the-limitations-period` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `TX:first-offense-dwi-nondisclosure` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `TX:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `TX:petitioned-nondisclosure-for-an-eligible-conviction-411-0735` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `UT:path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `UT:path-e-petition-based-non-conviction-expungement` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `UT:path-f-petition-based-conviction-expungement` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `UT:path-i-traffic-offense-expungement-or-deletion` | Utah Traffic Expungement Petition | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `UT:path-j-cannabis-possession-petition-without-a-bci-certificate` | Utah Cannabis-Possession Expungement Petition | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `UT:path-l-vacatur-human-trafficking-related-expungement` | Utah Trafficking Vacatur and Expungement Petition | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `UT:path-m-juvenile-expungement` | Utah Juvenile Expungement Petition | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `VA:petition-based-sealing` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `VA:regime-1-expungement-available-now` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `VT:adult-conviction-expungement-narrow-statutory-route` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `VT:adult-felony-conviction-sealing` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `VT:adult-misdemeanor-conviction-sealing` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `VT:dui-sealing` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `VT:juvenile-sealing` | — | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `VT:non-conviction-sealing` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `VT:offense-before-age-25-sealing-under-33-v-s-a-5119-g` | — | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `VT:young-adult-sealing-for-offenses-committed-at-ages-18-21` | — | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `WA:adult-felony-vacation-under-rcw-9-94a-640` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `WA:adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `WA:blake-drug-possession-vacation-and-refund-route` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `WA:juvenile-record-sealing-under-rcw-13-50-260` | Washington Juvenile Sealing Motion under RCW 13.50.260 | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `WA:misdemeanor-cannabis-conviction-vacation` | Washington Cannabis Vacation Application under RCW 9.96.060(5) | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `WA:non-conviction-record-deletion-under-rcw-10-97-060` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `WA:victim-survivor-conviction-vacation-route` | Washington Victim-Survivor Vacation Packet under RCW 9.96.080 | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `WI:adult-conviction-expungement-under-wis-stat-973-015` | — | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `WI:adult-non-conviction-arrest-only-record-correction-or-removal` | — | guidance_only | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `WI:executive-pardon-guidance` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `WI:human-trafficking-prostitution-relief-under-973-015-2m` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m` | — | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a` | West Virginia § 61-11-26a Accelerated Expungement Petition | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `WV:eligible-conviction-expungement-under-w-va-code-61-11-26` | West Virginia § 61-11-26 Expungement Petition (SCA-C906) | guidance_only | closed | no | none | none | ARTIFACT_REVIEW_REQUIRED |
+| `WV:first-offense-drug-possession-conditional-discharge-relief` | West Virginia § 60A-4-407 Expungement Application | packet_ready_with_caution | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `WV:juvenile-record-relief` | — | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication` | West Virginia § 61-11-25 No-Conviction Expungement Petition | needs_review | closed | no | none | none | ARTIFACT_REVIEW_REQUIRED |
+| `WV:sex-trafficking-victim-vacatur-and-expungement` | West Virginia § 61-14-9 Vacatur and Expungement Petition | needs_review | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `WY:felony-conviction-expungement-w-s-7-13-1502` | — | needs_review | closed | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `WY:human-trafficking-victim-vacatur-w-s-6-2-708` | Wyoming Trafficking-Victim Vacatur Petition under § 6-2-708 | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
+| `WY:juvenile-minor-expungement-w-s-14-6-241` | — | guidance_only | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 
 ## Per route
 
@@ -82,6 +312,384 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1317-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
+### `AK:executive-pardon-backstop`
+
+- **JURISDICTION:** AK
+- **PATHWAY:** executive-pardon-backstop
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** d3b80bdc478c261dee9214352498802df009383e1de0cf8ccc426cfcda6e840f (1031 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `AK:juvenile-record-sealing-as-47-12-300`
+
+- **JURISDICTION:** AK
+- **PATHWAY:** juvenile-record-sealing-as-47-12-300
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** f100797bc4e0b45c2eeda29b9d57338a2600415b98753570864189034dd73d72 (1138 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180`
+
+- **JURISDICTION:** AK
+- **PATHWAY:** sealing-for-mistaken-identity-or-false-accusation-as-12-62-180
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 6dbad9ceb2f9c09590ed13a0b12473ccd500828241a7073a8b0ece79e76a5494 (1211 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1211-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085`
+
+- **JURISDICTION:** AK
+- **PATHWAY:** set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085
+- **PACKET FAMILY:** Alaska AS 12.55.085(e) Belated Set-Aside Motion
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** cfc122564240ac5d4cdb97842dbe333c5eb73018bff1e667e01b207080dc3443 (1208 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** ARTIFACT_GENERATION_REQUIRED
+- **EXACT REMAINING DELTA:** Commercially open while held on ak_12_55_085_e_motion_artifact, which should not be possible.
+
+### `AL:eligible-conviction-expungement-under-the-redeemer-act`
+
+- **JURISDICTION:** AL
+- **PATHWAY:** eligible-conviction-expungement-under-the-redeemer-act
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 5aeb4b1a3bb5b73011fdd2aa253093f2a33dde99e13b6af4104823bfeb6293a3 (1170 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1170-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `AL:human-trafficking-victim-expungement`
+
+- **JURISDICTION:** AL
+- **PATHWAY:** human-trafficking-victim-expungement
+- **PACKET FAMILY:** Alabama Trafficking-Victim Expungement Petition under §§ 15-27-1(a)(8) / 15-27-2(a)(8)
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** c1f43c335a6f82c353424971a464d6ac76c3c160460bc678521ff57d491e6a56 (1016 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1016-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `AL:non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a`
+
+- **JURISDICTION:** AL
+- **PATHWAY:** non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** f7afe3dd3e71f26290a10c0c3ceb41e91957cc147e697afa0303c8e63764b9af (1165 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1165-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `AL:pardoned-felony-expungement-under-ala-code-15-27-2-c`
+
+- **JURISDICTION:** AL
+- **PATHWAY:** pardoned-felony-expungement-under-ala-code-15-27-2-c
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 7ac8b3eb60942385ec382ee6f501719d8ea93fa1f9b2f870634e16333bcc93e1 (1181 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1181-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `AR:situation-a-non-convictions`
+
+- **JURISDICTION:** AR
+- **PATHWAY:** situation-a-non-convictions
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** AR:LegalEase Arkanasa/7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf:09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 5a01446bbac616af3d0af103c521b2e71d5cfca977dd4467ce4eaac03a7c6be1 (1034 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1034-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `AR:situation-b-misdemeanor-convictions`
+
+- **JURISDICTION:** AR
+- **PATHWAY:** situation-b-misdemeanor-convictions
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** AR:LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf:63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23
+- **RENDERER:** none (route kind exact_supported_deferral)
+- **ARTIFACT HASH:** 65a364456bb405fb3a65658c576367cdac7667dec99168107ee7ec4cbd315edf (1018 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1018-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `AR:situation-c-felony-convictions`
+
+- **JURISDICTION:** AR
+- **PATHWAY:** situation-c-felony-convictions
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** AR:LegalEase Arkanasa/Felony-Petition-Form-f.pdf:6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 9e6c3d372eaf8bfb20f12ff1c4b5b9a82372828ac956df97a22508a773d0d850 (1001 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1001-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051`
+
+- **JURISDICTION:** AZ
+- **PATHWAY:** notation-of-clearance-after-a-wrongful-arrest-under-13-4051
+- **PACKET FAMILY:** Arizona Petition for Notation of Clearance under § 13-4051
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** aaa702d207cb1bb72a2534045d5770dea7ac761e023a7469b1d9418014b2cde9 (971 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
+- **EXACT REMAINING DELTA:** Commercially open while held on az_13_4051_product_scope_classification, az_13_4051_superior_court_filing_configuration, which should not be possible.
+
+### `AZ:remedy-1-record-sealing`
+
+- **JURISDICTION:** AZ
+- **PATHWAY:** remedy-1-record-sealing
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 3f92a88214133c0540b1a313a668e4bbe6b9d4e5316e75e7b48e3daad375970a (903 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 903-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `AZ:remedy-2-set-aside-of-a-conviction`
+
+- **JURISDICTION:** AZ
+- **PATHWAY:** remedy-2-set-aside-of-a-conviction
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 0cf36e9ecf57624e0ea52655bde67458641249a53628d68d46af8b90c0608228 (916 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 916-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `AZ:remedy-3-marijuana-expungement`
+
+- **JURISDICTION:** AZ
+- **PATHWAY:** remedy-3-marijuana-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 4c1ccde15d817c9c7c0dda6c56beae9d81d41b829fa1fc224793f393716ab99d (912 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 912-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a`
+
+- **JURISDICTION:** CA
+- **PATHWAY:** dismissal-and-set-aside-without-probation-under-penal-code-1203-4a
+- **PACKET FAMILY:** California CR-180 box 3 petition for dismissal under § 1203.4a
+- **CURRENT RESULT CODE:** needs_more_info
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 5d5f4aa5925b3087f1c78bab3608453c1293053a1ec549e8288f99e22069b28c (988 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
+- **EXACT REMAINING DELTA:** Commercially open while held on ca_1203_4a_official_form_acquisition, ca_1203_4a_county_filing_configuration, ca_1203_4a_artifact_review, which should not be possible.
+
+### `CA:prop-64-completed-sentence-application-11361-8`
+
+- **JURISDICTION:** CA
+- **PATHWAY:** prop-64-completed-sentence-application-11361-8
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** likely_not_eligible
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 625bceef8fe7562b9d08212cae6f42cd7eac7dd0c36f76120578500cbb5155c0 (968 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 968-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `CA:prop-64-currently-serving-petition-11361-8`
+
+- **JURISDICTION:** CA
+- **PATHWAY:** prop-64-currently-serving-petition-11361-8
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** likely_not_eligible
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** cfe7128b5bd217140c8f761f710b311fa32fabe368344607945d98f7dcba39a1 (964 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 964-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
 ### `CA:tool-1-dismissal-set-aside`
 
 - **JURISDICTION:** CA
@@ -102,6 +710,27 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1035-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `CA:tool-3-petition-based-felony-sealing`
+
+- **JURISDICTION:** CA
+- **PATHWAY:** tool-3-petition-based-felony-sealing
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 14750b223362c923d2aa322e37171a2641445ca421fc450b0f802be4fd010ee0 (922 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
 
 ### `CA:tool-4-arrest-record-sealing`
 
@@ -124,6 +753,48 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
 - **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed true. The two disagree; only the resolver's answer is closing it.
 
+### `CO:juvenile-expungement-19-1-306`
+
+- **JURISDICTION:** CO
+- **PATHWAY:** juvenile-expungement-19-1-306
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 92dd8afde8ce1fd6da44981760e26fe23b14882b40ecdafa64dafee76005e272 (1109 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `CO:petition-based-conviction-sealing-jdf-612-24-72-706`
+
+- **JURISDICTION:** CO
+- **PATHWAY:** petition-based-conviction-sealing-jdf-612-24-72-706
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** b2169a2847e172d1aaceb1c901bbd6ba8c2897359cefeedd352d27da72efbf0f (1197 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1197-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
 ### `CO:petition-based-non-conviction-sealing-jdf-417-24-72-704`
 
 - **JURISDICTION:** CO
@@ -144,6 +815,69 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1214-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `CT:absolute-pardon-resulting-in-erasure`
+
+- **JURISDICTION:** CT
+- **PATHWAY:** absolute-pardon-resulting-in-erasure
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 437e8ea9caff1320673c0121e9d72d5861001ba20a1b0e7042072a0b021a2b71 (1036 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v`
+
+- **JURISDICTION:** CT
+- **PATHWAY:** petition-for-erasure-of-cannabis-conviction-records-under-54-142v
+- **PACKET FAMILY:** Connecticut § 54-142v petition for erasure of cannabis conviction records
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 0936203b1e712ec700e9346837711831e552e9e015fe1fb1ccaeb78293d42ae7 (983 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
+- **EXACT REMAINING DELTA:** Commercially open while held on ct_54_142v_local_filing_configuration, ct_54_142v_artifact_review, which should not be possible.
+
+### `CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202`
+
+- **JURISDICTION:** CT
+- **PATHWAY:** petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** CT:LegalEase Connecticut/Connecticut-JD-CR-202-Form.html:4b7c355596010f49268b25634a5fff41058ab59d18f6fef27885ac0eb41fa3ec; CT:LegalEase Connecticut/CR202.pdf:b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c; CT:LegalEase Connecticut/petition-for-clean-slate-erasure.html:d8b45670130a0ec1e058074039984d9978fc3305efc7237cc17a9e1a7f386e4a; CT:LegalEase Connecticut/petition-for-cannabis-erasure.html:9db97e3e9466646eb87fb3872cd1a298185a8ae64da4cc81fbd0ec755531fa93
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** c3ba98a10a22e2a816a9485b9d0cad09ecf3b7c4512d57f9f4c48afdea6b6986 (1702 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
 
 ### `DC:dc_actual_innocence_expungement_16_803`
 
@@ -166,6 +900,69 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1076-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
+### `DC:dc_motion_seal_felony_conviction_8yr_16_806`
+
+- **JURISDICTION:** DC
+- **PATHWAY:** dc_motion_seal_felony_conviction_8yr_16_806
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** fadc0093b580cf2eea675d189bf443179ebff021991aaf0d66d4d88c14ff8934 (1134 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1134-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806`
+
+- **JURISDICTION:** DC
+- **PATHWAY:** dc_motion_seal_misdemeanor_conviction_5yr_16_806
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 7a3224f71c7af8bd28d0b40fcf2065937f0d327abb8d135bd850b550679710ce (1069 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1069-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `DC:dc_motion_seal_nonconviction_16_806`
+
+- **JURISDICTION:** DC
+- **PATHWAY:** dc_motion_seal_nonconviction_16_806
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 2d2e0c8c725e4a7b9066203f55941ddbc5f4275843ed1df586951d5423868d39 (1008 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1008-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
 ### `DE:discretionary-court-expungement-under-11-del-c-4374`
 
 - **JURISDICTION:** DE
@@ -186,6 +983,321 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1098-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `DE:juvenile-expungement-under-10-del-c-1017-1019-1017a`
+
+- **JURISDICTION:** DE
+- **PATHWAY:** juvenile-expungement-under-10-del-c-1017-1019-1017a
+- **PACKET FAMILY:** Delaware Juvenile Expungement Petition under 10 Del. C. §§ 1017 / 1018
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 0864c3e8d190235208a5bf721e8ad35775d0e6e2352d24ff8f0efd055a75a47f (951 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `DE:pardon-based-discretionary-expungement-under-11-del-c-4375`
+
+- **JURISDICTION:** DE
+- **PATHWAY:** pardon-based-discretionary-expungement-under-11-del-c-4375
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 0132cca59de194da27ed49e1437bb159b774ad5d7e16bf6ee1cc10f3580e33cb (1203 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1203-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `FL:court-ordered-expunction-943-0585`
+
+- **JURISDICTION:** FL
+- **PATHWAY:** court-ordered-expunction-943-0585
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** bcc6b9834580418063c79294c63f1fd5d76144e7fe89b8dfdc2befa58ee17daf (911 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 911-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `FL:court-ordered-sealing-943-059`
+
+- **JURISDICTION:** FL
+- **PATHWAY:** court-ordered-sealing-943-059
+- **PACKET FAMILY:** Florida Petition to Seal under § 943.059
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** d9844d02872aba7ca72e783a2e43debdf33da7f333c5dba2efc29a482c35f44e (909 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 909-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `FL:early-juvenile-expunction-943-0515`
+
+- **JURISDICTION:** FL
+- **PATHWAY:** early-juvenile-expunction-943-0515
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 7dadfe8cbd8192e3e4140f5d26f116846fabdd6b69dbefe7a9a2b33d40682e13 (920 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 920-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `FL:human-trafficking-victim-expunction-943-0583`
+
+- **JURISDICTION:** FL
+- **PATHWAY:** human-trafficking-victim-expunction-943-0583
+- **PACKET FAMILY:** Florida Trafficking-Victim Expunction Petition under § 943.0583
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 340caa9b49e9a22b01950475ece9c058ecf566bdb7e37b9179560b58677b0daf (924 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 924-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `GA:non-conviction-record-restriction-through-the-agency-prosecutor-process`
+
+- **JURISDICTION:** GA
+- **PATHWAY:** non-conviction-record-restriction-through-the-agency-prosecutor-process
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** bc87c7071033019847be243db8cff305cefe37e3ac945b6c63049f97d1a65206 (1018 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1018-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `GA:restriction-and-sealing-of-a-pardoned-felony`
+
+- **JURISDICTION:** GA
+- **PATHWAY:** restriction-and-sealing-of-a-pardoned-felony
+- **PACKET FAMILY:** Georgia Restriction and Sealing Petition for a Pardoned Felony under § 35-3-37
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 521342cc6e47cdfcaa0ddb3233b92fd3d45b732c164c48c706b38368e3d1b5a2 (1104 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1104-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `GA:retroactive-first-offender-treatment-under-42-8-66`
+
+- **JURISDICTION:** GA
+- **PATHWAY:** retroactive-first-offender-treatment-under-42-8-66
+- **PACKET FAMILY:** Georgia § 42-8-66 Retroactive First Offender Petition
+- **CURRENT RESULT CODE:** needs_more_info
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract closed; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** d5bc717f366346b43357296f15828c7077bf1edeca45aaded7871d41b9ae3154 (966 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** ARTIFACT_GENERATION_REQUIRED
+- **EXACT REMAINING DELTA:** Commercially open while held on ga_42_8_66_petition_family_build, ga_42_8_66_candidate_and_review, which should not be possible.
+
+### `GA:sb-288-misdemeanor-conviction-restriction-and-sealing`
+
+- **JURISDICTION:** GA
+- **PATHWAY:** sb-288-misdemeanor-conviction-restriction-and-sealing
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 92047ced3d2bdf34a446465ea5b13e9376f09b86c71020ac27c6a543911a2964 (1088 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1088-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `GA:youthful-first-offender-restriction-route`
+
+- **JURISDICTION:** GA
+- **PATHWAY:** youthful-first-offender-restriction-route
+- **PACKET FAMILY:** Georgia First-Offender Restriction and Sealing Petition under § 42-8-62.1
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 58146c943711caf3c82863fdbda854025e94e332e2a6d56076d1675a2a079dbb (953 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 953-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `HI:deferred-acceptance-one-year`
+
+- **JURISDICTION:** HI
+- **PATHWAY:** deferred-acceptance-one-year
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** c2ee88c24c13679095559225c83be3120bc15c34ab95f4e0cf05910312e03ede (920 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 920-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `HI:deferred-prostitution-three-year`
+
+- **JURISDICTION:** HI
+- **PATHWAY:** deferred-prostitution-three-year
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 7f1cb07483b8d376135fb574de3bf664dd70293458d148984dce618ba47e4756 (924 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 924-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `HI:dui-under-21-conviction`
+
+- **JURISDICTION:** HI
+- **PATHWAY:** dui-under-21-conviction
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** ea5e472bac4d3cb05da55a4525fea4f2c624e4a7405c0c3464a5efe9c25cc004 (913 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 913-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `HI:first-time-drug-conviction`
+
+- **JURISDICTION:** HI
+- **PATHWAY:** first-time-drug-conviction
+- **PACKET FAMILY:** Hawaii First-Time Drug Offender Expungement Order Request under § 706-622.5
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** d2c502f6fde58a6f9d919d4a0b1fa65e2efda52ab3a8242d64a3e95efe11e541 (916 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 916-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `HI:nonconviction-arrest-expungement`
 
@@ -208,6 +1320,216 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 948-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
+### `IA:minor-prostitution-7251`
+
+- **JURISDICTION:** IA
+- **PATHWAY:** minor-prostitution-7251
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 2d7be82713ddd3faa7d803854602743e6dbb5016492ddeb4b3840f0bce52cb69 (911 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 911-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `IA:misdemeanor-901c3`
+
+- **JURISDICTION:** IA
+- **PATHWAY:** misdemeanor-901c3
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 5d939507d1f96cd4204a2b31618bd73072f3e95e0de538b8ad139e5bb941310c (903 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 903-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `IA:nonconviction-901c2`
+
+- **JURISDICTION:** IA
+- **PATHWAY:** nonconviction-901c2
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** a96efd8b19aa2a33268061b15599bc0b49f3401914daab872f3cd5a31459e7e1 (905 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 905-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `IA:public-intoxication-12346`
+
+- **JURISDICTION:** IA
+- **PATHWAY:** public-intoxication-12346
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** IA:LegalEase Iowa/2_86_4_123_PAULA_Expungement_18A04436D4107.pdf:8b2c33815548615733f01f964340fc39efcd8c252ad8c3ee50b97b0639753ffc
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 63604f301d0f2fdb7da565c9df4ecf22fb47d2ef86e42f78f1bf48ef01e93eed (1016 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1016-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `IA:underage-alcohol-12347`
+
+- **JURISDICTION:** IA
+- **PATHWAY:** underage-alcohol-12347
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** IA:LegalEase Iowa/2_86_4_123_PAULA_Expungement_18A04436D4107.pdf:8b2c33815548615733f01f964340fc39efcd8c252ad8c3ee50b97b0639753ffc
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** d22c5b8fd0f5a44d81cb451bc685d59a08d1dcacebc9b2b40a855fb8b3ebf5ef (1013 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1013-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `ID:clean-slate-shielding-under-idaho-code-67-3004-11`
+
+- **JURISDICTION:** ID
+- **PATHWAY:** clean-slate-shielding-under-idaho-code-67-3004-11
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 7bf3813b9395b5ea442adf193cd351950f2e854703681d2ea9e477d009ef0207 (1036 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1036-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `ID:human-trafficking-survivor-vacatur-and-expungement`
+
+- **JURISDICTION:** ID
+- **PATHWAY:** human-trafficking-survivor-vacatur-and-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 609be2d7922130651516c4d335532cbb14ba32e5349650f9f7ea61d942277e55 (957 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `ID:juvenile-expungement`
+
+- **JURISDICTION:** ID
+- **PATHWAY:** juvenile-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** d98a594dca53ddb5c0c49d29bf2fa3b566e8e0f08f8cea598d884414d33b71dd (925 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10`
+
+- **JURISDICTION:** ID
+- **PATHWAY:** non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 7f586d5bcd1ae91cea46c8c8c396d4d163a0861eaec71faae2815ede92208640 (1081 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1081-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `ID:withheld-judgment-idaho-code-19-2604-review-branch`
+
+- **JURISDICTION:** ID
+- **PATHWAY:** withheld-judgment-idaho-code-19-2604-review-branch
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_more_info
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 2ae3e68f5cb23110a67765e4a6032b050f993ce75866b935d25b434575c6b105 (1116 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
 ### `IL:adult-conviction-sealing`
 
 - **JURISDICTION:** IL
@@ -229,12 +1551,96 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1225-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
+### `IL:adult-non-conviction-expungement`
+
+- **JURISDICTION:** IL
+- **PATHWAY:** adult-non-conviction-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** IL:LegalEase Illinois/CXP Additional Cannabis Convictions.pdf:32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** cb4ee21b3e2d01e194437aac8a1009392fca61edb925ebcee8649ec5c2486cad (1071 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1071-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `IL:cannabis-specific-automatic-or-petition-expungement`
+
+- **JURISDICTION:** IL
+- **PATHWAY:** cannabis-specific-automatic-or-petition-expungement
+- **PACKET FAMILY:** Illinois Cannabis Expungement Petition under 20 ILCS 2630/5.2
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** IL:LegalEase Illinois/CXP Additional Cannabis Convictions.pdf:32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** b0a477a2e854b9d183b1f00fa7d44e7e2e58ef584235627b8f511a3011af82ad (1086 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1086-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `IL:criminal-identity-theft-mistaken-identity-relief`
+
+- **JURISDICTION:** IL
+- **PATHWAY:** criminal-identity-theft-mistaken-identity-relief
+- **PACKET FAMILY:** Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 66ac2c702909853ffd8b4fb31710969cad5877a9238ad3b7724109c56281e7a5 (946 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 946-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `IL:expungement-after-eligible-supervision-or-qualified-probation`
+
+- **JURISDICTION:** IL
+- **PATHWAY:** expungement-after-eligible-supervision-or-qualified-probation
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** IL:LegalEase Illinois/CXP Additional Cannabis Convictions.pdf:32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 1ed59df26a4b3e31bd172a2c3d08731fc02bdf497ee28c04a93f1b14bdb683d8 (1284 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1284-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
 ### `IL:felony-prostitution-relief`
 
 - **JURISDICTION:** IL
 - **PATHWAY:** felony-prostitution-relief
 - **PACKET FAMILY:** Illinois Prostitution Vacatur and Expungement Petition under 20 ILCS 2630/5.2
-- **CURRENT RESULT CODE:** likely_not_eligible
+- **CURRENT RESULT CODE:** guidance_only
 - **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
@@ -244,11 +1650,347 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
 - **SOURCE HASHES:** IL:LegalEase Illinois/CXP Additional Cannabis Convictions.pdf:32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969
 - **RENDERER:** packet_document_v1 (route kind legacy_retired)
-- **ARTIFACT HASH:** 7c013861f6a0422290c31f1e1732573a8e6c12a4ca90e9f1f7f2ea25e4aabe50 (1272 bytes)
+- **ARTIFACT HASH:** 811c5c49431fda14422265c6ec7974285890a2fa7a867e6c2992c67bc9a5854d (1260 bytes)
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1272-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1260-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `IL:human-trafficking-survivor-vacatur-and-expungement`
+
+- **JURISDICTION:** IL
+- **PATHWAY:** human-trafficking-survivor-vacatur-and-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** IL:LegalEase Illinois/CXP Additional Cannabis Convictions.pdf:32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 5a438ba91c45e922be27530185dcf5fa3ee3cafe5af043ee8eeb091ea81a8be4 (1100 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1100-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `IL:juvenile-automatic-or-petition-expungement`
+
+- **JURISDICTION:** IL
+- **PATHWAY:** juvenile-automatic-or-petition-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** IL:LegalEase Illinois/CXP Additional Cannabis Convictions.pdf:32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 2fb036d3dce86905de21b562b3469c378a921999d5cdb2350df1162061126cdb (1157 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1157-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `IN:conviction-expungement-with-records-marked-expunged`
+
+- **JURISDICTION:** IN
+- **PATHWAY:** conviction-expungement-with-records-marked-expunged
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** a5bbc4b1096d6d5b042c533762540d9d0893b69dabf5f68dfc1c3b1b51357938 (1006 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1006-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `IN:conviction-expungement-with-sealed-confidential-access`
+
+- **JURISDICTION:** IN
+- **PATHWAY:** conviction-expungement-with-sealed-confidential-access
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_more_info
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 42919cb24e6f206295b98c855b2fb1ef2395fc06758917b7e5d54c696cb504b1 (1011 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1011-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `IN:juvenile-allegation-expungement`
+
+- **JURISDICTION:** IN
+- **PATHWAY:** juvenile-allegation-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_more_info
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** IN:LegalEase Indiana/files-4/Indiana-Juvenile-Expungement-Forms.html:fc9a9ae88a8681fcef3132467c9c96fcf8cdb10b04a311085923b63a59a21270
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** c3c01c72dae6caad7e8a2a91a6ef2a6631956018d2e9c0df015a6ae5db506177 (1101 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1101-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `IN:non-conviction-arrest-or-criminal-charge-expungement`
+
+- **JURISDICTION:** IN
+- **PATHWAY:** non-conviction-arrest-or-criminal-charge-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** IN:LegalEase Indiana/files-4/Indiana-Juvenile-Expungement-Forms.html:fc9a9ae88a8681fcef3132467c9c96fcf8cdb10b04a311085923b63a59a21270
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 10dc207435efc0e7c25f4a3b21d2ca6a83bd53cba733a47497c782487edd7962 (1053 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1053-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `KS:conviction-or-diversion-216614`
+
+- **JURISDICTION:** KS
+- **PATHWAY:** conviction-or-diversion-216614
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** KS:LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf:d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537; KS:LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf:b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba; KS:LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf:a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 5009c9dbb2e9e6d319a67b383cc47750f69241d5edcc81d1a1a2b3790bbdc05c (1371 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1371-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `KS:municipal-arrest-record-expungement-under-12-4516a`
+
+- **JURISDICTION:** KS
+- **PATHWAY:** municipal-arrest-record-expungement-under-12-4516a
+- **PACKET FAMILY:** Kansas Municipal Arrest Record Expungement Petition under § 12-4516a
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 2c58acd43e4855b6c0df85ed847dc4e25ec2094e14a1800f8644891eeafce4b7 (960 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
+- **EXACT REMAINING DELTA:** Commercially open while held on ks_12_4516a_local_municipal_instrument, ks_12_4516a_artifact_review, which should not be possible.
+
+### `KS:municipal-conviction-or-diversion-expungement-under-12-4516`
+
+- **JURISDICTION:** KS
+- **PATHWAY:** municipal-conviction-or-diversion-expungement-under-12-4516
+- **PACKET FAMILY:** Kansas Municipal Conviction or Diversion Expungement Petition under § 12-4516
+- **CURRENT RESULT CODE:** needs_more_info
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** fa6f68f6728440a796af595b80cd12e116d34195bffeb26c4feeac2efc71dc84 (973 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
+- **EXACT REMAINING DELTA:** Commercially open while held on ks_12_4516_local_municipal_instrument, ks_12_4516_artifact_review, which should not be possible.
+
+### `KS:prostitution-coercion`
+
+- **JURISDICTION:** KS
+- **PATHWAY:** prostitution-coercion
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** KS:LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf:d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537; KS:LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf:b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba; KS:LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf:a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 83293f3899f58cab7544f888f7c271a306d44e798f201a2c75fb0e948cf4aabc (1364 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1364-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `KS:specialty-court-accelerated`
+
+- **JURISDICTION:** KS
+- **PATHWAY:** specialty-court-accelerated
+- **PACKET FAMILY:** Kansas Specialty-Court Expungement Petition under § 21-6614
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** cc847620192065d93ea92ffe90ed710a657455fa2c56dfeb32ccd0074f3aa87c (917 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 917-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `KY:felony-conviction-431073`
+
+- **JURISDICTION:** KY
+- **PATHWAY:** felony-conviction-431073
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind exact_supported_deferral)
+- **ARTIFACT HASH:** bb14f6ffac974f674a7810a55f8b793c2ab25821fd68c7da3ee3cbd7de7edbfe (920 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 920-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `KY:misdemeanor-violation-traffic-conviction`
+
+- **JURISDICTION:** KY
+- **PATHWAY:** misdemeanor-violation-traffic-conviction
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** d66f0dd6e7d8e8b594c9927072c198d64c66d16654f21e668ac4813faa095642 (940 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 940-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `KY:nonconviction-431076`
+
+- **JURISDICTION:** KY
+- **PATHWAY:** nonconviction-431076
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** dd71ffd773b450cc1360f7a021b83bb41ce0bc2d18bc29c48fcfc1e36c29a394 (914 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 914-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276`
+
+- **JURISDICTION:** KY
+- **PATHWAY:** void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276
+- **PACKET FAMILY:** Kentucky KRS 218A.276 motion to void and seal, with AOC-334 tendered as the proposed order
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 9676d2589514bd1a46e039e71b71ef6cb1bbe979ee351d36807fac31480b7c20 (1005 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
+- **EXACT REMAINING DELTA:** Commercially open while held on ky_218a_276_legal_effect_ratification, ky_218a_276_clerk_filing_configuration, which should not be possible.
+
+### `LA:expungement-by-redaction-for-multi-person-records`
+
+- **JURISDICTION:** LA
+- **PATHWAY:** expungement-by-redaction-for-multi-person-records
+- **PACKET FAMILY:** Louisiana Article 985 Redaction Packet
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** b52cb6f8a1de5d3b82db83261067f7c1b495cd2d7bbb7cb9fbe29c42eb6facd3 (955 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
+- **EXACT REMAINING DELTA:** Commercially open while held on la_985_redaction_supplement_review, which should not be possible.
 
 ### `LA:felony-article-893-e-set-aside-followed-by-expungement`
 
@@ -271,6 +2013,132 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1095-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
+### `LA:felony-ten-year-clean-period-expungement`
+
+- **JURISDICTION:** LA
+- **PATHWAY:** felony-ten-year-clean-period-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** e1aca18437459e64bdc7a01b69cae6d3987d976db083b4155a66968940ddd206 (928 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 928-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `LA:first-offender-pardon-felony-expungement`
+
+- **JURISDICTION:** LA
+- **PATHWAY:** first-offender-pardon-felony-expungement
+- **PACKET FAMILY:** Louisiana Article 978 First-Offender-Pardon Expungement Packet
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 239b327b18a98b49890d197324fec04d19d6e9440643b0d338af73e5c7460692 (995 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 995-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `LA:first-offense-marijuana-expungement-after-90-days-art-998`
+
+- **JURISDICTION:** LA
+- **PATHWAY:** first-offense-marijuana-expungement-after-90-days-art-998
+- **PACKET FAMILY:** Louisiana Article 977(D) First-Offense Marijuana Expungement Packet
+- **CURRENT RESULT CODE:** needs_more_info
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** bb591d76b3403cb48e6f4760cb70d6aebe4ca5d7169feb683229b60b4d389732 (1032 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** SOURCE_OR_CONFIGURATION_GATE
+- **EXACT REMAINING DELTA:** Commercially open while held on la_977d_post_sunset_fee_schedule, which should not be possible.
+
+### `LA:human-trafficking-survivor-expungement-fee-exempt-route`
+
+- **JURISDICTION:** LA
+- **PATHWAY:** human-trafficking-survivor-expungement-fee-exempt-route
+- **PACKET FAMILY:** Louisiana Trafficking-Survivor Expungement Packet under art. 983(H)
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 74da9d1effd5a1ebc2fe7838794a1c21bb51ba09fcc449f26968f2c4a568babe (972 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 972-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `LA:immediate-expungement-after-successful-court-program-completion-art-985-3`
+
+- **JURISDICTION:** LA
+- **PATHWAY:** immediate-expungement-after-successful-court-program-completion-art-985-3
+- **PACKET FAMILY:** Louisiana Article 985.3 Immediate Expungement Packet
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** d866f843e3a087c4227dc03937a808970b8f0850a9c04df87ac158209a88e163 (980 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction`
+
+- **JURISDICTION:** LA
+- **PATHWAY:** interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction
+- **PACKET FAMILY:** Louisiana Article 985.1 Interim Expungement Packet
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 490d8291015d2c1e136a7b3d4b56442c3b641a9819408f169da3437b114ced8c (1038 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1038-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
 ### `LA:misdemeanor-article-894-b-set-aside-followed-by-expungement`
 
 - **JURISDICTION:** LA
@@ -291,6 +2159,27 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1085-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `LA:misdemeanor-five-year-clean-period-expungement`
+
+- **JURISDICTION:** LA
+- **PATHWAY:** misdemeanor-five-year-clean-period-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 22f0a165018a8c48759334dafa86204d4837780e450638d974cb3b7a110c617a (965 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 965-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `LA:non-conviction-arrest-expungement`
 
@@ -313,6 +2202,468 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 973-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
+### `MA:adult-conviction-sealing-under-m-g-l-c-276-100a`
+
+- **JURISDICTION:** MA
+- **PATHWAY:** adult-conviction-sealing-under-m-g-l-c-276-100a
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MA:LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf:416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** a30e2c1fae3ea40ba86d988e3b999de702459c179d2b946efd349cd50242bc49 (1235 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1235-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c`
+
+- **JURISDICTION:** MA
+- **PATHWAY:** court-requested-sealing-for-dismissal-or-nolle-prosequi-100c
+- **PACKET FAMILY:** Massachusetts § 100C Court-Requested Sealing Packet
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MA:LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf:f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 8ba348e22907a0698bd430ca0cc772dff4095f655faf282d0d1fb6ff8f3baa8e (1347 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1347-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MA:juvenile-record-sealing-under-100b`
+
+- **JURISDICTION:** MA
+- **PATHWAY:** juvenile-record-sealing-under-100b
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MA:LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf:f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 87d0ea57445dff8fb618cb28b0bb09a5987bd07268fcb9026d4d6f2bd497a5aa (1258 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1258-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MA:marijuana-only-expungement`
+
+- **JURISDICTION:** MA
+- **PATHWAY:** marijuana-only-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract closed; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MA:LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf:f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 6f664e225a5b096fd149850bd7596847168a1ded7abd1b346f2cacca211b4a1f (1241 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k`
+
+- **JURISDICTION:** MA
+- **PATHWAY:** non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MA:LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf:f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** d9bd2855d15db9f32264e3641aebfa91a8483f4250a4e977dba7d4e5845504bd (1362 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1362-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MA:time-based-expungement-under-100f-100j`
+
+- **JURISDICTION:** MA
+- **PATHWAY:** time-based-expungement-under-100f-100j
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 5eb0701c8620c1604935f3fe05238ccc98bd485d6312023890d5eb7ae5215e6f (1138 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1138-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MD:adult-non-conviction-expungement-under-crim-proc-10-105`
+
+- **JURISDICTION:** MD
+- **PATHWAY:** adult-non-conviction-expungement-under-crim-proc-10-105
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 669fc1ff49ec0441f2116ed047296105e46fbe2b5895d2817408b9d4feccd4ed (986 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 986-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MD:cannabis-specific-expungement`
+
+- **JURISDICTION:** MD
+- **PATHWAY:** cannabis-specific-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MD:LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf:6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 201d3a7145ca248a30fd54e410efaed88ff598ca822a3e6858b54986f61b24a7 (1082 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1082-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MD:eligible-conviction-expungement-under-crim-proc-10-110`
+
+- **JURISDICTION:** MD
+- **PATHWAY:** eligible-conviction-expungement-under-crim-proc-10-110
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 96fbe4e8a27f0a497ac05b76f9d6d1c10a5a18bf1ee83656ab0c936aa1628a5a (987 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 987-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MD:juvenile-expungement`
+
+- **JURISDICTION:** MD
+- **PATHWAY:** juvenile-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MD:LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf:6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147; MD:LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf:9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac; MD:LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf:3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469; MD:LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf:8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 01245ad939655f44bcc7e0b7095b6e9a73667a38e22bd8f2ea01f790af7284d0 (1604 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8`
+
+- **JURISDICTION:** MD
+- **PATHWAY:** pardoned-conviction-expungement-under-crim-proc-10-105-a-8
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** likely_not_eligible
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MD:LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf:3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** a11ef8b9f8fcb140e13988c7d4c0f3c3ede658cf11211e97ccfd2099d0b4cf14 (1078 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1078-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MD:police-record-expungement-when-no-charge-was-filed-under-10-103`
+
+- **JURISDICTION:** MD
+- **PATHWAY:** police-record-expungement-when-no-charge-was-filed-under-10-103
+- **PACKET FAMILY:** Maryland § 10-103 Written Request to the Police Agency
+- **CURRENT RESULT CODE:** likely_not_eligible
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** be9783c36b845f55d0602cb6a11256d280836cf7add5a9fdbaaf2bdd5eca18b0 (1097 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `MD:second-chance-act-shielding`
+
+- **JURISDICTION:** MD
+- **PATHWAY:** second-chance-act-shielding
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MD:LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf:6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147; MD:LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf:9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac; MD:LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf:3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469; MD:LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf:8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 00a62320473d56e7b367a0668236c8fb7da25f1d5d3034b20c5d9fdf2ae22b10 (1487 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1487-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `ME:adult-conviction-sealing`
+
+- **JURISDICTION:** ME
+- **PATHWAY:** adult-conviction-sealing
+- **PACKET FAMILY:** Maine § 2264 Adult Conviction Sealing Motion
+- **CURRENT RESULT CODE:** needs_more_info
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** ME:LegalEase Maine/MJB-Form-jv-043.pdf:79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7; ME:LegalEase Maine/MJB-Form-cr-289.pdf:bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423; ME:LegalEase Maine/MJB-Form-cr-218.pdf:82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 85fa518ec949fe9231daa172067f0d99b69f75949fd8c26917986b5210c779ad (1273 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** SOURCE_OR_CONFIGURATION_GATE
+- **EXACT REMAINING DELTA:** Commercially open while held on me_2264_prosecutor_notice_method, which should not be possible.
+
+### `ME:juvenile-sealing`
+
+- **JURISDICTION:** ME
+- **PATHWAY:** juvenile-sealing
+- **PACKET FAMILY:** Maine Juvenile Sealing Petition under 15 M.R.S. § 3308-C
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** ME:LegalEase Maine/MJB-Form-jv-043.pdf:79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7; ME:LegalEase Maine/MJB-Form-cr-289.pdf:bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423; ME:LegalEase Maine/MJB-Form-cr-218.pdf:82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 5e4a3b7a2d5050b32d8200b2fe4cb2ea8ddb66371c36fc6757a5b8c99c824e50 (1312 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `ME:pardon-route`
+
+- **JURISDICTION:** ME
+- **PATHWAY:** pardon-route
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** c15100432814ca925f0eaa67747a1cef12321034e483db854d6cfdaa069441e9 (906 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `ME:sex-trafficking-sexual-exploitation-survivor-sealing`
+
+- **JURISDICTION:** ME
+- **PATHWAY:** sex-trafficking-sexual-exploitation-survivor-sealing
+- **PACKET FAMILY:** Maine § 2264(7) Survivor Sealing Motion
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** ME:LegalEase Maine/MJB-Form-cr-289.pdf:bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423; ME:LegalEase Maine/MJB-Form-cr-218.pdf:82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 4618e922db55adf4201dcd50ab1f4b369ca1f39d014d500ca979ae6f2355bcb9 (1178 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** SOURCE_OR_CONFIGURATION_GATE
+- **EXACT REMAINING DELTA:** Commercially open while held on me_2264_7_cr308_warning_conflict, me_2264_7_prosecutor_notice_method, which should not be possible.
+
+### `MI:first-offense-owi-set-aside-by-application`
+
+- **JURISDICTION:** MI
+- **PATHWAY:** first-offense-owi-set-aside-by-application
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MI:LegalEase Michigan/mi-setaside-application.html:f6c9acd7f157f8453784fedf44ed14f2b09d77c5bd298e2c3955a5060ac1a179
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** aa796cbc611face33ee4c80cdaea0f781821bbb0c851790b454873b343acb250 (1084 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1084-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MI:human-trafficking-related-set-aside-application`
+
+- **JURISDICTION:** MI
+- **PATHWAY:** human-trafficking-related-set-aside-application
+- **PACKET FAMILY:** Michigan Trafficking Set-Aside Application under MCL 780.621d
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MI:LegalEase Michigan/mc227.pdf:9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7; MI:LegalEase Michigan/mi-setaside-application.html:f6c9acd7f157f8453784fedf44ed14f2b09d77c5bd298e2c3955a5060ac1a179
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** e0b224d60e8924ef4c58d0618dfd349550834de4062796925df180b29acd5717 (1208 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1208-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e`
+
+- **JURISDICTION:** MI
+- **PATHWAY:** misdemeanor-marijuana-set-aside-under-mcl-780-621e
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MI:LegalEase Michigan/mc227.pdf:9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7; MI:LegalEase Michigan/mi-setaside-application.html:f6c9acd7f157f8453784fedf44ed14f2b09d77c5bd298e2c3955a5060ac1a179
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 8b1e4dd5936c10ce2419f72d96aa49aa82bd03b82b57e8e3011c1b81e55ac27c (1301 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1301-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MI:set-aside-by-application-under-mcl-780-621`
+
+- **JURISDICTION:** MI
+- **PATHWAY:** set-aside-by-application-under-mcl-780-621
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MI:LegalEase Michigan/mc227.pdf:9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7; MI:LegalEase Michigan/mi-setaside-application.html:f6c9acd7f157f8453784fedf44ed14f2b09d77c5bd298e2c3955a5060ac1a179
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 3a2e496bf4fa3bd6a3f6ce25ce264f48d0137957c78ae9273d79ec2ac5db2a56 (1359 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1359-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06`
+
+- **JURISDICTION:** MN
+- **PATHWAY:** cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract closed; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind handoff)
+- **ARTIFACT HASH:** 570a87eac54494c26f546c6beb565d614e0da29735bb2960b6a469a5cc6ad148 (1115 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this handoff and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
 ### `MN:petition-based-expungement-under-609a-02-03`
 
 - **JURISDICTION:** MN
@@ -333,6 +2684,90 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1148-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025`
+
+- **JURISDICTION:** MN
+- **PATHWAY:** prosecutor-agreed-sealing-without-a-full-petition-under-609a-025
+- **PACKET FAMILY:** Minnesota Prosecutor-Agreed Sealing Packet under § 609A.025
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 09fc61050f3f84b80cdfa0d624ba8acef02dc65b446434c177e04ea0070630ec (1014 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1014-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123`
+
+- **JURISDICTION:** MO
+- **PATHWAY:** false-information-or-qualifying-arrest-record-expungement-under-610-122-123
+- **PACKET FAMILY:** Missouri §§ 610.122-.123 Petition
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MO:LegalEase Missouri/petition-for-expungement-mistaken-identity.pdf:5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 72b4dce6e33701a89d66725309f2f57c7d83a6c4ebc78556dbc511e8ab76ac32 (1209 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1209-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130`
+
+- **JURISDICTION:** MO
+- **PATHWAY:** first-intoxication-related-traffic-or-boating-expungement-under-610-130
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** not_covered_yet
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MO:LegalEase Missouri/petition-for-expungement-mistaken-identity.pdf:5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** fd8c915b005a8b8303786a7082e3323ffb98e4f4d52d39cb68e24bb3f7ede7be (1180 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1180-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MO:first-minor-in-possession-alcohol-expungement-under-311-326`
+
+- **JURISDICTION:** MO
+- **PATHWAY:** first-minor-in-possession-alcohol-expungement-under-311-326
+- **PACKET FAMILY:** Missouri § 311.326 Minor-in-Possession Expungement Petition
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract closed; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MO:LegalEase Missouri/petition-for-expungement-mistaken-identity.pdf:5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 004d962f06ee6d6f9862f0f978bf43e8600136403a27a22a4d22abf4348d9b89 (1098 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** SOURCE_OR_CONFIGURATION_GATE
+- **EXACT REMAINING DELTA:** Commercially open while held on mo_311_326_clerk_final_caption, mo_311_326_clerk_filing_code, mo_311_326_clerk_fee, mo_311_326_clerk_service, mo_311_326_clerk_summons, mo_311_326_clerk_division_instructions, which should not be possible.
 
 ### `MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140`
 
@@ -439,6 +2874,48 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 993-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
+### `MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1`
+
+- **JURISDICTION:** MS
+- **PATHWAY:** first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1
+- **PACKET FAMILY:** First-Offender Nontraffic Misdemeanor Petition under § 99-19-71(1)
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 0397ef9fa8817d1d41b3db9bbe862547f788f458d017ad29c374602750bd6818 (991 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 991-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MS:first-offense-controlled-substance-conditional-discharge-relief`
+
+- **JURISDICTION:** MS
+- **PATHWAY:** first-offense-controlled-substance-conditional-discharge-relief
+- **PACKET FAMILY:** Post-Conditional-Discharge Application under § 41-29-150(d)(2)
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** b9c9c34612537cb6b8a3061fb5da6046f2a70860eb72eee3ea74030ef5968f19 (983 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 983-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
 ### `MS:first-offense-dui-expungement`
 
 - **JURISDICTION:** MS
@@ -459,6 +2936,69 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 975-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MS:human-trafficking-survivor-expungement-97-3-54-6-6`
+
+- **JURISDICTION:** MS
+- **PATHWAY:** human-trafficking-survivor-expungement-97-3-54-6-6
+- **PACKET FAMILY:** Petition or Motion to Expunge under § 97-3-54.6(6)
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract attorney_review_required; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind handoff)
+- **ARTIFACT HASH:** dc27d8c880655b8982f0b3d48b481dbf3c8f64f2e3c532ff65e03ee4451eb87c (943 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 943-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MS:human-trafficking-survivor-vacatur-97-3-54-6-5`
+
+- **JURISDICTION:** MS
+- **PATHWAY:** human-trafficking-survivor-vacatur-97-3-54-6-5
+- **PACKET FAMILY:** Motion to Vacate under § 97-3-54.6(5)
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract attorney_review_required; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind handoff)
+- **ARTIFACT HASH:** 745986e074111bbe8f86ffa81a18b601af3f616a07ba1b9c14e8a1e601eed813 (939 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 939-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4`
+
+- **JURISDICTION:** MS
+- **PATHWAY:** intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4
+- **PACKET FAMILY:** Nonconviction Petition under § 99-19-71(4)
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 514fd2e2d1cd292c61f4e329e24fe70c34c34026214a9443df66d1f1d1cda7c2 (969 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 969-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `MS:minor-in-possession-underage-alcohol-expungement`
 
@@ -502,6 +3042,132 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1030-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
+### `MS:nonadjudication-under-99-15-26`
+
+- **JURISDICTION:** MS
+- **PATHWAY:** nonadjudication-under-99-15-26
+- **PACKET FAMILY:** Post-Nonadjudication Petition under § 99-15-26(5)
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 75a1ad2b2767f49e83c5bbda29da98b92e811017fe0e15864c3324a898af52ac (1071 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1071-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MS:pretrial-intervention-or-diversion-expungement`
+
+- **JURISDICTION:** MS
+- **PATHWAY:** pretrial-intervention-or-diversion-expungement
+- **PACKET FAMILY:** Petition After Pretrial Intervention under § 99-15-123(3)
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 027860c242a06ede5281af267f3e422cf08f5ccfecbdcf2cfbd7bd1d5a867751 (966 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 966-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59`
+
+- **JURISDICTION:** MS
+- **PATHWAY:** uncharged-misdemeanor-immediate-dismissal-branch-99-15-59
+- **PACKET FAMILY:** Petition under § 99-15-59
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 1df5ddd46df76741b91bf15b5e9a8aec477e51f9c40bc27218fed11d4ce70cab (956 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 956-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59`
+
+- **JURISDICTION:** MS
+- **PATHWAY:** uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59
+- **PACKET FAMILY:** Petition under § 99-15-59
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind packet_correction_required)
+- **ARTIFACT HASH:** fe086c99d0938187d2d80c6b434550ce5c75b1809d4dd1b3e54a2ee1338617f0 (1106 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Already closed by an individual proof; see data/rcap-ledger/packet-correction-required.json.
+
+### `MT:marijuana-related-redesignation-expungement-under-mmrta`
+
+- **JURISDICTION:** MT
+- **PATHWAY:** marijuana-related-redesignation-expungement-under-mmrta
+- **PACKET FAMILY:** Montana MMRTA Redesignation or Expungement Petition under § 16-12-113
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** MT:LegalEase Montana/form-b.docx:cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207; MT:LegalEase Montana/form-a.docx:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 6f7cd93691f1f60ba8b110c32beec2a0f8eb082e935e2d6051f44c09c367065e (1366 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1366-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104`
+
+- **JURISDICTION:** MT
+- **PATHWAY:** misdemeanor-conviction-expungement-under-mont-code-46-18-1104
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 972ef2f413fb4bfa709855a9e0103828189fe449525ff2db05b514e1671989ad (1006 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1006-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
 ### `NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146`
 
 - **JURISDICTION:** NC
@@ -522,6 +3188,48 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1228-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `NC:nonviolent-conviction-expunction-under-g-s-15a-145-5`
+
+- **JURISDICTION:** NC
+- **PATHWAY:** nonviolent-conviction-expunction-under-g-s-15a-145-5
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** e6faac8a651ff5c27b63d5ef0c13d1aeb4cb0f6e056d1a687bb4433306382d88 (1185 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1185-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes`
+
+- **JURISDICTION:** NC
+- **PATHWAY:** youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes
+- **PACKET FAMILY:** North Carolina Petition for Expunction under G.S. 15A-145.8A
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** NC:LegalEase North Carolina/forms.html:1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** f4e3cd31179b6927aa46a90a36f67c4cdf036e90d2d60b59ecade3d382b7a7e1 (1316 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1316-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `ND:deferred-imposition-dismissal-and-sealing`
 
@@ -628,6 +3336,69 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1266-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
+### `NE:juvenile-petition-backstop`
+
+- **JURISDICTION:** NE
+- **PATHWAY:** juvenile-petition-backstop
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** d73e376b3f0fa2c1939055e4e118ac6430b0fc231c53ede96feeb1d3b1c33005 (922 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `NE:law-enforcement-error-expungement`
+
+- **JURISDICTION:** NE
+- **PATHWAY:** law-enforcement-error-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract closed; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 2483ead1d0c89c06f72d06a11f9d35b2c22a12075809149c27ce938e0b754580 (925 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `NE:pardon-then-seal`
+
+- **JURISDICTION:** NE
+- **PATHWAY:** pardon-then-seal
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 7054cfc3aaefe5cc1bcea5863330b3eb97d91bacc82d71f0c7d6803bff9210be (912 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 912-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
 ### `NE:set-aside-incarceration-one-year-or-less`
 
 - **JURISDICTION:** NE
@@ -670,6 +3441,27 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 962-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
+### `NE:trafficking-survivor-set-aside-and-seal`
+
+- **JURISDICTION:** NE
+- **PATHWAY:** trafficking-survivor-set-aside-and-seal
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** NE:LegalEase Nebraska/CC-6-12.pdf:68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 98465bc9d47e6cd13d5370425060f996b7bff3e5e329a771903d905b821df837 (1009 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1009-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
 ### `NH:annulment-after-dismissal-acquittal-or-nonprosecution`
 
 - **JURISDICTION:** NH
@@ -691,6 +3483,447 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
 - **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed true. The two disagree; only the resolver's answer is closing it.
 
+### `NH:annulment-of-a-vacated-conviction`
+
+- **JURISDICTION:** NH
+- **PATHWAY:** annulment-of-a-vacated-conviction
+- **PACKET FAMILY:** New Hampshire Annulment Petition under RSA 651:5
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 11d32375a3f51fbbba30d3e3dae37e7767a3d1b9b82be9b930538cd9ce72a075 (955 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `NH:conviction-annulment-under-rsa-651-5`
+
+- **JURISDICTION:** NH
+- **PATHWAY:** conviction-annulment-under-rsa-651-5
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 1a9fc099fc033921ea9b00a0eadf4082494f1305e1bf464e9c348a443cf1c226 (958 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 958-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `NH:dwi-dui-annulment`
+
+- **JURISDICTION:** NH
+- **PATHWAY:** dwi-dui-annulment
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** c9e77aff033882aecbf4841ae55933c21ef537fc59b7a2e6cbc3929fb0ef5fb0 (941 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 941-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `NH:marijuana-possession-annulment-under-rsa-651-5-b`
+
+- **JURISDICTION:** NH
+- **PATHWAY:** marijuana-possession-annulment-under-rsa-651-5-b
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** c2704cea946b7be84c156aff1c0d715c0141fb1aac95c77d6b29d4c070ec324e (970 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 970-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6`
+
+- **JURISDICTION:** NJ
+- **PATHWAY:** arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6
+- **PACKET FAMILY:** New Jersey Nonconviction Expungement Petition under 2C:52-6
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** NJ:LegalEase New Jersey/marijuana-expungement.html:f46d899a2167f9c9541350a5d2f9ae3fa3b128c07ee157c760562b295bfb68ad
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 893db27ba79ff053e629e994f7075ea973911244ff3d406cdc49a471bd6eaf24 (1084 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1084-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3`
+
+- **JURISDICTION:** NJ
+- **PATHWAY:** clean-slate-petition-under-n-j-s-a-2c-52-5-3
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract closed; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** NJ:LegalEase New Jersey/marijuana-expungement.html:f46d899a2167f9c9541350a5d2f9ae3fa3b128c07ee157c760562b295bfb68ad
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** c40c98830bf15d412af227be16cfd0895aedce39624bc087da2fc22d8a50213d (1057 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3`
+
+- **JURISDICTION:** NJ
+- **PATHWAY:** regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3
+- **PACKET FAMILY:** New Jersey Regular Expungement Petition under 2C:52-2 / 2C:52-3
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** NJ:LegalEase New Jersey/marijuana-expungement.html:f46d899a2167f9c9541350a5d2f9ae3fa3b128c07ee157c760562b295bfb68ad
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 1727ec430d0163c16fcf43a8a11d104f73af3c55ce3205ba79affd452606fa6f (1058 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1058-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `NM:cannabis-sentence-dismissal-incarcerated-person-pathway`
+
+- **JURISDICTION:** NM
+- **PATHWAY:** cannabis-sentence-dismissal-incarcerated-person-pathway
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** NM:LegalEase New Mexico/4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf:a0f1de568c2e54e4c344391d64fa4e5c39f1956e2f14024456b939a14cb4291a; NM:LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf:63aaf07148766143935e061f11eeba95009983051fd507edca31da68a167a576
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** b95e7cdc07325ef96964e4c85e7ed2a619ee8eba6c68bb2ffa41774db890600d (1277 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `NM:conviction`
+
+- **JURISDICTION:** NM
+- **PATHWAY:** conviction
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** NM:LegalEase New Mexico/4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf:a0f1de568c2e54e4c344391d64fa4e5c39f1956e2f14024456b939a14cb4291a; NM:LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf:63aaf07148766143935e061f11eeba95009983051fd507edca31da68a167a576
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** b09d6e292fc1058eb0789f0b1e40022ee7cc231fe9dd98885fe9ff74ff81d084 (1230 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1230-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `NM:no-conviction-released-without-conviction`
+
+- **JURISDICTION:** NM
+- **PATHWAY:** no-conviction-released-without-conviction
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** NM:LegalEase New Mexico/4-960.2-Affirmation-in-support-of-expungement-upon-release-without-conviction.pdf:fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e; NM:LegalEase New Mexico/4-959-Notice-of-completion-of-briefing-upon-release-without-conviction.pdf:bc34299e4d63be254093615ea39492904f92c00ea5bec9f1137294ed8f077a2c; NM:LegalEase New Mexico/4-955-Certificate-of-service-expungement-of-records-upon-release-without-conviction.pdf:99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11; NM:LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf:63aaf07148766143935e061f11eeba95009983051fd507edca31da68a167a576
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 43969bbbd94cc1e6fb29fae42e8afd4eb50c39162c68829568bfdfc6796961d5 (1603 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1603-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `NV:controlled-substance-possession-sealing-under-nrs-453-3365`
+
+- **JURISDICTION:** NV
+- **PATHWAY:** controlled-substance-possession-sealing-under-nrs-453-3365
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 49ce9a3b91f4338977b5da74e059f801f7eb691cb791aca9279ce901acfdbeea (967 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211`
+
+- **JURISDICTION:** NV
+- **PATHWAY:** deferred-judgment-dismissal-and-sealing-under-nrs-176-211
+- **PACKET FAMILY:** Nevada Sealing Packet under NRS 176.211
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 508f2be8cfc7ced4a0e1bfa32205a1b9ff2ccbff07c06f0d721944401a692cd1 (997 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `NV:general-conviction-record-sealing-under-nrs-179-245`
+
+- **JURISDICTION:** NV
+- **PATHWAY:** general-conviction-record-sealing-under-nrs-179-245
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 1c6c75bb47f2a0d096d5078fa857b1afec4fe0edec424bfebf317c346dc0f004 (1051 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1051-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `NV:non-conviction-record-sealing`
+
+- **JURISDICTION:** NV
+- **PATHWAY:** non-conviction-record-sealing
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** ae2abb3a4523897c9ef6b7ba316bb1b3539c41eee5f36de42f039a54c3c14a48 (961 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 961-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `NV:probation-or-specialty-court-dismissal-set-aside-sealing`
+
+- **JURISDICTION:** NV
+- **PATHWAY:** probation-or-specialty-court-dismissal-set-aside-sealing
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** efd1207dadcff9793b7852af720dfc27bb6bb64e2d73753206f0fe856e933a2d (950 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 950-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `NV:reentry-program-sealing-under-nrs-179-259`
+
+- **JURISDICTION:** NV
+- **PATHWAY:** reentry-program-sealing-under-nrs-179-259
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** cac5470b76aefc393cf71170c97c47929da7715547ab81d7ac57dc8284e062d7 (1046 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1046-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160`
+
+- **JURISDICTION:** NV
+- **PATHWAY:** removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160
+- **PACKET FAMILY:** Nevada NRS 179A.160 written application for removal from the Central Repository
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 06a245d36180e208dc86011105c688356ed47f144bc63e1398222aca7f810e5c (1001 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
+- **EXACT REMAINING DELTA:** Commercially open while held on nv_179a_160_agency_submission_configuration, nv_179a_160_artifact_review, which should not be possible.
+
+### `NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247`
+
+- **JURISDICTION:** NV
+- **PATHWAY:** trafficking-victim-vacatur-and-sealing-under-nrs-179-247
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract closed; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind handoff)
+- **ARTIFACT HASH:** 6baf458fd0cb0cf6860b72ead8afff661a885fd53158329053479564dfd62019 (992 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this handoff and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `NY:conditional-treatment-sealing-under-cpl-160-58`
+
+- **JURISDICTION:** NY
+- **PATHWAY:** conditional-treatment-sealing-under-cpl-160-58
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** NY:LegalEase New York/sealed-records-drug-related-cases-cpl-16058.html:b5a548245b99beb43b9dfb8ff35791df965db670b40d071de297ea2f34d7499a; NY:LegalEase New York/sealed-records-after-10-years-cpl-16059.html:c31d831045503a9969329ceb60cc10ab57988833a2735a495afab21c356c593c
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** b3125978e8c29176e1125fc3d1881890aa6d97bd460c802b68bd32028cdd7db7 (1204 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59`
+
+- **JURISDICTION:** NY
+- **PATHWAY:** discretionary-conviction-sealing-by-petition-under-cpl-160-59
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** NY:LegalEase New York/sealed-records-drug-related-cases-cpl-16058.html:b5a548245b99beb43b9dfb8ff35791df965db670b40d071de297ea2f34d7499a; NY:LegalEase New York/sealed-records-after-10-years-cpl-16059.html:c31d831045503a9969329ceb60cc10ab57988833a2735a495afab21c356c593c
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** e1a0234a4857f919ec8f267b68203609e58e7ee4faf65dae9445861b6ce6902c (1219 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1219-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OH:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32`
+
+- **JURISDICTION:** OH
+- **PATHWAY:** adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** c98b15d2db226f7094d8686c79ae75a74d3409f28a22c5145189d8a4f5ad3ac9 (955 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 955-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
 ### `OH:adult-non-conviction-sealing-or-expungement-under-2953-33`
 
 - **JURISDICTION:** OH
@@ -711,6 +3944,468 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 971-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OH:certain-firearm-carry-conviction-expungement-under-2953-35`
+
+- **JURISDICTION:** OH
+- **PATHWAY:** certain-firearm-carry-conviction-expungement-under-2953-35
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** c54bbf5fc5674a88d3daf534550964d99044e4d289e2dcdcaaf48f05489a95f3 (992 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 992-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OH:human-trafficking-survivor-conviction-expungement-under-2953-36`
+
+- **JURISDICTION:** OH
+- **PATHWAY:** human-trafficking-survivor-conviction-expungement-under-2953-36
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** a1a4dc2957378f26f627e7645310e23cb73ea1188e26b7bdc37814efd0d6e5f9 (997 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `OH:human-trafficking-survivor-non-conviction-expungement-under-2953-521`
+
+- **JURISDICTION:** OH
+- **PATHWAY:** human-trafficking-survivor-non-conviction-expungement-under-2953-521
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 6476cd00de580ec4511446282883c4a020bcbb77b428c5d6fa6582a98439ae09 (1015 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `OH:juvenile-sealing-and-expungement`
+
+- **JURISDICTION:** OH
+- **PATHWAY:** juvenile-sealing-and-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 63e24ae199a379f93929baa0e1a3f9d33460869789328fa5a03da87b3363fbc6 (924 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `OH:marijuana-hashish-possession-expungement-under-2953-321`
+
+- **JURISDICTION:** OH
+- **PATHWAY:** marijuana-hashish-possession-expungement-under-2953-321
+- **PACKET FAMILY:** Ohio R.C. 2953.321 Marijuana or Hashish Possession Expungement Application
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 40bbd0140730f94887e4b5b286373a659ea837c35b91b95bdd4e4048bb8ecc4a (945 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** ARTIFACT_GENERATION_REQUIRED
+- **EXACT REMAINING DELTA:** Commercially open while held on oh_2953_321_application_artifact, which should not be possible.
+
+### `OK:acquittal-dismissal-or-other-no-conviction-expungement`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** acquittal-dismissal-or-other-no-conviction-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 3e285b0b96acd73f4fa44c32ce2cbb430f0b1695481d9e21571227ee6fcdee00 (1096 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1096-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:arrest-with-no-charges-filed`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** arrest-with-no-charges-filed
+- **PACKET FAMILY:** Oklahoma § 18 Expungement Petition — arrest with no charges
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 3b4592e7f3f528a3615b6945b15b77b1b310193693de3d412391a4d46f94bbcb (964 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 964-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:conviction-reversed-and-case-dismissed`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** conviction-reversed-and-case-dismissed
+- **PACKET FAMILY:** Oklahoma § 18 Expungement Petition — reversal and dismissal
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 02ec3aa8d98519e556f0fc751c53c1fbfb67d2ca5c5a0a1c3291c7174d4620d3 (936 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 936-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:deferred-sentence-court-record-expungement-under-991-c`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** deferred-sentence-court-record-expungement-under-991-c
+- **PACKET FAMILY:** Oklahoma § 991c Court-Record Expungement Packet
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 9f9232f8ad72a2f4645a752220014074da9e2eea1d5e84bf7ac01d1dbe56e8dd (1086 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1086-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:dna-factual-innocence-expungement`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** dna-factual-innocence-expungement
+- **PACKET FAMILY:** Oklahoma § 18 Expungement Petition — DNA factual innocence
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 14c2d823d262672e215f548bf06eafa1a75a175e3e5a13e67f92d5d7c18a7c95 (931 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 931-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:felony-reclassified-as-a-misdemeanor`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** felony-reclassified-as-a-misdemeanor
+- **PACKET FAMILY:** Oklahoma § 18 Expungement Petition — reclassified felony
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** ddd6307d2baab60822dbad789f1b4f899ed727036387f6d4131fc03815a50070 (969 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 969-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:fine-only-misdemeanor-conviction-expungement`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** fine-only-misdemeanor-conviction-expungement
+- **PACKET FAMILY:** Oklahoma § 18 Expungement Petition — fine-only misdemeanor
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 6a7cb9eb7f31f794b19fc04dc6ecff3a6fb463859f9662bd101eb186e9187544 (980 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 980-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:human-trafficking-survivor-relief`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** human-trafficking-survivor-relief
+- **PACKET FAMILY:** Oklahoma Trafficking-Survivor Relief Petition under § 19c
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** b5ecadc42f3441e83866e878334ab0c0f0275c479b8dd7dfe89d49df5a24f1f5 (978 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `OK:juvenile-record-expungement`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** juvenile-record-expungement
+- **PACKET FAMILY:** Oklahoma Juvenile Expungement Petition under 10A O.S. § 2-6-109
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 330707f2735b95b1fed185349ae94707828255b81a47c4bf4b50576cbf4285ab (972 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `OK:misdemeanor-deferred-dismissal-expungement`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** misdemeanor-deferred-dismissal-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 0049280499acb7da691f10f5a2dc7ef25b62bb36178d77c50d382cfcef571855 (940 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 940-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:nonviolent-felony-deferred-dismissal-expungement`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** nonviolent-felony-deferred-dismissal-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 18f3b8d7a856b741515d56fef0c09777058be957b8871960a06c7b4e44b2ae75 (946 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 946-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:not-more-than-two-eligible-felony-convictions-expungement`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** not-more-than-two-eligible-felony-convictions-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 79e3d3274c7315f2c98f6a096566aefac9599b1e53c2cf2381d0901ec64e0c44 (955 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 955-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:one-eligible-nonviolent-felony-conviction-expungement`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** one-eligible-nonviolent-felony-conviction-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 6d811043622146ea12c0857b5d071c01997a0322560a74add6695536ac08fa29 (951 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 951-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:other-eligible-misdemeanor-conviction-expungement`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** other-eligible-misdemeanor-conviction-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** cfaebd7f9386ca9dda12366683836e0754df8de1b9569aebdbeca8f9f61c17a8 (947 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 947-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:pardon-based-expungement`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** pardon-based-expungement
+- **PACKET FAMILY:** Oklahoma § 18 Expungement Petition — full pardon
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** a2e149a2a32c58c6bc400d4af843026dce97024d795d49377a1d6daed0ce8322 (920 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 920-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:up-to-two-felony-deferred-dismissal-expungement`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** up-to-two-felony-deferred-dismissal-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** OK:LegalEase Oklahoma/Oklahoma Statutes §22-18a (2025) - Petition to Expunge Records and Order to Expunge Records. : 2025.html:edada8618ef060157182f4d819abc46400e74687f6b2fd6e936204fe213a0f6a
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 723711d6590f130c4520fd8a30ffa209c977d668c6b04125acc51d0f231f3f8f (1111 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1111-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `OK:victim-protective-order-record-relief`
+
+- **JURISDICTION:** OK
+- **PATHWAY:** victim-protective-order-record-relief
+- **PACKET FAMILY:** Oklahoma VPO Sealing Motion under § 60.18
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** c47788c4e20f1b217666726c47c6a1a1ad96244029e6501ab7b71436222e2ddb (958 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 958-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `OR:marijuana-specific-set-aside-redesignation`
 
@@ -775,6 +4470,699 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1168-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
+### `PA:path-a-non-conviction-expungement`
+
+- **JURISDICTION:** PA
+- **PATHWAY:** path-a-non-conviction-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 96c1e8cb428f88e5f15f2a8502eadf7fc61bfbaaafab75c90390ac68d211a70b (954 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 954-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `RI:path-a-first-offender-conviction-expungement`
+
+- **JURISDICTION:** RI
+- **PATHWAY:** path-a-first-offender-conviction-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor-superior.pdf:6a948b731d63dba93061f95786359c5ccd7df6b5eb5c88791c5efc29aafe1119; RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor (2).pdf:5848e402583625f71080dd77fc1a41bd20022bebf159ffe4cee0da3fd9804358; RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Felony.pdf:e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 89e3868008c24452a8d51a64cbff94cad7c3c85e3a262adb6a685d22a55c3c93 (1417 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1417-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `RI:path-b-multiple-misdemeanor-expungement`
+
+- **JURISDICTION:** RI
+- **PATHWAY:** path-b-multiple-misdemeanor-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor-superior.pdf:6a948b731d63dba93061f95786359c5ccd7df6b5eb5c88791c5efc29aafe1119; RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor (2).pdf:5848e402583625f71080dd77fc1a41bd20022bebf159ffe4cee0da3fd9804358; RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Felony.pdf:e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 3c0263828ef1357e79c8c0830c4d7c6f4fd51dee72f462fcc233dc81cecbf62a (1412 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1412-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `RI:path-c-deferred-sentence-expungement`
+
+- **JURISDICTION:** RI
+- **PATHWAY:** path-c-deferred-sentence-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor-superior.pdf:6a948b731d63dba93061f95786359c5ccd7df6b5eb5c88791c5efc29aafe1119; RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor (2).pdf:5848e402583625f71080dd77fc1a41bd20022bebf159ffe4cee0da3fd9804358; RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Felony.pdf:e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 63c4586e9bbdf3c1aff2b3b2ae4a16daff43fc0d3cf325f8544b5ef57c99cbfe (1409 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1409-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `RI:path-d-non-conviction-sealing-expungement`
+
+- **JURISDICTION:** RI
+- **PATHWAY:** path-d-non-conviction-sealing-expungement
+- **PACKET FAMILY:** Rhode Island Nonconviction Sealing Packet under §§ 12-1-12 / 12-1-12.1
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor-superior.pdf:6a948b731d63dba93061f95786359c5ccd7df6b5eb5c88791c5efc29aafe1119; RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor (2).pdf:5848e402583625f71080dd77fc1a41bd20022bebf159ffe4cee0da3fd9804358; RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Felony.pdf:e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 8cd5772933ff7c46e27c46ea0c1df566d5ac2a325a20a34c2a9d4e570dadd60e (1487 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1487-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `RI:path-e-filed-complaint-relief-under-12-10-12`
+
+- **JURISDICTION:** RI
+- **PATHWAY:** path-e-filed-complaint-relief-under-12-10-12
+- **PACKET FAMILY:** Rhode Island Filed-Complaint Expungement Packet under § 12-10-12
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor-superior.pdf:6a948b731d63dba93061f95786359c5ccd7df6b5eb5c88791c5efc29aafe1119; RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor (2).pdf:5848e402583625f71080dd77fc1a41bd20022bebf159ffe4cee0da3fd9804358; RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Felony.pdf:e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 254f883bdac1091c501f3252e15f9d5d9d049590188950c5a4d9bdadcd39301d (1417 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `RI:path-h-commercial-sexual-activity-related-expungement`
+
+- **JURISDICTION:** RI
+- **PATHWAY:** path-h-commercial-sexual-activity-related-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor-superior.pdf:6a948b731d63dba93061f95786359c5ccd7df6b5eb5c88791c5efc29aafe1119; RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Misdemeanor (2).pdf:5848e402583625f71080dd77fc1a41bd20022bebf159ffe4cee0da3fd9804358; RI:LegalEase Rhode Island/Motion and Affidavit to Expunge or Seal Record - Felony.pdf:e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** f1f8041677eeebf975c2638a95606e3852a2e9b89ce93b9489de5b047d2c08b2 (1426 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `SC:eligible-conviction-expungement`
+
+- **JURISDICTION:** SC
+- **PATHWAY:** eligible-conviction-expungement
+- **PACKET FAMILY:** South Carolina Conviction Expungement Application
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 6ffec481be37e931a9de0e4b4840eed84e7b5c1fe79131ebd504ac32f13a6669 (942 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 942-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `SC:general-sessions-non-conviction-expungement`
+
+- **JURISDICTION:** SC
+- **PATHWAY:** general-sessions-non-conviction-expungement
+- **PACKET FAMILY:** South Carolina § 17-1-40 Nonconviction Expungement Application
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 215d22ee33b1b1f2101f7d8b8f3afeda572ed1449bc79bd8ef50303539aebccf (984 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 984-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `SC:human-trafficking-survivor-expungement`
+
+- **JURISDICTION:** SC
+- **PATHWAY:** human-trafficking-survivor-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 715cd33ebb1ac9c7f158104fcb85d9b563a5c4d91ee30c12edf40e78c1b0477d (950 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `SC:juvenile-expungement`
+
+- **JURISDICTION:** SC
+- **PATHWAY:** juvenile-expungement
+- **PACKET FAMILY:** South Carolina Juvenile Expungement Application under § 63-19-2050
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** SC:LegalEase South Carolina /SCCA223E.pdf:668b70b0b3c2cd4c0354d0ed63711110d23633f73d507a9f67c051828b7bbad8; SC:LegalEase South Carolina /SCCA223D1.pdf:988ad4b5f6054d1b47a459358fb409ac4c76b09f281b6a12650ff173f0158776
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** e2ec428c5af60fa57e2f95273286159388d4301dac4ef015e398799d4740bdce (1198 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1198-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `SC:summary-court-non-conviction-expungement`
+
+- **JURISDICTION:** SC
+- **PATHWAY:** summary-court-non-conviction-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 66c4a076a99e223919176971df4d4ad6c6c747b0555380208da7fecfe90f94d0 (1014 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1014-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `SD:adult-arrest-record-expungement-under-sdcl-23a-3-27`
+
+- **JURISDICTION:** SD
+- **PATHWAY:** adult-arrest-record-expungement-under-sdcl-23a-3-27
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** SD:LegalEase South Dakota/ujs391-motion-for-expungement-and-affidavit-of-mailing-final-07_2025.pdf:964a2fb15fbb57696b3f81dc1f9e4b3f2e901e566c6bbee3636fa739bceecdca; SD:LegalEase South Dakota/ujs-394-order-of-expungement_06_2023.pdf:d6f2dab3ca32ca7fedd348635871d036dc90170c240ac416b4c9b770a7c7de3f; SD:LegalEase South Dakota/ujs-393-notice-of-hearing-for-expungement-of-record_08_2025.pdf:11a9157e9e2dc58246f4bd3567bd83a26ebc52364506131cdf20f30fe61bf3dc; SD:LegalEase South Dakota/ujs-392-waiver-of-expungement-hearing-07_2025.pdf:bae0abc96b9f81303974a8632e53ff0fd9f1e159fda6b3db759ba3bf4ec22244; SD:LegalEase South Dakota/ujs-232-case-filing-statement-written.pdf:4301ebb8eea5a70a9ccb22702e0c8d11cfec4de2b6db2d696024d4cf75623dce
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 2a3b03c87c658db12958463731ba05cd87ea3771467fe1e6e2403daa7d6673c0 (1777 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1777-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `SD:controlled-substance-deferred-disposition-route`
+
+- **JURISDICTION:** SD
+- **PATHWAY:** controlled-substance-deferred-disposition-route
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 9b8252fa2d2b412c595897662f3543a030fe62a6281619b1216f343631d4efd5 (955 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `SD:diversion-expungement`
+
+- **JURISDICTION:** SD
+- **PATHWAY:** diversion-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 2a6bce5dce96427a1ad6c1dcf364e931413978513dda72e19bfee5101be24253 (973 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `SD:juvenile-delinquency-sealing`
+
+- **JURISDICTION:** SD
+- **PATHWAY:** juvenile-delinquency-sealing
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** d6807dbc27e20bb296705d2b1ab3482c2d70ea3374a480d78275b18f867ad904 (981 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `SD:juvenile-trafficking-expungement`
+
+- **JURISDICTION:** SD
+- **PATHWAY:** juvenile-trafficking-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract closed; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind handoff)
+- **ARTIFACT HASH:** 3fc96b1f9864ae5e0873d04333645a752041e5de6c7a2ea6df8f85bf1a906e51 (981 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this handoff and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `SD:suspended-imposition-of-sentence-sealing`
+
+- **JURISDICTION:** SD
+- **PATHWAY:** suspended-imposition-of-sentence-sealing
+- **PACKET FAMILY:** South Dakota SIS Sealing Packet under §§ 23A-27-13 / 23A-27-14
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** bf2ada36b537ff28c4b9105ae85b50d08b663ab83de639466196e953b10ce756 (948 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106`
+
+- **JURISDICTION:** TN
+- **PATHWAY:** pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** TN:LegalEase Tennesee/diversions-expungements.html:55a61b0c9bc56ffa7f99c6e1523540a88f337274af7e24c21fd362fa9716f9a7
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 87b4130ca66d1eff966bc82c531191c9c6e47b9618924dea0a2aa4e84dc46a0b (1085 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313`
+
+- **JURISDICTION:** TN
+- **PATHWAY:** pathway-2-diversion-expunction-under-40-15-105-40-35-313
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** TN:LegalEase Tennesee/diversions-expungements.html:55a61b0c9bc56ffa7f99c6e1523540a88f337274af7e24c21fd362fa9716f9a7
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** c872ea902315750f4ffe5c1f967d9cfd11dbed0fbb533398c5ba75c61b70841c (1065 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1065-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `TN:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107`
+
+- **JURISDICTION:** TN
+- **PATHWAY:** pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** TN:LegalEase Tennesee/diversions-expungements.html:55a61b0c9bc56ffa7f99c6e1523540a88f337274af7e24c21fd362fa9716f9a7
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 8ea2e32d364f3f881f18b8539a4bda762c405d5a0cad0ce2dbb95452c3833453 (1091 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1091-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `TN:pathway-4-two-offense-expunction-under-40-32-101-k`
+
+- **JURISDICTION:** TN
+- **PATHWAY:** pathway-4-two-offense-expunction-under-40-32-101-k
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** TN:LegalEase Tennesee/diversions-expungements.html:55a61b0c9bc56ffa7f99c6e1523540a88f337274af7e24c21fd362fa9716f9a7
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 65eff8f358df53bc3f168112558ab7219fbb528dd58e42bbadf2b9d99c9eb7dc (1057 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1057-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a`
+
+- **JURISDICTION:** TX
+- **PATHWAY:** expunction-after-acquittal-not-guilty-disposition-chapter-55a
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind exact_supported_deferral)
+- **ARTIFACT HASH:** 2f5db23db58b6b08573be7105672485eda4b5b49a2cb4be8669cdcddd18db93e (1132 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1132-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `TX:expunction-after-pardon-or-actual-innocence-relief`
+
+- **JURISDICTION:** TX
+- **PATHWAY:** expunction-after-pardon-or-actual-innocence-relief
+- **PACKET FAMILY:** Texas Ex Parte Petition for Expunction under art. 55A.003 / 55A.004
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** f114624acdfb89e46edca1a74be63be7b3dbb77a3263f90b0e570b8f67993628 (1035 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1035-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `TX:expunction-after-qualifying-class-c-deferred-disposition`
+
+- **JURISDICTION:** TX
+- **PATHWAY:** expunction-after-qualifying-class-c-deferred-disposition
+- **PACKET FAMILY:** Texas Ex Parte Petition for Expunction — Class C deferred disposition
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind exact_supported_deferral)
+- **ARTIFACT HASH:** 714c99aa27eac4d8e4bd9131fabcd1a318dab205c35bd0b19df5e85d0a223767 (950 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 950-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `TX:expunction-after-qualifying-dismissal-or-quash`
+
+- **JURISDICTION:** TX
+- **PATHWAY:** expunction-after-qualifying-dismissal-or-quash
+- **PACKET FAMILY:** Texas Ex Parte Petition for Expunction — dismissal or quash
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind exact_supported_deferral)
+- **ARTIFACT HASH:** 14c3277ee05f8d972210cb107a1e9ee210f9a0b2aa8a3c3322dd9658458d68dd (1089 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1089-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `TX:expunction-for-arrest-with-no-charge-filed-after-the-limitations-period`
+
+- **JURISDICTION:** TX
+- **PATHWAY:** expunction-for-arrest-with-no-charge-filed-after-the-limitations-period
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 278a4cc6b2aafbe8d8ae1f3404aaba29c105299f4d21b84a9d34d7487c708c54 (1059 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1059-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `TX:first-offense-dwi-nondisclosure`
+
+- **JURISDICTION:** TX
+- **PATHWAY:** first-offense-dwi-nondisclosure
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** TX:LegalEase Texas/tx-statewide-expunction-nondisclosure-forms.html:d6f3d47523a2593098bf45c3831aead8265586b31f86200de64eadc30f433abe
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 6469e50104751ff5cf2834750dd04237527d84fc97eb5562eed2e96587f106a9 (1193 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1193-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `TX:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725`
+
+- **JURISDICTION:** TX
+- **PATHWAY:** petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** TX:LegalEase Texas/tx-statewide-expunction-nondisclosure-forms.html:d6f3d47523a2593098bf45c3831aead8265586b31f86200de64eadc30f433abe
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** 5e57e9941453e7b50f091b6b44589b8297cb45d72e269505f68dbe8c6769b564 (1318 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1318-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `TX:petitioned-nondisclosure-for-an-eligible-conviction-411-0735`
+
+- **JURISDICTION:** TX
+- **PATHWAY:** petitioned-nondisclosure-for-an-eligible-conviction-411-0735
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** TX:LegalEase Texas/tx-statewide-expunction-nondisclosure-forms.html:d6f3d47523a2593098bf45c3831aead8265586b31f86200de64eadc30f433abe
+- **RENDERER:** packet_document_v1 (route kind legacy_retired)
+- **ARTIFACT HASH:** a42548328de7714d48e8d10b53a9e5694c49689032bd8e946a5e6d512c9184fc (1322 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1322-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `UT:path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility`
+
+- **JURISDICTION:** UT
+- **PATHWAY:** path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** UT:LegalEase Utah/expungements.html:37976f3be7bc8f4201da211d5b61f932a6a7ea13cc575169188d9b79723e2008
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 1deb14812a8c704b621331dcb6d45c8cf12ac41e5e539cb1dc1a18fb295a52ab (1053 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1053-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `UT:path-e-petition-based-non-conviction-expungement`
+
+- **JURISDICTION:** UT
+- **PATHWAY:** path-e-petition-based-non-conviction-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** UT:LegalEase Utah/expungements.html:37976f3be7bc8f4201da211d5b61f932a6a7ea13cc575169188d9b79723e2008
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 5c7d36f2519b51ab7205331a0631d641bed43da33ccf638fb1b2b50a54b8bfd4 (1030 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1030-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `UT:path-f-petition-based-conviction-expungement`
+
+- **JURISDICTION:** UT
+- **PATHWAY:** path-f-petition-based-conviction-expungement
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** UT:LegalEase Utah/expungements.html:37976f3be7bc8f4201da211d5b61f932a6a7ea13cc575169188d9b79723e2008
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 52aae13bbcc775f8524710f98a1412f2fa6decc83baf5bea2bb9af052bbb1d83 (1028 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1028-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
 ### `UT:path-i-traffic-offense-expungement-or-deletion`
 
 - **JURISDICTION:** UT
@@ -795,6 +5183,69 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1054-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `UT:path-j-cannabis-possession-petition-without-a-bci-certificate`
+
+- **JURISDICTION:** UT
+- **PATHWAY:** path-j-cannabis-possession-petition-without-a-bci-certificate
+- **PACKET FAMILY:** Utah Cannabis-Possession Expungement Petition
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** UT:LegalEase Utah/expungements.html:37976f3be7bc8f4201da211d5b61f932a6a7ea13cc575169188d9b79723e2008; UT:LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf:24868a504130440532dd51f47b212e925815abc91c086a3bf67d5c014b5d002a; UT:LegalEase Utah/1003EX_Petition_to_Expunge_Records_Cannabis_Conviction.pdf:a8432deaa902e26c18a215d20fcc0f90eaedd5a62c28d0cec79f3f65d17c4352
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 1598c82a7905dd9690d8e13bce55d588c44303967aa62b79c459fea35089f417 (1309 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1309-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `UT:path-l-vacatur-human-trafficking-related-expungement`
+
+- **JURISDICTION:** UT
+- **PATHWAY:** path-l-vacatur-human-trafficking-related-expungement
+- **PACKET FAMILY:** Utah Trafficking Vacatur and Expungement Petition
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** UT:LegalEase Utah/expungements.html:37976f3be7bc8f4201da211d5b61f932a6a7ea13cc575169188d9b79723e2008
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 8b685a9cd2d14318b9cf5e25f3ffd325ebd62ad908c19bece44cdb261220eaa0 (1036 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `UT:path-m-juvenile-expungement`
+
+- **JURISDICTION:** UT
+- **PATHWAY:** path-m-juvenile-expungement
+- **PACKET FAMILY:** Utah Juvenile Expungement Petition
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** UT:LegalEase Utah/expungements.html:37976f3be7bc8f4201da211d5b61f932a6a7ea13cc575169188d9b79723e2008
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** a4e000784ec73a764ad01c5cc98b4ebabeaed55eb8bd678e0fc4cd4a7519b740 (994 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
 
 ### `VA:petition-based-sealing`
 
@@ -838,6 +5289,321 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 942-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
+### `VT:adult-conviction-expungement-narrow-statutory-route`
+
+- **JURISDICTION:** VT
+- **PATHWAY:** adult-conviction-expungement-narrow-statutory-route
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 8288618ef640e01be8b6a1e1326bbc09cc0dbbb346be6f3602a45e6977cab2e8 (945 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 945-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `VT:adult-felony-conviction-sealing`
+
+- **JURISDICTION:** VT
+- **PATHWAY:** adult-felony-conviction-sealing
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 9cf334c5e0e49312ac25977756a1f83d15a96866731aec2f3daaf345e089895d (927 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 927-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `VT:adult-misdemeanor-conviction-sealing`
+
+- **JURISDICTION:** VT
+- **PATHWAY:** adult-misdemeanor-conviction-sealing
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 8f9b51c1767f2c08d68bd5b75b2d7f1c3fb5869146b2199947d0dac011623d41 (932 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 932-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `VT:dui-sealing`
+
+- **JURISDICTION:** VT
+- **PATHWAY:** dui-sealing
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** b16d5588d95c9f32718873720558751ab7893cbc599e5b46652fa320b2cbbf3c (1023 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1023-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `VT:juvenile-sealing`
+
+- **JURISDICTION:** VT
+- **PATHWAY:** juvenile-sealing
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** packet_ready_with_caution
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 3434437eb2bb70e988926e7ef9a407c0b098fd6afca8e70e47861d161d28f189 (997 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `VT:non-conviction-sealing`
+
+- **JURISDICTION:** VT
+- **PATHWAY:** non-conviction-sealing
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** d2cf2fad51722c29b2101908f0aea9a0591ebdf38b946fda223075cf82620ccd (978 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 978-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `VT:offense-before-age-25-sealing-under-33-v-s-a-5119-g`
+
+- **JURISDICTION:** VT
+- **PATHWAY:** offense-before-age-25-sealing-under-33-v-s-a-5119-g
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** packet_ready_with_caution
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 5809788ce4aeefb7c5b6e313cdef9e42ec34de8e9a5854c5ebf60f740d050d92 (1005 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1005-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `VT:young-adult-sealing-for-offenses-committed-at-ages-18-21`
+
+- **JURISDICTION:** VT
+- **PATHWAY:** young-adult-sealing-for-offenses-committed-at-ages-18-21
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** packet_ready_with_caution
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 52b851f5d1218fb0b0ce62c0b6f48b6214340bfa48f9cec91fdb77f4036714ad (978 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 978-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `WA:adult-felony-vacation-under-rcw-9-94a-640`
+
+- **JURISDICTION:** WA
+- **PATHWAY:** adult-felony-vacation-under-rcw-9-94a-640
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** WA:LegalEase Washington/CR08.0930_Vacating Record of Felony Conviction_2023 01.pdf:17e2fdfceb0823387f25dd285276c2b06778f73e10d76180dfb2ee2d6f030a00; WA:LegalEase Washington/CR08.0920_Order re Vacating Record of Felony Conviction 2025 07.pdf:e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db; WA:LegalEase Washington/CR08.0900_Mt and Decl for Or Vacating Record of Felony_2025 07.pdf:ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** bf719849b7a529fd7b5d52cb4cefed087f0990b840c2b8de4717b00387e1c05e (1380 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1380-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `WA:adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060`
+
+- **JURISDICTION:** WA
+- **PATHWAY:** adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** WA:LegalEase Washington/JU 10_0320 Order re Sealing Records of Juvenile Offender_2022 01.pdf:bbe5a288b36a91b71cadbf1279ad6e10bfcc75732c2ef64bb5c21bc2d3ab5d86; WA:LegalEase Washington/CR08.0930_Vacating Record of Felony Conviction_2023 01.pdf:17e2fdfceb0823387f25dd285276c2b06778f73e10d76180dfb2ee2d6f030a00; WA:LegalEase Washington/CR08.0920_Order re Vacating Record of Felony Conviction 2025 07.pdf:e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db; WA:LegalEase Washington/CR08.0900_Mt and Decl for Or Vacating Record of Felony_2025 07.pdf:ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 7a670c1ab7d29b0d603a4e96b8464613c0924607eaa9ab22848ea16415d3f080 (1560 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1560-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `WA:blake-drug-possession-vacation-and-refund-route`
+
+- **JURISDICTION:** WA
+- **PATHWAY:** blake-drug-possession-vacation-and-refund-route
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** WA:LegalEase Washington/JU 10_0320 Order re Sealing Records of Juvenile Offender_2022 01.pdf:bbe5a288b36a91b71cadbf1279ad6e10bfcc75732c2ef64bb5c21bc2d3ab5d86; WA:LegalEase Washington/CrRLJ 09.0870 OrderPetVacateConviction_Cannabis_2022 07(2).pdf:a69335fbbf311f4c92357db5ecb38f931b3409e14f987810247faae2f6295cc3; WA:LegalEase Washington/CrRLJ 09.0800 PetitionDeclVacateConviction_Cannabis_2022 07(2).pdf:260367f6930cacc89727fc8a48aa0591b07ad5c7183b6412aa247b1810503d7b; WA:LegalEase Washington/CR08.0930_Vacating Record of Felony Conviction_2023 01.pdf:17e2fdfceb0823387f25dd285276c2b06778f73e10d76180dfb2ee2d6f030a00; WA:LegalEase Washington/CR08.0920_Order re Vacating Record of Felony Conviction 2025 07.pdf:e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db; WA:LegalEase Washington/CR08.0900_Mt and Decl for Or Vacating Record of Felony_2025 07.pdf:ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** aac2d9bef3acae2d2ae78f9cba297f420c097c3ce0248bf49afce03b062a7103 (2012 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 2012-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `WA:juvenile-record-sealing-under-rcw-13-50-260`
+
+- **JURISDICTION:** WA
+- **PATHWAY:** juvenile-record-sealing-under-rcw-13-50-260
+- **PACKET FAMILY:** Washington Juvenile Sealing Motion under RCW 13.50.260
+- **CURRENT RESULT CODE:** packet_ready_with_caution
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** WA:LegalEase Washington/JU 10_0320 Order re Sealing Records of Juvenile Offender_2022 01.pdf:bbe5a288b36a91b71cadbf1279ad6e10bfcc75732c2ef64bb5c21bc2d3ab5d86
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** aa18bbea1467822faa37233db1862d471d7f59a4d00390a92fb07a0211724225 (1104 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `WA:misdemeanor-cannabis-conviction-vacation`
+
+- **JURISDICTION:** WA
+- **PATHWAY:** misdemeanor-cannabis-conviction-vacation
+- **PACKET FAMILY:** Washington Cannabis Vacation Application under RCW 9.96.060(5)
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** WA:LegalEase Washington/CrRLJ 09.0870 OrderPetVacateConviction_Cannabis_2022 07(2).pdf:a69335fbbf311f4c92357db5ecb38f931b3409e14f987810247faae2f6295cc3; WA:LegalEase Washington/CrRLJ 09.0800 PetitionDeclVacateConviction_Cannabis_2022 07(2).pdf:260367f6930cacc89727fc8a48aa0591b07ad5c7183b6412aa247b1810503d7b; WA:LegalEase Washington/CR08.0930_Vacating Record of Felony Conviction_2023 01.pdf:17e2fdfceb0823387f25dd285276c2b06778f73e10d76180dfb2ee2d6f030a00; WA:LegalEase Washington/CR08.0920_Order re Vacating Record of Felony Conviction 2025 07.pdf:e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db; WA:LegalEase Washington/JU 10_0320 Order re Sealing Records of Juvenile Offender_2022 01.pdf:bbe5a288b36a91b71cadbf1279ad6e10bfcc75732c2ef64bb5c21bc2d3ab5d86; WA:LegalEase Washington/CR08.0900_Mt and Decl for Or Vacating Record of Felony_2025 07.pdf:ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** d5a8bf3696afbb77b51d3cb245c01ea310357c8a26b79f6de4fc579a8a4bed88 (1907 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1907-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `WA:non-conviction-record-deletion-under-rcw-10-97-060`
+
+- **JURISDICTION:** WA
+- **PATHWAY:** non-conviction-record-deletion-under-rcw-10-97-060
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** WA:LegalEase Washington/CR08.0920_Order re Vacating Record of Felony Conviction 2025 07.pdf:e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db; WA:LegalEase Washington/CR08.0900_Mt and Decl for Or Vacating Record of Felony_2025 07.pdf:ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e; WA:LegalEase Washington/CrRLJ 09.0200 Ord Pet Vacate Conviction_(f)(U).pdf:b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2; WA:LegalEase Washington/CrRLJ 09.0100 Petition to Vacate Conviction_(f)(U).pdf:1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b; WA:LegalEase Washington/CR08.0930_Vacating Record of Felony Conviction_2023 01.pdf:17e2fdfceb0823387f25dd285276c2b06778f73e10d76180dfb2ee2d6f030a00; WA:LegalEase Washington/JU 10_0320 Order re Sealing Records of Juvenile Offender_2022 01.pdf:bbe5a288b36a91b71cadbf1279ad6e10bfcc75732c2ef64bb5c21bc2d3ab5d86; WA:LegalEase Washington/CrRLJ 09.0870 OrderPetVacateConviction_Cannabis_2022 07(2).pdf:a69335fbbf311f4c92357db5ecb38f931b3409e14f987810247faae2f6295cc3; WA:LegalEase Washington/CrRLJ 09.0800 PetitionDeclVacateConviction_Cannabis_2022 07(2).pdf:260367f6930cacc89727fc8a48aa0591b07ad5c7183b6412aa247b1810503d7b
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 96da53ccc5f093ddae12097c03f7abd7dee2db44d152a587d774f2a53c7c75ab (2331 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 2331-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `WA:victim-survivor-conviction-vacation-route`
+
+- **JURISDICTION:** WA
+- **PATHWAY:** victim-survivor-conviction-vacation-route
+- **PACKET FAMILY:** Washington Victim-Survivor Vacation Packet under RCW 9.96.080
+- **CURRENT RESULT CODE:** packet_ready_with_caution
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** WA:LegalEase Washington/CR08.0930_Vacating Record of Felony Conviction_2023 01.pdf:17e2fdfceb0823387f25dd285276c2b06778f73e10d76180dfb2ee2d6f030a00; WA:LegalEase Washington/CR08.0920_Order re Vacating Record of Felony Conviction 2025 07.pdf:e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db; WA:LegalEase Washington/CR08.0900_Mt and Decl for Or Vacating Record of Felony_2025 07.pdf:ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 261b67e8e2bda1d97621936b65dd6350d8ffebebb8c2f4a0a845d2a85c5c4b52 (1407 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1407-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
 ### `WI:adult-conviction-expungement-under-wis-stat-973-015`
 
 - **JURISDICTION:** WI
@@ -858,6 +5624,90 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
 - **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed true. The two disagree; only the resolver's answer is closing it.
+
+### `WI:adult-non-conviction-arrest-only-record-correction-or-removal`
+
+- **JURISDICTION:** WI
+- **PATHWAY:** adult-non-conviction-arrest-only-record-correction-or-removal
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** de9b8ddc89ac6b749c224100ea3e39cb02a69c28b350c36ef12cd16bff8973ee (961 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 961-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `WI:executive-pardon-guidance`
+
+- **JURISDICTION:** WI
+- **PATHWAY:** executive-pardon-guidance
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** b231a555eae9ea57d0b51e0a42a007b0d45d2eb2f04ea04f0d21d5f45a43c066 (902 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `WI:human-trafficking-prostitution-relief-under-973-015-2m`
+
+- **JURISDICTION:** WI
+- **PATHWAY:** human-trafficking-prostitution-relief-under-973-015-2m
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 6fadc9ad0d90a3555305fb307f9bdee13c2e7e389e4e2056fb3b2a25f28b9edc (955 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m`
+
+- **JURISDICTION:** WI
+- **PATHWAY:** juvenile-adjudication-expungement-under-wis-stat-938-355-4m
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** packet_ready_with_caution
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** WI:LegalEase Wisconsin/forms-download/CR-266_en.doc:50217c85d71f22809349aace1173f21e787bac62e5c1fdd7d6d3505ffe180787
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 3128103a1379a0cd851ab92844dd172953729d1fbf55eb1bd0029b99dd381c23 (1142 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
 
 ### `WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a`
 
@@ -880,6 +5730,111 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1021-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
+### `WV:eligible-conviction-expungement-under-w-va-code-61-11-26`
+
+- **JURISDICTION:** WV
+- **PATHWAY:** eligible-conviction-expungement-under-w-va-code-61-11-26
+- **PACKET FAMILY:** West Virginia § 61-11-26 Expungement Petition (SCA-C906)
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind exact_supported_deferral)
+- **ARTIFACT HASH:** 97e43c8cbdc27a4558e37dbe14bb1869c817392fb4be75c1768583b1cbbfd10b (1155 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
+- **EXACT REMAINING DELTA:** Commercially open while held on wv_61_11_26_sca_c906_artifact_review, which should not be possible.
+
+### `WV:first-offense-drug-possession-conditional-discharge-relief`
+
+- **JURISDICTION:** WV
+- **PATHWAY:** first-offense-drug-possession-conditional-discharge-relief
+- **PACKET FAMILY:** West Virginia § 60A-4-407 Expungement Application
+- **CURRENT RESULT CODE:** packet_ready_with_caution
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** primary filing or application
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** WV:LegalEase West Virginia/SCA-C907.pdf:2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222; WV:LegalEase West Virginia/SCA-C906.pdf:8c6ced88c37870359bc38537c4409b2dc99a5ed6fc6b69c9c41d386fa7fe6e8c; WV:STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf:bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 001287047897abadda7e016263200af43b6ea32d4dc1a7ff30fc6ae69a364398 (1424 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
+- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 1424-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `WV:juvenile-record-relief`
+
+- **JURISDICTION:** WV
+- **PATHWAY:** juvenile-record-relief
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 45e58289dbd810da83414825e354ab9b834b43e10b1f863075bcc7789bde3dbf (1009 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication`
+
+- **JURISDICTION:** WV
+- **PATHWAY:** no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication
+- **PACKET FAMILY:** West Virginia § 61-11-25 No-Conviction Expungement Petition
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **ARTIFACT HASH:** 54d0d241e046d1fcbbaef3fe7f4817a76a13ccfd67f5e5b89ab984088f7abbd4 (1021 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** ARTIFACT_REVIEW_REQUIRED
+- **EXACT REMAINING DELTA:** Commercially open while held on wv_61_11_25_sca_c903_currency, which should not be possible.
+
+### `WV:sex-trafficking-victim-vacatur-and-expungement`
+
+- **JURISDICTION:** WV
+- **PATHWAY:** sex-trafficking-victim-vacatur-and-expungement
+- **PACKET FAMILY:** West Virginia § 61-14-9 Vacatur and Expungement Petition
+- **CURRENT RESULT CODE:** needs_review
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** bb9f4cc3c5285335b75e2f2ffa270aa73f2815f0243df020d6c3cc773be5f11b (1016 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
 ### `WY:felony-conviction-expungement-w-s-7-13-1502`
 
 - **JURISDICTION:** WY
@@ -900,3 +5855,45 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 922-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+
+### `WY:human-trafficking-victim-vacatur-w-s-6-2-708`
+
+- **JURISDICTION:** WY
+- **PATHWAY:** human-trafficking-victim-vacatur-w-s-6-2-708
+- **PACKET FAMILY:** Wyoming Trafficking-Victim Vacatur Petition under § 6-2-708
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract packet_checkout; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract open; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 6e6e1a327778bf8a884f79b9b118ab71f50f4f447d2d301aaa5e82585c2edea0 (926 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
+
+### `WY:juvenile-minor-expungement-w-s-14-6-241`
+
+- **JURISDICTION:** WY
+- **PATHWAY:** juvenile-minor-expungement-w-s-14-6-241
+- **PACKET FAMILY:** none named by any contract
+- **CURRENT RESULT CODE:** guidance_only
+- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
+- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
+- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
+- **ARTIFACT PROVIDER:** none
+- **CONTENT TYPE:** none
+- **ACTUAL COMPONENTS:** none
+- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
+- **SOURCE HASHES:** none — the plan names no source form
+- **RENDERER:** none (route kind guidance_only)
+- **ARTIFACT HASH:** 6c173ab76040277598d3a47943cf83c0e98e4912575aed437ce0ed0e521ec74f (921 bytes)
+- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
+- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed false. The two disagree; only the resolver's answer is closing it.
