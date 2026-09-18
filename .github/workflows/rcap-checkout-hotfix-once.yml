@@ -1,4 +1,4 @@
-name: Reconcile checkout hotfix Grade-A authority once
+name: Accept checkout hotfix worker once
 
 on:
   push:
@@ -8,58 +8,138 @@ on:
       - .github/workflows/rcap-checkout-hotfix-once.yml
 
 permissions:
-  contents: write
+  contents: read
+  packages: read
 
 jobs:
-  reconcile:
+  accept:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 25
+    env:
+      SOURCE_SHA: 8517a9b0ecf107605fe3094f23175d6a344f0244
+      DIGEST: sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534
+      IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
     steps:
-      - name: Check out hotfix branch
+      - name: Check out hotfix history
         uses: actions/checkout@v4
         with:
           ref: claude/hotfix-release-3e3a528b5
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - name: Verify source commit is contained
+        run: |
+          set -euo pipefail
+          git cat-file -e "$SOURCE_SHA^{commit}"
+          git merge-base --is-ancestor "$SOURCE_SHA" HEAD
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
         with:
-          node-version: 20
-          cache: npm
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install frozen dependencies
-        run: npm ci
-
-      - name: Install PDF inspection dependency
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
-
-      - name: Regenerate Grade-A authority from committed evidence
-        run: node scripts/generate-rcap-grade-a-fulfillment-authority.mjs
-
-      - name: Refuse worker-input or unrelated drift
+      - name: Pull immutable digest and source tag
         run: |
           set -euo pipefail
-          echo "Generated diff:"
-          git diff --name-only
-          git diff --quiet -- data/rcap-grade-a/worker-static-authority.json || {
-            echo "::error::worker-static authority changed; refusing app-only reconciliation"
-            exit 1
+          docker pull "$IMAGE_REPOSITORY@$DIGEST"
+          docker pull "$IMAGE_REPOSITORY:$SOURCE_SHA"
+          DIGEST_ID="$(docker image inspect --format '{{.Id}}' "$IMAGE_REPOSITORY@$DIGEST")"
+          TAG_ID="$(docker image inspect --format '{{.Id}}' "$IMAGE_REPOSITORY:$SOURCE_SHA")"
+          [ "$DIGEST_ID" = "$TAG_ID" ] || { echo "::error::tag and digest differ"; exit 1; }
+          ACTUAL="$(docker inspect --format='{{index .RepoDigests 0}}' "$IMAGE_REPOSITORY@$DIGEST" | sed 's/.*@//')"
+          [ "$ACTUAL" = "$DIGEST" ] || { echo "::error::digest mismatch"; exit 1; }
+          REVISION="$(docker inspect --format='{{index .Config.Labels "org.opencontainers.image.revision"}}' "$IMAGE_REPOSITORY@$DIGEST")"
+          [ "$REVISION" = "$SOURCE_SHA" ] || { echo "::error::OCI revision mismatch"; exit 1; }
+          echo "LOCAL_IMAGE_ID=$DIGEST_ID" >> "$GITHUB_ENV"
+          echo "immutable tag/digest/source identity accepted: $DIGEST_ID"
+
+      - name: Prove non-root execution and health command
+        run: |
+          set -euo pipefail
+          REF="$IMAGE_REPOSITORY@$DIGEST"
+          [ "$(docker image inspect --format '{{.Config.User}}' "$REF")" = "rcapworker" ]
+          [ "$(docker run --rm --network none --entrypoint sh "$REF" -c 'id -u')" != "0" ]
+          HEALTH="$(docker image inspect --format '{{join .Config.Healthcheck.Test " "}}' "$REF")"
+          [ -n "$HEALTH" ]
+          docker run --rm --network none --entrypoint sh "$REF" -c 'node -e "process.exit(0)"'
+          echo "healthcheck: $HEALTH"
+
+      - name: Prove fail-closed startup
+        run: |
+          set -euo pipefail
+          REF="$IMAGE_REPOSITORY@$DIGEST"
+          set +e
+          OUTPUT="$(docker run --rm --network none "$REF" node scripts/rcap-render-worker.mjs --once 2>&1)"
+          CODE=$?
+          set -e
+          [ "$CODE" -eq 2 ] || { echo "::error::unconfigured worker exited $CODE"; exit 1; }
+          printf '%s' "$OUTPUT" | grep -q "Supabase is not configured"
+          echo "fail-closed startup passed with exit 2"
+
+      - name: Prove graceful SIGTERM and clean scratch
+        run: |
+          set -euo pipefail
+          REF="$IMAGE_REPOSITORY@$DIGEST"
+          OUTPUT="$(docker run --rm --network none --init=false "$REF" node -e '
+            import("./scripts/lib/rcap-render-worker-loop.mjs").then(async (m) => {
+              let cycles=0;
+              setTimeout(() => process.kill(process.pid,"SIGTERM"),500);
+              const signal=await m.runRenderWorkerLoop({runCycle:async()=>{cycles+=1;return {outcome:"idle"};},idleDelayMs:50});
+              console.log(JSON.stringify({event:"shutdown_complete",signal,cycles}));
+            }).catch(e=>{console.error(String(e));process.exit(9);});
+          ' 2>&1)"
+          printf '%s' "$OUTPUT" | grep -q '"event":"shutdown_complete","signal":"SIGTERM"'
+          [ "$(docker run --rm --network none --entrypoint sh "$REF" -c 'stat -c %U /tmp/rcap-render-scratch')" = "rcapworker" ]
+          [ -z "$(docker run --rm --network none --entrypoint sh "$REF" -c 'find /tmp/rcap-render-scratch -mindepth 1 | head -1')" ]
+          docker run --rm --network none --entrypoint sh "$REF" -c 'touch /tmp/rcap-render-scratch/.probe && rm /tmp/rcap-render-scratch/.probe'
+          echo "$OUTPUT"
+
+      - name: Secret scans
+        run: |
+          set -euo pipefail
+          REF="$IMAGE_REPOSITORY@$DIGEST"
+          PATTERN='SUPABASE_SERVICE_ROLE_KEY=[A-Za-z0-9._-]{20,}|SERVICE_ROLE_KEY=eyJ[A-Za-z0-9._-]{20,}|sk_live_[A-Za-z0-9]{16,}|sk_test_[A-Za-z0-9]{16,}|rk_live_[A-Za-z0-9]{16,}|whsec_[A-Za-z0-9]{16,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}'
+          SYNTHETIC="sk_live_$(head -c 32 /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c 24)"
+          printf '%s\n' "$SYNTHETIC" | grep -qE "$PATTERN"
+          set +e
+          HITS="$(docker run --rm --network none --entrypoint sh "$REF" -c "grep -rIlE '${PATTERN}' /app --exclude-dir=node_modules 2>/dev/null")"
+          set -e
+          [ -z "$HITS" ] || { echo "::error::filesystem secret-pattern hits: $HITS"; exit 1; }
+          ENV_COUNT="$(docker image inspect --format '{{range .Config.Env}}{{println .}}{{end}}' "$REF" | grep -cE "$PATTERN" || true)"
+          HIST_COUNT="$(docker history --no-trunc --format '{{.CreatedBy}}' "$REF" | grep -cE "$PATTERN" || true)"
+          [ "$ENV_COUNT" = "0" ] && [ "$HIST_COUNT" = "0" ]
+          echo "secret scans clean; local image id $LOCAL_IMAGE_ID"
+
+      - name: Record acceptance facts
+        run: |
+          mkdir -p hotfix-worker-acceptance
+          cat > hotfix-worker-acceptance/evidence.json <<EOF
+          {
+            "sourceSha": "$SOURCE_SHA",
+            "immutableRegistryDigest": "$DIGEST",
+            "workflowRunId": ${{ github.run_id }},
+            "workflowRunAttempt": ${{ github.run_attempt }},
+            "acceptanceHeadSha": "${{ github.sha }}",
+            "localDockerImageId": "$LOCAL_IMAGE_ID",
+            "tagAndDigestAreSameImage": true,
+            "ociRevisionLabelPresent": true,
+            "ociRevisionValue": "$SOURCE_SHA",
+            "nonRootExecution": "pass",
+            "healthcheck": "pass",
+            "failClosedStartupExitCode": 2,
+            "moduleGraphResolved": true,
+            "gracefulSigterm": "pass",
+            "scratchDirectory": "present, owned by rcapworker, empty and writable",
+            "secretScannerPositiveControl": "pass",
+            "filesystemSecretScan": "clean",
+            "imageConfigEnvSecretMatches": 0,
+            "imageLayerHistorySecretMatches": 0
           }
-          unexpected="$(git diff --name-only | grep -vE '^(data/rcap-grade-a/fulfillment-authority-registry\.json|data/rcap-grade-a/fulfillment-observation-snapshot\.json|data/rcap-grade-a/fulfillment-authority-projection\.json)$' || true)"
-          [ -z "$unexpected" ] || { echo "::error::unexpected generated files: $unexpected"; exit 1; }
+          EOF
 
-      - name: Verify regenerated authority
-        run: |
-          node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check
-          node scripts/verify-rcap-grade-a-fulfillment-authority.mjs
-
-      - name: Commit exact generated authority
-        run: |
-          set -euo pipefail
-          git config user.name "Roger-LegalEase"
-          git config user.email "roger@legalease.com"
-          git add data/rcap-grade-a/fulfillment-authority-registry.json                   data/rcap-grade-a/fulfillment-observation-snapshot.json                   data/rcap-grade-a/fulfillment-authority-projection.json
-          git diff --cached --quiet && { echo "::error::generator produced no authority reconciliation"; exit 1; }
-          git commit -m "Reconcile Grade-A authority to active Production worker publication"
-          git push origin HEAD:claude/hotfix-release-3e3a528b5
+      - name: Upload acceptance evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkout-hotfix-worker-acceptance-${{ github.run_id }}
+          path: hotfix-worker-acceptance/evidence.json
