@@ -1982,6 +1982,57 @@ let session = null;
         + ` compare-and-swap writer, and the initial writer refuses any new id once the row holds one. A`
         + ` replacement the database did not record is not a replacement.`
     );
+
+    // --- the narrow phase ENDS here ------------------------------------------
+    //
+    // Everything below this point belongs to the full matrix. Case (a) reuses
+    // the Session this phase just replaced, case (b) needs a deployment with NO
+    // expected Stripe account — the opposite of the one this phase runs on —
+    // and section 4b drives Stripe's hosted page in a browser to buy the
+    // packet. None of that is this phase's evidence, and a narrow phase that
+    // wandered into a real purchase would be a far worse failure than a missing
+    // verdict. The `!NARROW_VERIFIED_ABSENCE` guards below are belt and braces;
+    // the terminator is what makes the boundary real, because `finish()` ends
+    // in `process.exit`.
+    //
+    // Before it terminates, this phase puts back everything it disturbed.
+
+    // The replacement is a real sandbox Checkout Session, opened by the deployed
+    // application and never paid. Expiring it leaves no orphaned order behind
+    // for a later run to trip over. It happens AFTER the verdict above, which
+    // asserts the session was open — expiring first would erase the evidence.
+    let replacementExpired = null;
+    if (replacementId && replacementSession?.status === "open") {
+      await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(replacementId)}/expire`, {
+        method: "POST", headers: { Authorization: `Bearer ${STRIPE_KEY}` }
+      }).catch(() => null);
+      // Read back rather than assume: an expiry this harness did not confirm is
+      // not an expiry.
+      replacementExpired = (await stripeSession(replacementId))?.status ?? null;
+    }
+
+    // The same cleanup this harness already performs for a matter it owns: the
+    // payment-consumption rows, the persisted verification, then the item
+    // itself, in that order, because the item is what the others reference.
+    const cleanup = {
+      consumption: (await sql(`delete from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${sqlText(itemId)}'`)).status,
+      verifications: (await sql(`delete from public.consumer_packet_verifications where briefcase_item_id = '${sqlText(itemId)}'`)).status,
+      item: (await sql(`delete from public.consumer_briefcase_items where id = '${sqlText(itemId)}'`)).status
+    };
+    const remaining = await sql(`select count(*)::int as n from public.consumer_briefcase_items where id = '${sqlText(itemId)}'`);
+
+    evidence.resumedVerifiedAbsence.replacementSessionExpired = replacementExpired;
+    evidence.resumedVerifiedAbsence.cleanup = {
+      ...cleanup,
+      rowsRemaining: Array.isArray(remaining.json) ? remaining.json[0]?.n ?? null : null
+    };
+    evidence.narrowPhase = {
+      phase: PAYMENT_PHASE,
+      terminatedBefore: "4b. The customer actually pays",
+      reason: "the narrow phase proves one case on the verified-account Preview; the full matrix's purchase, webhook, render and delivery sections are a different phase's evidence and must not run here"
+    };
+
+    finish();
   }
 
   // (a) An OPEN session that is still the right order is REUSED, never doubled.
