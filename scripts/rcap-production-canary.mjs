@@ -25,23 +25,30 @@ import {
 
 const APPLICATION_SHA = "1f9e1e9a8654c7c41ddae64fad230b55b5912620";
 const TOOLS_SHA = "1f9e1e9a8654c7c41ddae64fad230b55b5912620";
-const WORKER_SOURCE_SHA = "7c883693830ce063115779cd6cd7f7d939924633";
-const WORKER_DIGEST = "sha256:94adca2182ea841e7b6942d597569e8e3132b239abe1d8bf208cdda6f3449369";
+const WORKER_SOURCE_SHA = "1f9e1e9a8654c7c41ddae64fad230b55b5912620";
+const WORKER_DIGEST = "sha256:7a2b28633d7d542b41161f0510293356e600d3078c78267c36598a79bc9287a4";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-// The Preview this release's acceptance actually ran on, and the current holder
-// of the deterministic alias legalease-rcap-62425c837b5e-roger947s-projects
-// .vercel.app. The hosted payment-to-packet matrix passed on it in run
-// 35273348552 -- every required case, including the four resumed-session cases
-// and the complete $0 Stripe -> webhook -> settlement -> render -> download
-// journey, selling the catalog Product prod_VHEHkvH7dSvGv7 against a Stripe
-// coupon restricted to exactly that Product.
+// The Preview this release was staged against, and the current holder of the
+// deterministic alias legalease-rcap-1f9e1e9a8654-roger947s-projects
+// .vercel.app. Created from the exact application SHA by run 35351618673,
+// which proved it is a Preview and not Production, that it carries this
+// release's application and acceptance-project metadata, that no Production
+// alias or Production environment variable moved, and that the deployed
+// instance answers health and still refuses the delivery route.
 //
-// It replaces dpl_E1k7iEXpniURdJjENJ5BKgdj12zZ, the Preview of the superseded
-// application 4e16d6d8. This control's job is to compare Production against
-// the deployment acceptance was earned on, so it names the deployment this
-// release's journey actually touched and no other.
-const ACCEPTANCE_DEPLOYMENT_ID = "dpl_AbvdvR2gk57Mbhr9v3rZCpKCZBKV";
+// What it does NOT carry is a fresh run of the hosted payment-to-packet
+// matrix. This release changes one constant -- the live catalog Product id --
+// and that constant is inert outside Production, where the test-mode account
+// is a different account and the override names the sandbox entry. The live
+// Product this release moves to is the same id that entry already had, so the
+// matrix would exercise exactly what it exercised before.
+//
+// It replaces dpl_AbvdvR2gk57Mbhr9v3rZCpKCZBKV, the Preview of the superseded
+// application 7c883693. This control's job is to compare Production against
+// the deployment this release was earned on, so it names that deployment and
+// no other.
+const ACCEPTANCE_DEPLOYMENT_ID = "dpl_3Yz43xWgbgFmrbMc8XgFBeQqYtU3";
 const PUBLIC_ROUTES = ["/", "/sign-in", "/expungement-ai/sign-in"];
 
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();

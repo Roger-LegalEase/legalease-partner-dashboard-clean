@@ -16,8 +16,8 @@ import {
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
 const APPLICATION_SHA = "1f9e1e9a8654c7c41ddae64fad230b55b5912620";
-const WORKER_SOURCE_SHA = "7c883693830ce063115779cd6cd7f7d939924633";
-const WORKER_DIGEST = "sha256:94adca2182ea841e7b6942d597569e8e3132b239abe1d8bf208cdda6f3449369";
+const WORKER_SOURCE_SHA = "1f9e1e9a8654c7c41ddae64fad230b55b5912620";
+const WORKER_DIGEST = "sha256:7a2b28633d7d542b41161f0510293356e600d3078c78267c36598a79bc9287a4";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // Read back from Vercel by preflight 35275288657, which staged the candidate
 // and recorded the live deployment before touching anything: staged
