@@ -41,7 +41,7 @@ const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 // application 4e16d6d8. This control's job is to compare Production against
 // the deployment acceptance was earned on, so it names the deployment this
 // release's journey actually touched and no other.
-const ACCEPTANCE_DEPLOYMENT_ID = "dpl_5dZTG4SeKKnbJEXF5FSUCWCihoCm";
+const ACCEPTANCE_DEPLOYMENT_ID = "dpl_33LqnGJMj6zE6zoQcqzL5tTMCRMu";
 const PUBLIC_ROUTES = ["/", "/sign-in", "/expungement-ai/sign-in"];
 
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
