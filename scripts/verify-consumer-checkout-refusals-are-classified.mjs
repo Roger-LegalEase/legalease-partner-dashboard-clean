@@ -227,14 +227,21 @@ check(
   );
   check(conflictBlock.length > 0, "the replacement-conflict branch is locatable");
   check(
-    conflictBlock.indexOf("replacement.winningCheckoutSessionId")
+    conflictBlock.indexOf("readStoredConsumerCheckoutSession({")
       < conflictBlock.indexOf("expireUnboundSession("),
-    "the winner is read BEFORE anything is expired"
+    "the stored binding is read back BEFORE anything is expired"
+  );
+  // Losing the swap is not authority to expire. The swap's own report of the
+  // winner is a snapshot taken inside the RPC and can be null while a binding
+  // exists, so the decision rests on a fresh read of the row instead.
+  check(
+    /const candidateIsProvenOrphaned = stored\.readable\s*\n\s*&& typeof stored\.checkoutSessionId === "string"\s*\n\s*&& stored\.checkoutSessionId !== session\.id;/.test(conflictBlock)
+      && /const cleanupFailure = candidateIsProvenOrphaned && session\.status === "open"/.test(conflictBlock),
+    "cleanup requires PROOF from the read-back that this request's Session is not the stored one: an unreadable row, or a row holding nothing, expires nothing"
   );
   check(
-    conflictBlock.includes("const thisRequestLostADifferentSession = winner !== session.id;")
-      && /const cleanupFailure = thisRequestLostADifferentSession && session\.status === "open"/.test(conflictBlock),
-    "the losing Session is expired only when it is genuinely a different Session from the winner"
+    /const winner = \(stored\.readable \? stored\.checkoutSessionId : null\)\s*\n\s*\?\? replacement\.winningCheckoutSessionId;/.test(conflictBlock),
+    "the winner is what the row holds now, with the swap's snapshot as a fallback rather than the authority"
   );
   check(
     (conflictBlock.match(/expireUnboundSession\(/g) ?? []).length === 1

@@ -21,6 +21,7 @@ import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-in
 import {
   CONSUMER_PACKET_PRODUCT_ID,
   persistConsumerCheckoutBinding,
+  readStoredConsumerCheckoutSession,
   replaceConsumerCheckoutSession
 } from "@/lib/expungement-ai/consumer-payment-authority";
 import { reconcileConsumerOrder } from "@/lib/expungement-ai/consumer-order-reconciliation";
@@ -547,22 +548,37 @@ export async function createConsumerPacketCheckout({
           outcome: "conflicted",
           reason: "checkout_replacement_conflict"
         };
-        // The winner is read BEFORE anything is expired, because the winner can
-        // be this request's own Session.
+        // Losing the swap is not authority to expire anything.
         //
         // Creation is idempotent: two concurrent requests deriving the same key
-        // are handed the SAME Session id. One of them wins the swap and that id
-        // becomes authoritative; the other is told `conflicted` with the winning
-        // id — which is the id it is itself holding. Expiring "the Session this
-        // request created" would then destroy the order the other request just
-        // made authoritative, and the matter would be left storing a Session
-        // nobody can pay. Convergence on one Session is the correct outcome of
-        // that race, not a collision to clean up after.
-        const winner = replacement.winningCheckoutSessionId;
-        const thisRequestLostADifferentSession = winner !== session.id;
-        // Only ever this request's own losing Session, and only when it is not
-        // the winner.
-        const cleanupFailure = thisRequestLostADifferentSession && session.status === "open"
+        // are handed the SAME Session id. One wins the swap and that id becomes
+        // the matter's order; the other is told `conflicted` — about the id it
+        // is itself holding. Expiring "the Session this request created" would
+        // destroy the order the winner just recorded and leave the matter
+        // storing a Session nobody can pay. Convergence on one Session is the
+        // correct outcome of that race, not a collision to clean up after.
+        //
+        // So the row is read again, here, after the swap has been decided. The
+        // swap's own report of the winner is a snapshot taken inside the RPC and
+        // may be null even when a binding exists; it is not a safe basis for
+        // destroying an order. This read is what the decision below rests on.
+        const stored = await readStoredConsumerCheckoutSession({
+          userId: binding.userId,
+          briefcaseItemId: binding.briefcaseItemId
+        });
+        // What the matter holds NOW, preferred over the swap's snapshot of it.
+        const winner = (stored.readable ? stored.checkoutSessionId : null)
+          ?? replacement.winningCheckoutSessionId;
+        // Cleanup requires PROOF that this request's Session is not the stored
+        // one. A read that could not be taken proves nothing, and neither does
+        // a row holding no Session at all — in both cases the Session stays,
+        // because the worst case of keeping it is an open Session that Stripe
+        // will expire on its own, and the worst case of expiring it is a
+        // participant holding a dead Checkout page for an order that was real.
+        const candidateIsProvenOrphaned = stored.readable
+          && typeof stored.checkoutSessionId === "string"
+          && stored.checkoutSessionId !== session.id;
+        const cleanupFailure = candidateIsProvenOrphaned && session.status === "open"
           ? await expireUnboundSession(stripe as Stripe, "expire_lost_replacement_session", session.id)
           : null;
         if (winner) {

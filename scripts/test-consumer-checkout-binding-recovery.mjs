@@ -111,6 +111,9 @@ function buildAdapter({
   replace = { outcome: "replaced" },
   persist = { outcome: "bound" },
   expireThrows = null,
+  // What a fresh read of the matter's row answers after the swap. The default
+  // is the shape of an ordinary run: nothing was stored under this id.
+  storedBinding = { readable: true, checkoutSessionId: null },
   // Shared across two adapters to model two concurrent requests talking to the
   // SAME Stripe: an idempotency key one of them has already used hands the
   // other the identical Session, which is the whole point of the key.
@@ -121,6 +124,7 @@ function buildAdapter({
   const expireCalls = [];
   const persistCalls = [];
   const replaceCalls = [];
+  const storedReads = [];
   const queued = [...creates];
 
   const stripeClient = {
@@ -214,6 +218,10 @@ function buildAdapter({
       replaceConsumerCheckoutSession: async (input) => {
         replaceCalls.push(input);
         return typeof replace === "function" ? replace(input) : replace;
+      },
+      readStoredConsumerCheckoutSession: async (input) => {
+        storedReads.push(input);
+        return typeof storedBinding === "function" ? storedBinding(input) : storedBinding;
       }
     },
     // Every case here starts from a matter with either no stored Session or one
@@ -233,7 +241,7 @@ function buildAdapter({
     }
   });
 
-  return { adapter, createCalls, retrieveCalls, expireCalls, persistCalls, replaceCalls };
+  return { adapter, createCalls, retrieveCalls, expireCalls, persistCalls, replaceCalls, storedReads };
 }
 
 let passed = 0;
@@ -428,7 +436,10 @@ const baseKey = `${PRODUCT}:${ITEM}:${HASH}:${REVISION}:${OLD_ABSENT}:inline`;
   // Session; its swap then finds OLD already replaced, by that very id.
   const loserRequest = buildAdapter({
     ...shared,
-    replace: { outcome: "conflicted", winningCheckoutSessionId: WON }
+    replace: { outcome: "conflicted", winningCheckoutSessionId: WON },
+    // The row holds the winner — which is the very Session this request is
+    // holding, because the idempotent create handed both requests the same one.
+    storedBinding: { readable: true, checkoutSessionId: WON }
   });
   const second = await loserRequest.adapter.createConsumerPacketCheckout({
     userId: USER,
@@ -470,7 +481,8 @@ const baseKey = `${PRODUCT}:${ITEM}:${HASH}:${REVISION}:${OLD_ABSENT}:inline`;
         : { id: WON, mode: "payment", status: "complete", url: null })
     },
     creates: [openSession(WON)],
-    replace: { outcome: "conflicted", winningCheckoutSessionId: WON }
+    replace: { outcome: "conflicted", winningCheckoutSessionId: WON },
+    storedBinding: { readable: true, checkoutSessionId: WON }
   });
   const result = await h.adapter.createConsumerPacketCheckout({
     userId: USER,
@@ -495,7 +507,8 @@ const baseKey = `${PRODUCT}:${ITEM}:${HASH}:${REVISION}:${OLD_ABSENT}:inline`;
         : { id: WON, mode: "payment", status: "expired", url: null })
     },
     creates: [openSession(WON)],
-    replace: { outcome: "conflicted", winningCheckoutSessionId: WON }
+    replace: { outcome: "conflicted", winningCheckoutSessionId: WON },
+    storedBinding: { readable: true, checkoutSessionId: WON }
   });
   let thrown = null;
   try {
@@ -513,6 +526,50 @@ const baseKey = `${PRODUCT}:${ITEM}:${HASH}:${REVISION}:${OLD_ABSENT}:inline`;
   ok("an unusable winner refuses without expiring the authoritative Session");
 }
 
+// Losing the swap is not, by itself, authority to expire anything. The two
+// cases below are the whole rule, stated on the same fixture: what the row is
+// read to hold AFTER the swap decides it, and nothing else does.
+{
+  const HELD = "cs_live_held";
+  // Same-id loser. The swap even mis-reports the winner as some other Session --
+  // a stale snapshot -- but the fresh read says the row holds the very Session
+  // this request is holding, so it is authoritative and survives.
+  const same = buildAdapter({
+    sessions: { [HELD]: openSession(HELD) },
+    creates: [openSession(HELD)],
+    replace: { outcome: "conflicted", winningCheckoutSessionId: "cs_live_stale_snapshot" },
+    storedBinding: { readable: true, checkoutSessionId: HELD }
+  });
+  const kept = await same.adapter.createConsumerPacketCheckout({
+    userId: USER, item: eligibleItem({ checkoutSessionId: OLD_ABSENT })
+  });
+  assert.equal(same.storedReads.length, 1, "the row is read back exactly once, after the swap");
+  assert.deepEqual(same.storedReads[0], { userId: USER, briefcaseItemId: ITEM });
+  assert.deepEqual(same.expireCalls, [],
+    "the Session the row holds is the order; losing the swap does not make it expendable");
+  assert.equal(kept.checkoutSessionId, HELD);
+  assert.equal(kept.outcome, "checkout_reused");
+  ok("same Session id after a lost swap: the read-back proves it authoritative and it is preserved");
+
+  // Different-id loser, identical in every other respect. Now the read-back
+  // proves this request's Session is not the order, and the orphan is expired.
+  const WON = "cs_live_won";
+  const different = buildAdapter({
+    sessions: { [HELD]: openSession(HELD), [WON]: openSession(WON) },
+    creates: [openSession(HELD)],
+    replace: { outcome: "conflicted", winningCheckoutSessionId: "cs_live_stale_snapshot" },
+    storedBinding: { readable: true, checkoutSessionId: WON }
+  });
+  const reconciled = await different.adapter.createConsumerPacketCheckout({
+    userId: USER, item: eligibleItem({ checkoutSessionId: OLD_ABSENT })
+  });
+  assert.deepEqual(different.expireCalls, [HELD], "a genuinely orphaned Session is still cleaned up");
+  assert.ok(!different.expireCalls.includes(WON));
+  assert.equal(reconciled.checkoutSessionId, WON,
+    "and the winner is taken from the read-back, not from the swap's stale snapshot");
+  ok("different Session id after a lost swap: the orphan is still expired");
+}
+
 // (B) DIFFERENT-ID conflict. Here this request really is holding a Session
 //     nobody recorded, so that one -- and only that one -- is expired.
 {
@@ -521,7 +578,8 @@ const baseKey = `${PRODUCT}:${ITEM}:${HASH}:${REVISION}:${OLD_ABSENT}:inline`;
   const h = buildAdapter({
     sessions: { [MINE]: openSession(MINE), [WON]: openSession(WON) },
     creates: [openSession(MINE)],
-    replace: { outcome: "conflicted", winningCheckoutSessionId: WON }
+    replace: { outcome: "conflicted", winningCheckoutSessionId: WON },
+    storedBinding: { readable: true, checkoutSessionId: WON }
   });
   const result = await h.adapter.createConsumerPacketCheckout({
     userId: USER,
@@ -547,6 +605,7 @@ const baseKey = `${PRODUCT}:${ITEM}:${HASH}:${REVISION}:${OLD_ABSENT}:inline`;
     sessions: { [MINE]: openSession(MINE) },
     creates: [openSession(MINE)],
     replace: { outcome: "conflicted", winningCheckoutSessionId: WON },
+    storedBinding: { readable: true, checkoutSessionId: WON },
     expireThrows: stripeError({ code: null, statusCode: 400, requestId: "req_lost_cleanup" })
   });
   let thrown = null;
@@ -568,14 +627,35 @@ const baseKey = `${PRODUCT}:${ITEM}:${HASH}:${REVISION}:${OLD_ABSENT}:inline`;
   ok("a failed losing-session expiry stays secondary to the conflict");
 }
 
-// No winner at all: this request's unbound Session is cleaned up and the
-// conflict is the primary failure.
+// The swap's own report of the winner is a snapshot and may be null. The
+// decision rests on the FRESH read instead: here the row names a different
+// Session, so this request's own one is provably orphaned and is expired.
+{
+  const MINE = "cs_live_mine";
+  const WON = "cs_live_theirs";
+  const h = buildAdapter({
+    sessions: { [MINE]: openSession(MINE), [WON]: openSession(WON) },
+    creates: [openSession(MINE)],
+    replace: { outcome: "conflicted", winningCheckoutSessionId: null },
+    storedBinding: { readable: true, checkoutSessionId: WON }
+  });
+  const result = await h.adapter.createConsumerPacketCheckout({
+    userId: USER, item: eligibleItem({ checkoutSessionId: OLD_ABSENT })
+  });
+  assert.deepEqual(h.expireCalls, [MINE],
+    "a conflict that named no winner is still resolved by the read-back, and the orphan is expired");
+  assert.equal(result.checkoutSessionId, WON, "and the Session the row actually holds is what comes back");
+  ok("the fresh read-back, not the swap's snapshot, decides who the winner is");
+}
+
+// A read-back that could not be taken is not permission to destroy an order.
 {
   const MINE = "cs_live_mine";
   const h = buildAdapter({
     sessions: { [MINE]: openSession(MINE) },
     creates: [openSession(MINE)],
-    replace: { outcome: "conflicted", winningCheckoutSessionId: null }
+    replace: { outcome: "conflicted", winningCheckoutSessionId: null },
+    storedBinding: { readable: false, reason: "checkout_binding_read_failed" }
   });
   let thrown = null;
   try {
@@ -583,14 +663,15 @@ const baseKey = `${PRODUCT}:${ITEM}:${HASH}:${REVISION}:${OLD_ABSENT}:inline`;
   } catch (error) {
     thrown = error;
   }
-  assert.deepEqual(h.expireCalls, [MINE], "with no winner named, this request's own Session is the one to clean up");
+  assert.deepEqual(h.expireCalls, [],
+    "an unreadable binding proves nothing, so nothing is expired on the strength of it");
   assert.deepEqual(thrown?.bindingFailure, {
     operation: "replacement",
     outcome: "conflicted",
     reason: "checkout_replacement_conflict"
   });
   assert.equal(thrown?.cleanupFailure, null);
-  ok("a conflict naming no winner cleans up this request's Session and reports the conflict");
+  ok("an unreadable stored binding refuses to authorise cleanup, and the conflict stays the primary failure");
 }
 
 // ---------------------------------------------------------------------------

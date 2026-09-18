@@ -81,6 +81,53 @@ export type ConsumerCheckoutReplacementResult =
   | { outcome: "refused"; reason: string }
   | { outcome: "unavailable"; reason: string };
 
+/**
+ * What the matter's row actually holds right now.
+ *
+ * `readable: false` is not "nothing is stored" — it is "this could not be
+ * established", and the two must never collapse into one another. A caller
+ * deciding whether to expire a Checkout Session has to be able to tell a proven
+ * absence from an unanswered question, because only one of them is authority to
+ * destroy an order.
+ */
+export type StoredConsumerCheckoutSession =
+  | { readable: true; checkoutSessionId: string | null }
+  | { readable: false; reason: string };
+
+/**
+ * Reads the Checkout Session id currently bound to a matter.
+ *
+ * This is a fresh read, taken after a compare-and-swap has already been decided,
+ * and it exists because the swap's own report of the winner is a snapshot and
+ * may be null. A losing path needs to know what the row holds NOW before it
+ * expires anything, since the id it is holding may be the very id that won.
+ *
+ * It reads through the service-role client, like every other authority in this
+ * module, and it reads only this column on the owner's own row.
+ */
+export async function readStoredConsumerCheckoutSession(input: {
+  userId: string;
+  briefcaseItemId: string;
+}): Promise<StoredConsumerCheckoutSession> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return { readable: false, reason: "checkout_binding_storage_unavailable" };
+
+  const { data, error } = await supabase
+    .from("consumer_briefcase_items")
+    .select("checkout_session_id")
+    .eq("user_id", input.userId)
+    .eq("id", input.briefcaseItemId)
+    .maybeSingle<{ checkout_session_id: string | null }>();
+
+  if (error) return { readable: false, reason: "checkout_binding_read_failed" };
+  // A matter that is not there is not an answer about what it holds.
+  if (!data) return { readable: false, reason: "item_not_found" };
+  return {
+    readable: true,
+    checkoutSessionId: typeof data.checkout_session_id === "string" ? data.checkout_session_id : null
+  };
+}
+
 export type RecordConsumerPaymentInput = {
   briefcaseItemId: string;
   paymentStatus: "paid" | "refunded" | "unpaid";
