@@ -340,6 +340,65 @@ export async function createConsumerPacketCheckout({
 
   try {
     stripe ??= getStripeServerClient();
+
+    // The route's item snapshot can be older than the row by the time Checkout
+    // begins. A prior request may have bound a Session after that snapshot was
+    // loaded. Trusting the stale null here makes this request create another
+    // Session and then hit checkout_binding_conflict at the initial writer.
+    //
+    // Read the row again before creating anything. If it already names a
+    // Session, that provider object is the existing order and follows the same
+    // reuse/replacement rules as an id that arrived on the original item.
+    if (!existingLookupCompleted && !item.checkoutSessionId?.startsWith("cs_")) {
+      const stored = await readStoredConsumerCheckoutSession({
+        userId: binding.userId,
+        briefcaseItemId: binding.briefcaseItemId
+      });
+      const storedId = stored.readable ? stored.checkoutSessionId : null;
+      if (storedId?.startsWith("cs_")) {
+        try {
+          existing = await providerCall("retrieve_fresh_stored_session", () =>
+            (stripe as Stripe).checkout.sessions.retrieve(storedId, {
+              expand: ["line_items.data.price.product", "discounts.promotion_code"]
+            }));
+          existingLookupCompleted = true;
+
+          // Money already collected is never replaced merely because the
+          // request snapshot was stale.
+          if (existing.status === "complete") {
+            return {
+              mode: "stripe",
+              checkoutSessionId: existing.id,
+              checkoutUrl: consumerPacketReadyUrl(item.id),
+              amountCents: consumerPacketPriceCents,
+              currency: consumerPacketCurrency,
+              outcome: "payment_pending",
+              briefcaseItemId: item.id,
+              paymentPending: true
+            };
+          }
+
+          // An expired Session is still the exact value stored in the row. A
+          // successor must therefore use the replacement CAS rather than the
+          // initial writer, which correctly refuses a different id.
+          if (existing.status === "expired") {
+            replacedCheckoutSessionId = existing.id;
+          }
+        } catch (error) {
+          if (storedSessionIsAbsentFromTheVerifiedAccount(error, await stripeAccountIdentity(stripe))) {
+            existing = null;
+            existingLookupCompleted = true;
+            replacedCheckoutSessionId = storedId;
+            storedSessionRecovery = error instanceof ConsumerCheckoutTemporarilyUnavailableError
+              ? error.providerFailure
+              : null;
+          } else {
+            throw error;
+          }
+        }
+      }
+    }
+
     // Which catalog Product this deployment sells, and the Price on it. Both are
     // resolved before any Session is inspected or created, because the answer
     // decides whether an existing open Session is still the right order and what
