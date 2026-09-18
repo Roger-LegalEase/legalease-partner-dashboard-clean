@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { createHash } from "node:crypto";
 import Module from "node:module";
 import os from "node:os";
 import path from "node:path";
@@ -195,16 +196,44 @@ function isReviewedExpungementScopeLine(line) {
   return REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES.includes(changedPath);
 }
 
+/**
+ * The Nationwide source inventory and raw participant documents must never
+ * enter this clone, which is why .gitignore carries `private/` and `*.zip`.
+ *
+ * `private/` is absolute and stays absolute. The archive rule needed one
+ * accounted exception: on 2026-09-08 Roger committed 44 archives deliberately,
+ * as the immutable central evidence six accepted families rest on, and a blanket
+ * "no tracked archive" assertion has been false ever since. Relaxing it to "any
+ * archive is fine" would have thrown the rule away to fix the date. So the
+ * inventory is pinned instead: those exact 44 paths are recorded with a hash,
+ * and any archive committed anywhere else — or one of these quietly removed —
+ * still fails and has to be argued for.
+ */
 function assertNoRawPdfsCommitted() {
-  const trackedPrivate = spawnSync("git", ["ls-files", "private", "*.zip"], {
+  const tracked = spawnSync("git", ["ls-files", "private", "*.zip"], {
     cwd: rootDir,
     encoding: "utf8"
   }).stdout
     .split(/\r?\n/)
     .filter(Boolean)
-    .filter((line) => !line.startsWith("design-handoff/legalease-suite-page/"))
-    .join("\n");
-  assert.equal(trackedPrivate.trim(), "");
+    .filter((line) => !line.startsWith("design-handoff/legalease-suite-page/"));
+
+  // Nothing from the private source inventory, ever, with no exception list.
+  assert.equal(tracked.filter((line) => line.startsWith("private/")).join("\n"), "");
+
+  const recorded = JSON.parse(
+    fs.readFileSync(path.join(rootDir, "data/rcap-grade-a/committed-evidence-archives.json"), "utf8")
+  );
+  const archives = tracked.filter((line) => line.endsWith(".zip")).sort();
+  const unaccounted = archives.filter((line) => !recorded.archives.includes(line));
+  assert.equal(unaccounted.join("\n"), "", `archives committed outside the recorded evidence inventory:\n${unaccounted.join("\n")}`);
+  const missing = recorded.archives.filter((line) => !archives.includes(line));
+  assert.equal(missing.join("\n"), "", `recorded evidence archives are no longer committed:\n${missing.join("\n")}`);
+  assert.equal(
+    createHash("sha256").update(archives.join("\n")).digest("hex"),
+    recorded.inventorySha256,
+    "the committed archive inventory does not match its recorded hash"
+  );
 }
 
 function assertGitignoreSafety() {
