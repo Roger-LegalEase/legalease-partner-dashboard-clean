@@ -51,7 +51,7 @@ const STAGED_DEPLOYMENT_ID = "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx";
 // idempotent reconciliation path, never by reversing a migration or restoring
 // a retired writer.
 const ROLLBACK_DEPLOYMENT_ID = "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz";
-const SMOKE_RUN_ID = "35300111459";
+const SMOKE_RUN_ID = "35353387959";
 const SMOKE_FILE = path.resolve(
   process.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE
     ?? "prior-production-smoke-evidence/production-canary-smoke.json"
