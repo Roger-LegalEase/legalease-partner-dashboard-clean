@@ -1,4 +1,4 @@
-name: Final Stripe idempotency live zero-dollar order once
+name: Stale checkout binding recovery tests once
 
 on:
   push:
@@ -9,28 +9,27 @@ on:
 
 permissions:
   contents: read
-  actions: read
 
 jobs:
-  live_order:
+  test:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
     env:
-      TOOLS_SHA: 194f1555f2eaf5182c15200f3a3da5b317ffc883
-      PRODUCTION_DEPLOYMENT_ID: dpl_ErubjYD68nUNcBjku4hyhYCiNPuo
-      RESUME_MATTER_ID: c824787c-737e-484e-bb43-ff9a5c42c8f0
+      APPLICATION_SHA: 44ed5e395818503c0c878fd418fb9a896d591313
+      TOOLS_SHA: 07d9408f556a54cd24bd8d11e64d6aabef91fa78
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Verify tools commit is canonical and check it out
+      - name: Verify tools are canonical and application bytes are exact
         run: |
           set -euo pipefail
           git fetch --no-tags origin claude/legalease-sprint-captain-utucnw
           git cat-file -e "$TOOLS_SHA^{commit}"
           git merge-base --is-ancestor "$TOOLS_SHA" origin/claude/legalease-sprint-captain-utucnw
+          git diff --quiet "$APPLICATION_SHA" "$TOOLS_SHA" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts
           git checkout --detach "$TOOLS_SHA"
 
       - name: Set up Node
@@ -42,25 +41,9 @@ jobs:
       - name: Install frozen dependencies
         run: npm ci
 
-      - name: Run exact authorized live order
-        env:
-          RCAP_PRODUCTION_PHASE: live_zero_dollar_order
-          RCAP_PUBLIC_ORIGIN: https://expungement.ai
-          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
-          RCAP_PRODUCTION_SUPABASE_URL: https://wwtwtsmywnckfkdaqqeg.supabase.co
-          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
-          RCAP_PROBE_BROWSERS: chromium
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          RCAP_LIVE_PROMOTION_CODE: CLAUDE
-          RCAP_RESUME_MATTER_ID: ${{ env.RESUME_MATTER_ID }}
-          RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ env.PRODUCTION_DEPLOYMENT_ID }}
-          RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: node scripts/rcap-production-save-transition-probe.mjs
-
-      - name: Upload live-order evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: final-stripe-live-order-${{ github.run_id }}
-          path: production-canary-evidence/
-          if-no-files-found: error
+      - name: Run focused checkout recovery gates
+        run: |
+          node scripts/test-consumer-checkout-binding-recovery.mjs
+          node scripts/test-consumer-checkout-stored-session.mjs
+          node scripts/verify-consumer-checkout-refusals-are-classified.mjs
+          npx tsc --noEmit
