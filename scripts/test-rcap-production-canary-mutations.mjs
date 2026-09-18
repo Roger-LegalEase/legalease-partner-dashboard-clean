@@ -17,7 +17,7 @@ const mutations = [
   ["worker digest", "sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],
   ["acceptance negative control", "hyflxnlhpmiqxvvcoiia", "wrongacceptanceproject"],
   ["canonical Production project", "wwtwtsmywnckfkdaqqeg", "wrongproductionproject"],
-  ["accepted Preview deployment", "dpl_5dZTG4SeKKnbJEXF5FSUCWCihoCm", "dpl_wrongacceptedpreview"],
+  ["accepted Preview deployment", "dpl_33LqnGJMj6zE6zoQcqzL5tTMCRMu", "dpl_wrongacceptedpreview"],
   ["environment separation verdict", "production_environment_is_separate_from_acceptance", "environment_separation_removed"],
   ["staged Production identity verdict", "staged_production_deployment_is_exact", "staged_identity_removed"],
   ["accepted Preview identity verdict", "accepted_preview_deployment_is_exact", "accepted_preview_identity_removed"],
