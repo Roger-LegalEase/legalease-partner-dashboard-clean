@@ -31,3 +31,30 @@ export function routeCollectionOverrideFor(routeKey: string): RouteCollectionOve
 export function routeCollectionOverrideKeys(): string[] {
   return [...BY_ROUTE_KEY.keys()].sort();
 }
+
+/**
+ * Facts the accepted baseline already carried forward without asking.
+ *
+ * Only Mississippi's non-conviction route ever did this, and only for these
+ * two: `offense_category`, which has no question of its own and is the
+ * classification of the offense the participant already chose as the charge
+ * level, and `sentence_completion_date`, which the profile defines as a
+ * completion status and which carried only from an explicit "yes" to
+ * everything the court ordered.
+ *
+ * This list is what lets the collection policy materialise a fact the
+ * evaluator reads. Everything else the evaluator reads is asked, so the
+ * authoritative re-evaluation only ever sees values the participant actually
+ * gave and the route cannot drift. Adding an entry here changes what the
+ * evaluator is fed and is a decision about routing, not about presentation.
+ */
+const BASELINE_CARRIED_FACT_IDS: Readonly<Record<string, readonly string[]>> = {
+  "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal": [
+    "offense_category",
+    "sentence_completion_date"
+  ]
+};
+
+export function baselineCarriedFactIds(routeKey: string): ReadonlySet<string> {
+  return new Set(BASELINE_CARRIED_FACT_IDS[routeKey] ?? []);
+}

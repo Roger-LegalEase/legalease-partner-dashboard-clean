@@ -40,10 +40,12 @@ The correction is applied to every route with a packet plan, which is a superset
 
 ## Prepayment confirmation budget
 
-- Within the target of 8: **323**
-- Over the target: **20**
-- Over the hard cap of 12: **1**
+- Within the target of 8: **293**
+- Over the target: **50**
+- Over the hard cap of 12: **3**
 
 Routes over the cap:
 
 - `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` — 14: charge, county, court, disposition_date, pending_cases, prior_relief, record_type, residency_or_location, trafficking_status, actual_arrest, release_confirmed, disposition_record_wording, nonadjudication_or_diversion, open_co_defendant_matter
+- `ND:marijuana-specific-summary-pardon-or-sealing-relief` — 13: age_at_offense, charge, court, criminal_history, disposition_date, financial_obligations, offense_category, pardon_status, prior_relief, record_type, residency_or_location, sentence_completion_date, trafficking_status
+- `UT:path-e-petition-based-non-conviction-expungement` — 13: age_at_offense, charge, court, criminal_history, disposition_date, financial_obligations, offense_category, pardon_status, pending_cases, prior_relief, record_type, residency_or_location, sentence_completion_date

@@ -41,7 +41,7 @@ const { resolvePacketCollection, prepayGateFactIds, PACKET_COLLECTION_CLASSES } 
   "../src/lib/expungement-ai/packet-collection.ts"
 );
 const { routeSafetyGateFactIds } = await import("../src/lib/expungement-ai/packet-route-safety.ts");
-const { routeCollectionOverrideFor } = await import("../src/lib/expungement-ai/packet-collection-overrides.ts");
+const { routeCollectionOverrideFor, baselineCarriedFactIds } = await import("../src/lib/expungement-ai/packet-collection-overrides.ts");
 
 const ARTIFACT = path.join(rootDir, "data/expungement-ai/reports/packet-collection-audit.json");
 const SUMMARY = path.join(rootDir, "docs/expungement-ai/PACKET_COLLECTION_AUDIT.md");
@@ -263,6 +263,7 @@ function auditRoute(profile, pathway) {
     screeningAnswers: {},
     specification,
     routeDecidingFactIds: decidingFactIds,
+    baselineCarriedFactIds: baselineCarriedFactIds(routeKey),
     override: routeCollectionOverrideFor(routeKey)
   });
 

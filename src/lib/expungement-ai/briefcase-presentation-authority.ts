@@ -85,6 +85,8 @@ export type BriefcasePresentationItem = {
       missingInputIds: string[];
       questions: ProtectedPacketInformationModel["questions"];
       builderQuestions: ProtectedPacketInformationModel["builderQuestions"];
+      /** The Stage 6 sections the builder renders, headings and Spanish included. */
+      builderSections: ProtectedPacketInformationModel["builderSections"];
       verificationSummary: ProtectedPacketInformationModel["verificationSummary"];
       verificationContext: ProtectedPacketInformationModel["verificationContext"];
       verificationManifest: ProtectedPacketInformationModel["verificationManifest"];
@@ -487,6 +489,7 @@ function presentationDraftForModel(
     missingInputIds: [...model.missingInputIds],
     questions: model.questions,
     builderQuestions: model.builderQuestions,
+    builderSections: model.builderSections,
     verificationSummary: model.verificationSummary,
     verificationContext: model.verificationContext,
     verificationManifest: model.verificationManifest,

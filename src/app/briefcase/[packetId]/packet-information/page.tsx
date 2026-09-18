@@ -33,6 +33,10 @@ export default async function PacketInformationPage({
   const displayedQuestions = model
     ? editId ? model.questions.filter((question) => question.id === editId) : model.builderQuestions
     : [];
+  // Sections group the ordinary builder. A single-question edit from the review
+  // page is one question on its own screen, exactly as it has always been, so
+  // it deliberately carries no section.
+  const displayedSections = model && !editId ? model.builderSections ?? [] : [];
 
   return (
     <BriefcaseShell
@@ -67,6 +71,7 @@ export default async function PacketInformationPage({
             stateCode={item.jurisdiction}
             questions={displayedQuestions}
             initialAnswers={model.initialAnswers}
+            sections={displayedSections}
             initiallyMissing={model.missingInputIds}
             editingFromReview={Boolean(editId)}
           />

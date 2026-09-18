@@ -27,9 +27,8 @@ import {
   type PacketSpecificationFact
 } from "@/lib/rcap/grade-a/packet-specification";
 import { MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS, routeSafetyGateFactIds } from "@/lib/expungement-ai/packet-route-safety";
-import { routeCollectionOverrideFor } from "@/lib/expungement-ai/packet-collection-overrides";
+import { baselineCarriedFactIds, routeCollectionOverrideFor } from "@/lib/expungement-ai/packet-collection-overrides";
 import {
-  participantOwesFact,
   prepayGateFactIds,
   resolvePacketCollection,
   resolvedFactValues,
@@ -664,6 +663,7 @@ export function packetCollectionFor(input: {
     savedAnswers: input.savedAnswers,
     specification: packetSpecificationFor(`${input.jurisdiction}:${input.pathwayId ?? ""}`) ?? null,
     routeDecidingFactIds: decidingFactIds,
+    baselineCarriedFactIds: baselineCarriedFactIds(`${input.jurisdiction}:${input.pathwayId ?? ""}`),
     override: routeCollectionOverrideFor(`${input.jurisdiction}:${input.pathwayId ?? ""}`)
   });
 }

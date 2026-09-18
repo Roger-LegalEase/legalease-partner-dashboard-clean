@@ -66,7 +66,7 @@ const { routeDecidingFactIds } = await import("../src/lib/rcap-engine/route-fact
 const { packetSpecificationFor } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
 const { routeSafetyGateFactIds } = await import("../src/lib/expungement-ai/packet-route-safety.ts");
 const { resolvePacketCollection, PACKET_COLLECTION_SECTIONS } = await import("../src/lib/expungement-ai/packet-collection.ts");
-const { routeCollectionOverrideFor } = await import("../src/lib/expungement-ai/packet-collection-overrides.ts");
+const { routeCollectionOverrideFor, baselineCarriedFactIds } = await import("../src/lib/expungement-ai/packet-collection-overrides.ts");
 
 const JURISDICTION = "MS";
 const PATHWAY_ID = "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
@@ -185,6 +185,7 @@ const resolution = resolvePacketCollection({
   screeningAnswers: {},
   specification,
   routeDecidingFactIds: decidingFactIds,
+  baselineCarriedFactIds: baselineCarriedFactIds(ROUTE_KEY),
   override: routeCollectionOverrideFor(ROUTE_KEY)
 });
 const resolvedByFactId = new Map(resolution.facts.map((fact) => [fact.factId, fact]));

@@ -13,6 +13,18 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "common.continue": { en: "Continue", es: "Continuar" },
   "common.back": { en: "Back", es: "Atrás" },
   "common.optional": { en: "Optional", es: "Opcional" },
+
+  // Packet-information completion. PRODUCT_CONTRACT.md Stage 6 fixes both of
+  // these vocabularies: the four section statuses, and autosave copy that is
+  // only ever shown once the server has confirmed the write.
+  "packet.eyebrow": { en: "Packet information", es: "Información del paquete" },
+  "packet.saving": { en: "Saving...", es: "Guardando..." },
+  "packet.saved": { en: "Saved", es: "Guardado" },
+  "packet.save_failed": { en: "Could not save. Try again.", es: "No se pudo guardar. Inténtelo de nuevo." },
+  "packet.section.not_started": { en: "Not started", es: "Sin comenzar" },
+  "packet.section.in_progress": { en: "In progress", es: "En curso" },
+  "packet.section.complete": { en: "Complete", es: "Completo" },
+  "packet.section.needs_attention": { en: "Needs attention", es: "Requiere atención" },
   "common.next_steps": { en: "Next steps", es: "Próximos pasos" },
   "common.why": { en: "Why", es: "Por qué" },
   "common.download": { en: "Download", es: "Descargar" },

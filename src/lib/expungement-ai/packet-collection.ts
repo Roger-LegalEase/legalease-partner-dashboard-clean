@@ -274,6 +274,19 @@ export type PacketCollectionInput = {
   specification?: RegisteredSpecification | null;
   /** Fact ids the evaluator or a route-safety gate actually reads for this route. */
   routeDecidingFactIds?: ReadonlySet<string>;
+  /**
+   * Facts the accepted baseline already materialised without asking.
+   *
+   * This exists to make route drift impossible by construction. A value this
+   * layer writes into `prefilledAnswers` is read back by the authoritative
+   * re-evaluation, so synthesising a fact the evaluator consumes could change
+   * the route, the result code or payment authority — which the correction is
+   * required not to do. A fact the evaluator reads is therefore only ever
+   * materialised when the participant answered it under that same id (the
+   * evaluator already had it, so nothing changes) or when the accepted
+   * baseline already carried it. Anything else is asked.
+   */
+  baselineCarriedFactIds?: ReadonlySet<string>;
   /** Per-route corrections, used only where the generic policy cannot be right. */
   override?: RouteCollectionOverride | null;
 };
@@ -527,6 +540,15 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   };
 
   const requiredInputIds = dedupe(input.requiredInputIds);
+  const decidesRouteFor = (factId: string) => input.routeDecidingFactIds?.has(factId) === true;
+  const baselineCarried = input.baselineCarriedFactIds ?? new Set<string>();
+  /**
+   * Whether a value may be written into the prefilled map for this fact.
+   * `sameId` means the participant answered this exact fact already, so the
+   * evaluator has seen that value and reusing it changes nothing.
+   */
+  const mayMaterialize = (factId: string, sameId: boolean) =>
+    sameId || !decidesRouteFor(factId) || baselineCarried.has(factId);
 
   for (const factId of requiredInputIds) {
     const specFact = factById.get(factId);
@@ -580,6 +602,20 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     // 4. Something the participant has already told us, under this id or a
     //    screening id that carries the same answer.
     const carried = carriedValue(factId, available, input.screeningAnswers);
+    if (carried && carried.sameId === false && !mayMaterialize(factId, false)) {
+      // A route fact this layer would have to synthesise from a different
+      // answer. It is asked instead, so the evaluator only ever sees values
+      // the participant actually gave.
+      facts.push({
+        factId,
+        collection: "prepay_confirmation",
+        phase: "prepay_confirmation",
+        group,
+        source: "route_decision_facts",
+        reason: "the evaluator reads this fact, so it is asked rather than carried across from a differently worded answer"
+      });
+      continue;
+    }
     if (carried && overrideClass !== "prepay_confirmation") {
       known[factId] = carried.value;
       facts.push({
@@ -606,6 +642,17 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     //    in the gate. A derivation whose inputs are NOT all collected here
     //    resolves only when it actually can, and otherwise the fact is asked.
     const derivation = DERIVATIONS[factId];
+    if (derivation && !mayMaterialize(factId, false)) {
+      facts.push({
+        factId,
+        collection: "prepay_confirmation",
+        phase: "prepay_confirmation",
+        group,
+        source: "route_decision_facts",
+        reason: "the evaluator reads this fact, so it is asked rather than computed"
+      });
+      continue;
+    }
     if (derivation && overrideClass !== "prepay_confirmation") {
       const inputs: Record<string, string> = {};
       const complete = derivation.from.every((id) => {
@@ -842,10 +889,11 @@ function carriedValue(
   factId: string,
   available: Record<string, AnswerValue>,
   screeningAnswers: Record<string, AnswerValue>
-): { value: AnswerValue; source: string; reason: string } | null {
+): { value: AnswerValue; source: string; reason: string; sameId: boolean } | null {
   const direct = available[factId];
   if (valueIsKnown(direct)) {
     return {
+      sameId: true,
       value: direct,
       source: factId in screeningAnswers ? "screening_answer" : "carried_forward_or_account_fact",
       reason: factId in screeningAnswers
@@ -860,12 +908,14 @@ function carriedValue(
     if (screeningId === "court_requirements_completed") {
       if (!isAffirmativeText(answerString(value))) continue;
       return {
+        sameId: false,
         value: "Yes",
         source: `screening_answer:${screeningId}`,
         reason: `carried forward from the participant's own ${screeningId} answer`
       };
     }
     return {
+      sameId: screeningId === factId,
       value,
       source: `screening_answer:${screeningId}`,
       reason: `carried forward from the participant's own ${screeningId} answer`

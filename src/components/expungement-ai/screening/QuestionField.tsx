@@ -11,7 +11,12 @@
  * Any unknown/future type degrades to a calm, non-blocking fallback (never a crash, never a
  * silently-skipped required answer that fakes a result).
  *
- * Accessibility: the prompt is a real heading (`<h1>`, one per screen). Choice groups and inputs
+ * Accessibility: the prompt is a real heading, and exactly one heading on a
+ * screen is an `<h1>`. On a screening screen that is the question itself. Inside
+ * a packet-information section the page owns the `<h1>` ("Complete packet
+ * information"), the section heading is an `<h2>` and each question below it is
+ * an `<h3>`, which is what `headingLevel` selects. The naming relationships are
+ * unchanged either way. Choice groups and inputs
  * are named by it via `aria-labelledby`, with the contextOnly note and error text linked via
  * `aria-describedby`. Errors use `role="alert"`.
  */
@@ -32,13 +37,16 @@ export function QuestionField({
   stateCode,
   value,
   onChange,
-  error
+  error,
+  headingLevel = 1
 }: {
   question: ProfileQuestion;
   stateCode: string;
   value: AnswerValue | undefined;
   onChange: (value: AnswerValue) => void;
   error?: string | null;
+  /** 1 when the question is the screen's own heading, 3 when it sits under a section heading. */
+  headingLevel?: 1 | 2 | 3;
 }) {
   const { locale, t: translate } = useLocalization();
   const fieldId = `q-${question.id}`;
@@ -66,6 +74,7 @@ export function QuestionField({
       optional={optional}
       contextOnly={question.contextOnly}
       optionalLabel={translate("common.optional", "Optional")}
+      headingLevel={headingLevel}
     />
   );
   const bannerNode = question.contextOnly ? <ContextOnlyBanner id={contextId} /> : null;
@@ -343,21 +352,27 @@ function PromptHeading({
   prompt,
   optional,
   contextOnly,
-  optionalLabel
+  optionalLabel,
+  headingLevel
 }: {
   id: string;
   prompt: string;
   optional: boolean;
   contextOnly: boolean;
   optionalLabel: string;
+  headingLevel: 1 | 2 | 3;
 }) {
+  const Heading = headingLevel === 3 ? "h3" : headingLevel === 2 ? "h2" : "h1";
+  const className = headingLevel === 1
+    ? "text-[19px] font-extrabold leading-[1.3] text-[#0B1320] md:text-[22px]"
+    : "text-[16px] font-extrabold leading-[1.35] text-[#0B1320] md:text-[17px]";
   return (
-    <h1 id={id} className="text-[19px] font-extrabold leading-[1.3] text-[#0B1320] md:text-[22px]">
+    <Heading id={id} className={className}>
       {prompt}
       {optional && !contextOnly ? (
         <span className="ml-2 align-middle text-xs font-bold uppercase tracking-[0.06em] text-[#8A93A6]">{optionalLabel}</span>
       ) : null}
-    </h1>
+    </Heading>
   );
 }
 
