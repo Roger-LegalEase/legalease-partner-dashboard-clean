@@ -1,0 +1,39 @@
+name: Read the published worker digest (read-only)
+
+# The publish workflow records the digest in an artifact, and artifact blob
+# storage is not reachable from this terminal. This inspects the registry and
+# prints the digest as the LAST line of the job, which is the part of the log
+# that is readable. It pulls nothing, runs nothing and publishes nothing.
+
+on:
+  push:
+    branches:
+      - claude/legalease-sprint-captain-utucnw
+    paths:
+      - .github/workflows/rcap-read-worker-digest-once.yml
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  read_digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
+      SOURCE_SHA: 6cc9330f1a98e0e0ba1c1fa4c2c21ed03970c3c9
+    steps:
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print the immutable digest for that source tag, and nothing else
+        run: |
+          set -euo pipefail
+          DIGEST="$(docker buildx imagetools inspect "$IMAGE_REPOSITORY:$SOURCE_SHA" --format '{{ .Manifest.Digest }}')"
+          printf 'WORKER_SOURCE_SHA=%s\n' "$SOURCE_SHA"
+          printf 'WORKER_DIGEST=%s\n' "$DIGEST"

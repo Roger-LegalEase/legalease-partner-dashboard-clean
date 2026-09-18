@@ -12,6 +12,7 @@ import {
   consumerPacketPaymentAuthority
 } from "@/lib/expungement-ai/consumer-payment-authority";
 import { CONSUMER_PACKET_SAFETY_DISCLAIMER } from "@/lib/expungement-ai/consumer-packet-safety";
+import { renderPreflight } from "@/lib/expungement-ai/render-preflight";
 import { getBriefcaseItem, getBriefcaseItemForWebhook } from "@/lib/expungement-ai/briefcase";
 import {
   protectedPacketInformationModelFor,
@@ -238,6 +239,38 @@ async function requestConsumerPacketRenderInternal(input: {
     || !packetInformation.reviewedAt) {
     return { status: "route_not_renderable", reason: "packet information has not passed the accuracy review" };
   }
+  /**
+   * The same render preflight Checkout opened on, re-run here.
+   *
+   * `requireCurrentPacketVerification` above already refuses a stale
+   * verification, so the facts are the facts the participant paid against. This
+   * asks the further question Checkout asked: can the packet actually be
+   * composed from them? Nothing is delivered by this call — the composed value
+   * is discarded inside the preflight — and a refusal stops the render before a
+   * job exists rather than producing a partial packet.
+   *
+   * If it refuses here having passed at Checkout, something changed between the
+   * two, and failing closed is the only safe answer.
+   */
+  const renderReadiness = renderPreflight({
+    snapshot: verification.snapshot,
+    verificationHash: verification.hash,
+    facts: {
+      ...verification.snapshot.screeningAnswers,
+      ...verification.snapshot.prefilledAnswers,
+      ...verification.snapshot.packetAnswers,
+      ...verification.snapshot.serverFacts
+    }
+  });
+  if (!renderReadiness.ready) {
+    return {
+      status: "route_not_renderable",
+      reason: renderReadiness.missingFactIds.length > 0
+        ? `the packet cannot be composed: ${renderReadiness.missingFactIds.join(", ")} missing`
+        : `the packet cannot be composed: ${renderReadiness.reason}`
+    };
+  }
+
   const packetFields = canonicalPacketFields(packetInformation);
   const verifiedPathwayId = verification.snapshot.pathwayId;
   if (!verifiedPathwayId) {
