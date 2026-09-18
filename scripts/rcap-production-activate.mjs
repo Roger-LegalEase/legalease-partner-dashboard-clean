@@ -14,9 +14,9 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "62425c837b5edf3d7e22b110910885abdaec1692";
-const WORKER_SOURCE_SHA = "62425c837b5edf3d7e22b110910885abdaec1692";
-const WORKER_DIGEST = "sha256:a1cb0d964ba99ccc9c18b5a8f346702563260cc558ecfbf516a2a108acaef855";
+const APPLICATION_SHA = "8517a9b0ecf107605fe3094f23175d6a344f0244";
+const WORKER_SOURCE_SHA = "8517a9b0ecf107605fe3094f23175d6a344f0244";
+const WORKER_DIGEST = "sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // This is the promotion, so a stale pin here is the most expensive kind. The
 // pair is read back from Vercel by preflight 35275288657, which staged the
