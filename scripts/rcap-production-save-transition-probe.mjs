@@ -987,14 +987,18 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
   order.couponProductId = COUPON_ALLOWED_PRODUCT_ID;
   const checkoutBody = await page.locator("body").innerText().catch(() => "");
   order.sellsCatalogProduct = CATALOG_PRODUCT_NAME_PATTERN.test(checkoutBody);
-  record(
-    "live_checkout_sells_the_catalog_product",
-    order.sellsCatalogProduct,
-    `Stripe's page ${order.sellsCatalogProduct ? "names the catalog product" : "does not name the catalog product"}`
-      + ` (${CATALOG_PRODUCT_NAME_PATTERN}), which is the product the coupon ${COUPON_ALLOWED_PRODUCT_ID} is restricted to.`
-      + ` Product ids visible on the page: ${JSON.stringify(order.checkoutProductIds)}.`
-      + ` A line item on any other product can only have the code refused.`
-  );
+  // Which Product the line item is on is NOT decided here. It is decided one
+  // step below, by Stripe: the coupon is restricted to COUPON_ALLOWED_PRODUCT_ID
+  // and gives 100% off, and a coupon matches on the line item's Product, so it
+  // is accepted and the total reads $0.00 only if the line item is on exactly
+  // that Product. That is a statement by the provider about its own objects.
+  //
+  // The page name was a proxy for it, from when the id could not be observed at
+  // all -- and a lossy one, because Stripe's page prints the catalog name
+  // without the id, so the proxy fails whenever a catalog entry is renamed or
+  // replaced even though the binding is perfect. Run 35354076505 failed exactly
+  // that way and never reached the step that decides. It is kept as a recorded
+  // observation, not a gate.
 
   const notes = [];
   const promotion = await applyPromotionCode(page, LIVE_PROMOTION_CODE, notes);
@@ -1017,6 +1021,9 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
     `promotion code entered=${order.promotionEntered}, accepted by the page=${order.promotionAccepted}`
       + `${order.promotionRejectionReason ? ` (Stripe said: ${JSON.stringify(order.promotionRejectionReason)})` : ""};`
       + ` Stripe's own page ${order.totalReadsZero ? "shows a $0.00 total, so it is collecting nothing" : "still shows an amount due"}.`
+      + ` Accepted at zero means the line item is on ${COUPON_ALLOWED_PRODUCT_ID}, the only Product this coupon applies to.`
+      + ` (The page's own name for the line item matched ${CATALOG_PRODUCT_NAME_PATTERN}: ${order.sellsCatalogProduct};`
+      + ` product ids printed on the page: ${JSON.stringify(order.checkoutProductIds)} -- an observation, not the proof.)`
       + ` Nothing is submitted unless this reads zero, and no card details are entered at any point.`
   );
 
@@ -1049,6 +1056,7 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
     method: "POST",
     body: {
       query: `select payment_status, amount_cents, regular_price_cents, discount_cents, currency, packet_status,
+                     checkout_session_id,
                      (provider_event_id is not null) as has_provider_event
                 from public.consumer_briefcase_items where id = '${matterId.replaceAll("'", "''")}' limit 1`
     }
@@ -1062,7 +1070,8 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
       && row?.has_provider_event === true,
     `the order row reads payment_status=${row?.payment_status}, amount_cents=${row?.amount_cents},`
       + ` regular_price_cents=${row?.regular_price_cents}, discount_cents=${row?.discount_cents},`
-      + ` currency=${String(row?.currency ?? "").toUpperCase()}, provider event recorded=${row?.has_provider_event}.`
+      + ` currency=${String(row?.currency ?? "").toUpperCase()}, provider event recorded=${row?.has_provider_event},`
+      + ` and the Checkout Session persisted against this matter is ${JSON.stringify(row?.checkout_session_id ?? null)}.`
       + ` The reconciliation the migration added is what makes this row legal: 0 collected = 5000 regular - 5000 discount.`
   );
 
@@ -1250,11 +1259,20 @@ const CONSUMER_CHECKOUT_LABEL = "Pay $50 and generate my packet";
 const CONSUMER_CHECKOUT_PATH = "/api/expungement-ai/checkout";
 // The catalog Product the owner's 100%-off coupon is restricted to. A catalog
 // identifier, not a credential.
-const COUPON_ALLOWED_PRODUCT_ID = "prod_Sx3T2wUkaYKqg9";
+const COUPON_ALLOWED_PRODUCT_ID = "prod_VHEHkvH7dSvGv7";
 // That product's catalog name, as Stripe's Checkout page prints it. The page
 // names the line item without printing its Product id, so the name is how a
 // catalog line item is told apart from an ad-hoc one from the outside.
-const CATALOG_PRODUCT_NAME_PATTERN = /DIY\s+Expung\w*/i;
+//
+// It is overridable because the name is the weakest of the three signals and
+// the only one that changes when a catalog entry is replaced. The binding
+// proof is not this: it is the coupon being accepted and the total reading
+// $0.00, which can only happen when the line item is on the exact Product the
+// coupon is restricted to.
+const CATALOG_PRODUCT_NAME_PATTERN = new RegExp(
+  process.env.RCAP_CATALOG_PRODUCT_NAME_PATTERN?.trim() || "DIY\\s+Expung\\w*",
+  "i"
+);
 
 function packetFieldValue(id, prompt) {
   if (PACKET_SAFE_ANSWERS[id]) return PACKET_SAFE_ANSWERS[id];

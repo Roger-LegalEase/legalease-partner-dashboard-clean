@@ -13,20 +13,20 @@ const files = [
   "scripts/verify-rcap-production-activation.mjs"
 ];
 const mutations = [
-  ["staged deployment", "dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV", "dpl_wrongstaged"],
-  ["rollback deployment", "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51", "dpl_wrongrollback"],
-  ["smoke run", "35300111459", "32900000000"],
+  ["staged deployment", "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx", "dpl_wrongstaged"],
+  ["rollback deployment", "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz", "dpl_wrongrollback"],
+  ["smoke run", "35353387959", "32900000000"],
   // The superseded set specifically, not just any wrong value. This is the
   // failure the release actually hit: the previous staged candidate became the
   // live deployment, so reusing the old pins would have promoted Production onto
   // itself against a smoke run that never tested this release. Each of the three
   // is a rejected mutation rather than a silent regression.
-  ["superseded staged deployment", "dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV", "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51"],
-  ["superseded rollback deployment", "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51", "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU"],
-  ["superseded smoke run", "35300111459", "35248212982"],
+  ["superseded staged deployment", "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx", "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz"],
+  ["superseded rollback deployment", "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz", "dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM"],
+  ["superseded smoke run", "35353387959", "35300111459"],
   ["Production project", "wwtwtsmywnckfkdaqqeg", "hyflxnlhpmiqxvvcoiia"],
-  ["application SHA", "8517a9b0ecf107605fe3094f23175d6a344f0244", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
-  ["worker digest", "sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],
+  ["application SHA", "8682bd00731e247a4fe93f39075c532476eb5c74", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
+  ["worker digest", "sha256:d11728c41116e76c92aa26220f9328708197e9ae185b71b13e2410bafba1e8ea", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],
   ["smoke proof", "successful_smoke_artifact_is_exact", "smoke_proof_removed"],
   ["rollback active", "rollback_is_ready_and_active_before_promotion", "rollback_active_removed"],
   ["staged identity", "staged_deployment_identity_is_exact", "staged_identity_removed"],

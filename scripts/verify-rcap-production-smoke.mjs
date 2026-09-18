@@ -16,15 +16,15 @@ check(workflow.includes("inputs.phase == 'smoke'"), "smoke is isolated from migr
 check(workflow.includes("node scripts/verify-rcap-production-smoke.mjs"), "workflow self-verifies the smoke contract");
 check(workflow.includes("node scripts/test-rcap-production-smoke-mutations.mjs"), "workflow runs focused smoke mutation proof");
 check(workflow.includes("node scripts/rcap-production-canary-smoke.mjs"), "workflow invokes the dedicated smoke control");
-check(script.includes('const STAGED_DEPLOYMENT_ID = "dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV"'), "exact staged deployment is pinned");
-check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51"'), "exact rollback deployment is pinned");
+check(script.includes('const STAGED_DEPLOYMENT_ID = "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx"'), "exact staged deployment is pinned");
+check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz"'), "exact rollback deployment is pinned");
 check(!script.includes('"dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL"'), "the pre-migration deployment is named by no pin, so it cannot be a recovery target");
 // The pair this release supersedes. Its staged id is the deployment Production
 // serves now, so carrying it forward makes smoke test the live site and report
 // the new release sound without ever reaching it -- which is what smoke run
 // 35276699023 refused. Naming the superseded rollback here keeps the stale pair
 // from returning by either half.
-check(!script.includes('"dpl_DjAscmNucgJHauNsTtpbzGp9zfpU"'), "the superseded rollback deployment is named by no pin");
+check(!script.includes('"dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM"'), "the superseded rollback deployment is named by no pin");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "Production project is pinned");
 check(script.includes("exact_staged_application_worker_identity"), "staged application and worker identity are required");
 check(script.includes("rollback_target_is_ready_and_still_active"), "rollback readiness and unchanged active target are required");
