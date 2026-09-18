@@ -1,4 +1,4 @@
-name: Final Stripe idempotency production smoke once
+name: Final Stripe idempotency production activate once
 
 on:
   push:
@@ -13,14 +13,15 @@ permissions:
   actions: read
 
 jobs:
-  smoke:
+  activate:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
       APPLICATION_SHA: b06831f96624315429dc72bfe0b7ce8a2c342748
-      TOOLS_SHA: 3f646d3addea51aaaed253ad3e7848ce3bad90ae
+      TOOLS_SHA: a2df6d71349128a38a9093716ef9c8ee8c00e201
       WORKER_SOURCE_SHA: b06831f96624315429dc72bfe0b7ce8a2c342748
       WORKER_DIGEST: sha256:464d11429da0d7c6e9257d1696c21399d1cbf76ede7dae1e4d064f88eefbbb3e
+      SMOKE_RUN_ID: "35330711554"
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -41,31 +42,35 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
-      - name: Install frozen dependencies
-        run: npm ci
+      - name: Download exact successful smoke evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: final-stripe-smoke-35330711554
+          path: prior-production-smoke-evidence
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 35330711554
 
-      - name: Verify smoke control
+      - name: Verify activation control
         run: |
-          node scripts/verify-rcap-production-smoke.mjs
-          node scripts/test-rcap-production-smoke-mutations.mjs
+          node scripts/verify-rcap-production-activation.mjs
+          node scripts/test-rcap-production-activation-mutations.mjs
 
-      - name: Run final Production smoke
+      - name: Activate final Stripe idempotency deployment
         env:
-          RCAP_PRODUCTION_PHASE: smoke
+          RCAP_PRODUCTION_PHASE: activate
           RCAP_APPLICATION_SHA: ${{ env.APPLICATION_SHA }}
           RCAP_WORKER_SOURCE_SHA: ${{ env.WORKER_SOURCE_SHA }}
           RCAP_WORKER_DIGEST: ${{ env.WORKER_DIGEST }}
+          RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE: prior-production-smoke-evidence/production-canary-smoke.json
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-        run: node scripts/rcap-production-canary-smoke.mjs
+        run: node scripts/rcap-production-activate.mjs
 
-      - name: Upload smoke evidence
+      - name: Upload activation evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: final-stripe-smoke-${{ github.run_id }}
+          name: final-stripe-activation-${{ github.run_id }}
           path: production-canary-evidence/
           if-no-files-found: error
