@@ -15,14 +15,14 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "8517a9b0ecf107605fe3094f23175d6a344f0244";
+const APPLICATION_SHA = "e52628aa420677d30dd4a8a14bc9243b4e339c5e";
 const WORKER_SOURCE_SHA = "8517a9b0ecf107605fe3094f23175d6a344f0244";
 const WORKER_DIGEST = "sha256:c3a8d59c3c96b675a1e3dcc9cc35df08a5e5a4b5bdb635cf7f5e97137b97a534";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // Read back from Vercel by preflight 35275288657, which staged the candidate
 // and recorded the live deployment before touching anything: staged
-// dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV, rollback (current Production)
-// dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51.
+// dpl_4rwbPYsHvj92tfZr4rWqZWBF4M9C, rollback (current Production)
+// dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV.
 //
 // These pins carried the previous release's pair, one release out of date: the
 // deployment that was the staged candidate then is the deployment live now, so
@@ -30,13 +30,13 @@ const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // 35276699023 refused on exact_staged_application_worker_identity rather than
 // smoke-testing the live site and calling this release sound. Both move
 // together, because the pair only means anything as a pair.
-const STAGED_DEPLOYMENT_ID = "dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV";
+const STAGED_DEPLOYMENT_ID = "dpl_4rwbPYsHvj92tfZr4rWqZWBF4M9C";
 // The recovery target is the deployment live now: dpl_BJMUzi, the candidate the
 // previous release staged and activated. It is payment-compatible -- it
 // post-dates 20260917090000, so it calls the current
 // record_consumer_packet_payment signature rather than the retired one, and it
 // can settle an order as well as serve the site.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_GUgVLjvdztwRdbTGqDsH7aeQ1V51";
+const ROLLBACK_DEPLOYMENT_ID = "dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV";
 const REQUIRED_MIGRATION_HASHES = Object.freeze([
   "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef",
   "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835",
