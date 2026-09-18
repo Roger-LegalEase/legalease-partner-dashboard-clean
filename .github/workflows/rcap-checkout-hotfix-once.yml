@@ -1,4 +1,4 @@
-name: Final Stripe idempotency acceptance Preview once
+name: Final Stripe idempotency production preflight once
 
 on:
   push:
@@ -13,13 +13,15 @@ permissions:
   actions: read
 
 jobs:
-  preview:
+  preflight:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
       APPLICATION_SHA: b06831f96624315429dc72bfe0b7ce8a2c342748
-      TOOLS_SHA: 0e5643ae8da09a253367c3e17e56cadc3df738c0
-      ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
+      TOOLS_SHA: fc04d5155c4f8cb81b5c2040c796e51a57adfb3d
+      WORKER_SOURCE_SHA: b06831f96624315429dc72bfe0b7ce8a2c342748
+      WORKER_DIGEST: sha256:464d11429da0d7c6e9257d1696c21399d1cbf76ede7dae1e4d064f88eefbbb3e
+      IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -33,6 +35,7 @@ jobs:
           git cat-file -e "$TOOLS_SHA^{commit}"
           git merge-base --is-ancestor "$TOOLS_SHA" origin/claude/legalease-sprint-captain-utucnw
           git diff --quiet "$APPLICATION_SHA" "$TOOLS_SHA" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts
+          git diff --quiet "$WORKER_SOURCE_SHA" "$TOOLS_SHA" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src
           git checkout --detach "$TOOLS_SHA"
 
       - name: Set up Node
@@ -40,19 +43,34 @@ jobs:
         with:
           node-version: 20
 
-      - name: Create exact final acceptance Preview
+      - name: Pull and identify accepted worker
+        run: |
+          set -euo pipefail
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin >/dev/null
+          REF="$IMAGE_REPOSITORY@$WORKER_DIGEST"
+          docker pull "$REF" >/dev/null
+          ACTUAL="$(docker inspect --format='{{index .RepoDigests 0}}' "$REF" | sed 's/.*@//')"
+          REVISION="$(docker inspect --format='{{index .Config.Labels "org.opencontainers.image.revision"}}' "$REF")"
+          [ "$ACTUAL" = "$WORKER_DIGEST" ]
+          [ "$REVISION" = "$WORKER_SOURCE_SHA" ]
+
+      - name: Run final Production preflight
         env:
+          RCAP_PRODUCTION_PHASE: preflight
+          RCAP_APPLICATION_SHA: ${{ env.APPLICATION_SHA }}
+          RCAP_ACCEPTED_TOOLS_SHA: ${{ env.APPLICATION_SHA }}
+          RCAP_TOOLS_SHA: ${{ env.TOOLS_SHA }}
+          RCAP_WORKER_SOURCE_SHA: ${{ env.WORKER_SOURCE_SHA }}
+          RCAP_WORKER_DIGEST: ${{ env.WORKER_DIGEST }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ env.ACCEPTANCE_PROJECT_REF }}
-          HOSTED_APPLICATION_SHA: ${{ env.APPLICATION_SHA }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-        run: node scripts/rcap-hosted-acceptance-deploy.mjs
+        run: node scripts/rcap-production-canary.mjs
 
-      - name: Upload Preview evidence
+      - name: Upload preflight evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: final-stripe-preview-${{ github.run_id }}
-          path: hosted-acceptance-evidence/
+          name: final-stripe-preflight-${{ github.run_id }}
+          path: production-canary-evidence/
           if-no-files-found: error
