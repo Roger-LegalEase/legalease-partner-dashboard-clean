@@ -1,4 +1,4 @@
-name: Read the exact refused CLAUDE3 Session once
+name: Live Stripe CLAUDE4 object diagnosis once
 
 on:
   push:
@@ -44,7 +44,7 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           RCAP_STRIPE_READ_KEY: ${{ secrets.RCAP_STRIPE_READ_KEY }}
-          RCAP_PROMOTION_CODE: CLAUDE3
+          RCAP_PROMOTION_CODE: CLAUDE4
           RCAP_EXPECTED_PRODUCT_ID: prod_VHEHkvH7dSvGv7
           RCAP_DASHBOARD_PRODUCT_NAME: RCAP acceptance consumer packet
         run: node scripts/rcap-stripe-coupon-object-diagnosis.mjs
@@ -53,6 +53,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: claude3-refused-session-${{ github.run_id }}
+          name: claude4-object-diagnosis-${{ github.run_id }}
           path: production-canary-evidence/
           if-no-files-found: error
