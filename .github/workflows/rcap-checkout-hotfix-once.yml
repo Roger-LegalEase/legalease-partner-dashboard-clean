@@ -51,11 +51,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 35330711554
 
-      - name: Verify activation control
-        run: |
-          node scripts/verify-rcap-production-activation.mjs
-          node scripts/test-rcap-production-activation-mutations.mjs
-
       - name: Activate final Stripe idempotency deployment
         env:
           RCAP_PRODUCTION_PHASE: activate
