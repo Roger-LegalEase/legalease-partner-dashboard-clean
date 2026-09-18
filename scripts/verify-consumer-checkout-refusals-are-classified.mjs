@@ -211,10 +211,82 @@ check(
 );
 check(
   adapter.includes('replacement.outcome === "conflicted"')
-    && adapter.includes('providerCall("expire_lost_replacement_session"')
+    && adapter.includes('expireUnboundSession(stripe as Stripe, "expire_lost_replacement_session"')
     && adapter.includes('providerCall("retrieve_winning_session"'),
   "losing the race expires the Session this request created and reconciles the winner instead of overwriting it"
 );
+
+// --- a cleanup failure never becomes the reported cause -----------------------------
+// The live $0 order refused with a Stripe fault named at the
+// `expire_unbound_new_session` phase. That call is the tidy-up that runs AFTER a
+// binding refuses; the binding refusal was the cause, and it never reached the
+// response. The expiry now returns its classification instead of throwing it.
+const cleanupHelper = adapter.slice(
+  adapter.indexOf("async function expireUnboundSession("),
+  adapter.indexOf("export type StripeAccountIdentity")
+);
+check(cleanupHelper.length > 0, "the unbound-session cleanup is a single named helper");
+check(
+  /catch \(error\) \{[\s\S]*?return (error\.providerFailure|providerFailureOf)/.test(cleanupHelper)
+    && !/\bthrow\b/.test(cleanupHelper),
+  "the cleanup expiry returns its provider classification and never throws it, so it cannot replace the primary failure"
+);
+check(
+  adapter.includes("export type ConsumerCheckoutBindingFailure")
+    && adapter.includes('operation: "initial_bind" | "replacement"')
+    && adapter.includes('outcome: "refused" | "unavailable" | "conflicted"'),
+  "a binding refusal has a declared shape naming which writer refused and how"
+);
+check(
+  adapter.includes("readonly bindingFailure: ConsumerCheckoutBindingFailure | null;")
+    && adapter.includes("readonly cleanupFailure: ConsumerCheckoutProviderFailure | null;"),
+  "the refusal error carries the primary binding failure and the secondary cleanup failure separately"
+);
+check(
+  route.includes("bindingFailure: error.bindingFailure") && route.includes("cleanupFailure: error.cleanupFailure"),
+  "the route reports both, so a masked cause can never again look like a provider fault"
+);
+// The reason token is a bounded vocabulary, so a Postgres or PostgREST message
+// -- which is where SQL fragments and free text would come from -- can never
+// travel outward on it.
+check(
+  adapter.includes("const CONSUMER_CHECKOUT_BINDING_REASONS: ReadonlySet<string> = new Set([")
+    && /function bindingFailureReason\(reason: string \| undefined, fallback: string\): string \{\n\s*return reason && CONSUMER_CHECKOUT_BINDING_REASONS\.has\(reason\) \? reason : fallback;/.test(adapter),
+  "a binding reason is reported only from a fixed vocabulary, never passed through from the database"
+);
+check(
+  !/reason: (replacement|bindingResult|dryRunBinding)\.reason\b/.test(adapter),
+  "no raw writer reason reaches the response without passing through that vocabulary"
+);
+
+// --- an idempotent create is never trusted about the present ------------------------
+// Stripe replays the response body stored at the key's FIRST use, so a create
+// that answers `open` may describe a Session that has since expired. Binding it
+// hands the participant a dead Checkout page.
+check(
+  adapter.includes('providerCall("retrieve_created_session"')
+    && /let session = await providerCall\("retrieve_created_session"/.test(adapter),
+  "the created Session's status is read back from the provider, not taken from the create response"
+);
+check(
+  adapter.includes('providerCall("create_successor_session"')
+    && adapter.includes("`${createKey}:successor:${session.id}`")
+    && adapter.includes('providerCall("retrieve_successor_session"'),
+  "an expired idempotent replay earns exactly one successor, keyed deterministically off the expired Session's own id, and that successor is freshly read too"
+);
+{
+  const creationBody = adapter.slice(creationStart, creationEnd);
+  const successorBlock = creationBody.slice(
+    creationBody.indexOf('providerCall("retrieve_created_session"'),
+    creationBody.indexOf('if (session.status !== "open" || !session.url) {')
+  );
+  check(
+    successorBlock.length > 0
+      && (creationBody.match(/create_successor_session/g) ?? []).length === 1
+      && !/while \(|for \(|\.retry|Math\.random/.test(successorBlock),
+    "there is one bounded successor attempt: no loop, no retry counter and no random key"
+  );
+}
 
 // --- the double-charge guard is untouched -------------------------------------------
 check(

@@ -193,6 +193,11 @@ const REQUIRED_CASES = [
   "resumed_checkout_reuses_the_open_session",
   "resumed_checkout_refuses_an_unresolvable_stored_session_it_cannot_verify",
   ...(CATALOG_PRODUCT_ID ? ["resumed_checkout_replaces_an_incompatible_open_session"] : []),
+  // The exact path the live $0 order took, and the one this suite had no case
+  // for: a stored Session PROVEN ABSENT from the verified account is replaced,
+  // and the replacement is recorded. The refusal case above covers the half
+  // where absence cannot be established; it stays, and this is the other half.
+  "resumed_checkout_replaces_a_verified_absent_stored_session",
   "resumed_checkout_never_duplicates_a_completed_order"
 ];
 
@@ -784,6 +789,10 @@ const itemId = crypto.randomUUID();
 // the browser was left driving an expired Checkout page. A case that can
 // manufacture unrecorded verdicts for everything after it is not evidence.
 const isolatedItemId = crypto.randomUUID();
+// The verified-absence replacement case owns its own matter for the same
+// reason: it plants an id that resolves to nothing, and a failure there must
+// not strand the journey the rest of the run depends on.
+const absentItemId = crypto.randomUUID();
 let seedVerifiedMatter = null;
 // Single-quoted SQL literal, doubling embedded quotes. Never JSON.stringify:
 // that produces double quotes, which Postgres reads as an identifier.
@@ -2024,6 +2033,106 @@ let session = null;
         + ` Reusing the incompatible session would have offered a line item the product-restricted coupon can only`
         + ` refuse; recording no replacement would leave the matter holding an expired session, which is the`
         + ` database contract this release repairs.`
+    );
+  }
+
+  // (d) A stored id that is POSITIVELY PROVEN ABSENT from the verified account
+  //     is REPLACED, and the replacement is recorded.
+  //
+  //     Case (b) above covers the half where absence cannot be established, and
+  //     it stays exactly as it is. This is the other half, and it is the exact
+  //     path the live $0 order took: the matter carried a Checkout Session id
+  //     Stripe no longer knew, the adapter proved it absent — and then wrote the
+  //     replacement through the INITIAL binding writer, which refuses any new id
+  //     once the row holds one. Nothing about that is visible from a fresh
+  //     journey, from case (b)'s refusal, or from case (c), which reaches the
+  //     compare-and-swap writer down a different branch. Case (c) proves the
+  //     writer works; this proves the absent branch actually selects it.
+  //
+  //     It runs on its own matter, because it plants an id that resolves to
+  //     nothing and a failure here must strand no other case.
+  {
+    const seedFailure = typeof seedVerifiedMatter === "function"
+      ? await seedVerifiedMatter(absentItemId)
+      : "the isolated matter seeder was never defined";
+
+    let firstId = null;
+    let plantedOk = false;
+    let replaced = null;
+    let replacementId = null;
+    let storedAfter = null;
+    let sessionsAfter = null;
+    // An id of the right shape that names no Session in any account. Stripe
+    // answers `resource_missing` for it, which — against a verified account and
+    // mode — is the one refusal that proves there is no order behind the id.
+    const plantedId = "cs_test_a1RCAPacceptanceVerifiedAbsentSession000000000000";
+
+    if (seedFailure === null) {
+      const firstRes = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: absentItemId } });
+      firstId = firstRes.json?.checkoutSessionId ?? null;
+      if (firstId) {
+        // The matter's real Session is expired first: this case is about a
+        // stored id with nothing behind it, not about abandoning a live order.
+        await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(firstId)}/expire`, {
+          method: "POST", headers: { Authorization: `Bearer ${STRIPE_KEY}` }
+        }).catch(() => null);
+        const plant = await sql(`update public.consumer_briefcase_items set checkout_session_id = '${sqlText(plantedId)}' where id = '${absentItemId}'`);
+        plantedOk = plant.status === 200 || plant.status === 201;
+        replaced = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: absentItemId } });
+        replacementId = replaced.json?.checkoutSessionId ?? null;
+
+        const rows = await sql(`select checkout_session_id from public.consumer_briefcase_items where id = '${absentItemId}' limit 1`);
+        storedAfter = Array.isArray(rows.json) ? rows.json[0]?.checkout_session_id ?? null : null;
+
+        const list = await fetch("https://api.stripe.com/v1/checkout/sessions?limit=100", {
+          headers: { Authorization: `Bearer ${STRIPE_KEY}` }
+        }).then((r) => r.json()).catch(() => null);
+        const mine = Array.isArray(list?.data) ? list.data.filter((s) => s.client_reference_id === absentItemId) : [];
+        sessionsAfter = { total: mine.length, open: mine.filter((s) => s.status === "open").length, ids: mine.map((s) => s.id) };
+      }
+    }
+
+    const recovery = replaced?.json?.storedSessionRecovery ?? null;
+    evidence.resumedVerifiedAbsence = {
+      absentItemId,
+      seedFailure,
+      firstSessionId: firstId,
+      plantedId,
+      plantedOk,
+      status: replaced?.status ?? null,
+      outcome: replaced?.json?.outcome ?? null,
+      resultCode: replaced?.json?.resultCode ?? null,
+      replacementId,
+      storedCheckoutSessionIdAfter: storedAfter,
+      storedSessionRecovery: recovery,
+      bindingFailure: replaced?.json?.bindingFailure ?? null,
+      cleanupFailure: replaced?.json?.cleanupFailure ?? null,
+      providerFailure: replaced?.json?.providerFailure ?? null,
+      sessionsAfter
+    };
+
+    record(
+      "resumed_checkout_replaces_a_verified_absent_stored_session",
+      seedFailure === null && plantedOk
+        && (replaced?.status === 200 || replaced?.status === 201)
+        && Boolean(replacementId) && replacementId !== plantedId && replacementId !== firstId
+        && storedAfter === replacementId
+        && recovery?.phase === "recover_completed_session" && recovery?.code === "resource_missing"
+        && sessionsAfter?.open === 1,
+      `on its own verified matter ${absentItemId} (seed: ${seedFailure ?? "ok"}), a Checkout Session id that names`
+        + ` nothing at Stripe (${plantedId}) was stored, reproducing the live order exactly. The deployed route`
+        + ` answered HTTP ${replaced?.status ?? "(none)"} outcome=${replaced?.json?.outcome ?? "(none)"}`
+        + ` with ${replacementId ?? "(no session)"}; the matter now stores ${storedAfter ?? "(nothing)"} and`
+        + ` Stripe holds ${sessionsAfter?.open ?? "(unknown)"} open session(s) for it.`
+        + ` storedSessionRecovery=${JSON.stringify(recovery)}`
+        + `${replaced?.json?.bindingFailure ? ` bindingFailure=${JSON.stringify(replaced.json.bindingFailure)}` : ""}`
+        + `${replaced?.json?.cleanupFailure ? ` cleanupFailure=${JSON.stringify(replaced.json.cleanupFailure)}` : ""}.`
+        + ` The stored id read back is the whole point: the live order created a usable Session and then failed to`
+        + ` record it, because the absent branch selected the initial binding writer instead of the compare-and-swap`
+        + ` writer, and the initial writer refuses any new id once the row holds one. A replacement the database`
+        + ` did not record is not a replacement.`
+        + ` This case needs the deployment to have a verified expected Stripe account: absence cannot be concluded`
+        + ` without one, which is the rule case (b) proves from the other side.`
     );
   }
 }
@@ -3603,5 +3712,8 @@ await sql(`delete from public.consumer_briefcase_items where id = '${itemId}'`);
 await sql(`delete from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${isolatedItemId}'`);
 await sql(`delete from public.consumer_packet_verifications where briefcase_item_id = '${isolatedItemId}'`);
 await sql(`delete from public.consumer_briefcase_items where id = '${isolatedItemId}'`);
+await sql(`delete from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${absentItemId}'`);
+await sql(`delete from public.consumer_packet_verifications where briefcase_item_id = '${absentItemId}'`);
+await sql(`delete from public.consumer_briefcase_items where id = '${absentItemId}'`);
 
 finish();

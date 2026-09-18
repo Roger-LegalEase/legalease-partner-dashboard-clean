@@ -93,10 +93,20 @@ export async function POST(request: NextRequest) {
       // of it is a credential, and it reaches only the authenticated owner of
       // this matter. Without it, every distinct configuration fault on this path
       // is the same sentence, which is what made the last one undiagnosable.
+      //
+      // `bindingFailure` is this application's own refusal to write the Session
+      // id, and it is reported whenever it is the primary cause. `cleanupFailure`
+      // is the tidy-up expiry that ran afterwards: it is reported so an orphaned
+      // Session is visible, and it never stands in for the primary cause. The
+      // live order reported a Stripe fault at `expire_unbound_new_session` when
+      // the actual cause was a refused binding — one failure masking another is
+      // exactly what these three fields exist to separate.
       return NextResponse.json({
         error: "We couldn’t start payment for this case. Your information is still saved. Return to your Briefcase and try again. Contact support if the problem continues.",
         resultCode: "checkout_provider_unavailable",
-        providerFailure: error.providerFailure
+        providerFailure: error.providerFailure,
+        bindingFailure: error.bindingFailure,
+        cleanupFailure: error.cleanupFailure
       }, { status: 503 });
     }
 

@@ -209,9 +209,20 @@ export async function createConsumerPacketCheckout({
   // its request id onto the successful response, so the decision is observable
   // from the outside instead of inferred from the absence of an error.
   let storedSessionRecovery: ConsumerCheckoutProviderFailure | null = null;
-  // Set only when a stored OPEN Session was expired because it was incompatible
-  // or stale. It selects the compare-and-swap writer for the replacement and
-  // names the exact id that swap must still find stored.
+  // Set whenever this request will write a new Session over a predecessor the
+  // matter still has stored. There are two ways to earn that, and both end the
+  // same way:
+  //
+  //   - a stored OPEN Session was expired here because it was incompatible or
+  //     stale, or
+  //   - a stored Session was POSITIVELY PROVEN absent from the verified
+  //     provider account and mode.
+  //
+  // The second case looks like "there is nothing to replace", and that reading
+  // is what broke the live order. Nothing is stored *at Stripe*; the database
+  // row still carries the exact old id. The initial writer refuses any new id
+  // once one is stored, so this must select the compare-and-swap writer in both
+  // cases, and it names the exact id that swap must still find stored.
   let replacedCheckoutSessionId: string | null = null;
   if (item.checkoutSessionId?.startsWith("cs_")) {
     try {
@@ -247,6 +258,13 @@ export async function createConsumerPacketCheckout({
         // minted in this same account, so there is no order behind it.
         existing = null;
         existingLookupCompleted = true;
+        // The id names nothing at the provider, but it is still the value in the
+        // `checkout_session_id` column of this matter's row. A new Session
+        // therefore has to be swapped in against that exact predecessor: the
+        // initial writer sees a row that already holds a Session id and refuses
+        // with `checkout_binding_conflict`, which is precisely what stopped the
+        // live order from ever reaching a payable Checkout page.
+        replacedCheckoutSessionId = item.checkoutSessionId as string;
         storedSessionRecovery = error instanceof ConsumerCheckoutTemporarilyUnavailableError
           ? error.providerFailure
           : null;
@@ -412,7 +430,7 @@ export async function createConsumerPacketCheckout({
     }
 
     const metadata = checkoutMetadata(binding, item);
-    const session = await providerCall("create_session", () => (stripe as Stripe).checkout.sessions.create({
+    const sessionParams: Stripe.Checkout.SessionCreateParams = {
       mode: "payment",
       success_url: successUrl ?? defaultSuccessUrl,
       cancel_url: cancelUrl ?? defaultCancelUrl,
@@ -455,18 +473,47 @@ export async function createConsumerPacketCheckout({
             }
         }
       ]
-    }, {
-      // The catalog identity is part of the key: a Session created against a
-      // different Product is a different order, and replaying the old key would
-      // hand back the Session this release exists to stop using.
-      idempotencyKey: checkoutIdempotencyKey(
-        item.id,
-        binding.verificationHash,
-        verification.revision,
-        item.checkoutSessionId,
-        catalogProductId
-      )
-    }));
+    };
+    // The catalog identity is part of the key: a Session created against a
+    // different Product is a different order, and replaying the old key would
+    // hand back the Session this release exists to stop using.
+    const createKey = checkoutIdempotencyKey(
+      item.id,
+      binding.verificationHash,
+      verification.revision,
+      item.checkoutSessionId,
+      catalogProductId
+    );
+    const created = await providerCall("create_session", () =>
+      (stripe as Stripe).checkout.sessions.create(sessionParams, { idempotencyKey: createKey }));
+
+    // An idempotent create does not create anything the second time. Stripe
+    // replays the response body it stored when the key was first used, so
+    // `created.status` is the status that Session had at the moment of the
+    // ORIGINAL request — which, for a key first used by an attempt that then
+    // failed to bind, was `open` and is now `expired`. Binding that id hands the
+    // participant a dead Checkout page and tells this application it succeeded.
+    // The status is therefore read back from the provider, not taken from the
+    // create response.
+    let session = await providerCall("retrieve_created_session", () =>
+      (stripe as Stripe).checkout.sessions.retrieve(created.id));
+
+    if (session.status === "expired") {
+      // Exactly one successor, under a key derived from the expired Session's
+      // own id. It is deterministic, so two concurrent requests that replay the
+      // same expired Session derive the same successor key and Stripe returns
+      // them the same single successor rather than two rival Sessions. A random
+      // key would mint one Session per retry; a loop would mint one per
+      // iteration. There is one attempt and no loop: if the successor is not
+      // usable either, the request refuses.
+      const successorKey = `${createKey}:successor:${session.id}`;
+      const successor = await providerCall("create_successor_session", () =>
+        (stripe as Stripe).checkout.sessions.create(sessionParams, { idempotencyKey: successorKey }));
+      // Freshly read for the same reason as above: the successor key may itself
+      // be a replay from an earlier attempt.
+      session = await providerCall("retrieve_successor_session", () =>
+        (stripe as Stripe).checkout.sessions.retrieve(successor.id));
+    }
 
     if (session.status !== "open" || !session.url) {
       if (session.status === "open") {
@@ -493,15 +540,33 @@ export async function createConsumerPacketCheckout({
         expectedVerificationHash: binding.verificationHash
       });
       if (replacement.outcome === "conflicted") {
-        if (session.status === "open") {
-          await providerCall("expire_lost_replacement_session", () => (stripe as Stripe).checkout.sessions.expire(session.id));
-        }
+        const conflictFailure: ConsumerCheckoutBindingFailure = {
+          operation: "replacement",
+          outcome: "conflicted",
+          reason: "checkout_replacement_conflict"
+        };
+        const cleanupFailure = session.status === "open"
+          ? await expireUnboundSession(stripe as Stripe, "expire_lost_replacement_session", session.id)
+          : null;
         const winner = replacement.winningCheckoutSessionId;
         if (winner) {
-          const winning = await providerCall("retrieve_winning_session", () =>
-            (stripe as Stripe).checkout.sessions.retrieve(winner, {
-              expand: ["line_items.data.price.product", "discounts.promotion_code"]
-            }));
+          let winning: Stripe.Checkout.Session;
+          try {
+            winning = await providerCall("retrieve_winning_session", () =>
+              (stripe as Stripe).checkout.sessions.retrieve(winner, {
+                expand: ["line_items.data.price.product", "discounts.promotion_code"]
+              }));
+          } catch (error) {
+            // The winner could not be read, so this request has no Session to
+            // hand back — but the cause it reports is still the lost race, with
+            // the provider call that failed named alongside it.
+            throw new ConsumerCheckoutTemporarilyUnavailableError(
+              error instanceof ConsumerCheckoutTemporarilyUnavailableError
+                ? error.providerFailure
+                : providerFailureOf(error, "retrieve_winning_session"),
+              { bindingFailure: conflictFailure, cleanupFailure }
+            );
+          }
           if (winning.status === "open" && winning.url) {
             return {
               mode: "stripe",
@@ -528,21 +593,36 @@ export async function createConsumerPacketCheckout({
             };
           }
         }
-        throw new ConsumerCheckoutTemporarilyUnavailableError();
+        throw new ConsumerCheckoutTemporarilyUnavailableError(null, {
+          bindingFailure: conflictFailure,
+          cleanupFailure
+        });
       }
       if (replacement.outcome !== "replaced") {
-        if (session.status === "open") {
-          await providerCall("expire_unbound_new_session", () => (stripe as Stripe).checkout.sessions.expire(session.id));
-        }
-        throw new ConsumerCheckoutTemporarilyUnavailableError();
+        // The compare-and-swap refused. That refusal — not whatever the tidy-up
+        // expiry goes on to do — is the reason this request cannot continue.
+        const bindingFailure: ConsumerCheckoutBindingFailure = {
+          operation: "replacement",
+          outcome: replacement.outcome,
+          reason: bindingFailureReason(replacement.reason, "checkout_replacement_refused")
+        };
+        const cleanupFailure = session.status === "open"
+          ? await expireUnboundSession(stripe as Stripe, "expire_unbound_new_session", session.id)
+          : null;
+        throw new ConsumerCheckoutTemporarilyUnavailableError(null, { bindingFailure, cleanupFailure });
       }
     } else {
       const bindingResult = await persistCheckoutBinding(binding, session.id, "stripe");
       if (bindingResult.outcome !== "bound") {
-        if (bindingResult.outcome === "refused" && session.status === "open") {
-          await providerCall("expire_unbound_new_session", () => (stripe as Stripe).checkout.sessions.expire(session.id));
-        }
-        throw new ConsumerCheckoutTemporarilyUnavailableError();
+        const bindingFailure: ConsumerCheckoutBindingFailure = {
+          operation: "initial_bind",
+          outcome: bindingResult.outcome,
+          reason: bindingFailureReason(bindingResult.reason, "checkout_binding_refused")
+        };
+        const cleanupFailure = bindingResult.outcome === "refused" && session.status === "open"
+          ? await expireUnboundSession(stripe as Stripe, "expire_unbound_new_session", session.id)
+          : null;
+        throw new ConsumerCheckoutTemporarilyUnavailableError(null, { bindingFailure, cleanupFailure });
       }
     }
 
@@ -568,8 +648,15 @@ export async function createConsumerPacketCheckout({
     }
 
     const dryRunSessionId = dryRunCheckoutSessionId(item.id);
-    if ((await persistCheckoutBinding(binding, dryRunSessionId, "dry_run")).outcome !== "bound") {
-      throw new ConsumerCheckoutTemporarilyUnavailableError();
+    const dryRunBinding = await persistCheckoutBinding(binding, dryRunSessionId, "dry_run");
+    if (dryRunBinding.outcome !== "bound") {
+      throw new ConsumerCheckoutTemporarilyUnavailableError(null, {
+        bindingFailure: {
+          operation: "initial_bind",
+          outcome: dryRunBinding.outcome,
+          reason: bindingFailureReason(dryRunBinding.reason, "checkout_binding_refused")
+        }
+      });
     }
 
     return {
@@ -975,6 +1062,79 @@ function providerFailureOf(error: unknown, phase: string): ConsumerCheckoutProvi
 }
 
 /**
+ * Why this application's own write of the Checkout Session id refused.
+ *
+ * This is the failure that used to vanish. When a binding refuses, the Session
+ * that was just created has to be expired, and if that cleanup call also fails
+ * its provider error propagated and became the only thing reported — so a
+ * refusal by the database writer was read from the outside as a Stripe fault at
+ * the `expire_unbound_new_session` phase, which is a different bug in a
+ * different system. The primary cause is now carried explicitly.
+ *
+ * `operation` says which writer refused: `initial_bind` writes into a row with
+ * no Session stored, `replacement` compare-and-swaps over a named predecessor.
+ * `reason` is a bounded classification token from a fixed vocabulary — never a
+ * database message, never SQL, never a stack.
+ */
+export type ConsumerCheckoutBindingFailure = {
+  operation: "initial_bind" | "replacement";
+  outcome: "refused" | "unavailable" | "conflicted";
+  reason: string | null;
+};
+
+/**
+ * The classification tokens a binding failure may carry outward.
+ *
+ * Every entry is a name this application or its own SQL chose. Anything else —
+ * in particular a PostgREST or Postgres message, which is where free text and
+ * statement fragments would come from — is reported as the generic token for
+ * its shape instead of being passed through.
+ */
+const CONSUMER_CHECKOUT_BINDING_REASONS: ReadonlySet<string> = new Set([
+  "invalid_expected_verification_hash",
+  "checkout_binding_storage_unavailable",
+  "checkout_binding_response_invalid",
+  "checkout_binding_refused",
+  "checkout_binding_conflict",
+  "checkout_binding_invalid",
+  "checkout_replacement_storage_unavailable",
+  "checkout_replacement_response_invalid",
+  "checkout_replacement_refused",
+  "checkout_replacement_invalid",
+  "checkout_replacement_conflict",
+  "checkout_session_in_use",
+  "verification_changed",
+  "item_not_found",
+  "already_paid"
+]);
+
+function bindingFailureReason(reason: string | undefined, fallback: string): string {
+  return reason && CONSUMER_CHECKOUT_BINDING_REASONS.has(reason) ? reason : fallback;
+}
+
+/**
+ * Expire a Session this request created but could not bind, and never let the
+ * expiry's own failure stand in for the reason the binding refused.
+ *
+ * The cleanup's provider classification is returned so it can travel alongside
+ * the primary failure. It is returned rather than thrown precisely so it cannot
+ * replace it.
+ */
+async function expireUnboundSession(
+  stripe: Stripe,
+  phase: string,
+  sessionId: string
+): Promise<ConsumerCheckoutProviderFailure | null> {
+  try {
+    await providerCall(phase, () => stripe.checkout.sessions.expire(sessionId));
+    return null;
+  } catch (error) {
+    if (error instanceof ConsumerCheckoutTemporarilyUnavailableError) return error.providerFailure;
+    return providerFailureOf(error, phase);
+  }
+}
+
+/**
  * The account and mode this deployment is actually talking to, read from the
  * provider rather than assumed from configuration.
  *
@@ -1064,9 +1224,37 @@ async function providerCall<T>(phase: string, run: () => Promise<T>): Promise<T>
 }
 
 export class ConsumerCheckoutTemporarilyUnavailableError extends Error {
-  constructor(readonly providerFailure: ConsumerCheckoutProviderFailure | null = null) {
+  /**
+   * This application's own binding refusal, when that is the primary cause.
+   *
+   * Present exactly when the request got as far as writing the Session id and
+   * the write refused. It is never overwritten by a cleanup failure.
+   */
+  readonly bindingFailure: ConsumerCheckoutBindingFailure | null;
+  /**
+   * A secondary failure of the expiry that runs after a refused binding. It is
+   * reported so the orphaned Session is visible, and it is never the reported
+   * cause: `bindingFailure` is.
+   */
+  readonly cleanupFailure: ConsumerCheckoutProviderFailure | null;
+
+  constructor(
+    /**
+     * The provider operation that caused the PRIMARY refusal — nothing else.
+     * A cleanup that failed after an unrelated primary cause belongs in
+     * `cleanupFailure`, so this field never names a step that was merely
+     * tidying up after the real failure.
+     */
+    readonly providerFailure: ConsumerCheckoutProviderFailure | null = null,
+    details: {
+      bindingFailure?: ConsumerCheckoutBindingFailure | null;
+      cleanupFailure?: ConsumerCheckoutProviderFailure | null;
+    } = {}
+  ) {
     super("Consumer checkout is temporarily unavailable.");
     this.name = "ConsumerCheckoutTemporarilyUnavailableError";
+    this.bindingFailure = details.bindingFailure ?? null;
+    this.cleanupFailure = details.cleanupFailure ?? null;
   }
 }
 
