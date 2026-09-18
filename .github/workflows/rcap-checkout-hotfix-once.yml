@@ -1,4 +1,4 @@
-name: Predecessor recovery live zero-dollar order on a fresh matter once
+name: Live Stripe promotion code object diagnosis once
 
 on:
   push:
@@ -12,13 +12,11 @@ permissions:
   actions: read
 
 jobs:
-  live_order:
+  object_diagnosis:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 15
     env:
-      TOOLS_SHA: 0c9a51596adcadc04f458901b9a5c8ba829cdf28
-      PRODUCTION_DEPLOYMENT_ID: dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz
-      RESUME_MATTER_ID: ""
+      TOOLS_SHA: 71f491c92c5d0f057b7315bc5188ca3b14721a06
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -42,25 +40,20 @@ jobs:
       - name: Install frozen dependencies
         run: npm ci
 
-      - name: Run exact authorized live order
+      - name: Read the live Stripe objects (GET only, nothing is modified)
         env:
-          RCAP_PRODUCTION_PHASE: live_zero_dollar_order
-          RCAP_PUBLIC_ORIGIN: https://expungement.ai
-          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
-          RCAP_PRODUCTION_SUPABASE_URL: https://wwtwtsmywnckfkdaqqeg.supabase.co
-          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
-          RCAP_PROBE_BROWSERS: chromium
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          RCAP_LIVE_PROMOTION_CODE: CLAUDE
-          RCAP_RESUME_MATTER_ID: ${{ env.RESUME_MATTER_ID }}
-          RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ env.PRODUCTION_DEPLOYMENT_ID }}
-          RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: node scripts/rcap-production-save-transition-probe.mjs
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          RCAP_PROMOTION_CODE_ID: promo_1UGe9gDLLtltioGNKb4q6wg0G
+          RCAP_COUPON_ID: 3iyJ3deM
+          RCAP_CHECKOUT_SESSION_ID: cs_live_b1uPiJCcydLN7Hmq8z3rYExbUXssP4LRYrElhBWAr5kx2IObCWXLeA7MXt
+          RCAP_EXPECTED_PRODUCT_ID: prod_Sx3T2wUkaYKqg9
+          RCAP_DASHBOARD_PRODUCT_NAME: DIY Expungment
+        run: node scripts/rcap-stripe-coupon-object-diagnosis.mjs
 
-      - name: Upload live-order evidence
+      - name: Upload diagnosis evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: predecessor-live-order-${{ github.run_id }}
+          name: stripe-object-diagnosis-${{ github.run_id }}
           path: production-canary-evidence/
           if-no-files-found: error
