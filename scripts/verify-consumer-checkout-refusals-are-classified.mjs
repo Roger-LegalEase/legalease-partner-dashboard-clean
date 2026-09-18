@@ -304,9 +304,11 @@ check(
 );
 check(
   adapter.includes('providerCall("create_successor_session"')
-    && adapter.includes("`${createKey}:successor:${session.id}`")
+    && adapter.includes("checkoutSuccessorIdempotencyKey(createKey, session.id, sessionParams)")
+    && adapter.includes("function checkoutSuccessorIdempotencyKey(")
+    && adapter.includes('createHash("sha256")')
     && adapter.includes('providerCall("retrieve_successor_session"'),
-  "an expired idempotent replay earns exactly one successor, keyed deterministically off the expired Session's own id, and that successor is freshly read too"
+  "an expired idempotent replay earns exactly one short deterministic successor bound to the expired Session and exact create parameters, and that successor is freshly read too"
 );
 {
   const creationBody = adapter.slice(creationStart, creationEnd);
