@@ -63,6 +63,34 @@ async function stripeGet(secretKey, pathname) {
   return result;
 }
 
+/**
+ * Candidate live keys supplied directly by the runner, in preference order.
+ *
+ * Vercel marks the production STRIPE_SECRET_KEY "sensitive", which is
+ * write-only by design: the API returns the entry without its value and no
+ * flag changes that. So a key handed to this job is tried first, and only its
+ * ABSENCE is reported — never its value, and never which name carried it in a
+ * way that could be combined with anything else.
+ */
+const DIRECT_KEY_NAMES = [
+  "RCAP_STRIPE_READ_KEY",
+  "STRIPE_SECRET_KEY",
+  "STRIPE_LIVE_SECRET_KEY",
+  "STRIPE_RESTRICTED_KEY"
+];
+
+function readDirectStripeKey() {
+  const present = [];
+  let chosen = null;
+  for (const name of DIRECT_KEY_NAMES) {
+    const value = (process.env[name] ?? "").trim();
+    if (!value) continue;
+    present.push(`${name}=${value.startsWith("sk_live_") || value.startsWith("rk_live_") ? "live" : value.startsWith("sk_test_") || value.startsWith("rk_test_") ? "test" : "unrecognised"}`);
+    if (!chosen && (value.startsWith("sk_live_") || value.startsWith("rk_live_"))) chosen = value;
+  }
+  return { chosen, present };
+}
+
 /** The exact production value of one environment variable, decrypted. */
 async function readProductionStripeKey(identity) {
   const listing = await getJson(
@@ -83,10 +111,10 @@ async function readProductionStripeKey(identity) {
   const readable = candidates.find(entry => typeof entry.value === "string" && entry.value.startsWith("sk_"));
   if (!readable) {
     const types = candidates.map(entry => entry.type ?? "(no type)").join(", ");
-    fail(`the production STRIPE_SECRET_KEY exists but Vercel did not return its value (type: ${types}). A sensitive variable cannot be read back through the API.`);
+    return { key: null, reason: `the production STRIPE_SECRET_KEY exists but Vercel did not return its value (type: ${types}); a sensitive variable cannot be read back through the API` };
   }
   secrets.add(readable.value);
-  return readable.value;
+  return { key: readable.value, reason: null };
 }
 
 async function main() {
@@ -102,9 +130,25 @@ async function main() {
   }
   say(`Vercel project ${identity.projectName} (${identity.projectId}) in team ${identity.teamId}`);
 
-  const secretKey = await readProductionStripeKey(identity);
-  const keyMode = secretKey.startsWith("sk_live_") ? "live" : secretKey.startsWith("sk_test_") ? "test" : "unknown";
-  say(`production STRIPE_SECRET_KEY resolved from Vercel and masked; its prefix says mode=${keyMode}`);
+  const direct = readDirectStripeKey();
+  let secretKey = direct.chosen;
+  let keySource = secretKey ? "supplied to the job" : null;
+  if (secretKey) {
+    secrets.add(secretKey);
+  } else {
+    const fromVercel = await readProductionStripeKey(identity);
+    if (fromVercel.key) {
+      secretKey = fromVercel.key;
+      keySource = "Vercel production environment";
+    } else {
+      say(`Vercel could not supply the key: ${fromVercel.reason}.`);
+      say(`Live keys handed to this job: ${direct.present.length ? direct.present.join(", ") : "none of " + DIRECT_KEY_NAMES.join(", ")}.`);
+      fail("no live Stripe credential is reachable from this job, so the Stripe objects cannot be read. This is a credential blocker, not a finding about the promotion code.");
+    }
+  }
+  const keyMode = secretKey.startsWith("sk_live_") || secretKey.startsWith("rk_live_") ? "live"
+    : secretKey.startsWith("sk_test_") || secretKey.startsWith("rk_test_") ? "test" : "unknown";
+  say(`Stripe key resolved from ${keySource} and masked; its prefix says mode=${keyMode}`);
 
   // 7. The account the production key actually belongs to.
   const account = await stripeGet(secretKey, "/v1/account");
