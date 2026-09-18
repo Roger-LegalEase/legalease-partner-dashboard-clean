@@ -19,24 +19,30 @@ const APPLICATION_SHA = "1f9e1e9a8654c7c41ddae64fad230b55b5912620";
 const WORKER_SOURCE_SHA = "1f9e1e9a8654c7c41ddae64fad230b55b5912620";
 const WORKER_DIGEST = "sha256:7a2b28633d7d542b41161f0510293356e600d3078c78267c36598a79bc9287a4";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-// Read back from Vercel by preflight 35275288657, which staged the candidate
+// Read back from Vercel by preflight 35352773233, which staged the candidate
 // and recorded the live deployment before touching anything: staged
-// dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz, rollback (current Production)
-// dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM.
+// dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx, rollback (current Production)
+// dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz.
 //
-// These pins carried the previous release's pair, one release out of date: the
-// deployment that was the staged candidate then is the deployment live now, so
-// the staged id here named what Production is already serving. Smoke run
-// 35276699023 refused on exact_staged_application_worker_identity rather than
-// smoke-testing the live site and calling this release sound. Both move
-// together, because the pair only means anything as a pair.
-const STAGED_DEPLOYMENT_ID = "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz";
-// The recovery target is the deployment live now: dpl_BJMUzi, the candidate the
-// previous release staged and activated. It is payment-compatible -- it
-// post-dates 20260917090000, so it calls the current
+// Both move together, because the pair only means anything as a pair: the
+// deployment that was the staged candidate of the previous release is the
+// deployment live now, so it becomes this release's rollback target rather
+// than its staged id. Leaving the pair one release behind is what made smoke
+// run 35276699023 refuse on exact_staged_application_worker_identity, which is
+// the control working: it declined to smoke-test the live site and call a
+// release sound on the strength of it.
+const STAGED_DEPLOYMENT_ID = "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx";
+// The recovery target is the deployment live now: dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz,
+// the candidate the previous release staged and activated. It is
+// payment-compatible -- it post-dates 20260917090000, so it calls the current
 // record_consumer_packet_payment signature rather than the retired one, and it
 // can settle an order as well as serve the site.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM";
+//
+// What it cannot do is sell the Grade-A catalog Product: it is the application
+// that names the superseded live Product, so a rollback restores a Production
+// whose live coupons are refused. That is the state Production is in today,
+// not a regression this release would cause.
+const ROLLBACK_DEPLOYMENT_ID = "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz";
 const REQUIRED_MIGRATION_HASHES = Object.freeze([
   "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef",
   "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835",

@@ -19,19 +19,21 @@ const WORKER_SOURCE_SHA = "1f9e1e9a8654c7c41ddae64fad230b55b5912620";
 const WORKER_DIGEST = "sha256:7a2b28633d7d542b41161f0510293356e600d3078c78267c36598a79bc9287a4";
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 // This is the promotion, so a stale pin here is the most expensive kind. The
-// pair is read back from Vercel by preflight 35275288657, which staged the
+// pair is read back from Vercel by preflight 35352773233, which staged the
 // candidate and recorded the live deployment before touching anything: staged
-// dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz, rollback (current Production)
-// dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM.
+// dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx, rollback (current Production)
+// dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz.
 //
-// These pins carried the previous release's pair, one release out of date: the
-// deployment that was the staged candidate then is the deployment live now, so
-// promoting would have moved the alias onto the deployment it was already on,
-// reported success, and shipped nothing. Smoke run 35276699023 caught the same
-// staleness in the smoke control before this one could act on it.
-const STAGED_DEPLOYMENT_ID = "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz";
-// The recovery target is the deployment live now: dpl_BJMUzi, the candidate the
-// previous release staged and activated.
+// Both move together each release: the deployment that was the staged
+// candidate last time is the deployment live now, so it becomes the rollback
+// target. Leaving the pair one release behind would promote the alias onto the
+// deployment it was already on, report success and ship nothing; smoke run
+// 35276699023 caught exactly that staleness before this control could act on
+// it.
+const STAGED_DEPLOYMENT_ID = "dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx";
+// The recovery target is the deployment live now:
+// dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz, the candidate the previous release staged
+// and activated.
 //
 // It IS payment-compatible. 20260917090000 retired the legacy 14- and
 // 15-argument record_consumer_packet_payment signatures in favour of
@@ -48,7 +50,7 @@ const STAGED_DEPLOYMENT_ID = "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz";
 // failed activation is settled by replaying its Stripe event through the
 // idempotent reconciliation path, never by reversing a migration or restoring
 // a retired writer.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_A6YmB9G6LJGYFrt3xj3ZFKxC5yXM";
+const ROLLBACK_DEPLOYMENT_ID = "dpl_BrnF7PUSzZvojpCqhBHd3oFR4rXz";
 const SMOKE_RUN_ID = "35300111459";
 const SMOKE_FILE = path.resolve(
   process.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE
