@@ -51,8 +51,8 @@ export function UnsupportedDocumentPacketState({ state }: { state: string | null
       <Badge tone="orange">Unsupported document state</Badge>
       <h1 className="mt-4 text-3xl font-black text-navy">This packet cannot be displayed here</h1>
       <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-        This document packet is recorded for {code}, and no document renderer is approved for that state.
-        Nothing is shown rather than another state&rsquo;s filing.
+        This packet belongs to {code}, and we cannot prepare filing documents for that state yet.
+        We show nothing rather than another state&rsquo;s filing.
       </p>
     </Card>
   );

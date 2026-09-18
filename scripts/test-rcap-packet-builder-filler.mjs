@@ -64,6 +64,22 @@ const COUNTY_PROMPT = "Which county handled this matter?";
 
 const CASES = [
   {
+    // A grouped screen must be answered in full. A visible participant control
+    // the filler cannot place is a control it would otherwise step over,
+    // leaving the section incomplete while the journey reports success.
+    name: "an unrecognised visible control stops the journey",
+    questionId: "county",
+    prompt: "Court and case number",
+    sectionScreen: true,
+    expectRefusal: /does not recognise/,
+    body: `<h2>Court and case number</h2>
+      <h3 id="q-county-prompt">Which county handled this matter?</h3>
+      <input id="q-county" type="text" />
+      <label for="stray">Something the filler has never seen</label>
+      <input id="stray" type="text" />`,
+    async assert() {}
+  },
+  {
     // The shape the builder renders now: one Product Contract section per
     // screen, several questions under one heading, each keeping its own
     // q-<factId> identity. Every unanswered control has to be filled before
@@ -206,8 +222,21 @@ for (const testCase of CASES) {
     await page.setContent(testCase.sectionScreen
       ? `<!doctype html><meta charset="utf-8"><body><div data-packet-information-builder="active">${testCase.body}</div></body>`
       : builderPage(testCase.questionId, testCase.prompt, testCase.body));
-    await answerBuilderStep(page);
-    await testCase.assert(page);
+    let refusal = null;
+    try {
+      await answerBuilderStep(page);
+    } catch (error) {
+      if (!testCase.expectRefusal) throw error;
+      refusal = error.message;
+    }
+    if (testCase.expectRefusal) {
+      if (!refusal) failures.push(`${testCase.name}: the filler accepted a screen it should have refused`);
+      else if (!testCase.expectRefusal.test(refusal)) {
+        failures.push(`${testCase.name}: refused, but not for the expected reason: ${refusal}`);
+      }
+    } else {
+      await testCase.assert(page);
+    }
   } catch (error) {
     failures.push(`${testCase.name}: ${error.message}`);
   }

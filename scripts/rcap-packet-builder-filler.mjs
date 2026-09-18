@@ -186,18 +186,48 @@ export async function measureBuilderScreen(page) {
 export async function answerBuilderStep(page, options = {}) {
   const builder = page.locator(PACKET_BUILDER);
   await builder.waitFor({ state: "visible", timeout: 20_000 });
-  // Every question on this screen, by the id the application gives it.
-  const questionIds = await builder.evaluate((node) => {
+
+  // Every question on this screen, and every visible enabled control, taken
+  // together. A control the participant can see and use but that carries no
+  // `q-<factId>` identity is not something to step over quietly: it is either
+  // a question this filler would silently skip, leaving the screen incomplete,
+  // or a control that should not be there. Either way the journey stops.
+  const screen = await builder.evaluate((node) => {
+    const usable = (element) => {
+      if (element.disabled) return false;
+      const box = element.getBoundingClientRect();
+      return box.width > 0 && box.height > 0;
+    };
     const ids = new Set();
-    for (const control of node.querySelectorAll("[id^='q-'], [name^='q-']")) {
+    const unaccounted = [];
+    for (const control of node.querySelectorAll("input, select, textarea")) {
+      if (!usable(control)) continue;
+      if (control.type === "hidden") continue;
       const raw = control.getAttribute("name") ?? control.getAttribute("id") ?? "";
+      if (!raw.startsWith("q-")) {
+        unaccounted.push(control.getAttribute("id") || control.getAttribute("name") || `<${control.tagName.toLowerCase()}>`);
+        continue;
+      }
       const id = raw.replace(/^q-/, "").replace(/-(month|day|year|unknown|prompt|helper|error)$/, "");
       if (id) ids.add(id);
     }
-    return [...ids];
+    return { questionIds: [...ids], unaccounted };
   });
-  if (questionIds.length <= 1) return answerOneControl(page, options);
-  for (const questionId of questionIds) {
+
+  if (screen.unaccounted.length > 0) {
+    throw new Error(
+      `packet-information screen has ${screen.unaccounted.length} visible participant control(s) this filler does not recognise: `
+        + `${screen.unaccounted.join(", ")}. A grouped screen must be answered in full, so the journey stops rather than `
+        + "leaving a control untouched and reporting success."
+    );
+  }
+  if (screen.questionIds.length === 0) {
+    throw new Error("packet-information screen renders no answerable participant control");
+  }
+  // One question on the screen is the single-question shape the review page's
+  // edit link renders. It is answered by identity exactly as each question on a
+  // section screen is; there is no separate legacy path.
+  for (const questionId of screen.questionIds) {
     await answerOneControl(page, { ...options, questionId });
   }
 }

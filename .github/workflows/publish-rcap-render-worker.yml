@@ -13,9 +13,15 @@ on:
   workflow_dispatch:
     inputs:
       integration_sha:
-        description: "Exact FULL 40-character integration commit SHA to build. Abbreviated SHAs are rejected."
-        required: true
+        description: "Optional. Leave EMPTY to build the tip of the integration branch, which is the safe default: Git resolves the SHA and no one has to type one. Supplying a value is only for rebuilding an older commit, and it must be the full 40-character SHA; an abbreviated or reconstructed value is refused."
+        required: false
         type: string
+        default: ""
+      resolve_from_ref:
+        description: "Branch whose tip to build when integration_sha is empty. Defaults to the canonical integration branch."
+        required: false
+        type: string
+        default: ""
       tag_replacement_authorization:
         description: "Leave empty. Only set to replace-<integration_sha> when deliberately replacing an existing full-SHA tag."
         required: false
@@ -35,7 +41,7 @@ concurrency:
   # Note the wording: the source-SHA tag is an ALIAS, not an immutable object.
   # Calling it immutable is what let two publications of 664b8ddd move it. Only
   # the sha256: digest is immutable.
-  group: publish-rcap-render-worker-${{ inputs.integration_sha }}
+  group: publish-rcap-render-worker-${{ inputs.integration_sha || github.ref }}
   cancel-in-progress: false
 
 env:
@@ -68,16 +74,14 @@ jobs:
     steps:
       # A publication is only meaningful if the bytes are the bytes someone
       # accepted, so the SHA is validated before anything is fetched or built.
-      - name: Reject a missing or abbreviated SHA
+      - name: Reject an abbreviated SHA before anything is fetched
         run: |
           set -euo pipefail
           SHA="${{ inputs.integration_sha }}"
-          if [ -z "$SHA" ]; then
-            echo "::error::integration_sha is required."
-            exit 1
-          fi
-          if ! printf '%s' "$SHA" | grep -Eq '^[0-9a-f]{40}$'; then
-            echo "::error::integration_sha must be a full 40-character lowercase hex commit SHA. Got: '$SHA'"
+          # Empty is the safe path: Git resolves the tip below, and nobody has
+          # the chance to reconstruct a SHA from an abbreviation.
+          if [ -n "$SHA" ] && ! printf '%s' "$SHA" | grep -Eq '^[0-9a-f]{40}$'; then
+            echo "::error::integration_sha must be a full 40-character lowercase hex commit SHA, or empty to build the branch tip. Got: '$SHA'"
             exit 1
           fi
 
@@ -86,11 +90,40 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Resolve the commit to build from Git, never from a typed abbreviation
+        id: resolve
+        run: |
+          set -euo pipefail
+          REF="${{ inputs.resolve_from_ref }}"
+          REF="${REF:-$CANONICAL_INTEGRATION_BRANCH}"
+          SUPPLIED="${{ inputs.integration_sha }}"
+          if [ -z "$SUPPLIED" ]; then
+            git fetch --no-tags origin "$REF"
+            SHA="$(git rev-parse "origin/${REF}^{commit}")"
+            echo "Resolved origin/${REF} to ${SHA}."
+          else
+            # A supplied value is accepted only if it names a real commit. A
+            # forty-character string that looks like a SHA but resolves to
+            # nothing is exactly the mistake this refuses.
+            SHA="$(git rev-parse --verify --quiet "${SUPPLIED}^{commit}" || true)"
+            if [ -z "$SHA" ]; then
+              echo "::error::${SUPPLIED} is not a commit in this repository. Leave integration_sha empty to build the tip of ${REF}."
+              exit 1
+            fi
+            if [ "$SHA" != "$SUPPLIED" ]; then
+              echo "::error::${SUPPLIED} is not the full object name of that commit (${SHA}). Supply the full SHA or leave it empty."
+              exit 1
+            fi
+          fi
+          printf '%s' "$SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::resolved SHA is malformed"; exit 1; }
+          echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
+          echo "WORKER_BUILD_SHA=${SHA}" >> "$GITHUB_ENV"
+
       - name: Verify the SHA resolves and belongs to the canonical integration history
         id: containment
         run: |
           set -euo pipefail
-          SHA="${{ inputs.integration_sha }}"
+          SHA="$WORKER_BUILD_SHA"
           if ! git cat-file -e "${SHA}^{commit}" 2>/dev/null; then
             echo "::error::${SHA} does not resolve to a commit in this repository."
             exit 1
@@ -114,7 +147,7 @@ jobs:
       # Build from the exact accepted commit, not from the branch tip, which may
       # have moved since the SHA was cleared.
       - name: Check out the exact supplied SHA
-        run: git checkout --detach "${{ inputs.integration_sha }}"
+        run: git checkout --detach "$WORKER_BUILD_SHA"
 
       - name: Record the build inputs
         id: inputs
@@ -125,7 +158,7 @@ jobs:
           {
             echo "dockerfile_sha256=${DOCKERFILE_SHA256}"
             echo "lockfile_sha256=${LOCKFILE_SHA256}"
-            echo "image_reference=${IMAGE_REPOSITORY}:${{ inputs.integration_sha }}"
+            echo "image_reference=${IMAGE_REPOSITORY}:${{ steps.resolve.outputs.sha }}"
           } >> "$GITHUB_OUTPUT"
 
       # A full-SHA tag is a POINTER, not an immutable object. Two successful
@@ -141,7 +174,7 @@ jobs:
       - name: Refuse to overwrite an existing source-SHA tag
         env:
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RCAP_WORKER_TAG: ${{ inputs.integration_sha }}
+          RCAP_WORKER_TAG: ${{ steps.resolve.outputs.sha }}
           RCAP_WORKER_TAG_REPLACEMENT_AUTHORIZATION: ${{ inputs.tag_replacement_authorization }}
         run: node scripts/verify-rcap-worker-tag-integrity.mjs --guard
 
@@ -163,7 +196,7 @@ jobs:
       - name: Re-check the source-SHA tag at the last point before pushing
         env:
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RCAP_WORKER_TAG: ${{ inputs.integration_sha }}
+          RCAP_WORKER_TAG: ${{ steps.resolve.outputs.sha }}
           RCAP_WORKER_TAG_REPLACEMENT_AUTHORIZATION: ${{ inputs.tag_replacement_authorization }}
         run: node scripts/verify-rcap-worker-tag-integrity.mjs --guard
 
@@ -175,7 +208,7 @@ jobs:
           file: ${{ env.DOCKERFILE_PATH }}
           push: true
           # Exactly one tag. No `latest`, no branch tag, no second alias.
-          tags: ${{ env.IMAGE_REPOSITORY }}:${{ inputs.integration_sha }}
+          tags: ${{ env.IMAGE_REPOSITORY }}:${{ steps.resolve.outputs.sha }}
           # The image must be able to say which source it was built from, so
           # that the binding between a digest and its commit does not rest
           # solely on a file this repository wrote about itself. Images
@@ -183,9 +216,9 @@ jobs:
           # exact-digest compensating control; see
           # data/rcap-render/worker-source-binding-exception.json.
           labels: |
-            org.opencontainers.image.revision=${{ inputs.integration_sha }}
+            org.opencontainers.image.revision=${{ steps.resolve.outputs.sha }}
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
-            org.opencontainers.image.version=${{ inputs.integration_sha }}
+            org.opencontainers.image.version=${{ steps.resolve.outputs.sha }}
           provenance: false
           sbom: false
 
@@ -196,7 +229,7 @@ jobs:
           cat > publication/rcap-render-worker-publication.json <<JSON
           {
             "schemaVersion": "rcap-worker-publication/v1",
-            "sourceSha": "${{ inputs.integration_sha }}",
+            "sourceSha": "${{ steps.resolve.outputs.sha }}",
             "canonicalIntegrationBranch": "${CANONICAL_INTEGRATION_BRANCH}",
             "releaseIntegrationBranch": "${RELEASE_INTEGRATION_BRANCH}",
             "containedIn": "${{ steps.containment.outputs.contained_in }}",
@@ -204,7 +237,7 @@ jobs:
             "dockerfileSha256": "${{ steps.inputs.outputs.dockerfile_sha256 }}",
             "lockfileSha256": "${{ steps.inputs.outputs.lockfile_sha256 }}",
             "imageRepository": "${IMAGE_REPOSITORY}",
-            "imageTag": "${{ inputs.integration_sha }}",
+            "imageTag": "${{ steps.resolve.outputs.sha }}",
             "imageReference": "${{ steps.inputs.outputs.image_reference }}",
             "immutableRegistryDigest": "${{ steps.build.outputs.digest }}",
             "digestPinnedReference": "${IMAGE_REPOSITORY}@${{ steps.build.outputs.digest }}",
@@ -231,6 +264,6 @@ jobs:
       - name: Upload the publication artifact
         uses: actions/upload-artifact@v4
         with:
-          name: rcap-render-worker-publication-${{ inputs.integration_sha }}
+          name: rcap-render-worker-publication-${{ steps.resolve.outputs.sha }}
           path: publication/rcap-render-worker-publication.json
           if-no-files-found: error

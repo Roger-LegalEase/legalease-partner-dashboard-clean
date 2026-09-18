@@ -304,7 +304,7 @@ function AccountDeletionPanel({ onDone }: { onDone: () => void }) {
           <p className="mt-2 text-[14px] leading-6 text-[#5A6275]">
             This is permanent. Everything you saved is deleted, your files and packets are removed, reminders stop,
             any help a partner or clinic was giving you ends, and you will not be able to sign in again. Records of
-            payments and security events are kept without your name attached, because accounting has to balance —
+            payments and security events are kept without your name attached, because accounting has to balance, and
             the section below explains exactly what that means.
           </p>
         </div>

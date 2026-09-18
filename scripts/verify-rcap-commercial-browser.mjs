@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import { answerBuilderStep } from "./rcap-packet-builder-filler.mjs";
 import { chromium } from "playwright";
 import { hostedVercelScopedUrl, resolveHostedVercelIdentity } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
@@ -61,25 +62,8 @@ const failures = [];
 // final verification (mississippiNonConvictionPacketSafety): a first-option
 // or placeholder answer makes the review unsafe and hides the verify action
 // (run 35120640545). These are the demo fixture's safe answers.
-const MISSISSIPPI_SAFE_ROUTE_ANSWERS = Object.freeze({
-  pending_cases: "No",
-  trafficking_status: "No",
-  prior_relief: "No",
-  sentence_completion_date: "Yes",
-  financial_obligations: "Yes",
-  nonadjudication_or_diversion: "No",
-  open_co_defendant_matter: "No",
-  actual_arrest: "Yes",
-  release_confirmed: "Yes",
-  disposition_record_wording: "Charges dropped",
-  statutory_disposition_category: "Charges dropped"
-});
 // Prompts the builder renders as free text although the profile validates them
 // as dates (the packet specification carries no question type for them).
-const ISO_DATE_ANSWER = "2015-01-15";
-function isDateInput(id, prompt) {
-  return /_date$|_date_/.test(id) || /\bdate\b/i.test(prompt);
-}
 const browserErrors = [];
 const generationRequests = [];
 const stripeRequests = [];
@@ -554,80 +538,22 @@ async function answerChoice(page, prompt, option, final = false) {
   }
 }
 
+/**
+ * Answer whatever the builder is showing, through the shared filler.
+ *
+ * This was a third copy of the filling logic, keyed on one `<h1>` per screen
+ * and one control beneath it. The builder now renders one packet-information
+ * section per screen, several questions under one heading, so that shape no
+ * longer describes the page. The shared filler answers every unanswered
+ * control on the screen by field identity, and it holds the one answer map, so
+ * the copies cannot drift apart again.
+ *
+ * A prefilled value is the participant's own screening answer projected into
+ * the packet (run 35122300936 overwrote case_outcome and failed the public
+ * validator). The shared filler never overwrites one.
+ */
 async function answerCurrentBuilderQuestion(page) {
-  const builder = page.locator("[data-packet-information-builder='active']");
-  await builder.waitFor({ state: "visible" });
-
-  const enabledText = builder.locator("input[type='text']:visible:enabled, input[type='number']:visible:enabled").first();
-  if (await enabledText.count()) {
-    const id = (await enabledText.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
-    const prompt = await builder.locator("h1").innerText();
-    // A prefilled value is the participant's own screening answer projected
-    // into the packet (run 35122300936 overwrote case_outcome and failed the
-    // public validator); keep it. Date prompts rendered as text take an ISO date.
-    const current = (await enabledText.inputValue().catch(() => "")).trim();
-    if (current) return;
-    await enabledText.fill(MISSISSIPPI_SAFE_ROUTE_ANSWERS[id] ?? (isDateInput(id, prompt) ? ISO_DATE_ANSWER : valueForPacketField(id, prompt)));
-    return;
-  }
-
-  const textarea = builder.locator("textarea:visible:enabled").first();
-  if (await textarea.count()) {
-    const id = (await textarea.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
-    const prompt = await builder.locator("h1").innerText();
-    const current = (await textarea.inputValue().catch(() => "")).trim();
-    if (current) return;
-    await textarea.fill(MISSISSIPPI_SAFE_ROUTE_ANSWERS[id] ?? valueForPacketField(id, prompt));
-    return;
-  }
-
-  const selects = builder.locator("select:visible:enabled");
-  if (await selects.count() === 1) {
-    const select = selects.first();
-    const id = ((await select.getAttribute("id")) ?? "").replace(/^q-/, "");
-    const safe = MISSISSIPPI_SAFE_ROUTE_ANSWERS[id];
-    if (safe) {
-      await select.selectOption({ label: safe });
-      return;
-    }
-  }
-  if (await selects.count() === 3) {
-    await selects.nth(0).selectOption("01");
-    await selects.nth(1).selectOption("15");
-    const years = await selects.nth(2).locator("option").evaluateAll((options) => options.map((option) => option.value).filter(Boolean));
-    await selects.nth(2).selectOption(years.includes("2015") ? "2015" : years.at(-1) ?? "2000");
-    return;
-  }
-
-  const radios = builder.locator("input[type='radio']:visible:enabled");
-  if (await radios.count()) {
-    if (await builder.locator("input[type='radio']:visible:checked").count()) return;
-    const controlId = ((await radios.first().getAttribute("name")) ?? "choice").replace(/^q-/, "");
-    const safeAnswer = MISSISSIPPI_SAFE_ROUTE_ANSWERS[controlId];
-    const preferred = safeAnswer ? new RegExp(`^${escapeRegExp(safeAnswer)}(?:\\s|$)`, "i") : null;
-    for (let index = 0; index < await radios.count(); index += 1) {
-      const radio = radios.nth(index);
-      const label = await radio.locator("xpath=ancestor::label").innerText().catch(() => "");
-      if (preferred ? preferred.test(label) : !/not sure|prefer not|unknown/i.test(label)) {
-        await radio.check();
-        return;
-      }
-    }
-    await radios.first().check();
-    return;
-  }
-
-  const checkboxes = builder.locator("input[type='checkbox']:visible:enabled");
-  if (await checkboxes.count() && !(await builder.locator("input[type='checkbox']:visible:checked").count())) {
-    for (let index = 0; index < await checkboxes.count(); index += 1) {
-      const checkbox = checkboxes.nth(index);
-      const label = await checkbox.locator("xpath=ancestor::label").innerText().catch(() => "");
-      if (!/not sure|prefer not|unknown|don't know/i.test(label)) {
-        await checkbox.check();
-        return;
-      }
-    }
-  }
+  await answerBuilderStep(page);
 }
 
 function packetInformationResponse(page, itemId) {
@@ -638,33 +564,6 @@ function packetInformationResponse(page, itemId) {
   );
 }
 
-function valueForPacketField(id, prompt) {
-  const values = {
-    participant_full_legal_name: "Acceptance Participant",
-    full_legal_name: "Acceptance Participant",
-    contact_information: "100 Acceptance Way, Jackson, MS 39201",
-    county: "Hinds County",
-    court: "Hinds County Circuit Court",
-    court_name: "Hinds County Circuit Court",
-    charge: "Acceptance test misdemeanor charge",
-    criminal_history: "Acceptance test non-conviction record",
-    offense_category: "Misdemeanor",
-    record_type: "Court case",
-    residency_or_location: "Jackson, Mississippi",
-    city: "Jackson",
-    cause_number: "25-CR-000123",
-    case_number: "25-CR-000123",
-    docket_number: "25-CR-000123",
-    age_at_offense: "30"
-  };
-  if (values[id]) return values[id];
-  if (/name/i.test(prompt)) return "Acceptance Participant";
-  if (/number|docket|case/i.test(prompt)) return "25-CR-000123";
-  if (/county/i.test(prompt)) return "Hinds County";
-  if (/court/i.test(prompt)) return "Hinds County Circuit Court";
-  if (/age|year/i.test(prompt)) return "30";
-  return "Acceptance test information";
-}
 
 async function expectText(page, text) {
   await page.getByText(text, { exact: false }).first().waitFor({ state: "visible" });

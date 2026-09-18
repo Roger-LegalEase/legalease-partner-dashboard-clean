@@ -1,6 +1,31 @@
 import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
+import { answerBuilderStep } from "./rcap-packet-builder-filler.mjs";
+import { createPacketUxMeasurement, readBuilderScreen } from "./rcap-packet-ux-measurement.mjs";
+
+const PACKET_BUILDER_SELECTOR = "[data-packet-information-builder='active']";
+/**
+ * What the Mississippi reference route should never ask for, and why.
+ *
+ * These come from the collection ledger: five facts the guided check already
+ * settles, and eight the route computes deterministically from other answers.
+ * If any of them appears as a participant control in the real browser, the
+ * collection policy is not doing what the ledger says it does.
+ */
+const MS_REUSED_FROM_SCREENING = ["case_outcome", "offense_level", "financial_obligations", "sentence_completion_date", "arrest_date"];
+const MS_DERIVED_NO_INPUT = [
+  "age_at_offense", "contact_information", "offense_category", "charge_classification",
+  "social_security_number_last_four", "court_type", "court_name", "filing_location"
+];
+const MS_CONDITIONAL_FACTS = [
+  "arrest_location", "arresting_agency", "agency_case_number",
+  "release_date_or_record_source", "personal_impact_statement"
+];
+const packetUx = createPacketUxMeasurement({
+  expectedReusedFactIds: MS_REUSED_FROM_SCREENING,
+  expectedDerivedFactIds: MS_DERIVED_NO_INPUT
+});
 
 // Hosted browser proof for the direct-to-consumer commercial journey. This
 // intentionally stops on Stripe Checkout before card entry. It creates one
@@ -171,6 +196,7 @@ try {
   // 5. Complete every required packet field. The builder may use any profile
   // question type; the helper answers its actual rendered control, not a
   // hardcoded packet-field list.
+  let packetSaveRemaining = Number.POSITIVE_INFINITY;
   for (let step = 0; step < 80 && safePath(page.url()).endsWith("/packet-information"); step += 1) {
     await answerCurrentBuilderQuestion(page);
     const saveResponsePromise = packetInformationResponse(page, itemId);
@@ -183,8 +209,34 @@ try {
     const saveResponse = await saveResponsePromise;
     check(saveResponse.ok(), `Packet-information save returned ${saveResponse.status()}.`);
     if (!saveResponse.ok()) break;
+    // Readback. The section's values have to have travelled the real server
+    // path, not merely left the browser: the save answers with the server's own
+    // recomputed missing list, and it has to be shrinking.
+    const savedBody = await saveResponse.json().catch(() => null);
+    const remaining = Array.isArray(savedBody?.missingInputIds) ? savedBody.missingInputIds.length : null;
+    check(remaining !== null, "Packet-information save did not answer with the server's own missing-fact list.");
+    if (remaining !== null) {
+      check(
+        remaining < packetSaveRemaining,
+        `Saving a section did not reduce the server's missing-fact count (${packetSaveRemaining} -> ${remaining}).`
+      );
+      packetSaveRemaining = remaining;
+    }
     await page.waitForTimeout(30);
   }
+  check(packetSaveRemaining === 0, `Packet information finished with ${packetSaveRemaining} fact(s) the server still considers missing.`);
+
+  // The journey in participant terms, held to invariants a false green cannot
+  // satisfy: no fact asked twice anywhere, nothing the guided check already
+  // answered asked again, and nothing the route derives creating work.
+  const ux = packetUx.summary();
+  for (const failure of ux.failures) check(false, `Packet-information UX: ${failure}.`);
+  check(ux.failures.length === 0, "Packet-information UX invariants hold across the whole journey.");
+  if (ux.wallOfFieldsFlags.length > 0) {
+    console.log(`NOTE packet-information sections flagged for human review as a possible wall of fields: ${JSON.stringify(ux.wallOfFieldsFlags)}`);
+  }
+  console.log(`PACKET_UX ${JSON.stringify(ux)}`);
+
   await page.waitForURL((url) => url.pathname === `/briefcase/${itemId}/review`, { timeout: 20_000 });
   await expectText(page, "Final verification");
   await expectText(page, "$50 one time after final verification");
@@ -273,73 +325,73 @@ async function answerChoice(page, prompt, option, final = false) {
   }
 }
 
+/**
+ * Answer whatever the builder is showing, through the shared filler.
+ *
+ * This used to be a second copy of the filling logic, keyed on one `<h1>` per
+ * screen and one control beneath it. The builder now renders one
+ * packet-information section per screen, several questions under one heading,
+ * so that shape no longer describes what is on the page — and a second copy of
+ * the logic was going to drift from the first whatever the markup did.
+ *
+ * The shared filler answers every unanswered control on the screen by field
+ * identity. The evidence this harness records is unchanged: each field it
+ * answered, with the value it entered.
+ */
 async function answerCurrentBuilderQuestion(page) {
-  const builder = page.locator("[data-packet-information-builder='active']");
+  const builder = page.locator(PACKET_BUILDER_SELECTOR);
   await builder.waitFor({ state: "visible" });
-
-  const enabledText = builder.locator("input[type='text']:visible:enabled, input[type='number']:visible:enabled").first();
-  if (await enabledText.count()) {
-    const id = await enabledText.getAttribute("id");
-    const fieldId = id?.replace(/^q-/, "") ?? "detail";
-    const prompt = await builder.locator("h1").innerText();
-    const value = valueForPacketField(fieldId, prompt);
-    await enabledText.fill(value);
-    recordPacketField(fieldId, prompt, await enabledText.getAttribute("type") ?? "text", value);
-    return;
-  }
-
-  const selects = builder.locator("select:visible:enabled");
-  if (await selects.count() === 3) {
-    await selects.nth(0).selectOption("01");
-    await selects.nth(1).selectOption("15");
-    const yearValues = await selects.nth(2).locator("option").evaluateAll((options) => options.map((option) => option.value).filter(Boolean));
-    const year = yearValues.includes("2015") ? "2015" : yearValues.at(-1) ?? "2000";
-    await selects.nth(2).selectOption(year);
-    const hiddenId = (await builder.locator("input[type='hidden'][id^='q-']").getAttribute("id"))?.replace(/^q-/, "") ?? "date";
-    recordPacketField(hiddenId, await builder.locator("h1").innerText(), "date (month/day/year selects)", `${year}-01-15`);
-    return;
-  }
-
-  const radios = builder.locator("input[type='radio']:visible:enabled");
-  if (await radios.count()) {
-    const checked = builder.locator("input[type='radio']:visible:checked");
-    if (await checked.count()) return;
-    const controlId = ((await radios.first().getAttribute("name")) ?? "choice").replace(/^q-/, "");
-    const preferred = ["pending_cases", "prior_relief", "trafficking_status"].includes(controlId) ? /^No(?:\s|$)/i : null;
-    for (let index = 0; index < await radios.count(); index += 1) {
-      const radio = radios.nth(index);
-      const label = await radio.locator("xpath=ancestor::label").innerText().catch(() => "");
-      if ((preferred ? preferred.test(label) : !/not sure|prefer not|unknown/i.test(label))) {
-        await radio.check();
-        recordPacketField(controlId, await builder.locator("h1").innerText(), "single choice", label.trim());
-        return;
-      }
-    }
-    await radios.first().check();
-    return;
-  }
-
-  const checkboxes = builder.locator("input[type='checkbox']:visible:enabled");
-  if (await checkboxes.count()) {
-    const checked = builder.locator("input[type='checkbox']:visible:checked");
-    if (await checked.count()) return;
-    for (let index = 0; index < await checkboxes.count(); index += 1) {
-      const checkbox = checkboxes.nth(index);
-      const label = await checkbox.locator("xpath=ancestor::label").innerText().catch(() => "");
-      if (!/not sure|prefer not|unknown|don't know/i.test(label)) {
-        await checkbox.check();
-        return;
-      }
-    }
+  // Measured BEFORE anything is entered, so the counts describe the screen the
+  // participant met rather than the one the filler left behind.
+  packetUx.record(await readBuilderScreen(page, PACKET_BUILDER_SELECTOR, MS_CONDITIONAL_FACTS));
+  const before = await builderFieldValues(builder);
+  await answerBuilderStep(page);
+  const after = await builderFieldValues(builder);
+  for (const [id, entry] of Object.entries(after)) {
+    if (before[id]?.value === entry.value) continue;
+    recordPacketField(id, entry.label, entry.inputType, entry.value);
   }
 }
 
+/** Every named builder control, by question id, with what it currently holds. */
+function builderFieldValues(builder) {
+  return builder.evaluate((node) => {
+    const values = {};
+    for (const control of node.querySelectorAll("input, select, textarea")) {
+      const raw = control.getAttribute("name") ?? control.id ?? "";
+      if (!raw.startsWith("q-")) continue;
+      const id = raw.replace(/^q-/, "").replace(/-(month|day|year|unknown|prompt|helper|error)$/, "");
+      if (!id) continue;
+      const answered = control.type === "radio" || control.type === "checkbox"
+        ? (control.checked ? control.value : "")
+        : String(control.value ?? "").trim();
+      if (!answered) continue;
+      const prompt = node.querySelector(`#q-${CSS.escape(id)}-prompt`)?.textContent?.trim()
+        ?? node.querySelector("h2, h1")?.textContent?.trim()
+        ?? id;
+      values[id] = {
+        value: answered,
+        label: prompt,
+        inputType: control.tagName === "SELECT" ? "select" : control.type || control.tagName.toLowerCase()
+      };
+    }
+    return values;
+  });
+}
+
+/**
+ * Which screen the builder is on. A section screen is identified by the section
+ * it renders; a single-question screen by that question's own control. Neither
+ * depends on there being exactly one heading inside the builder.
+ */
 async function currentBuilderQuestionId(page) {
   const builder = page.locator("[data-packet-information-builder='active']");
-  const control = builder.locator("input[id^='q-'], select").first();
+  const section = await builder.locator("[data-packet-section]").first().getAttribute("data-packet-section").catch(() => null);
+  if (section) return `section:${section}`;
+  const control = builder.locator("input[id^='q-'], select[id^='q-'], textarea[id^='q-']").first();
   const id = await control.getAttribute("id").catch(() => null);
   if (id) return id;
-  return (await builder.locator("h1").innerText()).trim();
+  return (await builder.locator("h2, h1").first().innerText().catch(() => "builder")).trim();
 }
 
 async function currentBuilderQuestionHasAnswer(page) {
@@ -401,35 +453,6 @@ function recordPacketField(id, label, inputType, value) {
   if (!packetFields.some((field) => field.id === id)) packetFields.push({ id, label: label.trim(), inputType, value });
 }
 
-function valueForPacketField(id, prompt) {
-  const values = {
-    participant_full_legal_name: "Acceptance Consumer",
-    full_legal_name: "Acceptance Consumer",
-    contact_information: "100 Acceptance Way, Jackson, MS 39201",
-    county: "Hinds County",
-    court: "Hinds County Circuit Court",
-    court_name: "Hinds County Circuit Court",
-    charge: "Acceptance test misdemeanor charge",
-    criminal_history: "Acceptance test non-conviction record",
-    offense_category: "Misdemeanor",
-    record_type: "Court case",
-    residency_or_location: "Jackson, Mississippi",
-    city: "Jackson",
-    cause_number: "25-CR-000123",
-    case_number: "25-CR-000123",
-    docket_number: "25-CR-000123",
-    agency_case_number: "TEST-000123",
-    otn: "TEST-OTN-000123",
-    age_at_offense: "30"
-  };
-  if (values[id]) return values[id];
-  if (/name/i.test(prompt)) return "Acceptance Consumer";
-  if (/number|docket|case/i.test(prompt)) return "25-CR-000123";
-  if (/county/i.test(prompt)) return "Hinds County";
-  if (/court/i.test(prompt)) return "Hinds County Circuit Court";
-  if (/age|year/i.test(prompt)) return "30";
-  return "Acceptance test information";
-}
 
 async function expectText(page, text) {
   await page.getByText(text, { exact: false }).first().waitFor({ state: "visible" });
