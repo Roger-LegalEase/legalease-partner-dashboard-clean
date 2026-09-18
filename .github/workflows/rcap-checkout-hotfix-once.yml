@@ -1,4 +1,4 @@
-name: Checkout hotfix live zero-dollar order once
+name: Final Stripe idempotency fix tests once
 
 on:
   push:
@@ -9,28 +9,23 @@ on:
 
 permissions:
   contents: read
-  actions: read
 
 jobs:
-  live_order:
+  test:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
     env:
-      TOOLS_SHA: 194f1555f2eaf5182c15200f3a3da5b317ffc883
-      PRODUCTION_DEPLOYMENT_ID: dpl_4rwbPYsHvj92tfZr4rWqZWBF4M9C
-      RESUME_MATTER_ID: c824787c-737e-484e-bb43-ff9a5c42c8f0
+      HOTFIX_SHA: ecfe964d68968a26dbd590d40f8f006b2bc28ab1
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Verify tools commit is canonical and check it out
+      - name: Check out exact Stripe idempotency fix
         run: |
           set -euo pipefail
-          git fetch --no-tags origin claude/legalease-sprint-captain-utucnw
-          git cat-file -e "$TOOLS_SHA^{commit}"
-          git merge-base --is-ancestor "$TOOLS_SHA" origin/claude/legalease-sprint-captain-utucnw
-          git checkout --detach "$TOOLS_SHA"
+          git cat-file -e "$HOTFIX_SHA^{commit}"
+          git checkout --detach "$HOTFIX_SHA"
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -38,24 +33,10 @@ jobs:
           cache: npm
       - name: Install frozen dependencies
         run: npm ci
-      - name: Run exact authorized live order
-        env:
-          RCAP_PRODUCTION_PHASE: live_zero_dollar_order
-          RCAP_PUBLIC_ORIGIN: https://expungement.ai
-          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
-          RCAP_PRODUCTION_SUPABASE_URL: https://wwtwtsmywnckfkdaqqeg.supabase.co
-          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
-          RCAP_PROBE_BROWSERS: chromium
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          RCAP_LIVE_PROMOTION_CODE: CLAUDE
-          RCAP_RESUME_MATTER_ID: ${{ env.RESUME_MATTER_ID }}
-          RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ env.PRODUCTION_DEPLOYMENT_ID }}
-          RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: node scripts/rcap-production-save-transition-probe.mjs
-      - name: Upload live-order evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: checkout-hotfix-live-order-${{ github.run_id }}
-          path: production-canary-evidence/
-          if-no-files-found: error
+      - name: Run checkout gates
+        run: |
+          node scripts/test-consumer-checkout-binding-recovery.mjs
+          node scripts/test-consumer-checkout-stored-session.mjs
+          node scripts/verify-consumer-checkout-refusals-are-classified.mjs
+          node scripts/test-expungement-checkout-guards.mjs
+          npx tsc --noEmit
