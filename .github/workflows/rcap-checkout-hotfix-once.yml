@@ -1,4 +1,4 @@
-name: Controlled experiment live zero-dollar order with CLAUDE4 once
+name: Read the exact refused CLAUDE4 Session once
 
 on:
   push:
@@ -12,13 +12,11 @@ permissions:
   actions: read
 
 jobs:
-  live_order:
+  object_diagnosis:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 15
     env:
-      TOOLS_SHA: ddc820b65feb4414013602868cccaf2b86c1184e
-      PRODUCTION_DEPLOYMENT_ID: dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx
-      RESUME_MATTER_ID: ""
+      TOOLS_SHA: 681ca7a7b225258cbce399f4bca5327c26f01c9d
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -42,25 +40,19 @@ jobs:
       - name: Install frozen dependencies
         run: npm ci
 
-      - name: Run exact authorized live order
+      - name: Read the live Stripe objects (GET only, nothing is modified)
         env:
-          RCAP_PRODUCTION_PHASE: live_zero_dollar_order
-          RCAP_PUBLIC_ORIGIN: https://expungement.ai
-          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
-          RCAP_PRODUCTION_SUPABASE_URL: https://wwtwtsmywnckfkdaqqeg.supabase.co
-          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
-          RCAP_PROBE_BROWSERS: chromium
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          RCAP_LIVE_PROMOTION_CODE: CLAUDE4
-          RCAP_RESUME_MATTER_ID: ${{ env.RESUME_MATTER_ID }}
-          RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ env.PRODUCTION_DEPLOYMENT_ID }}
-          RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: node scripts/rcap-production-save-transition-probe.mjs
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          RCAP_STRIPE_READ_KEY: ${{ secrets.RCAP_STRIPE_READ_KEY }}
+          RCAP_PROMOTION_CODE: CLAUDE4
+          RCAP_EXPECTED_PRODUCT_ID: prod_VHEHkvH7dSvGv7
+          RCAP_DASHBOARD_PRODUCT_NAME: RCAP acceptance consumer packet
+        run: node scripts/rcap-stripe-coupon-object-diagnosis.mjs
 
-      - name: Upload live-order evidence
+      - name: Upload diagnosis evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: claude4-live-order-${{ github.run_id }}
+          name: claude4-refused-session-${{ github.run_id }}
           path: production-canary-evidence/
           if-no-files-found: error
