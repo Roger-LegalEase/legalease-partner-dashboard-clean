@@ -1,4 +1,4 @@
-name: Checkout hotfix live zero-dollar order once
+name: Reconcile checkout hotfix Grade-A authority once
 
 on:
   push:
@@ -8,30 +8,19 @@ on:
       - .github/workflows/rcap-checkout-hotfix-once.yml
 
 permissions:
-  contents: read
-  actions: read
+  contents: write
 
 jobs:
-  live_order:
+  reconcile:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
-    env:
-      TOOLS_SHA: 194f1555f2eaf5182c15200f3a3da5b317ffc883
-      PRODUCTION_DEPLOYMENT_ID: dpl_6qREkfSYpgQGKGnTPE9qRpM7BhFV
-      RESUME_MATTER_ID: c824787c-737e-484e-bb43-ff9a5c42c8f0
+    timeout-minutes: 30
     steps:
-      - name: Check out repository history
+      - name: Check out hotfix branch
         uses: actions/checkout@v4
         with:
+          ref: claude/hotfix-release-3e3a528b5
           fetch-depth: 0
-
-      - name: Verify tools commit is canonical and check it out
-        run: |
-          set -euo pipefail
-          git fetch --no-tags origin claude/legalease-sprint-captain-utucnw
-          git cat-file -e "$TOOLS_SHA^{commit}"
-          git merge-base --is-ancestor "$TOOLS_SHA" origin/claude/legalease-sprint-captain-utucnw
-          git checkout --detach "$TOOLS_SHA"
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -42,25 +31,32 @@ jobs:
       - name: Install frozen dependencies
         run: npm ci
 
-      - name: Run exact authorized live order
-        env:
-          RCAP_PRODUCTION_PHASE: live_zero_dollar_order
-          RCAP_PUBLIC_ORIGIN: https://expungement.ai
-          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
-          RCAP_PRODUCTION_SUPABASE_URL: https://wwtwtsmywnckfkdaqqeg.supabase.co
-          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
-          RCAP_PROBE_BROWSERS: chromium
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          RCAP_LIVE_PROMOTION_CODE: CLAUDE
-          RCAP_RESUME_MATTER_ID: ${{ env.RESUME_MATTER_ID }}
-          RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ env.PRODUCTION_DEPLOYMENT_ID }}
-          RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: node scripts/rcap-production-save-transition-probe.mjs
+      - name: Regenerate Grade-A authority from committed evidence
+        run: node scripts/generate-rcap-grade-a-fulfillment-authority.mjs
 
-      - name: Upload live-order evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: checkout-hotfix-live-order-${{ github.run_id }}
-          path: production-canary-evidence/
-          if-no-files-found: error
+      - name: Refuse worker-input or unrelated drift
+        run: |
+          set -euo pipefail
+          echo "Generated diff:"
+          git diff --name-only
+          git diff --quiet -- data/rcap-grade-a/worker-static-authority.json || {
+            echo "::error::worker-static authority changed; refusing app-only reconciliation"
+            exit 1
+          }
+          unexpected="$(git diff --name-only | grep -vE '^(data/rcap-grade-a/fulfillment-authority-registry\.json|data/rcap-grade-a/fulfillment-observation-snapshot\.json|data/rcap-grade-a/fulfillment-authority-projection\.json)$' || true)"
+          [ -z "$unexpected" ] || { echo "::error::unexpected generated files: $unexpected"; exit 1; }
+
+      - name: Verify regenerated authority
+        run: |
+          node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check
+          node scripts/verify-rcap-grade-a-fulfillment-authority.mjs
+
+      - name: Commit exact generated authority
+        run: |
+          set -euo pipefail
+          git config user.name "Roger-LegalEase"
+          git config user.email "roger@legalease.com"
+          git add data/rcap-grade-a/fulfillment-authority-registry.json                   data/rcap-grade-a/fulfillment-observation-snapshot.json                   data/rcap-grade-a/fulfillment-authority-projection.json
+          git diff --cached --quiet && { echo "::error::generator produced no authority reconciliation"; exit 1; }
+          git commit -m "Reconcile Grade-A authority to active Production worker publication"
+          git push origin HEAD:claude/hotfix-release-3e3a528b5
