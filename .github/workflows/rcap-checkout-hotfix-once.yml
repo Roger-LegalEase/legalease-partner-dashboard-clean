@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      TOOLS_SHA: 9af1e3a4f2241f8af3d306fd885e8e068ad36ea1
+      TOOLS_SHA: ddc820b65feb4414013602868cccaf2b86c1184e
       PRODUCTION_DEPLOYMENT_ID: dpl_FVxw5Ap8mLu3akQAnPk5xnooT7mx
       RESUME_MATTER_ID: ""
     steps:
@@ -52,7 +52,6 @@ jobs:
           RCAP_PROBE_BROWSERS: chromium
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           RCAP_LIVE_PROMOTION_CODE: CLAUDE2
-          RCAP_CATALOG_PRODUCT_NAME_PATTERN: Expung
           RCAP_RESUME_MATTER_ID: ${{ env.RESUME_MATTER_ID }}
           RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ env.PRODUCTION_DEPLOYMENT_ID }}
           RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ secrets.VERCEL_TOKEN }}
