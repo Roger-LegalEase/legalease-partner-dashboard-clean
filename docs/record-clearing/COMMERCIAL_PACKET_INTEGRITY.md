@@ -4,15 +4,15 @@
 
 The direct-consumer paid path has one artifact builder and it takes no branch. buildConsumerPacketArtifact returns provider rcap_source_engine, contentType text/plain and a filename ending -packet.txt for every jurisdiction, route, packet family and plan mode, and its body is the route's own metadata plus the packet plan's readiness conditions under a heading that reads FILING CHECKLIST. So the § 99-15-59 finding is a property of the path, not of that route.
 
-**29 commercial routes** — 28 payment-allowed at the evaluator, 25 with checkout actually open once the packet route resolver is consulted, 0 sponsorship-capable, 2 proven by a fulfillment record.
+**28 commercial routes** — 28 payment-allowed at the evaluator, 25 with checkout actually open once the packet route resolver is consulted, 0 sponsorship-capable, 1 proven by a fulfillment record.
 
-**22 routes left this denominator** when ADR-0004 retired the legacy generators' commercial authority. They are listed by name in the JSON under `departuresFromTheCommercialDenominator`; none of them can take money or a sponsored credit any more, and each still renders for historical access.
+**23 routes left this denominator** when ADR-0004 retired the legacy generators' commercial authority. They are listed by name in the JSON under `departuresFromTheCommercialDenominator`; none of them can take money or a sponsored credit any more, and each still renders for historical access.
 
 | Classification | Routes |
 |---|---:|
-| PACKET_CORRECTION_REQUIRED | 26 |
+| PACKET_CORRECTION_REQUIRED | 25 |
 | GUIDANCE_OR_HANDOFF_NO_PACKET | 3 |
-| **TOTAL** | **29** |
+| **TOTAL** | **28** |
 
 ## Every commercial route
 
@@ -37,7 +37,6 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 | `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` | Nonconviction Petition under current § 99-19-71(4) | packet_ready_with_caution | OPEN | no | rcap_grade_a_composer_v1 | application/pdf | PACKET_CORRECTION_REQUIRED |
 | `NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `ND:deferred-imposition-dismissal-and-sealing` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
-| `ND:first-offense-possession-sealing` | — | needs_review | closed | no | rcap_grade_a_composer_v1 | application/pdf | PACKET_CORRECTION_REQUIRED |
 | `NE:set-aside-incarceration-one-year-or-less` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `NE:set-aside-probation-fine-community-service` | Nebraska Set-Aside Application under § 29-2264 | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `NH:annulment-after-dismissal-acquittal-or-nonprosecution` | — | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
@@ -448,27 +447,6 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
 - **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
 - **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1085-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
-
-### `ND:first-offense-possession-sealing`
-
-- **JURISDICTION:** ND
-- **PATHWAY:** first-offense-possession-sealing
-- **PACKET FAMILY:** none named by any contract
-- **CURRENT RESULT CODE:** needs_review
-- **CURRENT PAYMENT AUTHORITY:** evaluator false; contract none; checkout closed
-- **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
-- **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact -> buildGradeAArtifact -> composeGradeAPacket
-- **ARTIFACT PROVIDER:** rcap_grade_a_composer_v1
-- **CONTENT TYPE:** application/pdf
-- **ACTUAL COMPONENTS:** none
-- **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
-- **SOURCE HASHES:** none — the plan names no source form
-- **RENDERER:** packet_document_v1 (route kind factory_v2)
-- **ARTIFACT HASH:** none (null bytes)
-- **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
-- **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
-- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 936-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
 
 ### `NE:set-aside-incarceration-one-year-or-less`
 

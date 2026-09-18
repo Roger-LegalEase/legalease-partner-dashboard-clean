@@ -6,18 +6,18 @@
   "provenIsTheOnlyClassificationThatCanOpenPayment": "COMPLETE_PACKET_PROVEN is set from the fulfillment record and from nothing else, and every other classification leaves the route refused at all six commercial surfaces. COMPLETE_PACKET_PROVEN_COMMERCIALLY_HELD is a proven packet whose postures are still closed: it opens nothing either.",
   "finding": "The direct-consumer paid path has one artifact builder and it takes no branch. buildConsumerPacketArtifact returns provider rcap_source_engine, contentType text/plain and a filename ending -packet.txt for every jurisdiction, route, packet family and plan mode, and its body is the route's own metadata plus the packet plan's readiness conditions under a heading that reads FILING CHECKLIST. So the § 99-15-59 finding is a property of the path, not of that route.",
   "totals": {
-    "commercialRoutes": 29,
+    "commercialRoutes": 28,
     "evaluatorPaymentAllowed": 28,
     "checkoutActuallyOpen": 25,
-    "provenByFulfillmentRecord": 2,
+    "provenByFulfillmentRecord": 1,
     "sponsorshipCapable": 0,
-    "PACKET_CORRECTION_REQUIRED": 26,
+    "PACKET_CORRECTION_REQUIRED": 25,
     "GUIDANCE_OR_HANDOFF_NO_PACKET": 3
   },
   "departuresFromTheCommercialDenominator": {
     "note": "Routes that were in this census and no longer are, each with the exact reason. A denominator that changes silently is not a denominator.",
-    "count": 22,
-    "reconciliation": "The previous census carried 54 commercial routes. 22 left when ADR-0004 withdrew the legacy generators' credit-consumability, and 1 entered on a fulfillment record rather than on a commercial capability. 54 - 22 + 1 = 29.",
+    "count": 23,
+    "reconciliation": "The previous census carried 54 commercial routes. 22 left when ADR-0004 withdrew the legacy generators' credit-consumability, 1 left when a fulfillment record was withdrawn for want of proof, and 0 entered on a fulfillment record rather than on a commercial capability. 54 - 23 + 0 = 28.",
     "routes": [
       {
         "route": "DC:dc_motion_seal_felony_conviction_8yr_16_806",
@@ -162,6 +162,15 @@
         "leftBecause": "ADR-0004 retired the five legacy generators as commercial fulfillment paths. The route resolves legacy_retired with sellable false and creditConsumable false, so it can no longer take money or a sponsored credit and is not a commercial route.",
         "stillRenders": "packet_document_v1",
         "note": "Its renderer is retained so an already-generated artifact stays reachable. That is historical access, not commercial authority."
+      },
+      {
+        "route": "ND:first-offense-possession-sealing",
+        "jurisdiction": "ND",
+        "pathway": "first-offense-possession-sealing",
+        "wasCommercialBecause": "it held a fulfillment record, which is what put it in this denominator",
+        "leftBecause": "Fulfillment authority was asserted before proof was complete. The record was withdrawn on 2026-09-18, missing final verification binding, official-source binding, legal/output approval, page-by-page visual approval.",
+        "stillRenders": "packet_document_v1",
+        "note": "The route, its packet specification, its sources and its mappings are preserved; only the claim of proven authority was withdrawn. No live commercial authority was removed, because checkout, sponsorship and credit consumption were already refused. It may earn a new record once every required proof exists. Recorded in data/rcap-ledger/fulfillment-authority-withdrawals.json."
       },
       {
         "route": "PA:path-a-non-conviction-expungement",
@@ -990,52 +999,6 @@
       "repeatDownload": "supported by the download path; not reached while the route is fail-closed",
       "currentClassification": "PACKET_CORRECTION_REQUIRED",
       "exactRemainingDelta": "Checkout is OPEN. A participant can pay today and receive a 1085-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps."
-    },
-    {
-      "route": "ND:first-offense-possession-sealing",
-      "jurisdiction": "ND",
-      "pathway": "first-offense-possession-sealing",
-      "packetFamily": null,
-      "currentResultCode": "needs_review",
-      "currentPaymentAuthority": {
-        "evaluatorPaymentAllowed": false,
-        "contractPaymentAuthority": null,
-        "checkoutActuallyOpen": false
-      },
-      "currentSponsorshipAuthority": {
-        "contractSponsorshipAuthority": "closed",
-        "routeCreditConsumable": false
-      },
-      "generationEntryPoint": "generatePaidConsumerPacket -> buildConsumerPacketArtifact -> buildGradeAArtifact -> composeGradeAPacket",
-      "artifactProvider": "rcap_grade_a_composer_v1",
-      "contentType": "application/pdf",
-      "fulfillmentRecord": {
-        "packetSpecificationId": "nd-first-offense-possession-sealing",
-        "packetSpecificationVersion": "1.0.0",
-        "packetSpecificationSha256": "41bceab2b973bf498f48b696d1eee1c62c6d79e7a21f4e7d0cc4007f79b60bf2",
-        "artifactApprovalStatus": "composed_and_machine_verified_pending_counsel_review",
-        "consumerPosture": "held",
-        "sponsoredPosture": "held"
-      },
-      "actualComponents": [],
-      "requiredComponents": [
-        "primary filing or application",
-        "proposed order where required",
-        "attachments or schedules",
-        "filing destination",
-        "fee or waiver instructions",
-        "service or notice",
-        "post-filing steps"
-      ],
-      "sourceHashes": [],
-      "renderer": "packet_document_v1",
-      "routeKind": "factory_v2",
-      "artifactHash": null,
-      "artifactBytes": null,
-      "privateDelivery": "owner-scoped Briefcase download path; not reached while the route is fail-closed",
-      "repeatDownload": "supported by the download path; not reached while the route is fail-closed",
-      "currentClassification": "PACKET_CORRECTION_REQUIRED",
-      "exactRemainingDelta": "Checkout is closed, and a sponsored credit is consumable on a route whose paid path returns a 936-byte text/plain summary. Missing: primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps."
     },
     {
       "route": "NE:set-aside-incarceration-one-year-or-less",

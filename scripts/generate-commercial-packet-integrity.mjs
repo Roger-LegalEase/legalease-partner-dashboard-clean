@@ -39,6 +39,8 @@ const { isConsumerPaymentAllowed } = await import("@/lib/expungement-ai/eligibil
 const { packetFulfillmentAuthority } = await import("@/lib/expungement-ai/packet-fulfillment-authority");
 const fulfillmentLedger = JSON.parse(fs.readFileSync("data/rcap-ledger/packet-fulfillment-records.json", "utf8"));
 const FULFILLED = new Map((fulfillmentLedger.records ?? []).map((record) => [record.routeKey, record]));
+const withdrawalLedger = JSON.parse(fs.readFileSync("data/rcap-ledger/fulfillment-authority-withdrawals.json", "utf8"));
+const WITHDRAWN = new Map((withdrawalLedger.withdrawals ?? []).map((entry) => [entry.routeKey, entry]));
 
 const witnesses = JSON.parse(fs.readFileSync("data/rcap-ledger/public-witness-answer-sets.json", "utf8")).witnesses;
 const correction = JSON.parse(fs.readFileSync("data/rcap-ledger/packet-correction-required.json", "utf8"));
@@ -122,7 +124,26 @@ for (const witness of witnesses) {
     // census fell from 54 routes to 30 the moment ADR-0004 withdrew the legacy
     // generators' credit-consumability, and a denominator that shrinks without
     // an explanation is indistinguishable from one that was quietly edited.
-    if (packetRoute.routeKind === "legacy_retired") {
+    // A withdrawn fulfillment record is the other way a route leaves this
+    // denominator, and it leaves for a different reason than ADR-0004 gave.
+    // Recording it with the legacy wording would file it under a retirement it
+    // was never part of, and recording it nowhere would be the unexplained
+    // shrink this accounting exists to prevent.
+    const withdrawn = WITHDRAWN.get(witness.pathwayKey);
+    if (withdrawn) {
+      departures.push({
+        route: witness.pathwayKey,
+        jurisdiction,
+        pathway: pathwayId,
+        wasCommercialBecause: "it held a fulfillment record, which is what put it in this denominator",
+        leftBecause: `${withdrawn.reason} The record was withdrawn on ${withdrawn.withdrawnOn}, missing ${withdrawn.missingProofs.join(", ")}.`,
+        stillRenders: packetRoute.rendererKind,
+        note: "The route, its packet specification, its sources and its mappings are preserved; only the "
+          + "claim of proven authority was withdrawn. No live commercial authority was removed, because "
+          + "checkout, sponsorship and credit consumption were already refused. It may earn a new record "
+          + "once every required proof exists. Recorded in data/rcap-ledger/fulfillment-authority-withdrawals.json."
+      });
+    } else if (packetRoute.routeKind === "legacy_retired") {
       departures.push({
         route: witness.pathwayKey,
         jurisdiction,
@@ -286,7 +307,7 @@ const doc = {
   departuresFromTheCommercialDenominator: {
     note: "Routes that were in this census and no longer are, each with the exact reason. A denominator that changes silently is not a denominator.",
     count: departures.length,
-    reconciliation: `The previous census carried 54 commercial routes. ${departures.length} left when ADR-0004 withdrew the legacy generators' credit-consumability, and ${rows.filter((row) => row.fulfillmentRecord !== null && !row.currentPaymentAuthority.evaluatorPaymentAllowed && !row.currentSponsorshipAuthority.routeCreditConsumable).length} entered on a fulfillment record rather than on a commercial capability. 54 - ${departures.length} + ${rows.filter((row) => row.fulfillmentRecord !== null && !row.currentPaymentAuthority.evaluatorPaymentAllowed && !row.currentSponsorshipAuthority.routeCreditConsumable).length} = ${rows.length}.`,
+    reconciliation: `The previous census carried 54 commercial routes. ${departures.filter((entry) => !WITHDRAWN.has(entry.route)).length} left when ADR-0004 withdrew the legacy generators' credit-consumability, ${departures.filter((entry) => WITHDRAWN.has(entry.route)).length} left when a fulfillment record was withdrawn for want of proof, and ${rows.filter((row) => row.fulfillmentRecord !== null && !row.currentPaymentAuthority.evaluatorPaymentAllowed && !row.currentSponsorshipAuthority.routeCreditConsumable).length} entered on a fulfillment record rather than on a commercial capability. 54 - ${departures.length} + ${rows.filter((row) => row.fulfillmentRecord !== null && !row.currentPaymentAuthority.evaluatorPaymentAllowed && !row.currentSponsorshipAuthority.routeCreditConsumable).length} = ${rows.length}.`,
     routes: departures.sort((a, b) => a.route.localeCompare(b.route))
   },
   rows

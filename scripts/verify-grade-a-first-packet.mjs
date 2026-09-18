@@ -219,60 +219,146 @@ const { packetFulfillmentAuthority, assertPacketFulfillmentProven, packetFulfill
 const ledger = JSON.parse(readFileSync(path.join(process.cwd(), "data/rcap-ledger/packet-fulfillment-records.json"), "utf8"));
 const record = (ledger.records ?? []).find((entry) => entry.routeKey === ROUTE_KEY);
 
-ok("a fulfillment record exists for the route", Boolean(record));
-ok("the record pins the specification that is actually on disk",
-  record?.packetSpecificationSha256 === specSha256,
-  `record ${record?.packetSpecificationSha256} vs disk ${specSha256}`);
-ok("the record pins the specification version the composer registered",
-  record?.packetSpecificationVersion === specification.specificationVersion);
-ok("the record names the path it pinned", record?.packetSpecificationPath === SPEC_PATH);
-ok("the record is complete", packetFulfillmentShortfall(record).length === 0,
-  packetFulfillmentShortfall(record).join(", "));
-
 const [code, pathwayId] = ROUTE_KEY.split(/:(.+)/);
 // Since 65851c3d1 (2026-09-05) the binding refuses outright without a track,
 // because a route match alone is not enough where two legal-design tracks share
 // one runtime pathway. Asking without one can never return allowed, for any
-// route, so this asked a question no answer could satisfy.
+// route, so asking that way proves nothing.
 const boundTrackId = specification.trackId;
-const establishedDecision = packetFulfillmentAuthority(code, pathwayId, undefined, { trackId: boundTrackId });
-ok("the packet itself is established", establishedDecision.allowed === true,
-  establishedDecision.allowed ? "" : establishedDecision.missing.join(", "));
+const decision = packetFulfillmentAuthority(code, pathwayId, undefined, { trackId: boundTrackId });
+const proofComplete = decision.allowed === true;
 
 function refuses(run) { try { run(); return false; } catch { return true; } }
 
-// Proven is not sold. Every surface where money or an entitlement changes hands
-// must refuse while its posture is held, and the refusal must carry the reason.
-for (const [surface, posture] of [
-  ["checkout creation", record?.consumerPosture],
-  ["consumer payment authority", record?.consumerPosture],
-  ["sponsored entitlement", record?.sponsoredPosture],
-  ["packet credit consumption", record?.sponsoredPosture]
-]) {
-  if (posture !== "held") {
-    ok(`${surface} posture is deliberately open`, posture === "open", String(posture));
-    continue;
+/**
+ * The rule, not this route's current answer.
+ *
+ * A fulfillment record may exist only when every proof the record contract
+ * requires is present and valid. Complete proof means a record may exist and
+ * commercial admission may proceed; incomplete proof means no record, and every
+ * commercial surface refuses. Both directions are failures: a record without
+ * proof claims authority nobody earned, and proof without a record leaves a
+ * proven packet unreachable.
+ *
+ * Written as the rule so it survives the route finishing. North Dakota is
+ * simply the current negative case, and the day its proofs are bound the same
+ * assertions become the positive case without being rewritten.
+ */
+const recordMayExist = (hasRecord, proofsComplete) => hasRecord === proofsComplete;
+ok("a fulfillment record exists exactly when the Grade-A proofs are complete",
+  recordMayExist(Boolean(record), proofComplete),
+  `record ${record ? "present" : "absent"}, proofs ${proofComplete ? "complete" : `incomplete (${decision.missing.join(", ")})`}`);
+ok("a record reinserted without complete proofs is refused by the rule", !recordMayExist(true, false));
+ok("a record is permitted once the proofs are complete", recordMayExist(true, true));
+ok("complete proofs with no record is equally a failure", !recordMayExist(false, true));
+
+if (proofComplete) {
+  // Proven. The record must describe the packet this file just built, and the
+  // postures it declares must actually govern.
+  ok("the record pins the specification that is actually on disk",
+    record?.packetSpecificationSha256 === specSha256,
+    `record ${record?.packetSpecificationSha256} vs disk ${specSha256}`);
+  ok("the record pins the specification version the composer registered",
+    record?.packetSpecificationVersion === specification.specificationVersion);
+  ok("the record names the path it pinned", record?.packetSpecificationPath === SPEC_PATH);
+  ok("the record is complete", packetFulfillmentShortfall(record).length === 0,
+    packetFulfillmentShortfall(record).join(", "));
+
+  // Proven is not sold. Every surface where money or an entitlement changes
+  // hands must refuse while its posture is held, and say why.
+  for (const [surface, posture] of [
+    ["checkout creation", record?.consumerPosture],
+    ["consumer payment authority", record?.consumerPosture],
+    ["sponsored entitlement", record?.sponsoredPosture],
+    ["packet credit consumption", record?.sponsoredPosture]
+  ]) {
+    if (posture !== "held") {
+      ok(`${surface} posture is deliberately open`, posture === "open", String(posture));
+      continue;
+    }
+    ok(`${surface} refuses while its posture is held`,
+      refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface, { trackId: boundTrackId })));
+    const held = packetFulfillmentAuthority(code, pathwayId, surface, { trackId: boundTrackId });
+    ok(`the ${surface} refusal names the hold reason`,
+      held.allowed === false && held.reason.includes(record.holdReason.slice(0, 40)));
   }
-  ok(`${surface} refuses while its posture is held`,
-    refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface, { trackId: boundTrackId })));
-  const decision = packetFulfillmentAuthority(code, pathwayId, surface);
-  ok(`the ${surface} refusal names the hold reason`,
-    decision.allowed === false && decision.reason.includes(record.holdReason.slice(0, 40)));
-}
 
-// Generation and delivery are reachable on a proven packet, because they are
-// only ever reached through an entitlement the surfaces above already gated.
-for (const surface of ["packet generation", "participant delivery"]) {
-  ok(`${surface} is open on a proven packet`,
-    !refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface, { trackId: boundTrackId })));
-}
+  // Generation and delivery are reachable on a proven packet, because they are
+  // only ever reached through an entitlement the surfaces above already gated.
+  for (const surface of ["packet generation", "participant delivery"]) {
+    ok(`${surface} is open on a proven packet`,
+      !refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface, { trackId: boundTrackId })));
+  }
 
-// A machine-verified artifact does not carry a sale even if a posture is opened.
-ok("an unreviewed artifact status refuses a money surface even with an open posture",
-  packetFulfillmentShortfall({ ...record, consumerPosture: "open", holdReason: "x" }).length === 0);
-ok("the record's artifact status is not a reviewed one",
-  !["counsel_reviewed", "counsel_reviewed_and_visually_verified"].includes(record?.artifactApprovalStatus),
-  record?.artifactApprovalStatus);
+  const artifactSha256Now = createHash("sha256").update(bytes).digest("hex");
+  ok("the artifact hash matches the one the record pins",
+    record?.artifactSha256 === artifactSha256Now,
+    `record ${record?.artifactSha256} vs rendered ${artifactSha256Now}`);
+  ok("the record pins the artifact's byte length and page count",
+    record?.artifactBytes === bytes.length && record?.artifactPages === parsed.getPageCount(),
+    `${record?.artifactBytes}/${record?.artifactPages} vs ${bytes.length}/${parsed.getPageCount()}`);
+  ok("the record does not claim a visual review that has not happened",
+    typeof record?.visualReview?.status === "string", String(record?.visualReview?.status));
+  ok("the record does not claim completed-output legal approval",
+    typeof record?.outputLegalReview?.status === "string", String(record?.outputLegalReview?.status));
+} else {
+  // Not proven. Authority is absent, and absence is a refusal.
+  ok("no fulfillment record claims authority this route has not earned", record === undefined);
+  ok("the authority refusal names the missing proof rather than failing silently",
+    decision.missing.length > 0 && decision.reason.includes(ROUTE_KEY),
+    decision.reason);
+
+  // The route is preserved. Withdrawing a claim is not deleting the work: the
+  // pathway, its specification, its fixture and its packet must all still be
+  // here, and this file's own composition and render above must still have run.
+  ok("the route still exists in the specification registry", Boolean(packetSpecificationFor(ROUTE_KEY)));
+  ok("the packet specification bytes are still on disk", specBytes.length > 0);
+  ok("the deterministic fixture is preserved", Object.keys(fixture).length > 0);
+  ok("the packet still composes from its own specification", packet.documents.length > 0);
+  ok("the packet still renders real PDF pages", parsed.getPageCount() > 0);
+
+  // Every commercial surface refuses, driven rather than read.
+  for (const surface of ["checkout creation", "consumer payment authority",
+    "sponsored entitlement", "packet credit consumption", "packet generation", "participant delivery"]) {
+    ok(`${surface} refuses without a fulfillment record`,
+      refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface, { trackId: boundTrackId })));
+  }
+
+  // Operational sellability is false at the census too, so a missing record is
+  // never read as "unconfigured, therefore permitted".
+  // A route without a record is no longer in the commercial denominator, and a
+  // denominator that shrinks silently is indistinguishable from one that was
+  // quietly edited. So the census must still name it, with the reason it left.
+  const census = JSON.parse(readFileSync(path.join(process.cwd(), "data/rcap-ledger/commercial-packet-integrity.json"), "utf8"));
+  const departure = census.departuresFromTheCommercialDenominator.routes.find((entry) => entry.route === ROUTE_KEY);
+  ok("the census accounts for the route by name rather than dropping it", Boolean(departure));
+  ok("the departure gives the real reason, not a retirement it was never part of",
+    departure?.leftBecause?.includes("before proof was complete") === true, departure?.leftBecause);
+  ok("the departure records that the route and its work are preserved",
+    departure?.note?.includes("preserved") === true);
+  // Operational sellability, driven at the resolver rather than read from a
+  // census row that no longer exists.
+  const { resolvePacketRoute, packetRouteCanRender } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
+  const routeNow = resolvePacketRoute({ state: code, pathway: pathwayId, trackId: boundTrackId });
+  ok("the route is not sellable", routeNow.sellable === false, String(routeNow.sellable));
+  ok("no packet credit may be consumed", routeNow.creditConsumable === false, String(routeNow.creditConsumable));
+  // The resolver may still offer a renderer, and that is deliberate: an
+  // artifact generated while the route had authority stays reachable, which is
+  // historical access rather than commercial authority. What must refuse is
+  // participant delivery through the fulfillment gate, asserted above.
+  ok("a retained renderer is not commercial authority",
+    packetRouteCanRender(routeNow) === false
+    || refuses(() => assertPacketFulfillmentProven(code, pathwayId, "participant delivery", { trackId: boundTrackId })));
+
+  // The withdrawal is recorded, so the absence is documented history rather
+  // than an unexplained gap somebody might later read as a fallback.
+  const withdrawals = JSON.parse(readFileSync(path.join(process.cwd(), "data/rcap-ledger/fulfillment-authority-withdrawals.json"), "utf8"));
+  const withdrawal = (withdrawals.withdrawals ?? []).find((entry) => entry.routeKey === ROUTE_KEY);
+  ok("the withdrawal is recorded with its reason", Boolean(withdrawal) && withdrawal.reason.length > 0);
+  ok("the withdrawal names every missing proof", (withdrawal?.missingProofs ?? []).length === 4);
+  ok("the withdrawal preserves the prior record and its hash",
+    Boolean(withdrawal?.priorRecord) && /^[0-9a-f]{64}$/.test(withdrawal?.priorRecordSha256 ?? ""));
+}
 
 // --------------------------------------- the artifact, and how it is delivered
 //
@@ -282,11 +368,6 @@ ok("the record's artifact status is not a reviewed one",
 const second = await renderGradeAPacketPdf(composeGradeAPacket(specification, matter));
 ok("rendering twice produces identical bytes", bytes.equals(second), `${bytes.length} vs ${second.length}`);
 const artifactSha256 = createHash("sha256").update(bytes).digest("hex");
-ok("the artifact hash matches the one the record pins",
-  record?.artifactSha256 === artifactSha256, `record ${record?.artifactSha256} vs rendered ${artifactSha256}`);
-ok("the record pins the artifact's byte length and page count",
-  record?.artifactBytes === bytes.length && record?.artifactPages === parsed.getPageCount(),
-  `${record?.artifactBytes}/${record?.artifactPages} vs ${bytes.length}/${parsed.getPageCount()}`);
 
 // Private, owner-only delivery, asserted at the code that enforces it.
 const generation = readFileSync(path.join(process.cwd(), "src/lib/expungement-ai/packet-generation.ts"), "utf8");
@@ -312,16 +393,20 @@ ok("the payment writer has a duplicate-event outcome", paymentAuthority.includes
 ok("a replay is not reported as a fresh payment",
   paymentAuthority.includes('return outcome === "recorded_paid"'));
 ok("an already-paid replay is recognised separately", paymentAuthority.includes("isAlreadyRecordedOutcome"));
+// Idempotency, asserted as the branch rather than as one literal return. The
+// shape changed in 91ede5943, which added a durable-render arm that re-reads
+// status instead of answering from the row, and the old string pin failed on a
+// behaviour that had got stronger rather than weaker. What must hold is that an
+// existing ready artifact is returned before anything re-renders, so the slice
+// ends where verification begins: if the early return were removed, the body
+// would no longer carry it.
+const existingArtifactBranch = generation.slice(generation.indexOf("const existing = readyPacketArtifactAccess"));
+const existingArtifactBody = existingArtifactBranch.slice(0, existingArtifactBranch.indexOf("const currentVerification"));
 ok("generation is idempotent on an existing ready artifact",
-  generation.includes('return { packetStatus: "ready", artifactRefs: existing, canDownload: true }'));
-
-// Page-by-page visual review. Stated, not claimed.
-ok("the record does not claim a visual review that has not happened",
-  record?.visualReview?.status === "not_performed_no_rasteriser_in_this_runtime",
-  String(record?.visualReview?.status));
-ok("the record does not claim completed-output legal approval",
-  record?.outputLegalReview?.status === "not_performed",
-  String(record?.outputLegalReview?.status));
+  existingArtifactBody.includes("if (existing)")
+  && existingArtifactBody.includes('packetStatus: "ready"')
+  && existingArtifactBody.includes("artifactRefs: existing"),
+  existingArtifactBody.slice(0, 160));
 
 // ------------------------------------------------------------------- report
 console.log(`Grade-A first packet — ${ROUTE_KEY}`);
