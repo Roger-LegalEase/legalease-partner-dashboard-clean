@@ -23,14 +23,26 @@ import { resolveDeploymentEnvironment } from "@/lib/server-runtime-environment";
  */
 
 /**
- * The catalog Product the consumer packet is sold as in live mode: "DIY
- * Expungment", $50.00 USD, active.
+ * The catalog Product the consumer packet is sold as in live mode: the Grade-A
+ * catalog entry, $50.00 USD, active.
+ *
+ * This is the same Product id the acceptance Preview sells, because the live
+ * entry was copied from the Grade-A sandbox catalog and Stripe preserved the
+ * id. One id across both modes is the point: the Product the hosted acceptance
+ * proves against and the Product Production charges for are now the same
+ * catalog entry, so a coupon written about it means the same thing in both.
+ *
+ * It replaces prod_Sx3T2wUkaYKqg9, which live checkout sold while the live
+ * coupons were written about this entry. Nothing was wrong with the Session,
+ * the amount or the code: a coupon matches on the line item's Product, so one
+ * restricted to this entry could only ever be refused against that one, and
+ * Stripe reports that refusal as "This code is invalid."
  *
  * A Stripe Product id is a catalog identifier — it names what is for sale — and
  * is not a credential. `STRIPE_CONSUMER_PACKET_PRODUCT_ID` overrides it where an
  * environment sells a different catalog entry.
  */
-export const CONSUMER_PACKET_CATALOG_PRODUCT_ID = "prod_Sx3T2wUkaYKqg9";
+export const CONSUMER_PACKET_CATALOG_PRODUCT_ID = "prod_VHEHkvH7dSvGv7";
 
 export class ConsumerPacketCatalogError extends Error {
   constructor(message: string) {
