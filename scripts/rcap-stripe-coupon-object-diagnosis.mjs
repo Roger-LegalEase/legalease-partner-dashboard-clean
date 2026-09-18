@@ -124,20 +124,31 @@ async function readProductionStripeKey(identity) {
 }
 
 async function main() {
-  if (!VERCEL_TOKEN) fail("VERCEL_TOKEN is required to read the production Stripe key");
-  if (!PROMOTION_CODE_ID && !PROMOTION_CODE) {
-    fail("one of RCAP_PROMOTION_CODE_ID or RCAP_PROMOTION_CODE is required");
+  const direct = readDirectStripeKey();
+  // Vercel is only ever a way to obtain the key. Where the job was handed a
+  // live key of its own there is nothing to go to Vercel for, and demanding a
+  // deployment token as well would refuse a read the job can plainly perform.
+  if (!direct.chosen && !VERCEL_TOKEN) {
+    fail("VERCEL_TOKEN is required to read the production Stripe key, unless a live key is supplied to the job");
+  }
+  // A coupon is one subject this reads; a Checkout Session is another. Naming
+  // a Session is a complete instruction on its own — that is the shape of a
+  // read of an ordinary order, which has no promotion code to name.
+  if (!PROMOTION_CODE_ID && !PROMOTION_CODE && !CHECKOUT_SESSION_ID) {
+    fail("one of RCAP_PROMOTION_CODE_ID, RCAP_PROMOTION_CODE or RCAP_CHECKOUT_SESSION_ID is required");
   }
 
   say("RCAP Stripe object diagnosis — read-only. No Stripe object is created, modified or deleted.");
 
-  const identity = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
-  if (identity.projectId !== HOSTED_VERCEL_PROJECT_ID) {
-    fail(`resolved the wrong Vercel project (${identity.projectId})`);
+  let identity = null;
+  if (!direct.chosen) {
+    identity = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
+    if (identity.projectId !== HOSTED_VERCEL_PROJECT_ID) {
+      fail(`resolved the wrong Vercel project (${identity.projectId})`);
+    }
+    say(`Vercel project ${identity.projectName} (${identity.projectId}) in team ${identity.teamId}`);
   }
-  say(`Vercel project ${identity.projectName} (${identity.projectId}) in team ${identity.teamId}`);
 
-  const direct = readDirectStripeKey();
   let secretKey = direct.chosen;
   let keySource = secretKey ? "supplied to the job" : null;
   if (secretKey) {
@@ -269,7 +280,12 @@ async function main() {
   // decides the outcome: an object in the wrong account or mode is refused
   // before any restriction is ever evaluated.
   const mismatches = [];
-  if (!promoFound) {
+  // An ordinary order names no code, so there is no coupon verdict to reach:
+  // the Session's own facts below are the whole reading.
+  const couponAsked = Boolean(PROMOTION_CODE_ID || PROMOTION_CODE || COUPON_ID);
+  if (!couponAsked) {
+    // nothing to say about a coupon that was never named
+  } else if (!promoFound) {
     mismatches.push(`the promotion code ${PROMOTION_CODE_ID} is NOT readable with production's own Stripe key (${promoError}). It belongs to a different Stripe account or a different mode than the Checkout Session.`);
   } else {
     if (promo.json?.livemode !== true) {
@@ -344,7 +360,7 @@ async function main() {
   const evidence = {
     generatedFor: "live promotion code object-level diagnosis",
     readOnly: true,
-    vercelProjectId: identity.projectId,
+    vercelProjectId: identity?.projectId ?? null,
     stripeAccountId: accountId,
     stripeKeyMode: keyMode,
     promotionCodeId: PROMOTION_CODE_ID || null,
