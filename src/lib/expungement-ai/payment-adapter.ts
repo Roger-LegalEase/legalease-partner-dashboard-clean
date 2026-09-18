@@ -543,7 +543,11 @@ export async function createConsumerPacketCheckout({
       item.id,
       binding.verificationHash,
       verification.revision,
-      item.checkoutSessionId,
+      // The idempotency identity must use the authoritative predecessor we
+      // recovered from the row, not a stale route snapshot that may still say
+      // null. Otherwise a recovery request replays the same already-expired
+      // Session chain that failed before the fresh binding was discovered.
+      replacedCheckoutSessionId ?? item.checkoutSessionId,
       catalogProductId
     );
     const created = await providerCall("create_session", () =>
