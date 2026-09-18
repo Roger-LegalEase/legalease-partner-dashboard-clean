@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      TOOLS_SHA: 71f491c92c5d0f057b7315bc5188ca3b14721a06
+      TOOLS_SHA: 8a7b25557eb1fd7d05d644f51974ed9e1209f68d
     steps:
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -43,6 +43,14 @@ jobs:
       - name: Read the live Stripe objects (GET only, nothing is modified)
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          # Vercel marks the production STRIPE_SECRET_KEY "sensitive", which is
+          # write-only, so the key cannot come from there. A secret named here
+          # is used if the repository has one; a name the repository does not
+          # define simply arrives empty, and the job reports that it is absent.
+          RCAP_STRIPE_READ_KEY: ${{ secrets.RCAP_STRIPE_READ_KEY }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_LIVE_SECRET_KEY: ${{ secrets.STRIPE_LIVE_SECRET_KEY }}
+          STRIPE_RESTRICTED_KEY: ${{ secrets.STRIPE_RESTRICTED_KEY }}
           RCAP_PROMOTION_CODE_ID: promo_1UGe9gDLLtltioGNKb4q6wg0G
           RCAP_COUPON_ID: 3iyJ3deM
           RCAP_CHECKOUT_SESSION_ID: cs_live_b1uPiJCcydLN7Hmq8z3rYExbUXssP4LRYrElhBWAr5kx2IObCWXLeA7MXt
