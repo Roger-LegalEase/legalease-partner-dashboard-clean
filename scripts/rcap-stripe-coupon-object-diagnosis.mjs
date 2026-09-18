@@ -326,6 +326,7 @@ async function main() {
       + ` customer=${JSON.stringify(session.json?.customer ?? null)}`
       + ` customer_creation=${JSON.stringify(session.json?.customer_creation ?? null)}`
       + ` customer_email=${JSON.stringify(session.json?.customer_email ?? null)}`
+      + ` payment_method_collection=${JSON.stringify(session.json?.payment_method_collection ?? null)}`
       + ` customer_details=${JSON.stringify(session.json?.customer_details ?? null)}`
       + ` payment_status=${JSON.stringify(session.json?.payment_status ?? null)}`
       + ` payment_intent=${JSON.stringify(session.json?.payment_intent ?? null)}`
