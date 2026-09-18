@@ -318,6 +318,19 @@ async function main() {
     ? `${session.json?.id} status=${session.json?.status} livemode=${session.json?.livemode} currency=${String(session.json?.currency ?? "").toUpperCase()} amount_subtotal=${session.json?.amount_subtotal} amount_total=${session.json?.amount_total} allow_promotion_codes=${session.json?.allow_promotion_codes}`
     : "(unreadable)"}`);
   say(`Live Checkout Session product ID: ${sessionProductId ?? "(unreadable)"}`);
+  // The customer shape of the Session, reported as its own line because a
+  // Session with no customer and no customer_creation completes as a guest:
+  // Checkout records the transaction without creating a Customer object.
+  say(`Live Checkout Session customer shape: ${sessionFound
+    ? `mode=${JSON.stringify(session.json?.mode ?? null)}`
+      + ` customer=${JSON.stringify(session.json?.customer ?? null)}`
+      + ` customer_creation=${JSON.stringify(session.json?.customer_creation ?? null)}`
+      + ` customer_email=${JSON.stringify(session.json?.customer_email ?? null)}`
+      + ` customer_details=${JSON.stringify(session.json?.customer_details ?? null)}`
+      + ` payment_status=${JSON.stringify(session.json?.payment_status ?? null)}`
+      + ` payment_intent=${JSON.stringify(session.json?.payment_intent ?? null)}`
+      + ` total_details=${JSON.stringify(session.json?.total_details ?? null)}`
+    : "(unreadable)"}`);
   say(`Live Checkout Session line item: ${lineItem
     ? `${JSON.stringify(lineItem.description ?? null)} amount_subtotal=${lineItem.amount_subtotal} price=${lineItem.price?.id ?? "(ad-hoc)"} unit_amount=${lineItem.price?.unit_amount}`
     : "(unreadable)"}`);
