@@ -419,8 +419,14 @@ for (const routeKey of packetSpecificationRouteKeys()) {
 // language. The participant guidance is where it goes, and the attachments and
 // checklist a route publishes are where the instruction lives.
 
+// The population is whatever the document contract currently calls court-facing
+// and is never pinned to a number. A route §5 makes renderable tomorrow enters
+// this check tomorrow, with no edit here. The only assertion about the count is
+// that it is not zero: a contract accessor that stopped classifying anything
+// would otherwise make every check below pass by having nothing to check.
 const WORKFLOW_LANGUAGE = /\b(not attached|not inserted|to be confirmed|not yet (obtained|confirmed|attached)|assembly status)\b/i;
 let courtFacingChecked = 0;
+let sectionsChecked = 0;
 for (const routeKey of packetSpecificationRouteKeys()) {
   const specification = packetSpecificationFor(routeKey);
   for (const document of specification?.documents ?? []) {
@@ -431,6 +437,7 @@ for (const routeKey of packetSpecificationRouteKeys()) {
       const printed = [section.heading, section.body, ...Object.values(section.fieldLabels ?? {})]
         .filter((value) => typeof value === "string").join(" ");
       const hit = printed.match(WORKFLOW_LANGUAGE);
+      sectionsChecked += 1;
       check(!hit,
         `${routeKey}/${document.documentId}: the section "${section.heading}" is filed with the court and carries`
           + ` the participant workflow phrase ${JSON.stringify(hit?.[0])}. A filing states what is filed;`
@@ -438,6 +445,11 @@ for (const routeKey of packetSpecificationRouteKeys()) {
     }
   }
 }
+
+check(courtFacingChecked > 0,
+  "no document was classified court-facing, so the workflow-language check had nothing to examine");
+check(sectionsChecked > 0,
+  "no court-facing section was examined, so the workflow-language check passed vacuously");
 
 // --- the mutations: prove the check can fail ---------------------------------
 
@@ -496,7 +508,8 @@ console.log(`  gate facts the packet composes without (later tasks blocking paym
 console.log(`  outside filing tasks the participant is made to report on before generation: ${externallyAcquired.length}`);
 console.log(`  routes proven to compose with every external record still unfetched: ${notYetProven}`);
 console.log(`  facts asking whether a record is in hand, each with a truthful not-yet answer: ${possessionFacts}`);
-console.log(`  court-facing documents checked for participant workflow language: ${courtFacingChecked}`);
+console.log(`  court-facing documents checked for participant workflow language: ${courtFacingChecked}`
+  + ` (${sectionsChecked} sections; population follows the document contract, never a pinned number)`);
 for (const row of externallyAcquired) console.log(`    ${row}`);
 for (const row of renderProbe.unreachable) {
   console.log(`    not probed, route does not compose at all: ${row}`);
