@@ -33,7 +33,14 @@ const jurisdictions = {};
 const lineages = [];
 
 for (const ref of LINEAGES) {
-  const head = tryGit(["rev-parse", "--short", ref]);
+  // An explicit length, because bare `--short` is not deterministic: git scales
+  // the abbreviation with the repository's object count, so this artifact went
+  // stale purely because the repo grew -- 8 characters became 9 -- and would
+  // differ between two clones of the same commit. Re-pinning the longer value
+  // would only defer the same failure. Twelve is stable far past any plausible
+  // size here, and nothing compares this field for equality: downstream it is
+  // interpolated into a human-readable basis line.
+  const head = tryGit(["rev-parse", "--short=12", ref]);
   if (!head) continue;
   const commit = head.trim();
 
