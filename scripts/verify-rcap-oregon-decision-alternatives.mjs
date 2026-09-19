@@ -79,12 +79,24 @@ console.log("Oregon answer-dependent alternatives — prepared, nothing chosen\n
 check("the selected route holds a Grade-A record", Boolean(record), SELECTED);
 const projection = read("data/rcap-grade-a/fulfillment-authority-projection.json");
 const selectedProjection = (projection.routes ?? []).find((r) => r.routeId === SELECTED) ?? null;
-check("it is not commercially eligible and is not proven",
+// This asked for a NATIONWIDE zero until 2026-09-19. It was written on
+// 2026-08-29, when nothing anywhere held a Grade-A fulfillment record, so the
+// global zero and "no Oregon route is sellable" were the same sentence. They
+// stopped being the same sentence when six routes -- DC, IL, three MS, WY --
+// earned records. None of them is in Oregon, and whether they may sell is
+// verify-rcap-grade-a-fulfillment-authority's question, not this file's.
+// Scoped to Oregon, which is what this check was always for and is the
+// stronger test: a proven Oregon route now fails here by name rather than by
+// moving a national counter off zero.
+const oregonProjection = (projection.routes ?? []).filter((r) => String(r.routeId).startsWith("OR:"));
+const oregonSellable = oregonProjection.filter((r) =>
+  r.commercialStatus === "commercially_eligible" || r.state === "COMPLETE_PACKET_PROVEN");
+check("it is not commercially eligible and is not proven, and no Oregon route is",
   selectedProjection?.commercialStatus === "not_commercially_eligible"
     && selectedProjection?.state !== "COMPLETE_PACKET_PROVEN"
-    && projection.counters.commerciallyEligible === 0
-    && projection.counters.completePacketProven === 0,
-  `${selectedProjection?.state} / ${selectedProjection?.commercialStatus} / eligible ${projection.counters.commerciallyEligible}`);
+    && oregonProjection.length > 0
+    && oregonSellable.length === 0,
+  `${selectedProjection?.state} / ${selectedProjection?.commercialStatus} / ${oregonProjection.length} Oregon route(s), ${oregonSellable.length} sellable${oregonSellable.length ? `: ${oregonSellable.map((r) => r.routeId).join(", ")}` : ""}`);
 
 // ---- Question 1: which subsection controls -----------------------------------
 const CURRENT_ID = SELECTED;
