@@ -30,9 +30,9 @@ the registry, not evidence that LegalEase does not intend to sell the route.
 
 | Mode | Pathways |
 |---|---|
-| `state_specific_custom_packet_from_source_rules` | 27 |
+| `state_specific_custom_packet_from_source_rules` | 25 |
 | `official_form_overlay_or_source_form_set` | 10 |
-| `automatic_relief_verification_and_guidance` | 3 |
+| `automatic_relief_verification_and_guidance` | 5 |
 
 ## By jurisdiction
 

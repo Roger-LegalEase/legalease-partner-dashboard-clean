@@ -4,10 +4,10 @@
   "canonicalGraph": {
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
     "source": "working_tree",
-    "sha256": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
-    "pathways": 262,
+    "sha256": "2107414b68900c64f1858a0d3cbe8592a6f01f3d354a2b5b9ff5586c82ecd8f4",
+    "pathways": 267,
     "dispositions": {
-      "family_bridge_missing_no_family": 151,
+      "family_bridge_missing_no_family": 156,
       "approved_by_decision_owner": 70,
       "family_bridge_missing_no_track": 40,
       "owner_approval_pending": 1
@@ -19,7 +19,7 @@
     "evaluatorToday": "2026-07-01",
     "randomness": "none",
     "routeSelectingEnumerationBound": 240,
-    "combosTried": 262
+    "combosTried": 267
   },
   "passes": {
     "baseline": "the committed first-option rule in data/rcap-ledger/public-witness-answer-sets.json",
@@ -27,10 +27,10 @@
   },
   "baselineWasWrongAboutItself": "The baseline rule answered resolved_timing_bucket with the first option, lt_1_year — the least clearable value in the list — so every route with a waiting period failed closed on an anchor it could never satisfy. Those were witness defects, not evaluator defects. Reporting them as runtime bugs would have sent Session A after roughly 92 patches that do not exist.",
   "totals": {
-    "pathways": 262,
-    "correct_pathway": 262,
+    "pathways": 267,
+    "correct_pathway": 267,
     "baselineOutcomes": {
-      "correct_pathway": 262
+      "correct_pathway": 267
     },
     "correctedByFixtureAlone": 0,
     "failing": 0,
@@ -320,6 +320,29 @@
       "combosTried": 1
     },
     {
+      "pathwayKey": "AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "jurisdiction": "AZ",
+      "pathwayId": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "pathwayLabel": "Notation of clearance after a wrongful arrest, indictment or charge",
+      "sessionADisposition": "family_bridge_missing_no_family",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "guidance_only",
+        "pathwayId": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "az.guidance_only_no_user_filed_court_petition"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
       "pathwayKey": "AZ:remedy-1-record-sealing",
       "jurisdiction": "AZ",
       "pathwayId": "remedy-1-record-sealing",
@@ -384,6 +407,29 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "az.guidance_only_no_user_filed_court_petition"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "jurisdiction": "CA",
+      "pathwayId": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "pathwayLabel": "Dismissal and set-aside of a conviction for which probation was not granted",
+      "sessionADisposition": "family_bridge_missing_no_family",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Arrest or citation with no charge filed",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "needs_more_info",
+        "pathwayId": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ca.route_identified_packet_not_yet_available"
         ]
       },
       "combosTried": 1
@@ -591,6 +637,29 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "ct.guidance_only_no_user_filed_court_petition"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "jurisdiction": "CT",
+      "pathwayId": "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "pathwayLabel": "Petition for erasure of cannabis conviction records",
+      "sessionADisposition": "family_bridge_missing_no_family",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "needs_review",
+        "pathwayId": "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ct.selected_pathway_rule_not_matched"
         ]
       },
       "combosTried": 1
@@ -1468,7 +1537,7 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "likely_not_eligible",
+        "resultCode": "guidance_only",
         "pathwayId": "felony-prostitution-relief",
         "paymentAllowed": false,
         "reasonCodes": [
@@ -1788,6 +1857,29 @@
       "terminalEvaluation": {
         "resultCode": "needs_review",
         "pathwayId": "nonconviction-431076",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ky.waiting_rule_not_executed"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "jurisdiction": "KY",
+      "pathwayId": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "pathwayLabel": "Void and seal a first qualifying possession conviction under KRS 218A.276",
+      "sessionADisposition": "family_bridge_missing_no_family",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "needs_review",
+        "pathwayId": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
         "paymentAllowed": false,
         "reasonCodes": [
           "ky.waiting_rule_not_executed"
@@ -3815,6 +3907,29 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "nv.guidance_only_no_user_filed_court_petition"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "jurisdiction": "NV",
+      "pathwayId": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "pathwayLabel": "Removal of a record from the Central Repository after a favourable disposition",
+      "sessionADisposition": "family_bridge_missing_no_family",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Arrest or citation with no charge filed",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "needs_review",
+        "pathwayId": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "nv.legal_authority_not_in_force"
         ]
       },
       "combosTried": 1

@@ -4,9 +4,9 @@
   "purpose": "A deterministic, replayable fixture for every pathway the existing runtime can already reach correctly. Each carries the exact answer map and the terminal result it must produce, so a regression shows up as a fixture failure rather than as a lost route.",
   "changesNoRuntime": true,
   "evaluatorToday": "2026-07-01",
-  "canonicalGraphSha256": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
+  "canonicalGraphSha256": "2107414b68900c64f1858a0d3cbe8592a6f01f3d354a2b5b9ff5586c82ecd8f4",
   "totals": {
-    "fixtures": 262,
+    "fixtures": 267,
     "correctedByFixtureAlone": 0
   },
   "fixtures": [
@@ -619,6 +619,55 @@
       }
     },
     {
+      "pathwayKey": "AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "jurisdiction": "AZ",
+      "pathwayId": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/arizona",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Notation of clearance after a wrongful arrest, indictment or charge",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes",
+        "state_exclusion_categories": [
+          "None of these"
+        ]
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+        "resultCode": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
       "pathwayKey": "AZ:remedy-1-record-sealing",
       "jurisdiction": "AZ",
       "pathwayId": "remedy-1-record-sealing",
@@ -762,6 +811,55 @@
       "expected": {
         "pathwayId": "remedy-3-marijuana-expungement",
         "resultCode": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "pathwayKey": "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "jurisdiction": "CA",
+      "pathwayId": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/california",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Arrest or citation with no charge filed",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pardon_status": "No",
+        "pending_cases": "No",
+        "possible_pathway_context": "Dismissal and set-aside of a conviction for which probation was not granted",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes",
+        "state_exclusion_categories": [
+          "None of these"
+        ]
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "court_requirements_completed",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+        "resultCode": "needs_more_info",
         "paymentAllowed": false
       }
     },
@@ -1183,6 +1281,45 @@
       "expected": {
         "pathwayId": "absolute-pardon-resulting-in-erasure",
         "resultCode": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "pathwayKey": "CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "jurisdiction": "CT",
+      "pathwayId": "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/connecticut",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pardon_status": "No",
+        "pending_cases": "No",
+        "possible_pathway_context": "Petition for erasure of cannabis conviction records",
+        "record_documents": "Yes",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes",
+        "state_exclusion_categories": [
+          "None of these"
+        ]
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "court_requirements_completed",
+            "trafficking_status"
+          ]
+        }
+      ],
+      "expected": {
+        "pathwayId": "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+        "resultCode": "needs_review",
         "paymentAllowed": false
       }
     },
@@ -3121,7 +3258,7 @@
       ],
       "expected": {
         "pathwayId": "felony-prostitution-relief",
-        "resultCode": "likely_not_eligible",
+        "resultCode": "guidance_only",
         "paymentAllowed": false
       }
     },
@@ -3775,6 +3912,63 @@
       ],
       "expected": {
         "pathwayId": "nonconviction-431076",
+        "resultCode": "needs_review",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "pathwayKey": "KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "jurisdiction": "KY",
+      "pathwayId": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/kentucky",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "age_at_offense": "30",
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pardon_status": "No",
+        "pending_cases": "No",
+        "possible_pathway_context": "Void and seal a first qualifying possession conviction under KRS 218A.276",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "court_requirements_completed",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "age_at_offense"
+          ],
+          "supplied": {
+            "age_at_offense": "30"
+          }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
         "resultCode": "needs_review",
         "paymentAllowed": false
       }
@@ -8215,6 +8409,53 @@
       "expected": {
         "pathwayId": "reentry-program-sealing-under-nrs-179-259",
         "resultCode": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "pathwayKey": "NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "jurisdiction": "NV",
+      "pathwayId": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/nevada",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Arrest or citation with no charge filed",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pardon_status": "No",
+        "pending_cases": "No",
+        "possible_pathway_context": "Removal of a record from the Central Repository after a favourable disposition",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+        "resultCode": "needs_review",
         "paymentAllowed": false
       }
     },

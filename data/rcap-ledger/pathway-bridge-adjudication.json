@@ -5,11 +5,13 @@
   "correction": "These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING, assigned by a lexical Jaccard candidate finder at a 0.34 threshold. A candidate finder proposes; it does not decide. This register adjudicates each candidate against the legal-authority route record's statute, stage and outcomeMode, and against the memo track's controlling authority and population.",
   "subjectCount": 33,
   "counts": {
-    "TRACK_MATCHED_BUT_DESIGN_DEFERRED": 5,
+    "TRACK_MATCHED_BUT_DESIGN_DEFERRED": 4,
     "CANDIDATE_REJECTED": 10,
-    "NO_CANDIDATE_TRACK_EXISTS": 15,
+    "NO_CANDIDATE_TRACK_EXISTS": 13,
     "BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION": 1,
-    "UNDECIDED_INSUFFICIENT_EVIDENCE": 2
+    "UNDECIDED_INSUFFICIENT_EVIDENCE": 2,
+    "NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET": 2,
+    "BRIDGE_CONFIRMED": 1
   },
   "rows": [
     {
@@ -644,8 +646,8 @@
       "routeAuthority": {
         "statute": "Nev. Rev. Stat. § 179.247",
         "stage": "single_stage",
-        "outcomeMode": "participant_packet",
-        "packetFamily": "Nevada Trafficking-Victim Vacatur and Sealing Petition under NRS 179.247",
+        "outcomeMode": "referral",
+        "packetFamily": null,
         "decisionId": "LD-NV-04",
         "sourceFile": "src/lib/legal-authority/routes/route-splits.json"
       },
@@ -672,11 +674,17 @@
           ]
         }
       ],
-      "disqualifiers": [],
+      "disqualifiers": [
+        {
+          "test": "outcome_mode",
+          "finding": "The legal-authority route records outcomeMode=referral and packetFamily=null. The route does not produce a packet, so no bridge to a packet track can be correct.",
+          "source": "src/lib/legal-authority/routes/route-splits.json"
+        }
+      ],
       "samePopulationTracks": [],
-      "verdict": "TRACK_MATCHED_BUT_DESIGN_DEFERRED",
-      "reason": "nv-ls-1 cites the same provision as this route (179247) and is the correct track, but its design status is legal_research_required.",
-      "action": "Complete the deferred legal research on nv-ls-1, then bind NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247 to it. Do not commission a new design; the track already exists."
+      "verdict": "NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET",
+      "reason": "The adopted legal-authority record (LD-NV-04 / NV-176.211-DEFERRED-EVENT-AND-179.247-TRAFFICKING-EVENT) already decided this route is referral. Its own nexus and safety conditions; never inherits the deferred-judgment rule. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2-composed-petition-or-attorney-referral-composed-treatment:obligation:runtime-only:NV:trafficking-vi (Roger Roman): \"REFERRAL GUIDANCE ONLY. Where the compiled profile routes the matter to legal aid or an attorney, do not ship a participant-filed composed petition without route-specific counsel approval. Keep checkout disabled.\" data/record-clearing/legal-decisions/route-ratification-registry.json carries no row for this route; the owner decision is the controlling record. outcomeMode moved from participant_packet to referral and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"Nevada Trafficking-Victim Vacatur and Sealing Petition under NRS 179.247\", packetComponents [\"Petition to vacate and seal\",\"Victimization nexus evidence\",\"Due-diligence and safety showing\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.",
+      "action": "Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed."
     },
     {
       "pathwayKey": "OH:juvenile-sealing-and-expungement",
@@ -895,8 +903,8 @@
       "routeAuthority": {
         "statute": "S.D. Codified Laws § 26-7A-115.1",
         "stage": "single_stage",
-        "outcomeMode": "participant_packet",
-        "packetFamily": "South Dakota Juvenile Trafficking Expungement Petition under § 26-7A-115.1",
+        "outcomeMode": "referral",
+        "packetFamily": null,
         "decisionId": "LD-SD-02",
         "sourceFile": "src/lib/legal-authority/routes/route-splits.json"
       },
@@ -904,11 +912,17 @@
       "sharedCitationKeys": [],
       "sharedExactCitationKeys": [],
       "statutoryMatchesAtTopRank": [],
-      "disqualifiers": [],
+      "disqualifiers": [
+        {
+          "test": "outcome_mode",
+          "finding": "The legal-authority route records outcomeMode=referral and packetFamily=null. The route does not produce a packet, so no bridge to a packet track can be correct.",
+          "source": "src/lib/legal-authority/routes/route-splits.json"
+        }
+      ],
       "samePopulationTracks": [],
-      "verdict": "NO_CANDIDATE_TRACK_EXISTS",
-      "reason": "No track in SD's memo shares a statutory citation with this route, and the lexical finder proposed none. The jurisdiction has no legal design for this pathway.",
-      "action": "Write the legal design for SD:juvenile-trafficking-expungement, or record it as intentionally outside product scope through the signed reclassification register."
+      "verdict": "NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET",
+      "reason": "The adopted legal-authority record (LD-SD-02 / SD-26-7A-115.1-TRAFFICKING-AND-23A-27-13-SIS-SPLIT) already decided this route is referral. Do not preserve the prior blanket attorney-referral treatment for an otherwise complete intake. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2-composed-petition-or-attorney-referral-composed-treatment:obligation:runtime-only:SD:juvenile-traff (Roger Roman): \"REFERRAL GUIDANCE ONLY. Where the compiled profile routes the matter to legal aid or an attorney, do not ship a participant-filed composed petition without route-specific counsel approval. Keep checkout disabled.\" data/record-clearing/legal-decisions/route-ratification-registry.json carries no row for this route; the owner decision is the controlling record. outcomeMode moved from participant_packet to referral and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"South Dakota Juvenile Trafficking Expungement Petition under § 26-7A-115.1\", packetComponents [\"Petition under § 26-7A-115.1\",\"Victimization nexus evidence\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.",
+      "action": "Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed."
     },
     {
       "pathwayKey": "UT:path-l-vacatur-human-trafficking-related-expungement",
@@ -1147,12 +1161,12 @@
       "pathwayKey": "WY:human-trafficking-victim-vacatur-w-s-6-2-708",
       "jurisdiction": "WY",
       "pathwayLabel": "Human-trafficking victim vacatur - W.S. 6-2-708",
-      "candidateTrackId": null,
-      "candidateTrackName": null,
-      "candidateSource": "none",
-      "lexicalCandidateTrackId": null,
-      "lexicalMatchScore": 0,
-      "finalizationClassification": "NO_LEGAL_DESIGN_TRACK_EXISTS",
+      "candidateTrackId": "wy_traffick_6_2_708",
+      "candidateTrackName": "Motion to Vacate Conviction under Wyo. Stat. § 6-2-708(c) (human-trafficking victim)",
+      "candidateSource": "statutory",
+      "lexicalCandidateTrackId": "wy_traffick_6_2_708",
+      "lexicalMatchScore": 1,
+      "finalizationClassification": "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED",
       "routeAuthority": {
         "statute": "Wyo. Stat. § 6-2-708(c)",
         "stage": "single_stage",
@@ -1161,15 +1175,32 @@
         "decisionId": "LD-WY-03",
         "sourceFile": "src/lib/legal-authority/routes/single-routes.json"
       },
-      "trackCitations": [],
-      "sharedCitationKeys": [],
-      "sharedExactCitationKeys": [],
-      "statutoryMatchesAtTopRank": [],
+      "trackCitations": [
+        "Wyo. Stat. § 6-2-708(c)"
+      ],
+      "sharedCitationKeys": [
+        "62708"
+      ],
+      "sharedExactCitationKeys": [
+        "62708"
+      ],
+      "statutoryMatchesAtTopRank": [
+        {
+          "trackId": "wy_traffick_6_2_708",
+          "legalName": "Motion to Vacate Conviction under Wyo. Stat. § 6-2-708(c) (human-trafficking victim)",
+          "sharedKeys": [
+            "62708"
+          ],
+          "eligibleDispositions": [
+            "conviction"
+          ]
+        }
+      ],
       "disqualifiers": [],
       "samePopulationTracks": [],
-      "verdict": "NO_CANDIDATE_TRACK_EXISTS",
-      "reason": "No track in WY's memo shares a statutory citation with this route, and the lexical finder proposed none. The jurisdiction has no legal design for this pathway.",
-      "action": "Write the legal design for WY:human-trafficking-victim-vacatur-w-s-6-2-708, or record it as intentionally outside product scope through the signed reclassification register."
+      "verdict": "BRIDGE_CONFIRMED",
+      "reason": "The route's statute and wy_traffick_6_2_708's controlling authority cite the same provision (62708), the route is outcomeMode=participant_packet, and the track's design status is research_recorded_pending_counsel_adoption.",
+      "action": "Bind WY:human-trafficking-victim-vacatur-w-s-6-2-708 to wy_traffick_6_2_708 in the track registry."
     },
     {
       "pathwayKey": "WY:juvenile-minor-expungement-w-s-14-6-241",

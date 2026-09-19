@@ -3,8 +3,8 @@
   "generatedBy": "scripts/generate-rcap-registry-gap-dossier.mjs",
   "canonicalGraph": {
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-    "sha256": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f",
-    "pathways": 260
+    "sha256": "2107414b68900c64f1858a0d3cbe8592a6f01f3d354a2b5b9ff5586c82ecd8f4",
+    "pathways": 267
   },
   "createsNoDenominator": "Every pathway here stays in Session A's intended-paid denominator. Nothing is dropped, reclassified or invented.",
   "changesNoRuntime": true,
@@ -39,9 +39,9 @@
       "WY": 2
     },
     "packetPlanModes": {
-      "state_specific_custom_packet_from_source_rules": 27,
+      "state_specific_custom_packet_from_source_rules": 25,
       "official_form_overlay_or_source_form_set": 10,
-      "automatic_relief_verification_and_guidance": 3
+      "automatic_relief_verification_and_guidance": 5
     }
   },
   "records": [
@@ -3573,7 +3573,7 @@
         "label": "Trafficking-victim vacatur and sealing under NRS 179.247",
         "summary": "Nevada allows certain people to petition to vacate judgment and seal records if the conviction was for prostitution/solicitation-related conduct, certain nonviolent Nevada crimes, or loitering for prostitution/solicitation, and the person\u0019s participation resulted from being a victim of trafficking or involuntary servitude. If granted, the court vacates the judgment, dismisses the accusatory pleading, and seals related records. (\"https://law.justia.com/codes/nevada/chapter-179/statute-179-247/\") Wilma status…",
         "sourceRef": "section:136-145; pathways:11-24; section:11-24; corpus-unit:8; corpus-unit:52",
-        "routeType": "special",
+        "routeType": "review",
         "suggestedResultCode": "packet_ready_with_caution",
         "lawrenceRatification": null,
         "sourceEvidenceRefs": [
@@ -3586,7 +3586,7 @@
       },
       "pathwayLevelPacketSet": {
         "source": "src/lib/rcap-engine/compiled/profiles/NV-*.json:packetGenerator.pathways[pathwayId=trafficking-victim-vacatur-and-sealing-under-nrs-179-247]",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceFormCandidates": [],
         "requiredInputIds": [],
@@ -4608,7 +4608,7 @@
         "label": "Juvenile-trafficking expungement",
         "summary": "A child who was a victim of human trafficking or sexual exploitation may petition, directly or through a parent, guardian, or guardian ad litem, for expungement of a delinquency record that resulted from trafficking or sexual exploitation. Expungement under this statute vacates the underlying delinquency proceeding. (\"https://law.justia.com/codes/south-dakota/title-26/chapter-07a/section-26-7a-115-1/\") possible_juvenile_trafficking_expungement legal_aid_handoff_juvenile_trafficking If the juvenile record happened because the child was trafficked or sexually exploited, South Dakota has a special expungement route that may vacate the…",
         "sourceRef": "section:159-167; section:15-26; pathways:15-26; corpus-unit:10; corpus-unit:65",
-        "routeType": "juvenile_special",
+        "routeType": "review",
         "suggestedResultCode": "packet_ready_with_caution",
         "lawrenceRatification": null,
         "sourceEvidenceRefs": [
@@ -4621,7 +4621,7 @@
       },
       "pathwayLevelPacketSet": {
         "source": "src/lib/rcap-engine/compiled/profiles/SD-*.json:packetGenerator.pathways[pathwayId=juvenile-trafficking-expungement]",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceFormCandidates": [],
         "requiredInputIds": [],

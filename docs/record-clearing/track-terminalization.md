@@ -8,7 +8,7 @@ unconditioned. Counsel review promotion is the separate launch gate.
 | Metric | Value |
 |---|---|
 | tracksTerminal | 497 / 497 |
-| tracksWithRuntimeCoverage | 285 / 497 |
+| tracksWithRuntimeCoverage | 292 / 497 |
 | jobsRemainingToLaunch | 0 |
 | tracksTerminalizedThisWindow | 105 |
 | unknownTrackDispositions | 0 |

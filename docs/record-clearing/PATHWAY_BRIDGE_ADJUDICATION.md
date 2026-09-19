@@ -6,11 +6,13 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 
 | Verdict | Candidates |
 |---|---:|
-| NO_CANDIDATE_TRACK_EXISTS | 15 |
+| NO_CANDIDATE_TRACK_EXISTS | 13 |
 | CANDIDATE_REJECTED | 10 |
-| TRACK_MATCHED_BUT_DESIGN_DEFERRED | 5 |
+| TRACK_MATCHED_BUT_DESIGN_DEFERRED | 4 |
 | UNDECIDED_INSUFFICIENT_EVIDENCE | 2 |
+| NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET | 2 |
 | BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION | 1 |
+| BRIDGE_CONFIRMED | 1 |
 | **TOTAL** | **33** |
 
 ## BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION
@@ -22,6 +24,16 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 - **Track authority**: Miss. Code Ann. § 99-19-71(4); Miss. Code Ann. § 99-19-71(3); Miss. Code Ann. § 99-19-72; 2026 Miss. HB 1546; 2019 Miss. HB 1352, § 34
 - **Reason**: 3 tracks in MS cite the same provision as this route and none is distinguished by subsection: ms-nonconv, ms-nonadj, ms-diversion. Picking one would be an arbitrary choice presented as a finding.
 - **Action**: Decide which of ms-nonconv or ms-nonadj or ms-diversion covers MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4, then bind it. The distinguishing evidence is the eligible disposition, not the citation.
+
+## BRIDGE_CONFIRMED
+
+### `WY:human-trafficking-victim-vacatur-w-s-6-2-708`
+
+- **Lexical candidate**: `wy_traffick_6_2_708` — Motion to Vacate Conviction under Wyo. Stat. § 6-2-708(c) (human-trafficking victim) (score undefined)
+- **Route authority**: Wyo. Stat. § 6-2-708(c) · stage single_stage · outcomeMode participant_packet · packetFamily "Wyoming Trafficking-Victim Vacatur Petition under § 6-2-708"
+- **Track authority**: Wyo. Stat. § 6-2-708(c)
+- **Reason**: The route's statute and wy_traffick_6_2_708's controlling authority cite the same provision (62708), the route is outcomeMode=participant_packet, and the track's design status is research_recorded_pending_counsel_adoption.
+- **Action**: Bind WY:human-trafficking-victim-vacatur-w-s-6-2-708 to wy_traffick_6_2_708 in the track registry.
 
 ## CANDIDATE_REJECTED
 
@@ -118,6 +130,25 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 - **Reason**: The lexical candidate wi_exp_certificate_of_discharge is refuted by 2 tests: population, statute.
 - **Action**: Do not bind this pathway to wi_exp_certificate_of_discharge. WI carries no track for this population at all, so this is new legal design work, not a bridge.
 
+## NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET
+
+### `NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247`
+
+- **Lexical candidate**: `nv-ls-1` — Trafficking-Survivor Vacatur and Sealing (NRS 179.247) (score undefined)
+- **Route authority**: Nev. Rev. Stat. § 179.247 · stage single_stage · outcomeMode referral · packetFamily null
+- **Track authority**: NRS 179.247; NRS 179.245; NRS 201.354
+- **Refuted on outcome_mode**: The legal-authority route records outcomeMode=referral and packetFamily=null. The route does not produce a packet, so no bridge to a packet track can be correct.
+- **Reason**: The adopted legal-authority record (LD-NV-04 / NV-176.211-DEFERRED-EVENT-AND-179.247-TRAFFICKING-EVENT) already decided this route is referral. Its own nexus and safety conditions; never inherits the deferred-judgment rule. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2-composed-petition-or-attorney-referral-composed-treatment:obligation:runtime-only:NV:trafficking-vi (Roger Roman): "REFERRAL GUIDANCE ONLY. Where the compiled profile routes the matter to legal aid or an attorney, do not ship a participant-filed composed petition without route-specific counsel approval. Keep checkout disabled." data/record-clearing/legal-decisions/route-ratification-registry.json carries no row for this route; the owner decision is the controlling record. outcomeMode moved from participant_packet to referral and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily "Nevada Trafficking-Victim Vacatur and Sealing Petition under NRS 179.247", packetComponents ["Petition to vacate and seal","Victimization nexus evidence","Due-diligence and safety showing"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.
+- **Action**: Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed.
+
+### `SD:juvenile-trafficking-expungement`
+
+- **Lexical candidate**: `null` — null (score undefined)
+- **Route authority**: S.D. Codified Laws § 26-7A-115.1 · stage single_stage · outcomeMode referral · packetFamily null
+- **Refuted on outcome_mode**: The legal-authority route records outcomeMode=referral and packetFamily=null. The route does not produce a packet, so no bridge to a packet track can be correct.
+- **Reason**: The adopted legal-authority record (LD-SD-02 / SD-26-7A-115.1-TRAFFICKING-AND-23A-27-13-SIS-SPLIT) already decided this route is referral. Do not preserve the prior blanket attorney-referral treatment for an otherwise complete intake. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2-composed-petition-or-attorney-referral-composed-treatment:obligation:runtime-only:SD:juvenile-traff (Roger Roman): "REFERRAL GUIDANCE ONLY. Where the compiled profile routes the matter to legal aid or an attorney, do not ship a participant-filed composed petition without route-specific counsel approval. Keep checkout disabled." data/record-clearing/legal-decisions/route-ratification-registry.json carries no row for this route; the owner decision is the controlling record. outcomeMode moved from participant_packet to referral and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily "South Dakota Juvenile Trafficking Expungement Petition under § 26-7A-115.1", packetComponents ["Petition under § 26-7A-115.1","Victimization nexus evidence"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.
+- **Action**: Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed.
+
 ## NO_CANDIDATE_TRACK_EXISTS
 
 ### `ID:human-trafficking-survivor-vacatur-and-expungement`
@@ -169,13 +200,6 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 - **Reason**: No track in SD's memo shares a statutory citation with this route, and the lexical finder proposed none. The jurisdiction has no legal design for this pathway.
 - **Action**: Write the legal design for SD:juvenile-delinquency-sealing, or record it as intentionally outside product scope through the signed reclassification register.
 
-### `SD:juvenile-trafficking-expungement`
-
-- **Lexical candidate**: `null` — null (score undefined)
-- **Route authority**: S.D. Codified Laws § 26-7A-115.1 · stage single_stage · outcomeMode participant_packet · packetFamily "South Dakota Juvenile Trafficking Expungement Petition under § 26-7A-115.1"
-- **Reason**: No track in SD's memo shares a statutory citation with this route, and the lexical finder proposed none. The jurisdiction has no legal design for this pathway.
-- **Action**: Write the legal design for SD:juvenile-trafficking-expungement, or record it as intentionally outside product scope through the signed reclassification register.
-
 ### `UT:path-l-vacatur-human-trafficking-related-expungement`
 
 - **Lexical candidate**: `null` — null (score undefined)
@@ -211,13 +235,6 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 - **Reason**: No track in WV's memo shares a statutory citation with this route, and the lexical finder proposed none. The jurisdiction has no legal design for this pathway.
 - **Action**: Write the legal design for WV:sex-trafficking-victim-vacatur-and-expungement, or record it as intentionally outside product scope through the signed reclassification register.
 
-### `WY:human-trafficking-victim-vacatur-w-s-6-2-708`
-
-- **Lexical candidate**: `null` — null (score undefined)
-- **Route authority**: Wyo. Stat. § 6-2-708(c) · stage single_stage · outcomeMode participant_packet · packetFamily "Wyoming Trafficking-Victim Vacatur Petition under § 6-2-708"
-- **Reason**: No track in WY's memo shares a statutory citation with this route, and the lexical finder proposed none. The jurisdiction has no legal design for this pathway.
-- **Action**: Write the legal design for WY:human-trafficking-victim-vacatur-w-s-6-2-708, or record it as intentionally outside product scope through the signed reclassification register.
-
 ### `WY:juvenile-minor-expungement-w-s-14-6-241`
 
 - **Lexical candidate**: `null` — null (score undefined)
@@ -242,14 +259,6 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 - **Track authority**: NRS 453.3365; NRS 179.245
 - **Reason**: nv_seal_453_3365 cites the same provision as this route (4533365) and is the correct track, but its design status is legal_research_required.
 - **Action**: Complete the deferred legal research on nv_seal_453_3365, then bind NV:controlled-substance-possession-sealing-under-nrs-453-3365 to it. Do not commission a new design; the track already exists.
-
-### `NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247`
-
-- **Lexical candidate**: `nv-ls-1` — Trafficking-Survivor Vacatur and Sealing (NRS 179.247) (score undefined)
-- **Route authority**: Nev. Rev. Stat. § 179.247 · stage single_stage · outcomeMode participant_packet · packetFamily "Nevada Trafficking-Victim Vacatur and Sealing Petition under NRS 179.247"
-- **Track authority**: NRS 179.247; NRS 179.245; NRS 201.354
-- **Reason**: nv-ls-1 cites the same provision as this route (179247) and is the correct track, but its design status is legal_research_required.
-- **Action**: Complete the deferred legal research on nv-ls-1, then bind NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247 to it. Do not commission a new design; the track already exists.
 
 ### `OK:human-trafficking-survivor-relief`
 
