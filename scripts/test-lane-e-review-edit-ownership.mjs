@@ -42,6 +42,7 @@ const {
   protectedPacketDraftSeedFromAuthoritative,
   requireCurrentPacketVerificationRecord
 } = await import("../src/lib/expungement-ai/packet-information.ts");
+const { buildMsNonConvictionVerification } = await import("./lib/rcap-ms-nonconviction-fixture.mjs");
 
 const results = [];
 function check(condition, label) {
@@ -49,103 +50,33 @@ function check(condition, label) {
   console.log(`  ${condition ? "ok  " : "FAIL"} ${label}`);
 }
 
-const screeningAnswers = {
-  ownership_scope: "Yes",
-  jurisdiction_scope: "State or local",
-  case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-  offense_level: "Misdemeanor",
-  possible_pathway_context: "Non-conviction expungement for dismissal, no disposition, or acquittal",
-  resolved_timing_bucket: "gt_10_years",
-  court_requirements_completed: "yes"
-};
-
-const authoritative = evaluateAuthoritativeScreeningResult({
-  jurisdiction: "MS",
-  profileVersion: "2026-06-19-source-conversion-1",
-  matterId: "matter-1",
-  answers: screeningAnswers
+// A claimed, paid, verified matter. The payment columns on it are the history
+// the edit must not be able to touch.
+//
+// The verification has to be a real one. A synthesized record is refused by the
+// protected authority — its hash must match its own snapshot — and a proof built
+// on a record the system would reject proves nothing. So it is produced by the
+// same path a participant takes: screening answers, authoritative evaluation,
+// protected draft seed, then packetInformationPatch({ verify: true }).
+//
+// The facts come from the shared Mississippi fixture rather than being written
+// out here. They used to be written out here: seventeen answers, hard-coded.
+// The route's collection has since grown to forty-seven facts, the seventeen
+// stopped completing the packet, and this test began failing inside its own
+// setup with "invalidated / packet_information_incomplete" — which reads as the
+// verification machinery being broken and was a fixture that had gone stale.
+// The shared fixture answers whatever the route's own collection asks for, so a
+// fact added to the route now names itself instead of silently aging this file
+// out of date.
+const fixture = buildMsNonConvictionVerification({
+  evaluateAuthoritativeScreeningResult,
+  protectedPacketDraftSeedFromAuthoritative,
+  packetInformationPatch,
+  matterId: "matter-1"
 });
 
-const seed = protectedPacketDraftSeedFromAuthoritative({
-  authoritative,
-  screeningAnswers,
-  dependencies: {
-    commercialFlowVersion: 1,
-    entitlementSource: "consumer_payment",
-    productId: "expungement_packet"
-  },
-  capturedAt: "2026-08-26T00:00:00.000Z"
-});
-assert.ok(seed, "fixture must seed protected packet draft authority");
-
-// A claimed, paid matter. The payment columns below are the history the edit
-// must not be able to touch.
-const paidItem = {
-  id: "matter-1",
-  type: "result",
-  title: "Matter",
-  state: "MS",
-  status: "packet_ready",
-  resultCode: authoritative.evaluation.resultCode,
-  createdAt: "2026-08-26T00:00:00.000Z",
-  summary: "Possible path",
-  nextSteps: [],
-  paymentAllowed: true,
-  packetReady: false,
-  pathwayLabel: authoritative.pathwayLabel,
-  packetType: authoritative.packetType,
-  paymentStatus: "paid",
-  packetStatus: "not_started",
-  artifactRefs: { commercialFlow: { version: 1, entitlementSource: "consumer_payment" } }
-};
-
-// The verification has to be a real one. A synthesized record is refused by
-// the protected authority (its hash must match its own snapshot), and a proof
-// built on a record the system would reject proves nothing, so it is produced
-// by completing the facts and verifying through the same path a participant
-// takes.
-const completePacketAnswers = {
-  age_at_offense: { value: "30", unknown: false },
-  case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-  charge: { value: "Synthetic misdemeanor charge", unknown: false },
-  contact_information: "100 Acceptance Way, Jackson, MS 39201",
-  county: { value: "Hinds County", unknown: false },
-  court: { value: "Hinds County Circuit Court", unknown: false },
-  disposition_date: { value: "2015-01-15", unknown: false },
-  financial_obligations: "Yes",
-  offense_category: { value: "Misdemeanor", unknown: false },
-  offense_level: "Misdemeanor",
-  participant_full_legal_name: "Acceptance Consumer",
-  pending_cases: "No",
-  prior_relief: "No",
-  record_type: "Arrest or charge",
-  residency_or_location: { value: "Jackson, Mississippi", unknown: false },
-  sentence_completion_date: "Yes",
-  trafficking_status: "No"
-};
-
-const unverifiedRecord = {
-  status: "unverified",
-  reason: "final_verification_not_completed",
-  revision: 0,
-  draftHash: seed.hash,
-  draftSnapshot: seed.snapshot
-};
-
-const verifying = packetInformationPatch({
-  existingItem: paidItem,
-  answers: completePacketAnswers,
-  verify: true,
-  protectedVerification: unverifiedRecord
-});
-assert.ok(verifying, "fixture must be able to complete its packet facts");
-assert.equal(
-  verifying.patch.commercialFlow.verification.status,
-  "verified",
-  "fixture must reach a real verified verification"
-);
-
-const verifiedRecord = { ...verifying.protectedTransition.nextVerification, revision: 3 };
+const paidItem = fixture.item;
+const verifiedRecord = { ...fixture.verification, revision: 3 };
 const verifiedDraftHash = verifiedRecord.draftHash;
 
 const edit = (answers, protectedVerification = verifiedRecord) => packetInformationPatch({
@@ -190,7 +121,7 @@ console.log("\n3. The edit is reversible");
 // on the identity the matter started with. If it does not, an edit is a
 // one-way door and "reversible" is not a property the participant has.
 const reverted = edit(
-  { court: completePacketAnswers.court },
+  { court: fixture.answers.court },
   { ...verifiedRecord, ...edited.protectedTransition.nextVerification }
 );
 assert.ok(reverted, "reverting an edit must produce a transition");
