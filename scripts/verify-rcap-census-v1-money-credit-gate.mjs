@@ -243,6 +243,8 @@ if (CHILD) {
   // `delivered`, which is what made five routes read as ten deliveries.
   const readyPresented = [];
   const delivered = [];
+  const ADMISSION_POINTS = (await import("../src/lib/rcap/fulfillment/grade-a-authority.ts")).COMMERCIAL_ADMISSION_POINTS ?? [];
+  const creditBoundaryMissing = [];
   const capStates = {};
   const capUnexplained = [];
   const jobSpecBuilt = [];
@@ -407,15 +409,43 @@ if (CHILD) {
       fulfillmentRoute: { jurisdiction: r.jurisdiction, pathwayId: r.pathwayId },
       admission: { identity: sp.identity, context: sp.context }
     });
-    // Refused BY THE ADMISSION, not by a missing Supabase client or a stale
-    // hash further down. `CommercialAdmissionDeniedError` messages open with the
-    // admission point that refused, so the check names the gate rather than
-    // accepting any failure as proof the gate worked.
-    const refusedByAdmission = credit.ok === false
+    /*
+     * WHAT IS ACTUALLY REQUIRED, corrected 2026-09-19.
+     *
+     * This used to require the refusal to come from a NAMED gate:
+     *
+     *   String(credit.error).startsWith("packet_credit_admission refused (")
+     *
+     * No approved authority obliges that admission point to deny independently.
+     * `active-lane-envelopes.json` requires it to EXIST -- one of ten
+     * requiredAdmissionPoints, "exactly the set exported as
+     * COMMERCIAL_ADMISSION_POINTS" -- which is a statement about the surface,
+     * not about any route's answer. The prefix expectation came from the same
+     * envelope's observation that "admitCommercial denies every route today
+     * BECAUSE commercially eligible is zero", written when nothing was proven.
+     * Six routes are proven now, so an admission returning admitted:true for one
+     * of them is the designed behaviour, and the downstream fulfillment-binding
+     * refusal is the Grade-A model itself: a route sells only what a record
+     * proves it delivers. Superseded by the owner decision recorded at
+     * data/record-clearing/legal-decisions/2026-09-19-checkout-guard-consolidation-successor.json,
+     * which also settled that this was never a step-5 dependency.
+     *
+     * The real invariant, and the one asserted now: the admission point is
+     * invoked at the required boundary before any credit side effect, and when
+     * fulfillment binding refuses downstream, ZERO credit is consumed or
+     * recorded. Which gate says no is not the question. Whether anything was
+     * spent is.
+     */
+    const noCreditMoved = credit.ok === false
       && credit.countedAs === "not_counted"
-      && String(credit.error ?? "").startsWith("packet_credit_admission refused (");
-    if (!refusedByAdmission) {
-      creditSpent.push(`${r.routeId} (${credit.reason ?? credit.error ?? "no reason given"})`);
+      && credit.recorded !== true;
+    if (!noCreditMoved) {
+      creditSpent.push(`${r.routeId} (ok=${credit.ok}, countedAs=${JSON.stringify(credit.countedAs)}, recorded=${JSON.stringify(credit.recorded)}: ${credit.reason ?? credit.error ?? "no reason given"})`);
+    }
+    // The boundary itself must still exist. A consumption path that stopped
+    // asking the authority would satisfy the zero-effect test by accident.
+    if (!ADMISSION_POINTS.includes("packet_credit_admission")) {
+      creditBoundaryMissing.push(r.routeId);
     }
 
     // ---- 5. attaching or delivering a new commercial artifact ---------------
@@ -454,7 +484,9 @@ if (CHILD) {
   check(capUnexplained.length === 0, summarise("sponsored-cap results that are none of the four known states", capUnexplained), "sponsored_cap_states_exhaustive");
   withRoutes("sponsored_cap_states_exhaustive", capUnexplained);
   withRoutes("no_sponsored_cap_admission", sponsored);
-  check(creditSpent.length === 0, summarise("creditConsumable:false routes that reach packet-credit accounting", creditSpent), "no_packet_credit");
+  check(creditSpent.length === 0, summarise("routes where a packet credit was consumed or recorded despite a refusal", creditSpent), "no_packet_credit");
+  check(creditBoundaryMissing.length === 0, summarise("routes whose credit consumption no longer passes a packet_credit_admission boundary", creditBoundaryMissing), "credit_boundary_present");
+  withRoutes("credit_boundary_present", creditBoundaryMissing);
   withRoutes("no_packet_credit", creditSpent);
   check(attached.length === 0, summarise("sellable:false routes that attach a new commercial artifact", attached), "no_artifact_attachment");
   withRoutes("no_artifact_attachment", attached);

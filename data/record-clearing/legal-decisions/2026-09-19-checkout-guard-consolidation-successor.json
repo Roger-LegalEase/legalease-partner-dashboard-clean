@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "recordId": "2026-09-19-checkout-guard-consolidation-successor",
+  "createsApproval": true,
+  "approvalScope": "One architectural requirement in one patch record. This approves no route, no packet, no price and no deployment. It changes where the checkout defense is required to live; it does not change what a caller observes, and it opens nothing that was closed.",
+  "note": "A successor act, recorded rather than applied silently. The superseded requirement is preserved verbatim below and the prior applied digest is retained in the patch record's priorAppliedSha256, so a later reader can see what was approved before, what replaced it, and on whose authority.",
+  "authority": "Roger Roman",
+  "decisionSource": "Explicit owner instruction, recorded verbatim in decisionText.",
+  "decisionDate": "2026-09-19",
+
+  "supersedes": {
+    "record": "docs/record-clearing/terminalize-c/c-dependency-runtime-patch-spec.json",
+    "patchId": "c-deferral-checkout-route-defense",
+    "patchIndex": 11,
+    "file": "src/app/api/expungement-ai/checkout/route.ts",
+    "requiredBehaviorVerbatim": "After item ownership resolution and before sponsored/payment handling, resolve the item's exact track metadata. Return 403 with no checkout URL/session/amount for component_deferral. Keep the payment-adapter denial as a second independent guard.",
+    "supersededClause": "Keep the payment-adapter denial as a second independent guard.",
+    "clauseRetained": "Return 403 with no checkout URL/session/amount for component_deferral. The outcome clause is unchanged and still required."
+  },
+
+  "decisionText": "The current consolidated protected-authority architecture replaces the old c-deferral-checkout-route-defense requirement for a separate route-level track guard in checkout/route.ts. APPROVE the consolidated architecture as the successor. The requirement that checkout/route.ts maintain a separate independent track-resolution guard is superseded. The payment-adapter/protected-authority path is the authoritative checkout defense. The outcome is preserved, the old mechanism was deliberately consolidated, and the current protection is mutation-proven. Keeping the obsolete second-independent-guard requirement would force duplicate logic back into the checkout route for no demonstrated safety gain.",
+
+  "successorImplementation": {
+    "consolidatedBy": "4db45d6d1",
+    "consolidatedOn": "2026-08-26",
+    "commitSubject": "fix: enforce protected packet commerce authority",
+    "whatItDid": "Removed 46 lines from src/app/api/expungement-ai/checkout/route.ts — the route-level refusals for exact_supported_deferral, terminal_treatment_candidate and component_deferral — consolidating them into the protected authority. The route now resolves ownership, rejects partner-sponsored items, calls createConsumerPacketCheckout, and maps ConsumerCheckoutNotAllowedError to a 403 carrying no URL, session or amount.",
+    "approvedBytesSha256": "d72c644413f51977f3c2e55113740474be91548961c0317b2e72daa366e58386",
+    "supersededBytesSha256": "b084d2b2b3dd0d8634ceca55e4e3231c73bbc63166da5ae5747d2ba338ab95de",
+    "originalBaseSha256": "9e0766966ca6d03297d94eb8eb73564b86c2cf1d1be8b0f4cacb2fb2deb67b7b"
+  },
+
+  "evidenceRelieduponAtDecisionTime": {
+    "outcomeClauseHolds": "A component_deferral checkout request still ends in 403 with no checkout URL, session or amount.",
+    "designatedRuntimeVerifier": "scripts/verify-rcap-component-deferral-runtime.mjs",
+    "verifierResult": "2777 checks over the exact ten routes and thirty-one components the patches targeted, EN+ES.",
+    "mutationResult": "10 of 10 deliberate breakages detected.",
+    "verifierNominatedBy": "captainApplication in the patch spec itself, so the test of whether the approved behaviour still holds is the one the approval named."
+  },
+
+  "whatThisDoesNotDecide": [
+    "It does not approve any route, packet family, price or commercial surface.",
+    "It does not authorize a deployment, a migration, an environment change or a Stripe live-mode call.",
+    "It does not reach any other patch in the c-dependency spec. The other ten remain as their own reconstruction recorded them.",
+    "It does not re-freeze data/rcap-all50/review-artifacts/c-dependency-correction-assignment.json, whose own SHA-256 is pinned separately and which needs its own authority.",
+    "It makes no statement about packet_credit_admission, which no approved requirement ever obliged to refuse independently."
+  ],
+
+  "consequentialRepairs": [
+    {
+      "target": "docs/record-clearing/terminalize-c/c-dependency-runtime-patch-spec.json",
+      "change": "Patch 11 appliedSha256 rolled forward to the approved current bytes; the superseded digest retained in priorAppliedSha256; supersededBy set to this record."
+    }
+  ]
+}
