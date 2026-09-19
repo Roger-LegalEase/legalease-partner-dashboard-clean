@@ -331,7 +331,7 @@ export function composeNdSealingPacket(input: NdGradeAComposeInput): NdGradeACom
   const documents: NdGradeADocument[] = [
     buildDocument(
       specById.get("nd_sealing_filing_instructions")!,
-      participantInstructionBlocks(facts, spec, ground.label),
+      participantInstructionBlocks(facts, spec, ground.label, renderResult.guidanceNotes),
       footer
     ),
     buildDocument(
@@ -475,8 +475,20 @@ function filedWithBlocks(spec: NdGradeAPacketSpec): Block[] {
 function participantInstructionBlocks(
   facts: NdGradeAFacts,
   spec: NdGradeAPacketSpec,
-  groundLabel: string
+  groundLabel: string,
+  guidanceNotes: string[]
 ): Block[] {
+  // Guidance the shared renderer carried OFF the court documents (the service
+  // condition that used to head the certificate of service, and the DOB/SSN
+  // note that used to sit inside the petition's verification block). It is real
+  // participant content, so it moves here rather than being deleted.
+  const guidanceBlocks: Block[] = guidanceNotes.length > 0
+    ? [{
+      lines: ["NOTES ON THE DOCUMENTS IN THIS PACKET", "", ...guidanceNotes.flatMap((note, i) => (i === 0 ? [note] : ["", note]))],
+      keepTogether: false
+    }]
+    : [];
+
   const courtDocuments = spec.documents.filter(
     (document) => document.audience === "court" && document.requirement === "required"
   );
@@ -542,6 +554,7 @@ function participantInstructionBlocks(
       ],
       keepTogether: false
     },
+    ...guidanceBlocks,
     { lines: ["IMPORTANT", "", ndSafetyDisclaimer], keepTogether: false }
   ];
 }
@@ -550,12 +563,20 @@ function participantInstructionBlocks(
 // Pagination
 // ---------------------------------------------------------------------------
 
+// The footer is a guidance footer. It goes on pages addressed to the
+// participant and never on a page filed with the court: a filing carries the
+// participant's document, not the vendor's attribution or a statement to the
+// court that this is not an official form. `audience` already records which is
+// which, so the rule is read from the document spec rather than repeated at
+// each call site.
 function buildDocument(
   documentSpec: (typeof ND_CHAPTER_12_60_1_DOCUMENTS)[number],
   blocks: Block[],
   footer: string
 ): NdGradeADocument {
-  const withFooter: Block[] = [...blocks, { lines: footer.split("\n"), keepTogether: true }];
+  const withFooter: Block[] = documentSpec.audience === "participant"
+    ? [...blocks, { lines: footer.split("\n"), keepTogether: true }]
+    : blocks;
   const pages = paginate(withFooter);
   return {
     documentId: documentSpec.documentId,

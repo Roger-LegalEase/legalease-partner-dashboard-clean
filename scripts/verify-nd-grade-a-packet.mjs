@@ -711,9 +711,22 @@ check(
   "The composed pleading must remain a replacement candidate, never a verified replacement."
 );
 for (const document of canonicalPacket.documents) {
+  // The guidance footer belongs on participant pages and must not appear on a
+  // page filed with the court. `audience` is the packet spec's own word for
+  // which is which, so the assertion reads it rather than requiring the footer
+  // everywhere -- which is what it did before, and which put product
+  // attribution and a "this is not an official court form" statement on the
+  // petition, the proposed order and the proof of service.
+  const courtFacing = document.audience === "court";
   check(
-    flat(document.text).includes("This is not an official court form"),
-    `${document.documentId} must carry the not-an-official-form footer.`
+    flat(document.text).includes("This is not an official court form") === !courtFacing,
+    courtFacing
+      ? `${document.documentId} is filed with the court and must not carry the not-an-official-form footer.`
+      : `${document.documentId} is a participant page and must carry the not-an-official-form footer.`
+  );
+  check(
+    !courtFacing || !/\bLegalEase\b/i.test(flat(document.text)),
+    `${document.documentId} is filed with the court and must not carry product attribution.`
   );
   check(document.text.replace(/[\s-]/g, "").length > 0, `${document.documentId} composed empty.`);
 }

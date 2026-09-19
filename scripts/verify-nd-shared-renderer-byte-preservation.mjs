@@ -59,6 +59,10 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const RENDERER = "src/lib/record-clearing/renderers/custom-pleading-renderer.ts";
 const BASE = process.env.BYTE_PRESERVATION_BASE ?? "a25eec4cdc1f2193a591ba9c2991c3c6dd8a03ef";
 
+// Output identity of each side. A base that predates versioning is 1.0.0: that
+// is what it rendered, it simply did not say so.
+const BASE_OUTPUT_VERSION = "1.0.0";
+let changedAcrossVersions = 0;
 const failures = [];
 let checks = 0;
 const check = (condition, message) => {
@@ -100,6 +104,22 @@ try {
 } finally {
   fs.rmSync(baseCopyPath, { force: true });
 }
+
+// Which question this run is allowed to ask.
+//
+// Lane D's claim was that two optional fields were additive, and byte-identity
+// proves it. That is only the right question while both sides render the same
+// output version. GA-4.4 deliberately changed court-facing output -- product
+// attribution and the "not an official court form" disclaimer came off the
+// filing -- and bumped the renderer to 2.0.0. Demanding identity across that
+// bump would be a fixture forcing the product back to a document the plan
+// removed on purpose.
+//
+// So across a version change the assertion inverts: output MUST differ
+// somewhere, because a bump that changed nothing is a false version, and a
+// change that bumped nothing is a silent output change. Both are caught.
+const PATCHED_OUTPUT_VERSION = patchedRenderer.CUSTOM_PLEADING_RENDERER_VERSION ?? BASE_OUTPUT_VERSION;
+const SAME_OUTPUT_VERSION = PATCHED_OUTPUT_VERSION === BASE_OUTPUT_VERSION;
 
 // --- every pleading configuration in the repository --------------------------
 
@@ -249,22 +269,29 @@ for (const [configKey, config] of [...configs.entries()].sort(([a], [b]) => (a <
     const label = `${configKey} / ${variant.label}`;
     comparisons += 1;
 
-    check(
-      sha256(before.fullText) === sha256(after.fullText),
-      `${label}: full text changed (${sha256(before.fullText).slice(0, 12)} -> ${sha256(after.fullText).slice(0, 12)}).`
-    );
-    check(
-      JSON.stringify(before.sections) === JSON.stringify(after.sections),
-      `${label}: section list changed.`
-    );
-    check(
-      JSON.stringify(before.attachmentList) === JSON.stringify(after.attachmentList),
-      `${label}: attachment list changed.`
-    );
-    check(
-      JSON.stringify(before.warnings) === JSON.stringify(after.warnings),
-      `${label}: warnings changed.`
-    );
+    // Byte-identity is the right question only while both sides render the same
+    // output version. Across a version bump the output is MEANT to differ, and
+    // demanding identity would force the product back to the older document.
+    if (SAME_OUTPUT_VERSION) {
+      check(
+        sha256(before.fullText) === sha256(after.fullText),
+        `${label}: full text changed (${sha256(before.fullText).slice(0, 12)} -> ${sha256(after.fullText).slice(0, 12)}).`
+      );
+      check(
+        JSON.stringify(before.sections) === JSON.stringify(after.sections),
+        `${label}: section list changed.`
+      );
+      check(
+        JSON.stringify(before.attachmentList) === JSON.stringify(after.attachmentList),
+        `${label}: attachment list changed.`
+      );
+      check(
+        JSON.stringify(before.warnings) === JSON.stringify(after.warnings),
+        `${label}: warnings changed.`
+      );
+    } else if (sha256(before.fullText) !== sha256(after.fullText)) {
+      changedAcrossVersions += 1;
+    }
     check(
       before.templateGrade === after.templateGrade
         && before.templateLifecycle === after.templateLifecycle
@@ -274,6 +301,39 @@ for (const [configKey, config] of [...configs.entries()].sort(([a], [b]) => (a <
   }
 }
 check(comparisons >= 18, `Expected at least eighteen comparisons, ran ${comparisons}.`);
+
+// The version bump and the output change must each account for the other.
+if (!SAME_OUTPUT_VERSION) {
+  check(
+    changedAcrossVersions > 0,
+    `Output version moved ${BASE_OUTPUT_VERSION} -> ${PATCHED_OUTPUT_VERSION} but no configuration's text changed; a version that changed nothing is a false version.`
+  );
+  // What 2.0.0 claims to have removed, asserted on the current output rather
+  // than trusted from the version string.
+  for (const [configKey, config] of configs) {
+    const out = patchedRenderer.renderCustomPleading({
+      config,
+      partyData: inputVariants[0].partyData,
+      caseData: inputVariants[0].caseData,
+      chargeData: inputVariants[0].chargeData,
+      eligibilityData: inputVariants[0].eligibilityData,
+      attachments: inputVariants[0].attachments,
+      productName: "LegalEase RCAP",
+      shadowMode: true
+    });
+    if (!out.rendered) continue;
+    check(!/This is not an official court form/i.test(out.fullText),
+      `${configKey}: court-facing output still carries the product disclaimer.`);
+    check(!/\bLegalEase\b/i.test(out.fullText),
+      `${configKey}: court-facing output still carries product attribution.`);
+    check(!/Service method: \[/.test(out.fullText),
+      `${configKey}: court-facing output still carries the generic service-method menu.`);
+    check(!/\[NOTE:/i.test(out.fullText),
+      `${configKey}: court-facing output still carries a participant instruction note.`);
+    check(out.rendererVersion === PATCHED_OUTPUT_VERSION,
+      `${configKey}: render result does not carry the renderer version that produced it.`);
+  }
+}
 
 // --- and the new fields must actually do something ---------------------------
 //
@@ -329,5 +389,8 @@ console.log(`  base commit:        ${BASE}`);
 console.log(`  configurations:     ${configs.size}`);
 console.log(`  input variants:     ${inputVariants.length}`);
 console.log(`  comparisons:        ${comparisons}`);
-console.log("  result:             every existing configuration renders byte for byte as before");
+console.log(`  output version:     ${BASE_OUTPUT_VERSION} -> ${PATCHED_OUTPUT_VERSION}`);
+console.log(SAME_OUTPUT_VERSION
+  ? "  result:             every existing configuration renders byte for byte as before"
+  : `  result:             output version changed; ${changedAcrossVersions} of ${comparisons} comparisons differ, and the removals 2.0.0 claims are asserted on the current output`);
 console.log("  new fields:         replace the default clauses only when supplied");

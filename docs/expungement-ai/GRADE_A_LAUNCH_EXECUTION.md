@@ -40,7 +40,7 @@ lane, no agent swarm.
 
 | Item | Phase | State | Note |
 |---|---|---|---|
-| GA-4.4 remove product branding from court-facing documents | 1 | `READY` | Every pleading still ends "Prepared by petitioner using {productName}"; material output change, needs versioning |
+| GA-5-TOKENS unresolved caption tokens on filed documents | 3 | `READY` | 11 of 28 rendered documents print `{courtLevel}`, `{county}`, `{caseNumber}` etc. in captions; needs per-config sourced values |
 | GA-5-MS reapply the reverted `routeKeys` binding fix | 3 | `ACTIVE` | 132C. Reverted earlier to hold `rebuildRequired:false`; that is no longer the accepted end state |
 
 ## External blockers
@@ -53,12 +53,15 @@ lane, no agent swarm.
 | GA-8-127 nine patch successors + CA carrier | 3 | Adopt successor bytes; authorize re-freezing the correction assignment | Roger |
 | GA-8-22E1 corpus mount | 3 | Master Library (28 sources) + complete 583-file Nationwide package at their declared paths | Source custodian |
 | GA-10 push target and hosted-acceptance token role | 6 | Resolve branch target; grant Auth Config read-write on `hyflxnlhpmiqxvvcoiia` | Roger |
+| GA-4.4-ND visual review re-run | 1 | Page-by-page visual review of both ND packets at renderer 2.0.0 (8 pages each); the committed reviews are bound to 1.x bytes and are stale. Not regenerable — a person performs it | Visual reviewer |
+| GA-4.4-ND output legal review re-run | 1 | Output legal review of the ND Chapter 12-60.1 packet at 2.0.0 bytes | Counsel |
 
 ## Done
 
 | Item | Phase | Evidence |
 |---|---|---|
 | GA-4.3 cross-jurisdiction presentation fallback removed | 1 | 13 configs now refuse; PA byte-identical 3/3; 190 checks |
+| GA-4.4 product branding removed from court-facing documents | 1 | renderer 1.0.0 -> 2.0.0; QA rule inverted; ND footer now audience-driven |
 | Memo lineage restoration (32) | — | `e1834aac7`; sweep step 154 |
 | Resolution-lane sidecar (33) | — | `d01cc0e30`; steps 155, 158 |
 | Per-question out-of-scope reasons (36B) | — | steps 164, 165 |

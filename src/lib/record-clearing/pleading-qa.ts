@@ -56,10 +56,26 @@ export function runPleadingQa(input: PleadingQaInput): QaResult {
     }
   }
 
-  // HARD: required footer present
-  if (!text.includes("This is not an official court form")) {
+  // HARD: no vendor attribution or product disclaimer on court-facing text.
+  //
+  // This rule used to be its exact inverse — the footer "This is not an official
+  // court form" was REQUIRED on every rendered pleading, alongside "Prepared by
+  // petitioner using <product>". Both are the vendor talking on a participant's
+  // filing: one advertises, and the other addresses the court about the
+  // document's provenance, which is not the participant's certification to make.
+  // Guidance of that kind belongs on the packet's participant pages, and the
+  // renderer now carries it there as guidanceNotes.
+  //
+  // It sits beside the seal/logo rule below because it is the same rule: nothing
+  // that marks the document as a product may appear on a page filed with a court.
+  if (/This is not an official court form/i.test(text)) {
     failures.push(
-      "Required footer 'This is not an official court form' is missing from output."
+      "Court-facing output must not carry the 'This is not an official court form' disclaimer; it belongs on participant guidance pages."
+    );
+  }
+  if (/\bPrepared by\b[^.]*\busing\b/i.test(text) || /\bLegalEase\b/i.test(text)) {
+    failures.push(
+      "Court-facing output must not carry product attribution."
     );
   }
 

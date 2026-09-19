@@ -1,5 +1,17 @@
 import type { JurisdictionCode } from "../types";
 
+/**
+ * Identity of the rendered court document, bound to artifacts that carry it.
+ *
+ * 2.0.0 is a material output change: product branding, the "not an official
+ * court form" disclaimer, the participant DOB/SSN instruction, the filing
+ * instruction on the certificate of service and the generic service-method menu
+ * no longer appear on court-facing text. Output produced by 1.x is different
+ * output and must not be re-approved under this version.
+ */
+export const CUSTOM_PLEADING_RENDERER_KIND = "custom_pleading_v1";
+export const CUSTOM_PLEADING_RENDERER_VERSION = "2.0.0";
+
 export interface PleadingStatute {
   citation: string | null;
   description: string;
@@ -192,7 +204,11 @@ export interface PleadingRenderInput {
   chargeData: PleadingChargeData;
   eligibilityData: PleadingEligibilityData;
   attachments?: string[];
-  productName: string;
+  /**
+   * Packet context. NOT rendered onto court-facing text: a filing carries no
+   * vendor attribution. Retained because composers pass it for guidance pages.
+   */
+  productName?: string;
   shadowMode: boolean;
 }
 
@@ -206,11 +222,22 @@ export interface PleadingRenderResult {
   rendered: boolean;
   templateGrade: string;
   templateLifecycle: string;
+  /** Identity of the output, so an artifact binds the version that produced it. */
+  rendererKind: string;
+  rendererVersion: string;
   shadowMode: boolean;
   fullText: string;
   sections: PleadingSection[];
   attachmentList: string[];
   counselFlags: string[];
+  /**
+   * Guidance addressed to the participant, carried OUT of the court document
+   * rather than deleted. The filing instruction on the certificate of service,
+   * the service-method options and the DOB/SSN note all used to print on filed
+   * pages; they are real content for the packet's instructions, and belong
+   * there. Nothing here may be rendered onto a court-facing page.
+   */
+  guidanceNotes: string[];
   warnings: string[];
   errors: string[];
 }
@@ -262,19 +289,24 @@ export function renderCustomPleading(input: PleadingRenderInput): PleadingRender
       rendered: false,
       templateGrade: input.config.templateGrade,
       templateLifecycle: input.config.templateLifecycle,
+      rendererKind: CUSTOM_PLEADING_RENDERER_KIND,
+      rendererVersion: CUSTOM_PLEADING_RENDERER_VERSION,
       shadowMode: input.shadowMode,
       fullText: "",
       sections: [],
       attachmentList: [],
       counselFlags: input.config.counselFlags,
-      warnings,
-      errors: [refusal]
+      guidanceNotes: [],
+      errors: [refusal],
+      warnings
     };
   }
-  const pres = input.config.presentation;
+  const guidanceNotes: string[] = [];
   const attachmentList = buildAttachmentList(input);
-  const sections = buildSections(input, attachmentList, warnings);
-  const footer = `---\nPrepared by ${pres.movantRole.toLowerCase()} using ${input.productName}. This is not an official court form.`;
+  const sections = buildSections(input, attachmentList, warnings, guidanceNotes);
+  // No footer. The court document carries the filing and nothing else: no
+  // product name, and no statement to the court that this is not an official
+  // court form. Both are the vendor talking on a participant's filing.
   const bodyText = sections
     .map((s) => (s.heading ? `${s.heading}\n\n${s.text}` : s.text))
     .join("\n\n");
@@ -283,11 +315,14 @@ export function renderCustomPleading(input: PleadingRenderInput): PleadingRender
     rendered: true,
     templateGrade: input.config.templateGrade,
     templateLifecycle: input.config.templateLifecycle,
+    rendererKind: CUSTOM_PLEADING_RENDERER_KIND,
+    rendererVersion: CUSTOM_PLEADING_RENDERER_VERSION,
     shadowMode: input.shadowMode,
-    fullText: `${bodyText}\n\n${footer}`,
+    fullText: bodyText,
     sections,
     attachmentList,
     counselFlags: input.config.counselFlags,
+    guidanceNotes,
     warnings,
     errors: []
   };
@@ -304,7 +339,8 @@ function buildAttachmentList(input: PleadingRenderInput): string[] {
 function buildSections(
   input: PleadingRenderInput,
   attachmentList: string[],
-  warnings: string[]
+  warnings: string[],
+  guidanceNotes: string[]
 ): PleadingSection[] {
   const { config, partyData, caseData, chargeData, eligibilityData } = input;
   // renderCustomPleading refuses before calling this when the presentation is
@@ -529,10 +565,14 @@ function buildSections(
     petitioner,
     partyData.petitionerAddress ?? `[${movantRole.toUpperCase()} ADDRESS]`,
     "",
-    "Date: ________________________________",
-    "",
-    `[NOTE: Date of birth and Social Security Number should be added by ${movantRole.toLowerCase()} if required by the applicable form or local court rules.]`
+    "Date: ________________________________"
   ];
+  // Was printed inside the verification block of the filed petition. It is an
+  // instruction to the participant, not a statement to the court, and it invites
+  // writing a Social Security Number onto a filing — so it moves to guidance.
+  guidanceNotes.push(
+    `Date of birth and Social Security Number: add these to the ${filingNounLower} only if the applicable form or local court rules require them. Do not add them otherwise.`
+  );
   sections.push({
     sectionId: "verification_signature",
     heading: "VI. VERIFICATION",
@@ -541,14 +581,19 @@ function buildSections(
 
   // VII. Certificate of service (config-driven)
   if (config.includeCertificateOfService && config.serviceNote) {
+    // The certificate is a filed document certifying that service was made. The
+    // route's filing instruction tells the participant to make it, which is
+    // guidance addressed to them and not part of the certification.
+    guidanceNotes.push(config.serviceNote);
     const serviceLines = [
-      config.serviceNote,
-      "",
       `I certify that on ________________________, I served a copy of this ${filingNoun} upon ${pres.serviceRecipientLabel ?? "[SERVICE RECIPIENT — CONFIRM PER LOCAL PRACTICE]"} at the following address:`,
       "",
       pres.serviceRecipientAddressLabel ?? "[SERVICE RECIPIENT ADDRESS — CONFIRM PER LOCAL PRACTICE]",
       "",
-      "Service method: [personal delivery / first-class mail / other as permitted by applicable court rules]",
+      // The certificate states the method actually used, so this is a blank the
+      // participant completes. It used to print a slash-separated menu of
+      // options, which is form instruction rather than certificate content.
+      "Service method: ________________________________",
       "",
       "________________________________",
       petitioner,

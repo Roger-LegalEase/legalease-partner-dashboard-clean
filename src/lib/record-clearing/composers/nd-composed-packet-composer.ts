@@ -297,7 +297,7 @@ export function composeNdNonconvictionPacket(
   documents.push(
     buildDocument(
       specById.get("nd_nonconviction_filing_instructions")!,
-      participantInstructionBlocks(facts, spec),
+      participantInstructionBlocks(facts, spec, renderResult.guidanceNotes),
       footer
     )
   );
@@ -429,8 +429,20 @@ function isSignatureBlock(paragraph: string): boolean {
 
 function participantInstructionBlocks(
   facts: NdComposedPacketFacts,
-  spec: NdComposedPacketSpec
+  spec: NdComposedPacketSpec,
+  guidanceNotes: string[]
 ): Block[] {
+  // Guidance the shared renderer carried OFF the court documents (the service
+  // condition that used to head the certificate of service, and the DOB/SSN
+  // note that used to sit inside the petition's verification block). It is real
+  // participant content, so it moves here rather than being deleted.
+  const guidanceBlocks: Block[] = guidanceNotes.length > 0
+    ? [{
+      lines: ["NOTES ON THE DOCUMENTS IN THIS PACKET", "", ...guidanceNotes.flatMap((note, i) => (i === 0 ? [note] : ["", note]))],
+      keepTogether: false
+    }]
+    : [];
+
   const documentLines = spec.documents
     .filter((doc) => doc.audience === "court")
     .map(
@@ -482,6 +494,7 @@ function participantInstructionBlocks(
       ],
       keepTogether: false
     },
+    ...guidanceBlocks,
     { lines: ["IMPORTANT", "", ndSafetyDisclaimer], keepTogether: false }
   ];
 }
@@ -535,12 +548,20 @@ function dateSplitExplanation(): string {
   return "The order of nonconviction in this case was entered before August 1, 2025. Court records for orders of nonconviction entered on or after August 1, 2025 close on their own 61 days after the order and need no filing. Because this order came earlier, the court record is closed by filing the Petition to Close Nonconviction Records in this packet.";
 }
 
+// The footer is a guidance footer. It goes on pages addressed to the
+// participant and never on a page filed with the court: a filing carries the
+// participant's document, not the vendor's attribution or a statement to the
+// court that this is not an official form. `audience` already records which is
+// which, so the rule is read from the document spec rather than repeated at
+// each call site.
 function buildDocument(
   spec: (typeof ND_NONCONVICTION_DOCUMENTS)[number],
   blocks: Block[],
   footer: string
 ): NdComposedDocument {
-  const withFooter: Block[] = [...blocks, { lines: footer.split("\n"), keepTogether: true }];
+  const withFooter: Block[] = spec.audience === "participant"
+    ? [...blocks, { lines: footer.split("\n"), keepTogether: true }]
+    : blocks;
   const pages = paginate(withFooter);
   return {
     documentId: spec.documentId,
