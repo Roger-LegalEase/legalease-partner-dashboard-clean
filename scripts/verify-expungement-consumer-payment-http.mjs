@@ -897,6 +897,29 @@ await runCaseGroup(["P9","P12","P10","P13"], async () => {
   );
 });
 
+await runCaseGroup(["P22"], async () => {
+  // P22 — the wrong currency records nothing.
+  //
+  // The reconciliation has always refused a session whose currency is not the
+  // packet's, and until now nothing proved it: the mutation that deletes that
+  // check survived the whole suite. Every other case builds its session in
+  // usd, so the refusal was real and untested, which is the same shape of
+  // problem as a check that has quietly stopped running.
+  const item = await createItem(USER_A, "p22cur");
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p22cur", currency: "eur" });
+  const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p22cur", session)));
+  const row = paymentRow(item);
+  // As with P5, a refused event must not burn its idempotency key: a corrected
+  // retry carrying the same event id has to be able to land.
+  const claimed = db.scalar(`select count(*) from public.processed_stripe_events where stripe_event_id='evt_p22cur'`);
+  check(
+    "P22",
+    "a signed event in the wrong currency records nothing and burns no idempotency key",
+    res.status === 500 && row?.payment_status === "unpaid" && row?.provider_event_id === null && claimed === "0",
+    `${res.status} ${JSON.stringify(row)} claimed=${claimed}`
+  );
+});
+
 await runCaseGroup(["P14"], async () => {
   // P14 — a sponsored request stays valid with no consumer payment at all.
   db.sql(`insert into public.partner_records (partner_slug) values ('we-must-vote') on conflict do nothing`);
