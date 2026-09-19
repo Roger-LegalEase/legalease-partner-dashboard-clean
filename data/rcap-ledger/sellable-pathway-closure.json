@@ -1869,10 +1869,8 @@
   },
   "unclassifiedPathways": [
     "AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
-    "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
     "CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
-    "KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
-    "NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160"
+    "KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276"
   ],
   "stageSets": {
     "intendedSellablePathways": [
@@ -3828,7 +3826,9 @@
           "currentlyOperative": null,
           "paidRouteBlocker": null,
           "packetPlanMode": "state_specific_custom_packet_from_source_rules",
-          "tracks": [],
+          "tracks": [
+            "az_wrongful_arrest_clearance"
+          ],
           "trackTreatments": [],
           "filingEvidence": [],
           "unclassified": true,
@@ -4074,10 +4074,10 @@
       "pathwayId": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
       "pathwayLabel": "Dismissal and set-aside of a conviction for which probation was not granted",
       "category": "paid_packet_intended",
-      "categoryBasis": "No product classification evidence exists for this pathway; it is held in the paid denominator until an evidenced classification is recorded.",
+      "categoryBasis": "Committed treatment evidence states the participant files their own document(s) on this route (ca-1203-4a).",
       "classification": {
         "category": "paid_packet_intended",
-        "categoryBasis": "No product classification evidence exists for this pathway; it is held in the paid denominator until an evidenced classification is recorded.",
+        "categoryBasis": "Committed treatment evidence states the participant files their own document(s) on this route (ca-1203-4a).",
         "evidence": {
           "routeType": "court_filing",
           "productRouteType": null,
@@ -4085,11 +4085,28 @@
           "currentlyOperative": null,
           "paidRouteBlocker": null,
           "packetPlanMode": "state_specific_custom_packet_from_source_rules",
-          "tracks": [],
-          "trackTreatments": [],
-          "filingEvidence": [],
-          "unclassified": true,
-          "filingDeterminationMissing": true
+          "tracks": [
+            "ca-1203-4a"
+          ],
+          "trackTreatments": [
+            {
+              "trackId": "ca-1203-4a",
+              "treatment": "exact_supported_deferral",
+              "causation": {
+                "cause": "unfinished_implementation",
+                "evidencePhrases": [
+                  "checks legalease requires"
+                ]
+              }
+            }
+          ],
+          "filingEvidence": [
+            {
+              "trackId": "ca-1203-4a",
+              "treatment": "exact_supported_deferral",
+              "participantFiles": "Yes. You file CR-180 with box 3 checked and the proposed order CR-181. The proof of service CR-106 and the attached declaration MC-031 apply depending on how your court handles the petition and on how much room your interests-of-justice explanation needs."
+            }
+          ]
         }
       },
       "route": {
@@ -4124,6 +4141,11 @@
           "id": "legal_review_pending",
           "severity": "blocking",
           "statement": "No current counsel ratification records this route as packet-capable and payable."
+        },
+        {
+          "id": "guidance_substitution",
+          "severity": "blocking",
+          "statement": "ca-1203-4a is served to the participant as a exact_supported_deferral whose own stated reason is our unfinished work; it is a temporary blocker on a paid pathway, not a completed product treatment."
         }
       ],
       "routeMetadata": null
@@ -5105,7 +5127,9 @@
           "currentlyOperative": null,
           "paidRouteBlocker": null,
           "packetPlanMode": "state_specific_custom_packet_from_source_rules",
-          "tracks": [],
+          "tracks": [
+            "ct-cannabis-petition"
+          ],
           "trackTreatments": [],
           "filingEvidence": [],
           "unclassified": true,
@@ -8948,7 +8972,9 @@
           "currentlyOperative": true,
           "paidRouteBlocker": "route_metadata",
           "packetPlanMode": "state_specific_custom_packet_from_source_rules",
-          "tracks": [],
+          "tracks": [
+            "ks-12-4516a-municipal-arrest"
+          ],
           "trackTreatments": [],
           "filingEvidence": []
         }
@@ -9013,7 +9039,9 @@
           "currentlyOperative": true,
           "paidRouteBlocker": "intake_fix",
           "packetPlanMode": "state_specific_custom_packet_from_source_rules",
-          "tracks": [],
+          "tracks": [
+            "ks-12-4516-municipal"
+          ],
           "trackTreatments": [],
           "filingEvidence": []
         }
@@ -9548,7 +9576,9 @@
           "currentlyOperative": null,
           "paidRouteBlocker": null,
           "packetPlanMode": "state_specific_custom_packet_from_source_rules",
-          "tracks": [],
+          "tracks": [
+            "ky_void_seal_marijuana_synthetic_salvia"
+          ],
           "trackTreatments": [],
           "filingEvidence": [],
           "unclassified": true,
@@ -17417,10 +17447,10 @@
       "pathwayId": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
       "pathwayLabel": "Removal of a record from the Central Repository after a favourable disposition",
       "category": "paid_packet_intended",
-      "categoryBasis": "No product classification evidence exists for this pathway; it is held in the paid denominator until an evidenced classification is recorded.",
+      "categoryBasis": "Committed treatment evidence states the participant files their own document(s) on this route (nv_repository_removal).",
       "classification": {
         "category": "paid_packet_intended",
-        "categoryBasis": "No product classification evidence exists for this pathway; it is held in the paid denominator until an evidenced classification is recorded.",
+        "categoryBasis": "Committed treatment evidence states the participant files their own document(s) on this route (nv_repository_removal).",
         "evidence": {
           "routeType": "administrative",
           "productRouteType": null,
@@ -17428,11 +17458,25 @@
           "currentlyOperative": null,
           "paidRouteBlocker": null,
           "packetPlanMode": "state_specific_custom_packet_from_source_rules",
-          "tracks": [],
-          "trackTreatments": [],
-          "filingEvidence": [],
-          "unclassified": true,
-          "filingDeterminationMissing": true
+          "tracks": [
+            "nv_repository_removal"
+          ],
+          "trackTreatments": [
+            {
+              "trackId": "nv_repository_removal",
+              "treatment": "exact_supported_deferral",
+              "causation": {
+                "cause": "undeclared"
+              }
+            }
+          ],
+          "filingEvidence": [
+            {
+              "trackId": "nv_repository_removal",
+              "treatment": "exact_supported_deferral",
+              "participantFiles": "Yes, and to two places rather than one. The same written application goes to the Central Repository for Nevada Records of Criminal History and to the agency which maintains the record, ordinarily the arresting agency. It is not a court filing, no order issues on it, and it does not touch the court's own record."
+            }
+          ]
         }
       },
       "route": {

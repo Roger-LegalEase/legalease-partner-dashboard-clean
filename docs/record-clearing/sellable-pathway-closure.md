@@ -94,6 +94,7 @@ temporary blockers on intended paid pathways, not completed product treatments.
 | `filing_determination_missing` | 10 |
 | `unclassified_route` | 5 |
 | `legal_action_required` | 2 |
+| `guidance_substitution` | 1 |
 
 **64 of 267** intended-sellable pathways are closed with no open blocker.
 
@@ -116,15 +117,16 @@ carries. A pathway appears in exactly one row, so the rows are the work.
 | `legal_reconfirmation + legal_review_pending + renderer_unavailable` | 8 | NH, NV, OK, RI, SD, WA, WI |
 | `intake_fix + legal_review_pending` | 7 | FL, KS, LA, MI, NE, WA |
 | `legal_review_pending + not_paid_product + packet_spec_incomplete + renderer_unavailable` | 4 | AK, MN, MS |
-| `legal_review_pending + unclassified_route` | 4 | AZ, CA, KY, NV |
 | `filing_determination_missing + legal_review_pending + not_paid_product` | 4 | DE, LA, NE, OK |
 | `filing_determination_missing + legal_review_pending + not_paid_product + packet_spec_incomplete + renderer_unavailable` | 3 | AK, CT, WI |
+| `legal_review_pending + unclassified_route` | 3 | AZ, KY, NV |
 | `legal_review_pending + renderer_unavailable + wait_anchor_fix` | 3 | CO, VT, WV |
 | `legal_reconfirmation + legal_review_pending + packet_spec_incomplete + renderer_unavailable` | 3 | NE, NJ, OR |
 | `filing_determination_missing + legal_action_required + legal_review_pending` | 2 | HI |
 | `legal_review_pending + not_paid_product + renderer_unavailable` | 2 | KY, MD |
 | `intake_fix + legal_review_pending + packet_spec_incomplete + renderer_unavailable` | 2 | NV, SD |
 | `gate_build + legal_review_pending + renderer_unavailable` | 2 | SD, WV |
+| `guidance_substitution + legal_review_pending + unclassified_route` | 1 | CA |
 | `legal_review_pending + renderer_unavailable + unclassified_route` | 1 | CT |
 | `legal_review_pending + packet_spec_incomplete + renderer_unavailable + route_metadata` | 1 | MA |
 | `filing_determination_missing + legal_review_pending + not_paid_product + renderer_unavailable` | 1 | ME |
@@ -144,9 +146,7 @@ ratification for them.
 ## Pathways with no row in route-product-metadata.json
 
 - `AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051`
-- `CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a`
 - `CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v`
 - `KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276`
-- `NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160`
 
 Regenerate with `npm run rcap:generate-sellable-closure`; verify with `npm run rcap:verify-sellable-closure`.
