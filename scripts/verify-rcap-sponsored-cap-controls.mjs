@@ -58,6 +58,7 @@ if (CHILD) {
   const stub = await import("./census-controls/supabase-counting-stub.mjs");
   const ca = await import("../src/lib/rcap/render/commercial-admission.ts");
   const slots = await import("../src/lib/expungement-ai/rcap-slot-lifecycle.ts");
+  const { admitCommercial } = await import("../src/lib/rcap/fulfillment/grade-a-admission.ts");
 
   const registry = JSON.parse(fs.readFileSync("data/rcap-grade-a/fulfillment-authority-registry.json", "utf8"));
   const projection = JSON.parse(fs.readFileSync("data/rcap-grade-a/fulfillment-authority-projection.json", "utf8"));
@@ -82,7 +83,7 @@ if (CHILD) {
   check(!recordIds.has(NO_RECORD), `the no-record control ${NO_RECORD} genuinely holds no Grade-A record`);
 
   const HASH = "f".repeat(64);
-  const contextFor = (routeId, packetFamilyId) => {
+  const contextFor = (routeId, packetFamilyId, { storage = false, repeatDownload = false } = {}) => {
     const [jurisdiction, ...rest] = routeId.split(":");
     const pathwayId = rest.join(":");
     const identity = ca.commercialRouteIdentity({ jurisdiction, pathwayId });
@@ -107,7 +108,9 @@ if (CHILD) {
       entitlement: ca.entitlementContext({
         kind: "sponsored_credit", idempotencyKey: "control-key", alreadyConsumed: false, serverVerified: true
       }),
-      storage: null
+      storage: storage
+        ? ca.artifactStorageContext({ privateStorage: true, artifactSha256: HASH, repeatDownload })
+        : null
     });
     return { identity, context };
   };
@@ -177,6 +180,56 @@ if (CHILD) {
   check(!c4.cap.admissionDenialCode, `at-cap control carries no Grade-A denial code, so paused is distinguishable from denied (got ${JSON.stringify(c4.cap.admissionDenialCode)})`);
   check(c4.calls.writes === 0 && c4.calls.rpc === 0,
     `at-cap control performs zero writes and zero RPC consumption (writes ${c4.calls.writes}, rpc ${c4.calls.rpc})`);
+
+  /* ---- findings 3 and 4: the guards that sit ahead of the effects ----------
+   *
+   * Attachment. `attachPacketToBriefcaseItem` calls
+   * `governArtifactAttachment(...)` and only then
+   * `attachConsumerPacketArtifactIfVerified(...)`. The guard THROWS on refusal,
+   * so the CAS write is unreachable for a refused route. Driven here directly;
+   * a refusal that throws is what makes the next line unreachable.
+   *
+   * Delivery, and the distinction the census lost. `briefcase_ready` is a
+   * READINESS PRESENTATION point -- when it is denied the item shows
+   * packetStatus "pending" and canDownload false, and no bytes move.
+   * `private_download` and `repeat_download` are the DELIVERY authority, and
+   * they are separate admission points with different storage semantics. The
+   * census added `briefcase_ready` to a list literally called `delivered`,
+   * which is what made the finding read as ten deliveries.
+   */
+  const attachmentOf = (routeId, packetFamilyId) => {
+    const { identity, context } = contextFor(routeId, packetFamilyId, { storage: true });
+    try { ca.governArtifactAttachment(identity, context); return { refused: false, code: null }; }
+    catch (error) { return { refused: true, code: error?.denialCode ?? error?.name ?? "error" }; }
+  };
+  const admissionOf = (point, routeId, packetFamilyId, repeatDownload = false) => {
+    const { identity, context } = contextFor(routeId, packetFamilyId, { storage: true, repeatDownload });
+    try { return { admitted: Boolean(admitCommercial(point, identity, context).admitted) }; }
+    catch { return { admitted: false }; }
+  };
+
+  const a1 = attachmentOf(NO_RECORD, null);
+  const a2 = attachmentOf(held.routeId, held.packetFamilyId);
+  const a3 = attachmentOf(proven.routeId, proven.packetFamilyId);
+  check(a1.refused, `attachment is refused for the no-record control, so the CAS write is unreachable (code ${a1.code})`);
+  check(a2.refused, `attachment is refused for the held-record control, so the CAS write is unreachable (code ${a2.code})`);
+  check(!a3.refused, `attachment is admitted for the proven control, so a rejecting-everything system cannot pass this check`);
+  check(stub.calls.writes === 0 && stub.calls.rpc === 0,
+    `no attachment control performed a write or an RPC (writes ${stub.calls.writes}, rpc ${stub.calls.rpc})`);
+
+  // Readiness and delivery are asked separately, and reported separately.
+  const ready = { no: admissionOf("briefcase_ready", NO_RECORD, null), held: admissionOf("briefcase_ready", held.routeId, held.packetFamilyId), proven: admissionOf("briefcase_ready", proven.routeId, proven.packetFamilyId) };
+  const priv = { no: admissionOf("private_download", NO_RECORD, null), held: admissionOf("private_download", held.routeId, held.packetFamilyId), proven: admissionOf("private_download", proven.routeId, proven.packetFamilyId) };
+  const repeat = { no: admissionOf("repeat_download", NO_RECORD, null, true), held: admissionOf("repeat_download", held.routeId, held.packetFamilyId, true), proven: admissionOf("repeat_download", proven.routeId, proven.packetFamilyId, true) };
+
+  check(!ready.no.admitted && !ready.held.admitted,
+    "briefcase_ready is denied for both unauthorized controls, so the item presents as pending and not downloadable");
+  check(!priv.no.admitted && !priv.held.admitted,
+    "private_download -- the DELIVERY authority, not the readiness flag -- is denied for both unauthorized controls");
+  check(!repeat.no.admitted && !repeat.held.admitted,
+    "repeat_download is denied for both unauthorized controls, asked as its own point with repeatDownload storage");
+  check(priv.proven.admitted || ready.proven.admitted,
+    `the proven control is admitted at readiness or delivery, so refusing everything cannot pass (ready ${ready.proven.admitted}, private ${priv.proven.admitted}, repeat ${repeat.proven.admitted})`);
 
   // ---- the states are exhaustive -------------------------------------------
   const seen = [c1.state, c2.state, c3.state, c4.state];

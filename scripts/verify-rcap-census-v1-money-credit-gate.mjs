@@ -236,6 +236,12 @@ if (CHILD) {
   const sponsored = [];
   const creditSpent = [];
   const attached = [];
+  // Readiness is not delivery. `briefcase_ready` decides what the participant is
+  // SHOWN -- denied, the item presents as packetStatus "pending" with
+  // canDownload false and no bytes move. `private_download` / `repeat_download`
+  // are the delivery authority. The two were being summed into one list called
+  // `delivered`, which is what made five routes read as ten deliveries.
+  const readyPresented = [];
   const delivered = [];
   const capStates = {};
   const capUnexplained = [];
@@ -415,7 +421,7 @@ if (CHILD) {
     // ---- 5. attaching or delivering a new commercial artifact ---------------
     const st = permissive(r, { storage: true });
     if (admitCommercial("artifact_commercial_attachment", st.identity, st.context).admitted) attached.push(r.routeId);
-    if (admitCommercial("briefcase_ready", st.identity, st.context).admitted) delivered.push(`${r.routeId} (briefcase_ready)`);
+    if (admitCommercial("briefcase_ready", st.identity, st.context).admitted) readyPresented.push(`${r.routeId} (briefcase_ready)`);
     let downloadThrew = null;
     try {
       ca.governPacketDownloadAdmission({
@@ -452,7 +458,9 @@ if (CHILD) {
   withRoutes("no_packet_credit", creditSpent);
   check(attached.length === 0, summarise("sellable:false routes that attach a new commercial artifact", attached), "no_artifact_attachment");
   withRoutes("no_artifact_attachment", attached);
-  check(delivered.length === 0, summarise("sellable:false routes that deliver a new commercial artifact", delivered), "no_artifact_delivery");
+  check(readyPresented.length === 0, summarise("routes admitted at briefcase_ready, which controls what the participant is SHOWN and moves no bytes", readyPresented), "no_ready_presentation");
+  withRoutes("no_ready_presentation", readyPresented);
+  check(delivered.length === 0, summarise("routes admitted at the DELIVERY authority (private_download / repeat_download)", delivered), "no_artifact_delivery");
   withRoutes("no_artifact_delivery", delivered);
 
   /**
@@ -512,7 +520,7 @@ if (CHILD) {
 
   console.log(`census v1: ${routes.length} compiled routes over ${profiles.length} jurisdictions, ${checks} assertion(s).`);
   console.log(`  sellable:false ${routes.length}/${routes.length} · creditConsumable:false ${routes.length}/${routes.length}`);
-  console.log(`  price ${priced.length} · checkout ${checkedOut.length} · sponsored ${sponsored.length} · credit ${creditSpent.length} · attach ${attached.length} · deliver ${delivered.length}`);
+  console.log(`  price ${priced.length} · checkout ${checkedOut.length} · sponsored ${sponsored.length} · credit ${creditSpent.length} · attach ${attached.length} · ready ${readyPresented.length} · deliver ${delivered.length}`);
   console.log(`  shadow render specs: ${jobSpecBuilt.length} (${[...jobSpecKinds].map(([k, v]) => `${k} ${v}`).join(", ")})`);
   console.log(`  sponsored-cap states: ${Object.entries(capStates).sort().map(([k, v]) => `${k} ${v}`).join(" · ")}`);
   console.log(`  renderable ${renderable.length} = ${jobSpecBuilt.length} spec + ${jobSpecRefused.length} refused + ${jobSpecThrew.length} threw + ${jobSpecUnexplained.length} unexplained`);
