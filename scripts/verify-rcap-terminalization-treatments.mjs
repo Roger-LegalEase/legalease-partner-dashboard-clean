@@ -101,7 +101,57 @@ async function runChecks() {
       `${brief.key}: briefed as nonterminal but carries no terminal treatment`
     );
   }
+  // The briefs describe ONE window -- their own purpose line calls it "the
+  // emergency 497/497 terminalization window" -- and its rule is that a
+  // treatment may state a fact only when the brief carries it. That rule is
+  // about that window, and measuring a later, separately authorized window
+  // against it reported seven South Carolina treatments as unbriefed when what
+  // they actually are is out of these briefs' scope.
+  //
+  // So the briefing rule is scoped to its own window, and a treatment from any
+  // other window has to carry its own authority instead: citations, evidence
+  // refs, candidate-only with no promotion or ledger effect, and a recorded
+  // pending independent review. Neither direction is relaxed -- an
+  // emergency-window treatment still needs a brief, and an out-of-window one
+  // still cannot state a fact on nobody's authority.
+  //
+  // windowId lives on the treatment file, not on the loaded treatment, so the
+  // files are read here with the same last-file-wins precedence the loader uses.
+  const BRIEFED_WINDOW = "2026-08-13-emergency-497";
+  const windowByTrack = new Map();
+  const entryByTrack = new Map();
+  for (const file of treatmentFiles()) {
+    let parsed;
+    // treatmentFiles() already returns absolute paths.
+    try { parsed = JSON.parse(fs.readFileSync(file, "utf8")); } catch { continue; }
+    for (const entry of parsed.treatments ?? []) {
+      if (typeof entry.trackId !== "string" || !entry.trackId) continue;
+      windowByTrack.set(entry.trackId, String(parsed.windowId ?? ""));
+      entryByTrack.set(entry.trackId, entry);
+    }
+  }
+  // If the briefed window is ever renamed, this check must fail loudly rather
+  // than silently exempt every treatment from its brief.
+  check(
+    [...windowByTrack.values()].includes(BRIEFED_WINDOW),
+    `no treatment file declares windowId ${BRIEFED_WINDOW}; the briefing rule would exempt everything`
+  );
+
   for (const treatment of treatments) {
+    const windowId = windowByTrack.get(treatment.trackId) ?? "";
+    const label = `${treatment.jurisdiction}:${treatment.trackId}`;
+    if (windowId !== BRIEFED_WINDOW) {
+      const entry = entryByTrack.get(treatment.trackId) ?? {};
+      check(Array.isArray(entry.authority) && entry.authority.length > 0,
+        `${label}: treatment from window ${windowId || "(unnamed)"} carries no authority citation`);
+      check(Array.isArray(entry.evidenceRefs) && entry.evidenceRefs.length > 0,
+        `${label}: treatment from window ${windowId || "(unnamed)"} carries no evidence references`);
+      check(entry.candidateOnly === true && entry.promotionEffect === "none" && entry.ledgerEffect === "none",
+        `${label}: treatment from window ${windowId || "(unnamed)"} is not candidate-only with no promotion or ledger effect`);
+      check(entry.reviewState === "pending_independent_review",
+        `${label}: treatment from window ${windowId || "(unnamed)"} does not record a pending independent review`);
+      continue;
+    }
     check(
       briefByTrack.has(treatment.trackId),
       `${treatment.jurisdiction}:${treatment.trackId}: a treatment exists for a track this window never briefed`

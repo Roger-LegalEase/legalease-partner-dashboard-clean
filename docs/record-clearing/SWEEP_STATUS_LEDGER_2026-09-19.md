@@ -89,11 +89,19 @@ decision and refused on every sponsored and credit surface.
 |---|---|
 | routeKind disagreement queue | 32/32 `TECHNICAL_ONLY_SAFE`. `factory_v2` is a renderer capability and authorizes nothing; commercial authority comes only from a Grade-A record. Keep open; it does not compete with 132 or 61 |
 
-### Lane C — one publication, after the reviews settle
+### Lane C — **empty**
+
+Both candidate inputs left it: `packet-fulfillment-records.json` (131 — ND's
+absence is an authoritative withdrawal, not unfinished work) and
+`terminalization-treatments/` (17/18 — the treatments were already written and
+authorized; the verifier was scoped to one window). **No worker-image input
+moves in this release**, and the gate stays `rebuildRequired: false`.
+
+### Lane C — original candidates, both now withdrawn
 
 | Step | Worker-image input |
 |---|---|
-| 17 / 18 | `data/rcap-all50/terminalization-treatments/` — four SC tracks carry a treatment the window never briefed |
+| ~~17 / 18~~ | **CLEARED — stale window assumption, no publication needed.** **Seven** SC tracks, not four. The treatments already exist and are owner-authorized: window `2026-09-14-sc-owner-guidance-conversion`, `complete_guidance`, `candidateOnly: true`, `promotionEffect`/`ledgerEffect` `none`, `pending_independent_review`, each citing S.C. Code and `OWN-DT-2026-09-02-SC-223A1` / `SC-SINGLE-INCIDENT-FEE-TREATMENT`. The verifier measured them against the **2026-08-13 emergency-497** briefs, which never covered them. Briefing rule now scoped to its own window; out-of-window treatments must carry their own authority. 17: 121 treatments / 11,951 checks. 18: 19/19 mutations. **`terminalization-treatments/` does not move** |
 | ~~101~~ | ~~`f2-dispositions.json`~~ — **removed**: the Lane F verifier never reads it. 101 cleared outside Lane C |
 | ~~131~~ | ~~`packet-fulfillment-records.json`~~ — **removed from Lane C**. ND's record was deliberately withdrawn; re-adding it needs four external proofs, two of them the human gates AGENTS.md names as blocking live. This file does not move in this release |
 
