@@ -95,6 +95,41 @@ check(edited.patch.commercialFlow.verification.hash === undefined,
 check(Object.keys(edited.protectedTransition.answerDelta).length === 1,
   "exactly the edited fact is recorded as the material change");
 
+console.log("\n1b. …for every fact the route currently asks the participant for");
+// One representative fact proves the property on one fact. Ownership is a claim
+// about the whole record, and the route decides what that record contains: the
+// Mississippi collection grew from seventeen facts to forty-seven while this
+// test watched a single one of them. So the subjects are taken from the same
+// collection the test is policing — every required input that is not a server
+// fact — and each is edited in turn.
+//
+// An edit is only "mis-owned" if the verification taken against the old answer
+// survives it, or if the record blames a fact the participant did not touch.
+// Both are checked on all of them, which is why this reports one line rather
+// than forty-seven.
+const information = edited.patch.commercialFlow.packetInformation;
+const serverFactIds = new Set(Object.keys(information.serverFacts ?? {}));
+const participantFacts = information.requiredInputIds
+  .filter((id) => !serverFactIds.has(id) && id in fixture.answers);
+const perturbed = (value) => (value && typeof value === "object" && "value" in value
+  ? { ...value, value: `${value.value} — edited` }
+  : `${value} — edited`);
+
+const misowned = [];
+for (const factId of participantFacts) {
+  const transition = edit({ [factId]: perturbed(fixture.answers[factId]) });
+  const verification = transition?.patch?.commercialFlow?.verification;
+  const delta = Object.keys(transition?.protectedTransition?.answerDelta ?? {});
+  if (verification?.status !== "invalidated") misowned.push(`${factId}: ${verification?.status ?? "no transition"}`);
+  else if (verification.hash !== undefined) misowned.push(`${factId}: kept a reusable hash`);
+  else if (delta.length !== 1 || delta[0] !== factId) misowned.push(`${factId}: recorded ${JSON.stringify(delta)}`);
+}
+check(participantFacts.length >= 40,
+  `the route asks the participant for ${participantFacts.length} facts, and every one is a subject`);
+check(misowned.length === 0,
+  "every participant fact is owned by the verification taken over it"
+  + (misowned.length ? ` — ${misowned.length} mis-owned, e.g. ${misowned.slice(0, 3).join("; ")}` : ""));
+
 console.log("\n2. The edit is deterministic");
 // The protected draft records capturedAt, which is the wall clock and is
 // supposed to differ between two saves. Determinism is therefore a property of
