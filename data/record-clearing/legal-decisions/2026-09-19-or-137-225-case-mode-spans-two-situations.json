@@ -58,9 +58,56 @@
       "reading": "The identifiers are not in error about the law; they are each naming one side of a route that covers both. Resolving the disagreement by preferring one identifier would silently drop the other situation."
     }
   },
-  "decision": "Do not assign a single caseMode to this specification's filed components. The distinction is a real property of the matter — whether an accusatory instrument was ever filed — and it must be modelled as such, resolved per matter from the participant's own answer, and failing closed when unanswered. caseMode stays unresolved on or_acquittal-primary-filing-1 and or_acquittal-proposed-order-2 until that modelling exists, and both components stay non-releaseable meanwhile.",
-  "implementation": "Extend the document contract so caseMode may be stated as conditional on a named matter fact, in the same shape the renderer now uses for caption tokens: one named participant-supplied fact, no inference, and a refusal rather than a default when the matter has not answered. Then bind Oregon's two filed components to that fact. A universal existing_case or new_case on this route is the outcome this record exists to prevent.",
-  "notModelledHere": "Whether the runtime route should also be split into the three memo branches is a separate route-productization question. This record decides only that one caseMode value cannot be correct for both situations.",
+  "routeShapeDetermination": {
+    "question": "Are the no-instrument matters and the acquittal matters one procedural and document family whose only difference is caseMode, or do they need separate route and document treatment?",
+    "answer": "Separate treatment. They are not one family, and a conditional caseMode would hide a wrong route model rather than express a real one.",
+    "comparedFromMemo": [
+      {
+        "attribute": "legal basis",
+        "or_arrest_no_charges": "ORS 137.225(1)(c)",
+        "or_dismissed_charge": "ORS 137.225(1)(d)",
+        "or_acquittal": "ORS 137.225(1)(d)",
+        "materiallyDiffers": true
+      },
+      {
+        "attribute": "vehicle (legalName)",
+        "or_arrest_no_charges": "Motion to Set Aside the Record of an Arrest, Citation or Charge Where No Accusatory Instrument Was Filed",
+        "or_dismissed_charge": "Motion to Set Aside the Record of a Dismissed Charge",
+        "or_acquittal": "Motion to Set Aside the Record After an Acquittal",
+        "materiallyDiffers": true
+      },
+      {
+        "attribute": "service recipient",
+        "or_arrest_no_charges": "the office of the prosecuting attorney who HAD AUTHORITY TO PROSECUTE — there being no prosecution",
+        "or_dismissed_charge": "the office of the prosecuting attorney who PROSECUTED the charge",
+        "or_acquittal": "the office of the prosecuting attorney who PROSECUTED the charge",
+        "materiallyDiffers": true
+      },
+      {
+        "attribute": "timing precondition",
+        "or_arrest_no_charges": "60 days from the prosecuting attorney's declination",
+        "or_dismissed_charge": "no waiting period",
+        "or_acquittal": "no waiting period",
+        "materiallyDiffers": true
+      },
+      {
+        "attribute": "filing destination",
+        "or_arrest_no_charges": "Oregon circuit court for the county of arrest, citation or charge",
+        "or_dismissed_charge": "same",
+        "or_acquittal": "same",
+        "materiallyDiffers": false
+      }
+    ],
+    "consequence": "One runtime route is currently standing in for two different statutory subsections. Its routeKey and pathwayId name 137.225(1)(c); its packet-set trackId names or_acquittal, which is a (1)(d) branch. That is the visible symptom of the wrong route model, not a naming slip.",
+    "caseModeOnceSplit": {
+      "or_arrest_no_charges": "new_case — no accusatory instrument was filed, so there is no case to file into",
+      "or_dismissed_charge": "existing_case",
+      "or_acquittal": "existing_case"
+    }
+  },
+  "decision": "Split the route in §5 rather than assigning a single caseMode or a conditional one. The legal basis, the named vehicle, the service recipient and the timing precondition all differ between the (1)(c) no-instrument branch and the two (1)(d) branches; only the filing destination is shared. Once split, caseMode resolves per branch from the branch's own authority and needs no conditional and no new packet fact. Until then caseMode stays unresolved on or_acquittal-primary-filing-1 and or_acquittal-proposed-order-2 and both components stay non-releaseable.",
+  "implementation": "Route-productization work in §5: give each of the three memo branches its own route, vehicle and component set, carry each through registry, state pack, planner, renderer selection, fixtures and acceptance, and then state caseMode per branch. Do NOT add an 'Was an accusatory instrument filed?' question to the frozen screening flow to keep one route: the branches are already distinguishable by the disposition the participant has answered, and a conditional would be a route-model defect wearing a packet fact.",
+  "notModelledHere": "Which of the three branches the existing or_acquittal-set packet and its OJD form set were actually drafted against, and whether the OR-OJD-ADULT-SET-ASIDE-PACKET form covers all three. That is the first question the §5 split has to answer from the form itself.",
   "supersedesOnly": "The implicit expectation that every filed component resolves to one of existing_case or new_case. Other jurisdictions are unchanged.",
   "isCounselApproval": false,
   "createsOutputApproval": false,

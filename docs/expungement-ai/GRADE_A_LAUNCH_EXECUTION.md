@@ -8,8 +8,11 @@ source-recovery reports, finish queues — supplies facts, not missions.
 POST_LAUNCH_BACKLOG, unless it proves a defect that stops the intended launch
 product working correctly.**
 
-Release candidate: `captain-release` @ `ab85fe519` (local; 13 commits unpushed,
-push held by owner instruction).
+Release candidate: `captain-release` @ `f1e0e6450` (local; 20 commits unpushed,
+push held by owner instruction). The hold is a schedule dependency now, not
+bureaucracy: it does not stop §5 or §7 local work, and it does stop the
+authenticated §6.2 journey, the worker rebuild and hosted acceptance. A named
+publication target is needed before local work reaches that boundary.
 
 ## Scope gate — answer before any item becomes active
 
@@ -40,12 +43,12 @@ lane, no agent swarm.
 
 | Item | Phase | State | Note |
 |---|---|---|---|
-| GA-5-TOKENS unresolved caption tokens on filed documents | 3 | `DONE` | See Done |
+| GA-5-CTKYVTWV route remediation behind the token refusal | 3 | `READY` | The shared token-safety defect is closed, but a refusal is containment, not coverage. The 11 documents on 6 routes (CT×2, KY×3, VT×1, WV×5) now refuse instead of leaking `{county}`/`{court}`/`{courtLevel}`; each still needs its correct sourced values and full §5 route/document remediation before it counts as delivered. A disabled route is not a repaired route |
 | ND visual review — `STALE / RE-REVIEW REQUIRED` | 3 | `READY` | Bound to 1.x bytes; both ND packets are 8 pages at renderer 2.0.0. Ordinary ND acceptance work, not a separate workstream. ND is already noncommercial, so it blocks nothing else; it must complete before the corrected ND packet can be Grade-A deliverable again |
 | ND output legal review — `STALE / RE-REVIEW REQUIRED` | 3 | `READY` | Same binding, same phase, same condition |
 | `dc-correct-misattributed-arrest` has a specification but no packet plan | 3 | `READY` | The one specification of nineteen whose pathway the planner cannot plan, so collection has nothing to ask. DC is noncommercial on this route; repair with the DC rows in Phase 3 |
 | GA-5-MS reapply the reverted `routeKeys` binding fix | 3 | `ACTIVE` | 132C. Reverted earlier to hold `rebuildRequired:false`; that is no longer the accepted end state |
-| GA-5-OR Oregon `caseMode` spans two situations | 3 | `ACTIVE` | Investigated. **Neither value is correct**, because the route covers both: ORS 137.225(1)(c) is "where no accusatory instrument is filed" → no case exists → `new_case`, while the manifest's own `or_acquittal` track presupposes a filed instrument tried to acquittal → `existing_case`. All three memo branches share one venue sentence naming the *county*, not the case, which is why the generator correctly recorded `unresolved`. The route's identifiers each name one half: `routeKey` says 1(c), `trackId` says acquittal, the label says "arrests **or** charges". Recorded with sources in `data/record-clearing/legal-decisions/2026-09-19-or-137-225-case-mode-spans-two-situations.json`. Next: extend the contract so `caseMode` may be conditional on a named matter fact — whether an accusatory instrument was filed — resolved per matter and failing closed when unanswered, in the same shape the caption tokens now use. Both components stay non-releaseable; the spec already records `legalSectionsBound: false`, so it composes and sells nothing today |
+| GA-5-OR-SPLIT Oregon route stands in for two statutory subsections | 3 | `ACTIVE` | Investigated. **Neither value is correct**, because the route covers both: ORS 137.225(1)(c) is "where no accusatory instrument is filed" → no case exists → `new_case`, while the manifest's own `or_acquittal` track presupposes a filed instrument tried to acquittal → `existing_case`. All three memo branches share one venue sentence naming the *county*, not the case, which is why the generator correctly recorded `unresolved`. The route's identifiers each name one half: `routeKey` says 1(c), `trackId` says acquittal, the label says "arrests **or** charges". Recorded with sources in `data/record-clearing/legal-decisions/2026-09-19-or-137-225-case-mode-spans-two-situations.json`. **Route-shape decision made: split, do not use a conditional.** Compared from the OR memo, the branches differ on legal basis (1(c) vs 1(d)), named vehicle (three distinct motions), service recipient (the office that *had authority to prosecute* vs the one that *prosecuted*), and timing (60 days from declination vs none). Only the filing destination is shared. A conditional `caseMode` would hide a wrong route model; a screening question would push a route-model defect upstream into the frozen flow for the product's convenience. Once split, `caseMode` resolves per branch with no conditional and no new fact: `new_case` for 1(c), `existing_case` for both 1(d) branches. First §5 question: which branch the existing `or_acquittal-set` packet and `OR-OJD-ADULT-SET-ASIDE-PACKET` were drafted against. Both components stay non-releaseable; the spec records `legalSectionsBound: false`, so it composes and sells nothing today |
 | GA-6.2 authenticated browser journey | 2 | `EXTERNAL BLOCKER` | Everything past the claim needs a real Supabase. The local stack (`scripts/legal-aid/local-stack/`) runs PGlite over five Clinic Mode migrations on hand-written stubs; the consumer briefcase would need `remote_schema.sql` and ~15 more, and a hand-stubbed consumer schema would prove the UI moves, not that the claim, RLS and verification boundary hold — substitute evidence, not evidence. Needs the credentials row below |
 | GA-8-GUARDS `test-expungement-checkout-guards.mjs` red | 5 | `EXTERNAL BLOCKER` | **Classified: required release control.** The `Expungement.ai commercial flow` workflow runs it on every pull request to `main`, and its own path is one of that workflow's triggers. Two stale premises repaired (below); the third is the successor Grade-A acceptance this whole candidate waits on, and a hash is not to be rolled to clear it |
 
@@ -72,6 +75,7 @@ lane, no agent swarm.
 | GA-5-TOKENS caption tokens bound to matter facts | 3 | 11 documents printed `{county}` `{court}` `{courtLevel}` `{caseNumber}` `{judicialDistrictOrGaLocation}` `{caseNumberLine}` `{docketLine}` into captions and jurisdiction sentences (CT×2, KY×3, VT×1, WV×5). The configs were right — each states its caption as a pattern on purpose and says in its own note that only the participant's answer may fill it — and the renderer substituted `{county}` into three presentation fields and nothing into `courtCaption`. Now: 5 value tokens each bound to one named matter field, 2 line tokens printed only when their number is known, an unlisted token refuses, an unanswered value token refuses, and `[COUNTY TO BE CONFIRMED]` is gone from captions. **28 rendered, 0 printing a token**, 7 ex parte captions preserved; 36 per-token missing-fact refusals proven. Returning a placeholder instead reds 108 of 327 checks |
 | GA-6.2 packet-information workload measured nationwide | 2 | `verify-packet-collection.mjs` (18 checks) and the collection audit over 343 routes: screens max 57→9, median 15→7; 1,908 duplicate asks eliminated; **0** unresolved facts on any route; every required fact accounted for exactly once; filing readiness stays inside the pre-Checkout gate; saved answers stay editable; preflight refuses and names the missing fact. This is the "not merely screen count" measurement §6.2 asks for, and it is headless, so it needed no credentials |
 | GA-6.2 anonymous journey in a real browser, four ways | 2 | `verify-expungement-anonymous-journey-browser.mjs`, run against a local dev server. The original Mississippi non-conviction route completes identically desktop/English, on a 390px phone (0px horizontal overflow), keyboard-only, and in Spanish. The free check asks **7** option-only questions, **0** free-text or date controls, **0** exact packet facts, and never requests checkout; the priced result states $50 and that the facts are verified before payment. Two English-only fallbacks found and fixed: no language control on any inner surface, and six result lines — including the price and the payment sequence — that stayed English in Spanish. Both mutation-proven to fail the check |
+| GA-6.1 gate classes normalized | 2 | The 18 `filing_readiness` facts the renderer refuses to compose without were misclassified by two signals that are not class statements: the phrase "before filing" in a `use` sentence (an instruction about when the participant checks a value — "charge wording copied from the court record before filing"), and a name-shape guess that outranked the specification (`service_details`, `other_recordkeeping_agencies`). 13 reclassified — 10 `render_required`, 3 `prepay_confirmation` — with no change to what the participant does: 343 routes, 5,747 facts accounted for, 0 dropped, screens and entered-fact counts identical. 5 remain, all Mississippi, and are a live question rather than a leftover — see below |
 | GA-6.1 nothing but a real prerequisite blocks Checkout | 2 | The other half of the rule, measured. What stands between a participant and Checkout, nationwide: 3,945 `prepay_confirmation`, 1,085 `render_required`, **18** `filing_readiness`, **6** live `conditional`, 0 `unresolved`. Every one of those 24 outside the two admitted classes was dropped and put to the real renderer: **19 refused by name** as missing, **0 composed without** — so no later filing task, external document, post-filing step or other actor's work is standing in front of a payment. 5 not probed because their route (DC, GA×2, WY) does not compose at all — an `approved_shipping_component` section the composer does not implement, which refuses harder than the gate and is §5 work. Mutation-proven: a notarisation-appointment fact injected into the gate reds the check |
 | GA-6.1 no required participant-owned render fact after Checkout | 2 | **0 nationwide.** 538 checks in `verify-rcap-prepurchase-render-facts.mjs`: 13 reachable routes with a registered specification, 172 participant-owned specification facts, all in the pre-Checkout gate or excused with a recorded disposition (MS non-conviction excuses 5, all `derived`). Two route-level mutations proven to fail the check. No product change was warranted — see below |
 | Memo lineage restoration (32) | — | `e1834aac7`; sweep step 154 |
@@ -79,6 +83,48 @@ lane, no agent swarm.
 | Per-question out-of-scope reasons (36B) | — | steps 164, 165 |
 | Authority-derived hardening expectation | — | step 254 |
 | Verifier register re-observed | — | `11fe14d0f`; 513-script audit |
+
+## GA-6.1 — the five Mississippi facts, and why they are a decision
+
+After normalization, five facts still carry `filing_readiness` and still block
+Checkout, all on `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal`:
+`certified_disposition_exhibit_status`, `docket_sheet_exhibit_status`,
+`service_address_confirmation_status`, `mcic_identifier_delivery_method`,
+`mcic_identifier_method_confirmation_source`.
+
+They keep the label because the specification itself gives it to them —
+"Exhibit A assembly and **filing-readiness gate**". The two authorities then
+point opposite ways, and neither is obviously wrong:
+
+- **Toward removing the dependency.** None of the five is interpolated into any
+  document (0 template references each). The composer's own block is named
+  "route-specific **filing** gate" and is skipped entirely for
+  `generationPurpose: "internal_review"`, so the packet demonstrably composes
+  without them. The specification's participant instruction says "Choose
+  Attached as Exhibit A only after the certified court record is physically or
+  digitally inserted… **Stop before filing** if Exhibit A is missing" — before
+  *filing*, not before *generating*. And the Build Plan names "a later
+  signature, notarization, certified-copy task" as exactly what must not become
+  a questionnaire hurdle. `certified_disposition_exhibit_status` is a
+  certified-copy task.
+- **Toward keeping it.** The petition's own text asserts "A certified copy of
+  the disposition **is attached as Exhibit A**. A copy of the docket sheet is
+  attached as Exhibit B." That is a fixed sentence in a **verified, notarised**
+  filing. Composing before the exhibits exist produces a document whose sworn
+  assertion is not yet true. Likewise the certificate of service represents the
+  prosecutor's address as confirmed, and the MCIC facts decide which protected
+  channel carries sensitive identifiers.
+
+So the tie-breaker is not mechanical. It is whether the product may generate a
+verified petition asserting an attachment the participant has not yet made, on
+a commercially eligible route with an accepted Grade-A record. A third option
+exists — make the petition's exhibit sentence conditional on the status — but
+that edits legal document text on a Grade-A route.
+
+**Not changed unilaterally.** Weakening a documented safety gate on a route
+that takes money, or altering a sworn assertion, is an owner/legal decision.
+Recorded here; the Checkout invariant stays green either way, because all five
+are currently proven necessary by the renderer.
 
 ## Two one-time classifications
 
@@ -183,6 +229,7 @@ One sentence each. No investigation beyond bucket assignment.
 - `scripts/test-expungement-checkout-guards.mjs` cannot resolve `@/lib/server-runtime-environment` through its own mock map and fails on a clean tree; it is in the `npm test` chain.
 - `data/expungement-ai/reports/plain-language-copy-audit.json` was generated on 2026-07-01 against a different tree (branch `unknown`); regenerating it moves ~8.6k lines, so its counts should not be quoted until it is refreshed deliberately.
 - The route's own legal label ("Non-conviction expungement for dismissal, no disposition, or acquittal") stays English on the Spanish result; translating the name of a statutory path is a legal-copy decision, not an interface one.
+- **Not backlog:** the 15 AK/DE participant-facing prose strings are attached to their routes, not to this list. `AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40` and `DE:discretionary-court-expungement-under-11-del-c-4374` carry English-only external-document prose ("File the TF-810 request at your local Alaska trial court", "SBI criminal-history / SBI eligibility letter"). If either route becomes launchable, Grade-A Spanish is required before activation; while each stays blocked for its own legal or document reason, the translation stays pending with it. Not machine-translated: the strings name forms and offices.
 - `court_requirements_completed` renders its optional badge with no separator, so its accessible name reads "...in this case?OPTIONAL" / "...este caso?OPCIONAL".
 
 ## Owner-only decisions
