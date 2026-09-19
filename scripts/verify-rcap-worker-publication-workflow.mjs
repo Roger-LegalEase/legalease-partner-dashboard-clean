@@ -40,9 +40,26 @@ check('the only trigger is workflow_dispatch',
     && !/^\s{2}(push|pull_request|schedule|release|repository_dispatch|workflow_run):/m.test(src),
   'a non-manual trigger is present, or workflow_dispatch is missing');
 
-check('a full integration SHA is a required input',
-  /integration_sha:/.test(src) && /required:\s*true/.test(src),
-  'integration_sha is not declared required');
+// The invariant is that the commit built is a full 40-character SHA nobody
+// typed from memory. This used to be enforced by demanding integration_sha be a
+// required input, and the workflow has since moved past that: leaving it empty
+// is now the safe default, because Git resolves the tip of the canonical
+// integration branch and no operator has to transcribe forty characters. That
+// is stronger than the old rule, not weaker — a required field invites exactly
+// the abbreviation it was meant to forbid.
+//
+// So the check follows the workflow forward and enforces the same invariant
+// where it now lives: an empty input resolves through `git rev-parse`, a
+// supplied one is refused unless it is the full object name of a real commit,
+// and the resolved value is what leaves the step. The 40-hex guard, the
+// commit-resolution check and the ancestry check below are unchanged, and the
+// tag rule further down consumes this output rather than the raw input.
+check('the commit built is a full SHA Git resolved, never one typed from memory',
+  /integration_sha:/.test(src)
+    && src.includes('SHA="$(git rev-parse "origin/${REF}^{commit}")"')
+    && src.includes('if [ "$SHA" != "$SUPPLIED" ]; then')
+    && src.includes('echo "sha=${SHA}" >> "$GITHUB_OUTPUT"'),
+  'the resolve step no longer derives the SHA from Git, refuses a partial supplied SHA, and publishes the resolved value');
 
 check('an abbreviated or non-hex SHA is rejected',
   /\^\[0-9a-f\]\{40\}\$/.test(src),
@@ -114,9 +131,15 @@ check('the build uses the worker Dockerfile',
 const tagLines = lines.filter((l) => /^\s*tags:/.test(l));
 check('exactly one tag is published',
   tagLines.length === 1, `${tagLines.length} tag directives found`);
+// Either validated source is acceptable and nothing else is: the raw input,
+// which the 40-hex guard covers, or steps.resolve.outputs.sha, which the resolve
+// check above proves is the full object name of a real commit. github.sha, a
+// branch name, a short SHA or an unvalidated input would all be a moving or
+// truncated tag, and none of them match.
 check('the only tag is the full commit SHA',
-  tagLines.length === 1 && /inputs\.integration_sha/.test(tagLines[0]),
-  `tag line does not interpolate the input SHA: ${tagLines[0] ?? '(none)'}`);
+  tagLines.length === 1
+    && /\$\{\{\s*(inputs\.integration_sha|steps\.resolve\.outputs\.sha)\s*\}\}/.test(tagLines[0]),
+  `tag line does not interpolate a validated full SHA: ${tagLines[0] ?? '(none)'}`);
 
 // A mutable alias would defeat the digest pin the staging action requires.
 // Scoped to actual tag usage: `ubuntu-latest` is a runner label and
