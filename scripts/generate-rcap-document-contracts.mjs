@@ -132,33 +132,74 @@ async function typescriptPleadingConfigs(byTrack) {
 }
 
 /**
- * Execution, from the route's own verification statement.
+ * The packet-set manifests are the canonical relationship between a
+ * specification and its route: they key on the SAME trackId the specifications
+ * use, which the pleading configs do not, and they record what the participant
+ * must actually do as participantActionRequired[].
  *
- * A verification verb with a penalty statute is a verified filing. A verb with
- * no penalty is still a verification. No verb at all is a signature only. None
- * of this is guessed: it is what the route's pleading config already says, and
- * where the config says nothing the attribute stays unresolved.
+ * 17 of 19 specifications join here. That is the authoritative relationship the
+ * contract is populated from; the pleading configs were the wrong side of a
+ * different identifier space.
  */
-function executionFrom(config) {
-  if (!config) return [UNRESOLVED, "execution is not established for this route: the packet specifications and the pleading configs use different identifier spaces and this specification joins to no config, so execution must be sourced during this route's remediation."];
-  const verb = config.presentation?.verificationVerb ?? null;
-  if (verb === null && config.presentation && "verificationVerb" in config.presentation) {
-    return ["signature", null];
+function packetSetManifestsByTrack() {
+  const file = path.join(rootDir, "data/record-clearing/legal-design-packet-set-manifests.json");
+  const manifest = JSON.parse(fs.readFileSync(file, "utf8"));
+  const byTrack = new Map();
+  const bySet = new Map();
+  for (const set of manifest.packetSets ?? []) {
+    if (set.trackId) byTrack.set(set.trackId, set);
+    if (set.packetSetId) bySet.set(set.packetSetId, set);
   }
-  if (typeof verb === "string" && verb.trim() !== "") return ["verified", null];
-  return [UNRESOLVED, "the track's pleading config does not state a verification verb."];
+  return { byTrack, bySet };
 }
 
-/** Service, from whether the route carries a certificate and what it says. */
-function serviceFrom(config) {
-  if (!config) return [UNRESOLVED, "service treatment is not established for this route: this specification joins to no pleading config, so it must be sourced during this route's remediation."];
-  if (config.includeCertificateOfService === true) return ["participant_serves", null];
-  if (config.includeCertificateOfService === false) {
-    const why = config.includeCertificateOfServiceReason ?? "";
-    if (/clerk|court sends|court mails/i.test(why)) return ["clerk_serves", null];
-    return ["no_service", null];
+/** A description that says the requirement was not established, rather than stating one. */
+const NOT_ESTABLISHED = /not established|none required|does not state|no source|none on the archived|not applicable/i;
+/** A description that records genuine ambiguity, which must stay unresolved. */
+const AMBIGUOUS = /does not clearly state|unclear|unresolved|confirm with the clerk/i;
+
+/**
+ * Execution, from what the participant is recorded as having to do.
+ *
+ * A notarisation requirement that the source review could not establish is not a
+ * notarisation requirement. A signature the participant must also verify is a
+ * verified filing. Neither is inferred from a template.
+ */
+function executionFrom(set) {
+  if (!set) return [UNRESOLVED, "no packet-set manifest joins this specification, so execution is not established."];
+  const actions = set.participantActionRequired ?? [];
+  const notarize = actions.find((a) => a.kind === "notarize");
+  const sign = actions.find((a) => a.kind === "sign");
+  const signStatesVerification = /verif/i.test(String(sign?.description ?? ""));
+  if (notarize && !NOT_ESTABLISHED.test(String(notarize.description ?? ""))) {
+    // An unsettled NOTARISATION question does not make EXECUTION unresolved when
+    // the signing action already establishes verification. Wyoming is the case:
+    // "Verification is required by statute; confirm with the clerk ... whether"
+    // -- the verification is established by statute and the notary is a local
+    // practice question, which belongs to localVariant, not to execution.
+    if (AMBIGUOUS.test(String(notarize.description ?? ""))) {
+      if (signStatesVerification) return ["verified", null];
+      return [UNRESOLVED, `notarisation is recorded but not settled: "${String(notarize.description).slice(0, 120)}"`];
+    }
+    return ["sworn_notarised", null];
   }
-  return [UNRESOLVED, "the track's pleading config does not state whether a certificate of service is required."];
+  if (sign) return [signStatesVerification ? "verified" : "signature", null];
+  return [UNRESOLVED, "the packet-set manifest records no signing action for this route."];
+}
+
+/** Service, from the recorded service action. */
+function serviceFrom(set) {
+  if (!set) return [UNRESOLVED, "no packet-set manifest joins this specification, so service treatment is not established."];
+  const serve = (set.participantActionRequired ?? []).find((a) => a.kind === "serve_party");
+  if (!serve) return ["no_service", null];
+  const description = String(serve.description ?? "");
+  if (AMBIGUOUS.test(description)) {
+    return [UNRESOLVED, `who serves is not settled for this route: "${description.slice(0, 120)}"`];
+  }
+  if (/\bclerk\b/i.test(description) && !/by the (petitioner|participant|movant)/i.test(description)) {
+    return ["clerk_serves", null];
+  }
+  return ["participant_serves", null];
 }
 
 function contractFor(document, spec, configs) {
@@ -180,18 +221,11 @@ function contractFor(document, spec, configs) {
   // specification carries before recording that no source states a value: a
   // false unresolved refuses a component for a lookup failure, which is a worse
   // error than a missing one because it looks like a finding.
-  const config = [spec.trackId, spec.pathwayId, spec.routeKey, spec.obligationRouteKey, spec.packetFamily]
-    .filter((key) => typeof key === "string" && key !== "")
-    .map((key) => configs.get(key))
-    .find(Boolean)
-    ?? (spec.documents ?? [])
-      .flatMap((d) => d.manifestComponentIds ?? (d.manifestComponentId ? [d.manifestComponentId] : []))
-      .map((id) => configs.get(id))
-      .find(Boolean);
+  const set = configs.byTrack.get(spec.trackId) ?? configs.bySet.get(spec.packetSetId);
   const guidance = instrumentClass === "participant_guidance";
-  const [executionType, executionWhy] = guidance ? ["none", null] : executionFrom(config);
+  const [executionType, executionWhy] = guidance ? ["none", null] : executionFrom(set);
   if (executionWhy) reasons.executionType = executionWhy;
-  const [serviceTreatment, serviceWhy] = guidance ? ["no_service", null] : serviceFrom(config);
+  const [serviceTreatment, serviceWhy] = guidance ? ["no_service", null] : serviceFrom(set);
   if (serviceWhy) reasons.serviceTreatment = serviceWhy;
 
   // Case mode, from the specification's own required facts. A route that must
@@ -201,9 +235,19 @@ function contractFor(document, spec, configs) {
   const factIds = new Set((spec.requiredFacts ?? []).map((fact) => fact.factId));
   const namesExistingCase = ["case_number", "cause_number", "underlying_case_number", "docket_number"]
     .some((id) => factIds.has(id));
+  // Where the specification names no case number, the recorded FILING action
+  // still says which case this goes into: a petition filed with the clerk of
+  // the convicting court, or in the court that heard the underlying matter, is
+  // filed into that existing case. A route that commences a new action says so.
+  const fileAction = (set?.participantActionRequired ?? []).find((a) => a.kind === "file");
+  const fileWhere = String(fileAction?.description ?? "");
+  const filedIntoExisting = /convicting court|underlying (case|matter|conviction)|court (that|which) (heard|entered)|same court|court of conviction/i.test(fileWhere);
+  const commencesNew = /new (civil )?action|commenc|separate proceeding/i.test(fileWhere);
   const [caseMode, caseWhy] = guidance ? ["existing_case", null]
     : namesExistingCase ? ["existing_case", null]
-      : [UNRESOLVED, "the specification requires no case or cause number, so whether this opens a new matter is unstated."];
+      : commencesNew ? ["new_case", null]
+        : filedIntoExisting ? ["existing_case", null]
+          : [UNRESOLVED, `the specification requires no case or cause number and the recorded filing action does not say which case this is filed into: "${fileWhere.slice(0, 110)}"`];
   if (caseWhy) reasons.caseMode = caseWhy;
 
   // Privacy, from the identifiers the specification actually requires. A packet
@@ -242,7 +286,7 @@ function contractFor(document, spec, configs) {
   };
 }
 
-const configs = await typescriptPleadingConfigs(pleadingConfigsByTrack());
+const configs = packetSetManifestsByTrack();
 const stale = [];
 let documents = 0;
 let populated = 0;
@@ -275,5 +319,5 @@ if (checkOnly) {
   console.log(`document contracts current — ${documents} document(s) across the packet specifications`);
 } else {
   console.log(`document contracts written — ${documents} document(s), ${populated} updated`);
-  console.log(`pleading configs consulted: ${configs.size}`);
+  console.log(`packet-set manifests consulted: ${configs.byTrack.size}`);
 }
