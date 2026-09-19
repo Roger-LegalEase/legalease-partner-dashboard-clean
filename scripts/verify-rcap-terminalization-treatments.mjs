@@ -130,6 +130,35 @@ async function runChecks() {
       entryByTrack.set(entry.trackId, entry);
     }
   }
+  // 124 treatment entries across the files resolve to 121 distinct tracks. The
+  // three that collapse are sc_aep, sc_conditional_discharge_44_53_450 and
+  // sc_tep, each written twice: exact_supported_deferral in the emergency
+  // window and complete_guidance in the later owner conversion. The later one
+  // should win, and it does -- but only because sc_solicitor_guidance_20260914
+  // sorts after sc.json. A newer window named sc_a_*.json would silently lose.
+  //
+  // So the precedence is stated rather than inherited from the filesystem: when
+  // a track carries treatments from more than one window, the loaded one must
+  // be from the latest windowId. Window ids are date-prefixed, so they order.
+  const windowsByTrack = new Map();
+  for (const file of treatmentFiles()) {
+    let parsed;
+    try { parsed = JSON.parse(fs.readFileSync(file, "utf8")); } catch { continue; }
+    for (const entry of parsed.treatments ?? []) {
+      if (typeof entry.trackId !== "string" || !entry.trackId) continue;
+      if (!windowsByTrack.has(entry.trackId)) windowsByTrack.set(entry.trackId, []);
+      windowsByTrack.get(entry.trackId).push(String(parsed.windowId ?? ""));
+    }
+  }
+  for (const [trackId, windows] of windowsByTrack) {
+    if (windows.length < 2) continue;
+    const latest = [...windows].sort().at(-1);
+    check(
+      windowByTrack.get(trackId) === latest,
+      `${trackId}: written in ${windows.length} windows and the loaded treatment is from ${windowByTrack.get(trackId)}, not the latest ${latest}; precedence is following filename order rather than the window`
+    );
+  }
+
   // If the briefed window is ever renamed, this check must fail loudly rather
   // than silently exempt every treatment from its brief.
   check(
