@@ -18,6 +18,18 @@
  *   5. can it attach or deliver a new commercial artifact?
  *   6. can it create a render job that reaches packet-credit accounting?
  *
+ * WHAT THOSE QUESTIONS NOW MEAN
+ *
+ * They were written when NO route held a Grade-A fulfillment record, so "may
+ * any route do this" and "may an unauthorized route do this" were the same
+ * question. Six routes are proven now and they are not. `sellable` is
+ * resolver/render state -- every route in the corpus is `sellable: false` --
+ * while commercial admission is decided by Grade-A authority. So questions 1-4
+ * remain absolute (nothing prices, sells, reserves a sponsored benefit or
+ * spends a credit), and question 5 is now asked as: is the admitted set exactly
+ * the proven set? What an admitted route can then DO is proved by effect, in
+ * scripts/verify-rcap-sponsored-cap-controls.mjs, not by admission here.
+ *
  * METHOD
  *
  * Exact compiled pathway IDs, never display labels. A label is not an identity:
@@ -173,6 +185,25 @@ if (CHILD) {
   }
   const gradeARegistry = JSON.parse(fs.readFileSync("data/rcap-grade-a/fulfillment-authority-registry.json", "utf8"));
   const gradeAKeys = gradeARegistry.records.map((r) => r.routeId);
+  /*
+   * The PROVEN set -- the routes a Grade-A record shows deliver what they
+   * promise. `sellable` does not name it: `sellable` is resolver/render state,
+   * and every route in the corpus is `sellable: false` today. Commercial
+   * admission is decided by Grade-A authority, so the nationwide invariant for
+   * an admission point is that the admitted set is exactly the proven set --
+   * never "nobody, because sellable is false", which was true only while the
+   * proven set was empty.
+   *
+   * What the admitted routes can then DO is proved by effect, not by admission,
+   * in scripts/verify-rcap-sponsored-cap-controls.mjs: an unauthorized control
+   * cannot reach `attachConsumerPacketArtifactIfVerified`, is denied at
+   * briefcase_ready so its item presents pending and not downloadable, and is
+   * denied at private_download / repeat_download so no bytes are returned --
+   * while the proven control reaches each, with zero writes and zero RPC.
+   */
+  const PROVEN = new Set((JSON.parse(fs.readFileSync("data/rcap-grade-a/fulfillment-authority-projection.json", "utf8")).routes ?? [])
+    .filter((r) => r.state === "COMPLETE_PACKET_PROVEN").map((r) => r.routeId));
+  const unprovenIn = (list) => list.filter((entry) => !PROVEN.has(String(entry).split(" ")[0]));
   check(gradeAKeys.every((k) => compiled.has(k)),
     `the Grade-A registry names routes the compiled corpus does not: ${gradeAKeys.filter((k) => !compiled.has(k)).join(", ")}`);
 
@@ -488,12 +519,12 @@ if (CHILD) {
   check(creditBoundaryMissing.length === 0, summarise("routes whose credit consumption no longer passes a packet_credit_admission boundary", creditBoundaryMissing), "credit_boundary_present");
   withRoutes("credit_boundary_present", creditBoundaryMissing);
   withRoutes("no_packet_credit", creditSpent);
-  check(attached.length === 0, summarise("sellable:false routes that attach a new commercial artifact", attached), "no_artifact_attachment");
-  withRoutes("no_artifact_attachment", attached);
-  check(readyPresented.length === 0, summarise("routes admitted at briefcase_ready, which controls what the participant is SHOWN and moves no bytes", readyPresented), "no_ready_presentation");
-  withRoutes("no_ready_presentation", readyPresented);
-  check(delivered.length === 0, summarise("routes admitted at the DELIVERY authority (private_download / repeat_download)", delivered), "no_artifact_delivery");
-  withRoutes("no_artifact_delivery", delivered);
+  check(unprovenIn(attached).length === 0, summarise("routes admitted at artifact_commercial_attachment WITHOUT a proven Grade-A record", unprovenIn(attached)), "no_unproven_attachment");
+  withRoutes("no_unproven_attachment", unprovenIn(attached));
+  check(unprovenIn(readyPresented).length === 0, summarise("routes presenting briefcase_ready WITHOUT a proven Grade-A record; an unproven route must stay pending and not downloadable", unprovenIn(readyPresented)), "no_unproven_ready_presentation");
+  withRoutes("no_unproven_ready_presentation", unprovenIn(readyPresented));
+  check(unprovenIn(delivered).length === 0, summarise("routes admitted at the DELIVERY authority (private_download / repeat_download) WITHOUT a proven Grade-A record", unprovenIn(delivered)), "no_unproven_delivery");
+  withRoutes("no_unproven_delivery", unprovenIn(delivered));
 
   /**
    * The shadow-render boundary, stated so a widening is visible.
@@ -581,7 +612,7 @@ if (CHILD) {
     for (const failure of failures) console.error(` - ${failure}`);
     process.exit(1);
   }
-  console.log("No route may price, sell, sponsor, spend a credit on, attach or deliver a packet. Every refusal comes from the Grade-A authority.");
+  console.log("No route prices, sells, reserves a sponsored benefit or spends a credit. Every commercial admission tracks the Grade-A proven set exactly -- no unproven route is admitted at attachment, readiness or delivery -- and the effects behind those admissions are proved in verify-rcap-sponsored-cap-controls.");
   process.exit(0);
 }
 
@@ -698,17 +729,21 @@ const cases = [
       `      // Grade-A fulfillment record keyed to an exact route and packet family.\n      sellable: ${TRUE_},`
     )
   },
-  {
-    name: "the authority honours an unproven route",
-    detail: "every money probe must be the authority's answer, not a coincidence upstream of it",
-    breaks: ["no_sponsored_cap_admission"],
-    forgeLedger: false,
-    mutate: () => editSource(
-      AUTHORITY,
-      "  if (!authority.authorized) {\n    return refuse(authority,",
-      `  if (!authority.authorized && ${FALSE_}) {\n    return refuse(authority,`
-    )
-  },
+  /*
+   * RETIRED -- "the authority honours an unproven route".
+   *
+   * This mutation removed the Grade-A refusal and expected a sponsored signal
+   * to move. It cannot detect that here: with no Supabase client configured
+   * every route lands in NO_PARTNER_BENEFIT_ESTABLISHED, so the sponsored
+   * invariant stays satisfied whatever the authority says, and the case was
+   * only ever passing because the parent read exit status.
+   *
+   * Ownership moved to scripts/verify-rcap-sponsored-cap-controls.mjs, which
+   * exercises the environment this needs -- a counting Supabase stub -- and
+   * proves the same thing properly: with the Grade-A refusal removed, the
+   * denied control reaches Supabase and the counter reports it. One invariant,
+   * one meaningful proof, rather than two competing harnesses.
+   */
   {
     name: "the render contract stops fencing unrenderable routes",
     detail: "an unrenderable route reaching the build must not pass silently",
