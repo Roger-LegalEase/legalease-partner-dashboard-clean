@@ -58,8 +58,23 @@ if (!packetRecord) {
   // alongside the verifier that was, so it read a deliberate withdrawal as
   // missing evidence. An absence the withdrawal ledger explains is the rule
   // working; an absence nothing explains is still a refusal.
-  const withdrawal = (readJson(WITHDRAWALS_PATH).withdrawals ?? [])
-    .find((entry) => entry.routeKey === spec.routeKey) ?? null;
+  //
+  // A withdrawal explains this absence only if it is about this exact route and
+  // carries its own provenance. Matching on routeKey alone would let any
+  // withdrawal excuse any missing record. The preserved prior record must name
+  // the same route, the digest of that record must be recorded, and the
+  // withdrawal must say when, by whom and why.
+  //
+  // The digest is required to be present but is not recomputed here:
+  // priorRecordSha256 uses a canonical form this generator does not own, and
+  // asserting an equality from a guessed serialisation would be worse than
+  // asserting nothing. Verifying it belongs with whoever owns that form.
+  const HEX64 = /^[0-9a-f]{64}$/;
+  const withdrawal = (readJson(WITHDRAWALS_PATH).withdrawals ?? []).find((entry) =>
+    entry?.routeKey === spec.routeKey
+    && entry?.priorRecord?.routeKey === spec.routeKey
+    && HEX64.test(String(entry?.priorRecordSha256 ?? ""))
+    && Boolean(entry?.withdrawnOn) && Boolean(entry?.withdrawnBy) && Boolean(entry?.reason)) ?? null;
   if (!withdrawal) {
     console.error(`No packet fulfillment record for ${spec.routeKey}, and no withdrawal explains its absence; the artifact evidence would have to be invented.`);
     process.exit(1);
