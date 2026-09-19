@@ -15,7 +15,7 @@
 
 The memo directory is an import from `feat/record-clearing-production-integration` @ `3b6f4c10`,
 51 files, 11862844 bytes, each hashed in the manifest.
-This directory is an import, not a second editable source of truth. Corrections belong upstream and are re-imported.
+This directory is an import, not a second editable source of truth. Corrections belong upstream and are re-imported; where that has not happened the correction is recorded in data/record-clearing/legal-design-memo-lineage.json, which names the exact commit per memo. The files[] hashes below are the CURRENT bytes, and sourceCommit names the identity root they descend from -- succession, not identity.
 
 ## 4. Release-question denominator
 
