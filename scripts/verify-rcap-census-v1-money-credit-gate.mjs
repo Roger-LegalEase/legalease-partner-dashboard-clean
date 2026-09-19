@@ -237,6 +237,8 @@ if (CHILD) {
   const creditSpent = [];
   const attached = [];
   const delivered = [];
+  const capStates = {};
+  const capUnexplained = [];
   const jobSpecBuilt = [];
   const jobSpecThrew = [];
   const jobSpecRefused = [];
@@ -294,8 +296,35 @@ if (CHILD) {
      */
     const sp = permissive(r, { entitlement: true, entitlementKind: "sponsored_credit" });
     const cap = await slots.resolvePartnerPacketCapDecision("census-session", { identity: sp.identity, context: sp.context });
-    const capAdmitted = !cap.admissionDenialCode && cap.pausedAtCap !== true;
-    if (capAdmitted) sponsored.push(`${r.routeId} (partnerBenefit=${cap.partnerBenefit}, pausedAtCap=${cap.pausedAtCap})`);
+    /*
+     * Four states, not two. `!admissionDenialCode && !pausedAtCap` lumped a
+     * route that was told `partnerBenefit: false` in with one that actually
+     * holds an admitted sponsored benefit, which is what made this finding look
+     * like a commercial surface when it is not one.
+     *
+     *   AUTHORITY_REFUSED              Grade-A denied; pausedAtCap true; denial
+     *                                  code present; refused before Supabase.
+     *   NO_PARTNER_BENEFIT_ESTABLISHED Grade-A may admit, but no active sponsored
+     *                                  benefit exists; partnerBenefit false. NOT
+     *                                  an admitted sponsored benefit.
+     *   SPONSORED_CAP_ADMITTED         active partner benefit, below cap.
+     *   SPONSORED_CAP_PAUSED           active partner benefit, at cap. Paused is
+     *                                  not denied: no denial code distinguishes it.
+     */
+    const capState = cap.admissionDenialCode
+      ? "AUTHORITY_REFUSED"
+      : cap.partnerBenefit !== true
+        ? "NO_PARTNER_BENEFIT_ESTABLISHED"
+        : cap.pausedAtCap === true
+          ? "SPONSORED_CAP_PAUSED"
+          : "SPONSORED_CAP_ADMITTED";
+    capStates[capState] = (capStates[capState] ?? 0) + 1;
+    if (capState === "SPONSORED_CAP_ADMITTED") {
+      sponsored.push(`${r.routeId} (partnerBenefit=${cap.partnerBenefit}, pausedAtCap=${cap.pausedAtCap})`);
+    }
+    if (!["AUTHORITY_REFUSED", "NO_PARTNER_BENEFIT_ESTABLISHED", "SPONSORED_CAP_ADMITTED", "SPONSORED_CAP_PAUSED"].includes(capState)) {
+      capUnexplained.push(`${r.routeId} (${JSON.stringify(cap)})`);
+    }
 
     // ---- 4 & 6. a render job, and the credit it could reach -----------------
     let built = null;
@@ -415,7 +444,9 @@ if (CHILD) {
   withRoutes("no_consumer_price", priced);
   check(checkedOut.length === 0, summarise("sellable:false routes that reach Stripe Checkout Session creation", checkedOut), "no_checkout_session");
   withRoutes("no_checkout_session", checkedOut);
-  check(sponsored.length === 0, summarise("routes that pass sponsored-cap admission and so may be promised sponsored generation (this call reserves and consumes nothing)", sponsored), "no_sponsored_cap_admission");
+  check(sponsored.length === 0, summarise("routes holding an ADMITTED active sponsored benefit below cap (this read-only call still reserves and consumes nothing)", sponsored), "no_sponsored_cap_admission");
+  check(capUnexplained.length === 0, summarise("sponsored-cap results that are none of the four known states", capUnexplained), "sponsored_cap_states_exhaustive");
+  withRoutes("sponsored_cap_states_exhaustive", capUnexplained);
   withRoutes("no_sponsored_cap_admission", sponsored);
   check(creditSpent.length === 0, summarise("creditConsumable:false routes that reach packet-credit accounting", creditSpent), "no_packet_credit");
   withRoutes("no_packet_credit", creditSpent);
@@ -483,6 +514,7 @@ if (CHILD) {
   console.log(`  sellable:false ${routes.length}/${routes.length} · creditConsumable:false ${routes.length}/${routes.length}`);
   console.log(`  price ${priced.length} · checkout ${checkedOut.length} · sponsored ${sponsored.length} · credit ${creditSpent.length} · attach ${attached.length} · deliver ${delivered.length}`);
   console.log(`  shadow render specs: ${jobSpecBuilt.length} (${[...jobSpecKinds].map(([k, v]) => `${k} ${v}`).join(", ")})`);
+  console.log(`  sponsored-cap states: ${Object.entries(capStates).sort().map(([k, v]) => `${k} ${v}`).join(" · ")}`);
   console.log(`  renderable ${renderable.length} = ${jobSpecBuilt.length} spec + ${jobSpecRefused.length} refused + ${jobSpecThrew.length} threw + ${jobSpecUnexplained.length} unexplained`);
   for (const [branch, n] of Object.entries(byBranch).sort()) console.log(`    refused by ${branch}: ${n}`);
 
@@ -757,6 +789,7 @@ try {
     failed += 1;
   }
   const satisfiedInControl = (id) => control?.signals?.[id]?.satisfied === true;
+  const missingInControl = (ids) => ids.filter((id) => control?.signals?.[id] === undefined);
 
   // First: the gate must HOLD against an input built to defeat it. Judged on
   // the targeted invariants and the targeted routes, not on the exit status.
@@ -769,10 +802,14 @@ try {
       failed += 1;
       console.log("  FAIL harness — the forged-ledger run produced no parseable result");
     } else {
-      const reopened = TARGETED.filter((id) => satisfiedInControl(id) && held.signals?.[id]?.satisfied !== true);
+      const absent = missingInControl(TARGETED).concat(TARGETED.filter((id) => held.signals?.[id] === undefined));
+      const reopened = TARGETED.filter((id) => satisfiedInControl(id) && held.signals?.[id]?.satisfied === false);
       const targetedRoutes = TARGETED.flatMap((id) => held.routes?.[id] ?? [])
         .filter((r) => r === FORGED_LEGACY_ROUTE || r === FORGED_FACTORY_ROUTE);
-      if (reopened.length === 0 && targetedRoutes.length === 0) {
+      if (absent.length > 0) {
+        failed += 1;
+        console.log(`  FAIL harness — the forged-ledger case names signals the child does not report: ${[...new Set(absent)].join(", ")}`);
+      } else if (reopened.length === 0 && targetedRoutes.length === 0) {
         console.log("  ok   a forged packet-fulfillment ledger row does not reopen a price or checkout on the two targeted routes");
       } else {
         failed += 1;
@@ -802,8 +839,15 @@ try {
       // An assertion already red cannot prove detection from its unchanged red.
       outcome = "harness_failure";
       note = `${testCase.breaks.filter((id) => !satisfiedInControl(id)).join(", ")} is already violated in the control, so this case cannot claim detection`;
+    } else if (testCase.breaks.some((id) => after.signals?.[id] === undefined)) {
+      // A MISSING signal is not a violated one. `signals[id]?.satisfied !== true`
+      // is true for an absent id, so a renamed or deleted invariant would have
+      // been read as a detection -- the harness congratulating itself for a
+      // signal that no longer exists.
+      outcome = "harness_failure";
+      note = `${testCase.breaks.filter((id) => after.signals?.[id] === undefined).join(", ")} is not reported by the child at all; a missing signal is not a violated one`;
     } else {
-      const broken = testCase.breaks.filter((id) => after.signals?.[id]?.satisfied !== true);
+      const broken = testCase.breaks.filter((id) => after.signals[id].satisfied === false);
       if (broken.length === testCase.breaks.length) {
         outcome = "caught";
         note = broken.map((id) => `${id}: ${String(after.signals[id].detail).slice(0, 110)}`).join("\n         ");
