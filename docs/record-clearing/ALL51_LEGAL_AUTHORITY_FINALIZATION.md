@@ -14,34 +14,37 @@
 8. launch graph (data/rcap-ledger/launch-graph.json)
 
 The memo directory is an import from `feat/record-clearing-production-integration` @ `3b6f4c10`,
-51 files, 11731100 bytes, each hashed in the manifest.
+51 files, 11860674 bytes, each hashed in the manifest.
 This directory is an import, not a second editable source of truth. Corrections belong upstream and are re-imported.
 
 ## 4. Release-question denominator
 
-**Total: 854.** The previously published breakdown listed three provenance categories summing to 853 and omitted batch_decision_matrix, which has exactly one member. The total of 854 was correct; the published categories were not exhaustive. Every category is now emitted, including categories of size one.
+**Total: 849.** The previously published breakdown listed three provenance categories summing to 853 and omitted batch_decision_matrix, which has exactly one member. The total of 854 was correct; the published categories were not exhaustive. Every category is now emitted, including categories of size one.
 
 | Provenance | Questions | Owner |
 |---|---:|---|
-| explicit_state_addendum | 521 | source_acquisition |
+| explicit_state_addendum | 514 | source_acquisition |
 | mechanical_translation | 202 | engineering |
-| counsel_confirmation_required | 130 | counsel |
+| counsel_confirmation_required | 129 | counsel |
+| independent_review_finding | 2 | (unmapped) |
 | batch_decision_matrix | 1 | counsel |
-| **SUM** | **854** | |
+| owner_relayed_research | 1 | (unmapped) |
+| **SUM** | **849** | |
 
 | Owner | Questions |
 |---|---:|
-| source_acquisition | 521 |
+| source_acquisition | 514 |
 | engineering | 202 |
-| counsel | 131 |
-| **SUM** | **854** |
+| counsel | 130 |
+| (unmapped) | 3 |
+| **SUM** | **849** |
 
 ## 2. The 33 rows that reach no registry track
 
 | Classification | Rows |
 |---|---:|
-| NO_LEGAL_DESIGN_TRACK_EXISTS | 16 |
-| APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED | 10 |
+| NO_LEGAL_DESIGN_TRACK_EXISTS | 15 |
+| APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED | 11 |
 | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS | 7 |
 | **TOTAL** | **33** |
 
@@ -78,7 +81,7 @@ This directory is an import, not a second editable source of truth. Corrections 
 | WI | `juvenile-adjudication-expungement-under-wis-stat-938-355-4m` | wi_exp_certificate_of_discharge | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | WV | `juvenile-record-relief` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | WV | `sex-trafficking-victim-vacatur-and-expungement` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
-| WY | `human-trafficking-victim-vacatur-w-s-6-2-708` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
+| WY | `human-trafficking-victim-vacatur-w-s-6-2-708` | wy_traffick_6_2_708 | research_recorded_pending_counsel_adoption | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | WY | `juvenile-minor-expungement-w-s-14-6-241` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 
 ## 3. All 89 legal_research_required tracks
@@ -204,7 +207,7 @@ Submitted: 8. True reconfirmations: 1. Reclassified: 7.
 | Classification | Questions |
 |---|---:|
 | SOURCE_REQUIRED_BEFORE_COUNSEL | 16 |
-| LEGAL_DESIGN_DECISION_CAN_RUN_NOW | 13 |
+| LEGAL_DESIGN_DECISION_CAN_RUN_NOW | 14 |
 | COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL | 12 |
-| **TOTAL** | **41** |
+| **TOTAL** | **42** |
 

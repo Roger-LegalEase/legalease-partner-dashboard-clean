@@ -6,7 +6,7 @@
     "legalMemos": {
       "path": "data/record-clearing/legal-design-intake",
       "jurisdictions": 51,
-      "tracks": 586,
+      "tracks": 587,
       "portedFrom": "feat/record-clearing-production-integration @ 3b6f4c10"
     },
     "trackAdoption": {
@@ -48,18 +48,19 @@
   "memoLegalDesignStatusCounts": {
     "legal_design_approved_with_limitations": 481,
     "legal_research_required": 89,
-    "legal_design_approved": 16
+    "legal_design_approved": 16,
+    "research_recorded_pending_counsel_adoption": 1
   },
   "memoReleaseBlockingQuestions": {
-    "total": 854,
-    "counselConfirmationRequired": 130,
-    "officialSourceNotAcquired": 521,
+    "total": 849,
+    "counselConfirmationRequired": 129,
+    "officialSourceNotAcquired": 514,
     "mechanicalTranslation": 202
   },
-  "pathwayRows": 181,
+  "pathwayRows": 188,
   "classificationCounts": {
-    "TECHNICAL_BLOCKER": 41,
-    "NO_TRACK_TO_FAMILY_BRIDGE": 99,
+    "TECHNICAL_BLOCKER": 43,
+    "NO_TRACK_TO_FAMILY_BRIDGE": 104,
     "NO_PATHWAY_TO_TRACK_BRIDGE": 33,
     "LEGAL_RECONFIRMATION_REQUIRED": 8
   },
@@ -437,6 +438,42 @@
     },
     {
       "jurisdiction": "AZ",
+      "pathway": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "pathwayKey": "AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "pathwayLabel": "Notation of clearance after a wrongful arrest, indictment or charge",
+      "trackIds": [
+        "az_wrongful_arrest_clearance"
+      ],
+      "legalMemoPaths": [
+        "data/record-clearing/legal-design-intake/AZ.memo.json"
+      ],
+      "legalMemoHashes": [
+        "b1b8972252052a400d9cd149ce8140e506702f4e2bcd7927dbd49a19e4a52477"
+      ],
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "reviewedAsOf": "2026-07-30",
+      "controllingAuthority": [
+        "A.R.S. § 13-4051"
+      ],
+      "openLegalDesignBlocker": 0,
+      "counselConfirmationQuestions": 0,
+      "sourceAcquisitionQuestions": 0,
+      "mechanicalTranslationQuestions": 0,
+      "packetFamily": [],
+      "familyBridgePresent": false,
+      "standingAdoption": [],
+      "completedOutputApproval": "approved_by_decision_owner",
+      "sourceCurrentness": "2026-07-30",
+      "technicalStatus": "no technical blocker open",
+      "visualStatus": "pending",
+      "currentLaunchStatus": "renders; payment closed",
+      "terminalizationLane": [],
+      "actualRemainingBlocker": "Bridge az_wrongful_arrest_clearance to a packet family, or record the pathway as a non-packet service outcome.",
+      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
+      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
+    },
+    {
+      "jurisdiction": "AZ",
       "pathway": "remedy-2-set-aside-of-a-conviction",
       "pathwayKey": "AZ:remedy-2-set-aside-of-a-conviction",
       "pathwayLabel": "Remedy 2 — Set-aside of a conviction (A.R.S. § 13-905)",
@@ -510,6 +547,45 @@
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
     {
+      "jurisdiction": "CA",
+      "pathway": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "pathwayKey": "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "pathwayLabel": "Dismissal and set-aside of a conviction for which probation was not granted",
+      "trackIds": [
+        "ca-1203-4a"
+      ],
+      "legalMemoPaths": [
+        "data/record-clearing/legal-design-intake/CA.memo.json"
+      ],
+      "legalMemoHashes": [
+        "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3"
+      ],
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "reviewedAsOf": "2026-07-30",
+      "controllingAuthority": [
+        "Cal. Penal Code § 1203.4a, as amended by SB 1106 (2022), operative 1 January 2023",
+        "Cal. Penal Code § 1203.4a(e), reimbursement cap and ability to pay",
+        "Cal. Penal Code § 1203.4a(f), infraction notice and written declaration",
+        "Judicial Council forms CR-180 box 3, CR-181, CR-106"
+      ],
+      "openLegalDesignBlocker": 2,
+      "counselConfirmationQuestions": 0,
+      "sourceAcquisitionQuestions": 2,
+      "mechanicalTranslationQuestions": 0,
+      "packetFamily": [],
+      "familyBridgePresent": false,
+      "standingAdoption": [],
+      "completedOutputApproval": "owner_approval_pending",
+      "sourceCurrentness": "2026-07-30",
+      "technicalStatus": "no technical blocker open",
+      "visualStatus": "pending",
+      "currentLaunchStatus": "renders; payment closed",
+      "terminalizationLane": [],
+      "actualRemainingBlocker": "Bridge ca-1203-4a to a packet family, or record the pathway as a non-packet service outcome.",
+      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
+      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
+    },
+    {
       "jurisdiction": "CO",
       "pathway": "juvenile-expungement-19-1-306",
       "pathwayKey": "CO:juvenile-expungement-19-1-306",
@@ -549,7 +625,7 @@
         "data/record-clearing/legal-design-intake/CO.memo.json"
       ],
       "legalMemoHashes": [
-        "40b2ce6bd30ae7b2b92c384761165716b84bfe470c22cd93e7b2ef9e3da56a50"
+        "427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-30",
@@ -565,9 +641,9 @@
       "standingAdoption": [],
       "completedOutputApproval": "owner_approval_pending",
       "sourceCurrentness": "2026-07-30",
-      "technicalStatus": "gate_build, renderer_unavailable",
+      "technicalStatus": "gate_build",
       "visualStatus": "pending",
-      "currentLaunchStatus": "does not render; payment closed",
+      "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge co_motion_seal_conviction to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
@@ -607,13 +683,55 @@
       "standingAdoption": [],
       "completedOutputApproval": "approved_by_decision_owner",
       "sourceCurrentness": "2026-07-30",
-      "technicalStatus": "filing_determination_missing, not_paid_product, packet_spec_incomplete",
+      "technicalStatus": "filing_determination_missing, not_paid_product, packet_spec_incomplete, renderer_unavailable",
       "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
+      "currentLaunchStatus": "does not render; payment closed",
       "terminalizationLane": [],
-      "actualRemainingBlocker": "filing_determination_missing, not_paid_product, packet_spec_incomplete",
+      "actualRemainingBlocker": "filing_determination_missing, not_paid_product, packet_spec_incomplete, renderer_unavailable",
       "classification": "TECHNICAL_BLOCKER",
-      "reason": "The legal design is adopted and the family is bridged. What is open is engineering: filing_determination_missing, not_paid_product, packet_spec_incomplete."
+      "reason": "The legal design is adopted and the family is bridged. What is open is engineering: filing_determination_missing, not_paid_product, packet_spec_incomplete, renderer_unavailable."
+    },
+    {
+      "jurisdiction": "CT",
+      "pathway": "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "pathwayKey": "CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "pathwayLabel": "Petition for erasure of cannabis conviction records",
+      "trackIds": [
+        "ct-cannabis-petition"
+      ],
+      "legalMemoPaths": [
+        "data/record-clearing/legal-design-intake/CT.memo.json"
+      ],
+      "legalMemoHashes": [
+        "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448"
+      ],
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "reviewedAsOf": "2026-07-30",
+      "controllingAuthority": [
+        "C.G.S. § 54-142v",
+        "C.G.S. § 54-142v(a)(1), the three eligible conviction categories",
+        "C.G.S. § 54-142v(a)(2), required content: a copy of the arrest record or a supporting affidavit",
+        "C.G.S. § 54-142v(a)(3), the court shall direct erasure if the petition is in order",
+        "C.G.S. § 54-142v(a)(4), no fee",
+        "C.G.S. § 54-142v(b), the multi-count bar",
+        "C.G.S. § 54-142a, erasure mechanics"
+      ],
+      "openLegalDesignBlocker": 2,
+      "counselConfirmationQuestions": 0,
+      "sourceAcquisitionQuestions": 2,
+      "mechanicalTranslationQuestions": 0,
+      "packetFamily": [],
+      "familyBridgePresent": false,
+      "standingAdoption": [],
+      "completedOutputApproval": "owner_approval_pending",
+      "sourceCurrentness": "2026-07-30",
+      "technicalStatus": "renderer_unavailable",
+      "visualStatus": "pending",
+      "currentLaunchStatus": "does not render; payment closed",
+      "terminalizationLane": [],
+      "actualRemainingBlocker": "Bridge ct-cannabis-petition to a packet family, or record the pathway as a non-packet service outcome.",
+      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
+      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
     {
       "jurisdiction": "DC",
@@ -763,7 +881,7 @@
         "data/record-clearing/legal-design-intake/DE.memo.json"
       ],
       "legalMemoHashes": [
-        "d966410f76a998c3933482f39d5c1b7055e595752096f738a6dbac10c32f1b81"
+        "fdb976a3cf5b47de42ebca1285dbd4f067bfa5461a0fac0c6efc98668fd1e618"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-30",
@@ -1078,7 +1196,7 @@
         "data/record-clearing/legal-design-intake/HI.memo.json"
       ],
       "legalMemoHashes": [
-        "200088e191a176e48d3a53dc111a901728100aebdfe972eeabd426e3a96048fc"
+        "18183a39bc850955d2d3b369554e4dc9bfdd2c4288c5dae73930e665dff9cf96"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-30",
@@ -1115,7 +1233,7 @@
         "data/record-clearing/legal-design-intake/HI.memo.json"
       ],
       "legalMemoHashes": [
-        "200088e191a176e48d3a53dc111a901728100aebdfe972eeabd426e3a96048fc"
+        "18183a39bc850955d2d3b369554e4dc9bfdd2c4288c5dae73930e665dff9cf96"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-30",
@@ -1699,6 +1817,100 @@
     },
     {
       "jurisdiction": "KS",
+      "pathway": "municipal-arrest-record-expungement-under-12-4516a",
+      "pathwayKey": "KS:municipal-arrest-record-expungement-under-12-4516a",
+      "pathwayLabel": "Municipal arrest record expungement",
+      "trackIds": [
+        "ks-12-4516a-municipal-arrest"
+      ],
+      "legalMemoPaths": [
+        "data/record-clearing/legal-design-intake/KS.memo.json"
+      ],
+      "legalMemoHashes": [
+        "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1"
+      ],
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "reviewedAsOf": "2026-08-02",
+      "controllingAuthority": [
+        "K.S.A. 12-4516a(a)",
+        "K.S.A. 12-4516a(b)",
+        "K.S.A. 12-4516a(c)",
+        "K.S.A. 12-4516a(d)",
+        "K.S.A. 12-4516a(e)",
+        "K.S.A. 12-4516a(f)",
+        "K.S.A. 12-4516a(g)",
+        "K.S.A. 12-4516a(h)",
+        "K.S.A. 21-6107",
+        "K.S.A. 12-16,134"
+      ],
+      "openLegalDesignBlocker": 2,
+      "counselConfirmationQuestions": 0,
+      "sourceAcquisitionQuestions": 1,
+      "mechanicalTranslationQuestions": 1,
+      "packetFamily": [
+        "rcap-ks-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "standingAdoption": [],
+      "completedOutputApproval": "approved_by_decision_owner",
+      "sourceCurrentness": "2026-08-02",
+      "technicalStatus": "route_metadata",
+      "visualStatus": "pending",
+      "currentLaunchStatus": "renders; payment closed",
+      "terminalizationLane": [],
+      "actualRemainingBlocker": "route_metadata",
+      "classification": "TECHNICAL_BLOCKER",
+      "reason": "The legal design is adopted and the family is bridged. What is open is engineering: route_metadata."
+    },
+    {
+      "jurisdiction": "KS",
+      "pathway": "municipal-conviction-or-diversion-expungement-under-12-4516",
+      "pathwayKey": "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+      "pathwayLabel": "Municipal conviction or diversion expungement",
+      "trackIds": [
+        "ks-12-4516-municipal"
+      ],
+      "legalMemoPaths": [
+        "data/record-clearing/legal-design-intake/KS.memo.json"
+      ],
+      "legalMemoHashes": [
+        "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1"
+      ],
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "reviewedAsOf": "2026-08-02",
+      "controllingAuthority": [
+        "K.S.A. 12-4516(a)",
+        "K.S.A. 12-4516(b)",
+        "K.S.A. 12-4516(c)",
+        "K.S.A. 12-4516(d)",
+        "K.S.A. 12-4516(e)",
+        "K.S.A. 12-4516(f)",
+        "K.S.A. 12-4516(g)",
+        "K.S.A. 12-4516(h)",
+        "K.S.A. 12-4516(i)",
+        "K.S.A. 12-16,134"
+      ],
+      "openLegalDesignBlocker": 2,
+      "counselConfirmationQuestions": 0,
+      "sourceAcquisitionQuestions": 1,
+      "mechanicalTranslationQuestions": 1,
+      "packetFamily": [
+        "rcap-ks-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "standingAdoption": [],
+      "completedOutputApproval": "approved_by_decision_owner",
+      "sourceCurrentness": "2026-08-02",
+      "technicalStatus": "intake_fix",
+      "visualStatus": "pending",
+      "currentLaunchStatus": "renders; payment closed",
+      "terminalizationLane": [],
+      "actualRemainingBlocker": "intake_fix",
+      "classification": "TECHNICAL_BLOCKER",
+      "reason": "The legal design is adopted and the family is bridged. What is open is engineering: intake_fix."
+    },
+    {
+      "jurisdiction": "KS",
       "pathway": "prostitution-coercion",
       "pathwayKey": "KS:prostitution-coercion",
       "pathwayLabel": "Prostitution offense committed under coercion",
@@ -1753,7 +1965,7 @@
         "data/record-clearing/legal-design-intake/KY.memo.json"
       ],
       "legalMemoHashes": [
-        "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19"
+        "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -1800,7 +2012,7 @@
         "data/record-clearing/legal-design-intake/KY.memo.json"
       ],
       "legalMemoHashes": [
-        "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19"
+        "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -1844,7 +2056,7 @@
         "data/record-clearing/legal-design-intake/KY.memo.json"
       ],
       "legalMemoHashes": [
-        "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19"
+        "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -1876,6 +2088,47 @@
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
     {
+      "jurisdiction": "KY",
+      "pathway": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "pathwayKey": "KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "pathwayLabel": "Void and seal a first qualifying possession conviction under KRS 218A.276",
+      "trackIds": [
+        "ky_void_seal_marijuana_synthetic_salvia"
+      ],
+      "legalMemoPaths": [
+        "data/record-clearing/legal-design-intake/KY.memo.json"
+      ],
+      "legalMemoHashes": [
+        "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2"
+      ],
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "reviewedAsOf": "2026-08-06",
+      "controllingAuthority": [
+        "KRS 218A.276(1)",
+        "KRS 218A.276(8)",
+        "KRS 218A.276(9)",
+        "KRS 218A.276(10)",
+        "KRS 27A.099",
+        "KRS 431.078(2)"
+      ],
+      "openLegalDesignBlocker": 1,
+      "counselConfirmationQuestions": 1,
+      "sourceAcquisitionQuestions": 0,
+      "mechanicalTranslationQuestions": 0,
+      "packetFamily": [],
+      "familyBridgePresent": false,
+      "standingAdoption": [],
+      "completedOutputApproval": "owner_approval_pending",
+      "sourceCurrentness": "2026-08-06",
+      "technicalStatus": "no technical blocker open",
+      "visualStatus": "pending",
+      "currentLaunchStatus": "renders; payment closed",
+      "terminalizationLane": [],
+      "actualRemainingBlocker": "Bridge ky_void_seal_marijuana_synthetic_salvia to a packet family, or record the pathway as a non-packet service outcome.",
+      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
+      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
+    },
+    {
       "jurisdiction": "LA",
       "pathway": "expungement-by-redaction-for-multi-person-records",
       "pathwayKey": "LA:expungement-by-redaction-for-multi-person-records",
@@ -1887,7 +2140,7 @@
         "data/record-clearing/legal-design-intake/LA.memo.json"
       ],
       "legalMemoHashes": [
-        "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10"
+        "bbd6497c15755f5e103173ed7ddafb7c26f3a6fec3bf32c445926e178ddc699a"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-03",
@@ -1934,7 +2187,7 @@
         "data/record-clearing/legal-design-intake/LA.memo.json"
       ],
       "legalMemoHashes": [
-        "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10"
+        "bbd6497c15755f5e103173ed7ddafb7c26f3a6fec3bf32c445926e178ddc699a"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-03",
@@ -1981,7 +2234,7 @@
         "data/record-clearing/legal-design-intake/LA.memo.json"
       ],
       "legalMemoHashes": [
-        "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10"
+        "bbd6497c15755f5e103173ed7ddafb7c26f3a6fec3bf32c445926e178ddc699a"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-03",
@@ -2029,7 +2282,7 @@
         "data/record-clearing/legal-design-intake/LA.memo.json"
       ],
       "legalMemoHashes": [
-        "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10"
+        "bbd6497c15755f5e103173ed7ddafb7c26f3a6fec3bf32c445926e178ddc699a"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-03",
@@ -2076,7 +2329,7 @@
         "data/record-clearing/legal-design-intake/LA.memo.json"
       ],
       "legalMemoHashes": [
-        "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10"
+        "bbd6497c15755f5e103173ed7ddafb7c26f3a6fec3bf32c445926e178ddc699a"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-03",
@@ -2122,7 +2375,7 @@
         "data/record-clearing/legal-design-intake/LA.memo.json"
       ],
       "legalMemoHashes": [
-        "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10"
+        "bbd6497c15755f5e103173ed7ddafb7c26f3a6fec3bf32c445926e178ddc699a"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-03",
@@ -2169,7 +2422,7 @@
         "data/record-clearing/legal-design-intake/LA.memo.json"
       ],
       "legalMemoHashes": [
-        "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10"
+        "bbd6497c15755f5e103173ed7ddafb7c26f3a6fec3bf32c445926e178ddc699a"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-03",
@@ -2216,7 +2469,7 @@
         "data/record-clearing/legal-design-intake/MA.memo.json"
       ],
       "legalMemoHashes": [
-        "c4412f8a62a9d8dc24d7da6f01ce8ac4b530a5cfc2907d66224401d2097b110a"
+        "fde00193af73df0b431300a17beb869827a4dd1f02034d45fc18af4e4ad3cdb6"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-30",
@@ -2255,7 +2508,7 @@
         "data/record-clearing/legal-design-intake/MA.memo.json"
       ],
       "legalMemoHashes": [
-        "c4412f8a62a9d8dc24d7da6f01ce8ac4b530a5cfc2907d66224401d2097b110a"
+        "fde00193af73df0b431300a17beb869827a4dd1f02034d45fc18af4e4ad3cdb6"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-30",
@@ -2292,7 +2545,7 @@
         "data/record-clearing/legal-design-intake/MA.memo.json"
       ],
       "legalMemoHashes": [
-        "c4412f8a62a9d8dc24d7da6f01ce8ac4b530a5cfc2907d66224401d2097b110a"
+        "fde00193af73df0b431300a17beb869827a4dd1f02034d45fc18af4e4ad3cdb6"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-30",
@@ -2331,7 +2584,7 @@
         "data/record-clearing/legal-design-intake/MA.memo.json"
       ],
       "legalMemoHashes": [
-        "c4412f8a62a9d8dc24d7da6f01ce8ac4b530a5cfc2907d66224401d2097b110a"
+        "fde00193af73df0b431300a17beb869827a4dd1f02034d45fc18af4e4ad3cdb6"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-30",
@@ -2347,9 +2600,9 @@
       "standingAdoption": [],
       "completedOutputApproval": "owner_approval_pending",
       "sourceCurrentness": "2026-07-30",
-      "technicalStatus": "route_metadata",
+      "technicalStatus": "route_metadata, packet_spec_incomplete, renderer_unavailable",
       "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
+      "currentLaunchStatus": "does not render; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge ma-expunge-mj to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
@@ -2367,7 +2620,7 @@
         "data/record-clearing/legal-design-intake/MA.memo.json"
       ],
       "legalMemoHashes": [
-        "c4412f8a62a9d8dc24d7da6f01ce8ac4b530a5cfc2907d66224401d2097b110a"
+        "fde00193af73df0b431300a17beb869827a4dd1f02034d45fc18af4e4ad3cdb6"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-30",
@@ -2403,7 +2656,7 @@
         "data/record-clearing/legal-design-intake/MA.memo.json"
       ],
       "legalMemoHashes": [
-        "c4412f8a62a9d8dc24d7da6f01ce8ac4b530a5cfc2907d66224401d2097b110a"
+        "fde00193af73df0b431300a17beb869827a4dd1f02034d45fc18af4e4ad3cdb6"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-30",
@@ -3018,7 +3271,7 @@
         "data/record-clearing/legal-design-intake/MS.memo.json"
       ],
       "legalMemoHashes": [
-        "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+        "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-03",
@@ -3056,7 +3309,7 @@
         "data/record-clearing/legal-design-intake/MS.memo.json"
       ],
       "legalMemoHashes": [
-        "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+        "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-03",
@@ -3206,7 +3459,7 @@
         "data/record-clearing/legal-design-intake/NC.memo.json"
       ],
       "legalMemoHashes": [
-        "9d9ce9f4ac2b4483dfc33e640873059d9d79755597017e819aa24f64893053c7"
+        "c627062f5080ebfc211653a4903a0afd62e682269c9cfdad305aafb9e1158c47"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-31",
@@ -3246,7 +3499,7 @@
         "data/record-clearing/legal-design-intake/NC.memo.json"
       ],
       "legalMemoHashes": [
-        "9d9ce9f4ac2b4483dfc33e640873059d9d79755597017e819aa24f64893053c7"
+        "c627062f5080ebfc211653a4903a0afd62e682269c9cfdad305aafb9e1158c47"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-31",
@@ -3285,7 +3538,7 @@
         "data/record-clearing/legal-design-intake/ND.memo.json"
       ],
       "legalMemoHashes": [
-        "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0"
+        "ed7115190428a940d401d97614df85bcc17c1f511b807cf2cda7b8b462d231c3"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -3328,7 +3581,7 @@
         "data/record-clearing/legal-design-intake/NE.memo.json"
       ],
       "legalMemoHashes": [
-        "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb"
+        "46103ae8848c7459ad921b38e72c8d19a38598b86bbf18a839d9d16236157750"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -3368,7 +3621,7 @@
         "data/record-clearing/legal-design-intake/NE.memo.json"
       ],
       "legalMemoHashes": [
-        "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb"
+        "46103ae8848c7459ad921b38e72c8d19a38598b86bbf18a839d9d16236157750"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -3384,9 +3637,9 @@
       "standingAdoption": [],
       "completedOutputApproval": "owner_approval_pending",
       "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
+      "technicalStatus": "packet_spec_incomplete, renderer_unavailable",
       "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
+      "currentLaunchStatus": "does not render; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge ne-expunge-le-error to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
@@ -3404,7 +3657,7 @@
         "data/record-clearing/legal-design-intake/NE.memo.json"
       ],
       "legalMemoHashes": [
-        "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb"
+        "46103ae8848c7459ad921b38e72c8d19a38598b86bbf18a839d9d16236157750"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -3444,7 +3697,7 @@
         "data/record-clearing/legal-design-intake/NE.memo.json"
       ],
       "legalMemoHashes": [
-        "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb"
+        "46103ae8848c7459ad921b38e72c8d19a38598b86bbf18a839d9d16236157750"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -3486,7 +3739,7 @@
         "data/record-clearing/legal-design-intake/NH.memo.json"
       ],
       "legalMemoHashes": [
-        "6f85d27d53ecaaaff93fcacf069338bbb981123002636ee1e80fa98e41fe57c0"
+        "53aa8d1cb86bee12bdf7f94853beaa7139213dab365d33c2939ff6959bfac199"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -3526,7 +3779,7 @@
         "data/record-clearing/legal-design-intake/NH.memo.json"
       ],
       "legalMemoHashes": [
-        "6f85d27d53ecaaaff93fcacf069338bbb981123002636ee1e80fa98e41fe57c0"
+        "53aa8d1cb86bee12bdf7f94853beaa7139213dab365d33c2939ff6959bfac199"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -3573,7 +3826,7 @@
         "data/record-clearing/legal-design-intake/NH.memo.json"
       ],
       "legalMemoHashes": [
-        "6f85d27d53ecaaaff93fcacf069338bbb981123002636ee1e80fa98e41fe57c0"
+        "53aa8d1cb86bee12bdf7f94853beaa7139213dab365d33c2939ff6959bfac199"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -3620,7 +3873,7 @@
         "data/record-clearing/legal-design-intake/NH.memo.json"
       ],
       "legalMemoHashes": [
-        "6f85d27d53ecaaaff93fcacf069338bbb981123002636ee1e80fa98e41fe57c0"
+        "53aa8d1cb86bee12bdf7f94853beaa7139213dab365d33c2939ff6959bfac199"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -3680,9 +3933,9 @@
       "standingAdoption": [],
       "completedOutputApproval": "owner_approval_pending",
       "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
+      "technicalStatus": "packet_spec_incomplete, renderer_unavailable",
       "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
+      "currentLaunchStatus": "does not render; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge nj_clean_slate to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
@@ -3982,6 +4235,45 @@
     },
     {
       "jurisdiction": "NV",
+      "pathway": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "pathwayKey": "NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "pathwayLabel": "Removal of a record from the Central Repository after a favourable disposition",
+      "trackIds": [
+        "nv_repository_removal"
+      ],
+      "legalMemoPaths": [
+        "data/record-clearing/legal-design-intake/NV.memo.json"
+      ],
+      "legalMemoHashes": [
+        "113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5"
+      ],
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "reviewedAsOf": "2026-08-06",
+      "controllingAuthority": [
+        "NRS 179A.160",
+        "NRS 179.245",
+        "NRS 179.255",
+        "NRS 179.275"
+      ],
+      "openLegalDesignBlocker": 0,
+      "counselConfirmationQuestions": 0,
+      "sourceAcquisitionQuestions": 0,
+      "mechanicalTranslationQuestions": 0,
+      "packetFamily": [],
+      "familyBridgePresent": false,
+      "standingAdoption": [],
+      "completedOutputApproval": "owner_approval_pending",
+      "sourceCurrentness": "2026-08-08",
+      "technicalStatus": "no technical blocker open",
+      "visualStatus": "pending",
+      "currentLaunchStatus": "renders; payment closed",
+      "terminalizationLane": [],
+      "actualRemainingBlocker": "Bridge nv_repository_removal to a packet family, or record the pathway as a non-packet service outcome.",
+      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
+      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
+    },
+    {
+      "jurisdiction": "NV",
       "pathway": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
       "pathwayKey": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
       "pathwayLabel": "Trafficking-victim vacatur and sealing under NRS 179.247",
@@ -4000,7 +4292,7 @@
       "standingAdoption": [],
       "completedOutputApproval": "owner_approval_pending",
       "sourceCurrentness": null,
-      "technicalStatus": "intake_fix, renderer_unavailable",
+      "technicalStatus": "intake_fix, packet_spec_incomplete, renderer_unavailable",
       "visualStatus": "pending",
       "currentLaunchStatus": "does not render; payment closed",
       "terminalizationLane": [],
@@ -4254,7 +4546,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4297,7 +4589,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4340,7 +4632,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4380,7 +4672,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4423,7 +4715,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4466,7 +4758,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4565,7 +4857,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4608,7 +4900,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4651,7 +4943,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4694,7 +4986,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4737,7 +5029,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4780,7 +5072,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4823,7 +5115,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4866,7 +5158,7 @@
         "data/record-clearing/legal-design-intake/OK.memo.json"
       ],
       "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+        "142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-06",
@@ -4936,9 +5228,9 @@
       "standingAdoption": [],
       "completedOutputApproval": "approved_by_decision_owner",
       "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
+      "technicalStatus": "packet_spec_incomplete, renderer_unavailable",
       "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
+      "currentLaunchStatus": "does not render; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge or_conviction_setaside to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
@@ -4999,7 +5291,7 @@
         "data/record-clearing/legal-design-intake/RI.memo.json"
       ],
       "legalMemoHashes": [
-        "918bdea81d68d75e072b8034dc22ba2cce0d6c86451c9ebdc3607b1225cfd62f"
+        "dfd9d6cd3f131505e2e23165ed176b630edc88c74a1063b5b71041b93a32d677"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -5008,9 +5300,9 @@
         "R.I. Gen. Laws § 12-1.3-1",
         "R.I. Gen. Laws § 12-1.3-3"
       ],
-      "openLegalDesignBlocker": 4,
+      "openLegalDesignBlocker": 3,
       "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 4,
+      "sourceAcquisitionQuestions": 2,
       "mechanicalTranslationQuestions": 0,
       "packetFamily": [],
       "familyBridgePresent": false,
@@ -5037,7 +5329,7 @@
         "data/record-clearing/legal-design-intake/RI.memo.json"
       ],
       "legalMemoHashes": [
-        "918bdea81d68d75e072b8034dc22ba2cce0d6c86451c9ebdc3607b1225cfd62f"
+        "dfd9d6cd3f131505e2e23165ed176b630edc88c74a1063b5b71041b93a32d677"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -5048,9 +5340,9 @@
         "R.I. Gen. Laws § 31-27-2",
         "R.I. Gen. Laws § 31-27-2.1"
       ],
-      "openLegalDesignBlocker": 4,
+      "openLegalDesignBlocker": 3,
       "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 4,
+      "sourceAcquisitionQuestions": 2,
       "mechanicalTranslationQuestions": 0,
       "packetFamily": [],
       "familyBridgePresent": false,
@@ -5077,7 +5369,7 @@
         "data/record-clearing/legal-design-intake/RI.memo.json"
       ],
       "legalMemoHashes": [
-        "918bdea81d68d75e072b8034dc22ba2cce0d6c86451c9ebdc3607b1225cfd62f"
+        "dfd9d6cd3f131505e2e23165ed176b630edc88c74a1063b5b71041b93a32d677"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -5085,9 +5377,9 @@
         "R.I. Gen. Laws § 12-19-19",
         "R.I. Gen. Laws § 12-1.3-2(e)"
       ],
-      "openLegalDesignBlocker": 2,
+      "openLegalDesignBlocker": 1,
       "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 2,
+      "sourceAcquisitionQuestions": 1,
       "mechanicalTranslationQuestions": 0,
       "packetFamily": [],
       "familyBridgePresent": false,
@@ -5114,7 +5406,7 @@
         "data/record-clearing/legal-design-intake/RI.memo.json"
       ],
       "legalMemoHashes": [
-        "918bdea81d68d75e072b8034dc22ba2cce0d6c86451c9ebdc3607b1225cfd62f"
+        "dfd9d6cd3f131505e2e23165ed176b630edc88c74a1063b5b71041b93a32d677"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -5152,7 +5444,7 @@
         "data/record-clearing/legal-design-intake/RI.memo.json"
       ],
       "legalMemoHashes": [
-        "918bdea81d68d75e072b8034dc22ba2cce0d6c86451c9ebdc3607b1225cfd62f"
+        "dfd9d6cd3f131505e2e23165ed176b630edc88c74a1063b5b71041b93a32d677"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -5190,7 +5482,7 @@
         "data/record-clearing/legal-design-intake/RI.memo.json"
       ],
       "legalMemoHashes": [
-        "918bdea81d68d75e072b8034dc22ba2cce0d6c86451c9ebdc3607b1225cfd62f"
+        "dfd9d6cd3f131505e2e23165ed176b630edc88c74a1063b5b71041b93a32d677"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -5549,7 +5841,7 @@
       "standingAdoption": [],
       "completedOutputApproval": "owner_approval_pending",
       "sourceCurrentness": null,
-      "technicalStatus": "intake_fix, renderer_unavailable",
+      "technicalStatus": "intake_fix, packet_spec_incomplete, renderer_unavailable",
       "visualStatus": "pending",
       "currentLaunchStatus": "does not render; payment closed",
       "terminalizationLane": [],
@@ -6283,7 +6575,7 @@
         "data/record-clearing/legal-design-intake/VT.memo.json"
       ],
       "legalMemoHashes": [
-        "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079"
+        "c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -6325,7 +6617,7 @@
         "data/record-clearing/legal-design-intake/VT.memo.json"
       ],
       "legalMemoHashes": [
-        "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079"
+        "c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -6366,7 +6658,7 @@
         "data/record-clearing/legal-design-intake/VT.memo.json"
       ],
       "legalMemoHashes": [
-        "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079"
+        "c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -6435,7 +6727,7 @@
         "data/record-clearing/legal-design-intake/VT.memo.json"
       ],
       "legalMemoHashes": [
-        "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079"
+        "c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -6478,7 +6770,7 @@
         "data/record-clearing/legal-design-intake/VT.memo.json"
       ],
       "legalMemoHashes": [
-        "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079"
+        "c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -6522,7 +6814,7 @@
         "data/record-clearing/legal-design-intake/VT.memo.json"
       ],
       "legalMemoHashes": [
-        "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079"
+        "c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -6565,7 +6857,7 @@
         "data/record-clearing/legal-design-intake/WA.memo.json"
       ],
       "legalMemoHashes": [
-        "8f43ce3e1b28cb4f4848f9e3705a5d151e02015685df3cb8be6e16463f0d3bb7"
+        "45eeed5807e571dfefbed36074db594ba37dc65b23953c5430af2c0d840fd6ed"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -6612,7 +6904,7 @@
         "data/record-clearing/legal-design-intake/WA.memo.json"
       ],
       "legalMemoHashes": [
-        "8f43ce3e1b28cb4f4848f9e3705a5d151e02015685df3cb8be6e16463f0d3bb7"
+        "45eeed5807e571dfefbed36074db594ba37dc65b23953c5430af2c0d840fd6ed"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -6653,7 +6945,7 @@
         "data/record-clearing/legal-design-intake/WA.memo.json"
       ],
       "legalMemoHashes": [
-        "8f43ce3e1b28cb4f4848f9e3705a5d151e02015685df3cb8be6e16463f0d3bb7"
+        "45eeed5807e571dfefbed36074db594ba37dc65b23953c5430af2c0d840fd6ed"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -6720,7 +7012,7 @@
         "data/record-clearing/legal-design-intake/WA.memo.json"
       ],
       "legalMemoHashes": [
-        "8f43ce3e1b28cb4f4848f9e3705a5d151e02015685df3cb8be6e16463f0d3bb7"
+        "45eeed5807e571dfefbed36074db594ba37dc65b23953c5430af2c0d840fd6ed"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
@@ -6761,7 +7053,7 @@
         "data/record-clearing/legal-design-intake/WA.memo.json"
       ],
       "legalMemoHashes": [
-        "8f43ce3e1b28cb4f4848f9e3705a5d151e02015685df3cb8be6e16463f0d3bb7"
+        "45eeed5807e571dfefbed36074db594ba37dc65b23953c5430af2c0d840fd6ed"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-01",
