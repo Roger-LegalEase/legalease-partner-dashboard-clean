@@ -208,6 +208,22 @@ export interface PleadingCaseData {
   otn?: string;
   judgeName?: string;
   judgeAddress?: string;
+  /**
+   * The matter facts a caption token may be filled from, and only these.
+   *
+   * Several tracks state their caption as a pattern — Kentucky's
+   * `"{courtLevel} COURT — {county} COUNTY, COMMONWEALTH OF KENTUCKY"`, West
+   * Virginia's `"IN THE {court}, {county} COUNTY, WEST VIRGINIA"` — because no
+   * source fixes the court for them and the participant's own answer is the
+   * only authority. Each config records that in its own `courtNameNote`
+   * ("filled only from the participant's own answer…"), and the canonical
+   * fixtures already carry these keys. The renderer simply never read them, so
+   * eleven documents printed the raw token.
+   */
+  court?: string;
+  courtLevel?: string;
+  caseNumber?: string;
+  judicialDistrictOrGaLocation?: string;
 }
 
 export interface PleadingChargeData {
@@ -322,6 +338,114 @@ function presentationRefusal(config: PleadingTrackConfig): string | null {
   return null;
 }
 
+/**
+ * Caption and presentation tokens, resolved from named matter facts only.
+ *
+ * NOT a generic substitution pass. Each token below names exactly one field the
+ * participant supplies, an unlisted token is a refusal rather than a blank, and
+ * nothing is inferred from another jurisdiction, another field or a default.
+ *
+ * Two kinds, because they fail differently:
+ *
+ *   VALUE tokens name something the document asserts — the court, the county,
+ *   the court level, the judicial district. A filing that cannot say which
+ *   court it is addressed to is not a filing, so an unresolved value token
+ *   refuses the render. It does not print `[COUNTY TO BE CONFIRMED]`: a
+ *   bracketed blank in a caption is a document a participant can file and a
+ *   clerk will reject, which is worse than no document at all.
+ *
+ *   LINE tokens are a caption fragment that is legitimately absent — the case
+ *   number line on a matter whose number the participant does not yet have.
+ *   Several tracks record exactly that as a manual completion item. An empty
+ *   line token resolves to an empty string, and never to the literal token.
+ */
+const CAPTION_VALUE_TOKENS: Record<string, { field: keyof PleadingCaseData; describes: string }> = {
+  "{county}": { field: "countyName", describes: "the county the proceedings were in" },
+  "{court}": { field: "court", describes: "the court the matter was heard in" },
+  "{courtLevel}": { field: "courtLevel", describes: "the level of court the matter was heard in" },
+  "{judicialDistrictOrGaLocation}": {
+    field: "judicialDistrictOrGaLocation",
+    describes: "the judicial district or G.A. location"
+  },
+  "{caseNumber}": { field: "caseNumber", describes: "the case number on the court record" }
+};
+
+/** A caption fragment printed only when its underlying fact is known. */
+const CAPTION_LINE_TOKENS: Record<string, { field: keyof PleadingCaseData; render: (value: string) => string }> = {
+  "{caseNumberLine}": { field: "caseNumber", render: (value) => ` — CASE NO. ${value}` },
+  "{docketLine}": { field: "docketNumber", render: (value) => ` — DOCKET NO. ${value}` }
+};
+
+const ANY_TOKEN = /\{[A-Za-z][A-Za-z0-9_]*\}/g;
+
+/**
+ * Resolve every token in one piece of caption or presentation text.
+ *
+ * Returns the resolved text, or the reason it cannot be resolved. The caller
+ * turns a reason into a refusal; no caller may print partially resolved text.
+ */
+function resolveCaptionTokens(
+  text: string,
+  caseData: PleadingCaseData,
+  where: string
+): { text: string } | { refusal: string } {
+  const tokens = text.match(ANY_TOKEN) ?? [];
+  let resolved = text;
+  for (const token of [...new Set(tokens)]) {
+    const line = CAPTION_LINE_TOKENS[token];
+    if (line) {
+      const value = String(caseData[line.field] ?? "").trim();
+      resolved = resolved.split(token).join(value ? line.render(value) : "");
+      continue;
+    }
+    const valueToken = CAPTION_VALUE_TOKENS[token];
+    if (!valueToken) {
+      return {
+        refusal: `${where} uses the token ${token}, which names no matter fact this renderer resolves.`
+          + " Bind it to a participant-supplied field, or state the text without it."
+      };
+    }
+    const value = String(caseData[valueToken.field] ?? "").trim();
+    if (!value) {
+      return {
+        refusal: `${where} needs ${token} — ${valueToken.describes} — and the matter does not supply it.`
+          + " A caption that cannot name its own court is not a filing, so this refuses rather than printing a blank."
+      };
+    }
+    resolved = resolved.split(token).join(value);
+  }
+  return { text: resolved };
+}
+
+/**
+ * Every piece of text a token may appear in, checked together so one refusal
+ * covers the whole document rather than one section discovering it late.
+ */
+function tokenRefusal(input: PleadingRenderInput): string | null {
+  const { config, caseData } = input;
+  const pres = config.presentation;
+  const subjects: Array<[string, string | null | undefined]> = [
+    ["courtCaption", config.courtCaption],
+    ["presentation.courtName", pres?.courtName],
+    ["presentation.venueDescriptor", pres?.venueDescriptor],
+    ["presentation.recordCustodianLead", pres?.recordCustodianLead],
+    ["presentation.divisionLine", pres?.divisionLine]
+  ];
+  for (const [name, text] of subjects) {
+    if (!text) continue;
+    const outcome = resolveCaptionTokens(text, caseData, `${config.jurisdictionCode}:${config.trackId} ${name}`);
+    if ("refusal" in outcome) return outcome.refusal;
+  }
+  return null;
+}
+
+/** Resolve or throw. Only reached after `tokenRefusal` has cleared the document. */
+function resolvedText(text: string, caseData: PleadingCaseData, where: string): string {
+  const outcome = resolveCaptionTokens(text, caseData, where);
+  if ("refusal" in outcome) throw new Error(outcome.refusal);
+  return outcome.text;
+}
+
 function defaultReliefAction(primaryReliefTerm: string): string {
   return primaryReliefTerm === "expungement" ? "expunge" : "apply limited access to";
 }
@@ -332,7 +456,10 @@ function defaultOrderAction(primaryReliefTerm: string): string {
 
 export function renderCustomPleading(input: PleadingRenderInput): PleadingRenderResult {
   const warnings: string[] = [];
-  const refusal = presentationRefusal(input.config);
+  // The presentation contract first, then the matter facts its text depends on.
+  // Both are refusals for the same reason: a document that cannot state where
+  // it is filed, or against what, is not releasable.
+  const refusal = presentationRefusal(input.config) ?? tokenRefusal(input);
   if (refusal) {
     return {
       rendered: false,
@@ -396,7 +523,12 @@ function buildSections(
   // absent or incomplete, so it is present here.
   const pres = config.presentation;
   const sections: PleadingSection[] = [];
-  const county = caseData.countyName || "[COUNTY TO BE CONFIRMED]";
+  // Reached only after `tokenRefusal` cleared every token in this document, so
+  // a county this caption depends on is present. `county` itself is used for
+  // the `COUNTY OF X` line, which only a config that sets `usesCounty` emits.
+  const where = `${config.jurisdictionCode}:${config.trackId}`;
+  const resolve = (text: string, field: string) => resolvedText(text, caseData, `${where} ${field}`);
+  const county = caseData.countyName;
   const petitioner = partyData.petitionerName || "[PETITIONER NAME TO BE CONFIRMED]";
   const movantRole = pres.movantRole;
   const filingNoun = pres.filingNoun;
@@ -404,9 +536,9 @@ function buildSections(
   let p = 0;
 
   // Court caption
-  const captionLines: string[] = [config.courtCaption];
+  const captionLines: string[] = [resolve(config.courtCaption, "courtCaption")];
   if (pres.usesCounty) captionLines.push(`COUNTY OF ${county.toUpperCase()}`);
-  if (pres.divisionLine) captionLines.push(pres.divisionLine);
+  if (pres.divisionLine) captionLines.push(resolve(pres.divisionLine, "presentation.divisionLine"));
   // Top party uses a trailing comma, bottom party a trailing period, regardless
   // of which party is listed first (sovereign-first vs movant-first jurisdictions).
   //
@@ -459,8 +591,8 @@ function buildSections(
 
   // I. Jurisdiction and venue
   p += 1;
-  const resolvedCourtName = pres.courtName.replace("{county}", county);
-  const resolvedVenueDescriptor = pres.venueDescriptor.replace("{county}", county);
+  const resolvedCourtName = resolve(pres.courtName, "presentation.courtName");
+  const resolvedVenueDescriptor = resolve(pres.venueDescriptor, "presentation.venueDescriptor");
   // The court and the venue come from this jurisdiction's own presentation, in
   // every jurisdiction. `usesCounty` no longer selects a Pennsylvania sentence.
   const jv1 = `${p}. This Court has jurisdiction over this matter as the ${resolvedCourtName}, where the proceedings occurred.`;
@@ -664,7 +796,7 @@ function buildSections(
     // "required" direction always has one; "none" omits the clause entirely
     // rather than blanking it.
     const custodianDirected = (pres.proposedOrderCustodianDirection ?? "required") === "required";
-    const resolvedCustodianLead = (pres.recordCustodianLead ?? "").replace("{county}", county);
+    const resolvedCustodianLead = resolve(pres.recordCustodianLead ?? "", "presentation.recordCustodianLead");
     const arrestingAgency = chargeData.arrestingAgency || "[ARRESTING AGENCY]";
     const custodianClause = resolvedCustodianLead.includes(arrestingAgency)
       ? resolvedCustodianLead

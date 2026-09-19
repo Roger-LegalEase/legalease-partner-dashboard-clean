@@ -120,7 +120,55 @@ function canonicalFixture(dir) {
   return null;
 }
 
+/**
+ * The caption tokens a config may declare, and the matter field each is filled
+ * from. Mirrors CAPTION_VALUE_TOKENS / CAPTION_LINE_TOKENS in the renderer.
+ */
+const VALUE_TOKEN_FIELD = {
+  "{county}": "countyName",
+  "{court}": "court",
+  "{courtLevel}": "courtLevel",
+  "{judicialDistrictOrGaLocation}": "judicialDistrictOrGaLocation",
+  "{caseNumber}": "caseNumber"
+};
+const LINE_TOKEN_FIELD = { "{caseNumberLine}": "caseNumber", "{docketLine}": "docketNumber" };
+
+function tokenTexts(cfg) {
+  const pres = cfg.presentation ?? {};
+  return [cfg.courtCaption, pres.courtName, pres.venueDescriptor, pres.recordCustodianLead, pres.divisionLine]
+    .filter((text) => typeof text === "string" && text.length > 0);
+}
+
+function declaredTokens(cfg) {
+  return [...new Set(tokenTexts(cfg).flatMap((text) => text.match(/\{[A-Za-z][A-Za-z0-9_]*\}/g) ?? []))];
+}
+
+/**
+ * The canonical fixtures are blank-matter fixtures: several carry `court: ""`
+ * and `countyName: ""` because no source fixes those and only the participant
+ * can. Under the token contract such a matter now refuses, which is correct and
+ * which would have silently emptied this sweep. So the render assertions run on
+ * a matter that HAS answered — the acceptance values below — and the refusal
+ * itself is asserted separately, per token, by blanking one field at a time.
+ */
+function answeredCaseData(caseData, cfg) {
+  const answered = { ...caseData };
+  for (const token of declaredTokens(cfg)) {
+    const field = VALUE_TOKEN_FIELD[token] ?? LINE_TOKEN_FIELD[token];
+    if (!field) continue;
+    if (!String(answered[field] ?? "").trim()) {
+      answered[field] = field === "countyName" ? "EXAMPLE"
+        : field === "caseNumber" ? "CR-2020-000123"
+          : field === "docketNumber" ? "CR-2020-000123"
+            : field === "courtLevel" ? "DISTRICT"
+              : "ACCEPTANCE COURT";
+    }
+  }
+  return answered;
+}
+
 const seenTracks = new Set();
+let tokenRefusalsProven = 0;
 let rendered = 0;
 let refused = 0;
 let nullSovereignRendered = 0;
@@ -137,7 +185,7 @@ for (const doc of pleadingConfigs()) {
     result = renderCustomPleading({
       config: cfg,
       partyData: fixture.partyData,
-      caseData: fixture.caseData,
+      caseData: answeredCaseData(fixture.caseData, cfg),
       chargeData: fixture.chargeData,
       eligibilityData: fixture.eligibilityData,
       attachments: fixture.attachments ?? [],
@@ -154,7 +202,10 @@ for (const doc of pleadingConfigs()) {
   // produced a document.
   const pres0 = cfg.presentation;
   const custodianDirected = (pres0?.proposedOrderCustodianDirection ?? "required") === "required";
-  const mustRefuse = !pres0
+  const unknownToken = declaredTokens(cfg)
+    .find((token) => !(token in VALUE_TOKEN_FIELD) && !(token in LINE_TOKEN_FIELD));
+  const mustRefuse = Boolean(unknownToken)
+    || !pres0
     || !String(pres0.courtName ?? "").trim()
     || !String(pres0.venueDescriptor ?? "").trim()
     || (cfg.includeProposedOrder && custodianDirected && !String(pres0.recordCustodianLead ?? "").trim())
@@ -191,6 +242,47 @@ for (const doc of pleadingConfigs()) {
   const hit = text.match(ESCAPED_VALUE);
   check(!hit, `${doc.state}/${doc.track}: rendered document contains the escaped literal ${JSON.stringify(hit?.[0])} near ${JSON.stringify(text.slice(Math.max(0, (hit?.index ?? 0) - 40), (hit?.index ?? 0) + 40))}`);
 
+  // No rendered document may still carry a caption token. This is the defect
+  // itself: eleven documents printed {county}, {court}, {courtLevel},
+  // {caseNumber} and {judicialDistrictOrGaLocation} into captions and
+  // jurisdiction sentences, because the renderer substituted {county} into
+  // three presentation fields and nothing into config.courtCaption at all.
+  const leftover = text.match(/\{[A-Za-z][A-Za-z0-9_]*\}/);
+  check(!leftover, `${doc.state}/${doc.track}: rendered document still prints the token ${leftover?.[0]}`
+    + ` near ${JSON.stringify(text.slice(Math.max(0, (leftover?.index ?? 0) - 50), (leftover?.index ?? 0) + 50))}`);
+
+  // And the other half of the contract: a matter that has NOT answered a fact
+  // its caption names refuses, rather than printing a blank a participant could
+  // file. Proven one field at a time, on this config's own declared tokens.
+  for (const token of declaredTokens(cfg)) {
+    const field = VALUE_TOKEN_FIELD[token];
+    if (!field) continue;
+    const blanked = { ...answeredCaseData(fixture.caseData, cfg), [field]: "" };
+    let refusedOnToken;
+    try {
+      refusedOnToken = renderCustomPleading({
+        config: cfg,
+        partyData: fixture.partyData,
+        caseData: blanked,
+        chargeData: fixture.chargeData,
+        eligibilityData: fixture.eligibilityData,
+        attachments: fixture.attachments ?? [],
+        productName: fixture.productName ?? "LegalEase RCAP",
+        shadowMode: true
+      });
+    } catch (error) {
+      check(false, `${doc.state}/${doc.track}: blanking ${field} threw instead of refusing (${error.message})`);
+      continue;
+    }
+    tokenRefusalsProven += 1;
+    check(refusedOnToken.rendered === false,
+      `${doc.state}/${doc.track}: rendered a document although the matter does not supply ${field} for ${token}`);
+    check((refusedOnToken.errors ?? []).some((message) => message.includes(token)),
+      `${doc.state}/${doc.track}: refused for a missing ${field} without naming ${token}`);
+    check((refusedOnToken.fullText ?? "") === "",
+      `${doc.state}/${doc.track}: refused for a missing ${field} but still produced document text`);
+  }
+
   const pres = cfg.presentation;
   if (pres && pres.sovereignPartyName === null) {
     nullSovereignRendered += 1;
@@ -222,6 +314,11 @@ check(rendered >= 28, `only ${rendered} configs rendered; valid components must 
 // a blank. A drop here means the fail-closed path was removed, not satisfied.
 check(refused >= 13, `only ${refused} configs refused; the incomplete-presentation refusal path went untested`);
 check(nullSovereignRendered >= 1, "no null-sovereign config rendered; the ex parte suppression path went untested");
+// The eleven documents the token defect covered declare 25 value tokens between
+// them. Each one's fail-closed path is exercised above; a drop here means a
+// caption stopped depending on a matter fact it names.
+check(tokenRefusalsProven >= 20,
+  `only ${tokenRefusalsProven} caption tokens had their missing-fact refusal proven; the fail-closed path went untested`);
 
 if (failures.length > 0) {
   console.error(`verify-rcap-no-null-presentation FAILED: ${failures.length}/${checks} checks red`);
@@ -229,3 +326,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 console.log(`verify-rcap-no-null-presentation passed: ${checks} checks, ${rendered} live renders (${nullSovereignRendered} ex parte), no escaped null/undefined/NaN in any rendered pleading.`);
+console.log(`  caption tokens resolved from matter facts, each proven to refuse when unanswered: ${tokenRefusalsProven}`);
