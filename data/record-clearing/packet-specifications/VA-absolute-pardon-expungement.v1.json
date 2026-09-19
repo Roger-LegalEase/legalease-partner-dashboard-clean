@@ -166,7 +166,26 @@
           "kind": "static",
           "body": "Send this request only if the pardon document says it is an absolute pardon and says it is for a crime you did not commit. Enclose the certified pardon and ask the circuit court of the locality of conviction to enter the order required by Va. Code § 19.2-392.2(I) and forward it under subsection (K). Complete every case and pardon blank from the source records, then sign and date the request personally."
         }
-      ]
+      ],
+      "documentContract": {
+        "instrumentClass": "participant_filing",
+        "preparedBy": "participant",
+        "signer": "participant",
+        "recipient": "court",
+        "formApplicability": "custom_document_permitted",
+        "caseMode": "unresolved",
+        "executionType": "unresolved",
+        "serviceTreatment": "unresolved",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "masked_on_public_filing",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "executionType": "execution is not established for this route: the packet specifications and the pleading configs use different identifier spaces and this specification joins to no config, so execution must be sourced during this route's remediation.",
+          "serviceTreatment": "service treatment is not established for this route: this specification joins to no pleading config, so it must be sourced during this route's remediation.",
+          "caseMode": "the specification requires no case or cause number, so whether this opens a new matter is unstated.",
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      }
     },
     {
       "documentId": "records_checklist",
@@ -182,7 +201,26 @@
           "heading": "Records to obtain",
           "kind": "attachments"
         }
-      ]
+      ],
+      "documentContract": {
+        "instrumentClass": "attachment",
+        "preparedBy": "participant",
+        "signer": "none",
+        "recipient": "court",
+        "formApplicability": "not_a_filing",
+        "caseMode": "unresolved",
+        "executionType": "unresolved",
+        "serviceTreatment": "unresolved",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "masked_on_public_filing",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "executionType": "execution is not established for this route: the packet specifications and the pleading configs use different identifier spaces and this specification joins to no config, so execution must be sourced during this route's remediation.",
+          "serviceTreatment": "service treatment is not established for this route: this specification joins to no pleading config, so it must be sourced during this route's remediation.",
+          "caseMode": "the specification requires no case or cause number, so whether this opens a new matter is unstated.",
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      }
     },
     {
       "documentId": "filing_instructions",
@@ -218,7 +256,23 @@
           "heading": "Before sending",
           "kind": "participant_checklist"
         }
-      ]
+      ],
+      "documentContract": {
+        "instrumentClass": "participant_guidance",
+        "preparedBy": "participant",
+        "signer": "none",
+        "recipient": "participant",
+        "formApplicability": "not_a_filing",
+        "caseMode": "existing_case",
+        "executionType": "none",
+        "serviceTreatment": "no_service",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "no_sensitive_identifiers",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      }
     }
   ],
   "filingDestination": {

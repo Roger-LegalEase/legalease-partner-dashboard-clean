@@ -192,7 +192,12 @@
       "prompt": "What type of Mississippi court handled the case?",
       "helperText": "Find 'Justice,' 'County,' 'Circuit,' or 'Municipal' on the disposition or docket. A volunteer can help locate it. Stop if the case moved between courts or the court is unclear.",
       "questionType": "single_choice",
-      "options": ["Justice Court", "County Court", "Circuit Court", "Municipal Court"]
+      "options": [
+        "Justice Court",
+        "County Court",
+        "Circuit Court",
+        "Municipal Court"
+      ]
     },
     {
       "factId": "court_name",
@@ -258,7 +263,11 @@
       "prompt": "Does the official record confirm that an actual arrest was made?",
       "helperText": "Choose Yes only when an arrest record or court record confirms an arrest. A volunteer can help distinguish an arrest from a citation. Stop for a citation-only record, No, or Unsure.",
       "questionType": "single_choice",
-      "options": ["Yes", "No", "Unsure"]
+      "options": [
+        "Yes",
+        "No",
+        "Unsure"
+      ]
     },
     {
       "factId": "arrest_date",
@@ -300,7 +309,11 @@
       "prompt": "Does the official record confirm release after the arrest?",
       "helperText": "Choose Yes only when the record confirms release. A volunteer can help locate the release entry. Stop for No, Unsure, or no supporting record.",
       "questionType": "single_choice",
-      "options": ["Yes", "No", "Unsure"]
+      "options": [
+        "Yes",
+        "No",
+        "Unsure"
+      ]
     },
     {
       "factId": "release_date_or_record_source",
@@ -357,7 +370,10 @@
       "prompt": "Has the court or prosecutor confirmed the service address?",
       "helperText": "Choose Confirmed only after the court or prosecutor verifies the address. A volunteer can help make the call. Stop before completing service if the status remains unconfirmed.",
       "questionType": "single_choice",
-      "options": ["Confirmed by court or prosecutor", "To be confirmed before filing or service"]
+      "options": [
+        "Confirmed by court or prosecutor",
+        "To be confirmed before filing or service"
+      ]
     },
     {
       "factId": "other_recordkeeping_agencies",
@@ -398,7 +414,10 @@
       "prompt": "Do you want to include a true, participant-specific impact statement?",
       "helperText": "Choose Yes only if the statement is true for you. A volunteer can help record your own words. Stop rather than using a manufactured hardship statement.",
       "questionType": "single_choice",
-      "options": ["Yes", "No"]
+      "options": [
+        "Yes",
+        "No"
+      ]
     },
     {
       "factId": "personal_impact_statement",
@@ -416,7 +435,10 @@
       "prompt": "Is the certified disposition ready to insert as Exhibit A?",
       "helperText": "Choose Attached as Exhibit A only after the certified court record is physically or digitally inserted, not merely available. A volunteer can help inspect it. Stop before filing if Exhibit A is missing.",
       "questionType": "single_choice",
-      "options": ["Attached as Exhibit A", "Not attached"]
+      "options": [
+        "Attached as Exhibit A",
+        "Not attached"
+      ]
     },
     {
       "factId": "docket_sheet_exhibit_status",
@@ -426,7 +448,10 @@
       "prompt": "Is the docket sheet ready to insert as Exhibit B?",
       "helperText": "Choose Inserted as Exhibit B only after the court docket sheet is physically or digitally inserted, not merely available. A volunteer can help inspect it. Stop before filing if Exhibit B is missing.",
       "questionType": "single_choice",
-      "options": ["Inserted as Exhibit B", "Not inserted"]
+      "options": [
+        "Inserted as Exhibit B",
+        "Not inserted"
+      ]
     },
     {
       "factId": "case_outcome",
@@ -444,7 +469,11 @@
       "prompt": "Is this case, a related charge, or another case against you still pending?",
       "helperText": "Use the current docket rather than memory. A volunteer can help check it. Stop if any case is open or the answer is unclear.",
       "questionType": "single_choice",
-      "options": ["No", "Yes", "Unsure"]
+      "options": [
+        "No",
+        "Yes",
+        "Unsure"
+      ]
     },
     {
       "factId": "record_type",
@@ -462,7 +491,11 @@
       "prompt": "Did any charge involve trafficking, distribution, delivery, or manufacture?",
       "helperText": "Copy the charge wording from the record. A volunteer can help locate it. Stop if the charge description is unclear.",
       "questionType": "single_choice",
-      "options": ["No", "Yes", "Unsure"]
+      "options": [
+        "No",
+        "Yes",
+        "Unsure"
+      ]
     },
     {
       "factId": "disposition_record_wording",
@@ -480,7 +513,11 @@
       "prompt": "Was this a nonadjudication, diversion, pretrial intervention, intervention court, or drug court matter?",
       "helperText": "Check the docket and disposition. A volunteer can help read them. Stop if the answer is yes or unclear because those matters use a different route.",
       "questionType": "single_choice",
-      "options": ["No", "Yes", "Unsure"]
+      "options": [
+        "No",
+        "Yes",
+        "Unsure"
+      ]
     },
     {
       "factId": "open_co_defendant_matter",
@@ -490,7 +527,11 @@
       "prompt": "Was anyone charged with you whose case is still open?",
       "helperText": "Check the current docket. A volunteer can help locate co-defendant entries. Stop if a related case is open or the answer is unclear.",
       "questionType": "single_choice",
-      "options": ["No", "Yes", "Unsure"]
+      "options": [
+        "No",
+        "Yes",
+        "Unsure"
+      ]
     }
   ],
   "fieldOwnership": {
@@ -543,12 +584,40 @@
       "nonadjudication_or_diversion",
       "open_co_defendant_matter"
     ],
-    "serverOwnedRouteFacts": ["jurisdiction", "pathway_id", "route_key", "packet_family"],
-    "participantAtSigningFields": ["petition_signature", "petition_verification_signature", "petition_signature_date"],
-    "participantAtServiceFields": ["service_method", "service_date", "certificate_signature"],
-    "notaryOwnedFields": ["notary_signature", "notary_printed_name", "notary_commission_expiration", "notary_commission_identification_number", "notary_official_stamp"],
-    "prosecutorOwnedFields": ["approval_as_to_form_signature", "approval_as_to_form_date"],
-    "courtOwnedFields": ["judicial_findings", "order_entry_date", "judicial_signature", "clerk_certification", "court_seal"]
+    "serverOwnedRouteFacts": [
+      "jurisdiction",
+      "pathway_id",
+      "route_key",
+      "packet_family"
+    ],
+    "participantAtSigningFields": [
+      "petition_signature",
+      "petition_verification_signature",
+      "petition_signature_date"
+    ],
+    "participantAtServiceFields": [
+      "service_method",
+      "service_date",
+      "certificate_signature"
+    ],
+    "notaryOwnedFields": [
+      "notary_signature",
+      "notary_printed_name",
+      "notary_commission_expiration",
+      "notary_commission_identification_number",
+      "notary_official_stamp"
+    ],
+    "prosecutorOwnedFields": [
+      "approval_as_to_form_signature",
+      "approval_as_to_form_date"
+    ],
+    "courtOwnedFields": [
+      "judicial_findings",
+      "order_entry_date",
+      "judicial_signature",
+      "clerk_certification",
+      "court_seal"
+    ]
   },
   "finalVerificationRequirements": [
     "The participant copies the exact plaintiff, defendant, court, filing location, and case number from the original docket and certified disposition.",
@@ -575,7 +644,10 @@
           "kind": "static",
           "body": "This is a five-part self-help packet for the Mississippi non-conviction pathway in Miss. Code Ann. Section 99-19-71(4). It is prepared from the facts you verified against your records."
         },
-        { "heading": "Packet contents", "kind": "contents_list" },
+        {
+          "heading": "Packet contents",
+          "kind": "contents_list"
+        },
         {
           "heading": "Records to have beside you",
           "kind": "participant_checklist_summary"
@@ -590,7 +662,23 @@
           "kind": "static",
           "body": "LegalEase does not file this packet and does not guarantee relief. Before filing, confirm the filing method, local form preference, fee or waiver treatment, copy count, and service practice with the records office of the court that handled the case. Stop and get legal help when a record is ambiguous or a stopping condition in the instructions applies."
         }
-      ]
+      ],
+      "documentContract": {
+        "instrumentClass": "participant_guidance",
+        "preparedBy": "participant",
+        "signer": "none",
+        "recipient": "participant",
+        "formApplicability": "not_a_filing",
+        "caseMode": "existing_case",
+        "executionType": "none",
+        "serviceTreatment": "no_service",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "no_sensitive_identifiers",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      }
     },
     {
       "documentId": "ms-petition-for-expungement",
@@ -600,12 +688,19 @@
       "outputStrategy": "custom_pleading",
       "requirement": "required",
       "presentation": "pleading",
-      "manifestComponentIds": ["ms-nonconv-primary-filing-1"],
+      "manifestComponentIds": [
+        "ms-nonconv-primary-filing-1"
+      ],
       "sections": [
         {
           "heading": "PETITION FOR EXPUNCTION OF RECORD",
           "kind": "pleading_caption",
-          "fields": ["court_name", "case_caption_plaintiff_name", "case_caption_defendant_name", "case_number"]
+          "fields": [
+            "court_name",
+            "case_caption_plaintiff_name",
+            "case_caption_defendant_name",
+            "case_number"
+          ]
         },
         {
           "heading": "Introduction",
@@ -624,12 +719,26 @@
             {
               "id": "arrest-release-and-disposition",
               "text": "Petitioner was arrested on or about {{arrest_date}} in {{arrest_location}}, within the jurisdiction of this Court, by {{arresting_agency}} and was charged with {{charge}}, classified in the record as {{charge_classification}}, in violation of {{charge_legal_citation}}. Petitioner was thereafter released following the arrest, as confirmed by {{release_date_or_record_source}}. The certified court record states that on or about {{disposition_date}} the case ended as follows: {{disposition_record_wording}}. The statutory case-ending category is {{statutory_disposition_category}}. A certified copy of the disposition is attached as Exhibit A. A copy of the docket sheet is attached as Exhibit B.",
-              "facts": ["arrest_date", "arrest_location", "arresting_agency", "charge", "charge_classification", "charge_legal_citation", "release_date_or_record_source", "disposition_date", "disposition_record_wording", "statutory_disposition_category"]
+              "facts": [
+                "arrest_date",
+                "arrest_location",
+                "arresting_agency",
+                "charge",
+                "charge_classification",
+                "charge_legal_citation",
+                "release_date_or_record_source",
+                "disposition_date",
+                "disposition_record_wording",
+                "statutory_disposition_category"
+              ]
             },
             {
               "id": "personal-impact",
               "text": "{{personal_impact_statement}}",
-              "facts": ["personal_impact_confirmed", "personal_impact_statement"]
+              "facts": [
+                "personal_impact_confirmed",
+                "personal_impact_statement"
+              ]
             },
             {
               "id": "entitlement",
@@ -642,7 +751,20 @@
           "heading": "AUTO",
           "kind": "pleading_identity_list",
           "body": "Petitioner presents the following relevant identifying information in support of this Petition:",
-          "fields": ["name_used_at_arrest", "aliases", "date_of_birth", "social_security_number_last_four", "arrest_date", "arresting_agency", "agency_case_number", "charge", "charge_legal_citation", "charge_classification", "race", "sex"],
+          "fields": [
+            "name_used_at_arrest",
+            "aliases",
+            "date_of_birth",
+            "social_security_number_last_four",
+            "arrest_date",
+            "arresting_agency",
+            "agency_case_number",
+            "charge",
+            "charge_legal_citation",
+            "charge_classification",
+            "race",
+            "sex"
+          ],
           "fieldLabels": {
             "name_used_at_arrest": "Name used at the time of arrest",
             "aliases": "Aliases shown on the record",
@@ -670,17 +792,42 @@
           "heading": "Respectfully submitted",
           "kind": "pro_se_signature_block",
           "body": "{{participant_full_legal_name}}, Petitioner, Pro Se",
-          "fields": ["participant_full_legal_name", "mailing_address", "phone_number", "email_address"]
+          "fields": [
+            "participant_full_legal_name",
+            "mailing_address",
+            "phone_number",
+            "email_address"
+          ]
         },
         {
           "heading": "VERIFICATION",
           "kind": "verification_on_oath",
           "body": "I, {{participant_full_legal_name}}, being first duly sworn, state that I am the Petitioner in this action; that I have read the foregoing Petition for Expunction of Record; and that the factual statements contained in the Petition are true and correct to the best of my knowledge, information, and belief.",
           "jurat": "Signed and sworn to or affirmed before me on this ______ day of ____________________, 20____, by {{participant_full_legal_name}}.",
-          "fields": ["participant_full_legal_name"],
+          "fields": [
+            "participant_full_legal_name"
+          ],
           "notarisationRequired": true
         }
-      ]
+      ],
+      "documentContract": {
+        "instrumentClass": "participant_filing",
+        "preparedBy": "participant",
+        "signer": "participant",
+        "recipient": "court",
+        "formApplicability": "custom_document_permitted",
+        "caseMode": "existing_case",
+        "executionType": "unresolved",
+        "serviceTreatment": "unresolved",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "sealed_or_confidential_addendum",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "executionType": "execution is not established for this route: the packet specifications and the pleading configs use different identifier spaces and this specification joins to no config, so execution must be sourced during this route's remediation.",
+          "serviceTreatment": "service treatment is not established for this route: this specification joins to no pleading config, so it must be sourced during this route's remediation.",
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      }
     },
     {
       "documentId": "ms-proposed-order",
@@ -690,12 +837,19 @@
       "outputStrategy": "custom_pleading",
       "requirement": "required",
       "presentation": "pleading",
-      "manifestComponentIds": ["ms-nonconv-proposed-order-2"],
+      "manifestComponentIds": [
+        "ms-nonconv-proposed-order-2"
+      ],
       "sections": [
         {
           "heading": "ORDER GRANTING EXPUNCTION OF RECORD",
           "kind": "pleading_caption",
-          "fields": ["court_name", "case_caption_plaintiff_name", "case_caption_defendant_name", "case_number"]
+          "fields": [
+            "court_name",
+            "case_caption_plaintiff_name",
+            "case_caption_defendant_name",
+            "case_number"
+          ]
         },
         {
           "heading": "Opening",
@@ -714,17 +868,30 @@
             {
               "id": "arrest",
               "text": "{{name_used_at_arrest}} was arrested on {{arrest_date}} by {{arresting_agency}} for {{charge}}, classified as {{charge_classification}}, in violation of {{charge_legal_citation}}.",
-              "facts": ["name_used_at_arrest", "arrest_date", "arresting_agency", "charge", "charge_classification", "charge_legal_citation"]
+              "facts": [
+                "name_used_at_arrest",
+                "arrest_date",
+                "arresting_agency",
+                "charge",
+                "charge_classification",
+                "charge_legal_citation"
+              ]
             },
             {
               "id": "release",
               "text": "Petitioner was released following the arrest, as confirmed by {{release_date_or_record_source}}.",
-              "facts": ["release_date_or_record_source"]
+              "facts": [
+                "release_date_or_record_source"
+              ]
             },
             {
               "id": "disposition",
               "text": "The case ended on {{disposition_date}} with this disposition: {{disposition_record_wording}}. The disposition falls within the statutory category {{statutory_disposition_category}}.",
-              "facts": ["disposition_date", "disposition_record_wording", "statutory_disposition_category"]
+              "facts": [
+                "disposition_date",
+                "disposition_record_wording",
+                "statutory_disposition_category"
+              ]
             },
             {
               "id": "entitlement",
@@ -737,7 +904,20 @@
           "heading": "Order identity",
           "kind": "pleading_identity_list",
           "body": "The record subject to this Order is identified as follows:",
-          "fields": ["name_used_at_arrest", "aliases", "date_of_birth", "social_security_number_last_four", "arrest_date", "arresting_agency", "agency_case_number", "charge", "charge_legal_citation", "charge_classification", "race", "sex"],
+          "fields": [
+            "name_used_at_arrest",
+            "aliases",
+            "date_of_birth",
+            "social_security_number_last_four",
+            "arrest_date",
+            "arresting_agency",
+            "agency_case_number",
+            "charge",
+            "charge_legal_citation",
+            "charge_classification",
+            "race",
+            "sex"
+          ],
           "fieldLabels": {
             "name_used_at_arrest": "Name used at the time of arrest",
             "aliases": "Aliases shown on the record",
@@ -775,7 +955,9 @@
           "heading": "",
           "kind": "court_signature_block",
           "body": "SO ORDERED AND ADJUDGED, this the ____ day of ____________________, 20____.",
-          "fields": ["court_type"]
+          "fields": [
+            "court_type"
+          ]
         },
         {
           "heading": "APPROVED AS TO FORM",
@@ -791,7 +973,24 @@
           "heading": "CONFIDENTIAL MCIC IDENTIFIER ADDENDUM",
           "kind": "confidential_identifier_addendum",
           "body": "COURT AND MCIC PROCESSING COPY - DO NOT INCLUDE IN PUBLIC OR SERVICE COPIES. This addendum uses the approved synthetic-review layout. A real packet requires the court of origin to confirm the identifier-delivery method before participant delivery.",
-          "fields": ["name_used_at_arrest", "aliases", "date_of_birth", "social_security_number", "arrest_date", "arresting_agency", "agency_case_number", "charge", "charge_legal_citation", "charge_classification", "race", "sex", "case_number", "disposition_record_wording", "mcic_identifier_delivery_method", "mcic_identifier_method_confirmation_source"],
+          "fields": [
+            "name_used_at_arrest",
+            "aliases",
+            "date_of_birth",
+            "social_security_number",
+            "arrest_date",
+            "arresting_agency",
+            "agency_case_number",
+            "charge",
+            "charge_legal_citation",
+            "charge_classification",
+            "race",
+            "sex",
+            "case_number",
+            "disposition_record_wording",
+            "mcic_identifier_delivery_method",
+            "mcic_identifier_method_confirmation_source"
+          ],
           "fieldLabels": {
             "name_used_at_arrest": "Name used at the time of arrest",
             "aliases": "Aliases shown on the record",
@@ -811,7 +1010,25 @@
             "mcic_identifier_method_confirmation_source": "Method Confirmation Source"
           }
         }
-      ]
+      ],
+      "documentContract": {
+        "instrumentClass": "proposed_order",
+        "preparedBy": "participant",
+        "signer": "judge",
+        "recipient": "court",
+        "formApplicability": "custom_document_permitted",
+        "caseMode": "existing_case",
+        "executionType": "unresolved",
+        "serviceTreatment": "unresolved",
+        "orderTreatment": "submits_proposed_order",
+        "privacyTreatment": "sealed_or_confidential_addendum",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "executionType": "execution is not established for this route: the packet specifications and the pleading configs use different identifier spaces and this specification joins to no config, so execution must be sourced during this route's remediation.",
+          "serviceTreatment": "service treatment is not established for this route: this specification joins to no pleading config, so it must be sourced during this route's remediation.",
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      }
     },
     {
       "documentId": "ms-service-and-attachments",
@@ -821,30 +1038,64 @@
       "outputStrategy": "custom_pleading",
       "requirement": "required",
       "presentation": "pleading",
-      "manifestComponentIds": ["ms-nonconv-certificate-of-service-3", "ms-nonconv-attachment-4"],
+      "manifestComponentIds": [
+        "ms-nonconv-certificate-of-service-3",
+        "ms-nonconv-attachment-4"
+      ],
       "sections": [
         {
           "heading": "CERTIFICATE OF SERVICE",
           "kind": "pleading_caption",
-          "fields": ["court_name", "case_caption_plaintiff_name", "case_caption_defendant_name", "case_number"]
+          "fields": [
+            "court_name",
+            "case_caption_plaintiff_name",
+            "case_caption_defendant_name",
+            "case_number"
+          ]
         },
         {
           "heading": "Certificate",
           "kind": "service_certificate",
           "body": "I, {{participant_full_legal_name}}, Petitioner pro se, certify that on the date stated below, I caused a true and correct copy of the foregoing Petition for Expunction of Record and proposed Order Granting Expunction of Record to be delivered to {{prosecuting_authority_name}}. Service-address status: {{service_address_confirmation_status}}. Service address: {{prosecuting_authority_service_address}}. The confidential MCIC identifier addendum must not be included in the service copy.",
-          "fields": ["participant_full_legal_name", "prosecuting_authority_name", "service_address_confirmation_status", "prosecuting_authority_service_address"]
+          "fields": [
+            "participant_full_legal_name",
+            "prosecuting_authority_name",
+            "service_address_confirmation_status",
+            "prosecuting_authority_service_address"
+          ]
         },
         {
           "heading": "ATTACHMENT ASSEMBLY STATUS",
           "kind": "pleading_identity_list",
           "body": "The filing package is not complete until the participant-supplied court records are inserted behind the Petition. A generated checklist or divider is not a court record.",
-          "fields": ["certified_disposition_exhibit_status", "docket_sheet_exhibit_status"],
+          "fields": [
+            "certified_disposition_exhibit_status",
+            "docket_sheet_exhibit_status"
+          ],
           "fieldLabels": {
             "certified_disposition_exhibit_status": "Exhibit A - Certified disposition",
             "docket_sheet_exhibit_status": "Exhibit B - Docket sheet"
           }
         }
-      ]
+      ],
+      "documentContract": {
+        "instrumentClass": "certificate_of_service",
+        "preparedBy": "participant",
+        "signer": "participant",
+        "recipient": "court",
+        "formApplicability": "custom_document_permitted",
+        "caseMode": "existing_case",
+        "executionType": "unresolved",
+        "serviceTreatment": "unresolved",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "sealed_or_confidential_addendum",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "executionType": "execution is not established for this route: the packet specifications and the pleading configs use different identifier spaces and this specification joins to no config, so execution must be sourced during this route's remediation.",
+          "serviceTreatment": "service treatment is not established for this route: this specification joins to no pleading config, so it must be sourced during this route's remediation.",
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      }
     },
     {
       "documentId": "ms-filing-and-next-steps",
@@ -853,21 +1104,60 @@
       "order": 5,
       "outputStrategy": "process_guidance",
       "requirement": "required",
-      "manifestComponentIds": ["ms-nonconv-instructions-5"],
+      "manifestComponentIds": [
+        "ms-nonconv-instructions-5"
+      ],
       "sections": [
-        { "heading": "Where this packet goes", "kind": "filing_destination" },
-        { "heading": "Confirm the fee or waiver", "kind": "fee_and_waiver" },
-        { "heading": "Service and local practice", "kind": "service_and_notice" },
-        { "heading": "Copies and records", "kind": "copy_requirements" },
+        {
+          "heading": "Where this packet goes",
+          "kind": "filing_destination"
+        },
+        {
+          "heading": "Confirm the fee or waiver",
+          "kind": "fee_and_waiver"
+        },
+        {
+          "heading": "Service and local practice",
+          "kind": "service_and_notice"
+        },
+        {
+          "heading": "Copies and records",
+          "kind": "copy_requirements"
+        },
         {
           "heading": "Limits after an order",
           "kind": "static",
           "body": "The proposed order directs covered custodians to purge, expunge, or destroy the arrest and charge records as Mississippi law requires, subject only to a nonpublic record of the expunction order that a statute permits. Keep a certified copy of any signed order and answer later questions according to the law that applies to the particular question."
         },
-        { "heading": "What happens next", "kind": "post_filing_timeline" },
-        { "heading": "Stop and get legal help", "kind": "hearing_and_objection_stops" },
-        { "heading": "Before you file", "kind": "participant_checklist" }
-      ]
+        {
+          "heading": "What happens next",
+          "kind": "post_filing_timeline"
+        },
+        {
+          "heading": "Stop and get legal help",
+          "kind": "hearing_and_objection_stops"
+        },
+        {
+          "heading": "Before you file",
+          "kind": "participant_checklist"
+        }
+      ],
+      "documentContract": {
+        "instrumentClass": "participant_guidance",
+        "preparedBy": "participant",
+        "signer": "none",
+        "recipient": "participant",
+        "formApplicability": "not_a_filing",
+        "caseMode": "existing_case",
+        "executionType": "none",
+        "serviceTreatment": "no_service",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "no_sensitive_identifiers",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      }
     }
   ],
   "filingDestination": {

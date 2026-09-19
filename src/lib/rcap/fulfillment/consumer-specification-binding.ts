@@ -6,6 +6,7 @@ import { createHash } from "node:crypto";
 import type { GradeAFulfillmentRecord } from "@/lib/rcap/fulfillment/grade-a-authority";
 import { stableStringify } from "@/lib/rcap/fulfillment/grade-a-registry";
 import { composablePacketSpecificationFor, packetSpecificationForTrack } from "@/lib/rcap/grade-a/packet-specification";
+import { specificationDocumentRefusals } from "@/lib/rcap/grade-a/document-contract";
 
 /** Resolve metadata, never approval. The evaluator and observation decide that.
  * Compare the registered specification to its actual source bytes: its embedded
@@ -35,6 +36,13 @@ export function consumerSpecificationBinding(
       const bytes = fs.readFileSync(path.join(process.cwd(), relative));
       if (createHash("sha256").update(bytes).digest("hex") !== record.packetSpecification.sha256) continue;
       if (stableStringify(JSON.parse(bytes.toString("utf8"))) === stableStringify(specification)) {
+        // The document contract decides whether this specification can produce a
+        // releasable court document at all. A component whose instrument,
+        // preparer, signer, execution, service or case mode is unresolved is not
+        // bound here: an unresolved attribute on a filed page is a document the
+        // participant cannot safely file, and a binding that ignored it would
+        // sell exactly that.
+        if (specificationDocumentRefusals(specification).length > 0) return null;
         return { specification, path: relative };
       }
     }
