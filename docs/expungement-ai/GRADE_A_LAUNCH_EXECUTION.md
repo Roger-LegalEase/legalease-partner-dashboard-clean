@@ -175,6 +175,28 @@ Proven: the Mississippi packet now composes with `certified_disposition_exhibit_
 service" — every external record still unfetched. Restoring the demand for any
 one ready answer reds the check.
 
+### The nationwide sweep this rule required
+
+Every participant-owned specification fact whose wording names an externally
+acquired record: **30**, and 28 of them ask for a **fact copied from** one —
+"conviction date, checked against the certified copy", "case number copied
+from the court record", "start of the two-year good-conduct period, confirmed
+from criminal history". That is the treatment the rule asks for: collect the
+fact, never the record.
+
+Facts that ask about **possession** rather than content: **2**, both
+Mississippi, both handled above. No other specification in the corpus has one.
+
+Participant-facing upload requirement anywhere in the packet journey: **none**.
+The only `upload` references under `src/lib/expungement-ai` are the privacy
+deletion sweep, which deletes uploads rather than asking for them.
+
+Held by control: `verify-rcap-prepurchase-render-facts.mjs`, 558 checks —
+every possession question must offer a truthful not-yet answer and be
+classified filing readiness, and each route carrying one must compose with
+every external record unfetched. Removing a not-yet answer reds 2; restoring
+the composer's demand for a ready answer reds 1.
+
 ## Two one-time classifications
 
 **The 354 filing-readiness strings with no Spanish — not launch localization

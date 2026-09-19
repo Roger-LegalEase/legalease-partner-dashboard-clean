@@ -357,6 +357,36 @@ for (const { routeKey, profile, pathway, readiness } of notYetProbes) {
       + " An externally acquired document must not make the packet un-generatable");
 }
 
+// --- INVARIANT 1, nationwide: no fact demands possession of a record --------
+//
+// A fact whose answers are about HAVING a document — "Attached as Exhibit A",
+// "Inserted as Exhibit B" — is a possession status, and the participant can
+// only answer the ready one by going to a clerk. Every one of these must offer
+// a truthful not-yet answer and must be classified as filing readiness, so the
+// not-yet composition proof above covers it. A new specification that adds a
+// possession question without a not-yet answer fails here rather than in a
+// participant's hands.
+
+const POSSESSION_ANSWER = /^(attached|inserted|obtained|received|have it)\b/i;
+let possessionFacts = 0;
+for (const routeKey of packetSpecificationRouteKeys()) {
+  const specification = packetSpecificationFor(routeKey);
+  for (const requiredFact of specification?.requiredFacts ?? []) {
+    const options = (requiredFact.options ?? []).filter((option) => typeof option === "string");
+    if (!options.some((option) => POSSESSION_ANSWER.test(option))) continue;
+    possessionFacts += 1;
+    check(options.some((option) => /^(not |to be )/i.test(option)),
+      `${routeKey}: ${requiredFact.factId} asks whether a record is in hand but offers no not-yet answer,`
+        + " so a participant who has not obtained it cannot answer truthfully");
+    const runtime = pathwayByRouteKey.get(routeKey);
+    const resolved = runtime ? resolutionFor(routeKey, runtime.profile, runtime.pathway, specification) : null;
+    if (!resolved) continue;
+    check(filingReadinessFactIds(resolved.resolution).includes(requiredFact.factId),
+      `${routeKey}: ${requiredFact.factId} asks whether a record is in hand but is not classified as filing readiness,`
+        + " so nothing proves the packet still composes when the participant has not obtained it");
+  }
+}
+
 // --- the mutations: prove the check can fail ---------------------------------
 
 const probeGate = (facts) => new Set(prepayGateFactIds({ facts }));
@@ -413,6 +443,7 @@ console.log(`  gate facts outside those two classes, proven required by the rend
 console.log(`  gate facts the packet composes without (later tasks blocking payment): ${renderProbe.overGated.length}`);
 console.log(`  filing-readiness tasks asked, with no particular answer required: ${externallyAcquired.length}`);
 console.log(`  routes proven to compose with every external record still unfetched: ${notYetProven}`);
+console.log(`  facts asking whether a record is in hand, each with a truthful not-yet answer: ${possessionFacts}`);
 for (const row of externallyAcquired) console.log(`    ${row}`);
 for (const row of renderProbe.unreachable) {
   console.log(`    not probed, route does not compose at all: ${row}`);
