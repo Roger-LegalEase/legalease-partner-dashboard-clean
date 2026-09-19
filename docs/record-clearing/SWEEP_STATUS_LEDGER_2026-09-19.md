@@ -56,9 +56,9 @@ decision and refused on every sponsored and credit surface.
 | Step | Finding | State |
 |---|---|---|
 | **132** | MS municipal approved-route specification-binding mismatch | Fail-closed under-delivery. Needs its own authoritative specification/binding, or explicit withdrawal of its approved/sellable status. Not to be fixed by relaxing the pathway check or by another allowlist literal |
-| **61** | CA `ca-1203-4a` served as `exact_supported_deferral` | `LEGAL_DECISION_REQUIRED`. Packet complete, proven and raster-passed; output legal approval and independent visual review are `REQUESTED` and ungranted. Record: `ROUTE_TREATMENT_AUDIT_61_CA_1203_4A_2026-09-19.md` |
-| **5A** | Runtime patch-spec drift — patches 10–13 match no recorded state | Unrecorded approved-state drift on money-path files. The most fundamental provenance gap remaining |
-| **5B** | CA evidence carrier | Held separately from 5A so resolving one does not bless the other |
+| **61** | CA 1203.4a packet implementation complete; legal/owner adoption pending; fail-closed | `LEGAL_DECISION_REQUIRED`. Packet complete, proven and raster-passed; output legal approval is `REQUESTED` and ungranted, and no CA record exists in the fulfillment registry. Record: `ROUTE_TREATMENT_AUDIT_61_CA_1203_4A_2026-09-19.md` |
+| **5A** | Runtime patch-spec drift — ten targets match no recorded state | Nine `SEMANTICALLY_EQUIVALENT_BUT_UNRECORDED` or `STRONGER_CONTROL_UNRECORDED`; **patch 11 `checkout/route.ts` is `AUTHORITY_CONFLICT`** — the approved control named two independent guards and one remains. No digest is eligible for rollover. Record: `AUTHORITY_RECONSTRUCTION_5A_5B_2026-09-19.md` |
+| **5B** | CA `ca-diversion-seal-primary-filing-2` dependency carrier | `APPROVED_SUCCESSOR_PROVEN` — produced by owner determination `DET-DT-CA-CRM307-001`, strictly narrowing. The stale digest lives in the frozen correction assignment, a different artifact; re-freezing it needs its own authority |
 
 ### Structural / content Lane B
 
