@@ -32,6 +32,7 @@ const SPEC_PATH = "data/record-clearing/packet-specifications/ND-first-offense-p
 const REGISTRY_PATH = "data/rcap-grade-a/fulfillment-authority-registry.json";
 const OBSERVATION_PATH = "data/rcap-grade-a/fulfillment-observation-snapshot.json";
 const PACKET_RECORDS_PATH = "data/rcap-ledger/packet-fulfillment-records.json";
+const WITHDRAWALS_PATH = "data/rcap-ledger/fulfillment-authority-withdrawals.json";
 const OUT_PATH = "data/rcap-lane-b/v2-candidate-record.json";
 
 const read = (rel) => fs.readFileSync(path.join(rootDir, rel), "utf8");
@@ -46,8 +47,29 @@ const spec = readJson(SPEC_PATH);
 const packetRecords = readJson(PACKET_RECORDS_PATH);
 const packetRecord = (packetRecords.records ?? []).find((entry) => entry.routeKey === spec.routeKey) ?? null;
 if (!packetRecord) {
-  console.error(`No packet fulfillment record for ${spec.routeKey}; the artifact evidence would have to be invented.`);
-  process.exit(1);
+  // An absent record is not automatically a defect. Since 0dd092d29 the
+  // repository states the rule: "A record may exist only when every proof the
+  // contract requires is present and valid ... incomplete proof means no record
+  // and every surface refuses." ND's record was withdrawn under exactly that
+  // rule on 2026-09-18, and the withdrawal is recorded append-only with the
+  // prior record, its hash, the date, the reason and every missing proof.
+  //
+  // This generator was written when the record existed and was not updated
+  // alongside the verifier that was, so it read a deliberate withdrawal as
+  // missing evidence. An absence the withdrawal ledger explains is the rule
+  // working; an absence nothing explains is still a refusal.
+  const withdrawal = (readJson(WITHDRAWALS_PATH).withdrawals ?? [])
+    .find((entry) => entry.routeKey === spec.routeKey) ?? null;
+  if (!withdrawal) {
+    console.error(`No packet fulfillment record for ${spec.routeKey}, and no withdrawal explains its absence; the artifact evidence would have to be invented.`);
+    process.exit(1);
+  }
+  console.log(`No v2 candidate for ${spec.routeKey}: its fulfillment record was withdrawn on ${withdrawal.withdrawnOn} by ${withdrawal.withdrawnBy}.`);
+  console.log(`  reason: ${withdrawal.reason}`);
+  for (const missing of withdrawal.missingProofs ?? []) console.log(`  still unproven: ${missing}`);
+  console.log(`  The withdrawal ledger preserves the prior record and its hash (${String(withdrawal.priorRecordSha256).slice(0, 16)}...).`);
+  console.log(`  ${OUT_PATH} is the worked template from before the withdrawal and is left as history; a candidate is not regenerated for a route whose authority was withdrawn.`);
+  process.exit(0);
 }
 const registry = readJson(REGISTRY_PATH);
 const observations = readJson(OBSERVATION_PATH);

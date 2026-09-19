@@ -95,7 +95,7 @@ decision and refused on every sponsored and credit surface.
 |---|---|
 | 17 / 18 | `data/rcap-all50/terminalization-treatments/` — four SC tracks carry a treatment the window never briefed |
 | ~~101~~ | ~~`f2-dispositions.json`~~ — **removed**: the Lane F verifier never reads it. 101 cleared outside Lane C |
-| 131 | `data/rcap-ledger/packet-fulfillment-records.json`, if it ever resolves |
+| ~~131~~ | ~~`packet-fulfillment-records.json`~~ — **removed from Lane C**. ND's record was deliberately withdrawn; re-adding it needs four external proofs, two of them the human gates AGENTS.md names as blocking live. This file does not move in this release |
 
 ### Awaiting terminal disposition
 
@@ -104,7 +104,7 @@ decision and refused on every sponsored and credit surface.
 | 1 / 122 | Provenance review — WA, NE, OH, OK at `SUPERSEDED_PIN_AWAITING_REREVIEW`; WV Q-J-04 re-pin | 32 counsel re-review units outstanding. C1/C2/C3 consume only `approved_current_bytes` |
 | 32 | PA, RI, VA, VT memos differ from `origin/feat/record-clearing-production-integration` | Source fidelity; needs an ownership decision on which side is authoritative |
 | 123 | Oregon: three configurations exist, superseded route recorded, none commercially open, and then `INCOMPLETE / not_commercially_eligible / eligible 6` | Needs a terminal statement of the Oregon position |
-| 131 | `ND:first-offense-possession-sealing` has no packet fulfillment record; the verifier refuses to invent one | Correct behaviour, but "correctly refusing" is not a disposition. ND needs a terminal source/ownership decision |
+| 131 | **CLEARED — `STALE_GENERATOR_ASSUMPTION`.** ND's terminal disposition already existed: commit `0dd092d29` (2026-09-18) **withdrew** its fulfillment record under a stated rule, append-only, preserving the prior record and hash. The generator predated that and read a deliberate withdrawal as missing evidence. It now consults `fulfillment-authority-withdrawals.json`: an explained absence is the rule working; an unexplained one still refuses (mutation-tested). **ND stays commercially refused** on four unproven gates: final-verification binding, official-source binding, legal/output approval, page-by-page visual approval |
 
 ## 132 terminal condition
 
