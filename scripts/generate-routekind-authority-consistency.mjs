@@ -92,11 +92,26 @@ function auditGates(jurisdiction, pathwayId) {
 }
 
 /**
- * The factual classification Roger asked for. It is decided by what the gates
- * do, not by what any ledger says about them.
+ * Whether a DISAGREEMENT is open for this route — which is not the same as
+ * whether its kind was adjudicated.
+ *
+ * The register is a disagreement queue, so a route with no row in it is not
+ * an unadjudicated route: it is a route nobody has recorded a contract-vs-
+ * heuristics conflict about. Treating "absent from the queue" as "authority
+ * missing" would imply the queue is a universal routeKind registry, which was
+ * already proven false. Eleven of the routes audited here have no row at all.
  */
-function classify(gates, adjudicated) {
-  if (adjudicated) return "AUTHORIZED_FACTORY_V2";
+function disagreementStatus(adj) {
+  if (!adj) return "none_recorded";
+  return adj.status && adj.status !== "pending" && adj.adjudicatedOn ? "resolved" : "unresolved";
+}
+
+/**
+ * The factual classification. Decided by what the gates do, not by what any
+ * ledger says about them.
+ */
+function classify(gates, disagreement) {
+  if (disagreement === "resolved") return "AUTHORIZED_FACTORY_V2";
   if (gates.reachesPaymentAllowedCheck) return "UNRESOLVED_AND_LOAD_BEARING";
   if (gates.firstGateThatRefuses === "assertPacketFulfillmentProven") return "TECHNICAL_ONLY_SAFE";
   return "UNRESOLVED_BUT_CURRENTLY_REFUSED";
@@ -145,7 +160,8 @@ function describe(pathwayKey, previouslyReported, nowReported) {
   const join = joinByKey.get(pathwayKey) ?? null;
   const resolved = row?.route?.routeKind ?? null;
 
-  const adjudicated = Boolean(adj && adj.status && adj.status !== "pending" && adj.adjudicatedOn);
+  const disagreement = disagreementStatus(adj);
+  const adjudicated = disagreement === "resolved";
   const gates = auditGates(pathwayKey.split(":")[0], pathwayKey.slice(pathwayKey.indexOf(":") + 1));
   // Load-bearing means the kind decides deliverability at checkout. Every kind
   // does, because payment-adapter refuses on whatever value it is handed; what
@@ -179,8 +195,9 @@ function describe(pathwayKey, previouslyReported, nowReported) {
     packetFamilies: join?.packetFamilies ?? [],
     familyBridgePresent: join?.familyBridgePresent ?? null,
     admittedToFactoryV2Registry: admitted.has(pathwayKey),
+    disagreementStatus: disagreement,
     runtimeGates: gates,
-    classification: classify(gates, adjudicated),
+    classification: classify(gates, disagreement),
     deliverabilityConsequence: permitsDelivery
       ? "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds"
       : `resolution returns ${JSON.stringify(resolved)}, so the checkout path refuses this route on routeKind grounds`,
@@ -239,7 +256,17 @@ const next = {
   whyItIsOpen:
     "Refreshing the legal-review decision sets on 2026-09-19 moved thirteen routeKinds to match the current closure. The refresh reported existing state and adjudicated nothing; it made visible that for some of these routes the register still says pending while resolution returns a kind and the checkout path acts on it.",
   scope:
-    "The thirteen routes whose reported kind moved on 2026-09-19, plus every other route the register calls pending whose resolved kind is factory_v2.",
+    "The thirteen routes whose reported kind moved on 2026-09-19, kept as the historical record of what opened this, plus EVERY route the disagreement queue currently leaves unresolved whose resolved kind is factory_v2. The second half is derived on every run, so a route that enters the queue tomorrow joins this audit and its tripwire without anyone editing a list.",
+  tripwire: {
+    watches:
+      "Routes whose routeKind disagreement is UNRESOLVED in the queue and whose runtime gates would let them pass the fulfillment boundary.",
+    derivedNotPinned:
+      "The watched population is recomputed from the queue and the current resolution on every run. The thirteen historical routes are recorded but do not define the boundary of the check.",
+    notScopedTo:
+      "Routes with no row in the queue are NOT watched as unadjudicated. The queue is a disagreement register, not a universal routeKind adjudication registry, so absence from it is not missing authority.",
+    invariant:
+      "No route with an unresolved routeKind disagreement may become commercially consequential merely because its technical routeKind permits rendering. Independent Grade-A fulfillment authority must remain mandatory first."
+  },
   totals: {
     routesExamined: rows.length,
     loadBearingAndUnadjudicated: loadBearing.length,
@@ -282,11 +309,17 @@ if (check) {
   // says so loudly instead of leaving it to be noticed later -- and it is a
   // report, not a new boundary: the boundary that holds is the one already in
   // assertCheckoutAllowed.
-  const reaching = rows.filter((r) => r.runtimeGates.reachesPaymentAllowedCheck);
+  // Scoped to an UNRESOLVED DISAGREEMENT, not to "unadjudicated" generally.
+  // A route with no row in the queue is not in a disagreement, and saying
+  // otherwise would treat the queue as a universal routeKind registry.
+  const reaching = rows.filter(
+    (r) => r.disagreementStatus === "unresolved" && r.runtimeGates.reachesPaymentAllowedCheck
+  );
   if (reaching.length > 0) {
     console.error(
-      `UNRESOLVED_AND_LOAD_BEARING: ${reaching.length} route(s) now pass every gate ahead of the paymentAllowed check ` +
-        "while their routeKind is unadjudicated. factory_v2 is standing in for an authority decision nobody made."
+      `UNRESOLVED_AND_LOAD_BEARING: ${reaching.length} route(s) with an OPEN routeKind disagreement now pass every gate ` +
+        "ahead of the paymentAllowed check. factory_v2 is standing in for a decision nobody made, and Grade-A " +
+        "fulfillment authority is no longer mandatory first for them."
     );
     for (const r of reaching) console.error(`  - ${r.pathwayKey}`);
     process.exit(1);
