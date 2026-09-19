@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "CASE-MODE-RESOLUTIONS-NV-CT-KS-2026-09-19",
+  "reviewer": "Captain (implementation finding; not a counsel approval)",
+  "reviewDate": "2026-09-19",
+  "familyId": "cross-jurisdiction-document-contract",
+  "question": "Of the documents whose documentContract.caseMode is unresolved, which are settled by the route's own recorded authority, and which are not?",
+  "method": "Each route compared on the six attributes that decide route shape before any value is assigned: governing authority, filing vehicle, destination and caption, actor and service, timing, and required component set. A value is assigned only where the authority names the case the filing goes into. A phrase that names only WHERE — a county, a locality — fixes venue, not the case, and leaves the value unresolved.",
+  "resolved": [
+    {
+      "route": "NV:probation-or-specialty-court-dismissal-set-aside-sealing",
+      "documents": ["primary_filing", "proposed_order", "declaration_and_verification"],
+      "caseMode": "existing_case",
+      "authority": "NV.memo tracks[nv_seal_probation_family].rules.filing — \"On the subsection 2 branch the defendant files a petition in the court that handled the case, and not sooner than seven years after the conditional dismissal or the setting aside of the judgment.\"",
+      "note": "These three are generated only on the subsection 2 branch, so the subsection 1 branch never reaches the question."
+    },
+    {
+      "route": "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+      "documents": ["ct-cleanslate-petition-primary-filing-1"],
+      "caseMode": "existing_case",
+      "authority": "CT.memo tracks[ct-cleanslate-petition].rules.filing — \"File the completed, sworn and notarized JD-CR-202 in the Superior Court G.A. location where you were sentenced... One docket number per form; the court cannot process a form covering more than one case.\"",
+      "note": "One docket per form is a statement that the filing is bound to an existing docket, not merely to a courthouse."
+    },
+    {
+      "route": "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+      "documents": ["ks-12-4516-municipal-primary-filing-1", "ks-12-4516-municipal-proposed-order-2"],
+      "caseMode": "existing_case",
+      "authority": "KS.memo tracks[ks-12-4516-municipal] — \"Petition for Expungement of a Kansas Municipal Court Conviction or Diversion under K.S.A. 12-4516\", filed with \"the clerk of the convicting municipal court\".",
+      "note": "The court is identified by the conviction it entered, which is the case."
+    }
+  ],
+  "notResolved": [
+    {
+      "route": "KS:municipal-arrest-record-expungement-under-12-4516a",
+      "documents": ["ks-12-4516a-municipal-arrest-primary-filing-1", "ks-12-4516a-municipal-arrest-proposed-order-2"],
+      "why": "\"the clerk of the municipal court where the ordinance charge was brought\" identifies the courthouse, not the docket. Its sibling 12-4516 says \"convicting\"; this one deliberately does not, and an arrest-record expungement may or may not attach to the charge's own case. Not inferred from the sibling.",
+      "alsoNeeded": "The memo's own caveat that a municipal court may publish its own expungement instrument is an unresolved localVariant on the same components."
+    },
+    {
+      "route": "VA:regime-1-expungement-available-now",
+      "documents": ["primary_filing", "records_checklist"],
+      "why": "VA.memo tracks[va_exp_absolute_pardon].rules.filing records \"Send the transmittal and request, with the certified pardon, to the clerk of the circuit court of the locality of conviction.\" A transmittal to a clerk of a locality's circuit court states neither a new civil docket nor an addition to the criminal file, and Va. Code § 19.2-392.2(I) is not quoted in the memo on that point.",
+      "alsoNeeded": "Whether this route's instrument is a civil petition opening its own docket or an administrative request into the existing file. That decides caseMode and the caption together."
+    },
+    {
+      "route": "IL:criminal-identity-theft-mistaken-identity-relief",
+      "documents": ["il-mistaken-identity-primary-filing-1"],
+      "why": "The component records \"Caption for the chief judge of the circuit where the arrest occurred\" and the specification's requiredFacts carry arrest_circuit but no case or docket number. A petition addressed to a chief judge with no docket suggests a proceeding of its own, and suggestion is not authority. The manifest records no filing action for this track at all.",
+      "alsoNeeded": "The recorded filing action for the track, and whether mistaken-identity relief attaches to the charge brought against the misidentified person."
+    },
+    {
+      "route": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "documents": ["or_acquittal-primary-filing-1", "or_acquittal-proposed-order-2"],
+      "why": "Decided separately: the route stands in for two statutory subsections that differ on legal basis, vehicle, service recipient and timing. It splits in §5 rather than taking a value or a conditional.",
+      "see": "data/record-clearing/legal-decisions/2026-09-19-or-137-225-case-mode-spans-two-situations.json"
+    }
+  ],
+  "routeShapeFindings": [
+    {
+      "route": "NV:probation-or-specialty-court-dismissal-set-aside-sealing",
+      "question": "Two mechanisms in one track — does it split, as Oregon does?",
+      "answer": "No. It is already split where it matters, and correctly.",
+      "evidence": "On the NRS 176A.245 subsection 1 branch the participant files nothing: the justice, municipal or district court orders the sealing itself after the discharge or dismissal, without a hearing, unless the Division petitions for good cause not to seal. On the subsection 2 branch the defendant petitions the court that handled the case, no sooner than seven years. The specification already marks primary_filing, proposed_order, declaration_and_verification and filing_and_service_instructions `conditional` on `subsection_2_petition_branch`, and ships detection_and_routing, branch_screen, discharge_type_screen and referral_instructions on both. Its participantChecklist is branch-aware throughout, including \"On the subsection 1 branch nothing is filed\".",
+      "consequence": "No fictitious participant filing is generated for the branch that has none, which is the defect the Build Plan's Nevada work package names. The route keeps one identity because the legal family is one — NRS 176A.245, .265 and .295 — while the document set follows the branch. Oregon differs because its branches sit on different subsections with different vehicles, service recipients and timing, and are NOT separated in its components."
+    }
+  ],
+  "implementation": "The three resolutions were applied by generalising the contract generator's existing 'which case' rule to the authority's own words — a court named by the case it already has (\"court that handled the case\", \"convicting municipal court\") or an explicit docket binding (\"one docket number per form\") — rather than by adding per-route exceptions. A phrase naming only a county or locality still falls through to unresolved, which is what keeps Oregon, Kansas 12-4516a, Virginia and Illinois honest.",
+  "supersedesOnly": "The unresolved caseMode on the six documents named under `resolved`. Nothing else changes.",
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "remainingReview": "Counsel review of each assignment remains required. CT and both Kansas specifications record legalSectionsBound: false and compose nothing today; Nevada is among the six pathway adjudications still awaiting commercial classification. No route is opened by this record."
+}

@@ -241,7 +241,22 @@ function contractFor(document, spec, configs) {
   // filed into that existing case. A route that commences a new action says so.
   const fileAction = (set?.participantActionRequired ?? []).find((a) => a.kind === "file");
   const fileWhere = String(fileAction?.description ?? "");
-  const filedIntoExisting = /convicting court|underlying (case|matter|conviction)|court (that|which) (heard|entered)|same court|court of conviction/i.test(fileWhere);
+  // "Which case does this go into?" stated in the authority's own words. Each
+  // alternative below is a court identified BY the case it already has, or an
+  // explicit statement that the filing is bound to one docket:
+  //
+  //   Nevada  — "the defendant files a petition in the court that handled the
+  //             case" (NRS 176A.245 subsection 2 branch)
+  //   Kansas  — "the clerk of the convicting municipal court" (K.S.A. 12-4516)
+  //   Connecticut — "One docket number per form; the court cannot process a
+  //             form covering more than one case" (JD-CR-202)
+  //
+  // A phrase that names only WHERE, like Oregon's "the circuit court of the
+  // county in which the person was arrested, cited or charged", fixes the
+  // county and not the case, and still falls through to unresolved. That is
+  // the distinction this list exists to keep.
+  const filedIntoExisting = /convicting( \w+)? court|underlying (case|matter|conviction)|court (that|which) (heard|entered|handled)|same court|court of conviction|one docket number per/i
+    .test(fileWhere);
   const commencesNew = /new (civil )?action|commenc|separate proceeding/i.test(fileWhere);
   const [caseMode, caseWhy] = guidance ? ["existing_case", null]
     : namesExistingCase ? ["existing_case", null]
