@@ -115,10 +115,80 @@ digest.** Deriving master-list rows from them would fabricate the very corpus
 facts — structural class, interactive field count, XFA status, contact-sheet
 evidence — that the generator refuses to invent.
 
-To close 22E-1, one of the three roots above must be mounted with the bytes the
+To close 22E-1, the authorized source corpus must be mounted with the bytes the
 register already names by digest. Then: run the canonical generator, let it
 derive the 25 rows and the denominator from those bytes, and run the
 problematic-PDF verifier. No part of this can be done from the repository alone.
+
+### Correction, same day — "one of the three roots" is wrong
+
+The sentence above originally read *"one of the three roots above must be
+mounted"*. Measured against `rcap-source-validation-mode.mjs`, that is not true,
+and acting on it would make the repository worse rather than better.
+
+**The reviewed sources span two separate packages, and both must be present.**
+`pdf-promotion-source-resolution.json` carries 52 rows, 46 of them with a
+`resolvedPath`. Those 46 split:
+
+| Package | Reviewed sources |
+|---|---|
+| `private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1` | 28 |
+| `private/Nationwide Record Clearing` | 18 |
+
+`sourceValidationMode()` returns `mounted_corpus` only when **every** one of the
+46 resolves under a present root. The three roots are not interchangeable mount
+points; the function says so in terms, and each source exists in its declared
+package only.
+
+Probed directly, this worktree:
+
+```
+no root mounted             mode=committed_promotion_proof  missing=0
+explicit root, empty dir    mode=partial_or_invalid_source_mount  missing=46
+```
+
+**A partial mount is worse than no mount.** If a root is materialized and the
+reviewed set is incomplete, the mode becomes `partial_or_invalid_source_mount`,
+which never falls back to proof mode — by design, because a half-mounted corpus
+is exactly where a silent demotion would look like a finding. So mounting one
+package would turn the currently-passing `--check` into a hard failure, and
+would do the same to every other consumer of this shared contract.
+
+### The recovery kit does not close it
+
+Kit `db8a02db11f3951dfffe34fa443d444d53ab4e09bce25767960905396a54f6f1`, staged by
+`scripts/rcap-corpus/stage-nationwide-recovery-pool.mjs`. Measured by hashing the
+kit's content-addressed pool directly rather than reading
+`POOL_INDEX.json` — a filename that is its own hash is an assertion, not a
+verification:
+
+- 876 pool files, 876 distinct digests;
+- **all 25 Colorado register digests are present** — the assets are recoverable;
+- **all 46 reviewed-source digests are present** — the bytes exist.
+
+And it still does not close 22E-1, for two independent reasons:
+
+1. the kit restores **513 of the 583** files in the Nationwide restore manifest.
+   70 are absent, 55 of them PDFs — including CO JDF 418, 477, 478, 611, 612 and
+   615 at digests the manifest names. The custody is honestly declared
+   `PARTIAL_NATIONWIDE_RECOVERY_POOL`, `completeOperationalCorpus: false`;
+2. it restores **none** of the Master Library package, which holds 28 of the 46
+   reviewed sources. The kit's 18 Nationwide reviewed sources are in the restore
+   manifest; the other 28 are not in it at all.
+
+Staging it writes to `private/source-imports/Nationwide_Recovery_Pool_2026-09-02`,
+which materializes `private/source-imports` — the Master Library's own declared
+root — without the Master Library in it. Those 28 sources then count as
+`missing` rather than `notMaterialized`, and the mode drops to
+`partial_or_invalid_source_mount`. **Do not stage the pool in this worktree to
+try to close 22E-1.** That the pool holds matching bytes is not the same fact as
+a mounted package: `locateExpectedSource` resolves by basename under a declared
+root, and a content-addressed pool has no basenames to find.
+
+So the external dependency is sharper than first stated: **both** the Edition 1
+Master Library and a complete 583-file Nationwide corpus, each at its declared
+path. Neither is here, and `OFFICIAL_FORMS_SOURCE_DIR` still appears nowhere in
+`.github/workflows/rcap-all50-handoff.yml`.
 
 ## Why the red should stay
 
