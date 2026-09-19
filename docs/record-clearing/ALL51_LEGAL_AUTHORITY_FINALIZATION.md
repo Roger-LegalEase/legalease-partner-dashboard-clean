@@ -14,7 +14,7 @@
 8. launch graph (data/rcap-ledger/launch-graph.json)
 
 The memo directory is an import from `feat/record-clearing-production-integration` @ `3b6f4c10`,
-51 files, 11860674 bytes, each hashed in the manifest.
+51 files, 11862844 bytes, each hashed in the manifest.
 This directory is an import, not a second editable source of truth. Corrections belong upstream and are re-imported.
 
 ## 4. Release-question denominator
@@ -33,10 +33,9 @@ This directory is an import, not a second editable source of truth. Corrections 
 
 | Owner | Questions |
 |---|---:|
-| source_acquisition | 514 |
+| source_acquisition | 517 |
 | engineering | 202 |
 | counsel | 130 |
-| (unmapped) | 3 |
 | **SUM** | **849** |
 
 ## 2. The 33 rows that reach no registry track

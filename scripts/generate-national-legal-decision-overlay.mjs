@@ -309,6 +309,34 @@ const crosswalk = readJson(CROSSWALK);
 // Out-of-scope ids are recorded in the crosswalk, which is where the decision
 // about a question's scope belongs, with EXPECTED as the floor that stops one
 // silently disappearing.
+/*
+ * Per-question, because a shared rationale was a false one.
+ *
+ * Every out-of-scope entry used to be published with `sourceTask`'s single
+ * reason and `SOURCE_TASK` itself. That reason is Mississippi's: it names
+ * § 99-19-72, the two MS routes and the ms-misd-addl binding. It is true of
+ * Q-018, which IS the MS question. It was also being attached to Q-057, which
+ * is KENTUCKY — so the overlay published, against a Kentucky question, a
+ * rationale describing a Mississippi filing-fee binding, citing a Mississippi
+ * source task.
+ *
+ * Being outside a dated report's scope says that report did not answer the
+ * question. It is not an answer, and none of these leaves `legalStatus: OPEN`.
+ */
+const outOfScopeReasons = () => ({
+  "Q-018": {
+    reason: sourceTask?.outOfReportScopeReason ?? null,
+    sourceTask: SOURCE_TASK
+  },
+  "Q-057": {
+    reason: "Kentucky, ky_misdemeanor_expungement. Entered the register after the 2026-08-28 national report's intake was taken, so the report does not carry it and cannot have answered it. No Mississippi source task applies to this question. It remains OPEN.",
+    sourceTask: null
+  },
+  "Q-058": {
+    reason: "Kentucky, ky_void_seal_marijuana_synthetic_salvia. Entered the register after the 2026-08-28 national report's intake was taken: commit c5c0f3d50 regenerated the sellable-pathway closure after the track-terminalization ledger was brought current, binding KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276 to the track that already carried this question, which is what let the paid-pathway legal join reach it. The question asks for counsel ratification of the static legal propositions the generated motion asserts; no Mississippi source task applies. It remains OPEN.",
+    sourceTask: null
+  }
+});
 const outOfScope = new Set([...EXPECTED.outOfScopeQuestionIds, ...(crosswalk.outOfReportScope ?? [])]);
 
 if (crosswalk.reportSha256 !== REPORT_SHA256) {
@@ -483,11 +511,18 @@ const overlay = {
   scope: {
     reportAnswers: reportQuestions.length,
     registerOpenQuestions: registerOpen.length,
-    registerQuestionsOutOfReportScope: [...outOfScope].map((questionId) => ({
-      questionId,
-      reason: sourceTask?.outOfReportScopeReason ?? null,
-      sourceTask: SOURCE_TASK
-    })),
+    registerQuestionsOutOfReportScope: [...outOfScope].map((questionId) => {
+      const entry = outOfScopeReasons()[questionId];
+      if (!entry) {
+        // `fail` accumulates rather than throws, so the placeholder below is
+        // what keeps the run from dying on the next property read. The run
+        // still exits non-zero, and it publishes no borrowed rationale.
+        fail(`${questionId} is recorded out of the report's scope with no reason of its own; `
+          + "a question may not inherit another question's rationale");
+        return { questionId, reason: null, sourceTask: null };
+      }
+      return { questionId, reason: entry.reason, sourceTask: entry.sourceTask };
+    }),
     note: "The report and the register number questions differently. The register interleaves the six already-decided questions and one that entered after the report's intake, so report Q-001..Q-049 do not align with register Q-001..Q-049."
   },
   deliveryCounts,

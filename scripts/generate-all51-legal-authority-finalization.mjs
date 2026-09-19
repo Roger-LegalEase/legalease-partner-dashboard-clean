@@ -105,7 +105,17 @@ for (const track of memoTracks) {
     questionTotal += 1;
     const basis = question.provenance?.classificationBasis ?? "(no provenance recorded)";
     byProvenance[basis] = (byProvenance[basis] ?? 0) + 1;
-    const owner = QUESTION_OWNER[basis];
+    /*
+     * Explicit ownership wins over inference.
+     *
+     * `classificationBasis` says where a question CAME FROM, not which lane
+     * resolves it: an independent review can raise a counsel question, and
+     * owner-relayed research can surface a legal one. Mapping those bases to an
+     * owner would have been a claim about every future question of that class.
+     * A question may instead state its own `resolutionLane`, which is read here
+     * and leaves provenance untouched.
+     */
+    const owner = question.resolutionLane ?? QUESTION_OWNER[basis];
     if (!owner) uncategorized.push({ jurisdiction: track.jurisdiction, trackId: track.trackId, basis });
     byOwner[owner ?? "(unmapped)"] = (byOwner[owner ?? "(unmapped)"] ?? 0) + 1;
     const element = question.affectedElement ?? "(unstated)";
@@ -122,6 +132,7 @@ const releaseQuestions = {
   byAffectedElement: byElement,
   elementSum: Object.values(byElement).reduce((a, b) => a + b, 0),
   unmappedProvenance: uncategorized,
+  ownershipModel: "An owner comes from the question's own resolutionLane where it states one, and otherwise from QUESTION_OWNER keyed on classificationBasis. Provenance records origin; resolutionLane records which lane resolves it. The two are independent and neither is inferred from the other.",
   correction: "The previously published breakdown listed three provenance categories summing to 853 and omitted batch_decision_matrix, which has exactly one member. The total of 854 was correct; the published categories were not exhaustive. Every category is now emitted, including categories of size one."
 };
 

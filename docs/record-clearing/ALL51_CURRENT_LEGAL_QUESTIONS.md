@@ -19,7 +19,9 @@ Open immediate assignments: 0 (4 answered by the report). Legal-research tracks 
 
 **Q-018 is outside the report's scope.** Entered the register after the national report's intake was taken. Binding MS:additional-justice-court-misdemeanor-relief-9-11-15-3 and MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl surfaced the Miss. Code Ann. § 99-19-72 filing-fee question, which the report's controlling intake did not carry and which it therefore does not answer.
 
-**Q-057 is outside the report's scope.** Entered the register after the national report's intake was taken. Binding MS:additional-justice-court-misdemeanor-relief-9-11-15-3 and MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl surfaced the Miss. Code Ann. § 99-19-72 filing-fee question, which the report's controlling intake did not carry and which it therefore does not answer.
+**Q-057 is outside the report's scope.** Kentucky, ky_misdemeanor_expungement. Entered the register after the 2026-08-28 national report's intake was taken, so the report does not carry it and cannot have answered it. No Mississippi source task applies to this question. It remains OPEN.
+
+**Q-058 is outside the report's scope.** Kentucky, ky_void_seal_marijuana_synthetic_salvia. Entered the register after the 2026-08-28 national report's intake was taken: commit c5c0f3d50 regenerated the sellable-pathway closure after the track-terminalization ledger was brought current, binding KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276 to the track that already carried this question, which is what let the paid-pathway legal join reach it. The question asks for counsel ratification of the static legal propositions the generated motion asserts; no Mississippi source task applies. It remains OPEN.
 
 | Classification | Questions |
 |---|---:|

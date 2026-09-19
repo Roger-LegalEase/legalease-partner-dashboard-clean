@@ -215,8 +215,8 @@
       },
       {
         "path": "data/record-clearing/legal-design-intake/RI.memo.json",
-        "sha256": "dfd9d6cd3f131505e2e23165ed176b630edc88c74a1063b5b71041b93a32d677",
-        "bytes": 289374
+        "sha256": "1578af10f08491a9ce8d87c8736096559b2f226a27db3a3cd01204d897e3e5cb",
+        "bytes": 291110
       },
       {
         "path": "data/record-clearing/legal-design-intake/SC.memo.json",
@@ -270,11 +270,11 @@
       },
       {
         "path": "data/record-clearing/legal-design-intake/WY.memo.json",
-        "sha256": "f210755837e1eecc6bae4505c812a2b4300cd1e282e8c90189291a9a50c8470b",
-        "bytes": 192959
+        "sha256": "a34eeba4c27bd158a7081f691d38b1dc27d6bbd876de8aa5222a2ea3ca953cdc",
+        "bytes": 193393
       }
     ],
-    "totalBytes": 11860674,
+    "totalBytes": 11862844,
     "fileCount": 51
   },
   "memoCorpus": {
@@ -300,9 +300,8 @@
     "provenanceSum": 849,
     "byOwner": {
       "engineering": 202,
-      "source_acquisition": 514,
-      "counsel": 130,
-      "(unmapped)": 3
+      "source_acquisition": 517,
+      "counsel": 130
     },
     "ownerSum": 849,
     "byAffectedElement": {
@@ -320,23 +319,8 @@
       "venue": 11
     },
     "elementSum": 849,
-    "unmappedProvenance": [
-      {
-        "jurisdiction": "RI",
-        "trackId": "ri_first_offender_misdemeanor",
-        "basis": "independent_review_finding"
-      },
-      {
-        "jurisdiction": "RI",
-        "trackId": "ri_multiple_misdemeanors",
-        "basis": "independent_review_finding"
-      },
-      {
-        "jurisdiction": "WY",
-        "trackId": "wy_traffick_6_2_708",
-        "basis": "owner_relayed_research"
-      }
-    ],
+    "unmappedProvenance": [],
+    "ownershipModel": "An owner comes from the question's own resolutionLane where it states one, and otherwise from QUESTION_OWNER keyed on classificationBasis. Provenance records origin; resolutionLane records which lane resolves it. The two are independent and neither is inferred from the other.",
     "correction": "The previously published breakdown listed three provenance categories summing to 853 and omitted batch_decision_matrix, which has exactly one member. The total of 854 was correct; the published categories were not exhaustive. Every category is now emitted, including categories of size one."
   },
   "noTrackRows": {
