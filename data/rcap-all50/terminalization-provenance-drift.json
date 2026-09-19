@@ -1,0 +1,487 @@
+{
+  "schemaVersion": "rcap-terminalization-provenance-drift/v1",
+  "generatedBy": "scripts/generate-rcap-terminalization-provenance-drift.mjs",
+  "purpose": "Every terminalization artifact under data/rcap-all50/ whose provenance pins a compiled profile digest that the committed profile no longer has. The pin records which bytes a review was performed against; where it no longer matches, the review on record certifies bytes that are not the bytes that ship. This inventory says which pins those are, when and by what commit the profile moved, and how far it moved. It does not decide whether the review would reach the same conclusion against the new bytes.",
+  "howItIsMeasured": {
+    "liveDigest": "sha256 of the committed profile file, recomputed at generation",
+    "pinnedBytesCurrentAt": "the most recent commit in the profile's history whose bytes hash to the pin",
+    "movedBy": "the commit immediately after that one in the profile's history",
+    "profileDelta": "leaf-by-leaf comparison of the pinned version against the committed one"
+  },
+  "totals": {
+    "recordsCarryingAProfilePin": 75,
+    "pinsCurrent": 7,
+    "pinsStale": 68,
+    "distinctProfileAndPinPairs": 13
+  },
+  "notCommerciallyExposed": {
+    "statement": "No route in this inventory carries commercial authority, and this inventory moved no route's commercial state.",
+    "howItIsKnown": "Commercial authority comes only from a Grade-A fulfillment record keyed to an exact route and packet family. None of these routes appears in data/rcap-grade-a/fulfillment-authority-registry.json, so none is sellable, checkout-enabled, sponsored or credit-consuming, and nothing here changed that.",
+    "consequence": "The condition is real and it blocks the canonical suite at verify-rcap-terminalize-c1. It exposes no participant to a packet sold on an uncertified basis."
+  },
+  "whyItIsNotRepairedHere": {
+    "statement": "Re-pinning these digests would make the suite green by asserting that each review covers bytes it was never performed against. That assertion is not the captain's to make.",
+    "detail": "The pins carry a reviewedAsOf date. Moving a pin forward without a review silently re-dates the review. Where a profile moved purely additively the question is narrower than where it lost or rewrote leaves, but it is the same question, and it is a legal one.",
+    "openedBy": "the Grade A 1.1 canonical chain reaching verify-rcap-terminalize-c1",
+    "owner": "legal review, with the owner deciding whether a re-review or a recorded supersession is the mechanism",
+    "doNotResolveHere": "Do not re-pin a profile digest to clear this check. Do not edit a reviewedAsOf date. Do not narrow the C1 verifier's provenance assertion."
+  },
+  "blocksCanonicalSuite": {
+    "verifier": "scripts/verify-rcap-terminalize-c1.mjs",
+    "reportedFailures": 10,
+    "note": "C1's scope is the sixteen lane-C jobs, so it reports a subset. The inventory below is the whole condition, which is why the two counts differ."
+  },
+  "stale": [
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+      "pinnedSha256": "2472302ba06713eab793ae06fc9fd9af8627993ce1b10bfba57a6e3894b9c9d3",
+      "liveSha256": "640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470",
+      "reviewedAsOf": [
+        "2026-07-30"
+      ],
+      "recordCount": 17,
+      "records": [
+        "data/rcap-all50/composed-routes/arkansas/ar-act346/components/ar-act346-primary-filing-2/dependency.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-act346/components/ar-act346-proposed-order-3/dependency.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-act346/components/ar-act346-records-authorization-0/dependency.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-act346/route.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-drug-court/components/ar-drug-court-primary-filing-2/dependency.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-drug-court/components/ar-drug-court-proposed-order-3/dependency.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-drug-court/components/ar-drug-court-records-authorization-0/dependency.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-drug-court/route.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/components/ar-pardon-seal-primary-filing-2/dependency.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/components/ar-pardon-seal-proposed-order-3/dependency.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/components/ar-pardon-seal-records-authorization-0/dependency.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/route.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-veterans-court/components/ar-veterans-court-primary-filing-2/dependency.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-veterans-court/components/ar-veterans-court-proposed-order-3/dependency.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-veterans-court/components/ar-veterans-court-records-authorization-0/dependency.json",
+        "data/rcap-all50/composed-routes/arkansas/ar-veterans-court/route.json",
+        "data/rcap-all50/composed-routes/arkansas/manifest.json"
+      ],
+      "pinnedBytesCurrentAt": {
+        "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+        "date": "2026-07-01",
+        "subject": "fix(rcap): enforce rule-driven packet eligibility"
+      },
+      "movedBy": {
+        "commit": "8fe797b489d0493466bb9b4dd859922985f2be98",
+        "date": "2026-08-25",
+        "subject": "fix: remove Arkansas phantom decision rule"
+      },
+      "profileDelta": {
+        "added": 118,
+        "removed": 115,
+        "changed": 233,
+        "purelyAdditive": false,
+        "pathwaysGained": [],
+        "pathwaysLost": []
+      }
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+      "pinnedSha256": "451fc6754e45f4b6cdffd948d5695daf6450d0b7e57e5a40b27c1fcb01ac9a09",
+      "liveSha256": "9043831f6364e446daed1da81d78bb9558d8674e34adff9c6c095b040f4d0c92",
+      "reviewedAsOf": [
+        "2026-07-30"
+      ],
+      "recordCount": 5,
+      "records": [
+        "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure/route.json",
+        "data/rcap-all50/composed-routes/connecticut/ct-nolle-auto/route.json",
+        "data/rcap-all50/composed-routes/connecticut/ct-under18-misdemeanor/route.json",
+        "data/rcap-all50/composed-routes/connecticut/manifest.json",
+        "data/rcap-all50/pleadings/connecticut/manifest.json"
+      ],
+      "pinnedBytesCurrentAt": {
+        "commit": "8840721b0f6b53cf9589ccfd4d1fc72a54dd4259",
+        "date": "2026-08-25",
+        "subject": "legal: gate route rules only on facts the flow actually guarantees"
+      },
+      "movedBy": {
+        "commit": "57288700817dc11bb53fb007e48677fb107b81ae",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane D question lifecycles"
+      },
+      "profileDelta": {
+        "added": 122,
+        "removed": 0,
+        "changed": 1,
+        "purelyAdditive": false,
+        "pathwaysGained": [
+          "petition-for-erasure-of-cannabis-conviction-records-under-54-142v"
+        ],
+        "pathwaysLost": []
+      }
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+      "pinnedSha256": "47a86bd5edec245949664a3302aecd1d077bafe11dad2876d866158c7437cdb7",
+      "liveSha256": "9043831f6364e446daed1da81d78bb9558d8674e34adff9c6c095b040f4d0c92",
+      "reviewedAsOf": [],
+      "recordCount": 5,
+      "records": [
+        "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure/components/ct-missed-erasure-despp-submission-2/dependency.json",
+        "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure/components/ct-missed-erasure-spbi-record-request-0/dependency.json",
+        "data/rcap-all50/composed-routes/connecticut/ct-nolle-auto/components/ct-nolle-auto-motion-to-nolle-2/dependency.json",
+        "data/rcap-all50/composed-routes/connecticut/ct-nolle-auto/components/ct-nolle-auto-pre-1972-petition-3/dependency.json",
+        "data/rcap-all50/composed-routes/connecticut/ct-under18-misdemeanor/components/ct-under18-misdemeanor-petition-branch-2/dependency.json"
+      ],
+      "pinnedBytesCurrentAt": {
+        "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+        "date": "2026-07-01",
+        "subject": "fix(rcap): enforce rule-driven packet eligibility"
+      },
+      "movedBy": {
+        "commit": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b",
+        "date": "2026-08-12",
+        "subject": "First terminalization integration window: B, C, E, D1 by owned path"
+      },
+      "profileDelta": {
+        "added": 152,
+        "removed": 15,
+        "changed": 37,
+        "purelyAdditive": false,
+        "pathwaysGained": [
+          "petition-for-erasure-of-cannabis-conviction-records-under-54-142v"
+        ],
+        "pathwaysLost": []
+      }
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+      "pinnedSha256": "8f857308ee82b7c9844d3828d7d87c78577f2aa297fe714ace1f953396008df7",
+      "liveSha256": "9043831f6364e446daed1da81d78bb9558d8674e34adff9c6c095b040f4d0c92",
+      "reviewedAsOf": [
+        "2026-07-30"
+      ],
+      "recordCount": 2,
+      "records": [
+        "data/rcap-all50/pleadings/connecticut/ct-cannabis-petition/pleading-config.json",
+        "data/rcap-all50/pleadings/connecticut/ct-decriminalized/pleading-config.json"
+      ],
+      "pinnedBytesCurrentAt": {
+        "commit": "8cd6b63851d6dc27d2eb8f500883bd663a63fc5b",
+        "date": "2026-08-28",
+        "subject": "One ratification authority, real source custody, a deterministic artifact"
+      },
+      "movedBy": {
+        "commit": "78e79be413c76d31a1bdd52039fb45c2134753b6",
+        "date": "2026-09-05",
+        "subject": "Give five proven families a runtime route identity of their own"
+      },
+      "profileDelta": {
+        "added": 116,
+        "removed": 0,
+        "changed": 0,
+        "purelyAdditive": true,
+        "pathwaysGained": [
+          "petition-for-erasure-of-cannabis-conviction-records-under-54-142v"
+        ],
+        "pathwaysLost": []
+      }
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+      "pinnedSha256": "e491c80d8c586ba7fd23e08d8693ddf4d0b2ada0eec746cde9e27dc77c391595",
+      "liveSha256": "7999f618fd374825e4a8fa611d141131afe06ce9f6139c5c2d608277704da914",
+      "reviewedAsOf": [
+        "2026-07-30"
+      ],
+      "recordCount": 1,
+      "records": [
+        "data/rcap-all50/pleadings/illinois/il-immediate-seal/pleading-config.json"
+      ],
+      "pinnedBytesCurrentAt": {
+        "commit": "053e8db1909c3af6395199148e41d04d62d84b7f",
+        "date": "2026-08-25",
+        "subject": "legal: consume authority contracts at runtime"
+      },
+      "movedBy": {
+        "commit": "182db85f597375bb583aadca499aa7f09f639b1d",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane E question lifecycles"
+      },
+      "profileDelta": {
+        "added": 15,
+        "removed": 0,
+        "changed": 18,
+        "purelyAdditive": false,
+        "pathwaysGained": [],
+        "pathwaysLost": []
+      }
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+      "pinnedSha256": "0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982",
+      "liveSha256": "69e8fcc87b696f1f953af4a164c5c9db405a90324f0385841ef26481b00273dd",
+      "reviewedAsOf": [
+        "2026-07-30"
+      ],
+      "recordCount": 4,
+      "records": [
+        "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json",
+        "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/route.json",
+        "data/rcap-all50/composed-routes/indiana/manifest.json",
+        "data/rcap-all50/pleadings/indiana/manifest.json"
+      ],
+      "pinnedBytesCurrentAt": {
+        "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+        "date": "2026-07-01",
+        "subject": "fix(rcap): enforce rule-driven packet eligibility"
+      },
+      "movedBy": {
+        "commit": "182db85f597375bb583aadca499aa7f09f639b1d",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane E question lifecycles"
+      },
+      "profileDelta": {
+        "added": 24,
+        "removed": 0,
+        "changed": 9,
+        "purelyAdditive": false,
+        "pathwaysGained": [],
+        "pathwaysLost": []
+      }
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "pinnedSha256": "441a89c697a0443e6b429e4f3be750d26af5e1bb31afbabd61800f020394b438",
+      "liveSha256": "277a4df1f6a1637cef00b9b493c968bdc1213e99fea5ffec95d87ec29b08bc4e",
+      "reviewedAsOf": [
+        "2026-08-06"
+      ],
+      "recordCount": 5,
+      "records": [
+        "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/route.json",
+        "data/rcap-all50/composed-routes/kentucky/manifest.json",
+        "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance/components/ky_void_seal_controlled_substance-proposed-order-2/dependency.json",
+        "data/rcap-all50/pleadings/kentucky/ky_void_seal_marijuana_synthetic_salvia/components/ky_void_seal_marijuana_synthetic_salvia-proposed-order-2/dependency.json",
+        "data/rcap-all50/pleadings/kentucky/manifest.json"
+      ],
+      "pinnedBytesCurrentAt": {
+        "commit": "8840721b0f6b53cf9589ccfd4d1fc72a54dd4259",
+        "date": "2026-08-25",
+        "subject": "legal: gate route rules only on facts the flow actually guarantees"
+      },
+      "movedBy": {
+        "commit": "182db85f597375bb583aadca499aa7f09f639b1d",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane E question lifecycles"
+      },
+      "profileDelta": {
+        "added": 123,
+        "removed": 0,
+        "changed": 6,
+        "purelyAdditive": false,
+        "pathwaysGained": [
+          "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276"
+        ],
+        "pathwaysLost": []
+      }
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "pinnedSha256": "4f27411ff96682aebd9e72dbe347ed2aa8059af585286b412cd14a1ffffcf672",
+      "liveSha256": "277a4df1f6a1637cef00b9b493c968bdc1213e99fea5ffec95d87ec29b08bc4e",
+      "reviewedAsOf": [
+        "2026-08-06"
+      ],
+      "recordCount": 3,
+      "records": [
+        "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-primary-filing-1/pleading-config.json",
+        "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance/pleading-config.json",
+        "data/rcap-all50/pleadings/kentucky/ky_void_seal_marijuana_synthetic_salvia/pleading-config.json"
+      ],
+      "pinnedBytesCurrentAt": {
+        "commit": "8cd6b63851d6dc27d2eb8f500883bd663a63fc5b",
+        "date": "2026-08-28",
+        "subject": "One ratification authority, real source custody, a deterministic artifact"
+      },
+      "movedBy": {
+        "commit": "78e79be413c76d31a1bdd52039fb45c2134753b6",
+        "date": "2026-09-05",
+        "subject": "Give five proven families a runtime route identity of their own"
+      },
+      "profileDelta": {
+        "added": 116,
+        "removed": 0,
+        "changed": 0,
+        "purelyAdditive": true,
+        "pathwaysGained": [
+          "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276"
+        ],
+        "pathwaysLost": []
+      }
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+      "pinnedSha256": "2b9380c023275fce405992af514d59041ac077a164f4e48ff92bb0876f19fe96",
+      "liveSha256": "a553e31c98c22fea178d994d0617c8471f6c51a5908920991da0c1bf87d50d47",
+      "reviewedAsOf": [
+        "2026-08-03"
+      ],
+      "recordCount": 7,
+      "records": [
+        "data/rcap-all50/composed-routes/montana/manifest.json",
+        "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-certificate-of-service-2/dependency.json",
+        "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-fee-waiver-0/dependency.json",
+        "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-primary-filing-1/dependency.json",
+        "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-primary-filing-5/dependency.json",
+        "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-proposed-order-3/dependency.json",
+        "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/route.json"
+      ],
+      "pinnedBytesCurrentAt": {
+        "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+        "date": "2026-07-01",
+        "subject": "fix(rcap): enforce rule-driven packet eligibility"
+      },
+      "movedBy": {
+        "commit": "353dba2d307de315f042ade5f8d45ea4e94d96f7",
+        "date": "2026-08-25",
+        "subject": "legal: bind the approved route contracts into the compiled profiles"
+      },
+      "profileDelta": {
+        "added": 126,
+        "removed": 70,
+        "changed": 33,
+        "purelyAdditive": false,
+        "pathwaysGained": [],
+        "pathwaysLost": []
+      }
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+      "pinnedSha256": "5d86879a794303a7b38faa37533db4037a356eb017f8a3229e62c51041309dc4",
+      "liveSha256": "8f99b36519cf35b6ead155799f81605d045e55cad19b1c7d11a931f48b3097aa",
+      "reviewedAsOf": [],
+      "recordCount": 9,
+      "records": [
+        "data/rcap-all50/composed-routes/texas/manifest.json",
+        "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-fee-waiver-statement-4/dependency.json",
+        "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-petition-2/dependency.json",
+        "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-proposed-order-3/dependency.json",
+        "data/rcap-all50/pleadings/texas/manifest.json",
+        "data/rcap-all50/pleadings/texas/tx_exp_mistaken_identity/components/tx_exp_mistaken_identity-fee-waiver-statement-4/dependency.json",
+        "data/rcap-all50/pleadings/texas/tx_exp_pardon_other/components/tx_exp_pardon_other-fee-waiver-statement-3/dependency.json",
+        "data/rcap-all50/pleadings/texas/tx_exp_specialty_court/components/tx_exp_specialty_court-fee-waiver-statement-5/dependency.json",
+        "data/rcap-all50/pleadings/texas/tx_exp_unlawful_carry/components/tx_exp_unlawful_carry-fee-waiver-statement-3/dependency.json"
+      ],
+      "pinnedBytesCurrentAt": {
+        "commit": "053e8db1909c3af6395199148e41d04d62d84b7f",
+        "date": "2026-08-25",
+        "subject": "legal: consume authority contracts at runtime"
+      },
+      "movedBy": {
+        "commit": "b86326a3e488fa465c53ecb357f5b41cdbda0af4",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane I question lifecycles"
+      },
+      "profileDelta": {
+        "added": 16,
+        "removed": 0,
+        "changed": 2,
+        "purelyAdditive": false,
+        "pathwaysGained": [],
+        "pathwaysLost": []
+      }
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+      "pinnedSha256": "1a4267ce65b9ddc15a65e086cfba2860d088b06b4cd5ad801bda22514fecf9af",
+      "liveSha256": "36244c88348385637b1b282a56c6c2149389006a14a5924cfe367e8f95ffb283",
+      "reviewedAsOf": [
+        "2026-08-01"
+      ],
+      "recordCount": 3,
+      "records": [
+        "data/rcap-all50/composed-routes/vermont/manifest.json",
+        "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/components/vt_exp_deferred_sentence-record-check-0/dependency.json",
+        "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/route.json"
+      ],
+      "pinnedBytesCurrentAt": {
+        "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+        "date": "2026-07-01",
+        "subject": "fix(rcap): enforce rule-driven packet eligibility"
+      },
+      "movedBy": {
+        "commit": "b86326a3e488fa465c53ecb357f5b41cdbda0af4",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane I question lifecycles"
+      },
+      "profileDelta": {
+        "added": 17,
+        "removed": 0,
+        "changed": 3,
+        "purelyAdditive": false,
+        "pathwaysGained": [],
+        "pathwaysLost": []
+      }
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+      "pinnedSha256": "0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78",
+      "liveSha256": "bf9709154f74544ea0f5089439b822c88226ea42a031f8ccdfc72f29417a5f00",
+      "reviewedAsOf": [
+        "2026-08-01"
+      ],
+      "recordCount": 5,
+      "records": [
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-certificate-of-service-5/pleading-config.json",
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-primary-filing-1/pleading-config.json",
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-secondary-filing-3/pleading-config.json",
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-affidavit-2/pleading-config.json",
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-timeline-4/pleading-config.json"
+      ],
+      "pinnedBytesCurrentAt": {
+        "commit": "8cd6b63851d6dc27d2eb8f500883bd663a63fc5b",
+        "date": "2026-08-28",
+        "subject": "One ratification authority, real source custody, a deterministic artifact"
+      },
+      "movedBy": {
+        "commit": "9ad720a34407639fe3bbada728414ddd4cceb19f",
+        "date": "2026-09-13",
+        "subject": "Reconcile WV selected SCA-C903 source structure and page ownership"
+      },
+      "profileDelta": {
+        "added": 30,
+        "removed": 0,
+        "changed": 12,
+        "purelyAdditive": false,
+        "pathwaysGained": [],
+        "pathwaysLost": []
+      }
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+      "pinnedSha256": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+      "liveSha256": "bf9709154f74544ea0f5089439b822c88226ea42a031f8ccdfc72f29417a5f00",
+      "reviewedAsOf": [
+        "2026-08-01"
+      ],
+      "recordCount": 2,
+      "records": [
+        "data/rcap-all50/composed-routes/west-virginia/manifest.json",
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/route.json"
+      ],
+      "pinnedBytesCurrentAt": {
+        "commit": "053e8db1909c3af6395199148e41d04d62d84b7f",
+        "date": "2026-08-25",
+        "subject": "legal: consume authority contracts at runtime"
+      },
+      "movedBy": {
+        "commit": "b86326a3e488fa465c53ecb357f5b41cdbda0af4",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane I question lifecycles"
+      },
+      "profileDelta": {
+        "added": 220,
+        "removed": 110,
+        "changed": 33,
+        "purelyAdditive": false,
+        "pathwaysGained": [],
+        "pathwaysLost": []
+      }
+    }
+  ]
+}
