@@ -107,7 +107,25 @@ if (CHILD) {
 
   const failures = [];
   let checks = 0;
-  const check = (ok, message) => { checks += 1; if (!ok) failures.push(message); };
+  /**
+   * Named invariants, so the mutation harness can attribute a result.
+   *
+   * The parent used to decide every case from the child's EXIT STATUS. With
+   * four unresolved findings the census is red before any mutation, so a
+   * nonzero exit proved nothing: a no-op mutation, an unrelated crash and a
+   * genuinely removed guard were indistinguishable, and the forged-ledger case
+   * could report "reopened a commercial surface" when the forged rows changed
+   * nothing. Each invariant now reports its own satisfied/violated state and the
+   * exact routes, and the parent asserts the transition it is testing for.
+   */
+  const signals = {};
+  const check = (ok, message, id = null) => {
+    checks += 1;
+    if (id) signals[id] = { satisfied: Boolean(ok), detail: ok ? "" : String(message) };
+    if (!ok) failures.push(message);
+  };
+  const signalRoutes = {};
+  const withRoutes = (id, list) => { signalRoutes[id] = list.map((v) => (typeof v === "string" ? v : v?.routeId ?? String(v))); };
 
   // ---- the census denominator, recounted here from the compiled corpus ------
   const profileDir = "src/lib/rcap-engine/compiled/profiles";
@@ -270,7 +288,11 @@ if (CHILD) {
       built = null;
     }
     if (jobThrew) {
-      jobSpecThrew.push(`${r.routeId} (${jobThrew?.code ?? jobThrew?.name ?? "error"}: ${String(jobThrew?.message ?? jobThrew).slice(0, 80)})`);
+      // `RenderContractError` carries `errorCode`, not `code`. Reading `code`
+      // first fell through to the class name and threw away the one field that
+      // says WHICH fault it was -- `profile_version_unknown` and
+      // `renderer_kind_unknown` are different problems.
+      jobSpecThrew.push(`${r.routeId} (${jobThrew?.errorCode ?? jobThrew?.code ?? jobThrew?.name ?? "error"}: ${String(jobThrew?.message ?? jobThrew).slice(0, 80)})`);
     }
     if (built?.spec) {
       jobSpecBuilt.push(r.routeId);
@@ -355,25 +377,43 @@ if (CHILD) {
   const summarise = (label, list) =>
     `${label}: ${list.length}${list.length ? ` — ${list.slice(0, 5).join(", ")}${list.length > 5 ? ` … +${list.length - 5}` : ""}` : ""}`;
 
-  check(sellableTrue.length === 0, summarise("routes resolving sellable:true", sellableTrue));
-  check(creditTrue.length === 0, summarise("routes resolving creditConsumable:true", creditTrue));
-  check(priced.length === 0, summarise("sellable:false routes that display a consumer price", priced));
-  check(checkedOut.length === 0, summarise("sellable:false routes that reach Stripe Checkout Session creation", checkedOut));
-  check(sponsored.length === 0, summarise("sellable:false routes that reserve sponsored entitlement", sponsored));
-  check(creditSpent.length === 0, summarise("creditConsumable:false routes that reach packet-credit accounting", creditSpent));
-  check(attached.length === 0, summarise("sellable:false routes that attach a new commercial artifact", attached));
-  check(delivered.length === 0, summarise("sellable:false routes that deliver a new commercial artifact", delivered));
+  check(sellableTrue.length === 0, summarise("routes resolving sellable:true", sellableTrue), "resolver_sellable_false");
+  withRoutes("resolver_sellable_false", sellableTrue);
+  check(creditTrue.length === 0, summarise("routes resolving creditConsumable:true", creditTrue), "resolver_credit_false");
+  withRoutes("resolver_credit_false", creditTrue);
+  check(priced.length === 0, summarise("sellable:false routes that display a consumer price", priced), "no_consumer_price");
+  withRoutes("no_consumer_price", priced);
+  check(checkedOut.length === 0, summarise("sellable:false routes that reach Stripe Checkout Session creation", checkedOut), "no_checkout_session");
+  withRoutes("no_checkout_session", checkedOut);
+  check(sponsored.length === 0, summarise("sellable:false routes that reserve sponsored entitlement", sponsored), "no_sponsored_entitlement");
+  withRoutes("no_sponsored_entitlement", sponsored);
+  check(creditSpent.length === 0, summarise("creditConsumable:false routes that reach packet-credit accounting", creditSpent), "no_packet_credit");
+  withRoutes("no_packet_credit", creditSpent);
+  check(attached.length === 0, summarise("sellable:false routes that attach a new commercial artifact", attached), "no_artifact_attachment");
+  withRoutes("no_artifact_attachment", attached);
+  check(delivered.length === 0, summarise("sellable:false routes that deliver a new commercial artifact", delivered), "no_artifact_delivery");
+  withRoutes("no_artifact_delivery", delivered);
 
   /**
    * The shadow-render boundary, stated so a widening is visible.
    *
-   * `buildRenderJobSpec` gates on renderability, not on `creditConsumable`, so it
-   * DOES build a spec for every `legacy_retired` and `factory_v2` route. That is
-   * the shadow path the invariants keep — a spec is not a job, and the two gates
-   * that turn one into the other (`provider_dispatch` before enqueue,
-   * `packet_credit_admission` before the credit RPC) are asserted above and
-   * refuse every route. Pinning the exact set is what makes a future widening
-   * fail here instead of passing quietly.
+   * HISTORICAL, and no longer true. This paragraph used to read: "gates on
+   * renderability, not on `creditConsumable`, so it DOES build a spec for every
+   * `legacy_retired` and `factory_v2` route … pinning the exact set is what
+   * makes a future widening fail here." Both halves have since been disproved by
+   * the accounting below — `legacy_retired` builds nothing, and 64 `factory_v2`
+   * routes are refused by counsel's ratification registry — and the pin fired on
+   * a NARROWING rather than a widening. Kept as the record of what the invariant
+   * used to assert.
+   *
+   * CURRENT: a spec is still not a job, and the two gates that turn one into the
+   * other (`provider_dispatch` before enqueue, `packet_credit_admission` before
+   * the credit RPC) are asserted above. `buildRenderJobSpec` now refuses three
+   * ways before it builds — deferral or unrenderable, `legacy_retired` under
+   * ADR-0004, and any route counsel's registry lists as other than
+   * `ratified_deployable` — so what is asserted below is that every renderable
+   * route is accounted by one of those branches, that nothing faults, and that
+   * no route its own authority refuses produced a spec.
    */
   const renderable = routes.filter((r) => resolvePacketRoute({ state: r.jurisdiction, pathway: r.pathwayId, trackId: null }).rendererKind !== "none");
 
@@ -394,13 +434,16 @@ if (CHILD) {
    * refuses produced a spec.
    */
   check(jobSpecThrew.length === 0,
-    summarise("renderable routes where buildRenderJobSpec threw; an exception is a fault, not a refusal", jobSpecThrew));
+    summarise("renderable routes where buildRenderJobSpec threw; an exception is a fault, not a refusal", jobSpecThrew), "render_no_fault");
+  withRoutes("render_no_fault", jobSpecThrew);
   check(jobSpecUnexplained.length === 0,
-    summarise("renderable routes refused with no branch that explains it; an unexplained null cannot be told from a fault", jobSpecUnexplained));
+    summarise("renderable routes refused with no branch that explains it; an unexplained null cannot be told from a fault", jobSpecUnexplained), "render_all_explained");
+  withRoutes("render_all_explained", jobSpecUnexplained);
   check(jobSpecWidened.length === 0,
-    summarise("routes that built a render job spec against their own authority", jobSpecWidened));
+    summarise("routes that built a render job spec against their own authority", jobSpecWidened), "render_no_widening");
+  withRoutes("render_no_widening", jobSpecWidened);
   check(jobSpecBuilt.length + jobSpecRefused.length + jobSpecThrew.length + jobSpecUnexplained.length === renderable.length,
-    `${jobSpecBuilt.length} built + ${jobSpecRefused.length} refused + ${jobSpecThrew.length} threw + ${jobSpecUnexplained.length} unexplained does not account for ${renderable.length} renderable routes`);
+    `${jobSpecBuilt.length} built + ${jobSpecRefused.length} refused + ${jobSpecThrew.length} threw + ${jobSpecUnexplained.length} unexplained does not account for ${renderable.length} renderable routes`, "render_accounted");
 
   const byBranch = {};
   for (const row of jobSpecRefused) byBranch[row.branch] = (byBranch[row.branch] ?? 0) + 1;
@@ -412,6 +455,24 @@ if (CHILD) {
   console.log(`  shadow render specs: ${jobSpecBuilt.length} (${[...jobSpecKinds].map(([k, v]) => `${k} ${v}`).join(", ")})`);
   console.log(`  renderable ${renderable.length} = ${jobSpecBuilt.length} spec + ${jobSpecRefused.length} refused + ${jobSpecThrew.length} threw + ${jobSpecUnexplained.length} unexplained`);
   for (const [branch, n] of Object.entries(byBranch).sort()) console.log(`    refused by ${branch}: ${n}`);
+
+  // The machine-readable result the mutation parent attributes from. Printed
+  // unconditionally, before any exit, so a red census still reports which
+  // invariants are red and which routes made them so.
+  console.log(`CENSUS_SIGNALS ${JSON.stringify({
+    signals,
+    routes: signalRoutes,
+    counts: {
+      routes: routes.length,
+      renderable: renderable.length,
+      jobSpecBuilt: jobSpecBuilt.length,
+      jobSpecRefused: jobSpecRefused.length,
+      jobSpecThrew: jobSpecThrew.length,
+      jobSpecUnexplained: jobSpecUnexplained.length,
+      priced: priced.length,
+      checkedOut: checkedOut.length
+    }
+  })}`);
 
   if (failures.length > 0) {
     console.error(`\nverify-rcap-census-v1-money-credit-gate FAILED — ${failures.length} problem(s):\n`);
@@ -520,12 +581,14 @@ const cases = [
   {
     name: "the price surface stops asking the Grade-A authority",
     detail: "a forged non-Grade-A ledger row then restores a $50 price on a legacy_retired route",
+    breaks: ["no_consumer_price"],
     forgeLedger: true,
     mutate: () => editSource(PAYMENT_ADAPTER, "fulfillmentProven && routeSellable", ["fulfillment", "Proven"].join(""))
   },
   {
     name: "the resolver calls a retired legacy generator sellable again",
     detail: "the census denominator must notice a route that stops declaring sellable:false",
+    breaks: ["resolver_sellable_false"],
     forgeLedger: false,
     mutate: () => editSource(
       ROUTE_RESOLVER,
@@ -536,6 +599,7 @@ const cases = [
   {
     name: "the authority honours an unproven route",
     detail: "every money probe must be the authority's answer, not a coincidence upstream of it",
+    breaks: ["no_sponsored_entitlement"],
     forgeLedger: false,
     mutate: () => editSource(
       AUTHORITY,
@@ -545,45 +609,187 @@ const cases = [
   },
   {
     name: "the render contract stops fencing unrenderable routes",
-    detail: "the shadow-render boundary must be pinned, so a widening fails here",
+    detail: "an unrenderable route reaching the build must not pass silently",
+    breaks: ["render_accounted"],
     forgeLedger: false,
     mutate: () => editSource(
       JOB_CONTRACT,
       '"exact_supported_deferral" || !packetRouteCanRender(route)',
       '"exact_supported_deferral"'
     )
+  },
+  /* ---- the render-accounting regressions, automated ----------------------
+   * M1-M4 were proved by hand when the accounting replaced the pinned counts.
+   * A proof that lives only in a commit message is not a control, so each is a
+   * case here, and each names the invariant it must break.
+   */
+  {
+    name: "a retired legacy route may open a new render job",
+    detail: "ADR-0004 refuses new render jobs for retired generators; removing the branch must be caught",
+    breaks: ["render_no_widening"],
+    forgeLedger: false,
+    mutate: () => editSource(
+      JOB_CONTRACT,
+      '  if (route.routeKind === "legacy_retired") {\n    return { spec: null, route };\n  }',
+      `  if (${FALSE_}) {\n    return { spec: null, route };\n  }`
+    )
+  },
+  {
+    name: "a route counsel has not ratified may open a render job",
+    detail: "the ratification registry refuses every listed route that is not ratified_deployable",
+    breaks: ["render_no_widening"],
+    forgeLedger: false,
+    mutate: () => editSource(
+      JOB_CONTRACT,
+      '  if (ratification !== undefined && ratification !== "ratified_deployable") {\n    return { spec: null, route };\n  }',
+      `  if (${FALSE_}) {\n    return { spec: null, route };\n  }`
+    )
+  },
+  {
+    name: "a render-contract fault is counted as a refusal",
+    detail: "an exception is a fault; the old catch{} swallowed it into the refused pile",
+    breaks: ["render_no_fault"],
+    forgeLedger: false,
+    mutate: () => editSource(
+      JOB_CONTRACT,
+      "  const ratification = RATIFICATION_STATUS_OF.get(",
+      '  if (route.jurisdiction === "WY") { throw new RenderContractError("profile_version_unknown", "census mutation: injected fault"); }\n  const ratification = RATIFICATION_STATUS_OF.get('
+    )
+  },
+  {
+    name: "a route is refused with no branch that explains it",
+    detail: "an unexplained null cannot be told from a fault and must not pass as a refusal",
+    breaks: ["render_all_explained"],
+    forgeLedger: false,
+    mutate: () => editSource(
+      JOB_CONTRACT,
+      "  const rendererKind = route.rendererKind as RendererKind;",
+      '  if (route.jurisdiction === "WY") { return { spec: null, route }; }\n  const rendererKind = route.rendererKind as RendererKind;'
+    )
+  },
+  /* ---- the harness testing itself ---------------------------------------
+   * Everything above claims "caught". These two claim the opposite, and they
+   * are what makes the rest trustworthy: under the old exit-status rule BOTH
+   * would have been reported as detections, because the census is already red.
+   */
+  {
+    name: "SELF-TEST a no-op mutation must not be credited as a detection",
+    detail: "a comment-only edit changes no behaviour; the census stays exactly as red as the control",
+    breaks: ["render_no_widening"],
+    expect: "undetected",
+    forgeLedger: false,
+    mutate: () => editSource(
+      JOB_CONTRACT,
+      "  const rendererKind = route.rendererKind as RendererKind;",
+      "  // census self-test: a no-op edit\n  const rendererKind = route.rendererKind as RendererKind;"
+    )
+  },
+  {
+    name: "SELF-TEST an unrelated crash must be an execution failure, not a detection",
+    detail: "a child that cannot run has tested no commercial boundary at all",
+    breaks: ["render_no_widening"],
+    expect: "harness_failure",
+    forgeLedger: false,
+    mutate: () => editSource(
+      JOB_CONTRACT,
+      "export function buildRenderJobSpec(input: {",
+      "const CENSUS_SELFTEST_CRASH: unknown = (undefined as unknown as { x: { y: number } }).x.y;\nexport function buildRenderJobSpec(input: {"
+    )
   }
 ];
 
+/**
+ * Result attribution.
+ *
+ * Exit status cannot decide any of this. The census is legitimately red on
+ * findings the repository has not resolved, so `status !== 0` was true before
+ * any mutation ran: a no-op, an unrelated crash and a removed guard all looked
+ * identical, and the forged-ledger case could announce that a commercial
+ * surface had reopened when the forged rows changed nothing.
+ *
+ * Each case now names the invariants it must break. A case passes only when
+ * those invariants are SATISFIED in the control run and VIOLATED under the
+ * mutation. A child that does not emit a parseable result is a harness failure,
+ * never a detection.
+ */
+const readSignals = (run) => {
+  const line = (run.stdout ?? "").split("\n").reverse().find((l) => l.startsWith("CENSUS_SIGNALS "));
+  if (!line) return null;
+  try { return JSON.parse(line.slice("CENSUS_SIGNALS ".length)); } catch { return null; }
+};
+
 let failed = 0;
 try {
-  // First: the gate must HOLD against an input built to defeat it.
-  writeForgedLedger();
-  const held = runProbe();
-  restore();
-  if (held.status === 0) {
-    console.log("  ok   a forged packet-fulfillment ledger row does not reopen a price on a legacy_retired or factory_v2 route");
-  } else {
+  // The control. Every later claim is a transition away from this.
+  const control = readSignals(runProbe());
+  if (!control) {
+    console.log("  FAIL harness — the control run produced no parseable result; no mutation case can be attributed");
     failed += 1;
-    console.log("  FAIL a forged packet-fulfillment ledger row reopened a commercial surface");
-    console.log((held.stdout ?? "") + (held.stderr ?? ""));
+  }
+  const satisfiedInControl = (id) => control?.signals?.[id]?.satisfied === true;
+
+  // First: the gate must HOLD against an input built to defeat it. Judged on
+  // the targeted invariants and the targeted routes, not on the exit status.
+  if (control) {
+    writeForgedLedger();
+    const held = readSignals(runProbe());
+    restore();
+    const TARGETED = ["no_consumer_price", "no_checkout_session"];
+    if (!held) {
+      failed += 1;
+      console.log("  FAIL harness — the forged-ledger run produced no parseable result");
+    } else {
+      const reopened = TARGETED.filter((id) => satisfiedInControl(id) && held.signals?.[id]?.satisfied !== true);
+      const targetedRoutes = TARGETED.flatMap((id) => held.routes?.[id] ?? [])
+        .filter((r) => r === FORGED_LEGACY_ROUTE || r === FORGED_FACTORY_ROUTE);
+      if (reopened.length === 0 && targetedRoutes.length === 0) {
+        console.log("  ok   a forged packet-fulfillment ledger row does not reopen a price or checkout on the two targeted routes");
+      } else {
+        failed += 1;
+        console.log(`  FAIL a forged packet-fulfillment ledger row reopened ${reopened.join(", ") || "a surface"} on ${targetedRoutes.join(", ") || "the targeted routes"}`);
+      }
+    }
   }
 
-  // Then: each gate, removed, must be caught.
+  // Then: each gate, removed, must break the invariant it exists to hold.
   for (const testCase of cases) {
+    if (!control) break;
     if (testCase.forgeLedger) writeForgedLedger();
     testCase.mutate();
     const run = runProbe();
+    const after = readSignals(run);
     restore();
-    if (run.status !== 0) {
-      // Print what the probe actually said. "caught" on its own would not
-      // distinguish the defect this case exists for from an unrelated crash.
-      const first = (run.stderr ?? "").split("\n").find((line) => line.trimStart().startsWith("- "));
-      console.log(`  ok   caught — ${testCase.name}`);
-      if (first) console.log(`         ${first.trim()}`);
+
+    // Decide the OUTCOME first, then compare it to what this case expects. The
+    // two self-tests below expect a non-detection, and they are the only reason
+    // this harness can claim its "caught" verdicts mean anything.
+    let outcome, note = "";
+    if (!after) {
+      const why = (run.stderr ?? "").trim().split("\n").slice(-1)[0] ?? `exit ${run.status}`;
+      outcome = "harness_failure";
+      note = `the child produced no parseable result (${why.slice(0, 90)})`;
+    } else if (testCase.breaks.some((id) => !satisfiedInControl(id))) {
+      // An assertion already red cannot prove detection from its unchanged red.
+      outcome = "harness_failure";
+      note = `${testCase.breaks.filter((id) => !satisfiedInControl(id)).join(", ")} is already violated in the control, so this case cannot claim detection`;
+    } else {
+      const broken = testCase.breaks.filter((id) => after.signals?.[id]?.satisfied !== true);
+      if (broken.length === testCase.breaks.length) {
+        outcome = "caught";
+        note = broken.map((id) => `${id}: ${String(after.signals[id].detail).slice(0, 110)}`).join("\n         ");
+      } else {
+        outcome = "undetected";
+        note = `still satisfied under the mutation: ${testCase.breaks.filter((id) => !broken.includes(id)).join(", ")}`;
+      }
+    }
+
+    const expected = testCase.expect ?? "caught";
+    if (outcome === expected) {
+      console.log(`  ok   ${outcome === "caught" ? "caught" : `${outcome} as required`} — ${testCase.name}`);
+      if (note) console.log(`         ${note}`);
     } else {
       failed += 1;
-      console.log(`  FAIL undetected — ${testCase.name}\n         ${testCase.detail}`);
+      console.log(`  FAIL ${outcome} — ${testCase.name} (expected ${expected})\n         ${testCase.detail}\n         ${note}`);
     }
   }
 } finally {

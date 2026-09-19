@@ -238,3 +238,85 @@ Findings 1, 3 and 4 — sponsored entitlement, attachment, delivery — remain
 undispositioned and unrepaired. They need the no-record / held-record /
 authorized positive controls and the intercepted side-effect traces described
 above. Finding 2 stays red by intent, pending step 5.
+
+---
+
+# Repair pass 2 — mutation-result attribution
+
+## The defect, confirmed
+
+The parent decided every case from the child's **exit status**. The census is
+legitimately red on unresolved findings, so `status !== 0` was already true
+before any mutation ran. Both directions were wrong:
+
+- `if (held.status === 0) … else "reopened a commercial surface"` — the
+  forged-ledger control could announce a reopened surface when the forged rows
+  changed **nothing**;
+- `if (run.status !== 0) … "caught"` — any nonzero exit earned a detection,
+  including a no-op edit, an unrelated crash, or the same four baseline
+  failures.
+
+## The repair
+
+The child now emits `CENSUS_SIGNALS`, a JSON block naming each invariant, its
+satisfied/violated state, and the exact routes that made it so — printed before
+any exit, so a red census still reports which invariants are red. The parent
+runs an unmutated **control** first, and each case declares the invariants it
+must break. A case passes only when those invariants are **satisfied in the
+control and violated under the mutation**.
+
+Three outcomes are now distinct, and each case states which one it expects:
+
+| Outcome | When |
+|---|---|
+| `caught` | every declared invariant transitions satisfied → violated |
+| `undetected` | the mutation applied and the invariant held |
+| `harness_failure` | no parseable result, or an invariant **already violated in the control** — which cannot claim detection from its unchanged red |
+
+## What the corrected harness reports
+
+```
+ok   a forged packet-fulfillment ledger row does not reopen a price or checkout on the two targeted routes
+FAIL undetected — the price surface stops asking the Grade-A authority (expected caught)
+ok   caught — the resolver calls a retired legacy generator sellable again
+FAIL harness_failure — the authority honours an unproven route (expected caught)
+ok   caught — the render contract stops fencing unrenderable routes
+ok   caught — a retired legacy route may open a new render job
+ok   caught — a route counsel has not ratified may open a render job
+ok   caught — a render-contract fault is counted as a refusal
+ok   caught — a route is refused with no branch that explains it
+ok   undetected as required — SELF-TEST a no-op mutation must not be credited as a detection
+ok   harness_failure as required — SELF-TEST an unrelated crash must be an execution failure, not a detection
+```
+
+**The forged-ledger failure was a false alarm.** Judged on the targeted
+invariants and the two targeted routes rather than on exit status, the gate
+**holds**. The earlier "a forged packet-fulfillment ledger row reopened a
+commercial surface" — which I reported as a pre-existing defect — was the
+attribution bug, not a reopened surface. Withdrawn.
+
+Two honest failures remain, and neither is a claim that money moved:
+
+- **`the price surface stops asking the Grade-A authority` — undetected.** The
+  edit applies (`editSource` throws if its fragment has moved), yet
+  `no_consumer_price` stays satisfied. The mutation no longer models a defect.
+  Stale case, to be re-aimed at whatever now decides the price surface.
+- **`the authority honours an unproven route` — harness_failure.**
+  `no_sponsored_entitlement` is already violated in the control, because that
+  **is** finding 1. The case cannot claim detection from an unchanged red and
+  now says so instead of passing.
+
+## M1–M4 are automated
+
+The four render-accounting regressions proved by hand in pass 1 are cases in the
+suite. A proof that lives only in a commit message is not a control.
+
+## The self-tests are the point
+
+Under the old rule **both** self-tests would have been reported as detections.
+They are what makes the six `caught` verdicts mean something.
+
+## Gate
+
+Test-side only; `job-contract.ts` unchanged (mutations restored after each run).
+`comparedInputs: 30`, `changedPaths: []`, `rebuildRequired: false`.
