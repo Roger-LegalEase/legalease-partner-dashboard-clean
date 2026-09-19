@@ -363,19 +363,6 @@
       "helperText": "Confirm the current service address with the court's records office. A volunteer can help make the call. Stop rather than guessing an address."
     },
     {
-      "factId": "service_address_confirmation_status",
-      "use": "prevents an unverified prosecutor address from being represented as confirmed",
-      "inRegistryRequiredInputs": false,
-      "ownership": "participant",
-      "prompt": "Has the court or prosecutor confirmed the service address?",
-      "helperText": "Choose Confirmed only after the court or prosecutor verifies the address. A volunteer can help make the call. Stop before completing service if the status remains unconfirmed.",
-      "questionType": "single_choice",
-      "options": [
-        "Confirmed by court or prosecutor",
-        "To be confirmed before filing or service"
-      ]
-    },
-    {
       "factId": "other_recordkeeping_agencies",
       "use": "other agencies named in the proposed order",
       "inRegistryRequiredInputs": false,
@@ -426,32 +413,6 @@
       "ownership": "participant",
       "prompt": "State the employment or background-screening impact in your own words, or enter Not included.",
       "helperText": "Use a brief statement that is true for you. A volunteer can help with clarity without inventing facts. Stop if you cannot confirm the statement."
-    },
-    {
-      "factId": "certified_disposition_exhibit_status",
-      "use": "Exhibit A assembly and filing-readiness gate",
-      "inRegistryRequiredInputs": false,
-      "ownership": "participant",
-      "prompt": "Is the certified disposition ready to insert as Exhibit A?",
-      "helperText": "Choose Attached as Exhibit A only after the certified court record is physically or digitally inserted, not merely available. A volunteer can help inspect it. Stop before filing if Exhibit A is missing.",
-      "questionType": "single_choice",
-      "options": [
-        "Attached as Exhibit A",
-        "Not attached"
-      ]
-    },
-    {
-      "factId": "docket_sheet_exhibit_status",
-      "use": "Exhibit B assembly and filing-readiness gate",
-      "inRegistryRequiredInputs": false,
-      "ownership": "participant",
-      "prompt": "Is the docket sheet ready to insert as Exhibit B?",
-      "helperText": "Choose Inserted as Exhibit B only after the court docket sheet is physically or digitally inserted, not merely available. A volunteer can help inspect it. Stop before filing if Exhibit B is missing.",
-      "questionType": "single_choice",
-      "options": [
-        "Inserted as Exhibit B",
-        "Not inserted"
-      ]
     },
     {
       "factId": "case_outcome",
@@ -568,14 +529,11 @@
       "statutory_disposition_category",
       "prosecuting_authority_name",
       "prosecuting_authority_service_address",
-      "service_address_confirmation_status",
       "other_recordkeeping_agencies",
       "mcic_identifier_delivery_method",
       "mcic_identifier_method_confirmation_source",
       "personal_impact_confirmed",
       "personal_impact_statement",
-      "certified_disposition_exhibit_status",
-      "docket_sheet_exhibit_status",
       "case_outcome",
       "pending_cases",
       "record_type",
@@ -1052,26 +1010,12 @@
         {
           "heading": "Certificate",
           "kind": "service_certificate",
-          "body": "I, {{participant_full_legal_name}}, Petitioner pro se, certify that on the date stated below, I caused a true and correct copy of the foregoing Petition for Expunction of Record and proposed Order Granting Expunction of Record to be delivered to {{prosecuting_authority_name}}. Service-address status: {{service_address_confirmation_status}}. Service address: {{prosecuting_authority_service_address}}. The confidential MCIC identifier addendum must not be included in the service copy.",
+          "body": "I, {{participant_full_legal_name}}, Petitioner pro se, certify that on the date stated below, I caused a true and correct copy of the foregoing Petition for Expunction of Record and proposed Order Granting Expunction of Record to be delivered to {{prosecuting_authority_name}}. Service address: {{prosecuting_authority_service_address}}. The confidential MCIC identifier addendum must not be included in the service copy.",
           "fields": [
             "participant_full_legal_name",
             "prosecuting_authority_name",
-            "service_address_confirmation_status",
             "prosecuting_authority_service_address"
           ]
-        },
-        {
-          "heading": "ATTACHMENT ASSEMBLY STATUS",
-          "kind": "pleading_identity_list",
-          "body": "The filing package is not complete until the participant-supplied court records are inserted behind the Petition. A generated checklist or divider is not a court record.",
-          "fields": [
-            "certified_disposition_exhibit_status",
-            "docket_sheet_exhibit_status"
-          ],
-          "fieldLabels": {
-            "certified_disposition_exhibit_status": "Exhibit A - Certified disposition",
-            "docket_sheet_exhibit_status": "Exhibit B - Docket sheet"
-          }
         }
       ],
       "documentContract": {

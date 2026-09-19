@@ -24,8 +24,8 @@ The correction is applied to every route with a packet plan, which is a superset
 ## Totals
 
 - Routes with a packet plan: **343** across **51** jurisdictions
-- Required facts before: **5747**
-- Required facts with a disposition after: **5747**
+- Required facts before: **5744**
+- Required facts with a disposition after: **5744**
 - Dropped required facts: **0**
 - Routes whose facts do not reconcile: **0**
 - Routes still asking an external-actor field: **0**
@@ -35,7 +35,7 @@ The correction is applied to every route with a packet plan, which is a superset
 
 | Screens | Max | Median | Average |
 | --- | ---: | ---: | ---: |
-| Before | 57 | 15 | 14.77 |
+| Before | 54 | 15 | 14.76 |
 | After | 9 | 7 | 6.79 |
 
 ## Prepayment confirmation budget

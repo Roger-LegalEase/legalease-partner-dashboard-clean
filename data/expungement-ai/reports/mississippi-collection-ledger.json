@@ -6,39 +6,38 @@
   "specificationVersion": "2.0.0",
   "productContract": "free guided check -> authoritative result -> free Briefcase -> complete packet information -> second authoritative verification -> $50 Checkout -> packet generation. Everything needed to generate the packet and to reconfirm the route is collected BEFORE payment, and this ledger proposes no change to that.",
   "totals": {
-    "requiredFacts": 59,
+    "requiredFacts": 56,
     "serverOwned": 2,
-    "participantFacts": 57,
+    "participantFacts": 54,
     "publishedGuidedCheckQuestions": 14,
-    "factsPrintedBySomeDocument": 36
+    "factsPrintedBySomeDocument": 33
   },
   "byRequirementClass": {
-    "A_required_to_generate_packet": 41,
+    "A_required_to_generate_packet": 38,
     "B_required_to_reconfirm_route": 16
   },
   "byDisposition": {
     "DERIVE_DETERMINISTICALLY": 8,
     "REUSE_SCREENING": 5,
     "STRUCTURED_MULTI_FACT_INPUT": 36,
-    "CONDITIONAL_INPUT": 5,
-    "INDEPENDENT_PACKET_INPUT": 3
+    "CONDITIONAL_INPUT": 5
   },
   "participantWorkload": {
     "note": "Effort, not page count. A structured block counts as one interaction however many facts it carries, because that is what the participant does.",
-    "underlyingRequiredPacketFacts": 59,
+    "underlyingRequiredPacketFacts": 56,
     "reusedFromScreening": 5,
     "reusedFromSavedContext": 0,
     "deterministicallyDerived": 8,
     "collectedThroughStructuredInputs": 36,
     "conditionalFactsAskedOnlyWhenApplicable": 6,
-    "independentManualInputs": 3,
+    "independentManualInputs": 0,
     "filingReadinessOnlyRemovedFromGenerationQuestionnaire": 0,
     "filingReadinessOnlyFactIds": [],
     "externalActorFacts": 0,
     "duplicateAsksEliminated": 13,
     "unresolved": 0,
-    "baselineParticipantScreensBeforeCheckout": 57,
-    "participantInteractionsBeforeCheckout": 11,
+    "baselineParticipantScreensBeforeCheckout": 54,
+    "participantInteractionsBeforeCheckout": 8,
     "interactions": [
       {
         "id": "your_case",
@@ -131,7 +130,7 @@
       }
     ]
   },
-  "everyFactStillCollectedBeforeCheckout": 57,
+  "everyFactStillCollectedBeforeCheckout": 54,
   "rows": [
     {
       "factId": "age_at_offense",
@@ -1583,30 +1582,6 @@
       "finalDisposition": "STRUCTURED_MULTI_FACT_INPUT"
     },
     {
-      "factId": "service_address_confirmation_status",
-      "specificationRequiresItBecause": "prevents an unverified prosecutor address from being represented as confirmed",
-      "currentSource": "builder question",
-      "screeningAlreadySupplies": false,
-      "screeningSuppliesVia": null,
-      "existingMatterOrProfileSupplies": false,
-      "deterministicallyDerivable": false,
-      "derivationRule": null,
-      "structuredMultiFactInput": null,
-      "structuredInteractionHeading": null,
-      "structuredWithFacts": [],
-      "conditional": false,
-      "condition": null,
-      "requiredToGeneratePacket": true,
-      "requiredToReconfirmRouteBeforePayment": false,
-      "requiredOnlyBeforeFilingOrService": false,
-      "externalActorOwned": false,
-      "externalActor": null,
-      "requirementClass": "A_required_to_generate_packet",
-      "whyRequiredBeforeCheckout": "a document in the purchased packet prints this fact, so the platform must hold it before it charges for that packet",
-      "resolverClassToday": "derived",
-      "finalDisposition": "INDEPENDENT_PACKET_INPUT"
-    },
-    {
       "factId": "other_recordkeeping_agencies",
       "specificationRequiresItBecause": "other agencies named in the proposed order",
       "currentSource": "builder question",
@@ -1751,54 +1726,6 @@
       "whyRequiredBeforeCheckout": "a document in the purchased packet prints this fact, so the platform must hold it before it charges for that packet",
       "resolverClassToday": "conditional",
       "finalDisposition": "CONDITIONAL_INPUT"
-    },
-    {
-      "factId": "certified_disposition_exhibit_status",
-      "specificationRequiresItBecause": "Exhibit A assembly and filing-readiness gate",
-      "currentSource": "builder question",
-      "screeningAlreadySupplies": false,
-      "screeningSuppliesVia": null,
-      "existingMatterOrProfileSupplies": false,
-      "deterministicallyDerivable": false,
-      "derivationRule": null,
-      "structuredMultiFactInput": null,
-      "structuredInteractionHeading": null,
-      "structuredWithFacts": [],
-      "conditional": false,
-      "condition": null,
-      "requiredToGeneratePacket": true,
-      "requiredToReconfirmRouteBeforePayment": false,
-      "requiredOnlyBeforeFilingOrService": false,
-      "externalActorOwned": false,
-      "externalActor": null,
-      "requirementClass": "A_required_to_generate_packet",
-      "whyRequiredBeforeCheckout": "a document in the purchased packet prints this fact, so the platform must hold it before it charges for that packet",
-      "resolverClassToday": "derived",
-      "finalDisposition": "INDEPENDENT_PACKET_INPUT"
-    },
-    {
-      "factId": "docket_sheet_exhibit_status",
-      "specificationRequiresItBecause": "Exhibit B assembly and filing-readiness gate",
-      "currentSource": "builder question",
-      "screeningAlreadySupplies": false,
-      "screeningSuppliesVia": null,
-      "existingMatterOrProfileSupplies": false,
-      "deterministicallyDerivable": false,
-      "derivationRule": null,
-      "structuredMultiFactInput": null,
-      "structuredInteractionHeading": null,
-      "structuredWithFacts": [],
-      "conditional": false,
-      "condition": null,
-      "requiredToGeneratePacket": true,
-      "requiredToReconfirmRouteBeforePayment": false,
-      "requiredOnlyBeforeFilingOrService": false,
-      "externalActorOwned": false,
-      "externalActor": null,
-      "requirementClass": "A_required_to_generate_packet",
-      "whyRequiredBeforeCheckout": "a document in the purchased packet prints this fact, so the platform must hold it before it charges for that packet",
-      "resolverClassToday": "derived",
-      "finalDisposition": "INDEPENDENT_PACKET_INPUT"
     },
     {
       "factId": "disposition_record_wording",

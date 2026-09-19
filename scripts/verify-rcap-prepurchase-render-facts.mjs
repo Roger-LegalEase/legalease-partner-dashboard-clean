@@ -67,6 +67,7 @@ const { packetSpecificationFor, packetSpecificationRouteKeys, composablePacketSp
   "../src/lib/rcap/grade-a/packet-specification.ts"
 );
 const { renderPreflight } = await import("../src/lib/expungement-ai/render-preflight.ts");
+const { documentContractFor, isCourtFacing } = await import("../src/lib/rcap/grade-a/document-contract.ts");
 const { resolvePacketCollection, prepayGateFactIds, filingReadinessFactIds, participantOwesFact } = await import(
   "../src/lib/expungement-ai/packet-collection.ts"
 );
@@ -405,6 +406,39 @@ for (const routeKey of packetSpecificationRouteKeys()) {
   }
 }
 
+// --- Court papers stay court papers -----------------------------------------
+//
+// Deriving a not-yet status instead of asking for it solves the friction
+// problem. It does not make that status appropriate inside a filing. A
+// certificate of service that reads "Service-address status: To be confirmed
+// before filing or service" is telling a court about the participant's
+// workflow, and an assembly-status list inside the same filing is a checklist
+// wearing a court document's caption. Both belong in the supplemental guide.
+//
+// So: no document the contract addresses to a court may carry workflow status
+// language. The participant guidance is where it goes, and the attachments and
+// checklist a route publishes are where the instruction lives.
+
+const WORKFLOW_LANGUAGE = /\b(not attached|not inserted|to be confirmed|not yet (obtained|confirmed|attached)|assembly status)\b/i;
+let courtFacingChecked = 0;
+for (const routeKey of packetSpecificationRouteKeys()) {
+  const specification = packetSpecificationFor(routeKey);
+  for (const document of specification?.documents ?? []) {
+    const contract = documentContractFor(document);
+    if (!isCourtFacing(contract)) continue;
+    courtFacingChecked += 1;
+    for (const section of document.sections ?? []) {
+      const printed = [section.heading, section.body, ...Object.values(section.fieldLabels ?? {})]
+        .filter((value) => typeof value === "string").join(" ");
+      const hit = printed.match(WORKFLOW_LANGUAGE);
+      check(!hit,
+        `${routeKey}/${document.documentId}: the section "${section.heading}" is filed with the court and carries`
+          + ` the participant workflow phrase ${JSON.stringify(hit?.[0])}. A filing states what is filed;`
+          + " tell the participant what to obtain and attach in the guide, not the court");
+    }
+  }
+}
+
 // --- the mutations: prove the check can fail ---------------------------------
 
 const probeGate = (facts) => new Set(prepayGateFactIds({ facts }));
@@ -462,6 +496,7 @@ console.log(`  gate facts the packet composes without (later tasks blocking paym
 console.log(`  outside filing tasks the participant is made to report on before generation: ${externallyAcquired.length}`);
 console.log(`  routes proven to compose with every external record still unfetched: ${notYetProven}`);
 console.log(`  facts asking whether a record is in hand, each with a truthful not-yet answer: ${possessionFacts}`);
+console.log(`  court-facing documents checked for participant workflow language: ${courtFacingChecked}`);
 for (const row of externallyAcquired) console.log(`    ${row}`);
 for (const row of renderProbe.unreachable) {
   console.log(`    not probed, route does not compose at all: ${row}`);
