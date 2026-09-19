@@ -47,6 +47,31 @@ export function requiredMissingQuestionIds(profile: EngineProfile, answers: Reco
     .map((question) => question.id);
 }
 
+/**
+ * Required screening facts the participant has not answered yet.
+ *
+ * This is the SCREENING gate, not the Checkout gate, and the `isPrepaymentQuestion`
+ * filter below is what keeps the two apart. A question this filter drops is not a
+ * required fact nobody ever collects: `postpay_*` names the section of the guided
+ * journey a question belongs to, never the payment boundary.
+ *
+ * Checkout stands behind a different gate entirely, and a stricter one:
+ *
+ *   POST /api/expungement-ai/checkout
+ *     -> requireCurrentPacketVerification           (payment-adapter.ts)
+ *     -> a verification is `verified` only when the participant asked to verify
+ *        AND missingInputIds is empty               (packet-information.ts)
+ *     -> missingInputIds = collectionGateInputIds() = prepayGateFactIds()
+ *     -> prepayGateFactIds = EVERY fact the participant still owes, including
+ *        the render-required and filing-readiness ones
+ *                                                   (packet-collection.ts)
+ *
+ * So a fact the packet needs is resolved before money moves even though this
+ * function ignores it. `scripts/verify-rcap-prepurchase-render-facts.mjs` asserts
+ * that, route by route, against each route's own packet specification. Loosening
+ * either gate on the assumption that the other one catches it is the way this
+ * stops being true.
+ */
 export function requiredMissingPublicQuestionIds(publicProfile: PublicJurisdictionProfile, answers: Record<string, ScreeningAnswerValue>) {
   const publicIds = publicQuestionIdSet(publicProfile);
   return publicProfile.questions

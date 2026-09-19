@@ -8,7 +8,7 @@ source-recovery reports, finish queues — supplies facts, not missions.
 POST_LAUNCH_BACKLOG, unless it proves a defect that stops the intended launch
 product working correctly.**
 
-Release candidate: `captain-release` @ `0bf6f8191` (local; 5 commits unpushed,
+Release candidate: `captain-release` @ `ab85fe519` (local; 13 commits unpushed,
 push held by owner instruction).
 
 ## Scope gate — answer before any item becomes active
@@ -45,6 +45,8 @@ lane, no agent swarm.
 | ND output legal review — `STALE / RE-REVIEW REQUIRED` | 3 | `READY` | Same binding, same phase, same condition |
 | `dc-correct-misattributed-arrest` has a specification but no packet plan | 3 | `READY` | The one specification of nineteen whose pathway the planner cannot plan, so collection has nothing to ask. DC is noncommercial on this route; repair with the DC rows in Phase 3 |
 | GA-5-MS reapply the reverted `routeKeys` binding fix | 3 | `ACTIVE` | 132C. Reverted earlier to hold `rebuildRequired:false`; that is no longer the accepted end state |
+| GA-5-OR Oregon `caseMode` unresolved | 3 | `READY` | Moved here from 4.2 by owner instruction. The authority does not say whether the set-aside opens a new case or files into the existing one; the value stays `unresolved` and the component stays non-releaseable. Not a shared-contract question, and `existing_case`/`new_case` is not to be invented for it |
+| GA-6.2 real browser packet-information journey | 2 | `ACTIVE` | Mississippi original journey first, then activated conditional and high-friction cases, save/resume, Review/Edit, EN/ES, mobile and keyboard |
 
 ## External blockers
 
@@ -64,11 +66,55 @@ lane, no agent swarm.
 | GA-4.1 one authoritative route definition | 1 | Already correct. `packetPlanForPathway` derives required inputs from the packet specification (`packetSpecificationRequiredFactIdsFor`); mutation-proven on a registered and an unregistered spec. No duplication to remove, and no control added — a parity check between them cannot fail |
 | GA-4.3 cross-jurisdiction presentation fallback removed | 1 | 13 configs now refuse; PA byte-identical 3/3; 190 checks |
 | GA-4.4 product branding removed from court-facing documents | 1 | renderer 1.0.0 -> 2.0.0; QA rule inverted; ND footer now audience-driven |
+| GA-4.2 shared document contract | 1 | 12 attributes on all 76 documents across 19 specifications, populated from `legal-design-packet-set-manifests.json`; consumed by the renderer and refused at the fulfillment boundary; 203 checks, four invariants each mutation-tested. Oregon `caseMode` moved to Phase 3 as a route question |
+| GA-6.1 no required participant-owned render fact after Checkout | 2 | **0 nationwide.** 538 checks in `verify-rcap-prepurchase-render-facts.mjs`: 13 reachable routes with a registered specification, 172 participant-owned specification facts, all in the pre-Checkout gate or excused with a recorded disposition (MS non-conviction excuses 5, all `derived`). Two route-level mutations proven to fail the check. No product change was warranted — see below |
 | Memo lineage restoration (32) | — | `e1834aac7`; sweep step 154 |
 | Resolution-lane sidecar (33) | — | `d01cc0e30`; steps 155, 158 |
 | Per-question out-of-scope reasons (36B) | — | steps 164, 165 |
 | Authority-derived hardening expectation | — | step 254 |
 | Verifier register re-observed | — | `11fe14d0f`; 513-script audit |
+
+## GA-6.1 — correction to an earlier report
+
+An earlier report of this lane said Georgia's required `arrest_date` "can remain
+post-pay". That was read off the question-lifecycle label, and the label does not
+mean what it appears to mean. **`postpay_*` names the section of the guided
+journey a question belongs to. It does not decide when money may move.**
+
+The Checkout boundary is a different, stricter gate:
+
+```
+POST /api/expungement-ai/checkout
+  -> requireCurrentPacketVerification            payment-adapter.ts
+  -> verified only when verify === true AND missingInputIds is empty
+                                                 packet-information.ts
+  -> missingInputIds = collectionGateInputIds() = prepayGateFactIds()
+  -> prepayGateFactIds = EVERY fact the participant still owes,
+     render-required and filing-readiness included
+                                                 packet-collection.ts
+```
+
+A fact leaves that gate only by ceasing to be the participant's to answer — the
+server owns it, it follows deterministically from another answer, another actor
+fills it later, or its own condition says it does not apply — and each of those
+keeps a recorded disposition. So Georgia's `arrest_date` is resolved before
+Checkout; it is classified `prepay_confirmation` on the pardoned-felony route and
+is in the gate on both Georgia routes.
+
+Measured, route by route, against each route's **own** registered specification
+(never jurisdiction-wide — one jurisdiction's specifications describe different
+packet families, and joining them wholesale produced a false 144-fact gap):
+
+- participant-owned specification facts absent from the route's packet plan: **0**
+- in the plan but escaping the pre-Checkout gate: **0**
+- `DC:dc_correct_misattributed_arrest` has no compiled runtime pathway, so no
+  participant can select it; it is the Phase 3 row above, not a gate escape.
+
+No product edit was made, because none moved the measured result. What was added
+is the check that makes the invariant executable, and a comment at
+`requiredMissingPublicQuestionIds` naming where the real gate is — that function
+deliberately ignores required post-pay questions, and nothing said why that was
+safe, which is what made the label misleading in the first place.
 
 ## Post-launch backlog
 
@@ -77,6 +123,8 @@ One sentence each. No investigation beyond bucket assignment.
 - Tracked Python bytecode cache `scripts/rcap-packet-recovery/__pycache__/*.pyc` dirties the tree on every Python test run.
 - Price-surface mutation is honestly `undetected`; re-aim it when next in that file.
 - `verify-rcap-session-13-terminalization.mjs` rewrites tracked files when run (now `quarantine`).
+- The `postpay_*` question-lifecycle names and `postPaymentPacketCompletion` read as a payment boundary but are a journey-section boundary; renaming them would touch a public contract union and is not launch-affecting.
+- `missingProductFactIds` in the evaluator is a Wisconsin-only hardcoded precondition list where a route-contract lookup would do.
 
 ## Owner-only decisions
 
