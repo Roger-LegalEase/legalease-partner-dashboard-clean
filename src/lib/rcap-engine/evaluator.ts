@@ -14,8 +14,11 @@ import {
   NEVADA_176A_BRANCH_FACT_IDS,
   NEVADA_176A_ROUTE_KEY,
   NEVADA_176A_SUBSECTION_1_GUIDANCE,
+  NEVADA_176A_SUBSECTION_3_BARRED_TEXT,
+  NEVADA_176A_SUBSECTION_3_UNRESOLVED_TEXT,
   NEVADA_176A_UNRESOLVED_BRANCH_TEXT,
-  nevada176ABranch
+  nevada176ABranch,
+  nevada176ASubsection3
 } from "@/lib/rcap-engine/nevada-176a-branch";
 import routeKindAdjudications from "@/../data/rcap-ledger/route-kind-adjudications.json";
 import routePresentationConflicts from "@/../data/rcap-ledger/route-presentation-conflicts.json";
@@ -772,7 +775,32 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
   if (mdPardonGate) return mdPardonGate;
   const mdPoliceRecordGate = mdPoliceRecordDeadlineSafetyGate(profile, answers, pathway);
   if (mdPoliceRecordGate) return mdPoliceRecordGate;
+  const nvSubsection3 = nevada176ASubsection3Gate(profile, answers, pathway);
+  if (nvSubsection3) return nvSubsection3;
   return undefined;
+}
+
+// Nevada NRS 176A.245(3), 176A.265(3) and 176A.295(3): the court may not order
+// sealing under the section where the charge was under NRS 200.508 or
+// NRS 200.5099, whether the defendant was discharged from probation, the case
+// was dismissed, or the judgment was set aside.
+//
+// It bars BOTH branches, so it runs here — before the branch is resolved —
+// rather than inside the branch gates. An unanswered bar is `needs_review`, not
+// permission: the approved petition asserts in terms that the petitioner was
+// not so charged, and a packet must not have a participant swear to something
+// the product never established.
+function nevada176ASubsection3Gate(
+  profile: EngineProfile,
+  answers: Record<string, ScreeningAnswerValue>,
+  pathway: CompiledPathway
+): ScreeningReason | undefined {
+  if (routeKey(profile, pathway) !== NEVADA_176A_ROUTE_KEY) return undefined;
+  const bar = nevada176ASubsection3(answers);
+  if (bar === "not_barred") return undefined;
+  return bar === "barred"
+    ? reason(profile.jurisdiction.code, "nv_176a_subsection_3_not_eligible", NEVADA_176A_SUBSECTION_3_BARRED_TEXT, pathway.sourceRef)
+    : reason(profile.jurisdiction.code, "nv_176a_subsection_3_not_established", NEVADA_176A_SUBSECTION_3_UNRESOLVED_TEXT, pathway.sourceRef);
 }
 
 // Maryland pardoned-conviction deadline bar (counsel approved 2026-08-11): Md. Crim. Proc.

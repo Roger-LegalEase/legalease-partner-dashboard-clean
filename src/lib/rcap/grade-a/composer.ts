@@ -59,7 +59,12 @@ export type GradeABlock =
       kind: "pleading_identity_list";
       introduction?: string;
       number?: string;
-      items: Array<{ label: string; value: string }>;
+      /**
+       * `blank` marks a value the participant writes on the printed page. The
+       * renderer draws a line for it instead of a value, and the composer never
+       * fills one, so an approved blank cannot quietly become a prefilled field.
+       */
+      items: Array<{ label: string; value: string; blank?: boolean }>;
     }
   | {
       kind: "pleading_signature";
@@ -114,11 +119,22 @@ export class GradeAPacketCompositionError extends Error {
   }
 }
 
+/**
+ * Values the participant writes on the printed page rather than supplies to us.
+ *
+ * Declared by the specification, never inferred: a field is a blank because the
+ * approved packet design made it one, and this function reports that decision
+ * rather than making it.
+ */
+function completedBeforeFiling(specification: PacketSpecification): ReadonlySet<string> {
+  return new Set(specification.fieldOwnership?.participantCompletesBeforeFilingFields ?? []);
+}
+
 /** Facts a document actually reads, so a missing-fact refusal names the real cause. */
-function factsUsedBy(document: PacketSpecificationDocument): string[] {
+function factsUsedBy(document: PacketSpecificationDocument, blanks: ReadonlySet<string>): string[] {
   const used = new Set<string>();
   for (const section of document.sections) {
-    for (const field of section.fields ?? []) used.add(field);
+    for (const field of section.fields ?? []) if (!blanks.has(field)) used.add(field);
     for (const assertion of section.assertions ?? []) {
       for (const fact of assertion.facts) used.add(fact);
       for (const [, id] of assertion.text.matchAll(/\{\{([a-z0-9_]+)\}\}/g)) used.add(id);
@@ -348,9 +364,10 @@ export function composeGradeAPacket(
   // is composed. Composing the ones that happen to be satisfiable would hand a
   // participant a partial packet, which is the failure mode this whole gate
   // exists to prevent.
+  const blanks = completedBeforeFiling(specification);
   const missing = [...new Set([
     ...specification.requiredFacts.map((requiredFact) => requiredFact.factId),
-    ...included.flatMap(factsUsedBy)
+    ...included.flatMap((document) => factsUsedBy(document, blanks))
   ])]
     .filter((id) => fact(matter, id) === "")
     .sort();
@@ -397,6 +414,17 @@ function composeSection(
   presentation: "guidance" | "pleading"
 ): GradeABlock[] {
   const head: GradeABlock = { kind: "heading", text: section.heading };
+  const blanks = completedBeforeFiling(specification);
+  // A field the approved design leaves for the participant to write on the page
+  // is emitted as a labelled blank, never filled. `fact()` is not consulted for
+  // one: there is nothing to consult, and reaching for a value here is how an
+  // approved blank turns into a prefilled field nobody approved.
+  const fieldItem = (field: string) => (blanks.has(field)
+    ? { label: section.fieldLabels?.[field] ?? captionLabel(field), value: "", blank: true }
+    : {
+      label: section.fieldLabels?.[field] ?? captionLabel(field),
+      value: fill(section.fieldValueTemplates?.[field] ?? `{{${field}}}`, matter)
+    });
 
   switch (section.kind) {
     case "pleading_caption":
@@ -431,10 +459,7 @@ function composeSection(
         kind: "pleading_identity_list",
         introduction: fill(section.body ?? "", matter),
         number,
-        items: (section.fields ?? []).map((field) => ({
-          label: section.fieldLabels?.[field] ?? captionLabel(field),
-          value: fill(section.fieldValueTemplates?.[field] ?? `{{${field}}}`, matter)
-        }))
+        items: (section.fields ?? []).map(fieldItem)
       }];
     }
 
@@ -490,10 +515,7 @@ function composeSection(
         kind: "confidential_identifier_addendum",
         title: section.heading,
         warning: fill(section.body ?? "", matter),
-        items: (section.fields ?? []).map((field) => ({
-          label: section.fieldLabels?.[field] ?? captionLabel(field),
-          value: fill(section.fieldValueTemplates?.[field] ?? `{{${field}}}`, matter)
-        }))
+        items: (section.fields ?? []).map(fieldItem)
       }];
 
     case "static":

@@ -73,13 +73,89 @@ export const NEVADA_176A_DISPOSITION_ORDINARY_DISMISSAL = "The case was dismisse
 export const NEVADA_176A_DISPOSITION_UNSURE = "I am not sure";
 
 /**
- * The two questions, as the profile publishes them.
+ * Subsection 3 of each of the three sections, which is a bar and not a branch.
+ *
+ * "The court may not order sealing under the section where the defendant was
+ * charged with a violation of NRS 200.508 (abuse, neglect or endangerment of a
+ * child) or NRS 200.5099 (abuse, neglect, exploitation, isolation or
+ * abandonment of an older person or a vulnerable person), whether the defendant
+ * was discharged from probation, the case was dismissed, or the judgment of
+ * conviction was set aside."
+ *
+ * It applies on BOTH branches, so it is resolved before the branch is, and it is
+ * its own fact rather than a third branch answer. The approved petition asserts
+ * it in terms — paragraph 5 reads "The petitioner was not charged with a
+ * violation of NRS 200.508 or NRS 200.5099" — so until this is asked, the packet
+ * would have a participant swear to something the product never established.
+ * That is why it is launch work rather than a note.
+ *
+ * Source: NV.memo tracks[nv_seal_probation_family].exclusions[0]; the
+ * specification's own hearingAndObjectionStops[0]; and the approved
+ * branch_screen text, "BARRED ON BOTH BRANCHES".
+ */
+export const NEVADA_176A_EXCLUDED_CHARGE_FACT_ID = "nv_176a_excluded_charge_class";
+
+export const NEVADA_176A_EXCLUDED_CHARGE_YES = "Yes — one of those was the charge";
+export const NEVADA_176A_EXCLUDED_CHARGE_NO = "No — neither was the charge";
+export const NEVADA_176A_EXCLUDED_CHARGE_UNSURE = "I am not sure";
+
+export type Nevada176ASubsection3 = "barred" | "not_barred" | "unresolved";
+
+/**
+ * Whether subsection 3 bars sealing. `unresolved` is not "not barred": a route
+ * that may be statutorily barred does not proceed on an unanswered bar.
+ */
+export function nevada176ASubsection3(facts: Readonly<Record<string, unknown>>): Nevada176ASubsection3 {
+  const answer = answerOf(facts[NEVADA_176A_EXCLUDED_CHARGE_FACT_ID]);
+  if (answer === NEVADA_176A_EXCLUDED_CHARGE_YES) return "barred";
+  if (answer === NEVADA_176A_EXCLUDED_CHARGE_NO) return "not_barred";
+  return "unresolved";
+}
+
+export const NEVADA_176A_SUBSECTION_3_BARRED_TEXT =
+  "Nevada does not allow this kind of case to be sealed under these sections. Subsection 3 of "
+  + "NRS 176A.245, 176A.265 and 176A.295 forbids sealing where the charge was under NRS 200.508 "
+  + "(abuse, neglect or endangerment of a child) or NRS 200.5099 (abuse, neglect, exploitation, "
+  + "isolation or abandonment of an older person or a vulnerable person). That is true whether you "
+  + "were discharged from probation, the case was dismissed, or the judgment was set aside, so "
+  + "neither the automatic route nor a petition is open here. A lawyer or Nevada Legal Services is "
+  + "the right place to take this.";
+
+export const NEVADA_176A_SUBSECTION_3_UNRESOLVED_TEXT =
+  "Nevada bars sealing under these sections for some charges involving a child, an older person or a "
+  + "vulnerable person, whatever happened to the case afterwards. Tell us whether yours was one of "
+  + "those and we can say whether this route is open to you at all.";
+
+/**
+ * Every fact this route's own gates read: the two that decide the branch and the
+ * one that decides whether either branch is open at all. This is the list the
+ * collection policy consumes, so none of them can reach Checkout unanswered.
+ */
+export const NEVADA_176A_ROUTE_SAFETY_FACT_IDS: readonly string[] = [
+  NEVADA_176A_EXCLUDED_CHARGE_FACT_ID,
+  ...NEVADA_176A_BRANCH_FACT_IDS
+];
+
+/**
+ * The three questions, as the profile publishes them.
  *
  * Option-only and answerable from memory: a participant who ran a treatment
- * programme knows what they were charged with and how it ended. Neither asks
- * for a date, a document, a docket number or a statutory classification.
+ * programme knows what they were charged with and how it ended. None asks for a
+ * date, a document, a docket number or a statutory classification.
  */
 export const NEVADA_176A_BRANCH_QUESTIONS = [
+  {
+    id: "nv_176a_excluded_charge_class",
+    stage: "special_pathways",
+    prompt: "Was the charge abuse, neglect or endangerment of a child, or abuse, neglect, exploitation, isolation or abandonment of an older person or a vulnerable person?",
+    helperText: "Nevada does not allow these sections to seal those cases, however the case ended. Answer from what you were charged with, not from any paperwork.",
+    type: "single_choice",
+    required: true,
+    lifecyclePhase: "prepay_hard_disqualifier",
+    contextOnly: false,
+    doesNotSelectPathway: false,
+    options: [NEVADA_176A_EXCLUDED_CHARGE_YES, NEVADA_176A_EXCLUDED_CHARGE_NO, NEVADA_176A_EXCLUDED_CHARGE_UNSURE]
+  },
   {
     id: NEVADA_176A_CHARGE_FACT_ID,
     stage: "special_pathways",

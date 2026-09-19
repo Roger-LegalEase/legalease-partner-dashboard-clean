@@ -323,6 +323,17 @@ function drawPleadingIdentityList(
   }
   block.items.forEach((item, index) => {
     const letter = String.fromCharCode(97 + index);
+    if (item.blank) {
+      // A value the participant writes on the page. The label is printed and a
+      // line is drawn for it, the same way a signature line is drawn: printing
+      // "(a) Case number: " with nothing after it reads as a value the packet
+      // failed to supply, and a line reads as the instruction it is.
+      drawPleadingText(cursor, document, fonts, context, `(${letter}) ${item.label}:`, { indent: 24 });
+      cursor.y -= 6;
+      drawBlankLine(cursor, fonts, 320);
+      cursor.y -= 3;
+      return;
+    }
     drawPleadingText(cursor, document, fonts, context, `(${letter}) ${item.label}: ${item.value}`, { indent: 24 });
     cursor.y -= 3;
   });

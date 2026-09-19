@@ -78,6 +78,48 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     es: "Guarde el asunto en su Maletín gratuito, complete la información del paquete y revísela antes del pago."
   },
 
+  // Nevada NRS 176A.245 / .265 / .295, both branch results.
+  //
+  // These are engine reason texts, not interface chrome, and they reach the
+  // participant through `safeUserFacingEngineText` -> `resolveRuntimeText`,
+  // which matches on the exact English. The English below is byte-identical to
+  // `NEVADA_176A_SUBSECTION_1_GUIDANCE` and `NEVADA_176A_UNRESOLVED_BRANCH_TEXT`
+  // in src/lib/rcap-engine/nevada-176a-branch.ts; a control asserts that, so the
+  // two cannot drift into a silent English-only fallback.
+  //
+  // The first one is the entire answer for a participant whose relief is
+  // automatic: it is what they get instead of a packet, and leaving it English
+  // would tell a Spanish-speaking participant nothing about relief they are
+  // already entitled to and need pay nothing for.
+  "result.nv.176a_subsection_1_automatic": {
+    en: "Nevada seals this kind of case automatically. Under NRS 176A.245, 176A.265 or 176A.295, once you were discharged from probation or the case was dismissed after the treatment programme, the justice, municipal or district court that handled your case must order the records sealed without a hearing, unless the Division of Parole and Probation asks the court not to. You do not file a petition, you do not need a packet, and there is nothing to pay. If the record still shows the case, contact the court that supervised the programme — it holds the sealing order and is the only body that can act — or Nevada Legal Services.",
+    es: "Nevada sella este tipo de caso automáticamente. Conforme a las NRS 176A.245, 176A.265 o 176A.295, una vez que usted fue dado de baja de la libertad condicional o el caso fue desestimado después del programa de tratamiento, el tribunal de paz, municipal o de distrito que atendió su caso debe ordenar que los antecedentes se sellen sin audiencia, salvo que la División de Libertad Condicional y Probatoria le pida al tribunal que no lo haga. Usted no presenta ninguna petición, no necesita un paquete y no hay nada que pagar. Si el antecedente todavía muestra el caso, comuníquese con el tribunal que supervisó el programa — es quien tiene la orden de sellado y el único que puede actuar — o con Nevada Legal Services."
+  },
+  "result.nv.176a_branch_not_established": {
+    en: "Nevada has two different mechanisms for this kind of case, and which one applies depends on what you were charged with and how the case ended. Answer those two questions and we can tell you whether the court seals the record on its own or whether you file a petition.",
+    es: "Nevada tiene dos mecanismos distintos para este tipo de caso, y cuál se aplica depende del cargo que se le imputó y de cómo terminó el caso. Responda esas dos preguntas y podremos decirle si el tribunal sella el antecedente por su cuenta o si usted presenta una petición."
+  },
+  "result.nv.176a_subsection_3_barred": {
+    en: "Nevada does not allow this kind of case to be sealed under these sections. Subsection 3 of NRS 176A.245, 176A.265 and 176A.295 forbids sealing where the charge was under NRS 200.508 (abuse, neglect or endangerment of a child) or NRS 200.5099 (abuse, neglect, exploitation, isolation or abandonment of an older person or a vulnerable person). That is true whether you were discharged from probation, the case was dismissed, or the judgment was set aside, so neither the automatic route nor a petition is open here. A lawyer or Nevada Legal Services is the right place to take this.",
+    es: "Nevada no permite que este tipo de caso se selle conforme a estas secciones. La subsección 3 de las NRS 176A.245, 176A.265 y 176A.295 prohíbe el sellado cuando el cargo fue conforme a la NRS 200.508 (maltrato, descuido o puesta en peligro de un menor) o la NRS 200.5099 (maltrato, descuido, explotación, aislamiento o abandono de una persona mayor o de una persona vulnerable). Esto rige tanto si usted fue dado de baja de la libertad condicional, como si el caso fue desestimado o la sentencia fue anulada, de modo que aquí no está abierta ni la vía automática ni una petición. Un abogado o Nevada Legal Services es el lugar indicado para llevar este asunto."
+  },
+  "result.nv.176a_subsection_3_not_established": {
+    en: "Nevada bars sealing under these sections for some charges involving a child, an older person or a vulnerable person, whatever happened to the case afterwards. Tell us whether yours was one of those and we can say whether this route is open to you at all.",
+    es: "Nevada prohíbe el sellado conforme a estas secciones para ciertos cargos relacionados con un menor, una persona mayor o una persona vulnerable, sin importar lo que haya ocurrido después con el caso. Díganos si el suyo fue uno de esos y podremos decirle si esta ruta está abierta para usted."
+  },
+  "missing.nv_176a_excluded_charge_class": {
+    en: "Was the charge abuse of a child, an older person or a vulnerable person?",
+    es: "¿El cargo fue maltrato de un menor, de una persona mayor o de una persona vulnerable?"
+  },
+  "missing.nv_176a_charge_class": {
+    en: "Was the charge domestic-violence battery or driving under the influence?",
+    es: "¿El cargo fue agresión por violencia doméstica o conducir bajo los efectos del alcohol o las drogas?"
+  },
+  "missing.nv_176a_disposition_class": {
+    en: "How did the case end after the programme?",
+    es: "¿Cómo terminó el caso después del programa?"
+  },
+
   "screening.free_screening": { en: "Free screening", es: "Revisión gratis" },
   "screening.where_record": { en: "Where is the record?", es: "¿Dónde está el antecedente?" },
   "screening.state_picker_body": {

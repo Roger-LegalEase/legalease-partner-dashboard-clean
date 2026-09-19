@@ -42,6 +42,7 @@ const { packetSpecificationFor } = await import("../src/lib/rcap/grade-a/packet-
 const { composeGradeAPacket } = await import("../src/lib/rcap/grade-a/composer.ts");
 const { routeSafetyGateFactIds } = await import("../src/lib/expungement-ai/packet-route-safety.ts");
 const { packetFulfillmentAuthority } = await import("../src/lib/expungement-ai/packet-fulfillment-authority.ts");
+const { friendlyMissingFieldLabel, safeUserFacingEngineText } = await import("../src/lib/expungement-ai/missing-fields.ts");
 const NV = await import("../src/lib/rcap-engine/nevada-176a-branch.ts");
 
 const failures = [];
@@ -151,7 +152,10 @@ const baseAnswers = {
   disposition_date: "2015-01-05",
   resolved_timing_bucket: "gt_10_years",
   pending_cases: "No",
-  pardon_status: "No"
+  pardon_status: "No",
+  // Subsection 3 answered in the negative, so the bar is out of the way and the
+  // branch is what these cases measure. The bar has its own section below.
+  [NV.NEVADA_176A_EXCLUDED_CHARGE_FACT_ID]: NV.NEVADA_176A_EXCLUDED_CHARGE_NO
 };
 
 const screen = (charge, disposition, extra = {}) => evaluateScreening({
@@ -247,6 +251,7 @@ const alwaysIncluded = specification.documents.filter((document) => document.req
 check(alwaysIncluded.length > 0, "the specification still ships components on both branches");
 
 const petitionFacts = {
+  [NV.NEVADA_176A_EXCLUDED_CHARGE_FACT_ID]: NV.NEVADA_176A_EXCLUDED_CHARGE_NO,
   participant_full_legal_name: "Jordan Alvarez",
   date_of_birth: "1988-04-02",
   mailing_address: "410 Fremont Street, Las Vegas, NV 89101",
@@ -341,6 +346,167 @@ if (typeof includedDocumentIdsForFacts === "function") {
 } else {
   check(false, "the composer exports includedDocumentIdsForFacts so the include decision can be measured without a full render");
 }
+
+// ---------------------------------------------------------------------------
+// 6. Subsection 3 — a bar on both branches, not a third branch.
+//
+// "The court may not order sealing under the section where the defendant was
+// charged with a violation of NRS 200.508 or NRS 200.5099, whether the
+// defendant was discharged from probation, the case was dismissed, or the
+// judgment of conviction was set aside."
+//
+// The approved petition asserts in terms that the petitioner was not so
+// charged, so this is not a note: until it is asked, the packet would have a
+// participant swear to something the product never established.
+// ---------------------------------------------------------------------------
+
+const barQuestion = publicById.get(NV.NEVADA_176A_EXCLUDED_CHARGE_FACT_ID);
+check(Boolean(barQuestion), "the subsection 3 bar is published as a public screening question");
+check(barQuestion?.required === true, "the subsection 3 bar is required, so the route cannot proceed without it");
+check(
+  Array.isArray(barQuestion?.options) && barQuestion.options.length > 1,
+  "the subsection 3 bar is answered by choosing, never by typing"
+);
+check(
+  gateFactIds.includes(NV.NEVADA_176A_EXCLUDED_CHARGE_FACT_ID),
+  "the subsection 3 bar is a route-safety gate fact, so it resolves before Checkout"
+);
+
+const withBar = (barAnswer, charge, disposition) => evaluateScreening({
+  jurisdiction: JURISDICTION,
+  profileVersion: profile.profileVersion,
+  answers: {
+    ...baseAnswers,
+    ...branchFacts(charge, disposition),
+    [NV.NEVADA_176A_EXCLUDED_CHARGE_FACT_ID]: barAnswer
+  }
+});
+
+// Both branches, because the bar reaches both. A bar that only closed the
+// petition branch would leave a barred participant being told their record
+// seals automatically, which is the more harmful of the two errors.
+for (const [label, charge, disposition] of [
+  ["petition branch", NV.NEVADA_176A_CHARGE_NAMED, NV.NEVADA_176A_DISPOSITION_CONDITIONAL_DISMISSAL],
+  ["automatic branch", NV.NEVADA_176A_CHARGE_OTHER, NV.NEVADA_176A_DISPOSITION_PROBATION_DISCHARGE]
+]) {
+  const barred = await withBar(NV.NEVADA_176A_EXCLUDED_CHARGE_YES, charge, disposition);
+  check(barred.resultCode === "likely_not_eligible", `a barred charge on the ${label} is not eligible (got ${barred.resultCode})`);
+  check(barred.paymentAllowed === false, `a barred charge on the ${label} never opens payment`);
+  check(barred.resultCode !== "guidance_only", `a barred charge on the ${label} is not told the record seals automatically`);
+
+  const unsure = await withBar(NV.NEVADA_176A_EXCLUDED_CHARGE_UNSURE, charge, disposition);
+  check(unsure.resultCode === "needs_review", `an unanswered bar on the ${label} fails closed (got ${unsure.resultCode})`);
+  check(unsure.paymentAllowed === false, `an unanswered bar on the ${label} never opens payment`);
+}
+
+// ---------------------------------------------------------------------------
+// 7. English and Spanish, on every surface these questions reach.
+//
+// They are route- and payment-deciding, so an English-only fallback would leave
+// a Spanish-speaking participant unable to establish whether they should file
+// anything or pay anything. The reason texts are checked by exact English,
+// because that is how the runtime resolver finds their Spanish: if the module
+// and the copy map drift apart, the lookup silently returns English.
+// ---------------------------------------------------------------------------
+
+for (const factId of NV.NEVADA_176A_ROUTE_SAFETY_FACT_IDS) {
+  const question = publicById.get(factId);
+  if (!question) continue;
+  const spanishPrompt = question.translations?.es?.prompt;
+  check(Boolean(spanishPrompt) && spanishPrompt !== question.prompt, `${factId} has a Spanish prompt that is not the English one`);
+  check(
+    !question.helperText || Boolean(question.translations?.es?.helperText),
+    `${factId} has Spanish helper text wherever it has English helper text`
+  );
+  const options = question.options ?? [];
+  const translatedOptions = options.filter((option) => {
+    const display = question.optionDisplay?.[option];
+    const spanish = display?.translations?.es?.label;
+    return Boolean(spanish) && spanish !== option;
+  });
+  check(
+    translatedOptions.length === options.length,
+    `every one of ${factId}'s ${options.length} options has a Spanish label (${translatedOptions.length} translated)`
+  );
+  const englishLabel = friendlyMissingFieldLabel(factId, null, "en");
+  const spanishLabel = friendlyMissingFieldLabel(factId, null, "es");
+  check(
+    Boolean(spanishLabel) && spanishLabel !== englishLabel && !/^tell us more about/i.test(englishLabel),
+    `${factId} has friendly missing-field copy in both languages, not a humanized field id`
+  );
+}
+
+for (const [name, text] of [
+  ["the subsection 1 guidance", NV.NEVADA_176A_SUBSECTION_1_GUIDANCE],
+  ["the unresolved-branch text", NV.NEVADA_176A_UNRESOLVED_BRANCH_TEXT],
+  ["the subsection 3 bar text", NV.NEVADA_176A_SUBSECTION_3_BARRED_TEXT],
+  ["the unresolved-bar text", NV.NEVADA_176A_SUBSECTION_3_UNRESOLVED_TEXT]
+]) {
+  const english = safeUserFacingEngineText(text, { locale: "en" });
+  const spanish = safeUserFacingEngineText(text, { locale: "es" });
+  check(english === text, `${name} reaches the participant in English unchanged`);
+  check(spanish !== english && spanish.length > 0, `${name} reaches the participant in Spanish`);
+}
+
+// ---------------------------------------------------------------------------
+// 8. Required-fact completeness: every value the documents consume has an
+//    authoritative owner, and no unnecessary question was created.
+//
+// The owner-adopted field map
+// (scripts/build-census-v1-nv_seal_probation_family-set.mjs, adopted
+// 2026-09-02) already classified every one of these. This asserts the
+// specification agrees with it: the values the platform generates are required
+// facts, the values the participant writes on the printed page are declared
+// blanks, and nothing is in both or in neither.
+// ---------------------------------------------------------------------------
+
+const declaredFacts = new Set(specification.requiredFacts.map((required) => required.factId));
+const declaredBlanks = new Set(specification.fieldOwnership?.participantCompletesBeforeFilingFields ?? []);
+const consumed = new Set(specification.documents.flatMap((document) => document.sections
+  .flatMap((section) => [
+    ...(section.fields ?? []),
+    ...(section.assertions ?? []).flatMap((assertion) => assertion.facts),
+    ...[...String(section.body ?? "").matchAll(/\{\{([a-z0-9_]+)\}\}/g)].map((match) => match[1])
+  ])));
+
+check(consumed.size > 0, `the documents consume values to classify (${consumed.size})`);
+const unclassified = [...consumed].filter((id) => !declaredFacts.has(id) && !declaredBlanks.has(id)).sort();
+check(
+  unclassified.length === 0,
+  `every value the documents consume is either a required fact or a declared blank${unclassified.length ? `; unclassified: ${unclassified.join(", ")}` : ""}`
+);
+const bothWays = [...declaredBlanks].filter((id) => declaredFacts.has(id)).sort();
+check(bothWays.length === 0, `no value is both a required fact and a blank${bothWays.length ? `: ${bothWays.join(", ")}` : ""}`);
+
+// No unnecessary question: a declared blank must never be something the
+// participant is asked for before Checkout. That is the whole point of the
+// bucket — the approved design leaves these as lines on the page precisely
+// because a value typed weeks earlier is likelier wrong than blank.
+const askedBeforeCheckout = [...declaredBlanks].filter((id) => publicById.has(id)).sort();
+check(
+  askedBeforeCheckout.length === 0,
+  `no participant-completable blank is also a screening question${askedBeforeCheckout.length ? `: ${askedBeforeCheckout.join(", ")}` : ""}`
+);
+
+// The blanks are blanks in the render, not missing facts: composing with every
+// required fact present and every blank absent must get past the fact gate.
+const blanksAbsent = Object.fromEntries(Object.entries(petitionFacts).filter(([id]) => !declaredBlanks.has(id)));
+let blankComposition;
+try {
+  composeGradeAPacket(specification, {
+    routeKey: ROUTE_KEY, jurisdiction: JURISDICTION, pathwayId: PATHWAY_ID,
+    facts: { ...blanksAbsent, ...branchFacts(NV.NEVADA_176A_CHARGE_NAMED, NV.NEVADA_176A_DISPOSITION_CONDITIONAL_DISMISSAL) },
+    verificationHash: "nevada-176a-branch-control", verifiedAt: "2026-09-19T00:00:00.000Z",
+    generationPurpose: "internal_review"
+  });
+  blankComposition = "";
+} catch (error) {
+  blankComposition = String(error?.message ?? error);
+}
+check(
+  !/required fact\(s\) are missing/.test(blankComposition),
+  `the eleven participant-completable blanks are not demanded as facts (got: ${blankComposition.slice(0, 160) || "composed"})`
+);
 
 console.log(`\n${failures.length === 0 ? "PASS" : "FAIL"} — ${failures.length} failing check(s)`);
 if (failures.length > 0) {

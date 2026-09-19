@@ -8,6 +8,40 @@ type MissingFieldFallback = {
 };
 
 const FRIENDLY_MISSING_FIELD_FALLBACKS: Record<string, MissingFieldFallback> = {
+  // Nevada's branch questions. They reach this map because an unestablished
+  // NRS 176A branch names them in `missingQuestionIds`, and without an entry a
+  // participant would be shown the raw field id. Both prompts are localized
+  // through `resolveRuntimeText`, in both languages, like every other entry
+  // here.
+  nv_176a_excluded_charge_class: {
+    prompt: "Was the charge abuse of a child, an older person or a vulnerable person?",
+    type: "single_choice",
+    options: [
+      "Yes — one of those was the charge",
+      "No — neither was the charge",
+      "I am not sure"
+    ]
+  },
+  nv_176a_charge_class: {
+    prompt: "Was the charge domestic-violence battery or driving under the influence?",
+    type: "single_choice",
+    options: [
+      "Yes — battery constituting domestic violence, or driving under the influence",
+      "No — it was a different charge",
+      "I am not sure"
+    ]
+  },
+  nv_176a_disposition_class: {
+    prompt: "How did the case end after the programme?",
+    type: "single_choice",
+    options: [
+      "I was discharged from probation",
+      "The case was dismissed outright",
+      "The charges were conditionally dismissed",
+      "The judgment of conviction was set aside",
+      "I am not sure"
+    ]
+  },
   resolved_timing_bucket: {
     prompt: "About how long ago did this case end or get resolved?",
     type: "single_choice",

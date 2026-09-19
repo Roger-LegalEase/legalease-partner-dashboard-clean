@@ -121,6 +121,13 @@
       "ownership": "participant"
     },
     {
+      "factId": "nv_176a_excluded_charge_class",
+      "use": "Subsection 3 of NRS 176A.245, 176A.265 and 176A.295 bars sealing under the section where the charge was under NRS 200.508 or NRS 200.5099, on both branches. Paragraph 5 of the petition asserts in terms that the petitioner was not so charged, so the packet may not be composed without it. Carried from screening, where the bar is resolved before Checkout; no packet asks it again.",
+      "inRegistryRequiredInputs": false,
+      "gapNote": "Route eligibility fact, not a field written into any document. The evaluator bars the route when it is answered yes and refuses to proceed when it is unresolved; it is required here so a petition carrying the paragraph 5 assertion cannot compose without the fact behind it.",
+      "ownership": "participant"
+    },
+    {
       "factId": "nv_176a_charge_class",
       "use": "Establishes the subsection 2 petition branch, with nv_176a_disposition_class: subsection 2 of NRS 176A.245, 176A.265 and 176A.295 reaches only a charge under NRS 200.485, NRS 484C.110 or NRS 484C.120. Carried from screening, where the branch is resolved before Checkout; no packet asks it again.",
       "inRegistryRequiredInputs": false,
@@ -151,6 +158,7 @@
       "mailing_address",
       "phone_number",
       "email_address",
+      "nv_176a_excluded_charge_class",
       "nv_176a_charge_class",
       "nv_176a_disposition_class"
     ],
@@ -172,6 +180,19 @@
     "courtOwnedFields": [
       "proposed_order.order_date",
       "proposed_order.judge_signature"
+    ],
+    "participantCompletesBeforeFilingFields": [
+      "court_identity",
+      "underlying_case_number",
+      "programme_section",
+      "charge_wording",
+      "resolution_kind",
+      "resolution_date",
+      "order_court_identity",
+      "order_case_number",
+      "named_agencies_and_officers",
+      "declared_programme",
+      "declared_resolution"
     ]
   },
   "documents": [

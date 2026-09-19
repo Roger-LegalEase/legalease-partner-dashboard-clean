@@ -176,6 +176,24 @@ export type PacketSpecification = {
     notaryOwnedFields?: string[];
     prosecutorOwnedFields: string[];
     courtOwnedFields: string[];
+    /**
+     * Values the document prints as a labelled blank line for the participant to
+     * complete from their own court paperwork before filing.
+     *
+     * A distinct bucket because it is a distinct answer to "who supplies this".
+     * These are NOT facts the platform holds, asks for, or prefills: a packet
+     * design may deliberately leave the court, the docket number or the charge
+     * wording as a line on the page, because the participant reads them off
+     * their own papers at the moment of filing and a value typed weeks earlier
+     * into a screening form is more likely to be wrong than blank.
+     *
+     * Naming them here is what keeps that a decision rather than an accident.
+     * Without the bucket the composer sees a section field, demands a fact, and
+     * the only ways out are to ask the participant for it before Checkout or to
+     * drop the component — the first turns an approved blank into an unnecessary
+     * question, the second ships a packet missing a page.
+     */
+    participantCompletesBeforeFilingFields?: string[];
   };
   documents: PacketSpecificationDocument[];
   filingDestination: { statement: string; office: string; newCaseOrExisting: string; sourceOfRule: string };

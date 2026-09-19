@@ -152,6 +152,7 @@
       "id": "special_pathways",
       "questionIds": [
         "pardon_status",
+        "nv_176a_excluded_charge_class",
         "nv_176a_charge_class",
         "nv_176a_disposition_class"
       ],
@@ -472,6 +473,23 @@
       "required": false,
       "source": "shared_filing_identity",
       "helperText": "also called a docket, cause, or arrest number — it's on your court paperwork"
+    },
+    {
+      "id": "nv_176a_excluded_charge_class",
+      "stage": "special_pathways",
+      "prompt": "Was the charge abuse, neglect or endangerment of a child, or abuse, neglect, exploitation, isolation or abandonment of an older person or a vulnerable person?",
+      "type": "single_choice",
+      "options": [
+        "Yes — one of those was the charge",
+        "No — neither was the charge",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "nv_memo_nv_seal_probation_family_exclusions",
+      "helperText": "Nevada does not allow these sections to seal those cases, however the case ended. Answer from what you were charged with, not from any paperwork.",
+      "contextOnly": false,
+      "doesNotSelectPathway": false,
+      "lifecyclePhase": "prepay_hard_disqualifier"
     },
     {
       "id": "nv_176a_charge_class",
