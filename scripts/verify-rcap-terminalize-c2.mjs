@@ -54,7 +54,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { provenanceState, loadSupersessions } from "./lib/terminalization-provenance-model.mjs";
+import { provenanceState, loadSupersessions } from "./terminalization/terminalization-provenance-model.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 

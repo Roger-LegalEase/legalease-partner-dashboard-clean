@@ -52,7 +52,7 @@ import {
   evaluateSupersession,
   provenanceState,
   repinHistory
-} from "./lib/terminalization-provenance-model.mjs";
+} from "./terminalization/terminalization-provenance-model.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DOCUMENT = "data/rcap-all50/terminalization-provenance-supersessions.json";

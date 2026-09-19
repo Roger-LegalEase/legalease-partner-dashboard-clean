@@ -41,7 +41,7 @@ import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
-import { provenanceState, loadSupersessions } from "./lib/terminalization-provenance-model.mjs";
+import { provenanceState, loadSupersessions } from "./terminalization/terminalization-provenance-model.mjs";
 
 const require = createRequire(import.meta.url);
 const ts = require("typescript");
