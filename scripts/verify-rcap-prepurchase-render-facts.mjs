@@ -8,11 +8,21 @@
 //   Any participant-owned fact required to render the selected promised packet
 //   must be resolved before Checkout.
 //
-// What legitimately sits after Checkout is unchanged and is not what this
-// checks: documents another office issues, filing readiness, work another
-// actor does, post-filing and service tasks, and facts that are genuinely
-// optional. The rule is about facts the PARTICIPANT owns and the packet
-// specification says the packet cannot be produced without.
+// and, in the other direction:
+//
+//   A record Expungement.ai cannot produce is never a condition of Checkout.
+//
+// A certified disposition, a docket sheet, a criminal-history report, a
+// fingerprint card, an agency letter: the participant fetches these before they
+// FILE, and being asked to fetch one must not stand between them and a
+// purchase. Where such a record carries a fact one of OUR documents needs, the
+// product asks for the FACT and never for the record. Both halves are asserted
+// here, because each without the other is its own defect: a clerk's counter in
+// front of a payment, or a filing requirement nobody is told about.
+//
+// What legitimately sits after Checkout: documents another office issues,
+// filing readiness, work another actor does, post-filing and service tasks,
+// and facts that are genuinely optional.
 //
 // WHERE THE BOUNDARY ACTUALLY IS
 //
@@ -27,8 +37,8 @@
 //                                                     (packet-information.ts)
 //     -> missingInputIds = missingRequiredInputs(collectionGateInputIds(...))
 //     -> collectionGateInputIds = prepayGateFactIds(resolution)
-//     -> prepayGateFactIds = every fact participantOwesFact() is true for
-//                                                     (packet-collection.ts)
+//     -> prepayGateFactIds = every fact participantOwesFact() is true for,
+//        MINUS the filing-readiness tasks     (packet-collection.ts)
 //
 // So the rule holds if and only if, for every route that promises a registered
 // packet, every participant-owned fact that specification requires is (a) in
@@ -37,9 +47,10 @@
 // registered specification -- never jurisdiction-wide, because one
 // jurisdiction's specifications describe different packet families.
 //
-// The three mutations at the end prove the check can fail: a fact absent from
-// the plan, a fact classified away from the gate, and a `render_required` fact
-// wrongly treated as not-owed each have to be caught.
+// The mutations at the end prove the check can fail: a fact absent from the
+// plan, a fact classified away from the gate, a `render_required` fact wrongly
+// treated as not-owed, a filing-readiness task put back into the gate, and one
+// dropped from the participant's list entirely.
 
 import { register } from "node:module";
 import path from "node:path";
@@ -56,7 +67,7 @@ const { packetSpecificationFor, packetSpecificationRouteKeys, composablePacketSp
   "../src/lib/rcap/grade-a/packet-specification.ts"
 );
 const { renderPreflight } = await import("../src/lib/expungement-ai/render-preflight.ts");
-const { resolvePacketCollection, prepayGateFactIds, participantOwesFact } = await import(
+const { resolvePacketCollection, prepayGateFactIds, filingReadinessFactIds, participantOwesFact } = await import(
   "../src/lib/expungement-ai/packet-collection.ts"
 );
 const { routeSafetyGateFactIds } = await import("../src/lib/expungement-ai/packet-route-safety.ts");
@@ -153,9 +164,14 @@ for (const routeKey of packetSpecificationRouteKeys()) {
     if (!disposition) continue;
     // Leaving the gate is legitimate only by ceasing to be the participant's to
     // answer, and each of those keeps a recorded disposition.
+    // Filing readiness leaves the gate by rule, not by accident: a record the
+    // participant fetches from a clerk is not a condition of buying what we
+    // generate. It is excused HERE and asserted separately below, because
+    // leaving the gate must not mean leaving the packet.
     const excused = disposition.collection === "already_known"
       || disposition.collection === "derived"
       || disposition.collection === "external_actor"
+      || disposition.collection === "filing_readiness"
       || (disposition.collection === "conditional" && disposition.active === false);
     check(
       gate.has(factId) || excused,
@@ -193,6 +209,8 @@ check(routesChecked > 0, "no route with a registered packet specification was ch
 // standing in front of a payment, and that is the defect this catches.
 
 const ADMITTED_BY_NAME = new Set(["prepay_confirmation", "render_required"]);
+const externallyAcquired = [];
+const notYetProbes = [];
 const gateClassCounts = {};
 const renderProbe = { required: 0, overGated: [], unreachable: [] };
 
@@ -221,7 +239,29 @@ for (const [routeKey, { profile, pathway }] of pathwayByRouteKey) {
   if (!resolved) continue;
 
   const gate = new Set(prepayGateFactIds(resolved.resolution));
+  const readiness = filingReadinessFactIds(resolved.resolution);
   const dispositionById = new Map(resolved.resolution.facts.map((fact) => [fact.factId, fact]));
+
+  // INVARIANT 1 — no record Expungement.ai cannot produce is a condition of
+  // Checkout. A certified disposition, a docket sheet, a criminal-history
+  // report, an agency letter: the participant fetches these before they FILE.
+  //
+  // The test is not whether the QUESTION is asked — several of these statuses
+  // print on our own documents, and "Not attached" is a one-click answer from
+  // wherever the participant is sitting. The test is whether a PARTICULAR
+  // answer is demanded, because demanding the ready one puts a clerk's counter
+  // between a participant and a purchase. So: compose the packet with each
+  // filing-readiness fact set to its not-yet state and require that the packet
+  // is still produced.
+  for (const factId of readiness) {
+    externallyAcquired.push(`${routeKey} ${factId}`);
+    const disposition = dispositionById.get(factId);
+    check(disposition !== undefined && participantOwesFact(disposition),
+      `${routeKey}: ${factId} stopped being owed at all;`
+        + " a filing-readiness task must still be asked, tracked and surfaced");
+  }
+  if (readiness.length > 0) notYetProbes.push({ routeKey, profile, pathway, readiness });
+
   const mustEarnIt = [...gate].filter((factId) => {
     const collection = dispositionById.get(factId)?.collection;
     gateClassCounts[collection ?? "unknown"] = (gateClassCounts[collection ?? "unknown"] ?? 0) + 1;
@@ -271,6 +311,52 @@ for (const [routeKey, { profile, pathway }] of pathwayByRouteKey) {
   }
 }
 
+// --- INVARIANT 1, load-bearing: the packet composes with nothing fetched -----
+//
+// Every filing-readiness fact set to the state of a participant who has not
+// been to the courthouse, using the specification's OWN wording for that state
+// rather than any this check invents. If the packet still composes, no record
+// the product cannot produce is a condition of producing the ones it can.
+
+let notYetProven = 0;
+for (const { routeKey, profile, pathway, readiness } of notYetProbes) {
+  const composable = composablePacketSpecificationFor(routeKey);
+  if (!composable) continue;
+  const facts = Object.fromEntries(composable.requiredFacts.map((fact) => [fact.factId, probeValueFor(fact.factId)]));
+  const notYetUsed = [];
+  for (const factId of readiness) {
+    const options = (composable.requiredFacts.find((fact) => fact.factId === factId)?.options ?? [])
+      .filter((option) => typeof option === "string");
+    // The not-yet option is the one the specification words as an absence. Its
+    // own vocabulary, never this check's.
+    const notYet = options.find((option) => /^(not |to be )/i.test(option));
+    check(notYet !== undefined,
+      `${routeKey}: ${factId} is a filing-readiness fact whose specification offers no not-yet answer,`
+        + ` so a participant who has not obtained the record cannot answer it truthfully (options: ${JSON.stringify(options)})`);
+    if (notYet === undefined) continue;
+    facts[factId] = notYet;
+    notYetUsed.push(`${factId}="${notYet}"`);
+  }
+  const serverFacts = { jurisdiction: profile.jurisdiction.code, pathway_id: pathway.id };
+  const outcome = renderPreflight({
+    snapshot: {
+      schemaVersion: "expungement-ai/final-verification/v1",
+      verifiedAt: "2026-09-16T12:00:00.000Z",
+      jurisdiction: profile.jurisdiction.code,
+      pathwayId: pathway.id,
+      selectedTrackId: composable.trackId,
+      screeningAnswers: {}, prefilledAnswers: {}, packetAnswers: facts, serverFacts
+    },
+    verificationHash: "probe",
+    facts: { ...facts, ...serverFacts }
+  });
+  notYetProven += 1;
+  check(outcome.ready === true,
+    `${routeKey}: the packet will not compose while the participant still has records to fetch`
+      + ` (${notYetUsed.join(", ")}) — reason: ${outcome.reason ?? ""} ${JSON.stringify(outcome.missingFactIds ?? [])}.`
+      + " An externally acquired document must not make the packet un-generatable");
+}
+
 // --- the mutations: prove the check can fail ---------------------------------
 
 const probeGate = (facts) => new Set(prepayGateFactIds({ facts }));
@@ -280,11 +366,13 @@ check(
   probeGate([{ factId: "probe", collection: "render_required", phase: "render" }]).has("probe"),
   "a render_required fact must be in the pre-Checkout gate"
 );
-// 2. filing readiness is asked before Checkout too; classifying a fact as
-//    readiness changes what it is called, not when money may move
+// 2. a filing-readiness fact is still owed, so it is still asked, still
+//    tracked and still printed truthfully. Dropping it would print a blank
+//    where an assembly status belongs.
+const readinessProbe = [{ factId: "probe", collection: "filing_readiness", phase: "filing" }];
 check(
-  probeGate([{ factId: "probe", collection: "filing_readiness", phase: "filing" }]).has("probe"),
-  "a filing_readiness fact must be in the pre-Checkout gate"
+  participantOwesFact(readinessProbe[0]),
+  "a filing_readiness fact must still be owed by the participant, so it is still asked and surfaced"
 );
 // 3. and an unresolved fact is never quietly dropped past it
 check(
@@ -323,6 +411,9 @@ for (const [collection, count] of Object.entries(gateClassCounts).sort((a, b) =>
 }
 console.log(`  gate facts outside those two classes, proven required by the renderer: ${renderProbe.required}`);
 console.log(`  gate facts the packet composes without (later tasks blocking payment): ${renderProbe.overGated.length}`);
+console.log(`  filing-readiness tasks asked, with no particular answer required: ${externallyAcquired.length}`);
+console.log(`  routes proven to compose with every external record still unfetched: ${notYetProven}`);
+for (const row of externallyAcquired) console.log(`    ${row}`);
 for (const row of renderProbe.unreachable) {
   console.log(`    not probed, route does not compose at all: ${row}`);
 }

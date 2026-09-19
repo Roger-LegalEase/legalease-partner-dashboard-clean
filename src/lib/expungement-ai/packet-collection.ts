@@ -359,7 +359,14 @@ const USE_RULES: ReadonlyArray<{ collection: PacketCollectionClass; test: RegExp
     // signal put thirteen facts that the renderer refuses to compose without
     // into the filing-readiness class, which is the one class that claims a
     // fact is NOT needed to produce the packet.
-    test: /filing-readiness gate|assembly and filing|prevents an unverified|court-approved channel|source and date of the court-specific/,
+    //
+    // NOT the MCIC identifier-channel phrases either. The delivery method and
+    // its confirmation source decide what the confidential MCIC processing
+    // addendum IS and which channel carries a full Social Security number, so
+    // the packet cannot be produced without them. They are render facts that
+    // happen to be confirmed with the court, which is a different thing from a
+    // record the participant fetches.
+    test: /filing-readiness gate|assembly and filing|prevents an unverified/,
     reason: "the specification describes this fact as a filing-readiness state"
   },
   {
@@ -844,6 +851,44 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 /**
  * The facts that must be answered before Checkout may open.
  *
+ * FILING READINESS IS NOT IN THIS GATE
+ *
+ * A document Expungement.ai cannot produce — a certified disposition, a docket
+ * sheet, a criminal-history report, a fingerprint card, an agency letter — is
+ * the participant's to obtain before they FILE. It is not a condition of
+ * eligibility, packet completion, Checkout, payment, generation, sponsored
+ * generation or Briefcase readiness, and the participant is never asked to
+ * scan, photograph or upload it so the product can hand it back to them.
+ *
+ * Where such a record contains a fact one of OUR documents needs, we ask for
+ * the fact — "What disposition date appears on your court record?" — and never
+ * for the record. Evidence custody is not a questionnaire requirement.
+ *
+ * This is why a pleading may say "A certified copy of the disposition is
+ * attached as Exhibit A" while the product holds no exhibit. That sentence
+ * describes the filing package the participant is instructed to assemble, not
+ * a claim that we possess it, and the instructions say so in terms: obtain it,
+ * attach it behind the petition, do not file without it. The alternative —
+ * refusing to generate until the participant has fetched a certified copy —
+ * blocks a purchase on a county clerk.
+ *
+ * WHAT THAT DOES AND DOES NOT TAKE OUT OF THIS GATE
+ *
+ * It takes out the DOCUMENT. It does not take out a fact one of our own
+ * documents prints. Mississippi's attachment checklist has an assembly-status
+ * row per exhibit, and its certificate states whether the prosecutor's service
+ * address is confirmed; those rows are our text, and the participant answers
+ * them in one click from where they are sitting — "Not attached", "To be
+ * confirmed before filing or service" are answers the specification itself
+ * authored for exactly the state of not having been to the courthouse yet.
+ *
+ * So the question stays in the gate and NO PARTICULAR ANSWER IS EVER REQUIRED.
+ * That is the whole distinction: demanding "Attached as Exhibit A" makes a
+ * clerk's counter a condition of buying a packet, while asking whether it is
+ * attached yet costs nothing and keeps the printed row truthful. Dropping the
+ * question instead would print a blank where a status belongs, which is the
+ * other failure the rule names — a filing requirement nobody is told about.
+ *
  * THE RULE THIS GATE IS HELD TO
  *
  *   Checkout may be blocked by an unresolved eligibility fact, and by a
@@ -879,6 +924,19 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 export function prepayGateFactIds(resolution: PacketCollectionResolution): string[] {
   return resolution.facts
     .filter((fact) => participantOwesFact(fact))
+    .map((fact) => fact.factId);
+}
+
+/**
+ * Filing-readiness tasks: shown, tracked, never a condition of Checkout.
+ *
+ * Separate from the gate so the two cannot be confused again, and so a control
+ * can assert that none of these blocks a payment while every one of them still
+ * reaches the participant's instructions.
+ */
+export function filingReadinessFactIds(resolution: PacketCollectionResolution): string[] {
+  return resolution.facts
+    .filter((fact) => fact.collection === "filing_readiness")
     .map((fact) => fact.factId);
 }
 

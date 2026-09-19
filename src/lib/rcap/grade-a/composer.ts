@@ -177,11 +177,14 @@ function validateRouteSpecificFacts(specification: PacketSpecification, matter: 
     invalid.push("social_security_number does not match social_security_number_last_four");
   }
 
-  for (const exhibitFact of ["certified_disposition_exhibit_status", "docket_sheet_exhibit_status"]) {
-    if (/^(missing|no|none|not available|not attached|not inserted|unsure)\b/i.test(fact(matter, exhibitFact))) {
-      invalid.push(`${exhibitFact} does not confirm that the participant-supplied court record is available`);
-    }
-  }
+  // The certified disposition and the docket sheet are records the participant
+  // fetches from a clerk. Expungement.ai cannot produce either, so neither is a
+  // condition of producing what Expungement.ai CAN produce. The petition's
+  // "attached as Exhibit A" sentence describes the filing package the
+  // participant is instructed to assemble — obtain it, attach it behind the
+  // petition, do not file without it — and refusing to compose until they have
+  // been to the courthouse would block a purchase on a county clerk. Their
+  // status stays a filing-readiness task, asked and tracked, never a gate.
 
   if (matter.generationPurpose !== "internal_review") {
     const method = fact(matter, "mcic_identifier_delivery_method");
@@ -202,19 +205,12 @@ function validateRouteSpecificFacts(specification: PacketSpecification, matter: 
     if (!methodSourceMatch || methodConfirmedAt === null || !Number.isFinite(verifiedAt) || methodConfirmedAt > verifiedAt) {
       invalid.push("the court of origin has not confirmed the MCIC identifier-delivery method");
     }
-    const serviceConfirmation = fact(matter, "service_address_confirmation_status");
-    if (serviceConfirmation !== "Confirmed by court or prosecutor") {
-      invalid.push("the prosecuting authority service address has not been confirmed");
-    }
-    const requiredExhibitStates = {
-      certified_disposition_exhibit_status: "Attached as Exhibit A",
-      docket_sheet_exhibit_status: "Inserted as Exhibit B"
-    } as const;
-    for (const [exhibitFact, readyState] of Object.entries(requiredExhibitStates)) {
-      if (fact(matter, exhibitFact) !== readyState) {
-        invalid.push(`${exhibitFact} is not ready for participant delivery; expected ${readyState}`);
-      }
-    }
+    // Not the service-address confirmation either. The specification offers
+    // "To be confirmed before filing or service" as an answer and gives the
+    // certificate an explicit court-confirmation placeholder for exactly that
+    // state, so demanding the confirmed answer made the specification's own
+    // second option unreachable. Confirming an address with a clerk is a
+    // filing-readiness task.
   }
 
   if (invalid.length > 0) {
