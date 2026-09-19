@@ -185,8 +185,16 @@ const IL_EXISTING_V2_EXPECTED = {
   routeId: "IL:felony-prostitution-relief",
   familyId: "il-prostitution-j-vacate-set",
   specificationPath: "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
-  specificationSha256: "7fffc6b35c6bc4e03e8b8844aec69bb1bdaca16ffa955b167b7f73e1b9dbd9fa",
-  specificationContentSha256: "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f",
+  // Carried forward on 2026-09-19 under OWN-ARTIFACT-APPROVAL-IL-VACATUR-2026-09-19,
+  // which executes the instruction in the 2026-09-14 owner re-review: the
+  // specification now names the approved FIX02 pair instead of the superseded
+  // 2026-09-02 one. The prior pins were 7fffc6b3… / bc9050e0…; they moved
+  // because five leaves moved -- the two approved digests, their byte lengths,
+  // and the content digest those four sit inside -- and for no other reason.
+  // scripts/lib/artifact-approval-carry-forward.mjs recomputes that delta from
+  // the prior bytes in Git and refuses if anything else moved.
+  specificationSha256: "50dfb8afa1ca0d434a9a9792ec5963299600ca291647d66343bacd96295028cb",
+  specificationContentSha256: "1f43f4eae0fc213863e5bca7567bb7314e4772d015a04be666b7b2edbfae3d9b",
   canonicalSha256: "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
   canonicalByteLength: 7802,
   canonicalPageCount: 3,

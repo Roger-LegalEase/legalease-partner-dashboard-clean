@@ -1,6 +1,7 @@
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { loadIlArtifactApproval, loadMsArtifactApproval, REQUIRED_ARTIFACT_OBLIGATIONS } from './owner-artifact-approval.mjs';
+import { carriedForwardSpecificationSha256 } from './artifact-approval-carry-forward.mjs';
 
 // The last pre-approval records are immutable provenance, not current approval.
 export const SUCCESSOR_BASE_SHA = '7cb3133a5ca8a5bac80550cb7bdc0e38d2359ce8';
@@ -63,7 +64,43 @@ export function createArtifactSuccessor({routeId, readBytes, stableStringify, pr
   insist(approval.routeIds.includes(routeId), 'route not named by owner');
   const b = record.evidenceBindings;
   const specificationBytes = readBytes(b.packetSpecification.path);
-  insist(digest(specificationBytes) === record.packetSpecification.sha256, 'legal specification changed');
+  // A specification whose bytes moved is, by default, one whose legal content
+  // may have moved, and the successor refuses it. The one exception is a
+  // specification whose approved-artifact pins were carried forward on the
+  // owner's instruction: there the bytes moved for exactly that reason, and
+  // refusing it would mean honouring the approval required revoking the route
+  // it approves. The exception proves itself -- it recomputes the delta from
+  // the prior bytes in Git and refuses if anything but the pins moved.
+  let carriedForward = null;
+  if (digest(specificationBytes) !== record.packetSpecification.sha256) {
+    carriedForward = carriedForwardSpecificationSha256({
+      rootDir: process.cwd(),
+      familyId: record.packetFamilyId,
+      routeId,
+      specificationPath: b.packetSpecification.path,
+      specificationBytes,
+      recordSpecificationSha256: record.packetSpecification.sha256,
+      approvedArtifacts: approval.approvedArtifacts,
+      readBytes
+    });
+    insist(carriedForward, 'legal specification changed');
+    record.packetSpecification.sha256 = carriedForward.specificationSha256;
+    b.packetSpecification.sha256 = carriedForward.specificationSha256;
+    if (carriedForward.contentSha256 && b.packetSpecification.contentSha256) {
+      b.packetSpecification.contentSha256 = carriedForward.contentSha256;
+    }
+    b.packetSpecificationCarryForward = {
+      contract: 'rcap-owner-artifact-carry-forward/v1',
+      ...carriedForward.record,
+      priorSpecificationSha256: carriedForward.priorSpecificationSha256,
+      priorContentSha256: carriedForward.priorContentSha256,
+      currentSpecificationSha256: carriedForward.specificationSha256,
+      currentContentSha256: carriedForward.contentSha256,
+      movedLeaves: carriedForward.movedLeaves,
+      changesLegalContent: false,
+      approvesNewBytes: false
+    };
+  }
   const specification = JSON.parse(specificationBytes);
   insist(specification.packetFamily === record.packetFamilyId && specification.routeKeys.includes(routeId), 'specification identity changed');
   insist(digest(readBytes(b.sourceReceipt.path)) === b.sourceReceipt.sha256, 'source receipt changed');
@@ -75,9 +112,35 @@ export function createArtifactSuccessor({routeId, readBytes, stableStringify, pr
         insist(digest(stableStringify(selected)) === input.sha256, 'packet-set legal design changed');
       } else if (input.unchangedTrackReconciliation) {
         insist(digest(readBytes(input.path)) === input.unchangedTrackReconciliation.currentMemo.sha256, 'reconciled track changed');
+      } else if (carriedForward && input.path === b.packetSpecification.path
+        && input.sha256 === carriedForward.priorSpecificationSha256) {
+        // The same specification, pinned a second time as source authority.
+        // One carry-forward covers both pins or neither: accepting it here
+        // without having proven it above would be a second, unproven exit.
+        insist(digest(readBytes(input.path)) === carriedForward.specificationSha256,
+          `${input.role} authority changed`);
+        input.sha256 = carriedForward.specificationSha256;
       } else insist(digest(readBytes(input.path)) === input.sha256, `${input.role} authority changed`);
     }
   }
+  // The codified source-authority digest hashes those authority inputs, so a
+  // carried-forward specification moves it too. Recomputed from the inputs as
+  // they now stand, by the same derivation the verifier applies, rather than
+  // left to describe inputs that are no longer there.
+  if (carriedForward) {
+    for (const source of record.officialSources) {
+      const inputs = source.boundInputs;
+      if (!inputs?.authorityInputs?.some((input) => input.sha256 === carriedForward.specificationSha256)) continue;
+      const boundInputsSha256 = digest(stableStringify(inputs));
+      for (const key of ['boundInputsSha256', 'sha256', 'expectedSha256', 'installedSha256']) source[key] = boundInputsSha256;
+      const binding = b.codifiedAuthority;
+      if (binding && binding.sourceId === source.sourceId) {
+        binding.boundInputsSha256 = boundInputsSha256;
+        binding.boundInputs = inputs;
+      }
+    }
+  }
+
   const renderedPath = b.provider.artifactProducer.renderedArtifactsPath;
   const rendered = JSON.parse(readBytes(renderedPath));
   insist(rendered.familyId === record.packetFamilyId && rendered.renderedFresh && rendered.derivedFromBytes && rendered.byteDerivedHashes, 'render receipt incomplete');
