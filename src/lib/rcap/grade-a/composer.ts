@@ -261,9 +261,43 @@ export function composeGradeAPacket(
     matter = { ...matter, facts: { ...matter.facts, ...notYetStates } };
   }
 
+  // A conditional component whose condition this composer cannot evaluate is a
+  // refusal, not an omission.
+  //
+  // The filter below used to drop every conditional document unless it carried
+  // the one literal string this composer implements. That is right for a
+  // component the participant may simply choose not to supply — Georgia's
+  // optional supporting exhibits, South Dakota's escalation motion used only if
+  // the record is not corrected — which is why a conditional with NO stated
+  // condition is still omitted. It was wrong for a component gated on a branch
+  // of the route: Nevada records its subsection 2 petition, proposed order,
+  // declaration and filing instructions as conditional on
+  // `subsection_2_petition_branch`, a string nothing in this repository
+  // evaluates, so a participant on that branch would have received a packet
+  // with no petition in it at all and nothing would have said so.
+  //
+  // This is the same rule the section-kind switch below already applies:
+  // refusing beats shipping a packet missing a component the legal design
+  // requires. Implementing the branch is §5 route work; until then the route
+  // cannot compose, which is the honest state and is visible.
+  const IMPLEMENTED_CONDITIONS = new Set(["always_unless_participant_declines"]);
+  const unevaluable = specification.documents.filter((document) =>
+    document.requirement === "conditional"
+    && typeof document.includeWhen === "string"
+    && document.includeWhen.length > 0
+    && !IMPLEMENTED_CONDITIONS.has(document.includeWhen));
+  if (unevaluable.length > 0) {
+    throw new GradeAPacketCompositionError(
+      matter.routeKey, [],
+      `${unevaluable.length} component(s) are conditional on "${[...new Set(unevaluable.map((d) => d.includeWhen))].join('", "')}", `
+      + "which this composer does not evaluate: "
+      + `${unevaluable.map((d) => d.documentId).join(", ")}. Refusing rather than shipping a packet that silently omits them.`
+    );
+  }
+
   const documents: GradeADocument[] = [];
   const included = specification.documents
-    .filter((document) => document.requirement === "required" || document.includeWhen === "always_unless_participant_declines")
+    .filter((document) => document.requirement === "required" || IMPLEMENTED_CONDITIONS.has(document.includeWhen ?? ""))
     .sort((left, right) => left.order - right.order);
 
   // Every fact any included document reads must be present before ANY document
