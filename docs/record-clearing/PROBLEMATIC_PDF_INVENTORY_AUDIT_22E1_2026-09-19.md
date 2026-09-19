@@ -96,6 +96,30 @@ proves it does not.
 `.github/workflows/rcap-all50-handoff.yml`.** So the corpus is mounted neither in
 this worktree nor in CI, and the master list cannot be rederived in either place.
 
+## Exact source required — TERMINAL EXTERNAL DEPENDENCY
+
+Measured 2026-09-19. `rcap-source-validation-mode.mjs` looks for the corpus at
+exactly three roots, in this order:
+
+1. `$OFFICIAL_FORMS_SOURCE_DIR` — **unset**
+2. `private/source-imports` — **absent**
+3. `private/Nationwide Record Clearing` — **absent**
+
+None is present here, and `OFFICIAL_FORMS_SOURCE_DIR` appears nowhere in
+`.github/workflows/rcap-all50-handoff.yml`, so CI cannot rederive it either.
+
+**The Colorado PDFs under `tmp/official-pdf-shadow-batch/all50` are not the
+authoritative bytes.** Checked by digest against the register's own
+`sourceSha256` for all 25 CO assets: **0 of 33 sample files match any registered
+digest.** Deriving master-list rows from them would fabricate the very corpus
+facts — structural class, interactive field count, XFA status, contact-sheet
+evidence — that the generator refuses to invent.
+
+To close 22E-1, one of the three roots above must be mounted with the bytes the
+register already names by digest. Then: run the canonical generator, let it
+derive the 25 rows and the denominator from those bytes, and run the
+problematic-PDF verifier. No part of this can be done from the repository alone.
+
 ## Why the red should stay
 
 The remediation verifier does not consult the shared source-validation mode, so
