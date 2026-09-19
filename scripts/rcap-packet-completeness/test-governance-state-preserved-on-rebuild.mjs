@@ -24,7 +24,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import {
   GOVERNANCE_KEYS, WITHDRAWN_KEY, GovernancePreservationError,
@@ -46,7 +46,28 @@ const rebuilt = (binding) => {
 };
 
 const results = [];
+const skipped = [];
 const it = (name, fn) => { fn(); results.push(name); };
+const skip = (name, why) => { skipped.push(`${name} — ${why}`); };
+
+/** Several committed blobs in one `git cat-file` rather than one spawn each. */
+const showMany = (rels) => {
+  if (rels.length === 0) return [];
+  const { stdout } = spawnSync("git", ["cat-file", "--batch"], {
+    cwd: ROOT, input: `${rels.map((rel) => `HEAD:${rel}`).join("\n")}\n`, maxBuffer: 1 << 30
+  });
+  const out = [];
+  let offset = 0;
+  for (let i = 0; i < rels.length; i += 1) {
+    const newline = stdout.indexOf(10, offset);
+    const header = stdout.slice(offset, newline).toString();
+    if (header.endsWith(" missing")) { out.push(null); offset = newline + 1; continue; }
+    const size = Number.parseInt(header.split(" ")[2], 10);
+    out.push(stdout.slice(newline + 1, newline + 1 + size));
+    offset = newline + 1 + size + 1;
+  }
+  return out;
+};
 
 /* ================================================================== *
  * ONE. A receipt that still describes the bytes is carried forward.
@@ -103,48 +124,95 @@ it("a receipt bound to a canonical this build no longer produces is WITHDRAWN, n
  * TWO. A receipt on the committed record that has ALREADY stopped describing
  * the bytes.
  *
- * de_mandatory_expungement-set is not a constructed case. Its binding carries
- * RASTER_PASS from workflow run 34078415178 bound to canonical f08e5968...,
- * its committed canonical.pdf hashes to fe611676..., and generate-product-wiring
- * --check reports the same move against the family's own component pin:
+ * This was written against de_mandatory_expungement-set, whose binding carried
+ * RASTER_PASS from run 34078415178 bound to canonical f08e5968… while its own
+ * committed canonical.pdf hashed to fe611676…. Delaware has since been
+ * repaired: the two digests agree, and the assertion that they differ started
+ * failing — reporting a family that had been fixed as a defect, and taking the
+ * withdrawal case it guards down with it.
  *
- *   de_mandatory_expungement-set canonical.pdf f08e5968263d -> fe6116767ab2
- *
- * So the repository holds a live RASTER_PASS describing bytes that are not in
- * it, with nothing on the record saying so. This is the shape the withdrawal
- * rule exists for, on real committed evidence rather than the author's
- * imagination.
+ * Naming the family was the defect. The case is about a real committed receipt
+ * that has stopped describing real committed bytes; it is not about Delaware.
+ * So the subject is found rather than named: every census binding carrying an
+ * acceptanceReceipt is compared against the sha256 of its own committed
+ * canonical.pdf, and the first disagreement is the subject. Repair that one and
+ * this finds the next. Repair them all and it says so and stops, rather than
+ * inventing a subject or asserting on a family that is now correct.
  * ================================================================== */
-const DE = "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill";
-const deWiring = showJson(`${DE}/product-wiring.json`);
-const deCanonicalNow = sha256(show(`${DE}/fixtures/canonical.pdf`));
+const CENSUS = "data/rcap-all50/overlays/census-v1";
 
-it("de_mandatory_expungement-set: the committed receipt already names bytes the family does not hold", () => {
-  assert.equal(deWiring.binding.acceptanceReceipt.verdict, "RASTER_PASS");
-  assert.notEqual(deWiring.binding.acceptanceReceipt.boundToCanonicalSha256, deCanonicalNow,
-    "this test is only meaningful while the committed receipt is bound to bytes the family no longer holds");
-});
+/** Committed families whose acceptance receipt names bytes they no longer hold. */
+const driftedReceiptSubjects = () => {
+  const tracked = execFileSync("git", ["ls-tree", "-r", "HEAD", "--name-only", CENSUS],
+    { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 28 }).split("\n").filter(Boolean);
+  const canonicals = new Set(tracked.filter((p) => p.endsWith("/fixtures/canonical.pdf")));
+  const wirings = tracked.filter((p) => p.endsWith("/product-wiring.json"));
 
-it("de_mandatory_expungement-set: a rebuild withdraws that receipt with both real digests", () => {
-  const next = rebuilt(deWiring.binding);
-  const { binding } = carryForwardGovernance(deWiring.binding, next, { canonicalSha256: deCanonicalNow });
-  const note = binding[WITHDRAWN_KEY][0];
+  const candidates = [];
+  showMany(wirings).forEach((buf, i) => {
+    if (!buf) return;
+    let parsed;
+    try { parsed = JSON.parse(buf.toString("utf8")); } catch { return; }
+    const receipt = parsed?.binding?.acceptanceReceipt;
+    if (!receipt?.boundToCanonicalSha256) return;
+    const dir = wirings[i].replace(/\/product-wiring\.json$/, "");
+    const canonical = `${dir}/fixtures/canonical.pdf`;
+    // A family with no committed canonical is a different fact — a source it
+    // never held — and is not this rule's subject.
+    if (!canonicals.has(canonical)) return;
+    candidates.push({ dir, binding: parsed.binding, receipt, canonical });
+  });
 
-  assert.equal(binding.acceptanceReceipt, undefined);
-  assert.equal(note.boundToCanonicalSha256, deWiring.binding.acceptanceReceipt.boundToCanonicalSha256);
-  assert.equal(note.replacedByCanonicalSha256, deCanonicalNow);
-  assert.equal(note.withdrawnReceipt.workflowRunId, deWiring.binding.acceptanceReceipt.workflowRunId,
-    "the run id is kept so the withdrawal can be traced to the run that issued it");
-  assert.equal(note.withdrawnReceipt.verdict, "RASTER_PASS",
-    "the verdict is kept as history and is not restated anywhere as current");
-});
+  const bytes = showMany(candidates.map((c) => c.canonical));
+  return candidates
+    .map((c, i) => ({ ...c, canonicalNow: bytes[i] ? sha256(bytes[i]) : null }))
+    .filter((c) => c.canonicalNow && c.canonicalNow !== c.receipt.boundToCanonicalSha256);
+};
+
+const drifted = driftedReceiptSubjects();
+const subject = drifted[0] ?? null;
+const subjectName = subject ? path.basename(subject.dir) : "(none)";
+const NO_SUBJECT = "no committed binding names a canonical its family no longer holds; "
+  + "the repository is in the state this rule exists to reach, so there is nothing to measure here";
+
+if (!subject) {
+  skip("a committed receipt that already names bytes the family does not hold", NO_SUBJECT);
+  skip("a rebuild withdraws that committed receipt with both real digests", NO_SUBJECT);
+} else {
+  it(`${subjectName}: the committed receipt already names bytes the family does not hold`, () => {
+    assert.ok(subject.receipt.verdict, "the drifted receipt carries a verdict");
+    assert.notEqual(subject.receipt.boundToCanonicalSha256, subject.canonicalNow,
+      "found by comparing the two, so they must differ");
+  });
+
+  it(`${subjectName}: a rebuild withdraws that receipt with both real digests`, () => {
+    const next = rebuilt(subject.binding);
+    const { binding } = carryForwardGovernance(subject.binding, next, { canonicalSha256: subject.canonicalNow });
+    const note = binding[WITHDRAWN_KEY][0];
+
+    assert.equal(binding.acceptanceReceipt, undefined);
+    assert.equal(note.boundToCanonicalSha256, subject.receipt.boundToCanonicalSha256);
+    assert.equal(note.replacedByCanonicalSha256, subject.canonicalNow);
+    assert.equal(note.withdrawnReceipt.workflowRunId, subject.receipt.workflowRunId,
+      "the run id is kept so the withdrawal can be traced to the run that issued it");
+    assert.equal(note.withdrawnReceipt.verdict, subject.receipt.verdict,
+      "the verdict is kept as history and is not restated anywhere as current");
+  });
+}
+
+// The cases below are about what preservation does with the record, not about
+// which bytes are current, so they need a real digest and no particular one.
+// This used to be Delaware's committed canonical; it is now Pennsylvania's,
+// which the section above already reads, so nothing here depends on one
+// family's repair state.
+const A_REAL_CANONICAL = paCanonicals[0];
 
 /* ================================================================== *
  * THREE. Preserving a value is not deciding one.
  * ================================================================== */
 it("nothing is invented when there is no committed record to preserve from", () => {
   const next = { family: "x", routeKeys: ["r"] };
-  const { binding, carried, withdrawn } = carryForwardGovernance(null, next, { canonicalSha256: deCanonicalNow });
+  const { binding, carried, withdrawn } = carryForwardGovernance(null, next, { canonicalSha256: A_REAL_CANONICAL });
   assert.deepEqual(carried, []);
   assert.deepEqual(withdrawn, []);
   for (const key of GOVERNANCE_KEYS) assert.equal(binding[key], undefined, `${key} is not invented`);
@@ -154,7 +222,7 @@ it("nothing is invented when there is no committed record to preserve from", () 
 it("a value this write authors is never overwritten by the committed one", () => {
   const previous = { paymentEligible: false, whyPaymentIsClosed: "committed reason" };
   const next = { paymentEligible: false, whyPaymentIsClosed: "the writer's own reason" };
-  const { binding } = carryForwardGovernance(previous, next, { canonicalSha256: deCanonicalNow });
+  const { binding } = carryForwardGovernance(previous, next, { canonicalSha256: A_REAL_CANONICAL });
   assert.equal(binding.whyPaymentIsClosed, "the writer's own reason");
 });
 
@@ -174,8 +242,8 @@ it("a caller that measured no canonical digest must say so in words, or be refus
 it("a superseded receipt is kept when this write authors a different one", () => {
   const previous = structuredClone(paWiring.binding);
   const next = rebuilt(previous);
-  next.acceptanceReceipt = { verdict: "RASTER_PASS", workflowRunId: "99999999999", boundToCanonicalSha256: deCanonicalNow };
-  const { binding } = carryForwardGovernance(previous, next, { canonicalSha256: deCanonicalNow });
+  next.acceptanceReceipt = { verdict: "RASTER_PASS", workflowRunId: "99999999999", boundToCanonicalSha256: A_REAL_CANONICAL };
+  const { binding } = carryForwardGovernance(previous, next, { canonicalSha256: A_REAL_CANONICAL });
   assert.equal(binding.acceptanceReceipt.workflowRunId, "99999999999", "the authored receipt stands");
   assert.equal(binding[WITHDRAWN_KEY][0].withdrawnReceipt.workflowRunId,
     previous.acceptanceReceipt.workflowRunId, "and the one it replaced is kept, not overwritten out of existence");
@@ -279,5 +347,7 @@ it("end to end: a second rebuild of unchanged inputs writes byte-identical wirin
 });
 
 fs.rmSync(tmp, { recursive: true, force: true });
-console.log(`GOVERNANCE_PRESERVATION_OK · ${results.length} checks`);
+console.log(`GOVERNANCE_PRESERVATION_OK · ${results.length} checks`
+  + (skipped.length > 0 ? `, ${skipped.length} not measurable here` : ""));
 for (const r of results) console.log(`  ok  ${r}`);
+for (const s of skipped) console.log(`  --  ${s}`);
