@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "OR-137-225-CASE-MODE-SPANS-TWO-SITUATIONS-2026-09-19",
+  "reviewer": "Captain (implementation finding; not a counsel approval)",
+  "reviewDate": "2026-09-19",
+  "familyId": "rcap-or-official-pdf-fill",
+  "scope": [
+    "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+    "or_acquittal",
+    "or_arrest_no_charges",
+    "or_dismissed_charge"
+  ],
+  "question": "What is caseMode for the two filed components of the Oregon set-aside-without-conviction specification: is the motion filed into an existing criminal case, or does it open a new one?",
+  "finding": "Neither, universally. This route spans both situations, and the repository's own identifiers disagree about which one it is because each is describing a different half of it.",
+  "sources": [
+    {
+      "location": "data/record-clearing/legal-design-intake/OR.memo.json",
+      "sections": [
+        "tracks[or_arrest_no_charges].summary — ORS 137.225(1)(c)",
+        "tracks[or_arrest_no_charges].rules.filing",
+        "tracks[or_dismissed_charge].rules.filing",
+        "tracks[or_acquittal].rules.filing",
+        "venue — ORS 137.225(1)(c)"
+      ],
+      "controlling": "\"Where no accusatory instrument is filed, at any time after 60 days from the date the prosecuting attorney indicates that the state has elected not to proceed ... an arrested, cited or charged person may apply to the court in the county in which the person was arrested, cited or charged for an order setting aside the record of the arrest, citation or charge.\""
+    }
+  ],
+  "evidence": {
+    "theTwoSituations": [
+      {
+        "branch": "or_arrest_no_charges",
+        "authority": "ORS 137.225(1)(c)",
+        "precondition": "no accusatory instrument was ever filed",
+        "consequence": "there is no criminal case to file into; the person applies to the circuit court of the county of arrest",
+        "caseMode": "new_case",
+        "timing": "60 days from the prosecuting attorney's declination"
+      },
+      {
+        "branch": "or_dismissed_charge",
+        "precondition": "an accusatory instrument was filed and the charge was dismissed",
+        "consequence": "the case exists; the motion and proposed order go into it",
+        "caseMode": "existing_case",
+        "timing": "no waiting period"
+      },
+      {
+        "branch": "or_acquittal",
+        "precondition": "an accusatory instrument was filed and tried to acquittal",
+        "consequence": "the case exists; the motion and proposed order go into it",
+        "caseMode": "existing_case",
+        "timing": "no waiting period"
+      }
+    ],
+    "whyTheGeneratorCouldNotDecide": "All three branches share one venue sentence — \"the circuit court of the county in which the person was arrested, cited or charged\" — because it fixes the COUNTY, not which case. The contract generator reads the recorded filing action, and that sentence is silent on case mode, so it correctly recorded unresolved rather than guessing.",
+    "theIdentifierConflict": {
+      "routeKeyAndPathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c — names the (1)(c) branch, which is the no-accusatory-instrument situation, i.e. new_case",
+      "manifestTrackId": "or_acquittal — an acquittal presupposes a filed accusatory instrument, i.e. existing_case",
+      "routeLabel": "\"arrests OR charges without conviction\" — spans both on its face",
+      "reading": "The identifiers are not in error about the law; they are each naming one side of a route that covers both. Resolving the disagreement by preferring one identifier would silently drop the other situation."
+    }
+  },
+  "decision": "Do not assign a single caseMode to this specification's filed components. The distinction is a real property of the matter — whether an accusatory instrument was ever filed — and it must be modelled as such, resolved per matter from the participant's own answer, and failing closed when unanswered. caseMode stays unresolved on or_acquittal-primary-filing-1 and or_acquittal-proposed-order-2 until that modelling exists, and both components stay non-releaseable meanwhile.",
+  "implementation": "Extend the document contract so caseMode may be stated as conditional on a named matter fact, in the same shape the renderer now uses for caption tokens: one named participant-supplied fact, no inference, and a refusal rather than a default when the matter has not answered. Then bind Oregon's two filed components to that fact. A universal existing_case or new_case on this route is the outcome this record exists to prevent.",
+  "notModelledHere": "Whether the runtime route should also be split into the three memo branches is a separate route-productization question. This record decides only that one caseMode value cannot be correct for both situations.",
+  "supersedesOnly": "The implicit expectation that every filed component resolves to one of existing_case or new_case. Other jurisdictions are unchanged.",
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "remainingReview": "The specification already records legalSectionsBound: false, so it composes nothing and sells nothing today. Counsel review of the branch split, the exact intake question that establishes whether an accusatory instrument was filed, and the 60-day declination timing on the uncharged branch all remain required."
+}
