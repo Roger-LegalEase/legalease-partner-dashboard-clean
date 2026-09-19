@@ -43,14 +43,6 @@
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/source-receipt.json",
     "sourceVersion": [],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33973981303",
-      "jobId": 101327692850,
-      "artifactId": null,
-      "boundToCanonicalSha256": "3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399",
-      "coversTheWholeFamily": true
-    },
     "lastIndependentVerification": {
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf04",
@@ -64,7 +56,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399",
+        "replacedByCanonicalSha256": "c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33973981303",
+          "jobId": 101327692850,
+          "artifactId": null,
+          "boundToCanonicalSha256": "3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
