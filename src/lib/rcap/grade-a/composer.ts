@@ -46,6 +46,14 @@ export type GradeABlock =
   | {
       kind: "pleading_caption";
       court: string;
+      /** Drawn beneath the court line where the court is a blank to complete. */
+      courtInstruction?: string;
+      /** True where the participant writes the court in at filing. */
+      courtBlank?: boolean;
+      /** An in-the-matter-of caption, drawn instead of PLAINTIFF / VS. / DEFENDANT. */
+      matterTitle?: string;
+      caseNumberInstruction?: string;
+      caseNumberBlank?: boolean;
       plaintiff: string;
       defendant: string;
       /** The designation printed opposite the defendant. Families that do not
@@ -427,7 +435,23 @@ function composeSection(
     });
 
   switch (section.kind) {
-    case "pleading_caption":
+    case "pleading_caption": {
+      const contract = section.captionContract;
+      if (contract) {
+        return [{
+          kind: "pleading_caption",
+          court: blanks.has(contract.court) ? "" : fact(matter, contract.court),
+          courtBlank: blanks.has(contract.court),
+          ...(contract.courtInstruction ? { courtInstruction: contract.courtInstruction } : {}),
+          ...(contract.matterTitle ? { matterTitle: fill(contract.matterTitle, matter) } : {}),
+          plaintiff: "",
+          defendant: "",
+          caseNumber: blanks.has(contract.caseNumber) ? "" : fact(matter, contract.caseNumber),
+          caseNumberBlank: blanks.has(contract.caseNumber),
+          ...(contract.caseNumberInstruction ? { caseNumberInstruction: contract.caseNumberInstruction } : {}),
+          title: contract.documentTitle ?? section.heading
+        }];
+      }
       return [{
         kind: "pleading_caption",
         court: fact(matter, "court_name"),
@@ -436,6 +460,7 @@ function composeSection(
         caseNumber: fact(matter, "case_number"),
         title: section.heading
       }];
+    }
 
     case "pleading_paragraph":
       return [{ kind: "pleading_paragraph", text: fill(section.body ?? "", matter) }];
@@ -443,12 +468,49 @@ function composeSection(
     case "pleading_numbered_assertions": {
       const assertions = (section.assertions ?? []).filter((assertion) =>
         assertion.id !== "personal-impact" || fact(matter, "personal_impact_confirmed") === "Yes");
-      return assertions.map((assertion, index) => ({
+      const numbered = assertions.map((assertion, index) => ({
         kind: "pleading_paragraph" as const,
         text: fill(assertion.text, matter),
         number: `${index + 1}.`
       }));
+      // Where the section also declares fields, they follow the numbered
+      // paragraphs as labelled lines, which is what an assertion reading "the
+      // petitioner states, from the court's own records:" is pointing at. Only
+      // Nevada declares them today, so every other route renders exactly as
+      // before.
+      const listed = (section.fields ?? []).map(fieldItem);
+      return listed.length === 0
+        ? numbered
+        : [...numbered, { kind: "pleading_identity_list" as const, items: listed }];
     }
+
+    // Nevada's participant declaration: the adopted page is an introduction,
+    // six numbered paragraphs, and the two lines paragraphs 2 and 3 say are
+    // "stated below". Composed from the specification's own text, as every
+    // other pleading kind is.
+    case "declaration": {
+      const introduction = fill(section.body ?? "", matter);
+      const numbered = (section.assertions ?? []).map((assertion, index) => ({
+        kind: "pleading_paragraph" as const,
+        text: fill(assertion.text, matter),
+        number: `${index + 1}.`
+      }));
+      const listed = (section.fields ?? []).map(fieldItem);
+      return [
+        ...(introduction ? [{ kind: "pleading_paragraph" as const, text: introduction }] : []),
+        ...numbered,
+        ...(listed.length === 0 ? [] : [{ kind: "pleading_identity_list" as const, items: listed }])
+      ];
+    }
+
+    // The three participant-guidance screens. Their document contracts record
+    // them as `participant_guidance` / `not_a_filing` / recipient participant,
+    // so they render as guidance prose and never as pleadings. The prose is the
+    // specification's, like every other section's.
+    case "route_detection":
+    case "route_branch_screen":
+    case "discharge_type_screen":
+      return [head, { kind: "paragraph", text: fill(section.body ?? "", matter) }];
 
     case "pleading_identity_list": {
       const hasImpact = fact(matter, "personal_impact_confirmed") === "Yes";

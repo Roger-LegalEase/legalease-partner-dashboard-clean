@@ -53,6 +53,30 @@ export type PacketSpecificationSection = {
   jurat?: string;
   fields?: string[];
   fieldLabels?: Record<string, string>;
+  /**
+   * An explicit caption, for a filing whose caption is not the generic
+   * two-party one and whose caption values the participant writes on the page.
+   *
+   * Without it a `pleading_caption` reads four fixed fact ids — court_name,
+   * case_caption_plaintiff_name, case_caption_defendant_name, case_number — and
+   * a family that does not use those ids gets a caption of empty strings and a
+   * bare "CASE NO." with nothing after it. That is a silent blank, which is
+   * exactly what the caption-token work removed everywhere else.
+   *
+   * `court` and `caseNumber` name the fact each slot reads. Where that fact is
+   * declared in `participantCompletesBeforeFilingFields` the slot is drawn as a
+   * line with its instruction beneath, never as an empty value and never as a
+   * placeholder token.
+   */
+  captionContract?: {
+    court: string;
+    courtInstruction?: string;
+    /** Replaces PLAINTIFF / VS. / DEFENDANT for an in-the-matter-of caption. */
+    matterTitle?: string;
+    caseNumber: string;
+    caseNumberInstruction?: string;
+    documentTitle?: string;
+  };
   fieldValueTemplates?: Record<string, string>;
   assertions?: Array<{ id: string; text: string; facts: string[] }>;
   notarisationRequired?: boolean;

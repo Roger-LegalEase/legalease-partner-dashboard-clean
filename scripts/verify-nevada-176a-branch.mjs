@@ -28,6 +28,7 @@
  * data/record-clearing/legal-decisions/2026-09-19-case-mode-resolutions-nv-ct-ks.json.
  */
 
+import { readFileSync } from "node:fs";
 import { register } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -40,6 +41,7 @@ const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-pro
 const { evaluateScreening } = await import("../src/lib/rcap-engine/evaluator.ts");
 const { packetSpecificationFor } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
 const { composeGradeAPacket } = await import("../src/lib/rcap/grade-a/composer.ts");
+const { documentContractFor } = await import("../src/lib/rcap/grade-a/document-contract.ts");
 const { routeSafetyGateFactIds } = await import("../src/lib/expungement-ai/packet-route-safety.ts");
 const { packetFulfillmentAuthority } = await import("../src/lib/expungement-ai/packet-fulfillment-authority.ts");
 const { friendlyMissingFieldLabel, safeUserFacingEngineText } = await import("../src/lib/expungement-ai/missing-fields.ts");
@@ -294,14 +296,6 @@ const compose = (charge, disposition) => {
 
 const branchConditionalIds = new Set(branchConditional.map((document) => document.documentId));
 
-// The specification's own guidance and declaration sections carry no body text
-// and no spec block to render from, so the composer refuses on the section kind
-// before it can emit anything. That is a separate Nevada specification gap and
-// it blocks BOTH branches identically, so this control measures the branch
-// decision where the branch decision is made — at the include gate — and says so
-// rather than pretending the route renders.
-const SECTION_GAP = /section kind "(route_detection|route_branch_screen|discharge_type_screen|declaration)"/;
-
 const petitionAttempt = compose(NV.NEVADA_176A_CHARGE_NAMED, NV.NEVADA_176A_DISPOSITION_CONDITIONAL_DISMISSAL);
 const automaticAttempt = compose(NV.NEVADA_176A_CHARGE_OTHER, NV.NEVADA_176A_DISPOSITION_PROBATION_DISCHARGE);
 const unresolvedAttempt = compose(NV.NEVADA_176A_CHARGE_UNSURE, NV.NEVADA_176A_DISPOSITION_SET_ASIDE);
@@ -324,12 +318,6 @@ for (const documentId of branchConditionalIds) {
     `the refusal names ${documentId} rather than dropping it silently`
   );
 }
-check(
-  !petitionAttempt.ok && SECTION_GAP.test(petitionAttempt.message),
-  "the next Nevada blocker is the specification's bodiless sections, not the branch"
-    + (petitionAttempt.ok ? " (the route now composes — update this control)" : "")
-);
-
 // The include decision itself, measured directly rather than through the
 // section gap: the petition set is in the plan on one branch and out on the
 // other, and nothing about the always-shipped set changes.
@@ -507,6 +495,129 @@ check(
   !/required fact\(s\) are missing/.test(blankComposition),
   `the eleven participant-completable blanks are not demanded as facts (got: ${blankComposition.slice(0, 160) || "composed"})`
 );
+
+// ---------------------------------------------------------------------------
+// 9. The declaration's requirement state, encoded as its own record declares it.
+//
+// Approved wording is not approved requirement state. The owner adoption of
+// 2026-09-02 named this family under the general qualification and named it in
+// none of the eight withholding answers, and its Q7 ruling is that a
+// component's requirement state comes from the family's own record and that
+// changing it takes a new legal-design decision. So the rule to encode is the
+// one NV.memo states — conditional, accompanying the subsection 2 petition —
+// and NOT "required" merely because approved text exists for it.
+// ---------------------------------------------------------------------------
+
+const declaration = specification.documents.find((document) => document.role === "declaration_and_verification");
+check(Boolean(declaration), "the declaration is still a component of this family");
+check(
+  declaration?.requirement === "conditional",
+  `the declaration is conditional, not universally required (got ${declaration?.requirement})`
+);
+check(
+  declaration?.includeWhen === NV.NEVADA_176A_PETITION_BRANCH_CONDITION,
+  "the declaration's condition is the subsection 2 petition branch, which is the rule its own record states"
+);
+check(
+  documentContractFor(declaration).formApplicability === "custom_document_permitted",
+  "the declaration is recorded as permitted rather than as a required official form, matching sections that prescribe no verification"
+);
+check(
+  documentContractFor(declaration).executionType === "signature",
+  "the declaration is signed, not sworn or notarised — the sections prescribe neither"
+);
+
+// Q7 compliance for this family: no component its own record declares required
+// is absent from the specification.
+const memoTrack = JSON.parse(readFileSync(path.join(rootDir, "data/record-clearing/legal-design-intake/NV.memo.json"), "utf8"))
+  .tracks.find((track) => (track.trackId ?? track.id) === "nv_seal_probation_family");
+const declaredRoles = new Map((memoTrack?.components ?? []).map((component) => [component.role, component.requirement]));
+const specRoles = new Map(specification.documents.map((document) => [document.role, document.requirement]));
+check(declaredRoles.size > 0, `the family record declares its components (${declaredRoles.size})`);
+const missingRequired = [...declaredRoles].filter(([role, requirement]) => requirement === "required" && !specRoles.has(role)).map(([role]) => role);
+check(missingRequired.length === 0, `no component the family record declares required is absent${missingRequired.length ? `: ${missingRequired.join(", ")}` : ""}`);
+const requirementDrift = [...declaredRoles]
+  .filter(([role, requirement]) => specRoles.has(role) && specRoles.get(role) !== requirement)
+  .map(([role, requirement]) => `${role}: record says ${requirement}, specification says ${specRoles.get(role)}`);
+check(requirementDrift.length === 0, `every component's requirement state matches its own record${requirementDrift.length ? `; ${requirementDrift.join("; ")}` : ""}`);
+check(
+  [...specRoles.keys()].every((role) => declaredRoles.has(role)) && specRoles.size === declaredRoles.size,
+  `the component set is the adopted one, neither widened nor narrowed (${specRoles.size} vs ${declaredRoles.size})`
+);
+
+// ---------------------------------------------------------------------------
+// 10. The adopted text is in the specification, and the specification is what
+//     composes. The build script is the recovery source, not a hidden runtime
+//     dependency.
+// ---------------------------------------------------------------------------
+
+const composedPetition = compose(NV.NEVADA_176A_CHARGE_NAMED, NV.NEVADA_176A_DISPOSITION_CONDITIONAL_DISMISSAL);
+const composedAutomatic = compose(NV.NEVADA_176A_CHARGE_OTHER, NV.NEVADA_176A_DISPOSITION_PROBATION_DISCHARGE);
+check(composedPetition.ok, `the petition branch composes${composedPetition.ok ? "" : `: ${composedPetition.message.slice(0, 160)}`}`);
+check(composedAutomatic.ok, `the automatic branch composes${composedAutomatic.ok ? "" : `: ${composedAutomatic.message.slice(0, 160)}`}`);
+
+if (composedPetition.ok && composedAutomatic.ok) {
+  const petitionIds = composedPetition.packet.documents.map((document) => document.documentId);
+  const automaticIds = composedAutomatic.packet.documents.map((document) => document.documentId);
+  check([...branchConditionalIds].every((id) => petitionIds.includes(id)), "every branch-conditional component is composed on the petition branch");
+  check([...branchConditionalIds].every((id) => !automaticIds.includes(id)), "no branch-conditional component is composed on the automatic branch");
+
+  const blocks = composedPetition.packet.documents.flatMap((document) => document.blocks);
+  const prose = blocks
+    .flatMap((block) => [block.text, block.heading, block.introduction, ...(block.items ?? []).flatMap((item) => [item.label, item.value])])
+    .filter((value) => typeof value === "string" && value.length > 0)
+    .join("\n");
+
+  check(prose.length > 4000, `the composed packet carries real adopted text, not headings alone (${prose.length} characters)`);
+  check(
+    !/\{\{[a-z0-9_]+\}\}|\{[a-zA-Z]+\}/.test(prose),
+    "no unresolved token reaches the composed packet"
+  );
+  check(
+    !/TO BE CONFIRMED|\bTBD\b|\[[A-Z ]{3,}\]/i.test(prose),
+    "no placeholder stands in for a value the participant writes"
+  );
+
+  // Sentences that exist only in the adopted family text. If the specification
+  // ever loses them again, this fails rather than quietly shipping headings.
+  for (const sentence of [
+    "ONE QUESTION decides whether anything in this packet is filed",
+    "BARRED ON BOTH BRANCHES",
+    "USE THIS PETITION ONLY ON THE SUBSECTION 2 BRANCH",
+    "The petitioner was not charged with a violation of NRS 200.508 or NRS 200.5099",
+    "I declare under penalty of perjury that the foregoing is true and correct",
+    "the branch, not the section, decides everything"
+  ]) {
+    check(prose.includes(sentence), `the adopted text survives transcription: "${sentence.slice(0, 52)}…"`);
+  }
+
+  // The captions are explicit: a named blank with its instruction, never an
+  // empty value and never a placeholder token.
+  const captions = blocks.filter((block) => block.kind === "pleading_caption");
+  check(captions.length > 0, `the filed components carry captions (${captions.length})`);
+  check(
+    captions.every((caption) => caption.courtBlank === true && caption.caseNumberBlank === true),
+    "every caption's court and case number is a declared blank, as the adopted filing expects"
+  );
+  check(
+    captions.every((caption) => Boolean(caption.courtInstruction) && Boolean(caption.caseNumberInstruction)),
+    "every caption blank carries the instruction that tells the participant what to write there"
+  );
+  check(
+    captions.every((caption) => caption.court === "" && caption.caseNumber === ""),
+    "no caption blank is filled with a value, a placeholder or a guess"
+  );
+  check(
+    captions.every((caption) => Boolean(caption.matterTitle)),
+    "the captions are the in-the-matter-of form this family uses, not a plaintiff-versus-defendant caption it has no parties for"
+  );
+
+  // No blank was eliminated by inventing a question for it.
+  const blankItems = blocks.flatMap((block) => (block.items ?? []).filter((item) => item.blank === true));
+  check(blankItems.length > 0, `the composed packet prints participant-completable blanks (${blankItems.length})`);
+  check(blankItems.every((item) => item.value === ""), "a printed blank carries no value");
+  check(blankItems.every((item) => item.label.trim().length > 0), "every printed blank is labelled, so the participant knows what to write");
+}
 
 console.log(`\n${failures.length === 0 ? "PASS" : "FAIL"} — ${failures.length} failing check(s)`);
 if (failures.length > 0) {

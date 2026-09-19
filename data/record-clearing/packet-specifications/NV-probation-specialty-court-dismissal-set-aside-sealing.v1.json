@@ -208,7 +208,8 @@
       "sections": [
         {
           "heading": "Identify the treatment program",
-          "kind": "route_detection"
+          "kind": "route_detection",
+          "body": "Three Nevada sections govern sealing after a court treatment programme, and they are structurally identical — the branch, not the section, decides everything. Which section applies follows from which programme your case ran under:\n\n- NRS 176A.245, where the case ran under the programme of treatment for ALCOHOL OR OTHER SUBSTANCE USE established under NRS 176A.240;\n- NRS 176A.265, where it ran under the programme for treatment of MENTAL ILLNESS OR INTELLECTUAL DISABILITIES established under NRS 176A.260;\n- NRS 176A.295, where it ran under the programme for treatment of VETERANS AND MEMBERS OF THE MILITARY established under NRS 176A.290.\n\nIf your case never ran through one of those three programmes, this packet is not your route: an ordinary probation discharge routes to NRS 176A.850 and then to a petition under NRS 179.245 on the conviction track. If you are not sure which programme your case ran under, the clerk of the court that handled the case can tell you from the court's own record.\n\nWhichever section applies, the branch screen is what decides whether you file anything at all."
         },
         {
           "heading": "When this packet is not the route",
@@ -244,7 +245,8 @@
       "sections": [
         {
           "heading": "Subsection 1 or subsection 2",
-          "kind": "route_branch_screen"
+          "kind": "route_branch_screen",
+          "body": "ONE QUESTION decides whether anything in this packet is filed:\n\nWere you charged with a violation of NRS 200.485 (battery constituting domestic violence), NRS 484C.110 or NRS 484C.120 (driving or being in actual physical control of a vehicle under the influence, or the related controlled-substance driving offence), AND were the charges conditionally dismissed or the judgment of conviction set aside?\n\nIF NO — subsection 1 of the applicable section applies. Sealing is AUTOMATIC: after you are discharged from probation or the case is dismissed under the programme section, the court shall order the records sealed, without a hearing, if you fulfilled the terms and conditions imposed by the court and the Division — unless the Division petitions the court, for good cause shown, not to seal and requests a hearing. You file NOTHING. Do not file the petition in this packet. The referral page says where to go instead.\n\nIF YES — subsection 2 applies. Sealing is NOT automatic: it follows only upon the filing of a petition by you, and the petition cannot be filed sooner than SEVEN YEARS after the conditional dismissal or the setting aside of the judgment. The petition, proposed order and declaration in this packet are for exactly this branch.\n\nBARRED ON BOTH BRANCHES: subsection 3 of each section forbids sealing under the section where you were charged with a violation of NRS 200.508 (abuse, neglect or endangerment of a child) or NRS 200.5099 (abuse, neglect, exploitation, isolation or abandonment of an older person or a vulnerable person). If that was the charge, stop: nothing in this packet can be filed, and a lawyer or Nevada Legal Services is the place to take the question.\n\nSealing under these sections is also not available where the programme was not completed and you were sentenced rather than discharged or the case dismissed."
         },
         {
           "heading": "Barred charges",
@@ -280,7 +282,8 @@
       "sections": [
         {
           "heading": "Check the discharge in the court record",
-          "kind": "discharge_type_screen"
+          "kind": "discharge_type_screen",
+          "body": "If you were discharged from probation, was the discharge HONOURABLE or DISHONOURABLE?\n\nOn this track the answer does not change the mechanism: subsections 1 and 2 turn on whether you fulfilled the terms and conditions imposed by the court and the Division, not on a presumption.\n\nIt matters for what comes after. NRS 179.2445(2) provides that the rebuttable presumption in favour of sealing does NOT apply to a defendant given a dishonorable discharge from probation under NRS 176A.850 who applies for sealing of records relating to the conviction. If your discharge was dishonourable, any later petition on the ordinary conviction track under NRS 179.245 proceeds without that presumption, and that is a reason to talk to a lawyer or Nevada Legal Services before filing anything anywhere.\n\nYour own court paperwork states which discharge you were given; the clerk of the court that handled the case can confirm it from the record."
         }
       ],
       "documentContract": {
@@ -313,13 +316,26 @@
       "manifestComponentId": "nv_seal_probation_family-primary-filing-4",
       "sections": [
         {
+          "heading": "Use restriction",
+          "kind": "pleading_paragraph",
+          "body": "USE THIS PETITION ONLY ON THE SUBSECTION 2 BRANCH: you were charged with a violation of NRS 200.485, NRS 484C.110 or NRS 484C.120, the charges were conditionally dismissed or the judgment of conviction set aside, and not sooner than seven years have passed since. On the subsection 1 branch nothing is filed — the branch-screen page of this packet is the test."
+        },
+        {
           "heading": "Petition caption",
           "kind": "pleading_caption",
           "fields": [
             "court_identity",
             "underlying_case_number",
             "participant_full_legal_name"
-          ]
+          ],
+          "captionContract": {
+            "court": "court_identity",
+            "courtInstruction": "DISTRICT, JUSTICE OR MUNICIPAL COURT THAT HANDLED THE CASE, AND ITS COUNTY — your own court paperwork states it, and that court's clerk can confirm it",
+            "matterTitle": "IN THE MATTER OF THE PETITION OF {{participant_full_legal_name}} TO SEAL RECORDS",
+            "caseNumber": "underlying_case_number",
+            "caseNumberInstruction": "the case number of the underlying case, from your court paperwork",
+            "documentTitle": "PETITION TO SEAL RECORDS UNDER SUBSECTION 2 OF NRS 176A.245, NRS 176A.265 OR NRS 176A.295"
+          }
         },
         {
           "heading": "Subsection 2 allegations and request",
@@ -329,7 +345,47 @@
             "charge_wording",
             "resolution_kind",
             "resolution_date"
-          ]
+          ],
+          "assertions": [
+            {
+              "id": "petition-and-court",
+              "text": "The petitioner, {{participant_full_legal_name}}, petitions this Court, as the court that handled the case identified above, to order sealed all records relating to that case, as subsection 2 of the applicable section provides.",
+              "facts": [
+                "participant_full_legal_name"
+              ]
+            },
+            {
+              "id": "case-facts-from-the-record",
+              "text": "The petitioner states, from the court's own records:",
+              "facts": []
+            },
+            {
+              "id": "seven-years-elapsed",
+              "text": "Not sooner than seven years have elapsed since the date stated above, as subsection 2 requires.",
+              "facts": []
+            },
+            {
+              "id": "terms-and-conditions-fulfilled",
+              "text": "The petitioner fulfilled the terms and conditions imposed by the court and by the Division of Parole and Probation.",
+              "facts": []
+            },
+            {
+              "id": "subsection-3-not-charged",
+              "text": "The petitioner was not charged with a violation of NRS 200.508 or NRS 200.5099, which subsection 3 of each section excludes from sealing.",
+              "facts": []
+            },
+            {
+              "id": "prayer",
+              "text": "The petitioner therefore asks the Court to order sealed all documents, papers and exhibits in the petitioner's record, minute book entries and entries on dockets, and other documents relating to the case in the custody of the agencies and officers named in the proposed order submitted with this petition, as subsection 2 of the applicable section provides. The petitioner is advised that the court shall order the records sealed without a hearing unless the Division petitions the court, for good cause shown, not to seal the records and requests a hearing thereon.",
+              "facts": []
+            }
+          ],
+          "fieldLabels": {
+            "programme_section": "The chapter 176A programme the case ran under (the programme of treatment under NRS 176A.240, NRS 176A.260 or NRS 176A.290, making the applicable sealing section NRS 176A.245, NRS 176A.265 or NRS 176A.295)",
+            "charge_wording": "The charge, worded exactly as the court record words it (a violation of NRS 200.485, NRS 484C.110 or NRS 484C.120)",
+            "resolution_kind": "How the charge was resolved — conditionally dismissed, or the judgment of conviction set aside — exactly as the record states it",
+            "resolution_date": "Date of the conditional dismissal or of the setting aside of the judgment"
+          }
         },
         {
           "heading": "Petitioner contact and signature",
@@ -373,20 +429,42 @@
       "manifestComponentId": "nv_seal_probation_family-proposed-order-5",
       "sections": [
         {
+          "heading": "How to complete this order",
+          "kind": "pleading_paragraph",
+          "body": "This proposed order accompanies the subsection 2 petition. The list of agencies and officers below is operative text, not formality: subsections 1 and 2 reach only records \"in the custody of such other agencies and officers as are named in the court's order\", and under subsection 4 each named agency or officer must notify the court in writing of compliance. You list every agency that touched your case, from your own papers."
+        },
+        {
           "heading": "Order caption",
           "kind": "pleading_caption",
           "fields": [
             "order_court_identity",
             "order_case_number",
             "participant_full_legal_name"
-          ]
+          ],
+          "captionContract": {
+            "court": "order_court_identity",
+            "courtInstruction": "THE SAME COURT AS THE PETITION",
+            "matterTitle": "IN THE MATTER OF THE PETITION OF {{participant_full_legal_name}} TO SEAL RECORDS",
+            "caseNumber": "order_case_number",
+            "caseNumberInstruction": "the same case number as the petition, from your court paperwork",
+            "documentTitle": "ORDER SEALING RECORDS UNDER SUBSECTION 2 OF NRS 176A.245, NRS 176A.265 OR NRS 176A.295"
+          }
         },
         {
           "heading": "Agencies and officers whose records are sealed",
           "kind": "pleading_identity_list",
           "fields": [
             "named_agencies_and_officers"
-          ]
+          ],
+          "body": "The petition of the above-named petitioner to seal records having been filed under subsection 2 of the applicable section, and the Division not having petitioned the court, for good cause shown, not to seal the records,\n\nIT IS ORDERED that all documents, papers and exhibits in the petitioner's record, minute book entries and entries on dockets, and other documents relating to the case in the custody of the agencies and officers named below are SEALED.",
+          "fieldLabels": {
+            "named_agencies_and_officers": "Agencies and officers whose records are sealed by this order (listed by the petitioner from the petitioner's own papers; every agency that touched the case belongs on these lines)"
+          }
+        },
+        {
+          "heading": "Distribution of the order",
+          "kind": "pleading_paragraph",
+          "body": "Under subsection 4 of the applicable section, the court will send a copy of this order to each agency or officer named in it, and each must notify the court in writing of compliance. Under NRS 179.275 a copy also goes to the Central Repository for Nevada Records of Criminal History."
         },
         {
           "heading": "Court signature",
@@ -426,10 +504,48 @@
           "heading": "Declaration",
           "kind": "declaration",
           "fields": [
-            "participant_full_legal_name",
             "declared_programme",
             "declared_resolution"
-          ]
+          ],
+          "body": "This declaration accompanies the subsection 2 petition. The sections prescribe no verification; this is the ordinary support for facts not appearing of record, and every fact on it is yours to state from your own records.",
+          "assertions": [
+            {
+              "id": "declarant-identity",
+              "text": "I, {{participant_full_legal_name}}, am the petitioner in the accompanying petition to seal records.",
+              "facts": [
+                "participant_full_legal_name"
+              ]
+            },
+            {
+              "id": "programme-completed",
+              "text": "The case ran under the chapter 176A programme stated below, and I completed it:",
+              "facts": []
+            },
+            {
+              "id": "resolution-and-date",
+              "text": "The charge was resolved as stated below — conditionally dismissed, or the judgment of conviction set aside — on the date stated below:",
+              "facts": []
+            },
+            {
+              "id": "seven-year-computation",
+              "text": "Not sooner than seven years have elapsed since that date. The computation is mine, made from the date on my own court paperwork.",
+              "facts": []
+            },
+            {
+              "id": "terms-and-conditions",
+              "text": "I fulfilled the terms and conditions imposed by the court and by the Division of Parole and Probation.",
+              "facts": []
+            },
+            {
+              "id": "penalty-of-perjury",
+              "text": "I declare under penalty of perjury that the foregoing is true and correct.",
+              "facts": []
+            }
+          ],
+          "fieldLabels": {
+            "declared_programme": "Paragraph 2 — the chapter 176A programme the case ran under",
+            "declared_resolution": "Paragraph 3 — how the charge was resolved, and on what date"
+          }
         },
         {
           "heading": "Declarant signature",

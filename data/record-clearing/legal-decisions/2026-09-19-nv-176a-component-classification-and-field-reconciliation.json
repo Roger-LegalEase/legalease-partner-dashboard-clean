@@ -9,7 +9,6 @@
     "What artifact is each of the four bodiless section kinds actually supposed to be — instrument class, preparer, recipient, filed or not — and does any of them warrant drafting court-document prose?",
     "The specification declares five required facts while its documents consume sixteen values. What is the authoritative acquisition and ownership treatment of each?"
   ],
-
   "finding1_noProseNeedsWriting": {
     "answer": "None of the four needs prose written for it. The approved text for all eight components already exists, in full, and was rendered and owner-adopted.",
     "where": "scripts/build-census-v1-nv_seal_probation_family-set.mjs",
@@ -21,7 +20,6 @@
     ],
     "consequence": "The bodiless sections are a DERIVATION defect: the section bodies were dropped when the specification was generated from the approved family. The remedy is to carry the adopted text across faithfully, not to draft anything. Drafting would also have been forbidden — the composer's first rule is that it has no legal statements of its own — and it would have produced unreviewed prose competing with approved prose."
   },
-
   "finding2_componentClassification": {
     "method": "Each component read through the §4.2 document contract already recorded on it, then checked against the approved text and against what a removal would lose.",
     "components": [
@@ -79,23 +77,36 @@
     ],
     "whyNothingWasRemoved": "Two independent reasons. First, the classification the instruction was conditioned on does not hold: none of the first three is in the court-facing set, so there is nothing to remove from it — the §4.2 contract had already classified them correctly, which is what the contract was built for. Second, the eight-component family is pinned by owner-adopted fixture hashes; changing its composition is an approval-path act, not an agent edit. No invented owner approval."
   },
-
   "finding3_fieldReconciliation": {
     "answer": "Five required facts is correct and sixteen consumed values is correct. They are not in tension: eleven of the sixteen are participant-completable blanks the approved document prints as lines on the page.",
     "authority": "The owner-adopted field map in scripts/build-census-v1-nv_seal_probation_family-set.mjs classifies every value by construction — `write` (the platform generates it), `rbf` (REQUIRED_BEFORE_FILING: the participant writes it before filing), `protectedBlank` (SIGNATURE: never prefilled), `courtBlank` (COURT_OWNED). The reconciliation below is that classification, not a new one.",
     "buckets": {
       "platform_generated_participant_identity": {
         "count": 5,
-        "factIds": ["participant_full_legal_name", "date_of_birth", "mailing_address", "phone_number", "email_address"],
+        "factIds": [
+          "participant_full_legal_name",
+          "date_of_birth",
+          "mailing_address",
+          "phone_number",
+          "email_address"
+        ],
         "treatment": "requiredFacts. Already declared; unchanged.",
         "approvedMapCategory": "write"
       },
       "participant_completes_before_filing": {
         "count": 11,
         "factIds": [
-          "court_identity", "underlying_case_number", "programme_section", "charge_wording", "resolution_kind", "resolution_date",
-          "order_court_identity", "order_case_number", "named_agencies_and_officers",
-          "declared_programme", "declared_resolution"
+          "court_identity",
+          "underlying_case_number",
+          "programme_section",
+          "charge_wording",
+          "resolution_kind",
+          "resolution_date",
+          "order_court_identity",
+          "order_case_number",
+          "named_agencies_and_officers",
+          "declared_programme",
+          "declared_resolution"
         ],
         "treatment": "NEW bucket fieldOwnership.participantCompletesBeforeFilingFields. Not facts, not questions, not prefilled: the document prints a labelled blank line and the participant writes the value from their own court paperwork at the moment of filing.",
         "approvedMapCategory": "rbf / REQUIRED_BEFORE_FILING",
@@ -104,43 +115,79 @@
       },
       "participant_at_signing": {
         "count": 4,
-        "fields": ["petitioner_signature", "signature_date", "declarant_signature", "declarant_signature_date"],
+        "fields": [
+          "petitioner_signature",
+          "signature_date",
+          "declarant_signature",
+          "declarant_signature_date"
+        ],
         "treatment": "Already declared in fieldOwnership.participantAtSigningFields. Not consumed as section fields, so never demanded.",
         "approvedMapCategory": "protectedBlank / SIGNATURE"
       },
       "court_owned": {
         "count": 2,
-        "fields": ["order_date", "judge_signature"],
+        "fields": [
+          "order_date",
+          "judge_signature"
+        ],
         "treatment": "Already declared in fieldOwnership.courtOwnedFields.",
         "approvedMapCategory": "courtBlank / COURT_OWNED"
       },
       "route_eligibility_and_branch": {
         "count": 3,
-        "factIds": ["nv_176a_excluded_charge_class", "nv_176a_charge_class", "nv_176a_disposition_class"],
+        "factIds": [
+          "nv_176a_excluded_charge_class",
+          "nv_176a_charge_class",
+          "nv_176a_disposition_class"
+        ],
         "treatment": "requiredFacts and route-safety gate facts. They decide whether a packet exists and whether it may be sold, so they resolve before Checkout. They are written into no document; the petition's fixed paragraph 5 asserts the subsection 3 fact, which is why it must be established rather than assumed."
       }
     },
     "invariant": "Every value the documents consume is either a required fact or a declared blank; none is both; no declared blank is also a screening question. Asserted by scripts/verify-nevada-176a-branch.mjs and mutation-proven.",
     "zeroUnnecessaryQuestions": "Three participant questions were added across this whole Nevada correction — the two branch facts and the subsection 3 bar — and every one of them decides whether the participant should file or pay anything. Eleven values that a naive reading would have turned into questions were classified as blanks instead."
   },
-
   "changesMade": [
     "fieldOwnership.participantCompletesBeforeFilingFields added to the packet-specification contract and populated for this route with exactly the eleven REQUIRED_BEFORE_FILING ids from the owner-adopted field map.",
     "The composer no longer demands a declared blank as a fact, and emits it as a labelled blank item rather than filling it.",
     "The renderer draws a line for a blank item, the same way it draws a signature line, instead of printing a label with nothing after it.",
-    "The subsection 3 bar added as a route-safety fact and gate (see the companion record for this date)."
+    "The subsection 3 bar added as a route-safety fact and gate (see the companion record for this date).",
+    "The four bodiless section kinds and the petition's and order's lost prose were transcribed from the owner-adopted build script into the specification, verbatim in substance. The composer now implements the route_detection, route_branch_screen, discharge_type_screen and declaration section kinds, and renders a section's declared fields as labelled blanks after its numbered assertions.",
+    "An explicit caption contract (\"captionContract\") was added for a filing whose caption is not the generic two-party one and whose caption values are participant-completable blanks. Nevada declares one for the petition and the proposed order: an in-the-matter-of caption, a court line and a case-number line each drawn as a rule with its instruction beneath, never an empty value and never a placeholder token.",
+    "referral_instructions was deliberately left alone: its filing_destination section kind renders from the top-level specification block and ignores section bodies, so it already composed, and adding text to it would have been an unreviewed change to a component that already ships."
   ],
-
   "stillOutstanding": [
-    "Carry the owner-adopted section bodies from the census-v1 build script into the specification so the route composes. This is transcription of approved text under the adopted fixture hashes, not drafting, and it must reproduce the adopted bytes.",
-    "The pleading_caption section kind reads fixed fact ids (court_name, case_number) and ignores the section's declared fields, so Nevada's caption values — which are blanks — are not yet expressed through the caption block. That is part of the same transcription work and interacts with the GA-5-TOKENS caption refusal contract.",
-    "Counsel review of the permitted-practice declaration, of the three question wordings, and of the branch and bar readings."
+    "The Grade-A renderer requires a caption on every pleading document and the adopted Nevada declaration page has none. See finding5. Nationwide condition, 21 other documents across 9 routes.",
+    "Counsel review of whether a permitted-practice declaration belongs in a filing-grade packet, of the three question wordings, and of the branch and bar readings."
   ],
-
   "isCounselApproval": false,
   "createsOutputApproval": false,
   "createsTerminalStatus": false,
   "productionTouched": false,
   "commercialRoutesOpened": 0,
-  "remainingReview": "The route composes nothing and sells nothing today. Nothing here grants fulfillment or commercial authority, and the owner-adopted family composition is unchanged."
+  "remainingReview": "The route composes nothing and sells nothing today. Nothing here grants fulfillment or commercial authority, and the owner-adopted family composition is unchanged.",
+  "finding4_declarationRequirementState": {
+    "question": "Did the 2026-09-02 owner adoption establish the declaration's inclusion and requirement state, or only its wording?",
+    "method": "Read the adoption record once, in full. No new legal research.",
+    "whatTheAdoptionSays": {
+      "nvFamilyQualification": "nv_seal_probation_family-set sits under the general qualification of the three: \"ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.\"",
+      "namedInAnyWithholding": false,
+      "withholdingDetail": "The record carries eight answers, each withholding something from named families. nv_seal_probation_family-set is named in none of them. The only NV family named anywhere is composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247, under Q2, which is a different route.",
+      "q7IsOnPoint": "Q7 asked what happens when a component the family's own record names as required is deliberately not rendered. The owner ruled: \"THE REQUIRED COMPONENT MUST BE BUILT. The reduced packet is not approved while a component the family's own record declares required is absent. The alternative is a new legal-design decision expressly removing or changing that requirement.\""
+    },
+    "determination": "The requirement state IS established, and it is not \"required\". Q7 settles that a component's requirement state comes from the family's own record and that changing it takes a new legal-design decision. This family's own record — NV.memo tracks[nv_seal_probation_family].components[declaration_and_verification] — declares it \"conditional\", \"Accompanies the subsection 2 petition.\" The owner-adopted build script carries the identical condition in COMPONENT_CONDITIONS, and the specification encodes the identical rule as requirement \"conditional\" with includeWhen \"subsection_2_petition_branch\". All three agree.",
+    "whatWasEncoded": "Exactly that rule, which was already encoded and is now locked by control: conditional on the subsection 2 branch. The composer includes the declaration only when that branch is established, and refuses when it is not. Nothing was made universally required.",
+    "correctionToTheEarlierFlag": "The earlier report said the declaration was “permitted rather than compelled; flagged as a counsel question”, which conflated two different things. That the sections prescribe no verification is a statement about AUTHORITY, and the contract already expresses it faithfully — formApplicability \"custom_document_permitted\" rather than \"official_form_required\", and executionType \"signature\" rather than \"sworn_notarised\". It is not a statement that the requirement state is unresolved. The requirement state was never unresolved; it is conditional, and it is now asserted as such.",
+    "whatRemainsACounselQuestion": "Whether a permitted-practice declaration belongs in a filing-grade packet at all. That is covered by the standing counsel review on this route and is not a separate unresolved requirement state."
+  },
+  "finding5_renderContractDisagreement": {
+    "finding": "Nevada now composes on both branches — eight documents on the petition branch, four on the automatic branch — and does not yet RENDER, for a reason that is nationwide rather than Nevada's.",
+    "detail": "The Grade-A renderer requires every document whose presentation is  to carry a pleading caption (\"Pleading document X has no pleading caption\"). The owner-adopted Nevada declaration page carries none: it opens \"This declaration accompanies the subsection 2 petition\" and is a supporting page filed with a captioned petition.",
+    "scope": "21 other pleading documents across 9 routes declare no caption section either, including three of the six commercially eligible routes (MS 9-11-15-3, WY 7-13-1502, DC 16-803). Those routes do not compose through this path at all — WY refuses on the \"approved_shipping_component\" section kind — so the generic compose-and-render path is not the delivery path for the proven routes, and this disagreement has simply never been exercised.",
+    "whatWasNotDone": "No caption was invented for the declaration, and the declaration was not downgraded to \"guidance\" presentation to get past the check. Either would have been unreviewed court-document content or a false classification of a court-facing filing.",
+    "resolutionOptions": [
+      "Confirm from the adopted artifact that the declaration is a supporting filing rather than a captioned pleading, and give the Grade-A renderer that treatment.",
+      "Obtain a caption decision for the declaration through the legal-design path."
+    ],
+    "failClosed": "Until then the render refuses, which is the honest state and is visible. Composition succeeding and rendering refusing is strictly more informative than the previous state, where composition refused first and nothing downstream was ever exercised."
+  }
 }

@@ -192,15 +192,80 @@ function drawPleadingCaption(
   block: Extract<GradeABlock, { kind: "pleading_caption" }>
 ) {
   ensurePleading(cursor, document, fonts, context, 245);
-  cursor.y = drawCenteredWrapped(
-    cursor.page,
-    fonts.pleadingBold,
-    sanitize(block.court.toUpperCase()),
-    PLEADING_BODY_SIZE,
-    PLEADING_CONTENT_WIDTH,
-    cursor.y,
-    PLEADING_LEADING
-  ) - 36;
+  if (block.courtBlank) {
+    // The court is a line the participant completes at filing. Drawing "IN THE"
+    // with a rule after it, and the instruction beneath, says that; centring an
+    // empty string would read as a court the packet failed to name.
+    cursor.page.drawText("IN THE", {
+      x: PLEADING_MARGIN, y: cursor.y, size: PLEADING_BODY_SIZE, font: fonts.pleadingBold, color: INK
+    });
+    const afterLabel = PLEADING_MARGIN + fonts.pleadingBold.widthOfTextAtSize("IN THE ", PLEADING_BODY_SIZE);
+    cursor.page.drawLine({
+      start: { x: afterLabel, y: cursor.y - 2 },
+      end: { x: PAGE_WIDTH - PLEADING_MARGIN - fonts.pleadingBold.widthOfTextAtSize(" COURT", PLEADING_BODY_SIZE) - 6, y: cursor.y - 2 },
+      thickness: 0.75,
+      color: INK
+    });
+    cursor.page.drawText("COURT", {
+      x: PAGE_WIDTH - PLEADING_MARGIN - fonts.pleadingBold.widthOfTextAtSize("COURT", PLEADING_BODY_SIZE),
+      y: cursor.y, size: PLEADING_BODY_SIZE, font: fonts.pleadingBold, color: INK
+    });
+    cursor.y -= PLEADING_LEADING;
+    if (block.courtInstruction) {
+      cursor.y = drawCenteredWrapped(
+        cursor.page, fonts.pleadingBody, sanitize(`(${block.courtInstruction})`), 9,
+        PLEADING_CONTENT_WIDTH, cursor.y, 11
+      );
+    }
+    cursor.y -= 24;
+  } else {
+    cursor.y = drawCenteredWrapped(
+      cursor.page,
+      fonts.pleadingBold,
+      sanitize(block.court.toUpperCase()),
+      PLEADING_BODY_SIZE,
+      PLEADING_CONTENT_WIDTH,
+      cursor.y,
+      PLEADING_LEADING
+    ) - 36;
+  }
+
+  if (block.matterTitle) {
+    // An in-the-matter-of caption. The two-party block below names a plaintiff
+    // and a defendant, which this family has neither of.
+    cursor.y = drawCenteredWrapped(
+      cursor.page, fonts.pleadingBold, sanitize(block.matterTitle.toUpperCase()), 12,
+      PLEADING_CONTENT_WIDTH, cursor.y, PLEADING_LEADING
+    ) - 18;
+    if (block.caseNumberBlank) {
+      cursor.page.drawText("CASE NO.", {
+        x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK
+      });
+      const afterCaseLabel = PLEADING_MARGIN + fonts.pleadingBold.widthOfTextAtSize("CASE NO. ", 12);
+      cursor.page.drawLine({
+        start: { x: afterCaseLabel, y: cursor.y - 2 },
+        end: { x: afterCaseLabel + 260, y: cursor.y - 2 },
+        thickness: 0.75,
+        color: INK
+      });
+      cursor.y -= PLEADING_LEADING;
+      if (block.caseNumberInstruction) {
+        cursor.y = drawCenteredWrapped(
+          cursor.page, fonts.pleadingBody, sanitize(`(${block.caseNumberInstruction})`), 9,
+          PLEADING_CONTENT_WIDTH, cursor.y, 11
+        );
+      }
+    } else {
+      const matterCaseLabel = `CASE NO. ${sanitize(block.caseNumber)}`;
+      cursor.page.drawText(matterCaseLabel, { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+      cursor.y -= PLEADING_LEADING;
+    }
+    cursor.y -= 24;
+    cursor.y = drawCenteredWrapped(
+      cursor.page, fonts.pleadingBold, sanitize(block.title), 13, PLEADING_CONTENT_WIDTH, cursor.y, PLEADING_LEADING
+    ) - 26;
+    return;
+  }
 
   const leftWidth = 290;
   const plaintiffLines = wrap(sanitize(block.plaintiff.toUpperCase()), fonts.pleadingBold, 12, leftWidth);
