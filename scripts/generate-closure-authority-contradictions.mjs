@@ -303,7 +303,14 @@ const register = {
 const markdown = renderMarkdown(register);
 const serialized = `${JSON.stringify(register, null, 2)}\n`;
 
-if (CHECK) {
+// The substantive checks below run in BOTH modes. They used to run only
+// under --check, so `npm run rcap:closure-contradictions` published this
+// register with no validation at all -- including rows carrying
+// adjudication: null, whose proposals then fall back to the flat default
+// the register exists to stop. The refusal was a convention (remember to
+// pass --check) rather than a property of the generator. It is a property
+// now: an unadjudicated row refuses the write.
+{
   const problems = [];
   if (Object.values(counts).reduce((a, b) => a + b, 0) !== rows.length) problems.push("outcome modes do not sum");
   // Every row must be adjudicated individually. An unadjudicated row would fall
@@ -350,18 +357,25 @@ if (CHECK) {
       problems.push(`${row.pathwayKey}: a proposal carries an authority or a decision date. This generator must never fill those in.`);
     }
   }
-  for (const [rel, expected] of [[OUT_JSON, serialized], [OUT_MD, markdown]]) {
-    const abs = path.join(root, rel);
-    if (!fs.existsSync(abs)) problems.push(`${rel} has not been generated`);
-    else if (fs.readFileSync(abs, "utf8") !== expected) problems.push(`${rel} is stale; regenerate it`);
+  // Staleness is only a question under --check. Writing is what answers it.
+  if (CHECK) {
+    for (const [rel, expected] of [[OUT_JSON, serialized], [OUT_MD, markdown]]) {
+      const abs = path.join(root, rel);
+      if (!fs.existsSync(abs)) problems.push(`${rel} has not been generated`);
+      else if (fs.readFileSync(abs, "utf8") !== expected) problems.push(`${rel} is stale; regenerate it`);
+    }
   }
   if (problems.length > 0) {
-    console.error("Closure/authority contradiction register failed:");
+    console.error(CHECK
+      ? "Closure/authority contradiction register failed:"
+      : "Refusing to write the closure/authority contradiction register:");
     for (const p of problems) console.error(`  - ${p}`);
     process.exit(1);
   }
-  console.log(`Closure/authority contradictions verified: ${rows.length} pathways.`);
-  process.exit(0);
+  if (CHECK) {
+    console.log(`Closure/authority contradictions verified: ${rows.length} pathways.`);
+    process.exit(0);
+  }
 }
 
 fs.mkdirSync(path.join(root, path.dirname(OUT_JSON)), { recursive: true });
