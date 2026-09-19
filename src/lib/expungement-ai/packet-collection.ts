@@ -825,12 +825,31 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 /**
  * The facts that must be answered before Checkout may open.
  *
- * This is deliberately EVERY fact the participant still owns, including the
- * filing-readiness ones. Classifying a fact as filing readiness changes where
- * it is asked and what it is called; it does not change when money may move.
- * Deferring those facts past Checkout would loosen the condition on which
- * Checkout opens, and the completeness of the fact set before payment is part
- * of the behaviour this correction is required to preserve exactly.
+ * THE RULE THIS GATE IS HELD TO
+ *
+ *   Checkout may be blocked by an unresolved eligibility fact, and by a
+ *   participant-owned fact actually required to produce the promised packet.
+ *   It may NOT be blocked merely by a later filing-readiness task, an external
+ *   document, post-filing work, or another actor's responsibility. Showing a
+ *   participant their filing checklist before they pay is not the same as
+ *   demanding they complete it before they pay.
+ *
+ * This returns every fact the participant still owns, filing-readiness ones
+ * included, and that is only defensible while each of those actually earns its
+ * place. It is not a licence: a filing-readiness classification says where a
+ * fact is asked and what it is called, and it cannot by itself justify
+ * standing in front of a payment.
+ *
+ * So the justification is measured rather than asserted.
+ * `scripts/verify-rcap-prepurchase-render-facts.mjs` takes every fact in this
+ * gate that is not `prepay_confirmation` or `render_required`, drops it, and
+ * asks the real renderer whether the packet still composes. A fact the
+ * composer refuses to proceed without has earned the gate whatever it is
+ * called; a fact the packet composes happily without is a later task blocking
+ * a payment, and the check fails. At the last run that was 18 filing-readiness
+ * and 6 live-conditional facts, every one of them named by the composer as
+ * missing. Add a fact here that the renderer does not need and that check goes
+ * red, which is the point of it.
  *
  * What legitimately leaves this gate is only what stops being the
  * participant's to answer: a fact the server owns, a fact that follows

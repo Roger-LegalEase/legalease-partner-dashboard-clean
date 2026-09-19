@@ -13,8 +13,49 @@ const require = createRequire(import.meta.url);
 const ts = require("typescript");
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-function loadTsWithMocks(relPath, mocks) {
-  const resolved = path.join(rootDir, relPath);
+/**
+ * Resolve a `@/...` specifier the way tsconfig does: `@/*` is `./src/*`.
+ *
+ * Without this, an unmocked `@/` import was not a missing double — it was a
+ * crash. `payment-adapter.ts` began importing `@/lib/server-runtime-environment`
+ * on 2026-09-17 and this control, which the commercial-flow workflow runs on
+ * every pull request to main, has been red since: `Cannot find module`, before
+ * a single assertion ran. A gate that dies on import proves nothing about the
+ * payment guards it exists to protect.
+ *
+ * The fix is to load the real module rather than to add one more entry to the
+ * mock map. A double is for a dependency this test must control — Stripe,
+ * Supabase, the clock. A pure classifier like the runtime-environment reader is
+ * better exercised for real, and resolving the alias means the next genuine
+ * import added upstream does not silently red the control again.
+ */
+const REAL_MODULE_CACHE = new Map();
+
+function aliasPath(specifier) {
+  if (!specifier.startsWith("@/")) return null;
+  // `@/*` is `./src/*`, which is also how the repository reaches its data files:
+  // `@/../data/...json` normalises to `<root>/data/...json`.
+  const base = path.join(rootDir, "src", specifier.slice(2));
+  for (const candidate of [base, `${base}.ts`, `${base}.tsx`, path.join(base, "index.ts")]) {
+    if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) return candidate;
+  }
+  return null;
+}
+
+function requireFor(mocks) {
+  return (specifier) => {
+    if (specifier in mocks) return mocks[specifier];
+    // `server-only` is a build-time marker with no runtime behaviour to test.
+    if (specifier === "server-only" || specifier === "client-only") return {};
+    const aliased = aliasPath(specifier);
+    if (aliased) return aliased.endsWith(".json") ? require(aliased) : loadTsFile(aliased, mocks);
+    return require(specifier);
+  };
+}
+
+function loadTsFile(resolved, mocks) {
+  const cached = REAL_MODULE_CACHE.get(resolved);
+  if (cached) return cached;
   const transpiled = ts.transpileModule(fs.readFileSync(resolved, "utf8"), {
     compilerOptions: {
       esModuleInterop: true,
@@ -27,9 +68,20 @@ function loadTsWithMocks(relPath, mocks) {
   const compiledFilename = `${resolved}.cjs`;
   mod.filename = compiledFilename;
   mod.paths = Module._nodeModulePaths(path.dirname(resolved));
-  mod.require = (specifier) => (specifier in mocks ? mocks[specifier] : require(specifier));
+  mod.require = requireFor(mocks);
   mod._compile(transpiled, compiledFilename);
+  // Only dependencies loaded for real are cached. The module under test is
+  // loaded fresh each time, because each case gives it different doubles.
+  REAL_MODULE_CACHE.set(resolved, mod.exports);
   return mod.exports;
+}
+
+function loadTsWithMocks(relPath, mocks) {
+  const resolved = path.join(rootDir, relPath);
+  REAL_MODULE_CACHE.delete(resolved);
+  const loaded = loadTsFile(resolved, mocks);
+  REAL_MODULE_CACHE.delete(resolved);
+  return loaded;
 }
 
 function read(relPath) {
@@ -41,7 +93,23 @@ const ITEM = "22222222-2222-4222-8222-222222222222";
 const PERSON = "33333333-3333-4333-8333-333333333333";
 const MATTER = "44444444-4444-4444-8444-444444444444";
 const PRODUCT = "expungement_packet";
-const PATHWAY_ID = "pa-path-a-non-conviction-expungement";
+/**
+ * The route these guards run on must be one the product may actually sell.
+ *
+ * This fixture used to be `PA:pa-path-a-non-conviction-expungement`. Roger
+ * retired the Pennsylvania legacy generator as a commercial fulfillment path on
+ * 2026-08-28, so that route now has no Grade-A fulfillment record and
+ * `assertCheckoutAllowed` refuses it outright — the positive cases below could
+ * never reach the guard they were written to test. Commercial authority comes
+ * from a Grade-A record and nothing else, so the positive cases move to a route
+ * that holds one. The refusal itself is still proven, as a negative case, on a
+ * route with no record.
+ */
+const JURISDICTION = "MS";
+const PATHWAY_ID = "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
+const TRACK_ID = "ms-nonconv";
+const UNRECORDED_JURISDICTION = "PA";
+const UNRECORDED_PATHWAY_ID = "pa-path-a-non-conviction-expungement";
 const APP_ORIGIN = "https://axis-serving-believed-century.trycloudflare.com";
 
 function eligibleItem(overrides = {}) {
@@ -51,9 +119,9 @@ function eligibleItem(overrides = {}) {
     resultCode: "packet_ready",
     paymentStatus: "unpaid",
     packetStatus: "not_started",
-    state: "PA",
+    state: JURISDICTION,
     status: "packet_ready",
-    pathwayLabel: "Path A — Non-conviction expungement",
+    pathwayLabel: "Non-conviction expungement for dismissal, no disposition, or acquittal",
     packetType: "custom_pleading",
     artifactRefs: {},
     ...overrides
@@ -76,7 +144,7 @@ function openSession(overrides = {}) {
       channel: "expungement_ai_consumer",
       user_id: USER,
       briefcase_item_id: ITEM,
-      jurisdiction: "PA",
+      jurisdiction: JURISDICTION,
       pathway_id: PATHWAY_ID,
       packet_type: "custom_pleading",
       verification_hash: "a".repeat(64)
@@ -141,8 +209,8 @@ function authoritativeSaveItem(userId = USER) {
   return {
     userId,
     itemType: "result",
-    jurisdiction: "PA",
-    pathwayLabel: "Path A — Non-conviction expungement",
+    jurisdiction: JURISDICTION,
+    pathwayLabel: "Non-conviction expungement for dismissal, no disposition, or acquittal",
     resultCode: "packet_ready",
     packetType: "custom_pleading",
     paymentAllowed: true,
@@ -288,9 +356,15 @@ function buildPaymentAdapter({
         return {
           hash: verificationHash,
           snapshot: {
-            jurisdiction: "PA",
+            jurisdiction: JURISDICTION,
             pathwayId: PATHWAY_ID,
-            selectedTrackId: null,
+            // The server-owned track, from the specification this route's
+            // Grade-A record binds. A route match alone is not commercial
+            // authority: the record names an exact track, family, provider and
+            // specification, and the protected snapshot is where that comes
+            // from. The forged-track case below still forges on the ITEM,
+            // which is the writable surface, and must not win.
+            selectedTrackId: TRACK_ID,
             treatmentClassification: null,
             deferralComponentIds: [],
             packetType: "custom_pleading",
@@ -318,6 +392,29 @@ function buildPaymentAdapter({
 }
 
 async function checkoutBehavior() {
+  {
+    // A route nobody has written a Grade-A record for does not take money,
+    // however complete the matter looks. Pennsylvania is the concrete case:
+    // its legacy generator was retired as a commercial fulfillment path on
+    // 2026-08-28, and the absence of a record is a refusal rather than a gap.
+    const h = buildPaymentAdapter({
+      verificationSnapshotOverrides: {
+        jurisdiction: UNRECORDED_JURISDICTION,
+        pathwayId: UNRECORDED_PATHWAY_ID,
+        selectedTrackId: null
+      }
+    });
+    await assert.rejects(
+      () => h.adapter.createConsumerPacketCheckout({
+        userId: USER,
+        item: eligibleItem({ state: UNRECORDED_JURISDICTION })
+      }),
+      (error) => error?.missing?.includes("fulfillment record")
+        || /cannot prove it delivers/.test(String(error?.message ?? "")),
+      "a route with no Grade-A fulfillment record must refuse checkout"
+    );
+  }
+
   {
     const h = buildPaymentAdapter({ reviewReady: false });
     const result = await h.adapter.createConsumerPacketCheckout({
@@ -544,14 +641,14 @@ async function protectedCasBehavior() {
   const draftSnapshot = {
     schemaVersion: "expungement-ai/protected-packet-draft/v1",
     capturedAt: "2026-08-26T00:00:00.000Z",
-    jurisdiction: "PA",
+    jurisdiction: JURISDICTION,
     profileVersion: "1.3.0",
     profileAuthorityFingerprint: "c".repeat(64),
     requiredInputIds: [],
     packetFamilyIdentifiers: { mode: null, sourceFormIds: [] },
     screeningAnswers: {},
     packetAnswers: {},
-    serverFacts: { jurisdiction: "PA", pathway_id: PATHWAY_ID },
+    serverFacts: { jurisdiction: JURISDICTION, pathway_id: PATHWAY_ID },
     prefilledAnswers: {},
     dependencies: { commercialFlowVersion: 1, entitlementSource: "consumer_payment", productId: PRODUCT }
   };
@@ -603,7 +700,7 @@ async function protectedCasBehavior() {
     expectedPriorHash: "a".repeat(64),
     expectedPriorRevision: 4,
     answerDelta: { court: "Court of Common Pleas" },
-    packetInformationMetadata: { stage: "ready_to_generate", serverFacts: { jurisdiction: "PA", pathway_id: PATHWAY_ID } },
+    packetInformationMetadata: { stage: "ready_to_generate", serverFacts: { jurisdiction: JURISDICTION, pathway_id: PATHWAY_ID } },
     nextVerification: {
       status: "verified",
       reason: "explicit_final_verification",
@@ -944,7 +1041,7 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
     paymentStatus: "paid"
   });
   const model = reviewReady ? {
-    stateCode: "PA",
+    stateCode: JURISDICTION,
     stateName: "Pennsylvania",
     pathwayId: "path-a-non-conviction-expungement",
     pathwayLabel: item.pathwayLabel,
@@ -958,7 +1055,7 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
       disposition_date: "2025-01-02",
       criminal_history: "The listed charge was dismissed."
     },
-    serverFacts: { jurisdiction: "PA", pathway_id: PATHWAY_ID },
+    serverFacts: { jurisdiction: JURISDICTION, pathway_id: PATHWAY_ID },
     requiredInputIds: ["participant_full_legal_name", "county", "court", "charge", "disposition_date", "criminal_history"],
     missingInputIds: [],
     stage: "ready_to_generate",
@@ -1003,12 +1100,12 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
             rendererKind: "packet_document_v1",
             rendererVersion: "1.0.0",
             sourceSha256: null,
-            profileId: "PA",
+            profileId: JURISDICTION,
             profileVersion: "1.3.0",
             briefcaseItemId: ITEM,
             inputHash: "a".repeat(64)
           },
-          route: { jurisdiction: "PA", pathwayId: PATHWAY_ID }
+          route: { jurisdiction: JURISDICTION, pathwayId: PATHWAY_ID }
         };
       }
     },
@@ -1053,7 +1150,7 @@ async function renderRequestBehavior() {
     assert.equal(h.buildCalls[0].trackId, null);
     assert.equal(h.buildCalls[1].trackId, null);
     assert.equal(h.buildCalls[0].packetFields.participant_full_legal_name, "Alex Acceptance");
-    assert.equal(h.buildCalls[0].packetFields.jurisdiction, "PA");
+    assert.equal(h.buildCalls[0].packetFields.jurisdiction, JURISDICTION);
     assert.equal(h.packetRows.length, 0, "application performs no packet-row write before atomic enqueue");
     assert.equal(h.inputSnapshots.length, 0, "application performs no mutable input upsert before atomic enqueue");
     assert.equal(h.enqueueCalls.length, 1);

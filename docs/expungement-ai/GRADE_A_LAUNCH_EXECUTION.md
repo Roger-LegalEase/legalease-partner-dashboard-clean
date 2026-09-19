@@ -47,7 +47,7 @@ lane, no agent swarm.
 | GA-5-MS reapply the reverted `routeKeys` binding fix | 3 | `ACTIVE` | 132C. Reverted earlier to hold `rebuildRequired:false`; that is no longer the accepted end state |
 | GA-5-OR Oregon `caseMode` unresolved | 3 | `READY` | Moved here from 4.2 by owner instruction. The authority does not say whether the set-aside opens a new case or files into the existing one; the value stays `unresolved` and the component stays non-releaseable. Not a shared-contract question, and `existing_case`/`new_case` is not to be invented for it |
 | GA-6.2 authenticated browser journey | 2 | `EXTERNAL BLOCKER` | Everything past the claim needs a real Supabase. The local stack (`scripts/legal-aid/local-stack/`) runs PGlite over five Clinic Mode migrations on hand-written stubs; the consumer briefcase would need `remote_schema.sql` and ~15 more, and a hand-stubbed consumer schema would prove the UI moves, not that the claim, RLS and verification boundary hold — substitute evidence, not evidence. Needs the credentials row below |
-| GA-6.2-ES filing-readiness copy has no Spanish | 2 | `READY` | `route-product-metadata.json` carries 354 filing-readiness and external-document strings as plain strings with no `translations.es`; only the ones whose exact English happens to sit in `EXPUNGEMENT_COPY` resolve. Some are enum tokens the copy audit miscounts (`guidance_only`), but participant-visible instructions such as "File the TF-810 request at your local Alaska trial court" are genuinely English-only. §6.2 exit condition names this ("no English-only fallback"); sizing it is a translation task across jurisdictions, not a browser-acceptance fix, and the strings name forms, courts and procedures, so they are not to be machine-translated |
+| GA-8-GUARDS `test-expungement-checkout-guards.mjs` red | 5 | `EXTERNAL BLOCKER` | **Classified: required release control.** The `Expungement.ai commercial flow` workflow runs it on every pull request to `main`, and its own path is one of that workflow's triggers. Two stale premises repaired (below); the third is the successor Grade-A acceptance this whole candidate waits on, and a hash is not to be rolled to clear it |
 
 ## External blockers
 
@@ -71,12 +71,62 @@ lane, no agent swarm.
 | GA-4.2 shared document contract | 1 | 12 attributes on all 76 documents across 19 specifications, populated from `legal-design-packet-set-manifests.json`; consumed by the renderer and refused at the fulfillment boundary; 203 checks, four invariants each mutation-tested. Oregon `caseMode` moved to Phase 3 as a route question |
 | GA-6.2 packet-information workload measured nationwide | 2 | `verify-packet-collection.mjs` (18 checks) and the collection audit over 343 routes: screens max 57→9, median 15→7; 1,908 duplicate asks eliminated; **0** unresolved facts on any route; every required fact accounted for exactly once; filing readiness stays inside the pre-Checkout gate; saved answers stay editable; preflight refuses and names the missing fact. This is the "not merely screen count" measurement §6.2 asks for, and it is headless, so it needed no credentials |
 | GA-6.2 anonymous journey in a real browser, four ways | 2 | `verify-expungement-anonymous-journey-browser.mjs`, run against a local dev server. The original Mississippi non-conviction route completes identically desktop/English, on a 390px phone (0px horizontal overflow), keyboard-only, and in Spanish. The free check asks **7** option-only questions, **0** free-text or date controls, **0** exact packet facts, and never requests checkout; the priced result states $50 and that the facts are verified before payment. Two English-only fallbacks found and fixed: no language control on any inner surface, and six result lines — including the price and the payment sequence — that stayed English in Spanish. Both mutation-proven to fail the check |
+| GA-6.1 nothing but a real prerequisite blocks Checkout | 2 | The other half of the rule, measured. What stands between a participant and Checkout, nationwide: 3,945 `prepay_confirmation`, 1,085 `render_required`, **18** `filing_readiness`, **6** live `conditional`, 0 `unresolved`. Every one of those 24 outside the two admitted classes was dropped and put to the real renderer: **19 refused by name** as missing, **0 composed without** — so no later filing task, external document, post-filing step or other actor's work is standing in front of a payment. 5 not probed because their route (DC, GA×2, WY) does not compose at all — an `approved_shipping_component` section the composer does not implement, which refuses harder than the gate and is §5 work. Mutation-proven: a notarisation-appointment fact injected into the gate reds the check |
 | GA-6.1 no required participant-owned render fact after Checkout | 2 | **0 nationwide.** 538 checks in `verify-rcap-prepurchase-render-facts.mjs`: 13 reachable routes with a registered specification, 172 participant-owned specification facts, all in the pre-Checkout gate or excused with a recorded disposition (MS non-conviction excuses 5, all `derived`). Two route-level mutations proven to fail the check. No product change was warranted — see below |
 | Memo lineage restoration (32) | — | `e1834aac7`; sweep step 154 |
 | Resolution-lane sidecar (33) | — | `d01cc0e30`; steps 155, 158 |
 | Per-question out-of-scope reasons (36B) | — | steps 164, 165 |
 | Authority-derived hardening expectation | — | step 254 |
 | Verifier register re-observed | — | `11fe14d0f`; 513-script audit |
+
+## Two one-time classifications
+
+**The 354 filing-readiness strings with no Spanish — not launch localization
+work, and the count itself is an audit artifact.**
+
+`data/expungement-ai/route-product-metadata.json` is read by scripts only. No
+file under `src/` imports it, statically or by path, so none of its strings is
+rendered to a participant from that file. Of the 354:
+
+- **339** are `routeData.filingReadiness`, one per route, and every one is a
+  status token, not prose. Four distinct values: `ready_to_file`,
+  `guidance_only`, `needs_external_document`,
+  `needs_court_or_agency_followup`. Where those values do reach a participant
+  they resolve through `filing.*` in `EXPUNGEMENT_COPY`, and **all four already
+  carry Spanish**. The copy audit keys its Spanish lookup on English *prose*,
+  so a token can never match — that is where the "missing Spanish" count comes
+  from.
+- **15** are `externalDocuments` prose, on **2 routes** (AK, DE). Both are
+  `paymentProductEligible`; neither holds a Grade-A record, so neither can
+  sell. Script-read only.
+- **0** on any of the six commercially eligible routes.
+
+So: not reachable by a supported participant, and nothing here is
+machine-translated. The audit's keying defect is the backlog item.
+
+**`test-expungement-checkout-guards.mjs` — required release control, still
+red, and that is launch work.**
+
+It runs in `.github/workflows/expungement-ai-commercial-flow.yml` on pull
+requests to `main`. Three premises, two now repaired:
+
+1. *Repaired.* It died on `Cannot find module '@/lib/server-runtime-environment'`
+   before a single assertion ran — `payment-adapter.ts` began importing it on
+   2026-09-17 and the hand-rolled loader resolved `@/` only through its mock
+   map. The loader now resolves the alias to the real file, so a genuine new
+   import upstream no longer silently reds the control.
+2. *Repaired.* Its positive cases ran on `PA:pa-path-a-non-conviction-expungement`.
+   Roger retired the Pennsylvania legacy generator as a commercial fulfillment
+   path on 2026-08-28, so that route has no Grade-A record and
+   `assertCheckoutAllowed` refuses it by design — the guards under test were
+   unreachable. Positive cases moved to a route that holds a record; the
+   refusal is now proven as its own negative case, and passes.
+3. *Open, and not ours to clear.* The MS record's
+   `packetSpecificationSha256` is `3a1bed79…`; the file now hashes
+   `f094c572…`, because GA-4.2 populated the document contract into every
+   specification. That is the accepted successor invalidation, not a defect to
+   patch. The control goes green when the successor Grade-A records are
+   accepted — not by rolling a hash.
 
 ## GA-6.1 — correction to an earlier report
 

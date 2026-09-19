@@ -52,9 +52,10 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 const { getAllJurisdictionProfiles } = await import("../src/lib/rcap-engine/profile-registry.ts");
 const { packetPlanForPathway } = await import("../src/lib/rcap-engine/packet-planner.ts");
 const { routeDecidingFactIds } = await import("../src/lib/rcap-engine/route-fact-relevance.ts");
-const { packetSpecificationFor, packetSpecificationRouteKeys } = await import(
+const { packetSpecificationFor, packetSpecificationRouteKeys, composablePacketSpecificationFor } = await import(
   "../src/lib/rcap/grade-a/packet-specification.ts"
 );
+const { renderPreflight } = await import("../src/lib/expungement-ai/render-preflight.ts");
 const { resolvePacketCollection, prepayGateFactIds, participantOwesFact } = await import(
   "../src/lib/expungement-ai/packet-collection.ts"
 );
@@ -173,6 +174,103 @@ for (const routeKey of packetSpecificationRouteKeys()) {
 
 check(routesChecked > 0, "no route with a registered packet specification was checked");
 
+// --- the other half of the rule: nothing ELSE may block Checkout -------------
+//
+// The gate may hold unresolved eligibility facts and participant-owned facts
+// actually required to produce the promised packet. It may NOT hold a task the
+// participant does later: a signature, a notarisation, a certified copy to
+// fetch, a service step, or work that belongs to another actor. Displaying a
+// checklist before payment is not the same as demanding every checklist task
+// before payment.
+//
+// `prepay_confirmation` and `render_required` are the two classes the rule
+// admits by name. Everything else in the gate — filing readiness, and a
+// conditional whose condition is live — has to earn its place, and the
+// authority for that is not the class name or the specification's prose. It is
+// the renderer: drop the fact and ask whether the packet still composes. A
+// fact the composer refuses to proceed without is a generation prerequisite,
+// whatever it is called. A fact it composes happily without is a later task
+// standing in front of a payment, and that is the defect this catches.
+
+const ADMITTED_BY_NAME = new Set(["prepay_confirmation", "render_required"]);
+const gateClassCounts = {};
+const renderProbe = { required: 0, overGated: [], unreachable: [] };
+
+/** Values that satisfy each route's own rules, not merely its fact list. */
+function probeValueFor(factId) {
+  if (factId === "social_security_number") return "123-45-6789";
+  if (factId === "social_security_number_last_four") return "6789";
+  if (factId === "mcic_identifier_delivery_method") return "Confidential court-approved MCIC identifier addendum";
+  if (factId === "mcic_identifier_method_confirmation_source") return "Confirmed by the Hinds County Circuit Court on 2026-01-05";
+  if (factId === "certified_disposition_exhibit_status") return "Attached as Exhibit A";
+  if (factId === "docket_sheet_exhibit_status") return "Inserted as Exhibit B";
+  if (factId === "service_address_confirmation_status") return "Confirmed by court or prosecutor";
+  if (/_date$/.test(factId) || factId === "date_of_birth") return "2015-01-15";
+  if (factId === "statutory_disposition_category" || factId === "disposition_record_wording") return "Charges dropped";
+  if (factId === "actual_arrest" || factId === "release_confirmed") return "Yes";
+  if (factId === "personal_impact_confirmed") return "No";
+  if (factId === "record_type") return "Court case";
+  if (["pending_cases", "trafficking_status", "prior_relief", "nonadjudication_or_diversion", "open_co_defendant_matter"]
+    .includes(factId)) return "No";
+  return "Acceptance value";
+}
+
+for (const [routeKey, { profile, pathway }] of pathwayByRouteKey) {
+  const specification = packetSpecificationFor(routeKey);
+  const resolved = resolutionFor(routeKey, profile, pathway, specification ?? null);
+  if (!resolved) continue;
+
+  const gate = new Set(prepayGateFactIds(resolved.resolution));
+  const dispositionById = new Map(resolved.resolution.facts.map((fact) => [fact.factId, fact]));
+  const mustEarnIt = [...gate].filter((factId) => {
+    const collection = dispositionById.get(factId)?.collection;
+    gateClassCounts[collection ?? "unknown"] = (gateClassCounts[collection ?? "unknown"] ?? 0) + 1;
+    return !ADMITTED_BY_NAME.has(collection ?? "");
+  });
+  if (mustEarnIt.length === 0) continue;
+
+  // Without a composable specification there is nothing to ask the renderer,
+  // and nothing reaches Checkout either: the preflight refuses the route long
+  // before the gate is consulted. Recorded, not silently passed.
+  const composable = specification ? composablePacketSpecificationFor(routeKey) : undefined;
+  const facts = composable
+    ? Object.fromEntries(composable.requiredFacts.map((fact) => [fact.factId, probeValueFor(fact.factId)]))
+    : {};
+  const serverFacts = { jurisdiction: profile.jurisdiction.code, pathway_id: pathway.id };
+  const snapshot = {
+    schemaVersion: "expungement-ai/final-verification/v1",
+    verifiedAt: "2026-09-16T12:00:00.000Z",
+    jurisdiction: profile.jurisdiction.code,
+    pathwayId: pathway.id,
+    selectedTrackId: composable?.trackId,
+    screeningAnswers: {},
+    prefilledAnswers: {},
+    packetAnswers: facts,
+    serverFacts
+  };
+  const baseline = composable
+    ? renderPreflight({ snapshot, verificationHash: "probe", facts: { ...facts, ...serverFacts } })
+    : { ready: false, reason: "no_composable_specification_for_route" };
+  if (!baseline.ready) {
+    renderProbe.unreachable.push(`${routeKey} (${mustEarnIt.length} fact(s); ${baseline.reason})`);
+    continue;
+  }
+
+  for (const factId of mustEarnIt) {
+    const without = { ...facts };
+    delete without[factId];
+    const probe = renderPreflight({ snapshot, verificationHash: "probe", facts: { ...without, ...serverFacts } });
+    const requiredToRender = probe.ready === false && (probe.missingFactIds ?? []).includes(factId);
+    if (requiredToRender) renderProbe.required += 1;
+    else renderProbe.overGated.push(`${routeKey} ${factId} (${dispositionById.get(factId)?.collection})`);
+    check(
+      requiredToRender,
+      `${routeKey}: ${factId} blocks Checkout as ${dispositionById.get(factId)?.collection},`
+        + " but the packet composes without it, so it is a later task standing in front of a payment"
+    );
+  }
+}
+
 // --- the mutations: prove the check can fail ---------------------------------
 
 const probeGate = (facts) => new Set(prepayGateFactIds({ facts }));
@@ -219,6 +317,15 @@ console.log(`verify-rcap-prepurchase-render-facts passed: ${checks} checks`);
 console.log(`  routes with a registered packet specification: ${routesChecked} reachable, ${unreachable} unreachable`);
 console.log(`  participant-owned specification facts examined: ${factsChecked}`);
 console.log("  required participant-owned render facts left after Checkout: 0");
+console.log("  what stands between a participant and Checkout, by collection class:");
+for (const [collection, count] of Object.entries(gateClassCounts).sort((a, b) => b[1] - a[1])) {
+  console.log(`    ${String(count).padStart(5)}  ${collection}${ADMITTED_BY_NAME.has(collection) ? "" : "  (each one proven necessary to render)"}`);
+}
+console.log(`  gate facts outside those two classes, proven required by the renderer: ${renderProbe.required}`);
+console.log(`  gate facts the packet composes without (later tasks blocking payment): ${renderProbe.overGated.length}`);
+for (const row of renderProbe.unreachable) {
+  console.log(`    not probed, route does not compose at all: ${row}`);
+}
 for (const row of perRoute) {
   console.log(row.note
     ? `    ${row.routeKey}: ${row.note}`
