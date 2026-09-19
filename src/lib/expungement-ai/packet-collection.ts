@@ -737,6 +737,39 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     // 7. A filing-readiness state of an external record or office.
     const useText = String(specFact?.use ?? "");
     const useRule = USE_RULES.find((rule) => rule.test.test(useText));
+
+    // Before it is classified: is this a question about whether an outside
+    // chore is done? We already know a certified disposition has to be
+    // fetched and inserted; making the participant confirm that they have not
+    // fetched it yet, before we will build their petition, is intake friction
+    // that buys the product nothing. The instruction belongs on the filing
+    // checklist, not in packet information.
+    //
+    // The value still has to exist, because the specification prints these on
+    // the attachment checklist and inside the certificate's service-address
+    // sentence. It comes from the specification's OWN wording for the state of
+    // not having been to the courthouse — "Not attached", "Not inserted", "To
+    // be confirmed before filing or service" — and never from anything this
+    // module makes up. That wording is also the conservative reading: the
+    // product holds no confirmation, so it states none.
+    const notYetAnswer = useRule?.collection === "filing_readiness"
+      ? (specFact?.options ?? []).find((option) => typeof option === "string" && /^(not |to be )/i.test(option))
+      : undefined;
+    if (notYetAnswer && !overrideClass) {
+      derived[factId] = notYetAnswer;
+      facts.push({
+        factId,
+        collection: "derived",
+        phase: "derived",
+        group: null,
+        source: "packet_specification_not_yet_state",
+        value: notYetAnswer,
+        reason: "the specification calls this an outside filing-readiness task and supplies its own wording for"
+          + " the not-yet state, so the packet states that rather than asking the participant to report a chore"
+          + " they have not done; the task itself is carried on the filing checklist"
+      });
+      continue;
+    }
     // The specification outranks the name-shape guess: a fact the specification
     // describes is classified from what it says, never from how it is spelled.
     const filingByIdentity = !specFact && FILING_READINESS_IDENTITY.test(factId);

@@ -260,7 +260,10 @@ for (const [routeKey, { profile, pathway }] of pathwayByRouteKey) {
       `${routeKey}: ${factId} stopped being owed at all;`
         + " a filing-readiness task must still be asked, tracked and surfaced");
   }
-  if (readiness.length > 0) notYetProbes.push({ routeKey, profile, pathway, readiness });
+  const notYetDerived = resolved.resolution.facts
+    .filter((entry) => entry.source === "packet_specification_not_yet_state")
+    .map((entry) => entry.factId);
+  if (notYetDerived.length > 0) notYetProbes.push({ routeKey, profile, pathway, readiness: notYetDerived });
 
   const mustEarnIt = [...gate].filter((factId) => {
     const collection = dispositionById.get(factId)?.collection;
@@ -329,13 +332,16 @@ for (const { routeKey, profile, pathway, readiness } of notYetProbes) {
       .filter((option) => typeof option === "string");
     // The not-yet option is the one the specification words as an absence. Its
     // own vocabulary, never this check's.
+    // Deleted outright, not set to the not-yet wording: the participant is
+    // never asked these, so the packet has to compose when they have supplied
+    // nothing at all about them and the specification's own wording is what
+    // gets printed.
+    delete facts[factId];
     const notYet = options.find((option) => /^(not |to be )/i.test(option));
     check(notYet !== undefined,
-      `${routeKey}: ${factId} is a filing-readiness fact whose specification offers no not-yet answer,`
-        + ` so a participant who has not obtained the record cannot answer it truthfully (options: ${JSON.stringify(options)})`);
-    if (notYet === undefined) continue;
-    facts[factId] = notYet;
-    notYetUsed.push(`${factId}="${notYet}"`);
+      `${routeKey}: ${factId} concerns a record in hand but the specification offers no not-yet wording,`
+        + ` so the packet has nothing truthful to print for it (options: ${JSON.stringify(options)})`);
+    notYetUsed.push(`${factId} unanswered`);
   }
   const serverFacts = { jurisdiction: profile.jurisdiction.code, pathway_id: pathway.id };
   const outcome = renderPreflight({
@@ -375,15 +381,27 @@ for (const routeKey of packetSpecificationRouteKeys()) {
     const options = (requiredFact.options ?? []).filter((option) => typeof option === "string");
     if (!options.some((option) => POSSESSION_ANSWER.test(option))) continue;
     possessionFacts += 1;
-    check(options.some((option) => /^(not |to be )/i.test(option)),
-      `${routeKey}: ${requiredFact.factId} asks whether a record is in hand but offers no not-yet answer,`
-        + " so a participant who has not obtained it cannot answer truthfully");
+    const notYet = options.find((option) => /^(not |to be )/i.test(option));
+    check(notYet !== undefined,
+      `${routeKey}: ${requiredFact.factId} concerns a record in hand but the specification offers no not-yet`
+        + " wording, so the packet has nothing truthful to state for a participant who has not obtained it");
+    if (notYet === undefined) continue;
     const runtime = pathwayByRouteKey.get(routeKey);
     const resolved = runtime ? resolutionFor(routeKey, runtime.profile, runtime.pathway, specification) : null;
     if (!resolved) continue;
-    check(filingReadinessFactIds(resolved.resolution).includes(requiredFact.factId),
-      `${routeKey}: ${requiredFact.factId} asks whether a record is in hand but is not classified as filing readiness,`
-        + " so nothing proves the packet still composes when the participant has not obtained it");
+    // ...and it is not asked at all. We already know the record has to be
+    // fetched; making the participant confirm they have not fetched it yet,
+    // before we will build their packet, is intake friction that buys the
+    // product nothing. The task belongs on the filing checklist.
+    const disposition = resolved.resolution.facts.find((entry) => entry.factId === requiredFact.factId);
+    check(disposition !== undefined && !participantOwesFact(disposition),
+      `${routeKey}: ${requiredFact.factId} asks the participant whether an outside record is in hand`
+        + ` (collection=${disposition?.collection ?? "none"}). A document the product cannot produce is a filing`
+        + " task to state, not a question to ask before generating");
+    check(disposition?.value === notYet,
+      `${routeKey}: ${requiredFact.factId} is not asked, but the packet does not state the specification's own`
+        + ` not-yet wording for it either (got ${JSON.stringify(disposition?.value ?? null)});`
+        + " the document would print a blank where a status belongs");
   }
 }
 
@@ -441,7 +459,7 @@ for (const [collection, count] of Object.entries(gateClassCounts).sort((a, b) =>
 }
 console.log(`  gate facts outside those two classes, proven required by the renderer: ${renderProbe.required}`);
 console.log(`  gate facts the packet composes without (later tasks blocking payment): ${renderProbe.overGated.length}`);
-console.log(`  filing-readiness tasks asked, with no particular answer required: ${externallyAcquired.length}`);
+console.log(`  outside filing tasks the participant is made to report on before generation: ${externallyAcquired.length}`);
 console.log(`  routes proven to compose with every external record still unfetched: ${notYetProven}`);
 console.log(`  facts asking whether a record is in hand, each with a truthful not-yet answer: ${possessionFacts}`);
 for (const row of externallyAcquired) console.log(`    ${row}`);

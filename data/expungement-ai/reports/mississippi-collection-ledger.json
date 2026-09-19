@@ -19,8 +19,9 @@
   "byDisposition": {
     "DERIVE_DETERMINISTICALLY": 8,
     "REUSE_SCREENING": 5,
-    "STRUCTURED_MULTI_FACT_INPUT": 39,
-    "CONDITIONAL_INPUT": 5
+    "STRUCTURED_MULTI_FACT_INPUT": 36,
+    "CONDITIONAL_INPUT": 5,
+    "INDEPENDENT_PACKET_INPUT": 3
   },
   "participantWorkload": {
     "note": "Effort, not page count. A structured block counts as one interaction however many facts it carries, because that is what the participant does.",
@@ -28,16 +29,16 @@
     "reusedFromScreening": 5,
     "reusedFromSavedContext": 0,
     "deterministicallyDerived": 8,
-    "collectedThroughStructuredInputs": 39,
+    "collectedThroughStructuredInputs": 36,
     "conditionalFactsAskedOnlyWhenApplicable": 6,
-    "independentManualInputs": 0,
+    "independentManualInputs": 3,
     "filingReadinessOnlyRemovedFromGenerationQuestionnaire": 0,
     "filingReadinessOnlyFactIds": [],
     "externalActorFacts": 0,
     "duplicateAsksEliminated": 13,
     "unresolved": 0,
     "baselineParticipantScreensBeforeCheckout": 57,
-    "participantInteractionsBeforeCheckout": 8,
+    "participantInteractionsBeforeCheckout": 11,
     "interactions": [
       {
         "id": "your_case",
@@ -106,9 +107,7 @@
         "heading": "Required documents",
         "factIds": [
           "release_date_or_record_source",
-          "other_recordkeeping_agencies",
-          "certified_disposition_exhibit_status",
-          "docket_sheet_exhibit_status"
+          "other_recordkeeping_agencies"
         ]
       },
       {
@@ -117,7 +116,6 @@
         "factIds": [
           "prosecuting_authority_name",
           "prosecuting_authority_service_address",
-          "service_address_confirmation_status",
           "mcic_identifier_delivery_method",
           "mcic_identifier_method_confirmation_source",
           "personal_impact_confirmed",
@@ -1482,9 +1480,7 @@
       "structuredMultiFactInput": "required_documents",
       "structuredInteractionHeading": "Required documents",
       "structuredWithFacts": [
-        "other_recordkeeping_agencies",
-        "certified_disposition_exhibit_status",
-        "docket_sheet_exhibit_status"
+        "other_recordkeeping_agencies"
       ],
       "conditional": true,
       "condition": "release_confirmed is affirmative",
@@ -1539,7 +1535,6 @@
       "structuredInteractionHeading": "Filing details",
       "structuredWithFacts": [
         "prosecuting_authority_service_address",
-        "service_address_confirmation_status",
         "mcic_identifier_delivery_method",
         "mcic_identifier_method_confirmation_source",
         "personal_impact_confirmed",
@@ -1570,7 +1565,6 @@
       "structuredInteractionHeading": "Filing details",
       "structuredWithFacts": [
         "prosecuting_authority_name",
-        "service_address_confirmation_status",
         "mcic_identifier_delivery_method",
         "mcic_identifier_method_confirmation_source",
         "personal_impact_confirmed",
@@ -1597,16 +1591,9 @@
       "existingMatterOrProfileSupplies": false,
       "deterministicallyDerivable": false,
       "derivationRule": null,
-      "structuredMultiFactInput": "filing_details",
-      "structuredInteractionHeading": "Filing details",
-      "structuredWithFacts": [
-        "prosecuting_authority_name",
-        "prosecuting_authority_service_address",
-        "mcic_identifier_delivery_method",
-        "mcic_identifier_method_confirmation_source",
-        "personal_impact_confirmed",
-        "personal_impact_statement"
-      ],
+      "structuredMultiFactInput": null,
+      "structuredInteractionHeading": null,
+      "structuredWithFacts": [],
       "conditional": false,
       "condition": null,
       "requiredToGeneratePacket": true,
@@ -1616,8 +1603,8 @@
       "externalActor": null,
       "requirementClass": "A_required_to_generate_packet",
       "whyRequiredBeforeCheckout": "a document in the purchased packet prints this fact, so the platform must hold it before it charges for that packet",
-      "resolverClassToday": "filing_readiness",
-      "finalDisposition": "STRUCTURED_MULTI_FACT_INPUT"
+      "resolverClassToday": "derived",
+      "finalDisposition": "INDEPENDENT_PACKET_INPUT"
     },
     {
       "factId": "other_recordkeeping_agencies",
@@ -1631,9 +1618,7 @@
       "structuredMultiFactInput": "required_documents",
       "structuredInteractionHeading": "Required documents",
       "structuredWithFacts": [
-        "release_date_or_record_source",
-        "certified_disposition_exhibit_status",
-        "docket_sheet_exhibit_status"
+        "release_date_or_record_source"
       ],
       "conditional": false,
       "condition": null,
@@ -1661,7 +1646,6 @@
       "structuredWithFacts": [
         "prosecuting_authority_name",
         "prosecuting_authority_service_address",
-        "service_address_confirmation_status",
         "mcic_identifier_method_confirmation_source",
         "personal_impact_confirmed",
         "personal_impact_statement"
@@ -1675,7 +1659,7 @@
       "externalActor": null,
       "requirementClass": "A_required_to_generate_packet",
       "whyRequiredBeforeCheckout": "a document in the purchased packet prints this fact, so the platform must hold it before it charges for that packet",
-      "resolverClassToday": "filing_readiness",
+      "resolverClassToday": "render_required",
       "finalDisposition": "STRUCTURED_MULTI_FACT_INPUT"
     },
     {
@@ -1692,7 +1676,6 @@
       "structuredWithFacts": [
         "prosecuting_authority_name",
         "prosecuting_authority_service_address",
-        "service_address_confirmation_status",
         "mcic_identifier_delivery_method",
         "personal_impact_confirmed",
         "personal_impact_statement"
@@ -1706,7 +1689,7 @@
       "externalActor": null,
       "requirementClass": "A_required_to_generate_packet",
       "whyRequiredBeforeCheckout": "a document in the purchased packet prints this fact, so the platform must hold it before it charges for that packet",
-      "resolverClassToday": "filing_readiness",
+      "resolverClassToday": "render_required",
       "finalDisposition": "STRUCTURED_MULTI_FACT_INPUT"
     },
     {
@@ -1723,7 +1706,6 @@
       "structuredWithFacts": [
         "prosecuting_authority_name",
         "prosecuting_authority_service_address",
-        "service_address_confirmation_status",
         "mcic_identifier_delivery_method",
         "mcic_identifier_method_confirmation_source",
         "personal_impact_statement"
@@ -1754,7 +1736,6 @@
       "structuredWithFacts": [
         "prosecuting_authority_name",
         "prosecuting_authority_service_address",
-        "service_address_confirmation_status",
         "mcic_identifier_delivery_method",
         "mcic_identifier_method_confirmation_source",
         "personal_impact_confirmed"
@@ -1780,13 +1761,9 @@
       "existingMatterOrProfileSupplies": false,
       "deterministicallyDerivable": false,
       "derivationRule": null,
-      "structuredMultiFactInput": "required_documents",
-      "structuredInteractionHeading": "Required documents",
-      "structuredWithFacts": [
-        "release_date_or_record_source",
-        "other_recordkeeping_agencies",
-        "docket_sheet_exhibit_status"
-      ],
+      "structuredMultiFactInput": null,
+      "structuredInteractionHeading": null,
+      "structuredWithFacts": [],
       "conditional": false,
       "condition": null,
       "requiredToGeneratePacket": true,
@@ -1796,8 +1773,8 @@
       "externalActor": null,
       "requirementClass": "A_required_to_generate_packet",
       "whyRequiredBeforeCheckout": "a document in the purchased packet prints this fact, so the platform must hold it before it charges for that packet",
-      "resolverClassToday": "filing_readiness",
-      "finalDisposition": "STRUCTURED_MULTI_FACT_INPUT"
+      "resolverClassToday": "derived",
+      "finalDisposition": "INDEPENDENT_PACKET_INPUT"
     },
     {
       "factId": "docket_sheet_exhibit_status",
@@ -1808,13 +1785,9 @@
       "existingMatterOrProfileSupplies": false,
       "deterministicallyDerivable": false,
       "derivationRule": null,
-      "structuredMultiFactInput": "required_documents",
-      "structuredInteractionHeading": "Required documents",
-      "structuredWithFacts": [
-        "release_date_or_record_source",
-        "other_recordkeeping_agencies",
-        "certified_disposition_exhibit_status"
-      ],
+      "structuredMultiFactInput": null,
+      "structuredInteractionHeading": null,
+      "structuredWithFacts": [],
       "conditional": false,
       "condition": null,
       "requiredToGeneratePacket": true,
@@ -1824,8 +1797,8 @@
       "externalActor": null,
       "requirementClass": "A_required_to_generate_packet",
       "whyRequiredBeforeCheckout": "a document in the purchased packet prints this fact, so the platform must hold it before it charges for that packet",
-      "resolverClassToday": "filing_readiness",
-      "finalDisposition": "STRUCTURED_MULTI_FACT_INPUT"
+      "resolverClassToday": "derived",
+      "finalDisposition": "INDEPENDENT_PACKET_INPUT"
     },
     {
       "factId": "disposition_record_wording",

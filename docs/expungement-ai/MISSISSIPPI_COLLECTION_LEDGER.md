@@ -23,10 +23,11 @@ but whether it has to be its own separate question.
 
 | Disposition | Facts |
 | --- | ---: |
-| `STRUCTURED_MULTI_FACT_INPUT` | 39 |
+| `STRUCTURED_MULTI_FACT_INPUT` | 36 |
 | `DERIVE_DETERMINISTICALLY` | 8 |
 | `REUSE_SCREENING` | 5 |
 | `CONDITIONAL_INPUT` | 5 |
+| `INDEPENDENT_PACKET_INPUT` | 3 |
 
 ## Participant workload before Checkout
 
@@ -34,15 +35,15 @@ but whether it has to be its own separate question.
 - Reused from the guided check: **5**
 - Reused from saved matter context: **0**
 - Deterministically derived: **8**
-- Collected through structured multi-fact interactions: **39**
+- Collected through structured multi-fact interactions: **36**
 - Conditional, asked only when applicable: **6**
-- Independent manual inputs: **0**
+- Independent manual inputs: **3**
 - Filing-readiness only, removed from the generation questionnaire: **0**
 - External-actor facts, never asked: **0**
 - Duplicate asks eliminated: **13**
 - Unresolved: **0**
 
-**Participant screens before: 57. Coherent participant interactions after: 8.**
+**Participant screens before: 57. Coherent participant interactions after: 11.**
 
 ### The interactions
 
@@ -51,8 +52,8 @@ but whether it has to be its own separate question.
 - **Outcome and dates** — 3 fact(s): disposition_date, statutory_disposition_category, disposition_record_wording
 - **About you** — 10 fact(s): participant_full_legal_name, residency_or_location, aliases, date_of_birth, social_security_number, race, sex, mailing_address, phone_number, email_address
 - **Other cases and prior relief** — 4 fact(s): pending_cases, prior_relief, trafficking_status, open_co_defendant_matter
-- **Required documents** — 4 fact(s): release_date_or_record_source, other_recordkeeping_agencies, certified_disposition_exhibit_status, docket_sheet_exhibit_status
-- **Filing details** — 7 fact(s): prosecuting_authority_name, prosecuting_authority_service_address, service_address_confirmation_status, mcic_identifier_delivery_method, mcic_identifier_method_confirmation_source, personal_impact_confirmed, personal_impact_statement
+- **Required documents** — 2 fact(s): release_date_or_record_source, other_recordkeeping_agencies
+- **Filing details** — 6 fact(s): prosecuting_authority_name, prosecuting_authority_service_address, mcic_identifier_delivery_method, mcic_identifier_method_confirmation_source, personal_impact_confirmed, personal_impact_statement
 - **Sentence or program completion** — 1 fact(s): nonadjudication_or_diversion
 
 ## Fact by fact
@@ -105,14 +106,14 @@ but whether it has to be its own separate question.
 | `statutory_disposition_category` | required_to_generate_packet | `outcome_and_dates` | — | `STRUCTURED_MULTI_FACT_INPUT` |
 | `prosecuting_authority_name` | required_to_generate_packet | `filing_details` | — | `STRUCTURED_MULTI_FACT_INPUT` |
 | `prosecuting_authority_service_address` | required_to_generate_packet | `filing_details` | — | `STRUCTURED_MULTI_FACT_INPUT` |
-| `service_address_confirmation_status` | required_to_generate_packet | `filing_details` | — | `STRUCTURED_MULTI_FACT_INPUT` |
+| `service_address_confirmation_status` | required_to_generate_packet | participant | — | `INDEPENDENT_PACKET_INPUT` |
 | `other_recordkeeping_agencies` | required_to_generate_packet | `required_documents` | — | `STRUCTURED_MULTI_FACT_INPUT` |
 | `mcic_identifier_delivery_method` | required_to_generate_packet | `filing_details` | — | `STRUCTURED_MULTI_FACT_INPUT` |
 | `mcic_identifier_method_confirmation_source` | required_to_generate_packet | `filing_details` | — | `STRUCTURED_MULTI_FACT_INPUT` |
 | `personal_impact_confirmed` | required_to_generate_packet | `filing_details` | — | `STRUCTURED_MULTI_FACT_INPUT` |
 | `personal_impact_statement` | required_to_generate_packet | `filing_details` | personal_impact_confirmed is affirmative | `CONDITIONAL_INPUT` |
-| `certified_disposition_exhibit_status` | required_to_generate_packet | `required_documents` | — | `STRUCTURED_MULTI_FACT_INPUT` |
-| `docket_sheet_exhibit_status` | required_to_generate_packet | `required_documents` | — | `STRUCTURED_MULTI_FACT_INPUT` |
+| `certified_disposition_exhibit_status` | required_to_generate_packet | participant | — | `INDEPENDENT_PACKET_INPUT` |
+| `docket_sheet_exhibit_status` | required_to_generate_packet | participant | — | `INDEPENDENT_PACKET_INPUT` |
 | `disposition_record_wording` | required_to_generate_packet | `outcome_and_dates` | — | `STRUCTURED_MULTI_FACT_INPUT` |
 | `nonadjudication_or_diversion` | required_to_reconfirm_route | `sentence_or_program_completion` | — | `STRUCTURED_MULTI_FACT_INPUT` |
 | `open_co_defendant_matter` | required_to_reconfirm_route | `other_cases_and_prior_relief` | — | `STRUCTURED_MULTI_FACT_INPUT` |

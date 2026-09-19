@@ -699,12 +699,12 @@
   "participantWorkload": {
     "note": "Page count is not the metric. These are the facts a participant must actually type after screening.",
     "totalParticipantEnteredFactsBefore": 5062,
-    "totalParticipantEnteredFactsAfter": 3146,
+    "totalParticipantEnteredFactsAfter": 3143,
     "totalFactsReusedFromScreening": 1908,
-    "totalFactsDeterministicallyDerived": 11,
+    "totalFactsDeterministicallyDerived": 14,
     "totalDuplicateAsksEliminated": 1908,
     "totalConditionalFacts": 6,
-    "totalFilingReadinessFactsBeforeCheckout": 3,
+    "totalFilingReadinessFactsBeforeCheckout": 0,
     "totalExternalActorFieldsNeverAsked": 0,
     "enteredFactsBefore": {
       "max": 54,
@@ -712,9 +712,9 @@
       "average": 14.76
     },
     "enteredFactsAfter": {
-      "max": 44,
+      "max": 41,
       "median": 8,
-      "average": 9.17
+      "average": 9.16
     },
     "routesFlaggedUxNotActuallyReduced": 0
   },
@@ -29622,7 +29622,10 @@
           "court_type",
           "court_name",
           "filing_location",
-          "charge_classification"
+          "charge_classification",
+          "service_address_confirmation_status",
+          "certified_disposition_exhibit_status",
+          "docket_sheet_exhibit_status"
         ],
         "prepayConfirmation": [
           "case_outcome",
@@ -29676,21 +29679,17 @@
           "release_date_or_record_source",
           "personal_impact_statement"
         ],
-        "filingReadiness": [
-          "service_address_confirmation_status",
-          "certified_disposition_exhibit_status",
-          "docket_sheet_exhibit_status"
-        ],
+        "filingReadiness": [],
         "externalActor": [],
         "unresolved": []
       },
       "counts": {
         "already_known": 2,
-        "derived": 8,
+        "derived": 11,
         "prepay_confirmation": 18,
         "render_required": 22,
         "conditional": 6,
-        "filing_readiness": 3,
+        "filing_readiness": 0,
         "external_actor": 0,
         "unresolved": 0
       },
@@ -29782,9 +29781,7 @@
             "id": "required_documents",
             "factIds": [
               "release_date_or_record_source",
-              "other_recordkeeping_agencies",
-              "certified_disposition_exhibit_status",
-              "docket_sheet_exhibit_status"
+              "other_recordkeeping_agencies"
             ]
           },
           {
@@ -29792,7 +29789,6 @@
             "factIds": [
               "prosecuting_authority_name",
               "prosecuting_authority_service_address",
-              "service_address_confirmation_status",
               "mcic_identifier_delivery_method",
               "mcic_identifier_method_confirmation_source",
               "personal_impact_confirmed",
@@ -29806,7 +29802,7 @@
         "currentVisibleScreens": 57,
         "newVisibleSections": 9,
         "currentParticipantEnteredFacts": 54,
-        "newParticipantEnteredFacts": 44,
+        "newParticipantEnteredFacts": 41,
         "factsReusedFromScreening": 5,
         "factsReusedFromScreeningIds": [
           "case_outcome",
@@ -29816,7 +29812,7 @@
           "arrest_date"
         ],
         "factsPrefilledFromExistingMatterOrProfile": 0,
-        "factsDeterministicallyDerived": 8,
+        "factsDeterministicallyDerived": 11,
         "factsDeterministicallyDerivedIds": [
           "age_at_offense",
           "contact_information",
@@ -29825,7 +29821,10 @@
           "court_type",
           "court_name",
           "filing_location",
-          "charge_classification"
+          "charge_classification",
+          "service_address_confirmation_status",
+          "certified_disposition_exhibit_status",
+          "docket_sheet_exhibit_status"
         ],
         "duplicateAsksEliminated": 5,
         "conditionalFacts": 6,
@@ -29837,11 +29836,11 @@
           "release_date_or_record_source",
           "personal_impact_statement"
         ],
-        "filingReadinessFactsStillRequiredBeforeCheckout": 3,
+        "filingReadinessFactsStillRequiredBeforeCheckout": 0,
         "externalActorFieldsNeverAsked": 0,
-        "totalAdditionalParticipantInteractionsAfterScreening": 44,
+        "totalAdditionalParticipantInteractionsAfterScreening": 41,
         "coherentParticipantInteractionsAfterScreening": 9,
-        "participantEnteredFactsDelta": 10,
+        "participantEnteredFactsDelta": 13,
         "uxNotActuallyReduced": false,
         "reductionLimitedBy": null
       },

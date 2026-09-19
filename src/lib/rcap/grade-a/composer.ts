@@ -240,6 +240,27 @@ export function composeGradeAPacket(
     );
   }
 
+  // An outside filing-readiness task is not a question the participant has to
+  // answer before we will build their packet. We already know a certified
+  // disposition has to be fetched; asking them to confirm they have not
+  // fetched it yet is friction that buys nothing. The specification supplies
+  // its own wording for the not-yet state, and the packet states that, which
+  // is also the conservative reading: we hold no confirmation, so we claim
+  // none. Applied here as well as in the collection policy so composition
+  // never depends on which caller prepared the facts.
+  const FILING_READINESS_USE = /filing-readiness gate|assembly and filing|prevents an unverified/;
+  const notYetStates: Record<string, string> = {};
+  for (const requiredFact of specification.requiredFacts) {
+    if (fact(matter, requiredFact.factId) !== "") continue;
+    if (!FILING_READINESS_USE.test(String(requiredFact.use ?? ""))) continue;
+    const notYet = (requiredFact.options ?? [])
+      .find((option) => typeof option === "string" && /^(not |to be )/i.test(option));
+    if (notYet) notYetStates[requiredFact.factId] = notYet;
+  }
+  if (Object.keys(notYetStates).length > 0) {
+    matter = { ...matter, facts: { ...matter.facts, ...notYetStates } };
+  }
+
   const documents: GradeADocument[] = [];
   const included = specification.documents
     .filter((document) => document.requirement === "required" || document.includeWhen === "always_unless_participant_declines")
