@@ -3,6 +3,7 @@ import {
   type PacketSpecificationDocument,
   type PacketSpecificationSection
 } from "@/lib/rcap/grade-a/packet-specification";
+import { NEVADA_176A_PETITION_BRANCH_CONDITION, nevada176ABranch } from "@/lib/rcap-engine/nevada-176a-branch";
 
 /**
  * Turns a packet specification plus a verified matter into a document set.
@@ -133,6 +134,70 @@ function fact(matter: GradeAMatter, id: string): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
+/**
+ * The conditions a specification may gate a component on, and how each is
+ * decided. `true` includes the component, `false` omits it, and `undefined` —
+ * including a condition with no entry here at all — means the composer cannot
+ * tell, which is a refusal and never an omission.
+ *
+ * The filter used to drop every conditional document unless it carried the one
+ * literal string this composer implemented. That is right for a component the
+ * participant may simply choose not to supply — Georgia's optional supporting
+ * exhibits, South Dakota's escalation motion used only if the record is not
+ * corrected — which is why a conditional with NO stated condition is still
+ * omitted. It was wrong for a component gated on a branch of the route: Nevada
+ * records its subsection 2 petition, proposed order, declaration and filing
+ * instructions as conditional on `subsection_2_petition_branch`, and while
+ * nothing evaluated that string a participant on that branch would have received
+ * a packet with no petition in it and nothing would have said so.
+ *
+ * The Nevada condition is decided by the same resolver the evaluator routes on
+ * and the collection policy gates Checkout on, so the packet cannot disagree
+ * with the result the participant was shown. A participant on the automatic
+ * branch does not reach this composer at all — screening resolves them to
+ * guidance — and a branch the facts do not establish refuses.
+ */
+const CONDITION_EVALUATORS: Record<string, (facts: Readonly<Record<string, string>>) => boolean | undefined> = {
+  always_unless_participant_declines: () => true,
+  [NEVADA_176A_PETITION_BRANCH_CONDITION]: (facts) => {
+    const branch = nevada176ABranch(facts);
+    return branch === "unresolved" ? undefined : branch === "subsection_2_petition";
+  }
+};
+
+/**
+ * Which components this matter's facts put in the packet, and which conditions
+ * could not be decided. Separated from composition so the include decision can
+ * be measured on its own, without a full render and without a control having to
+ * infer it from an unrelated refusal.
+ */
+export function planIncludedDocuments(
+  specification: PacketSpecification,
+  facts: Readonly<Record<string, string>>
+): { included: PacketSpecificationDocument[]; unevaluable: PacketSpecificationDocument[] } {
+  const decide = (includeWhen: string | undefined) =>
+    typeof includeWhen === "string" && includeWhen.length > 0
+      ? CONDITION_EVALUATORS[includeWhen]?.(facts)
+      : false;
+  return {
+    included: specification.documents
+      .filter((document) => document.requirement === "required" || decide(document.includeWhen) === true)
+      .sort((left, right) => left.order - right.order),
+    unevaluable: specification.documents.filter((document) =>
+      document.requirement === "conditional"
+      && typeof document.includeWhen === "string"
+      && document.includeWhen.length > 0
+      && decide(document.includeWhen) === undefined)
+  };
+}
+
+export function includedDocumentIdsForFacts(
+  specification: PacketSpecification,
+  facts: Readonly<Record<string, string>>
+): string[] {
+  return planIncludedDocuments(specification, facts).included.map((document) => document.documentId);
+}
+
 function fill(text: string, matter: GradeAMatter): string {
   return text
     .replaceAll(/\{\{([a-z0-9_]+)\}\}/g, (_match, id: string) => fact(matter, id))
@@ -261,44 +326,23 @@ export function composeGradeAPacket(
     matter = { ...matter, facts: { ...matter.facts, ...notYetStates } };
   }
 
-  // A conditional component whose condition this composer cannot evaluate is a
-  // refusal, not an omission.
-  //
-  // The filter below used to drop every conditional document unless it carried
-  // the one literal string this composer implements. That is right for a
-  // component the participant may simply choose not to supply — Georgia's
-  // optional supporting exhibits, South Dakota's escalation motion used only if
-  // the record is not corrected — which is why a conditional with NO stated
-  // condition is still omitted. It was wrong for a component gated on a branch
-  // of the route: Nevada records its subsection 2 petition, proposed order,
-  // declaration and filing instructions as conditional on
-  // `subsection_2_petition_branch`, a string nothing in this repository
-  // evaluates, so a participant on that branch would have received a packet
-  // with no petition in it at all and nothing would have said so.
-  //
-  // This is the same rule the section-kind switch below already applies:
-  // refusing beats shipping a packet missing a component the legal design
-  // requires. Implementing the branch is §5 route work; until then the route
-  // cannot compose, which is the honest state and is visible.
-  const IMPLEMENTED_CONDITIONS = new Set(["always_unless_participant_declines"]);
-  const unevaluable = specification.documents.filter((document) =>
-    document.requirement === "conditional"
-    && typeof document.includeWhen === "string"
-    && document.includeWhen.length > 0
-    && !IMPLEMENTED_CONDITIONS.has(document.includeWhen));
-  if (unevaluable.length > 0) {
+  const plan = planIncludedDocuments(specification, matter.facts);
+  if (plan.unevaluable.length > 0) {
+    const conditions = [...new Set(plan.unevaluable.map((document) => document.includeWhen))];
+    const unknown = conditions.filter((condition) => !(condition! in CONDITION_EVALUATORS));
     throw new GradeAPacketCompositionError(
       matter.routeKey, [],
-      `${unevaluable.length} component(s) are conditional on "${[...new Set(unevaluable.map((d) => d.includeWhen))].join('", "')}", `
-      + "which this composer does not evaluate: "
-      + `${unevaluable.map((d) => d.documentId).join(", ")}. Refusing rather than shipping a packet that silently omits them.`
+      `${plan.unevaluable.length} component(s) are conditional on "${conditions.join('", "')}", `
+      + (unknown.length > 0
+        ? "which this composer does not evaluate: "
+        : "which this matter's facts do not establish either way: ")
+      + `${plan.unevaluable.map((document) => document.documentId).join(", ")}. `
+      + "Refusing rather than shipping a packet that silently omits them."
     );
   }
 
   const documents: GradeADocument[] = [];
-  const included = specification.documents
-    .filter((document) => document.requirement === "required" || IMPLEMENTED_CONDITIONS.has(document.includeWhen ?? ""))
-    .sort((left, right) => left.order - right.order);
+  const included = plan.included;
 
   // Every fact any included document reads must be present before ANY document
   // is composed. Composing the ones that happen to be satisfiable would hand a

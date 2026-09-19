@@ -1,5 +1,6 @@
 import {
   GradeAPacketCompositionError,
+  planIncludedDocuments,
   type GradeABlock,
   type GradeADocument,
   type GradeAMatter,
@@ -113,10 +114,20 @@ export function composeIlProstitutionJVacateParticipantPacket(
       + "The packet is not composed at all rather than composed with gaps.");
   }
 
-  const included = specification.documents
-    .filter((document) => document.requirement === "required"
-      || document.includeWhen === "always_unless_participant_declines")
-    .sort((left, right) => left.order - right.order);
+  // Through the shared planner, so this family cannot drift from the main
+  // composer on which conditions exist or what an unevaluable one means. This
+  // specification records no conditional component today, so the plan is the
+  // required set; if one is ever added, a condition nothing decides refuses here
+  // exactly as it does there, rather than being dropped in silence.
+  const plan = planIncludedDocuments(specification, matter.facts);
+  if (plan.unevaluable.length > 0) {
+    refuse(matter.routeKey, [],
+      `${plan.unevaluable.length} component(s) are conditional on `
+      + `"${[...new Set(plan.unevaluable.map((document) => document.includeWhen))].join('", "')}", `
+      + `which this matter does not establish either way: ${plan.unevaluable.map((document) => document.documentId).join(", ")}. `
+      + "Refusing rather than shipping a packet that silently omits them.");
+  }
+  const included = plan.included;
   const approved: string[] = [...IL_PROSTITUTION_J_VACATE_COMPONENTS];
   if (approved.length !== APPROVED_COMPONENT_IDS.length
     || approved.some((id, index) => id !== APPROVED_COMPONENT_IDS[index])) {

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "NV-176A-BRANCH-TRIGGER-ESTABLISHED-2026-09-19",
+  "reviewer": "Captain (implementation finding; not a counsel approval)",
+  "reviewDate": "2026-09-19",
+  "familyId": "nv_seal_probation_family",
+  "route": "NV:probation-or-specialty-court-dismissal-set-aside-sealing",
+  "question": "What establishes the `subsection_2_petition_branch` the Nevada packet specification gates its petition set on, does an existing participant fact already establish it, and what must the product do on each branch?",
+  "finding": "The trigger is fully source-established and is a conjunction of two facts. No existing runtime fact established either half, so two were added — the smallest set the sections require — and nothing else about the Nevada screening flow changed.",
+  "theTrigger": {
+    "subsection2AppliesWhen": "the defendant was charged with a violation of NRS 200.485, NRS 484C.110 or NRS 484C.120 AND the charges were conditionally dismissed or the judgment of conviction was set aside",
+    "andThen": "the petition may not be filed sooner than seven years after that conditional dismissal or setting aside",
+    "otherwise": "subsection 1 applies: the justice, municipal or district court orders the record sealed itself, without a hearing, unless the Division of Parole and Probation petitions for good cause not to seal. The participant files nothing.",
+    "authority": [
+      "NV.memo tracks[nv_seal_probation_family].controllingAuthority.summary",
+      "NV.memo tracks[nv_seal_probation_family].exclusions[1]",
+      "NV.memo tracks[nv_seal_probation_family].waitingPeriods",
+      "NV.memo tracks[nv_seal_probation_family].rules.filing",
+      "NV.memo tracks[nv_seal_probation_family].components[branch_screen].notes — \"The single question that decides whether anything is generated at all\""
+    ]
+  },
+  "existingFactsConsidered": [
+    {
+      "factId": "case_outcome",
+      "verdict": "does not establish it",
+      "why": "Its \"Dismissed, no-billed, nolle prosequi, or not prosecuted\" option does not distinguish a conditional dismissal from an ordinary one, and it offers no set-aside option at all. It is also the nationwide route splitter, so widening it would reach far beyond Nevada."
+    },
+    {
+      "factId": "offense_level",
+      "verdict": "does not establish it",
+      "why": "Misdemeanor / felony / traffic does not name NRS 200.485, 484C.110 or 484C.120. Battery constituting domestic violence is a misdemeanour and so are many charges that stay on the automatic branch."
+    },
+    {
+      "factId": "charge",
+      "verdict": "does not establish it",
+      "why": "Free text. A branch that decides whether anything is sold may not be inferred from prose, and free-text screening questions were removed from the anonymous journey."
+    },
+    {
+      "factId": "disposition_date",
+      "verdict": "reused",
+      "why": "The seven-year clock runs from the conditional dismissal or set-aside, and this existing question already supplies that anchor. No new date fact was added."
+    }
+  ],
+  "factsAdded": [
+    {
+      "factId": "nv_176a_charge_class",
+      "question": "Was the charge battery constituting domestic violence, or driving — or being in actual physical control of a vehicle — under the influence?",
+      "memoCounterpart": "participantInputs[prbChargeType]",
+      "shape": "single choice, three options, required, prepay_route_splitter"
+    },
+    {
+      "factId": "nv_176a_disposition_class",
+      "question": "How did the case end after the programme?",
+      "memoCounterpart": "participantInputs[prbOutcome]",
+      "shape": "single choice, five options, required, prepay_route_splitter"
+    }
+  ],
+  "factsNotAdded": {
+    "prbProgramSection": "The three sections are structurally identical and the memo records that the section identity \"decides nothing about the mechanism\". It is not part of the trigger.",
+    "prbDischargeType": "Affects what a participant should expect on the ordinary NRS 179.245 conviction track under NRS 179.2445(2). It does not change this route's mechanism.",
+    "prbExcludedCharge": "Subsection 3 bars sealing on BOTH branches where the charge was under NRS 200.508 or NRS 200.5099. That is a route eligibility bar, not the branch, and it is recorded as outstanding rather than folded into this correction.",
+    "anyDocumentQuestion": "None. No branch fact asks whether the participant holds, has obtained, can upload or can produce any record. Both ask for a fact about the case."
+  },
+  "productBehaviourEstablished": {
+    "subsection1": [
+      "screening resolves to guidance_only with paymentAllowed false, before the timing gate runs",
+      "the participant is told the court seals the record itself, that they file nothing, and that there is nothing to pay",
+      "no petition, proposed order, declaration or filing instructions are planned or composed",
+      "no packet purchase and no sponsored packet credit, because paymentAllowed is closed structurally rather than by the absence of a fulfillment record"
+    ],
+    "subsection2": [
+      "the route keeps its single identity — Nevada is not split",
+      "the four branch-conditional components are planned and composed only when both conjuncts are answered",
+      "the seven-year rule is executed from disposition_date rather than deferred: inside seven years the result is not_yet, not needs_review",
+      "ordinary commercial eligibility is unchanged and still closed, because the route has no Grade-A fulfillment record"
+    ],
+    "unresolved": [
+      "screening returns needs_more_info naming both branch questions, and never guidance_only — calling an unestablished branch automatic would hide a real petition",
+      "composition refuses and names every component it would otherwise have dropped",
+      "payment is closed"
+    ]
+  },
+  "whatWasWrongBefore": "The specification recorded the branch, and nothing evaluated it. Screening sent BOTH branches to needs_review with `waiting_rule_not_executed` — a failure to compute presented as a review requirement — so a participant whose relief was automatic and free was told their case needed review, and a participant with a real petition was told nothing about it or about the seven-year clock. The composer dropped all four branch-conditional components; since 7d7c087ff it refused instead, which was honest but still generated nothing on either branch.",
+  "routeNotSplit": "Both branches sit on the same three sections, the same chapter 176A programme family and the same court, and the specification already models the difference with branch-conditional components. Oregon splits because its branches differ on legal basis, named vehicle, service recipient and timing; Nevada's differ only in mechanism. See 2026-09-19-case-mode-resolutions-nv-ct-ks.json.",
+  "stillOutstanding": [
+    "The specification's route_detection, route_branch_screen, discharge_type_screen and declaration sections carry a heading and no body, and no top-level specification block renders them. The composer refuses on the section kind, which blocks BOTH branches identically. This is Nevada packet-text drafting from the memo, not a branch defect.",
+    "Subsection 3 of each section bars sealing where the charge was under NRS 200.508 or NRS 200.5099. No runtime fact carries it; the route sells nothing today, so it is recorded rather than implemented here.",
+    "The specification's requiredFacts name five identity facts while its documents read sixteen. The composer's missing-fact gate catches the difference and refuses, so nothing ships with gaps, but the list is incomplete.",
+    "Nevada remains one of the six pathway adjudications awaiting commercial classification (GA-5-41)."
+  ],
+  "control": "scripts/verify-nevada-176a-branch.mjs — 76 checks across the resolver (all 24 answer combinations), the published questions, the Checkout gate, screening on all three treatments, the fulfillment boundary and composition. Four mutations were run and each reddened it: treating unresolved as automatic (16 failures), making the petition condition unconditionally true (6), removing the branch facts from the route-safety gate (1), and removing the subsection 1 guidance gate (8 — subsection 1 then reports packet_ready_with_caution).",
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "remainingReview": "Counsel review of the two question wordings, of the branch reading itself, and of the subsection 1 guidance text all remain required. The route opens no payment and composes no participant document today."
+}

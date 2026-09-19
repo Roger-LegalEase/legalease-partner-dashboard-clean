@@ -10,6 +10,13 @@ import { legalRouteContract, routeIsAutomaticOrNoFiling as legalRouteIsAutomatic
 import { resolveRoute } from "@/lib/legal-authority/resolve-route";
 import type { FactSnapshotMap } from "@/lib/legal-authority/conditions";
 import { relevantFactIds } from "@/lib/rcap-engine/route-fact-relevance";
+import {
+  NEVADA_176A_BRANCH_FACT_IDS,
+  NEVADA_176A_ROUTE_KEY,
+  NEVADA_176A_SUBSECTION_1_GUIDANCE,
+  NEVADA_176A_UNRESOLVED_BRANCH_TEXT,
+  nevada176ABranch
+} from "@/lib/rcap-engine/nevada-176a-branch";
 import routeKindAdjudications from "@/../data/rcap-ledger/route-kind-adjudications.json";
 import routePresentationConflicts from "@/../data/rcap-ledger/route-presentation-conflicts.json";
 import packetCorrectionRequired from "@/../data/rcap-ledger/packet-correction-required.json";
@@ -262,6 +269,14 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       paymentAllowed: false
     });
   }
+  if (preselectedPathway && routeBranchIsAutomaticOrNoFiling(profile, answers, preselectedPathway)) {
+    const plan = packetPlanForPathway(profile, preselectedPathway.id);
+    return result(profile, request, "guidance_only", [reason(jurisdiction, "automatic_or_no_filing_branch", NEVADA_176A_SUBSECTION_1_GUIDANCE, preselectedPathway.sourceRef)], {
+      pathwayId: preselectedPathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
+      paymentAllowed: false
+    });
+  }
 
   const route = matchCompiledRuleRoute(profile, publicProfile, answers);
   if (!route.ok) {
@@ -350,6 +365,28 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     });
   }
 
+  // The same structural veto, one level down: a route whose sections carry two
+  // mechanisms is automatic or participant-filed according to the participant's
+  // own case. Both gates run before the timing gate, because the automatic
+  // branch has no waiting period to evaluate and a participant on it should be
+  // told their relief is already happening rather than asked for a date.
+  const unresolvedBranch = unresolvedRouteBranchReason(profile, answers, pathway);
+  if (unresolvedBranch) {
+    return result(profile, request, "needs_more_info", [unresolvedBranch.reason], {
+      pathwayId: pathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
+      missingQuestionIds: unresolvedBranch.missingQuestionIds,
+      paymentAllowed: false
+    });
+  }
+  if (routeBranchIsAutomaticOrNoFiling(profile, answers, pathway)) {
+    return result(profile, request, "guidance_only", [reason(jurisdiction, "automatic_or_no_filing_branch", NEVADA_176A_SUBSECTION_1_GUIDANCE, route.rule.sourceRef ?? pathway.sourceRef)], {
+      pathwayId: pathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
+      paymentAllowed: false
+    });
+  }
+
   // The pathway is already resolved by the time the timing gate runs, and every
   // other branch on this path reports it. These three dropped it, so a
   // participant whose route was identified correctly and then stalled on a date
@@ -414,6 +451,8 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   const paymentAllowed = route.deterministic === true
     && Boolean(plan)
     && !routeIsAutomaticOrNoFiling(profile, pathway)
+    && !routeBranchIsAutomaticOrNoFiling(profile, answers, pathway)
+    && !unresolvedRouteBranchReason(profile, answers, pathway)
     && routeIsRatifiedDeployable(profile, pathway)
     && (isCourtFiledPetitionRoute(profile, pathway) || routeIsAdministrativeApplicationPacket(profile, pathway))
     && isPacketPlanFulfillmentReady(plan);
@@ -1057,6 +1096,30 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   }
   if (key === "MD:police-record-expungement-when-no-charge-was-filed-under-10-103") {
     return timingFromExactAnchor(profile, answers, rule, pathway, "arrest_date", { value: 0, unit: "days", raw: "filing deadline checked separately" }, "The § 10-103 arrest-date filing deadline is evaluated as a maximum window, not a minimum wait.");
+  }
+  if (key === NEVADA_176A_ROUTE_KEY) {
+    // NRS 176A.245, 176A.265 and 176A.295 prescribe a waiting period on one
+    // branch only. Subsection 1 has none at all — the court seals once the
+    // discharge or dismissal happens — and subsection 2 allows the petition
+    // "not sooner than 7 years after" the conditional dismissal or the setting
+    // aside of the judgment. The generic engine found no duration for this
+    // pathway and sent both branches to needs_review with
+    // `waiting_rule_not_executed`, which is a failure to compute rather than an
+    // answer. An unresolved branch is left to its own gate; this function must
+    // not pick a duration for a mechanism that is not established.
+    const branch = nevada176ABranch(answers);
+    if (branch === "subsection_1_automatic") return { status: "satisfied" };
+    if (branch === "subsection_2_petition") {
+      return timingFromAnchor(
+        profile,
+        answers,
+        rule,
+        pathway,
+        "disposition_date",
+        { value: 7, unit: "years", raw: "7 years" },
+        "Subsection 2 of NRS 176A.245, 176A.265 and 176A.295 allows the petition not sooner than seven years after the conditional dismissal or the setting aside of the judgment of conviction."
+      );
+    }
   }
   if (key === "CA:tool-1-dismissal-set-aside" || key === "CA:tool-4-arrest-record-sealing") return { status: "satisfied" };
   if (key === "CA:prop-64-currently-serving-petition-11361-8" || key === "CA:prop-64-completed-sentence-application-11361-8") return { status: "satisfied" };
@@ -2017,6 +2080,52 @@ function packetLikePathway(profile: EngineProfile, pathway: CompiledPathway) {
  * sellable one (lane-B report: MI rule-11 steered the automatic 92-day
  * misdemeanor set-aside toward checkout).
  */
+/**
+ * The same structural fact, where the route's own authority makes it depend on
+ * the participant's case rather than on the route.
+ *
+ * `routeIsAutomaticOrNoFiling` asks whether a ROUTE has a participant filing.
+ * Nevada's NRS 176A.245 / .265 / .295 track has one on one branch and none on
+ * the other, from the identical sections, so the question can only be answered
+ * once the branch is known. On the automatic branch the answer is the same as
+ * for a structurally automatic route — nothing is filed, so nothing may be sold
+ * — and the participant gets the same guidance treatment.
+ *
+ * `unresolved` is deliberately NOT automatic here. It is handled by its own gate
+ * before this one runs, because calling it automatic would hide a real petition
+ * from a participant who has one.
+ */
+function routeBranchIsAutomaticOrNoFiling(
+  profile: EngineProfile,
+  answers: Record<string, ScreeningAnswerValue>,
+  pathway: CompiledPathway
+): boolean {
+  if (routeKey(profile, pathway) !== NEVADA_176A_ROUTE_KEY) return false;
+  return nevada176ABranch(answers) === "subsection_1_automatic";
+}
+
+/**
+ * A route whose mechanism depends on a branch the participant's answers have not
+ * established yet.
+ *
+ * Fail closed, and say which questions decide it. Neither guess is acceptable:
+ * assuming the automatic branch withholds a petition the participant is entitled
+ * to file, and assuming the petition branch offers a packet to someone whose
+ * relief happens on its own and costs nothing.
+ */
+function unresolvedRouteBranchReason(
+  profile: EngineProfile,
+  answers: Record<string, ScreeningAnswerValue>,
+  pathway: CompiledPathway
+): { reason: ScreeningReason; missingQuestionIds: string[] } | undefined {
+  if (routeKey(profile, pathway) !== NEVADA_176A_ROUTE_KEY) return undefined;
+  if (nevada176ABranch(answers) !== "unresolved") return undefined;
+  return {
+    reason: reason(profile.jurisdiction.code, "nv_176a_branch_not_established", NEVADA_176A_UNRESOLVED_BRANCH_TEXT, pathway.sourceRef),
+    missingQuestionIds: [...NEVADA_176A_BRANCH_FACT_IDS]
+  };
+}
+
 function routeIsAutomaticOrNoFiling(profile: EngineProfile, pathway: CompiledPathway): boolean {
   const contract = legalRouteContract(profile.jurisdiction.code, pathway.id);
   if (contract) return legalRouteIsAutomaticOrNoFiling(contract);

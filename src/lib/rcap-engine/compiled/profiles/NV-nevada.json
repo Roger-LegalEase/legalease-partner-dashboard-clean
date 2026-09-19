@@ -151,7 +151,9 @@
       "order": 4,
       "id": "special_pathways",
       "questionIds": [
-        "pardon_status"
+        "pardon_status",
+        "nv_176a_charge_class",
+        "nv_176a_disposition_class"
       ],
       "screenType": "conditional_question_sequence"
     },
@@ -470,6 +472,42 @@
       "required": false,
       "source": "shared_filing_identity",
       "helperText": "also called a docket, cause, or arrest number — it's on your court paperwork"
+    },
+    {
+      "id": "nv_176a_charge_class",
+      "stage": "special_pathways",
+      "prompt": "Was the charge battery constituting domestic violence, or driving — or being in actual physical control of a vehicle — under the influence?",
+      "type": "single_choice",
+      "options": [
+        "Yes — battery constituting domestic violence, or driving under the influence",
+        "No — it was a different charge",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "nv_memo_nv_seal_probation_family_branch_screen",
+      "helperText": "Nevada treats these charges differently from every other charge on this route. Answer from what you were charged with, not from any paperwork.",
+      "contextOnly": false,
+      "doesNotSelectPathway": false,
+      "lifecyclePhase": "prepay_route_splitter"
+    },
+    {
+      "id": "nv_176a_disposition_class",
+      "stage": "special_pathways",
+      "prompt": "How did the case end after the programme?",
+      "type": "single_choice",
+      "options": [
+        "I was discharged from probation",
+        "The case was dismissed outright",
+        "The charges were conditionally dismissed",
+        "The judgment of conviction was set aside",
+        "I am not sure"
+      ],
+      "required": true,
+      "source": "nv_memo_nv_seal_probation_family_branch_screen",
+      "helperText": "Nevada's two sealing mechanisms turn on this. Answer from what happened, not from any paperwork.",
+      "contextOnly": false,
+      "doesNotSelectPathway": false,
+      "lifecyclePhase": "prepay_route_splitter"
     }
   ],
   "caseOutcomeOptions": [

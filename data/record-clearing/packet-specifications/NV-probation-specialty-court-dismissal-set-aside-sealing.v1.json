@@ -119,6 +119,20 @@
       "inRegistryRequiredInputs": false,
       "gapNote": "The factory-v2 registry groups this under contact_information; the current approved field map writes the email separately.",
       "ownership": "participant"
+    },
+    {
+      "factId": "nv_176a_charge_class",
+      "use": "Establishes the subsection 2 petition branch, with nv_176a_disposition_class: subsection 2 of NRS 176A.245, 176A.265 and 176A.295 reaches only a charge under NRS 200.485, NRS 484C.110 or NRS 484C.120. Carried from screening, where the branch is resolved before Checkout; no packet asks it again.",
+      "inRegistryRequiredInputs": false,
+      "gapNote": "Route-deciding screening fact, not a field written into any document. It is required here because the composer evaluates the components conditional on subsection_2_petition_branch against it, and a blank must refuse rather than silently omit the petition.",
+      "ownership": "participant"
+    },
+    {
+      "factId": "nv_176a_disposition_class",
+      "use": "Establishes the subsection 2 petition branch, with nv_176a_charge_class: subsection 2 reaches only charges conditionally dismissed or a judgment of conviction set aside. Carried from screening, where the branch is resolved before Checkout; no packet asks it again.",
+      "inRegistryRequiredInputs": false,
+      "gapNote": "Route-deciding screening fact, not a field written into any document. See nv_176a_charge_class.",
+      "ownership": "participant"
     }
   ],
   "finalVerificationRequirements": [
@@ -136,7 +150,9 @@
       "date_of_birth",
       "mailing_address",
       "phone_number",
-      "email_address"
+      "email_address",
+      "nv_176a_charge_class",
+      "nv_176a_disposition_class"
     ],
     "serverOwnedRouteFacts": [
       "jurisdiction",

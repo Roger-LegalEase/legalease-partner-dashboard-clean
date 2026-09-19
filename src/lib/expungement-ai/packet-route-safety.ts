@@ -14,6 +14,8 @@
  * layer cannot classify a route-deciding fact as anything else.
  */
 
+import { NEVADA_176A_BRANCH_FACT_IDS, NEVADA_176A_ROUTE_KEY } from "@/lib/rcap-engine/nevada-176a-branch";
+
 /**
  * Mississippi non-conviction: the neutral answers the gate requires, exactly
  * as the gate requires them. The gate is the authority for what each answer
@@ -38,7 +40,15 @@ const ROUTE_SAFETY_GATE_FACT_IDS: Readonly<Record<string, readonly string[]>> = 
   "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal": [
     ...MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS.map(([factId]) => factId),
     MISSISSIPPI_NON_CONVICTION_WORDING_FACT
-  ]
+  ],
+  // Nevada NRS 176A.245 / .265 / .295. These two facts decide whether the
+  // participant has a filing at all — subsection 1 is sealed by the court with
+  // nothing filed and nothing to pay, subsection 2 is a petition the
+  // participant files. The evaluator resolves the branch before a result is
+  // issued; naming the facts here keeps the collection policy from classifying
+  // a branch-deciding fact as anything the participant could reach Checkout
+  // without answering.
+  [NEVADA_176A_ROUTE_KEY]: NEVADA_176A_BRANCH_FACT_IDS
 };
 
 /**
