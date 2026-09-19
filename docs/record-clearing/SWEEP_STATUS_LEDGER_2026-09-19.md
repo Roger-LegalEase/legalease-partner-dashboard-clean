@@ -1,12 +1,60 @@
 # Sweep status ledger — live
 
-> **Verification complete: 258/276 pass, 18/276 fail, with every failure mapped
-> to an explicit known hold. Repository tree clean. No compared release input
-> changed. `rebuildRequired: false`. Release intentionally undeclared pending
-> nine named authority, CI, schema and architectural holds.**
+> ## Verification complete — this phase is closed
 >
-> The verification phase is closed. The next phase is closing the nine holds,
-> not hunting for unknown breakage.
+> **276 steps accounted for, 258 pass / 18 known fail. Every failure has an
+> identified root. There are no unexplained reds. Repository clean. No compared
+> release input changed. No rebuild required from this verification work.**
+>
+> This statement is **not reopened** because a diagnostic gets better wording. A
+> verifier can always be made more precise; a ledger can always have better
+> provenance; a test can always take another negative control. Improving a
+> description of a known red is not a prerequisite to completion, and treating it
+> as one is what turned a verification cleanup into governance archaeology.
+
+## Scope rule — what may enter the critical path
+
+A newly discovered issue joins the critical path **only** if it proves one of:
+
+- an unauthorized customer can pay;
+- an unauthorized sponsored credit can be consumed;
+- an unauthorized packet can be delivered;
+- an approved packet cannot be delivered;
+- legal treatment being shipped is wrong;
+- a release input changed without the required rebuild and acceptance.
+
+Everything else goes to the backlog. No new hold unless it changes a release
+decision. No new test merely because another test could exist. No governance
+cleanup on the critical path unless the affected route is actually being opened.
+
+## The release critical path
+
+| | Item | What remains |
+|---|---|---|
+| 1 | **61 — CA § 1203.4a** | The packet is built; owner/legal approval has not been granted. The route stays closed until someone decides. Once decided, propagate the resulting closure downstream (the 151/192/195 regeneration, which moves `factory-v2-route-registry.json` and so triggers the rebuild) |
+| 2 | **132 — MS municipal route** | The specification authority exists and the rejected raster receipt is withdrawn. Remaining: fresh CI raster proof → exact digest check → `routeKeys` binding repair → regression proof |
+| 3 | **Step 5 — commercial guard architecture** | One explicit answer on whether the consolidated architecture supersedes the older two-independent-guards approval. This needs the question asked, not more tests around it |
+| 4 | **Any approved route that cannot actually deliver** | Customer-facing defects. Fix on sight |
+
+## Fail-closed, off the critical path
+
+These stay **explicitly fail-closed** and move out of the way. None blocks
+shipping routes whose authority is already proven; each returns to the queue only
+if its jurisdiction or route is being declared live in this release.
+
+`1/122` · `12` · `22E-1` · `22E-2` findings 3/4 · `32` · `33` · `36B` ·
+the six step-41 owner adjudications
+
+## Backlog, not holds
+
+- 22E-2 findings 3 and 4 — attachment and download both have Grade-A gates ahead
+  of their effects, and no execution probe has shown an unauthorized side effect.
+  Mocked side-effect tests would add confidence, not answer a release question.
+- the price-surface mutation, honestly `undetected` — re-aim it when someone is
+  next in that file.
+- the tracked `__pycache__` that dirties the tree on every Python test run.
+
+---
 
 The current state of the canonical sweep. This **supersedes the naming** in
 `POST_C2_DISCOVERY_INVENTORY_2026-09-19.md`, which is frozen as the record the
