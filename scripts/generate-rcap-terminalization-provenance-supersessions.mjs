@@ -211,6 +211,12 @@ const next = {
     },
     pairsDispositioned: supersessions.filter((s) => s.disposition).length,
     pairsAwaitingDisposition: supersessions.filter((s) => !s.disposition).length,
+    dispositionsByBucket: {
+      NO_SUBSTANTIVE_CHANGE: supersessions.filter((s) => s.disposition?.bucket === "NO_SUBSTANTIVE_CHANGE").length,
+      TARGETED_REREVIEW_REQUIRED: supersessions.filter((s) => s.disposition?.bucket === "TARGETED_REREVIEW_REQUIRED").length,
+      FULL_REREVIEW_REQUIRED: supersessions.filter((s) => s.disposition?.bucket === "FULL_REREVIEW_REQUIRED").length
+    },
+    reviewsOutstanding: supersessions.filter((s) => s.disposition && !s.disposition.reviewRecord).length,
     priorUnrecordedRepinEvents: priorUnrecordedRepins.length,
     pairsWhosePinIsItselfARepin: supersessions.filter((s) => s.priorChain.pinnedDigestIsItselfARepin).length
   },

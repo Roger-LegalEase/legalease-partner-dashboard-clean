@@ -54,13 +54,24 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { provenanceState, loadSupersessions } from "./terminalization/terminalization-provenance-model.mjs";
+import {
+  provenanceState,
+  loadSupersessions,
+  verifySupersessionDocumentIntegrity
+} from "./terminalization/terminalization-provenance-model.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 // Shared with C1 so the two controls cannot disagree about what a satisfied
 // provenance state is.
 const { byKey: supersessionsByKey } = loadSupersessions({ root: rootDir });
+
+// This control reads the supersession record to decide whether a superseded
+// pin is satisfied, so it also checks that the record is telling the truth
+// about the pins and deltas it describes. A control that trusts its own
+// evidence file without recomputing it can be turned green by editing that
+// file.
+const supersessionIntegrityProblems = verifySupersessionDocumentIntegrity({ root: rootDir });
 
 const { PDFDocument, StandardFonts } = await import("pdf-lib");
 const rendererMod = await import(
@@ -1190,6 +1201,7 @@ if (selected.length === 0) {
 const failures = [];
 const warnings = [];
 let trackCount = 0;
+for (const problem of supersessionIntegrityProblems) failures.push(`supersession record: ${problem}`);
 
 for (const job of selected) {
   const slug = JURISDICTION_SLUGS[job.jurisdiction];

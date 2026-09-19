@@ -325,6 +325,43 @@ export function repinHistory({ root, record }) {
 export const DISPOSITIONS = ["NO_SUBSTANTIVE_CHANGE", "TARGETED_REREVIEW_REQUIRED", "FULL_REREVIEW_REQUIRED"];
 
 /**
+ * The digest a re-review must start from.
+ *
+ * Normally that is the digest the record pins. Where the pin was itself
+ * installed by one of the unrecorded August re-pins, it is the digest the
+ * record was first committed with instead — otherwise the review covers only
+ * the last leg and the earlier leg keeps a review nobody performed.
+ *
+ * Where a group has more than one original (its records entered at different
+ * times), the widest is required. Picking among baselines would otherwise be
+ * picking how much of the change to look at.
+ */
+export function requiredReviewBaseline({ supersession }) {
+  const chain = supersession.priorChain;
+  const candidates = (chain?.deltasFromOriginalCommittedDigests ?? []).filter((entry) => entry.counts);
+  if (!chain?.pinnedDigestIsItselfARepin || candidates.length === 0) {
+    return { sha256: supersession.reviewedSha256, why: "the pinned digest is the digest this record was first committed with" };
+  }
+  const widest = candidates.reduce((a, b) => (b.counts.operativeLeaves > a.counts.operativeLeaves ? b : a));
+  return {
+    sha256: widest.originalSha256,
+    why:
+      candidates.length > 1
+        ? "the pinned digest was itself re-pinned, and this is the widest of the original committed digests"
+        : "the pinned digest was itself re-pinned, so the review runs from the original committed digest"
+  };
+}
+
+/** The isolation measurement taken from a given baseline, or null. */
+export function isolationForBaseline({ supersession, baselineSha256 }) {
+  if (baselineSha256 === supersession.reviewedSha256) return supersession.delta?.isolation ?? null;
+  const match = (supersession.priorChain?.deltasFromOriginalCommittedDigests ?? []).find(
+    (entry) => entry.originalSha256 === baselineSha256
+  );
+  return match?.isolation ?? null;
+}
+
+/**
  * Whether a supersession record actually discharges the drift it describes,
  * and why not when it does not. This is the single place the two-state model
  * is decided, so the C1 verifier and the supersession verifier cannot drift
@@ -335,6 +372,9 @@ export function evaluateSupersession({ pin, supersession }) {
     return { state: "UNSUPERSEDED_DRIFT", satisfied: false, reason: "no supersession record covers this drifted pin" };
   }
   const problems = [];
+  // problems: the document is inconsistent with what is measurable.
+  // outstanding: the document is honest and the work it names is not done.
+  const outstanding = [];
   if (supersession.reviewedSha256 !== pin.reviewedSha256) {
     problems.push(
       `the supersession records reviewed digest ${String(supersession.reviewedSha256).slice(0, 12)}, the record was reviewed against ${pin.reviewedSha256.slice(0, 12)}`
@@ -358,7 +398,8 @@ export function evaluateSupersession({ pin, supersession }) {
       state: "SUPERSEDED_PIN_AWAITING_DISPOSITION",
       satisfied: false,
       reason: problems[0] ?? "the delta is recorded but carries no disposition",
-      problems
+      problems,
+      outstanding
     };
   }
   if (!DISPOSITIONS.includes(disposition.bucket)) {
@@ -379,18 +420,95 @@ export function evaluateSupersession({ pin, supersession }) {
       problems.push("NO_SUBSTANTIVE_CHANGE without a recorded immateriality determination");
     }
   } else {
+    // The review has to be scoped from the right baseline. Where the pinned
+    // digest was itself installed by one of the August re-pins, reviewing from
+    // it would re-review only the later half of the change and leave the
+    // earlier half carrying a review nobody performed — which is the
+    // laundering this mechanism exists to stop. So the baseline is forced to
+    // the original committed digest, and where a group has more than one, to
+    // the widest of them: you cannot pick the narrow baseline.
+    const required = requiredReviewBaseline({ supersession });
+    const scope = disposition.reviewScope;
+    if (!scope?.baselineSha256) {
+      problems.push(`${disposition.bucket} without a review baseline`);
+    } else if (scope.baselineSha256 !== required.sha256) {
+      problems.push(
+        `${disposition.bucket} is scoped from ${String(scope.baselineSha256).slice(0, 12)}; the review must run from ${required.sha256.slice(0, 12)} (${required.why})`
+      );
+    }
+
+    const isolation = isolationForBaseline({ supersession, baselineSha256: required.sha256 });
+    if (disposition.bucket === "TARGETED_REREVIEW_REQUIRED") {
+      if (scope?.scope !== "named_pathways_only") {
+        problems.push("TARGETED_REREVIEW_REQUIRED must scope to named pathways only");
+      }
+      const mustReview = isolation
+        ? [...isolation.reviewedPathwaysDisturbed.map((p) => p.pathwayId), ...isolation.pathwaysGained].sort()
+        : null;
+      const named = [...(scope?.pathways ?? [])].sort();
+      if (!mustReview) {
+        problems.push("TARGETED_REREVIEW_REQUIRED cannot be checked: no isolation measured for the required baseline");
+      } else if (JSON.stringify(named) !== JSON.stringify(mustReview)) {
+        const missing = mustReview.filter((id) => !named.includes(id));
+        problems.push(
+          missing.length > 0
+            ? `TARGETED_REREVIEW_REQUIRED omits ${missing.length} pathway(s) the delta disturbed or added, starting with ${missing[0]}`
+            : `TARGETED_REREVIEW_REQUIRED names ${named.length} pathway(s); the delta disturbed or added ${mustReview.length}`
+        );
+      }
+      // An exclusion is a claim, so it has to be stated rather than implied by
+      // the absence of a pathway from a list.
+      if (!String(scope?.excludedBecause ?? "").trim()) {
+        problems.push("TARGETED_REREVIEW_REQUIRED does not say why the untouched pathways were excluded");
+      }
+    } else if (disposition.bucket === "FULL_REREVIEW_REQUIRED") {
+      if (scope?.scope !== "entire_current_profile") {
+        problems.push("FULL_REREVIEW_REQUIRED must scope to the entire current profile");
+      }
+      if (scope?.carriesForwardPriorReviewAsAuthority !== false) {
+        problems.push("FULL_REREVIEW_REQUIRED must record that the prior review is not carried forward as substantive authority");
+      }
+    }
+
+    // A required review that has not happened yet is an honest, recorded
+    // state -- not a defect in the document. It keeps the pin unsatisfied, so
+    // C1 and C2 go on refusing, but it must not make the supersession record
+    // itself look corrupt: conflating the two would mean the only way to a
+    // clean integrity check is to claim reviews that did not happen.
     const review = disposition.reviewRecord;
-    if (!review?.path) {
-      problems.push(`${disposition.bucket} without a review record`);
+    if (!review) {
+      const status = String(disposition.reviewStatus ?? "");
+      if (!["not_started", "in_progress"].includes(status)) {
+        problems.push(`${disposition.bucket} carries no review record and no recognised reviewStatus`);
+      } else {
+        outstanding.push(`${disposition.bucket} recorded; the review is ${status.replace("_", " ")}`);
+      }
+    } else if (!review.path) {
+      problems.push(`${disposition.bucket} names a review record with no path`);
     } else if (!review.sha256) {
       problems.push(`${disposition.bucket} names a review record with no digest`);
+    } else if (review.bindsBaselineSha256 !== required.sha256 || review.bindsCurrentSha256 !== supersession.currentSha256) {
+      // A review record that does not bind both ends is a document about some
+      // other pair of digests.
+      problems.push(
+        `${disposition.bucket}: the review record does not bind ${required.sha256.slice(0, 10)} -> ${String(supersession.currentSha256).slice(0, 10)}`
+      );
     }
   }
 
   if (problems.length > 0) {
-    return { state: "SUPERSEDED_PIN_WITH_RECORDED_DELTA", satisfied: false, reason: problems[0], problems };
+    return { state: "SUPERSEDED_PIN_WITH_RECORDED_DELTA", satisfied: false, reason: problems[0], problems, outstanding };
   }
-  return { state: "SUPERSEDED_PIN_WITH_RECORDED_DELTA", satisfied: true, reason: null, problems: [] };
+  if (outstanding.length > 0) {
+    return {
+      state: "SUPERSEDED_PIN_AWAITING_REREVIEW",
+      satisfied: false,
+      reason: outstanding[0],
+      problems: [],
+      outstanding
+    };
+  }
+  return { state: "SUPERSEDED_PIN_WITH_RECORDED_DELTA", satisfied: true, reason: null, problems: [], outstanding: [] };
 }
 
 /** The provenance state of one record, under the two-state model. */
@@ -412,4 +530,85 @@ export function loadSupersessions({ root, relPath = "data/rcap-all50/terminaliza
     byKey.set(`${entry.profilePath}|${entry.reviewedSha256}`, entry);
   }
   return { document, byKey };
+}
+
+/**
+ * The supersession document's own integrity, checked from inside whichever
+ * control is running.
+ *
+ * C1 and C2 are already canonical. Registering a separate verifier in the
+ * npm test string would change package.json, which the render worker image
+ * takes as an input — a publication for a test-script edit. So the controls
+ * that already depend on this document also police it.
+ *
+ * Deliberately mid-weight: it recomputes the orphan check and every recorded
+ * delta, which is what a control needs to know it is being told the truth
+ * about the pins it is reading. The full history sweep — every record's
+ * committed provenance digest, every re-pin event — stays in
+ * verify-rcap-terminalization-provenance-supersessions.mjs, which is the
+ * evidence verifier and can afford the minute it costs.
+ */
+export function verifySupersessionDocumentIntegrity({ root }) {
+  const problems = [];
+  const { document, byKey } = loadSupersessions({ root });
+  if (!document) return ["the supersession record is missing"];
+
+  const pins = collectPins({ root });
+  const drifted = pins.filter((pin) => pin.reviewedSha256 !== pin.currentSha256);
+  const liveKeys = new Set(drifted.map((pin) => `${pin.profilePath}|${pin.reviewedSha256}`));
+
+  for (const key of byKey.keys()) {
+    if (!liveKeys.has(key)) {
+      problems.push(`the supersession record supersedes ${key.split("|")[1].slice(0, 10)}, which is not a drifted pin`);
+    }
+  }
+  for (const pin of drifted) {
+    if (!byKey.has(`${pin.profilePath}|${pin.reviewedSha256}`)) {
+      problems.push(`${pin.record}: its profile moved and no supersession record covers it`);
+    }
+  }
+
+  if (document.totals?.recordsCarryingAProfilePin !== pins.length) {
+    problems.push(
+      `the supersession record counts ${document.totals?.recordsCarryingAProfilePin} pinned records; the corpus has ${pins.length}`
+    );
+  }
+  if (document.totals?.pinsSuperseded !== drifted.length) {
+    problems.push(`the supersession record counts ${document.totals?.pinsSuperseded} superseded pins; ${drifted.length} have drifted`);
+  }
+
+  // Every recorded delta recomputed. An understated count or a dropped path is
+  // the cheapest way to make a substantive change look like a small one, and
+  // the disposition rules are all downstream of these numbers.
+  for (const entry of document.supersessions ?? []) {
+    const { reviewedBytesCurrentAt } = locateReviewedBytes({
+      root,
+      profilePath: entry.profilePath,
+      reviewedSha256: entry.reviewedSha256
+    });
+    const label = `${entry.profilePath.split("/").pop()} @ ${entry.reviewedSha256.slice(0, 10)}`;
+    if (!reviewedBytesCurrentAt) {
+      problems.push(`${label}: no commit in the profile's history has the reviewed bytes`);
+      continue;
+    }
+    const measured = measureDelta({ root, profilePath: entry.profilePath, reviewedBytesCurrentAt });
+    for (const field of ["added", "removed", "changed", "totalMoved", "operativeLeaves"]) {
+      if (entry.delta?.counts?.[field] !== measured.counts[field]) {
+        problems.push(`${label}: delta counts.${field} records ${entry.delta?.counts?.[field]}, measured ${measured.counts[field]}`);
+        break;
+      }
+    }
+    for (const kind of ["added", "removed", "changed"]) {
+      if ((entry.delta?.changedPaths?.[kind] ?? []).length !== measured.changedPaths[kind].length) {
+        problems.push(
+          `${label}: delta changedPaths.${kind} records ${(entry.delta?.changedPaths?.[kind] ?? []).length}, measured ${measured.changedPaths[kind].length}`
+        );
+        break;
+      }
+    }
+    if (JSON.stringify(entry.delta?.dimensionsTouched ?? []) !== JSON.stringify(measured.dimensionsTouched)) {
+      problems.push(`${label}: dimensionsTouched does not match the recomputed delta`);
+    }
+  }
+  return problems;
 }

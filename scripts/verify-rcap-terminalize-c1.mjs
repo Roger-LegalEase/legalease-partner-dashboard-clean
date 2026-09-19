@@ -41,7 +41,11 @@ import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
-import { provenanceState, loadSupersessions } from "./terminalization/terminalization-provenance-model.mjs";
+import {
+  provenanceState,
+  loadSupersessions,
+  verifySupersessionDocumentIntegrity
+} from "./terminalization/terminalization-provenance-model.mjs";
 
 const require = createRequire(import.meta.url);
 const ts = require("typescript");
@@ -65,6 +69,14 @@ const { renderCustomPleading, runPleadingQa } = require(path.join(rootDir, "src/
 // supersession verifier cannot drift apart about what "satisfied" means.
 const { byKey: supersessionsByKey } = loadSupersessions({ root: rootDir });
 const provenanceStates = {};
+
+// This control reads the supersession record to decide whether a superseded
+// pin is satisfied, so it also checks that the record is telling the truth
+// about the pins and deltas it describes. A control that trusts its own
+// evidence file without recomputing it can be turned green by editing that
+// file.
+const supersessionIntegrityProblems = verifySupersessionDocumentIntegrity({ root: rootDir });
+for (const problem of supersessionIntegrityProblems) failures.push(`supersession record: ${problem}`);
 
 const C1 = {
   AR: "arkansas", CA: "california", CT: "connecticut", IA: "iowa", IL: "illinois",

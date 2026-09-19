@@ -34,8 +34,14 @@
       "profileSha256": 68,
       "fingerprint": 45
     },
-    "pairsDispositioned": 0,
-    "pairsAwaitingDisposition": 32,
+    "pairsDispositioned": 32,
+    "pairsAwaitingDisposition": 0,
+    "dispositionsByBucket": {
+      "NO_SUBSTANTIVE_CHANGE": 0,
+      "TARGETED_REREVIEW_REQUIRED": 12,
+      "FULL_REREVIEW_REQUIRED": 20
+    },
+    "reviewsOutstanding": 32,
     "priorUnrecordedRepinEvents": 25,
     "pairsWhosePinIsItselfARepin": 19
   },
@@ -1024,7 +1030,26 @@
         "data/rcap-all50/composed-routes/arkansas/ar-veterans-court/route.json",
         "data/rcap-all50/composed-routes/arkansas/manifest.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "3/3 reviewed pathways disturbed, 466 operative leaves",
+        "reviewScope": {
+          "baseline": "pinned_reviewed_digest",
+          "baselineSha256": "2472302ba06713eab793ae06fc9fd9af8627993ce1b10bfba57a6e3894b9c9d3",
+          "baselineWhy": "the pinned digest is the digest this record was first committed with",
+          "currentSha256": "640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 3,
+          "reviewedPathwaysDisturbed": 3
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
@@ -1218,7 +1243,35 @@
       "records": [
         "data/rcap-all50/pleadings/arizona/az_wrongful_arrest_clearance/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "TARGETED_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "1/3 prior pathways disturbed plus one newly added route",
+        "reviewScope": {
+          "baseline": "pinned_reviewed_digest",
+          "baselineSha256": "311ad605d45145fc15725f007938ac9823bbbe54b243e433dfae2e4451934290",
+          "baselineWhy": "the pinned digest is the digest this record was first committed with",
+          "currentSha256": "51167325a97a32cad9cf0f770dc4d9aa27aed1106ed8ddb06b8b883ea0010746",
+          "scope": "named_pathways_only",
+          "pathways": [
+            "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+            "remedy-1-record-sealing"
+          ],
+          "disturbedExistingPathways": [
+            "remedy-1-record-sealing"
+          ],
+          "newlyAddedPathways": [
+            "notation-of-clearance-after-a-wrongful-arrest-under-13-4051"
+          ],
+          "pathwaysAtBaseline": 3,
+          "excludedCount": 2,
+          "excludedBecause": "The computed delta from the review baseline to the current profile bytes does not touch these pathways, leaf by leaf. They are excluded from the re-review on that measurement, not on assumption, and the exclusion is void if the profile moves again."
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
@@ -1546,7 +1599,37 @@
         "data/rcap-all50/composed-routes/connecticut/manifest.json",
         "data/rcap-all50/pleadings/connecticut/manifest.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "TARGETED_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 2/5 disturbed plus one new route",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "47a86bd5edec245949664a3302aecd1d077bafe11dad2876d866158c7437cdb7",
+          "baselineWhy": "the pinned digest was itself re-pinned, and this is the widest of the original committed digests",
+          "currentSha256": "9043831f6364e446daed1da81d78bb9558d8674e34adff9c6c095b040f4d0c92",
+          "scope": "named_pathways_only",
+          "pathways": [
+            "cannabis-conviction-erasure",
+            "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+            "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+          ],
+          "disturbedExistingPathways": [
+            "cannabis-conviction-erasure",
+            "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+          ],
+          "newlyAddedPathways": [
+            "petition-for-erasure-of-cannabis-conviction-records-under-54-142v"
+          ],
+          "pathwaysAtBaseline": 5,
+          "excludedCount": 3,
+          "excludedBecause": "The computed delta from the review baseline to the current profile bytes does not touch these pathways, leaf by leaf. They are excluded from the re-review on that measurement, not on assumption, and the exclusion is void if the profile moves again."
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
@@ -1842,7 +1925,37 @@
         "data/rcap-all50/composed-routes/connecticut/ct-nolle-auto/components/ct-nolle-auto-pre-1972-petition-3/dependency.json",
         "data/rcap-all50/composed-routes/connecticut/ct-under18-misdemeanor/components/ct-under18-misdemeanor-petition-branch-2/dependency.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "TARGETED_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "2/5 disturbed plus one new route",
+        "reviewScope": {
+          "baseline": "pinned_reviewed_digest",
+          "baselineSha256": "47a86bd5edec245949664a3302aecd1d077bafe11dad2876d866158c7437cdb7",
+          "baselineWhy": "the pinned digest is the digest this record was first committed with",
+          "currentSha256": "9043831f6364e446daed1da81d78bb9558d8674e34adff9c6c095b040f4d0c92",
+          "scope": "named_pathways_only",
+          "pathways": [
+            "cannabis-conviction-erasure",
+            "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+            "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+          ],
+          "disturbedExistingPathways": [
+            "cannabis-conviction-erasure",
+            "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+          ],
+          "newlyAddedPathways": [
+            "petition-for-erasure-of-cannabis-conviction-records-under-54-142v"
+          ],
+          "pathwaysAtBaseline": 5,
+          "excludedCount": 3,
+          "excludedBecause": "The computed delta from the review baseline to the current profile bytes does not touch these pathways, leaf by leaf. They are excluded from the re-review on that measurement, not on assumption, and the exclusion is void if the profile moves again."
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
@@ -2099,7 +2212,37 @@
         "data/rcap-all50/pleadings/connecticut/ct-cannabis-petition/pleading-config.json",
         "data/rcap-all50/pleadings/connecticut/ct-decriminalized/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "TARGETED_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 2/5 disturbed plus one new route",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "f6fd7cc7636fe2804c490dafd6d0164ed86a283a7b365d64276f94bdfc9aa874",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "9043831f6364e446daed1da81d78bb9558d8674e34adff9c6c095b040f4d0c92",
+          "scope": "named_pathways_only",
+          "pathways": [
+            "cannabis-conviction-erasure",
+            "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+            "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+          ],
+          "disturbedExistingPathways": [
+            "cannabis-conviction-erasure",
+            "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+          ],
+          "newlyAddedPathways": [
+            "petition-for-erasure-of-cannabis-conviction-records-under-54-142v"
+          ],
+          "pathwaysAtBaseline": 5,
+          "excludedCount": 3,
+          "excludedBecause": "The computed delta from the review baseline to the current profile bytes does not touch these pathways, leaf by leaf. They are excluded from the re-review on that measurement, not on assumption, and the exclusion is void if the profile moves again."
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
@@ -2209,7 +2352,38 @@
         "data/rcap-all50/pleadings/dc/dc_seal_fugitive/pleading-config.json",
         "data/rcap-all50/pleadings/dc/dc_yra_set_aside/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "TARGETED_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "4/7, but comparatively narrow dimensions",
+        "reviewScope": {
+          "baseline": "pinned_reviewed_digest",
+          "baselineSha256": "426fed6ae99ae6b045eb09e56d4ec92d51569228877fe688a3db2f88bfd07211",
+          "baselineWhy": "the pinned digest is the digest this record was first committed with",
+          "currentSha256": "83bc7d7b19cb61610a38964202ab11bfb3c0d1f952582bb1e481fb83f05ed5d4",
+          "scope": "named_pathways_only",
+          "pathways": [
+            "dc_actual_innocence_expungement_16_803",
+            "dc_motion_seal_felony_conviction_8yr_16_806",
+            "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+            "dc_motion_seal_nonconviction_16_806"
+          ],
+          "disturbedExistingPathways": [
+            "dc_actual_innocence_expungement_16_803",
+            "dc_motion_seal_felony_conviction_8yr_16_806",
+            "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+            "dc_motion_seal_nonconviction_16_806"
+          ],
+          "newlyAddedPathways": [],
+          "pathwaysAtBaseline": 7,
+          "excludedCount": 3,
+          "excludedBecause": "The computed delta from the review baseline to the current profile bytes does not touch these pathways, leaf by leaf. They are excluded from the re-review on that measurement, not on assumption, and the exclusion is void if the profile moves again."
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
@@ -2571,7 +2745,26 @@
         "data/rcap-all50/pleadings/georgia/ga-jail-k2/pleading-config.json",
         "data/rcap-all50/pleadings/georgia/ga-vacated-j2/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 4/5 disturbed plus one new route",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "c73ea8ee98d154b11b9260fc683a5f08421d0620c8a6f0f60aa515b2b6423b37",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "3992bda9c4961d0e9f19c05cb22c7efee84b1c21c8e5318ee73917ce02155507",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 5,
+          "reviewedPathwaysDisturbed": 4
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json",
@@ -2731,7 +2924,36 @@
         "data/rcap-all50/pleadings/hawaii/hi_first_time_property_offender_expungement/pleading-config.json",
         "data/rcap-all50/pleadings/hawaii/hi_marijuana_three_grams_expungement/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "TARGETED_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 3/5, isolatable",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "8dcbb9df659073834240a7824b092568e6baba5978ee0fd7e992a92db500e79e",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "30a1ffcd9ec2eda42fbf739a9806b61999777c52b709774ac2609095ef44ccc1",
+          "scope": "named_pathways_only",
+          "pathways": [
+            "dui-under-21-conviction",
+            "first-time-drug-conviction",
+            "nonconviction-arrest-expungement"
+          ],
+          "disturbedExistingPathways": [
+            "dui-under-21-conviction",
+            "first-time-drug-conviction",
+            "nonconviction-arrest-expungement"
+          ],
+          "newlyAddedPathways": [],
+          "pathwaysAtBaseline": 5,
+          "excludedCount": 2,
+          "excludedBecause": "The computed delta from the review baseline to the current profile bytes does not touch these pathways, leaf by leaf. They are excluded from the re-review on that measurement, not on assumption, and the exclusion is void if the profile moves again."
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
@@ -2831,7 +3053,36 @@
         "data/rcap-all50/pleadings/idaho/id_felony_reduction/pleading-config.json",
         "data/rcap-all50/pleadings/idaho/id_set_aside_dismissal/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "TARGETED_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "3/5, narrow enough to isolate",
+        "reviewScope": {
+          "baseline": "pinned_reviewed_digest",
+          "baselineSha256": "caf89c5e9b391c4f67c353220b93bebb4ec369954003225b900db4895a389bd4",
+          "baselineWhy": "the pinned digest is the digest this record was first committed with",
+          "currentSha256": "f357de27915d23754e906653bf9dfcba11ed8a51b46e41e8cd29bff0267f7e67",
+          "scope": "named_pathways_only",
+          "pathways": [
+            "human-trafficking-survivor-vacatur-and-expungement",
+            "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+            "withheld-judgment-idaho-code-19-2604-review-branch"
+          ],
+          "disturbedExistingPathways": [
+            "human-trafficking-survivor-vacatur-and-expungement",
+            "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+            "withheld-judgment-idaho-code-19-2604-review-branch"
+          ],
+          "newlyAddedPathways": [],
+          "pathwaysAtBaseline": 5,
+          "excludedCount": 2,
+          "excludedBecause": "The computed delta from the review baseline to the current profile bytes does not touch these pathways, leaf by leaf. They are excluded from the re-review on that measurement, not on assumption, and the exclusion is void if the profile moves again."
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
@@ -3040,7 +3291,26 @@
       "records": [
         "data/rcap-all50/pleadings/illinois/il-immediate-seal/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 8/9 disturbed, 197 operative leaves",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "83705171c77c6a7324a171fba819e4ccb061c8eeb0e92ab4c982ed7d38a1d221",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "7999f618fd374825e4a8fa611d141131afe06ce9f6139c5c2d608277704da914",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 9,
+          "reviewedPathwaysDisturbed": 8
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
@@ -3161,7 +3431,26 @@
         "data/rcap-all50/composed-routes/indiana/manifest.json",
         "data/rcap-all50/pleadings/indiana/manifest.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "4/4 pathways disturbed",
+        "reviewScope": {
+          "baseline": "pinned_reviewed_digest",
+          "baselineSha256": "0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982",
+          "baselineWhy": "the pinned digest is the digest this record was first committed with",
+          "currentSha256": "69e8fcc87b696f1f953af4a164c5c9db405a90324f0385841ef26481b00273dd",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 4,
+          "reviewedPathwaysDisturbed": 4
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
@@ -3563,7 +3852,26 @@
         "data/rcap-all50/pleadings/kansas/ks-12-4516-municipal/pleading-config.json",
         "data/rcap-all50/pleadings/kansas/ks-12-4516a-municipal-arrest/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 3/4 old pathways plus two new routes",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "965e3a85ff74016d3e496debb8ee27f94d50ed6300203420a0825e4e5783fdbb",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "e750a59a6f31adf35076111cc71c3eefd6a3c14b228c8d8557c8d5dc7e222339",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 4,
+          "reviewedPathwaysDisturbed": 3
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
@@ -3856,7 +4164,26 @@
         "data/rcap-all50/pleadings/kentucky/ky_void_seal_marijuana_synthetic_salvia/components/ky_void_seal_marijuana_synthetic_salvia-proposed-order-2/dependency.json",
         "data/rcap-all50/pleadings/kentucky/manifest.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 4/5 plus one new route, 223 operative leaves",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "6af5fcab97b496d3535a3f05174bc730706da90a18996f72f9a7c17935e4e36e",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "277a4df1f6a1637cef00b9b493c968bdc1213e99fea5ffec95d87ec29b08bc4e",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 5,
+          "reviewedPathwaysDisturbed": 4
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
@@ -4123,7 +4450,26 @@
         "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance/pleading-config.json",
         "data/rcap-all50/pleadings/kentucky/ky_void_seal_marijuana_synthetic_salvia/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "same whole-chain exposure: 4/5 plus one new route",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "6af5fcab97b496d3535a3f05174bc730706da90a18996f72f9a7c17935e4e36e",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "277a4df1f6a1637cef00b9b493c968bdc1213e99fea5ffec95d87ec29b08bc4e",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 5,
+          "reviewedPathwaysDisturbed": 4
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
@@ -4329,7 +4675,26 @@
       "records": [
         "data/rcap-all50/pleadings/massachusetts/ma-bmc-multi/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "7/7 disturbed",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "1c1b7cb5da7af9833ed388afd878397877c51218feddfe40431b4b75ae800f28",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "66724c93b7103868d642c0d8df1c6c9af09c892cd1d273a0a00991e7777f0026",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 7,
+          "reviewedPathwaysDisturbed": 7
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
@@ -4698,7 +5063,26 @@
       "records": [
         "data/rcap-all50/pleadings/maine/me-screening/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "5/5 disturbed",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "e94dc217093e5eac16d797ec1ded9629f15efdc5068a89cf35542fec84089c50",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "f33ef12f104eab887a40bee4d2e3aca8e947dfd3570265912fb4c4455e00883d",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 5,
+          "reviewedPathwaysDisturbed": 5
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
@@ -5032,7 +5416,26 @@
         "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-proposed-order-3/dependency.json",
         "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/route.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "5/5 disturbed, 229 operative leaves",
+        "reviewScope": {
+          "baseline": "pinned_reviewed_digest",
+          "baselineSha256": "2b9380c023275fce405992af514d59041ac077a164f4e48ff92bb0876f19fe96",
+          "baselineWhy": "the pinned digest is the digest this record was first committed with",
+          "currentSha256": "a553e31c98c22fea178d994d0617c8471f6c51a5908920991da0c1bf87d50d47",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 5,
+          "reviewedPathwaysDisturbed": 5
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
@@ -5178,7 +5581,26 @@
       "records": [
         "data/rcap-all50/pleadings/north-carolina/nc_auto_146_a4_agency_followup/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 3/3 disturbed",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "62ca0e40196e61fe3eb9979f89c176100cf927879fe4c71ffe1878c844916e41",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "c15ef1c244fd45bffca2a0fe2d5e95523c10b844c715587bde3c52348e16a3c5",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 3,
+          "reviewedPathwaysDisturbed": 3
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
@@ -5424,7 +5846,26 @@
         "data/rcap-all50/pleadings/north-dakota/nd-seal-misdemeanor-conviction/pleading-config.json",
         "data/rcap-all50/pleadings/north-dakota/nd-seal-pardoned-conviction/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "6/6 disturbed; commercial refusal remains unchanged",
+        "reviewScope": {
+          "baseline": "pinned_reviewed_digest",
+          "baselineSha256": "7396f7a8e07bfa588cc6075f930237b7fada380d30cbbca7f07f0ec0675ed473",
+          "baselineWhy": "the pinned digest is the digest this record was first committed with",
+          "currentSha256": "3b63b0448fc34695e9cb23588236e73b895c8aca35fdf2f0e702512cc6ffb29f",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 6,
+          "reviewedPathwaysDisturbed": 6
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
@@ -5655,7 +6096,26 @@
       "records": [
         "data/rcap-all50/pleadings/nebraska/ne-seal-enforcement/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 8/8 disturbed",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "bfa39629addc28709f9f4619822612fbaab6944a11d98c69a14f655113b71301",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "c48b3be3bc23f7d5f5a84d6f2297aac6ffd26a569159d85648681e573cbbfe8f",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 8,
+          "reviewedPathwaysDisturbed": 8
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
@@ -5951,7 +6411,39 @@
         "data/rcap-all50/pleadings/nevada/nv_seal_multi/pleading-config.json",
         "data/rcap-all50/pleadings/nevada/nv_seal_pardon/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "TARGETED_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 3/7 disturbed plus one new route",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "baa3a99f2092579d01a5f6b2dd0ac736a530f6fd7cd94eb00dd1d39eaa8c969a",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "cd21b127db9949f75356b5fc6186bd6d65c6cfde48e979c634ec8ee50e7f3752",
+          "scope": "named_pathways_only",
+          "pathways": [
+            "deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+            "general-conviction-record-sealing-under-nrs-179-245",
+            "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+            "trafficking-victim-vacatur-and-sealing-under-nrs-179-247"
+          ],
+          "disturbedExistingPathways": [
+            "deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+            "general-conviction-record-sealing-under-nrs-179-245",
+            "trafficking-victim-vacatur-and-sealing-under-nrs-179-247"
+          ],
+          "newlyAddedPathways": [
+            "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160"
+          ],
+          "pathwaysAtBaseline": 7,
+          "excludedCount": 4,
+          "excludedBecause": "The computed delta from the review baseline to the current profile bytes does not touch these pathways, leaf by leaf. They are excluded from the re-review on that measurement, not on assumption, and the exclusion is void if the profile moves again."
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
@@ -6112,7 +6604,36 @@
       "records": [
         "data/rcap-all50/pleadings/ohio/oh_2953_32_sealing/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "TARGETED_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "3/7 disturbed; isolatable",
+        "reviewScope": {
+          "baseline": "pinned_reviewed_digest",
+          "baselineSha256": "619b81642a3740b8110faefc3ba0ce45f107a8964ce03b2cc5d8054a507c087f",
+          "baselineWhy": "the pinned digest is the digest this record was first committed with",
+          "currentSha256": "0ff24e417c35aef4751eb5bc926868d0242ae9fcf77edd0910e2e62be02c4fad",
+          "scope": "named_pathways_only",
+          "pathways": [
+            "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+            "adult-non-conviction-sealing-or-expungement-under-2953-33",
+            "marijuana-hashish-possession-expungement-under-2953-321"
+          ],
+          "disturbedExistingPathways": [
+            "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+            "adult-non-conviction-sealing-or-expungement-under-2953-33",
+            "marijuana-hashish-possession-expungement-under-2953-321"
+          ],
+          "newlyAddedPathways": [],
+          "pathwaysAtBaseline": 7,
+          "excludedCount": 4,
+          "excludedBecause": "The computed delta from the review baseline to the current profile bytes does not touch these pathways, leaf by leaf. They are excluded from the re-review on that measurement, not on assumption, and the exclusion is void if the profile moves again."
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
@@ -6318,7 +6839,26 @@
       "records": [
         "data/rcap-all50/pleadings/oklahoma/ok_identity_theft/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 15/18 disturbed, 619 operative leaves",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "bc744e3f047c7a1303465b4a9d50e54477878daa1384689b5f98753cc90fe21a",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "741344600678fb394a60c90ec168d8fbe1d5b2642bc987658f5eac2d56261db1",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 18,
+          "reviewedPathwaysDisturbed": 15
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
@@ -6593,7 +7133,26 @@
         "data/rcap-all50/pleadings/south-carolina/sc_conditional_discharge_44_53_450/pleading-config.json",
         "data/rcap-all50/pleadings/south-carolina/sc_tep/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 5/7 and broad protected dimensions",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "bcef5d018240769d36c6ec866b52395606db46769e95298c8f89e98b79b6f887",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "a71935e25858ce9f03f2962c12d4a791ef72494cff00e6b69ab3721e19788f58",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 7,
+          "reviewedPathwaysDisturbed": 5
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
@@ -6702,7 +7261,26 @@
         "data/rcap-all50/pleadings/tennessee/tn_recovery_court/pleading-config.json",
         "data/rcap-all50/pleadings/tennessee/tn_redaction/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "4/4 disturbed",
+        "reviewScope": {
+          "baseline": "pinned_reviewed_digest",
+          "baselineSha256": "bd06899404e8457673231e6806ce31fb649d8aac8a28e45fc9a2988ae3ce2079",
+          "baselineWhy": "the pinned digest is the digest this record was first committed with",
+          "currentSha256": "df29f2fb7a87ae434dd2f10f71122b230e95ff3523bd7f00c1cd00b5704cfe85",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 4,
+          "reviewedPathwaysDisturbed": 4
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
@@ -6882,7 +7460,26 @@
         "data/rcap-all50/pleadings/texas/tx_exp_specialty_court/components/tx_exp_specialty_court-fee-waiver-statement-5/dependency.json",
         "data/rcap-all50/pleadings/texas/tx_exp_unlawful_carry/components/tx_exp_unlawful_carry-fee-waiver-statement-3/dependency.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 6/9, 215 operative leaves; the pinned leg badly understated it",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "8f99b36519cf35b6ead155799f81605d045e55cad19b1c7d11a931f48b3097aa",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 9,
+          "reviewedPathwaysDisturbed": 6
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
@@ -6972,7 +7569,34 @@
       "records": [
         "data/rcap-all50/pleadings/virginia/va_exp_identity_used_by_another/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "TARGETED_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "2/3, comparatively narrow dimensions",
+        "reviewScope": {
+          "baseline": "pinned_reviewed_digest",
+          "baselineSha256": "235b3e5ecc921c62f5dbcd6da7770ce0b4cf4ee39f291caea1ea211fe33c4d67",
+          "baselineWhy": "the pinned digest is the digest this record was first committed with",
+          "currentSha256": "cb4f65b493534f699b67a3497b2402e446bba267b8285c9e705433e8f5f4b645",
+          "scope": "named_pathways_only",
+          "pathways": [
+            "petition-based-sealing",
+            "regime-1-expungement-available-now"
+          ],
+          "disturbedExistingPathways": [
+            "petition-based-sealing",
+            "regime-1-expungement-available-now"
+          ],
+          "newlyAddedPathways": [],
+          "pathwaysAtBaseline": 3,
+          "excludedCount": 1,
+          "excludedBecause": "The computed delta from the review baseline to the current profile bytes does not touch these pathways, leaf by leaf. They are excluded from the re-review on that measurement, not on assumption, and the exclusion is void if the profile moves again."
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
@@ -7078,7 +7702,38 @@
         "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/components/vt_exp_deferred_sentence-record-check-0/dependency.json",
         "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/route.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "TARGETED_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "4/8, isolatable",
+        "reviewScope": {
+          "baseline": "pinned_reviewed_digest",
+          "baselineSha256": "1a4267ce65b9ddc15a65e086cfba2860d088b06b4cd5ad801bda22514fecf9af",
+          "baselineWhy": "the pinned digest is the digest this record was first committed with",
+          "currentSha256": "36244c88348385637b1b282a56c6c2149389006a14a5924cfe367e8f95ffb283",
+          "scope": "named_pathways_only",
+          "pathways": [
+            "adult-conviction-expungement-narrow-statutory-route",
+            "adult-felony-conviction-sealing",
+            "adult-misdemeanor-conviction-sealing",
+            "dui-sealing"
+          ],
+          "disturbedExistingPathways": [
+            "adult-conviction-expungement-narrow-statutory-route",
+            "adult-felony-conviction-sealing",
+            "adult-misdemeanor-conviction-sealing",
+            "dui-sealing"
+          ],
+          "newlyAddedPathways": [],
+          "pathwaysAtBaseline": 8,
+          "excludedCount": 4,
+          "excludedBecause": "The computed delta from the review baseline to the current profile bytes does not touch these pathways, leaf by leaf. They are excluded from the re-review on that measurement, not on assumption, and the exclusion is void if the profile moves again."
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
@@ -7241,7 +7896,26 @@
         "data/rcap-all50/pleadings/washington/wa_crop_certificate_of_restoration/pleading-config.json",
         "data/rcap-all50/pleadings/washington/wa_vac_post_probation_9_95_240/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 6/7 disturbed",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "65778b6d0a1e03a6585b7c87cf64482ba0328805b2b6a491b997738a34cc2ca9",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "f9d4f29d291682a01f0398b886d65ee7a4b74f140a3ecf4042a8ac4afba44e00",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 7,
+          "reviewedPathwaysDisturbed": 6
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
@@ -7328,7 +8002,34 @@
       "records": [
         "data/rcap-all50/pleadings/wisconsin/wi_exp_certificate_of_discharge_followup/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "TARGETED_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "2/5, mostly legal-authority scope",
+        "reviewScope": {
+          "baseline": "pinned_reviewed_digest",
+          "baselineSha256": "1384658236651b0412425445df309c38eef7dda6e32971c2d6f06b1e33b2667f",
+          "baselineWhy": "the pinned digest is the digest this record was first committed with",
+          "currentSha256": "cc174d60c0a99078c7050eb608be311a9b85bbf701bf7d3e42b997f99de1743e",
+          "scope": "named_pathways_only",
+          "pathways": [
+            "adult-conviction-expungement-under-wis-stat-973-015",
+            "human-trafficking-prostitution-relief-under-973-015-2m"
+          ],
+          "disturbedExistingPathways": [
+            "adult-conviction-expungement-under-wis-stat-973-015",
+            "human-trafficking-prostitution-relief-under-973-015-2m"
+          ],
+          "newlyAddedPathways": [],
+          "pathwaysAtBaseline": 5,
+          "excludedCount": 3,
+          "excludedBecause": "The computed delta from the review baseline to the current profile bytes does not touch these pathways, leaf by leaf. They are excluded from the re-review on that measurement, not on assumption, and the exclusion is void if the profile moves again."
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
@@ -7513,7 +8214,26 @@
         "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-affidavit-2/pleading-config.json",
         "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-timeline-4/pleading-config.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "whole chain 6/7, 499 operative leaves; different SCA-C903 bytes",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "26830a24672ee182c8e03922f1af1c11ae7d7a71daf759b8981e9c3f9d089aca",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "bf9709154f74544ea0f5089439b822c88226ea42a031f8ccdfc72f29417a5f00",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 7,
+          "reviewedPathwaysDisturbed": 6
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     },
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
@@ -8043,7 +8763,26 @@
         "data/rcap-all50/composed-routes/west-virginia/manifest.json",
         "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/route.json"
       ],
-      "disposition": null
+      "disposition": {
+        "bucket": "FULL_REREVIEW_REQUIRED",
+        "recordedBy": "Roger Roman (owner)",
+        "recordedOn": "2026-09-19",
+        "authorization": "Roger instruction 2026-09-19: record these 32 dispositions. Zero pairs are NO_SUBSTANTIVE_CHANGE. Preserve every original review digest, every historical re-pin event and every original reviewedAsOf. Where the current pin was itself silently re-pinned, all re-review evidence must evaluate the entire original-digest -> current-digest chain. TARGETED means re-review the exact disturbed and newly added pathways only; FULL means re-review the current jurisdiction profile as a whole. Recording a disposition does not make C1 or C2 green.",
+        "rationale": "same whole chain 6/7, 499 operative leaves",
+        "reviewScope": {
+          "baseline": "original_committed_digest",
+          "baselineSha256": "26830a24672ee182c8e03922f1af1c11ae7d7a71daf759b8981e9c3f9d089aca",
+          "baselineWhy": "the pinned digest was itself re-pinned, so the review runs from the original committed digest",
+          "currentSha256": "bf9709154f74544ea0f5089439b822c88226ea42a031f8ccdfc72f29417a5f00",
+          "scope": "entire_current_profile",
+          "carriesForwardPriorReviewAsAuthority": false,
+          "priorReviewTreatment": "Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.",
+          "pathwaysAtBaseline": 7,
+          "reviewedPathwaysDisturbed": 6
+        },
+        "reviewRecord": null,
+        "reviewStatus": "not_started"
+      }
     }
   ]
 }

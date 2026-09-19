@@ -51,7 +51,8 @@ import {
   measureDelta,
   evaluateSupersession,
   provenanceState,
-  repinHistory
+  repinHistory,
+  requiredReviewBaseline
 } from "./terminalization/terminalization-provenance-model.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -262,12 +263,48 @@ for (const entry of document.supersessions ?? []) {
 }
 ok("no route under supersession carries a fulfillment record", exposed.size === 0, [...exposed].join(", "));
 
+// The owner's disposition set, held to what was authorised. A bucket that
+// drifts after the fact is the same failure as a pin that drifts: it changes
+// what was decided without anyone deciding it.
+const dispositioned = (document.supersessions ?? []).filter((e) => e.disposition);
+ok("every superseded pair carries a disposition", dispositioned.length === (document.supersessions ?? []).length,
+  `${dispositioned.length} of ${(document.supersessions ?? []).length}`);
+ok("no pair is dispositioned NO_SUBSTANTIVE_CHANGE",
+  dispositioned.every((e) => e.disposition.bucket !== "NO_SUBSTANTIVE_CHANGE"),
+  dispositioned.filter((e) => e.disposition.bucket === "NO_SUBSTANTIVE_CHANGE").length + " are");
+ok("every disposition cites the owner authorisation it was recorded under",
+  dispositioned.every((e) => /2026-09-19/.test(String(e.disposition.authorization ?? ""))));
+
+// The rule that keeps the August re-pins from being laundered: where the pin
+// was itself re-pinned, the review must run from the original committed
+// digest, never from the pin.
+const wrongBaseline = [];
+for (const entry of dispositioned) {
+  const required = requiredReviewBaseline({ supersession: entry });
+  const scoped = entry.disposition.reviewScope?.baselineSha256;
+  if (scoped !== required.sha256) {
+    wrongBaseline.push(`${path.basename(entry.profilePath)} @ ${entry.reviewedSha256.slice(0, 10)}: scoped from ${String(scoped).slice(0, 10)}, must be ${required.sha256.slice(0, 10)}`);
+  }
+  if (entry.priorChain?.pinnedDigestIsItselfARepin && scoped === entry.reviewedSha256) {
+    wrongBaseline.push(`${path.basename(entry.profilePath)} @ ${entry.reviewedSha256.slice(0, 10)}: reviews from a digest that was itself re-pinned`);
+  }
+}
+ok("every review is scoped from the required baseline", wrongBaseline.length === 0, wrongBaseline.slice(0, 2).join("; "));
+
+const repinnedPairs = dispositioned.filter((e) => e.priorChain?.pinnedDigestIsItselfARepin);
+ok("every re-pinned pair reviews the whole original-digest chain",
+  repinnedPairs.every((e) => e.disposition.reviewScope?.baseline === "original_committed_digest"),
+  `${repinnedPairs.filter((e) => e.disposition.reviewScope?.baseline !== "original_committed_digest").length} do not`);
+ok("no FULL re-review carries the prior review forward as authority",
+  dispositioned.filter((e) => e.disposition.bucket === "FULL_REREVIEW_REQUIRED")
+    .every((e) => e.disposition.reviewScope?.carriesForwardPriorReviewAsAuthority === false));
+
 // And the state model itself: every record resolves to exactly one state, and
 // a record is satisfied only through one of the two honest ones.
 const { byKey: supersessionsByKey } = {
   byKey: new Map((document.supersessions ?? []).map((e) => [`${e.profilePath}|${e.reviewedSha256}`, e]))
 };
-const states = { CURRENT_PIN: 0, SUPERSEDED_PIN_WITH_RECORDED_DELTA: 0, SUPERSEDED_PIN_AWAITING_DISPOSITION: 0, UNSUPERSEDED_DRIFT: 0 };
+const states = { CURRENT_PIN: 0, SUPERSEDED_PIN_WITH_RECORDED_DELTA: 0, SUPERSEDED_PIN_AWAITING_DISPOSITION: 0, SUPERSEDED_PIN_AWAITING_REREVIEW: 0, UNSUPERSEDED_DRIFT: 0 };
 let satisfied = 0;
 for (const pin of pins) {
   const verdict = provenanceState({ pin, supersessionsByKey });
@@ -342,7 +379,48 @@ if (process.argv.includes("--mutations")) {
       d.supersessions.push({ ...firstKey, profilePath: "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json", reviewedSha256: "a".repeat(64) });
       return d;
     }],
-    ["a pair is listed twice", () => { const d = clone(); d.supersessions.push(d.supersessions[0]); return d; }]
+    ["a pair is listed twice", () => { const d = clone(); d.supersessions.push(d.supersessions[0]); return d; }],
+    ["a re-pinned pair is reviewed from the re-pinned digest instead of the original", () => {
+      const d = clone();
+      const e = d.supersessions.find((x) => x.priorChain?.pinnedDigestIsItselfARepin);
+      e.disposition.reviewScope.baselineSha256 = e.reviewedSha256;
+      return d;
+    }],
+    ["a TARGETED scope drops a pathway the delta disturbed", () => {
+      const d = clone();
+      const e = d.supersessions.find((x) => x.disposition?.bucket === "TARGETED_REREVIEW_REQUIRED");
+      e.disposition.reviewScope.pathways = e.disposition.reviewScope.pathways.slice(1);
+      return d;
+    }],
+    ["a TARGETED scope stops saying why the rest were excluded", () => {
+      const d = clone();
+      const e = d.supersessions.find((x) => x.disposition?.bucket === "TARGETED_REREVIEW_REQUIRED");
+      e.disposition.reviewScope.excludedBecause = "";
+      return d;
+    }],
+    ["a FULL re-review claims the prior review still carries authority", () => {
+      const d = clone();
+      const e = d.supersessions.find((x) => x.disposition?.bucket === "FULL_REREVIEW_REQUIRED");
+      e.disposition.reviewScope.carriesForwardPriorReviewAsAuthority = true;
+      return d;
+    }],
+    ["a FULL re-review is quietly narrowed to named pathways", () => {
+      const d = clone();
+      const e = d.supersessions.find((x) => x.disposition?.bucket === "FULL_REREVIEW_REQUIRED");
+      e.disposition.reviewScope.scope = "named_pathways_only";
+      return d;
+    }],
+    ["a review record binds a different pair of digests", () => {
+      const d = clone();
+      const e = d.supersessions[0];
+      e.disposition.reviewRecord = { path: "docs/review.md", sha256: "a".repeat(64), bindsBaselineSha256: "b".repeat(64), bindsCurrentSha256: "c".repeat(64) };
+      return d;
+    }],
+    ["a review is claimed with no status and no record", () => {
+      const d = clone();
+      d.supersessions[0].disposition.reviewStatus = "";
+      return d;
+    }]
   ];
   console.log("\nMutations that must be refused:");
   for (const [name, mutate] of cases) {
@@ -371,8 +449,13 @@ if (failures.length > 0) {
   for (const failure of failures) console.error(` - ${failure}`);
   process.exit(1);
 }
+const byBucket = { TARGETED_REREVIEW_REQUIRED: 0, FULL_REREVIEW_REQUIRED: 0 };
+for (const entry of dispositioned) byBucket[entry.disposition.bucket] = (byBucket[entry.disposition.bucket] ?? 0) + 1;
 console.log(
-  `\nterminalization provenance supersessions — ${checks} checks. ` +
-    `${states.CURRENT_PIN} record(s) on a current pin, ${satisfied - states.CURRENT_PIN} on a satisfied supersession, ` +
-    `${states.SUPERSEDED_PIN_AWAITING_DISPOSITION + states.UNSUPERSEDED_DRIFT} awaiting an owner disposition. No pin was moved.`
+  `\nterminalization provenance supersessions — ${checks} checks.\n` +
+    `  ${states.CURRENT_PIN} record(s) on a current pin; ${satisfied - states.CURRENT_PIN} on a satisfied supersession; ` +
+    `${states.SUPERSEDED_PIN_AWAITING_REREVIEW ?? 0} awaiting the re-review their disposition requires.\n` +
+    `  ${dispositioned.length} pair(s) dispositioned: ${byBucket.FULL_REREVIEW_REQUIRED} full, ${byBucket.TARGETED_REREVIEW_REQUIRED} targeted, 0 immaterial. ` +
+    `${repinnedPairs.length} review(s) run from the original committed digest because the pin was itself re-pinned.\n` +
+    `  No pin was moved and no review was claimed.`
 );
