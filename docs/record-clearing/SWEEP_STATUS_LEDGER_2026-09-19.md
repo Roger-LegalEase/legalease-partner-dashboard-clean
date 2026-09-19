@@ -167,15 +167,28 @@ outstanding defect.
 
 ## The finish queue
 
-Nine holds. None is a debugging question; each needs a decision, an external
-proof, or a migration.
+**Ten root-level holds**, after 22's residual split into 22E-1 and 22E-2. None is
+a debugging question; each needs a decision, an external proof, or a migration.
+
+Two counts, kept separate on purpose:
+
+| | |
+|---|---|
+| Failing sweep steps | **18** — unchanged |
+| Root-level holds | **10** — was 9 |
+
+22E-1 is a newly characterized dependency *behind an existing red*
+(step 144), not an additional failing test. Splitting a hold does not change the
+sweep result, and the 258/276 figure is not revised here — it stands until a new
+sweep or a clearly labelled targeted rerun.
 
 | Hold | Needs | Sweep steps |
 |---|---|---|
 | 5 | owner adjudication of the consolidated guard architecture (patch 11) | 127 |
 | 12 | canonical cross-lane track→family bridge; remove the foreign VA lane-D record **only afterward** | 134 |
 | 1 / 122 | owner re-review of answers against successor compiled-profile bytes | 121, 122, 123, 244 |
-| 22 residual | repair two CI-wired red verifiers, or an owner decision to unwire | 144 |
+| 22E-1 | **stale generated master list and denominator following authorized Colorado corpus expansion; regeneration blocked on access to the authorized source corpus.** Colorado's inclusion is **already authorized** — this is not a reopened question about whether those forms belong. What remains is corpus access to generate their structural and inspection evidence, then reconciling the inventory and the verifier. `OFFICIAL_FORMS_SOURCE_DIR` is unset here and absent from `rcap-all50-handoff.yml`. Record: `PROBLEMATIC_PDF_INVENTORY_AUDIT_22E1_2026-09-19.md` | 144 |
+| 22E-2 | repair `verify-rcap-census-v1-money-credit-gate` to model capability / authority / surface / effect as distinct layers, or an owner decision to unwire | 144 |
 | 32 | memo succession/lineage governance — the controls falsely mix import identity with successor hashes | 154 |
 | 33 | per-question resolution ownership/schema decision | 155 |
 | 36B | per-question out-of-report-scope reason/source model | 158, 164, 165 |

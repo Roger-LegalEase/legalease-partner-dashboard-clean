@@ -27,11 +27,20 @@ Measured by stable asset key (`jurisdiction|formNumber|sha256`):
 
 All 25 are Colorado JDF assets: JDF-416, 417, 418, 419, 435, 477, 478, 491,
 611, 612, 613, 614, 615, 640, 641, 642, 680, 681, 682, 683, 686, 2363, 2370,
-2371, 2374. All 25 carry `binaryPresent: true`, so they are real corpus assets
-and not register-only phantoms.
+2371, 2374.
 
-**And 153 − 25 = 128.** The arithmetic failure and the coverage failure are the
-same 25 assets counted twice.
+All 25 carry `binaryPresent: true`. **That is the register's historical
+acquisition record, not a fresh inspection of the bytes.** It supports the claim
+that these are real acquired assets rather than register-only phantoms; it does
+**not** stand in for the mounted-corpus inspection that produces field counts,
+XFA status, structural class and contact-sheet evidence. Those are exactly what
+the master-list rows still need.
+
+**And 153 − 25 = 128.** One event — the 25-asset expansion — explains both
+failures: the master list does not cover those 25, and the denominator literal
+predates them. Nothing measured here shows any asset being **counted twice**;
+the register's per-record membership check passes and no record sits in two
+categories.
 
 ## The corpus really did grow, on record
 
@@ -77,6 +86,11 @@ Under `--check` the generator passes, reporting
 it validates the committed list against the promotion proof rather than
 rederiving. `scripts/rcap-official-forms/rcap-source-validation-mode.mjs` is the
 repository's shared model for this, and the whole lane already uses it.
+
+**That passing validation must not be read as current coverage.** It establishes
+that the committed list agrees with the proof it was derived from. It cannot
+establish that the list includes the 25 additions, and the set comparison above
+proves it does not.
 
 **`OFFICIAL_FORMS_SOURCE_DIR` is unset here, and it appears nowhere in
 `.github/workflows/rcap-all50-handoff.yml`.** So the corpus is mounted neither in
