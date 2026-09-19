@@ -289,8 +289,27 @@ for (const [configKey, config] of [...configs.entries()].sort(([a], [b]) => (a <
         JSON.stringify(before.warnings) === JSON.stringify(after.warnings),
         `${label}: warnings changed.`
       );
-    } else if (sha256(before.fullText) !== sha256(after.fullText)) {
-      changedAcrossVersions += 1;
+    } else {
+      if (sha256(before.fullText) !== sha256(after.fullText)) changedAcrossVersions += 1;
+      // A version bump authorises a NEW ARTIFACT IDENTITY. It does not waive
+      // regression detection, so it is not enough to say "output changed".
+      // Strip exactly what 2.0.0 is approved to remove from each side, and the
+      // remainder must still be identical. Anything else that moved -- a
+      // clause, a caption, a statutory sentence -- survives normalisation and
+      // fails here, under the version bump rather than hidden by it.
+      const normalised = (text) => text
+        .replace(/\n*---\nPrepared by [^\n]*\n?/g, "\n")
+        .replace(/\n*\[NOTE: Date of birth[^\]]*\]\n?/g, "\n")
+        .replace(/^Service method:.*$/m, "Service method:")
+        .split("\n")
+        .filter((line) => line.trim() !== (config.serviceNote ?? "\u0000").trim())
+        .join("\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+      check(
+        normalised(before.fullText) === normalised(after.fullText),
+        `${label}: output changed under ${PATCHED_OUTPUT_VERSION} beyond the branding and guidance relocation that version approves.`
+      );
     }
     check(
       before.templateGrade === after.templateGrade

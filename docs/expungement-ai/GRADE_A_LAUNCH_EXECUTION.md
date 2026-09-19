@@ -40,7 +40,9 @@ lane, no agent swarm.
 
 | Item | Phase | State | Note |
 |---|---|---|---|
-| GA-5-TOKENS unresolved caption tokens on filed documents | 3 | `READY` | 11 of 28 rendered documents print `{courtLevel}`, `{county}`, `{caseNumber}` etc. in captions; needs per-config sourced values |
+| GA-5-TOKENS unresolved caption tokens on filed documents | 3 | `READY` | 11 of 28 rendered documents print `{courtLevel}`, `{county}`, `{caseNumber}` etc. in captions. **Contained**: all 11 are CT/KY/VT/WV, which hold zero Grade-A records; every row is UNFINISHED or MAINTENANCE_HOLD, not sellable, not admitted. Per-config repair in Phase 3 |
+| ND visual review — `STALE / RE-REVIEW REQUIRED` | 3 | `READY` | Bound to 1.x bytes; both ND packets are 8 pages at renderer 2.0.0. Ordinary ND acceptance work, not a separate workstream. ND is already noncommercial, so it blocks nothing else; it must complete before the corrected ND packet can be Grade-A deliverable again |
+| ND output legal review — `STALE / RE-REVIEW REQUIRED` | 3 | `READY` | Same binding, same phase, same condition |
 | GA-5-MS reapply the reverted `routeKeys` binding fix | 3 | `ACTIVE` | 132C. Reverted earlier to hold `rebuildRequired:false`; that is no longer the accepted end state |
 
 ## External blockers
@@ -53,8 +55,6 @@ lane, no agent swarm.
 | GA-8-127 nine patch successors + CA carrier | 3 | Adopt successor bytes; authorize re-freezing the correction assignment | Roger |
 | GA-8-22E1 corpus mount | 3 | Master Library (28 sources) + complete 583-file Nationwide package at their declared paths | Source custodian |
 | GA-10 push target and hosted-acceptance token role | 6 | Resolve branch target; grant Auth Config read-write on `hyflxnlhpmiqxvvcoiia` | Roger |
-| GA-4.4-ND visual review re-run | 1 | Page-by-page visual review of both ND packets at renderer 2.0.0 (8 pages each); the committed reviews are bound to 1.x bytes and are stale. Not regenerable — a person performs it | Visual reviewer |
-| GA-4.4-ND output legal review re-run | 1 | Output legal review of the ND Chapter 12-60.1 packet at 2.0.0 bytes | Counsel |
 
 ## Done
 
