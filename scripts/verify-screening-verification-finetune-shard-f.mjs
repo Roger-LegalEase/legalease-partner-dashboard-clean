@@ -94,12 +94,30 @@ const expected = {
 const legalSurfaceHashes = {
   // Rehashed for Batch B: Louisiana gained a contract for the art. 977(D)/998
   // route and had two ungated LD-LA-05 contracts superseded by gated ones.
-  LA: "c2581bdca29bb10cc1c4d81675ba77329b3949a0b821301068067daae412532d",
+  //
+  // Rehashed again for the service-branch projection (78e79be41, 2026-09-05,
+  // pre-baseline). Purely additive: six new leaves, nothing changed, nothing
+  // removed. One serviceBranches entry on pathway 10 citing
+  // NATIONAL-2026-08-28-B-LA-03, outcomeMode referral, packetFamily null.
+  // Nothing became sellable.
+  LA: "cb912598c285c0a7f598e42b10c87eae0c8d7372414f656090b6a3d3d85c2bec",
   // Rehashed for Batch B: Maine had no route contracts at all except juvenile
   // sealing; § 2264, § 2264(7) and § 703(2) all gained one.
   ME: "e4fae698f3f5d1ccb5973f02afddfa9bf4a119d87db9a755ca8633c2e77fbfbd",
-  MD: "dc1a6be4a8ca9785e2a84f7ade9da6f4e9470f67bb8989d944093d979683bf08",
-  MA: "6a1cfa42b113588f48f1ead7b1b86a29fa41e11baad41931167f82b307379d8f",
+  // Rehashed for the service-branch projection (78e79be41, 2026-09-05,
+  // pre-baseline). Purely additive: six new leaves, nothing changed, nothing
+  // removed. One serviceBranches entry on pathway 2 citing LD-MD-03,
+  // outcomeMode automatic_relief, packetFamily null.
+  MD: "36be6bbc3d24856bd12dd39a700ba70a783b6131d35cc7b1b7298e176bac4e2d",
+  // Rehashed for the 2026-09-02 terminalization of the §§ 100K / 100K-1/4
+  // marijuana route (78e79be41, 2026-09-05, pre-baseline). This one is not
+  // additive and is named in full because it moves commercial state, in the
+  // closing direction: pathway 6 goes filingRequired true -> false, routeType
+  // court_filing -> automatic_guidance, outcomeMode participant_packet ->
+  // guidance_status, paymentAuthority packet_checkout -> closed, packetFamily
+  // -> null, and its two packetComponents are removed. A route stopped selling;
+  // none started.
+  MA: "88a60b013f1e0d6cbc0703173e8f4480eb5f3261ca18f8924b57deb995a7aa00",
   MI: "38f6e24e9049ebdfe33db2449554f3c0a32c538dc302cde240d9a62258bf163e",
   MN: "a5917918b52c8a856f9f95a5e59833c6ff50fd568d003565b86929e4104a70c8",
   MS: "ec89b172562919c1e963b0560eee1c5119f202622864cb0bda0b447e1005e9b2",
@@ -107,7 +125,11 @@ const legalSurfaceHashes = {
   // moved behind the claim and an approximate threshold took its place in
   // screening. Both questions live in the legal surface, so the hash moves.
   MO: "a9aec1523f2317ce007d82cd6e2ad0dccba1e3e0211cf2921333965dc3a08583",
-  MT: "844331157f0e991f35e37aa833d648c4ce0ee904b57c220bc85ec361ef65edb5"
+  // Rehashed for the service-branch projection (78e79be41, 2026-09-05,
+  // pre-baseline). Purely additive: six new leaves, nothing changed, nothing
+  // removed. One serviceBranches entry on pathway 1 citing LD-MT-03,
+  // outcomeMode automatic_relief, packetFamily null.
+  MT: "0097fa8710970de4209af06ed911f6dada0c557484d4bd7dda07eb9af4eced37"
 };
 
 const projectionPacketFacts = new Set([

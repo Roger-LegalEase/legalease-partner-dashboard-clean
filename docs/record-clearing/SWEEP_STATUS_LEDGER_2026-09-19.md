@@ -69,8 +69,19 @@ decision and refused on every sponsored and credit surface.
 | 33 | **Provenance basis cannot safely determine resolution ownership; explicit owner decision/schema treatment required.** `OWNER_DECISION_REQUIRED`, narrowly. Three rows, **two distinct questions** — the two RI rows are one finding, `RI-B-07`. Both ask for an official source a prior attempt failed to obtain (RI District Court filing fee; WY criminal-rules PDF / Rule 47/49), so the work is source acquisition in all three. But owners are assigned by provenance *class*, and nothing establishes one for `independent_review_finding` or `owner_relayed_research` — those name where a question came from, not what answers it. Nothing gates on the label. Record: `PROVENANCE_OWNER_AUDIT_33_2026-09-19.md` |
 | 36A | **RESOLVED — `ACCOUNTING_OMISSION`.** The 42nd tuple is Q-058, surfaced when `c5c0f3d50` bound the KY 218A.276 pathway to its track. Recorded as a third accounted addition; `53 + 3 − 14 = 42` and the register regenerates current |
 | 36B | **Q-058 is in scope and unresolved; outside the 2026-08-28 report's scope as coverage.** True on the report's own contract (Q-018/Q-057 precedent) but **not recordable today**: the overlay attaches one hard-coded Mississippi source task and reason to every out-of-scope entry, so adding a KY counsel question would publish a false MS filing-fee rationale. Fix the mechanism per-question first. Record: `LEGAL_QUESTION_LEDGER_AUDIT_36_2026-09-19.md` |
-| 41 | **`CORRECT_FAIL_CLOSED` — dispositioned.** **Six**, not four: MA, NE, NJ, NV, OR, SD, identical at the accepted baseline (the frozen inventory's "four" was a truncated-log transcription, corrected here). The generator does not own these decisions — it refuses to publish six commercial reclassifications nobody adjudicated. **Defect fixed:** the refusal ran only under `--check`, while `npm run rcap:closure-contradictions` wrote unvalidated; the substantive checks now guard both paths. The six adjudications are held elsewhere. Record: `CLOSURE_CONTRADICTION_AUDIT_41_2026-09-19.md` |
-| 101 | Lane F profile-surface hashes moved for LA, MD, MA |
+| 41 | **`CORRECT_FAIL_CLOSED` — dispositioned.** **Six**, not four: MA, NE, NJ, NV, OR, SD, identical at the accepted baseline (the frozen inventory's "four" was a truncated-log transcription, corrected here). The generator does not own these decisions — it refuses to publish six commercial reclassifications nobody adjudicated. **Defect fixed:** the refusal ran only under `--check`, while `npm run rcap:closure-contradictions` wrote unvalidated; the substantive checks now guard both paths. The six adjudications are held elsewhere, as their own owner-adjudication queue (below) — the generator is terminal, those decisions are not. Record: `CLOSURE_CONTRADICTION_AUDIT_41_2026-09-19.md` |
+| 101 | **CLEARED — `GENERATED_SURFACE_STALE_HASH`.** **Four**, not three: LA, MD, MA, MT (the header said (4); my inventory transcribed the visible lines). All four surfaces first produced by one pre-baseline commit `78e79be41`. The compiled profiles are a generated projection of the approved legal route contracts and `apply-legal-authority-to-profiles --check` reports them current, so authority lives upstream and is satisfied. LA/MD/MT purely additive service branches (`packetFamily: null`); MA is the 2026-09-02 terminalization, closing direction. Re-pinned with per-state reasons; mutation-tested. **Not Lane C** — the verifier never reads `f2-dispositions.json`; my inventory was wrong about that |
+
+### Owner-adjudication queue (split out of 41 — the generator is terminal, these are not)
+
+| Pathway | Needs |
+|---|---|
+| `MA:marijuana-only-expungement` | individual commercial classification, preserved service disposition, implementation effect, child packet routes |
+| `NE:law-enforcement-error-expungement` | as above |
+| `NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3` | as above |
+| `NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247` | as above |
+| `OR:marijuana-specific-set-aside-redesignation` | as above |
+| `SD:juvenile-trafficking-expungement` | as above |
 
 ### Governance, not release-blocking
 
@@ -83,7 +94,7 @@ decision and refused on every sponsored and credit surface.
 | Step | Worker-image input |
 |---|---|
 | 17 / 18 | `data/rcap-all50/terminalization-treatments/` — four SC tracks carry a treatment the window never briefed |
-| 101 | `data/rcap-all50/review-artifacts/f2-dispositions.json` |
+| ~~101~~ | ~~`f2-dispositions.json`~~ — **removed**: the Lane F verifier never reads it. 101 cleared outside Lane C |
 | 131 | `data/rcap-ledger/packet-fulfillment-records.json`, if it ever resolves |
 
 ### Awaiting terminal disposition
