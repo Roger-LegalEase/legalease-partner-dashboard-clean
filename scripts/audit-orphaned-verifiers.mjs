@@ -30,7 +30,21 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const scriptsDir = path.join(rootDir, "scripts");
-const reportPath = path.join(rootDir, "docs/record-clearing/verifier-coverage-audit.md");
+
+// The audit's declared outputs, named once, here. Both are repository state and
+// not scratch: the JSON is read by the verifier-disposition register, and the
+// report is the document the coverage decisions are taken from. Neither is
+// residue, and neither is exempt: the final tripwire requires that the tree
+// differs from the baseline in exactly these two paths and no others.
+//
+// Declaring them is the point. "Everything except my own reports is clean" is a
+// loophole that widens quietly; "exactly these two paths and nothing else" is a
+// statement a run can fail.
+const DECLARED_OUTPUTS = [
+  "docs/record-clearing/verifier-coverage-audit.md",
+  "data/rcap-verifier-audit.json"
+];
+const reportPath = path.join(rootDir, DECLARED_OUTPUTS[0]);
 
 const strict = process.argv.includes("--strict");
 const skipRun = process.argv.includes("--no-run");
@@ -563,6 +577,7 @@ if (passing.length > 0) {
 
 if (only !== "") {
   console.log(`Filtered run (--only=${only}): no report written, coverage counts are not a measurement.`);
+  assertRunLevelClean([]);
   if (residue.length > 0) process.exit(1);
   process.exit(0);
 }
@@ -572,7 +587,7 @@ fs.writeFileSync(reportPath, `${lines.join("\n")}\n`, "utf8");
 console.log(`Report written: ${path.relative(rootDir, reportPath)}`);
 
 // Machine-readable sibling, consumed by the disposition register generator.
-const jsonPath = path.join(rootDir, "data/rcap-verifier-audit.json");
+const jsonPath = path.join(rootDir, DECLARED_OUTPUTS[1]);
 fs.writeFileSync(
   jsonPath,
   `${JSON.stringify(
@@ -610,6 +625,47 @@ fs.writeFileSync(
   "utf8"
 );
 console.log(`Machine-readable: ${path.relative(rootDir, jsonPath)}`);
+
+// FINAL TRIPWIRE. The per-script one proves each verifier was reversed. This
+// one proves the run as a whole: the tree must differ from where it started in
+// exactly the paths the run declares as outputs, and in nothing else. A path
+// outside that set — a file some verifier created that survived, a tracked file
+// left modified, a directory nobody cleaned — fails the audit by name.
+//
+// The declared outputs are not excused from the assertion, they ARE the
+// assertion: an audit that stopped writing one of them, or started writing a
+// third, is also a failure here. A filtered run writes no reports, so it
+// declares nothing and is held to a completely clean tree.
+function assertRunLevelClean(declared) {
+  if (skipRun) return;
+  const finalStatus = statusSnapshot();
+  const finalDirs = directorySnapshot();
+  const unexpected = [];
+  for (const [rel, code] of finalStatus) {
+    if (declared.includes(rel)) continue;
+    if (baselineStatus.get(rel) !== code) unexpected.push(`${rel} [${code.trim() || code}]`);
+  }
+  for (const rel of baselineStatus.keys()) {
+    if (!finalStatus.has(rel) && !declared.includes(rel)) unexpected.push(`${rel} [restored away]`);
+  }
+  for (const rel of contentChanges(baselineBackup, finalStatus)) {
+    if (!declared.includes(rel)) unexpected.push(`${rel} [contents differ]`);
+  }
+  for (const dir of filterIgnored([...finalDirs].filter((d) => !baselineDirs.has(d)))) {
+    unexpected.push(`${dir}/ [directory]`);
+  }
+  if (unexpected.length > 0) {
+    console.error("");
+    console.error("Run-level residue — the audit changed paths it does not declare as outputs:");
+    for (const item of unexpected) console.error(`  ${item}`);
+    process.exit(1);
+  }
+  console.log(declared.length === 0
+    ? "Tree clean: the run changed nothing."
+    : `Tree clean: the run changed exactly its ${declared.length} declared output(s).`);
+}
+
+assertRunLevelClean(DECLARED_OUTPUTS);
 
 // A failed restore is not a coverage finding and is not gated behind --strict.
 // The audit claims it leaves nothing behind; when that claim is false, saying so
