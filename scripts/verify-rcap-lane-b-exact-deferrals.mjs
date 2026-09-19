@@ -613,8 +613,12 @@ async function runMutations() {
       files: [path.join(rootDir, "src/lib/expungement-ai/payment-adapter.ts")],
       apply: () => replaceOnce(
         path.join(rootDir, "src/lib/expungement-ai/payment-adapter.ts"),
-        "  assertNotExactDeferral(item);\n  assertNotComponentDeferral(item);",
-        "  assertNotComponentDeferral(item);"
+        // The parameter was renamed item -> snapshot. The anchor was not, so
+        // this mutation stopped matching and threw, aborting the whole suite
+        // before the mutations after it ever ran. A mutation whose anchor has
+        // drifted is not testing the defence it names.
+        "  assertNotExactDeferral(snapshot);\n  assertNotComponentDeferral(snapshot);",
+        "  assertNotComponentDeferral(snapshot);"
       ),
     },
     {
