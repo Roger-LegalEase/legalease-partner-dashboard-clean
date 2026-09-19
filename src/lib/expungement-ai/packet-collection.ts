@@ -332,9 +332,18 @@ const SECTION_RULES: ReadonlyArray<{ section: PacketCollectionSectionId; test: R
 ];
 
 /**
- * Facts that are a readiness state of an external record or of an external
- * office, rather than information the participant simply knows. These are
- * needed before filing and are never a mandatory prepayment question.
+ * Facts whose NAME suggests a readiness state of an external record or office
+ * rather than information the participant simply knows.
+ *
+ * A guess from the shape of an identifier, and it yields to the specification.
+ * Where the specification states what a fact is FOR, that statement decides the
+ * class and this pattern is not consulted: `service_details` reads like a
+ * readiness state and is the prosecutor and DCI identity, addresses, dates and
+ * manners of service printed on Wyoming's service page;
+ * `certified_disposition_exhibit_status` reads like one and is what makes
+ * Mississippi's verified petition able to say "A certified copy of the
+ * disposition is attached as Exhibit A" truthfully. Naming a fact after a
+ * status does not move it out of the document.
  */
 const FILING_READINESS_IDENTITY = /_exhibit_status$|^certified_|_confirmation_status$|_confirmation_source$|_delivery_method$|^service_|_service_address$|^other_recordkeeping_agencies$|^filing_fee|^fee_waiver/;
 
@@ -342,7 +351,15 @@ const FILING_READINESS_IDENTITY = /_exhibit_status$|^certified_|_confirmation_st
 const USE_RULES: ReadonlyArray<{ collection: PacketCollectionClass; test: RegExp; reason: string }> = [
   {
     collection: "filing_readiness",
-    test: /filing-readiness gate|assembly and filing|prevents an unverified|before filing|court-approved channel|source and date of the court-specific/,
+    // NOT "before filing". That phrase appears in a `use` statement as an
+    // instruction about WHEN the participant should check a value — "charge
+    // wording copied from the court record before filing", "how each recipient
+    // was actually served ... confirmed with the clerk before filing" — and
+    // says nothing about whether the document needs it. Reading it as a class
+    // signal put thirteen facts that the renderer refuses to compose without
+    // into the filing-readiness class, which is the one class that claims a
+    // fact is NOT needed to produce the packet.
+    test: /filing-readiness gate|assembly and filing|prevents an unverified|court-approved channel|source and date of the court-specific/,
     reason: "the specification describes this fact as a filing-readiness state"
   },
   {
@@ -713,7 +730,9 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     // 7. A filing-readiness state of an external record or office.
     const useText = String(specFact?.use ?? "");
     const useRule = USE_RULES.find((rule) => rule.test.test(useText));
-    const filingByIdentity = FILING_READINESS_IDENTITY.test(factId);
+    // The specification outranks the name-shape guess: a fact the specification
+    // describes is classified from what it says, never from how it is spelled.
+    const filingByIdentity = !specFact && FILING_READINESS_IDENTITY.test(factId);
     if (overrideClass === "filing_readiness"
       || (!overrideClass && (useRule?.collection === "filing_readiness" || (filingByIdentity && useRule?.collection !== "prepay_confirmation")))) {
       facts.push({
