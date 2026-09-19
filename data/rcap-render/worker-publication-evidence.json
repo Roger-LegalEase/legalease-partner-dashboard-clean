@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-worker-publication-evidence/v1",
-  "sourceSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
+  "sourceSha": "3a9f4906dc87d644763434ea4e88a5decaa6c404",
   "canonicalIntegrationBranch": "main",
   "releaseIntegrationBranch": "claude/legalease-sprint-captain-utucnw",
   "containedIn": "claude/legalease-sprint-captain-utucnw",
@@ -8,28 +8,28 @@
   "dockerfileSha256": "98f2934b4e817091233aef349de2c67edccd928d149e40ddeb827fcef4141076",
   "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
   "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
-  "imageTag": "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
-  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:c88f10341fec848b3f6f4dec9fc3381e6eea0530",
-  "immutableRegistryDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
-  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
-  "workflowRunId": 35227578682,
-  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35227578682",
+  "imageTag": "3a9f4906dc87d644763434ea4e88a5decaa6c404",
+  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:3a9f4906dc87d644763434ea4e88a5decaa6c404",
+  "immutableRegistryDigest": "sha256:5749dc1fff6dd0353e1eee0888d08f1c5d3813165c7130d15dbfd0a5eda0ff8e",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:5749dc1fff6dd0353e1eee0888d08f1c5d3813165c7130d15dbfd0a5eda0ff8e",
+  "workflowRunId": 35413031376,
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35413031376",
   "mutableLatestTagCreated": false,
   "publishOnlyNoDeploy": true,
   "workerClaimingStarted": false,
   "stagingAndProductionUnchanged": true,
   "workflowRunAttempt": 1,
   "workflowConclusion": "success",
-  "publicationTimestamp": "2026-09-17T13:33:41Z",
-  "publicationArtifactId": 10499164087,
-  "publicationArtifactName": "rcap-render-worker-publication-c88f10341fec848b3f6f4dec9fc3381e6eea0530",
-  "publicationArtifactSha256": "sha256:da892d0529846f2f1f95238cc632db639c28f201716b1e7a64d93df5d77ad290",
+  "publicationTimestamp": "2026-09-19T01:35:57Z",
+  "publicationArtifactId": 10575420467,
+  "publicationArtifactName": "rcap-render-worker-publication-3a9f4906dc87d644763434ea4e88a5decaa6c404",
+  "publicationArtifactSha256": "sha256:6601a70fb401ca6190845f4d879b0de3613af397fe073fb79fc7f807e63955ee",
   "originalPublicationPath": null,
   "originalArchivePath": null,
-  "originalPublicationSource": "Publication run 35227578682 pushed the source-SHA tag c88f10341fec848b3f6f4dec9fc3381e6eea0530 and reported sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06; image acceptance run 35229311713 then pulled that exact digest and accepted it.",
-  "registryPullByDigestStatus": "accepted",
-  "runtimeAccepted": true,
-  "authorization": "Roger instruction (2026-09-17): the consumer Checkout must sell the existing catalog Product prod_Sx3T2wUkaYKqg9 so the product-restricted promotion code applies to the product actually being purchased. The correction changes src, which is a canonical worker input, so the worker is republished from the corrected source.",
+  "originalPublicationSource": "Publication run 35413031376 pushed the source-SHA tag 3a9f4906dc87d644763434ea4e88a5decaa6c404 and reported sha256:5749dc1fff6dd0353e1eee0888d08f1c5d3813165c7130d15dbfd0a5eda0ff8e. Both source-SHA tag guards concluded success, so no pre-existing tag was overwritten.",
+  "registryPullByDigestStatus": "not_yet_attempted",
+  "runtimeAccepted": false,
+  "authorization": "Roger authorization (2026-09-19): complete Tasks #17/#18 and carry the already-approved Illinois FIX02 artifacts forward. The publication is authorized; Production activation is not. The candidate was frozen only after a full 274-step discovery pass established that no remaining failure has an honest fix touching a worker-image input.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
   "supersededPublication": {
     "sourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
@@ -39,6 +39,14 @@
     "publicationRunId": 32307070302
   },
   "supersededChain": [
+    {
+      "sourceSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
+      "immutableRegistryDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
+      "publicationRunId": 35227578682,
+      "imageAcceptanceRunId": 35229311713,
+      "disposition": "superseded_by_source_drift",
+      "why": "Accepted and released for application c88f1034. Superseded because the application moved past it on canonical worker inputs and stayed there: ten Stripe/checkout commits had already changed src/app/api/expungement-ai/checkout/route.ts, src/lib/expungement-ai/consumer-packet-catalog.ts, consumer-payment-authority.ts, payment-adapter.ts and src/lib/stripe/server.ts before the accepted Production baseline 8682bd00, and this sprint's packet-collection, delivery-harness and Illinois carry-forward work added more. createWorkerInputPlan reported rebuildRequired against every candidate from 8682bd00 onward, so provider publication had been describing bytes the application no longer ran. Republished from the frozen candidate rather than regenerating the authority into a weaker state. Retained unchanged in GHCR; tag not moved."
+    },
     {
       "sourceSha": "35d33755045ee1825fc281ab0eb451d34bccec0a",
       "immutableRegistryDigest": "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
@@ -262,39 +270,27 @@
   ],
   "exactlyOnePublication": {
     "attemptThatPublished": 1,
-    "howItIsKnown": "Run 35227578682 succeeded on attempt 1; both source-SHA tag guard steps concluded success, so no pre-existing tag was overwritten."
+    "howItIsKnown": "Run 35413031376 succeeded on attempt 1; the tag guard ran before login and again at the last point before pushing, and both concluded success, so no pre-existing source-SHA tag was overwritten."
   },
-  "workerInputFingerprint": "sha256:36c9109540c8314886da58bba997df402b3a32c1a9e969e25b0097081da9a46d",
+  "workerInputFingerprint": "sha256:ef54b7ebbd547db9c24a7558b5c60ab7c327430169ace17997d0972f929088a2",
   "localVerificationDigest": null,
   "localVerificationDigestScope": "No pre-publication local container build was made for this source; the registry digest above is the only image identity.",
-  "imageAcceptanceAttempts": [
-    {
-      "workflowRunId": 35229311713,
-      "attempt": 1,
-      "conclusion": "success"
-    }
-  ],
+  "imageAcceptanceAttempts": [],
   "packageVisibility": "private",
-  "packageVisibilityEvidence": "Acceptance run 35229311713 re-proved it for this digest: the anonymous pull step concludes success only on refusal, and the authenticated pull by digest succeeded.",
+  "packageVisibilityEvidence": "Not yet re-proved for this digest; the acceptance run that proves it has not been recorded.",
   "publishedImagePlatform": {
     "os": null,
     "architecture": null,
     "manifestMediaType": null,
     "manifestSize": null,
     "configDigest": null,
-    "note": "Acceptance run 35229311713 pulled this image by digest and proved tag/digest identity, non-root execution, fail-closed startup without credentials, a real health command, graceful SIGTERM, a clean scratch directory and no baked secret. The platform triple and config digest were not read back into this record, so they stay null rather than being restated from a previous digest."
+    "note": "Not read back for this digest yet. Left null rather than restated from the superseded publication."
   },
-  "imageAcceptance": {
-    "workflowRunId": 35229311713,
-    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35229311713",
-    "workflowConclusion": "success",
-    "immutableRegistryDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
-    "sourceSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530"
-  },
+  "imageAcceptance": null,
   "previousImageAcceptance": {
-    "sourceSha": "35d33755045ee1825fc281ab0eb451d34bccec0a",
-    "immutableRegistryDigest": "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
-    "workflowRunId": 35176174783,
+    "sourceSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
+    "immutableRegistryDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
+    "workflowRunId": 35229311713,
     "workflowConclusion": "success"
   }
 }
