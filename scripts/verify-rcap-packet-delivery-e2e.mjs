@@ -743,6 +743,18 @@ try {
     await download.saveAs(target);
     assert(fs.readFileSync(target).equals(illinoisDelivery.bytes), `Illinois ${job.kind}: mobile browser received the exact pinned fixture`);
   }
+} catch (error) {
+  // A later lane throwing used to discard everything the earlier ones had
+  // already established, so a crash reported one stack trace and silently took
+  // every collected assertion with it. Report what was proven before the
+  // throw, then let the throw stand: a crash is still a failure.
+  if (failures.length > 0) {
+    console.error(`\nverify-rcap-packet-delivery-e2e: ${failures.length} assertion(s) had already failed before the error below:`);
+    for (const failure of failures) console.error(` - ${failure}`);
+  } else {
+    console.error("\nverify-rcap-packet-delivery-e2e: every assertion reached before the error below passed.");
+  }
+  throw error;
 } finally {
   if (browser) await browser.close();
   if (server) server.close();
