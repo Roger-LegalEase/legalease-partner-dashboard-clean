@@ -75,7 +75,13 @@ function setup() {
   for (const migration of ['20260901115000_consumer_packet_artifact_provenance','20260901120000_dtc_consumer_launch_rails',
     '20260901130000_consumer_private_delivery','20260901140000_tighten_consumer_artifact_authorization',
     '20260903130000_atomic_sponsored_packet_finalization','20260906120000_sponsored_route_render_transaction',
-    '20260906130000_verified_artifact_regeneration']) db.applyFile(`supabase/migrations/${migration}.sql`);
+    '20260906130000_verified_artifact_regeneration',
+    // The sponsored route's registration carries the packet specification's
+    // content digest, and the owner's Illinois carry-forward moved it. Without
+    // this the enqueue refuses with 'sponsored render route binding mismatch',
+    // which is the database being right about a registration nobody updated.
+    '20260919010000_illinois_carried_forward_specification_digest',
+  ]) db.applyFile(`supabase/migrations/${migration}.sql`);
   db.sql(`insert into partner_records values(${q(partnerId)},'il-clinic-sponsor');
     insert into partner_packet_entitlement(partner_id,packet_cap,overage_enabled,overage_cap) values(${q(partnerId)},20,false,0);
     insert into partner_entitlement(partner_slug,screenings_used,screenings_allowed,pause_at_cap,overage_enabled)
