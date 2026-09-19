@@ -285,7 +285,9 @@ const withClauses = patchedRenderer.renderCustomPleading({
   config: {
     ...referenceConfig,
     presentation: {
-      ...(referenceConfig.presentation ?? patchedRenderer.PA_DEFAULT_PRESENTATION),
+      // Every config states its own presentation; there is no shared default to
+      // fall back to, and an ND reference config always carries one.
+      ...referenceConfig.presentation,
       reliefClauses: ["(a) A lane-supplied relief clause;"],
       proposedOrderClauses: ["A lane-supplied operative paragraph."]
     }

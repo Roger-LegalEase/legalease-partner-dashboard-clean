@@ -17,10 +17,19 @@
 //   2. a null-sovereign config renders an ex parte caption: movant party only,
 //      no "v." line, no sovereign block, in both the caption and any proposed
 //      order;
-//   3. a null record custodian renders the bracketed placeholder and a warning,
-//      never a crash and never the word "null";
-//   4. the 18 reported documents are all present in the sweep — the regression
+//   3. a config that cannot state its court, its venue, or a custodian its
+//      proposed order directs REFUSES to render, naming why. It does not
+//      inherit another jurisdiction's, and it does not print a bracketed
+//      placeholder a participant could file;
+//   4. no non-PA document carries the word "Pennsylvania";
+//   5. the 18 reported documents are all present in the sweep — the regression
 //      cannot silently lose its subjects.
+//
+// Assertion 3 replaces an earlier one requiring a null custodian to render
+// "[RECORD CUSTODIAN TO BE CONFIRMED]". That assertion was guarded by
+// `!pres.usesCounty`, which excluded every config the Pennsylvania default was
+// corrupting, so it never fired on them. A proposed order naming a custodian it
+// cannot identify is not releasable, so the contract is refusal, not a blank.
 //
 //   node scripts/verify-rcap-no-null-presentation.mjs
 
@@ -113,6 +122,7 @@ function canonicalFixture(dir) {
 
 const seenTracks = new Set();
 let rendered = 0;
+let refused = 0;
 let nullSovereignRendered = 0;
 for (const doc of pleadingConfigs()) {
   const parsed = JSON.parse(fs.readFileSync(doc.cfgPath, "utf8"));
@@ -138,8 +148,46 @@ for (const doc of pleadingConfigs()) {
     check(false, `${doc.state}/${doc.track}: render threw (${error.message})`);
     continue;
   }
+  // A config that cannot state its court, venue or a directed custodian refuses.
+  // Refusal is the correct outcome, so it is asserted as such and is not counted
+  // as a render: a component that produced nothing must never look like one that
+  // produced a document.
+  const pres0 = cfg.presentation;
+  const custodianDirected = (pres0?.proposedOrderCustodianDirection ?? "required") === "required";
+  const mustRefuse = !pres0
+    || !String(pres0.courtName ?? "").trim()
+    || !String(pres0.venueDescriptor ?? "").trim()
+    || (cfg.includeProposedOrder && custodianDirected && !String(pres0.recordCustodianLead ?? "").trim())
+    || (cfg.includeProposedOrder && !custodianDirected && !(pres0.proposedOrderClauses?.length > 0));
+  if (!result.rendered) {
+    refused += 1;
+    check(mustRefuse, `${doc.state}/${doc.track}: refused to render but states a complete presentation`);
+    check((result.errors ?? []).length > 0, `${doc.state}/${doc.track}: refused without naming why`);
+    check((result.fullText ?? "") === "", `${doc.state}/${doc.track}: refused but still produced document text`);
+    continue;
+  }
+  check(!mustRefuse, `${doc.state}/${doc.track}: rendered a document although its presentation is incomplete`);
   rendered += 1;
   const text = result.fullText ?? "";
+
+  // The defect this file exists for, stated directly: no jurisdiction may
+  // inherit another's court, venue or record custodian. `usesCounty` used to
+  // select hard-coded Pennsylvania sentences, so every non-PA config with a
+  // county caption carried them.
+  //
+  // The marker is the word "Pennsylvania" itself, which reaches a non-PA
+  // document only by inheritance. It is deliberately not "Court of Common
+  // Pleas": Connecticut's own sourced venue text names that court, because
+  // Connecticut abolished it in 1978 and its venue statute still reaches
+  // convictions entered there. A court name another state genuinely cites is
+  // not contamination.
+  if (String(cfg.jurisdictionCode).toUpperCase() !== "PA") {
+    const pa = text.match(/Pennsylvania/i);
+    check(!pa, `${doc.state}/${doc.track}: rendered document carries Pennsylvania language near `
+      + JSON.stringify(text.slice(Math.max(0, (pa?.index ?? 0) - 60), (pa?.index ?? 0) + 60)));
+  }
+  check(!text.includes("[RECORD CUSTODIAN TO BE CONFIRMED]"),
+    `${doc.state}/${doc.track}: a proposed order carries a placeholder custodian; an unresolved custodian must refuse instead`);
   const hit = text.match(ESCAPED_VALUE);
   check(!hit, `${doc.state}/${doc.track}: rendered document contains the escaped literal ${JSON.stringify(hit?.[0])} near ${JSON.stringify(text.slice(Math.max(0, (hit?.index ?? 0) - 40), (hit?.index ?? 0) + 40))}`);
 
@@ -154,12 +202,6 @@ for (const doc of pleadingConfigs()) {
     check(!/^v\.$/m.test(fullTextNoBrackets.split("[PROPOSED] ORDER")[1] ?? ""),
       `${doc.state}/${doc.track}: null-sovereign proposed order still carries a "v." caption`);
   }
-  if (pres && pres.recordCustodianLead === null && cfg.includeProposedOrder && !pres.usesCounty) {
-    check(text.includes("[RECORD CUSTODIAN TO BE CONFIRMED]"),
-      `${doc.state}/${doc.track}: null record custodian did not render the to-be-confirmed placeholder`);
-    check((result.warnings ?? []).some((w) => /custodian/i.test(w)),
-      `${doc.state}/${doc.track}: null record custodian did not record a warning`);
-  }
 }
 
 for (const track of REPORTED_PLEADING_TRACKS) {
@@ -169,7 +211,16 @@ for (const prefix of REPORTED_COMPOSED_COMPONENT_PREFIXES) {
   check([...seenTracks].some((t) => t.startsWith(prefix) || t.includes(prefix)),
     `reported composed-route family ${prefix} is missing from the sweep`);
 }
-check(rendered >= 30, `only ${rendered} configs rendered; the sweep universe regressed`);
+// The universe is every config with a canonical fixture, and it must not shrink.
+// Rendering and refusing are both outcomes of it, so the floor sits on the sum:
+// a config that quietly stopped being swept would otherwise look like a refusal.
+check(rendered + refused >= 41,
+  `only ${rendered + refused} configs were exercised; the sweep universe regressed`);
+check(rendered >= 28, `only ${rendered} configs rendered; valid components must still render`);
+// Thirteen configs cannot state a court, a venue, or a custodian their proposed
+// order directs, and now refuse instead of inheriting Pennsylvania's or printing
+// a blank. A drop here means the fail-closed path was removed, not satisfied.
+check(refused >= 13, `only ${refused} configs refused; the incomplete-presentation refusal path went untested`);
 check(nullSovereignRendered >= 1, "no null-sovereign config rendered; the ex parte suppression path went untested");
 
 if (failures.length > 0) {

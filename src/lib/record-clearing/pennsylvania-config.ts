@@ -5,7 +5,33 @@ import {
   pennsylvaniaDisqualifyingOffenseNotes,
   pennsylvaniaPathwayLabels
 } from "../rcap/state-packs/pennsylvania";
-import type { PleadingTrackConfig } from "./renderers/custom-pleading-renderer";
+import type { PleadingPresentation, PleadingTrackConfig } from "./renderers/custom-pleading-renderer";
+
+/**
+ * Pennsylvania's own presentation, stated here like every other jurisdiction's.
+ *
+ * These strings were previously hard-coded inside the shared renderer and
+ * selected by `usesCounty: true`, which meant every non-PA route with a county
+ * caption silently received Pennsylvania's court, venue and record custodian.
+ * Moving them here is what lets that branch be deleted. The three values carry
+ * the renderer's "{county}" token so the rendered sentences are unchanged.
+ */
+export const pennsylvaniaPresentation: PleadingPresentation = {
+  sovereignPartyName: "COMMONWEALTH OF PENNSYLVANIA",
+  sovereignPartyProper: "the Commonwealth of Pennsylvania",
+  sovereignRole: "Respondent",
+  movantRole: "Petitioner",
+  filingNoun: "Petition",
+  divisionLine: "CRIMINAL DIVISION",
+  usesCounty: true,
+  courtName: "Court of Common Pleas of {county} County, Pennsylvania",
+  venueDescriptor: "{county} County, Pennsylvania",
+  recordCustodianLead: "The Pennsylvania State Police, {county} County Court of Common Pleas",
+  verificationVerb: "verify",
+  verificationPenaltyLabel: "the penalties for unsworn falsification to authorities",
+  serviceRecipientLabel: "the attorney for the Commonwealth",
+  serviceRecipientAddressLabel: "[ATTORNEY FOR COMMONWEALTH ADDRESS — CONFIRM WITH CLERK OF COURTS]"
+};
 
 export type PaPleadingTrack = "adult_expungement" | "adult_limited_access" | "adult_clean_slate";
 
@@ -32,6 +58,7 @@ export const pennsylvaniaExpungementConfig: PleadingTrackConfig = {
   trackId: "adult_expungement",
   templateGrade: "legal_ops_custom_pleading",
   templateLifecycle: "replacement_candidate",
+  presentation: pennsylvaniaPresentation,
   primaryReliefTerm: "expungement",
   documentTitleFull: "PETITION FOR EXPUNGEMENT PURSUANT TO Pa.R.Crim.P. 790",
   courtCaption: "IN THE COURT OF COMMON PLEAS",
@@ -69,6 +96,7 @@ export const pennsylvaniaLimitedAccessConfig: PleadingTrackConfig = {
   trackId: "adult_limited_access",
   templateGrade: "legal_ops_custom_pleading",
   templateLifecycle: "replacement_candidate",
+  presentation: pennsylvaniaPresentation,
   primaryReliefTerm: "limited access",
   documentTitleFull: "PETITION FOR LIMITED ACCESS (RECORD SEALING)",
   courtCaption: "IN THE COURT OF COMMON PLEAS",
@@ -98,6 +126,7 @@ export const pennsylvaniaCleanSlateConfig: PleadingTrackConfig = {
   trackId: "adult_clean_slate",
   templateGrade: "legal_ops_custom_pleading",
   templateLifecycle: "replacement_candidate",
+  presentation: pennsylvaniaPresentation,
   primaryReliefTerm: "Clean Slate",
   documentTitleFull: "CLEAN SLATE VERIFICATION NOTES — INFORMATIONAL ONLY, NOT A COURT FILING",
   courtCaption: "IN THE COURT OF COMMON PLEAS",

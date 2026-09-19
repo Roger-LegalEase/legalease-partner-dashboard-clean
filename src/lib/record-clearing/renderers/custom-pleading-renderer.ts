@@ -8,11 +8,20 @@ export interface PleadingStatute {
 /**
  * Jurisdiction-specific presentation strings for the pleading body.
  *
- * When a config omits `presentation`, the renderer falls back to
- * PA_DEFAULT_PRESENTATION, which preserves the original Pennsylvania output
- * byte-for-byte. New states (e.g. DC) supply a full presentation so the
- * caption, parties, venue, verification, service, and proposed-order text use
- * the correct sovereign, court, and vocabulary.
+ * EVERY jurisdiction supplies its own, Pennsylvania included. There is no
+ * default presentation and no fallback: a config that does not state its own
+ * court, venue and vocabulary cannot produce a court filing, and the renderer
+ * refuses rather than inheriting another state's.
+ *
+ * This used to fall back to a PA_DEFAULT_PRESENTATION, and `usesCounty` used to
+ * double as "this is Pennsylvania" — selecting hard-coded sentences naming the
+ * Pennsylvania Court of Common Pleas, Pennsylvania venue and the Pennsylvania
+ * State Police. Seven non-PA configs (IN x2, IL, TX x4) set `usesCounty: true`
+ * because their captions legitimately carry a county line, and every one of them
+ * received Pennsylvania's court, venue and record custodian in its filing while
+ * carrying correct sourced values of its own that the renderer never read.
+ * `data/rcap-all50/pleadings/indiana/manifest.json` records the resulting
+ * contamination in rendered Indiana output.
  */
 export interface PleadingPresentation {
   /**
@@ -32,18 +41,41 @@ export interface PleadingPresentation {
   filingNoun: string;
   /** Division line under the court name (e.g. "CRIMINAL DIVISION"). */
   divisionLine: string;
-  /** True when the caption/venue use a county line (PA); false for DC. */
+  /**
+   * True when the caption and proposed-order header carry a `COUNTY OF <name>`
+   * line. That is its ONLY meaning. It selects no sovereign, no court, no venue
+   * and no custodian — those come from the fields below, in every jurisdiction.
+   */
   usesCounty: boolean;
-  /** Full court name used in jurisdiction/venue when usesCounty is false. */
+  /**
+   * Full court name for the jurisdiction sentence, always used. A "{county}"
+   * token is replaced with the runtime county. Required and non-empty: an
+   * unstated court cannot be rendered into a filing.
+   */
   courtName: string;
-  /** Venue descriptor used when usesCounty is false (e.g. "the District of Columbia"). */
+  /**
+   * Venue descriptor for the venue sentence, always used, with the same
+   * "{county}" substitution. Required and non-empty.
+   */
   venueDescriptor: string;
   /**
-   * Lead record custodians for the proposed order when usesCounty is false.
-   * Null renders the bracketed to-be-confirmed placeholder (never the word
-   * "null", never an invented custodian) and records a warning.
+   * Lead record custodian directed by the proposed order, with "{county}"
+   * substitution.
+   *
+   * Null means the custodian is UNRESOLVED, not absent. A proposed order that
+   * directs a custodian it cannot name is not releasable, so a null here fails
+   * the render closed rather than printing a bracketed placeholder a participant
+   * could file. A route whose order genuinely carries no custodian direction
+   * says so explicitly with `proposedOrderCustodianDirection: "none"`.
    */
   recordCustodianLead: string | null;
+  /**
+   * Whether this component's proposed order directs a record custodian at all.
+   * Defaults to "required", so silence fails closed. "none" is a sourced
+   * statement that the order carries no custodian direction, and omits the
+   * clause instead of inventing or blanking one.
+   */
+  proposedOrderCustodianDirection?: "required" | "none";
   /** Verification verb phrase (e.g. "verify" / "declare under penalty of perjury"). */
   verificationVerb: string | null;
   /** Penalty label appended when a verification statute citation is present. */
@@ -93,23 +125,6 @@ export interface PleadingPresentation {
   proposedOrderClauses?: string[];
 }
 
-export const PA_DEFAULT_PRESENTATION: PleadingPresentation = {
-  sovereignPartyName: "COMMONWEALTH OF PENNSYLVANIA",
-  sovereignPartyProper: "the Commonwealth of Pennsylvania",
-  sovereignRole: "Respondent",
-  movantRole: "Petitioner",
-  filingNoun: "Petition",
-  divisionLine: "CRIMINAL DIVISION",
-  usesCounty: true,
-  courtName: "",
-  venueDescriptor: "",
-  recordCustodianLead: "",
-  verificationVerb: "verify",
-  verificationPenaltyLabel: "the penalties for unsworn falsification to authorities",
-  serviceRecipientLabel: "the attorney for the Commonwealth",
-  serviceRecipientAddressLabel: "[ATTORNEY FOR COMMONWEALTH ADDRESS — CONFIRM WITH CLERK OF COURTS]"
-};
-
 export interface PleadingTrackConfig {
   jurisdictionCode: JurisdictionCode;
   trackId: string;
@@ -124,8 +139,12 @@ export interface PleadingTrackConfig {
   includeCertificateOfService: boolean;
   serviceNote: string | null;
   counselFlags: string[];
-  /** Optional jurisdiction presentation; defaults to PA_DEFAULT_PRESENTATION. */
-  presentation?: PleadingPresentation;
+  /**
+   * This jurisdiction's own presentation. Required: there is no default and no
+   * inheritance. Configs authored as JSON bypass this type, so the renderer
+   * enforces it again at runtime.
+   */
+  presentation: PleadingPresentation;
 }
 
 export interface PleadingPartyData {
@@ -196,8 +215,35 @@ export interface PleadingRenderResult {
   errors: string[];
 }
 
-function resolvePresentation(config: PleadingTrackConfig): PleadingPresentation {
-  return config.presentation ?? PA_DEFAULT_PRESENTATION;
+/**
+ * Why a config cannot produce a court filing, or null when it can.
+ *
+ * Every branch here is a statement the component cannot make truthfully, so the
+ * answer is refusal rather than a placeholder: a bracketed blank in a caption or
+ * a proposed order is a document a participant can file, and filing a document
+ * that names no court, no venue or no custodian is worse than receiving none.
+ */
+function presentationRefusal(config: PleadingTrackConfig): string | null {
+  const pres = config.presentation;
+  if (!pres) {
+    return `${config.jurisdictionCode}:${config.trackId} states no presentation; a court filing cannot inherit another jurisdiction's court, venue or custodian.`;
+  }
+  if (!pres.courtName?.trim()) {
+    return `${config.jurisdictionCode}:${config.trackId} states no courtName; the jurisdiction sentence has no court to name.`;
+  }
+  if (!pres.venueDescriptor?.trim()) {
+    return `${config.jurisdictionCode}:${config.trackId} states no venueDescriptor; the venue sentence has no venue to name.`;
+  }
+  if (config.includeProposedOrder) {
+    const directed = (pres.proposedOrderCustodianDirection ?? "required") === "required";
+    if (directed && !pres.recordCustodianLead?.trim()) {
+      return `${config.jurisdictionCode}:${config.trackId} includes a proposed order directing a record custodian, but states none. An order that cannot name its custodian is not releasable; state the custodian, or record proposedOrderCustodianDirection: "none" where the order carries no custodian direction.`;
+    }
+    if (!directed && !(pres.proposedOrderClauses && pres.proposedOrderClauses.length > 0)) {
+      return `${config.jurisdictionCode}:${config.trackId} records proposedOrderCustodianDirection: "none" but supplies no proposedOrderClauses, which would render an order with no operative paragraph.`;
+    }
+  }
+  return null;
 }
 
 function defaultReliefAction(primaryReliefTerm: string): string {
@@ -210,7 +256,22 @@ function defaultOrderAction(primaryReliefTerm: string): string {
 
 export function renderCustomPleading(input: PleadingRenderInput): PleadingRenderResult {
   const warnings: string[] = [];
-  const pres = resolvePresentation(input.config);
+  const refusal = presentationRefusal(input.config);
+  if (refusal) {
+    return {
+      rendered: false,
+      templateGrade: input.config.templateGrade,
+      templateLifecycle: input.config.templateLifecycle,
+      shadowMode: input.shadowMode,
+      fullText: "",
+      sections: [],
+      attachmentList: [],
+      counselFlags: input.config.counselFlags,
+      warnings,
+      errors: [refusal]
+    };
+  }
+  const pres = input.config.presentation;
   const attachmentList = buildAttachmentList(input);
   const sections = buildSections(input, attachmentList, warnings);
   const footer = `---\nPrepared by ${pres.movantRole.toLowerCase()} using ${input.productName}. This is not an official court form.`;
@@ -246,7 +307,9 @@ function buildSections(
   warnings: string[]
 ): PleadingSection[] {
   const { config, partyData, caseData, chargeData, eligibilityData } = input;
-  const pres = resolvePresentation(config);
+  // renderCustomPleading refuses before calling this when the presentation is
+  // absent or incomplete, so it is present here.
+  const pres = config.presentation;
   const sections: PleadingSection[] = [];
   const county = caseData.countyName || "[COUNTY TO BE CONFIRMED]";
   const petitioner = partyData.petitionerName || "[PETITIONER NAME TO BE CONFIRMED]";
@@ -313,13 +376,11 @@ function buildSections(
   p += 1;
   const resolvedCourtName = pres.courtName.replace("{county}", county);
   const resolvedVenueDescriptor = pres.venueDescriptor.replace("{county}", county);
-  const jv1 = pres.usesCounty
-    ? `${p}. This Court has jurisdiction over this matter as the Court of Common Pleas of ${county} County, Pennsylvania, where the proceedings occurred.`
-    : `${p}. This Court has jurisdiction over this matter as the ${resolvedCourtName}, where the proceedings occurred.`;
+  // The court and the venue come from this jurisdiction's own presentation, in
+  // every jurisdiction. `usesCounty` no longer selects a Pennsylvania sentence.
+  const jv1 = `${p}. This Court has jurisdiction over this matter as the ${resolvedCourtName}, where the proceedings occurred.`;
   p += 1;
-  const jv2 = pres.usesCounty
-    ? `${p}. Venue is proper in this Court because the criminal proceedings that are the subject of this ${filingNounLower} occurred in ${county} County, Pennsylvania.`
-    : `${p}. Venue is proper in this Court because the criminal proceedings that are the subject of this ${filingNounLower} occurred in ${resolvedVenueDescriptor}.`;
+  const jv2 = `${p}. Venue is proper in this Court because the criminal proceedings that are the subject of this ${filingNounLower} occurred in ${resolvedVenueDescriptor}.`;
   sections.push({ sectionId: "jurisdiction_venue", heading: "I. JURISDICTION AND VENUE", text: [jv1, "", jv2].join("\n") });
 
   // II. Parties
@@ -504,11 +565,12 @@ function buildSections(
   // Proposed order (config-driven)
   if (config.includeProposedOrder) {
     const orderAction = pres.orderActionVerb ?? defaultOrderAction(config.primaryReliefTerm);
-    const custodianLead = pres.usesCounty
-      ? `The Pennsylvania State Police, ${county} County Court of Common Pleas`
-      : pres.recordCustodianLead;
-    if (!custodianLead) warnings.push("Record custodian not provided; the proposed order carries a to-be-confirmed placeholder.");
-    const resolvedCustodianLead = custodianLead ?? "[RECORD CUSTODIAN TO BE CONFIRMED]";
+    // The custodian comes from this jurisdiction's own presentation. An
+    // unresolved custodian refused the render before we reached here, so a
+    // "required" direction always has one; "none" omits the clause entirely
+    // rather than blanking it.
+    const custodianDirected = (pres.proposedOrderCustodianDirection ?? "required") === "required";
+    const resolvedCustodianLead = (pres.recordCustodianLead ?? "").replace("{county}", county);
     const arrestingAgency = chargeData.arrestingAgency || "[ARRESTING AGENCY]";
     const custodianClause = resolvedCustodianLead.includes(arrestingAgency)
       ? resolvedCustodianLead
@@ -534,9 +596,14 @@ function buildSections(
       "",
       ...(pres.proposedOrderClauses && pres.proposedOrderClauses.length > 0
         ? pres.proposedOrderClauses.flatMap((clause, index) => (index === 0 ? [clause] : ["", clause]))
-        : [
-          `${custodianClause}, and all other criminal justice agencies with records pertaining to this matter are hereby directed to ${orderAction} all records relating to the above-captioned matter.`
-        ]),
+        // The default operative paragraph directs a custodian, so it is only
+        // available to an order that has one. An order declaring no custodian
+        // direction supplies its own clauses, and refused the render otherwise.
+        : custodianDirected
+          ? [
+            `${custodianClause}, and all other criminal justice agencies with records pertaining to this matter are hereby directed to ${orderAction} all records relating to the above-captioned matter.`
+          ]
+          : []),
       "",
       "BY THE COURT:",
       "",
