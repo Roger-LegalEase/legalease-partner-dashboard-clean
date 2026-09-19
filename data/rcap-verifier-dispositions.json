@@ -3,12 +3,12 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 214,
-    "fix_then_wire": 113,
+    "keep_available": 215,
+    "fix_then_wire": 112,
     "wired": 202,
     "retire": 1,
     "blocked_on_family": 5,
-    "quarantine": 3,
+    "quarantine": 4,
     "wire": 4
   },
   "entries": {
@@ -1711,7 +1711,7 @@
       "disposition": "wire",
       "reason": "The census of what every route may charge for. It recounts from the current head -- 337 compiled pathways over 51 jurisdictions, every routeId distinct -- and drives the real resolver, payment adapter and job contract with a maximally permissive participant context, so that whatever refuses is the route rather than the participant. All 337 are refused by governCommercialAdmission: no price, no Checkout Session, no sponsored reservation, no packet-credit accounting, no attach, no delivery. It exists because the price surface was NOT asking the authority: createConsumerPaymentPlaceholder decided from packetRouteCanRender, a fact about a state that is true for every legacy_retired generator and every shadow factory_v2 route, plus a ledger that is not a Grade-A fulfillment record -- and one forged row there restored a live direct-consumer price on two routes that ADR-0004 retired. Five mutation cases hold it up, including that forged row. Wired on rcap-all50-handoff.yml; the originating commit put it in package.json, which is an image input.",
       "decidedBy": "recorded_decision",
-      "observedStatus": "orphan_broken"
+      "observedStatus": "orphan_passing"
     },
     "verify-rcap-colorado-juvenile-packet-boundary.mjs": {
       "disposition": "keep_available",
@@ -2687,8 +2687,8 @@
       "decidedBy": "generated"
     },
     "verify-rcap-session-13-terminalization.mjs": {
-      "disposition": "fix_then_wire",
-      "reason": "Red when executed: FAIL session 13 terminalization — 2 control(s) did not hold",
+      "disposition": "quarantine",
+      "reason": "Rewrites tracked files when run; verification must not mutate what it verifies.",
       "observedStatus": "orphan_broken",
       "decidedBy": "generated"
     },
@@ -2744,6 +2744,12 @@
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-sponsored-cap-controls.mjs": {
+      "disposition": "keep_available",
+      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
+      "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
     "verify-rcap-staging-authorization-readiness.mjs": {
