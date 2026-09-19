@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Briefcase, HelpCircle, LogIn, LogOut, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ExpungementWordmark } from "@/components/expungement-ai/ExpungementWordmark";
-import { LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
+import { LocalizedText, useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 
 export type ConsumerNavVariant = "marketing" | "app";
@@ -34,6 +34,7 @@ export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVa
         <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4">
           <ExpungementWordmark tone="dark" idSuffix="app" />
           <div className="flex items-center gap-2">
+            <LocaleSwitch light />
             <Link
               className="inline-flex min-h-10 items-center gap-2 rounded-md px-3 text-sm font-semibold text-[#5A6275] hover:bg-[#F1F4F9] hover:text-[#0B1320]"
               href="/briefcase"
@@ -60,6 +61,7 @@ export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVa
           <Link href="/expungement-ai#faq"><LocalizedText k="nav.questions" fallback="Questions" /></Link>
         </div>
         <div className="flex items-center gap-2">
+          <LocaleSwitch />
           <AuthControl isAuthenticated={isAuthenticated} />
           <Link className="inline-flex min-h-10 items-center gap-2 rounded-md px-3 text-sm font-semibold text-white/80 hover:bg-white/10 md:hidden" href="/expungement-ai/support" aria-label="Support">
             <HelpCircle className="h-4 w-4" aria-hidden="true" />
@@ -71,6 +73,59 @@ export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVa
         </div>
       </nav>
     </header>
+  );
+}
+
+/**
+ * EN / ES, on every inner consumer surface.
+ *
+ * The landing header has carried this control for some time; nothing else did.
+ * A participant who arrives straight at a screening, sign-in or Briefcase link
+ * — a state link, a partner link, a saved-progress resume link, a search result
+ * — never passes the landing page, so for them the product was English only
+ * even though every prompt, option, helper and error already has Spanish. It is
+ * placed here rather than on each surface because this header is what those
+ * surfaces share, and a per-surface copy would go missing on the next one
+ * added.
+ *
+ * It writes through the same locale store the landing control writes to, so the
+ * choice follows the participant across the whole journey and survives a
+ * reload. It is deliberately not a marketing-only affordance: it stays on the
+ * app bar, where the task is.
+ */
+function LocaleSwitch({ light = false }: { light?: boolean }) {
+  const { locale, setLocale, t: translate } = useLocalization();
+  const buttonClass = light
+    ? "min-h-10 rounded-md px-2 text-sm font-semibold text-[#5A6275] hover:bg-[#F1F4F9] aria-pressed:text-[#0B1320]"
+    : "min-h-10 rounded-md px-2 text-sm font-semibold text-white/70 hover:bg-white/10 aria-pressed:text-white";
+  return (
+    <div
+      className={`flex items-center ${light ? "text-[#5A6275]" : "text-white/50"}`}
+      role="group"
+      aria-label={translate("common.language_selector", "Choose language")}
+    >
+      <button
+        type="button"
+        data-lang="en"
+        className={buttonClass}
+        aria-label={translate("common.language_english", "Use English")}
+        aria-pressed={locale === "en"}
+        onClick={() => setLocale("en")}
+      >
+        EN
+      </button>
+      <span aria-hidden="true">/</span>
+      <button
+        type="button"
+        data-lang="es"
+        className={buttonClass}
+        aria-label={translate("common.language_spanish", "Usar español")}
+        aria-pressed={locale === "es"}
+        onClick={() => setLocale("es")}
+      >
+        ES
+      </button>
+    </div>
   );
 }
 

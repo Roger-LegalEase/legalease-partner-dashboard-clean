@@ -90,12 +90,20 @@ const TONE_ACCENT: Record<Tone, { eyebrow: string; chip: string }> = {
 // packet generator); this card just renders plain-English equivalents instead of engine language.
 const PACKET_READY_RESULT_CODES: ReadonlySet<ResultCode> = new Set<ResultCode>(["packet_ready", "packet_ready_with_caution"]);
 
-/** Plain, fixed next steps shown for any packet-ready outcome. */
-const PACKET_READY_NEXT_STEPS = [
-  "Save this result to your free Briefcase.",
-  "Complete the packet information.",
-  "Verify the packet facts before payment or covered generation.",
-  "Read the filing checklist before you file anything with the court."
+/**
+ * Plain, fixed next steps shown for any packet-ready outcome.
+ *
+ * Fixed interface copy, so each step carries its localization key. They used to
+ * be bare English strings rendered through the engine-text helper, which
+ * localizes what the ENGINE returns and has nothing to translate a constant
+ * with: in Spanish the whole list, including the step that says the facts are
+ * verified before payment, stayed English.
+ */
+const PACKET_READY_NEXT_STEPS: ReadonlyArray<{ key: string; fallback: string }> = [
+  { key: "result.next_step.save", fallback: "Save this result to your free Briefcase." },
+  { key: "result.next_step.complete_packet_information", fallback: "Complete the packet information." },
+  { key: "result.next_step.verify_before_payment", fallback: "Verify the packet facts before payment or covered generation." },
+  { key: "result.next_step.filing_checklist", fallback: "Read the filing checklist before you file anything with the court." }
 ];
 
 /** Pathways whose record-clearing route covers cases that did not end in a conviction. */
@@ -153,7 +161,11 @@ export function ScreeningResult({
   const showPacketAction = isPaymentAllowed(evaluation);
   const missing = evaluation.missingQuestionIds ?? [];
   const isPacketReady = PACKET_READY_RESULT_CODES.has(evaluation.resultCode);
-  const nextSteps = isPacketReady ? PACKET_READY_NEXT_STEPS : evaluation.nextSteps;
+  // Fixed copy is translated by key; engine text is passed through the engine-text
+  // helper, which is what that helper is for.
+  const nextSteps = isPacketReady
+    ? PACKET_READY_NEXT_STEPS.map((step) => translate(step.key, step.fallback))
+    : (evaluation.nextSteps ?? []).map((step) => safeUserFacingEngineText(step, { locale }));
   const routeLabelKey = routeLabelKeyForState(stateName, evaluation.pathwayId);
   const routeLabel = evaluation.pathwayLabel
     ? localizeText(evaluation.pathwayLabel)
@@ -244,7 +256,7 @@ export function ScreeningResult({
                 <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#EEF2F7] text-[11px] font-bold text-[#334155]">
                   {index + 1}
                 </span>
-                <span>{safeUserFacingEngineText(step, { locale })}</span>
+                <span>{step}</span>
               </li>
             ))}
           </ol>
@@ -255,9 +267,14 @@ export function ScreeningResult({
 
       {showPacketAction && !hasScreeningSession ? (
         <div className="mt-6 rounded-xl border border-[#E7F7F4] bg-[#F4FBFA] px-4 py-3">
-          <p className="text-sm font-bold text-[#0B5C54]">$50 one time when you are ready to generate this packet</p>
+          <p className="text-sm font-bold text-[#0B5C54]">
+            {translate("result.price_line", "$50 one time when you are ready to generate this packet")}
+          </p>
           <p className="mt-1 text-[13px] leading-5 text-[#475A6E]">
-            Save the matter to your free Briefcase, complete the packet information, and review it before payment.
+            {translate(
+              "result.price_sequence",
+              "Save the matter to your free Briefcase, complete the packet information, and review it before payment."
+            )}
           </p>
         </div>
       ) : null}

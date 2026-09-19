@@ -102,7 +102,9 @@ export interface SpecificationDocument {
   role: string;
   outputStrategy: string;
   requirement: string;
-  officialFormId?: string;
+  // A specification records "no official form" as `null`, not by omitting the
+  // key, so the absent and the explicitly-none cases stay distinguishable.
+  officialFormId?: string | null;
   documentContract?: Partial<DocumentContract>;
 }
 
@@ -112,7 +114,7 @@ export interface SpecificationDocument {
  * fails closed, because "I do not recognise this role" and "this is a filing"
  * are different statements.
  */
-const INSTRUMENT_BY_ROLE: Record<string, InstrumentClass> = {
+const INSTRUMENT_BY_ROLE: Partial<Record<string, InstrumentClass>> = {
   primary_filing: "participant_filing",
   enforcement_motion: "participant_filing",
   declaration_and_verification: "participant_filing",
@@ -240,7 +242,7 @@ export function documentContractFor(document: SpecificationDocument): DocumentCo
   const merged: DocumentContract = { ...derived, ...stated };
   const reasons = { ...(derived.unresolvedReasons ?? {}), ...(recorded.unresolvedReasons ?? {}) };
   for (const key of Object.keys(reasons)) {
-    if ((merged as Record<string, unknown>)[key] !== UNRESOLVED) delete reasons[key];
+    if (merged[key as keyof DocumentContract] !== UNRESOLVED) delete reasons[key];
   }
   merged.unresolvedReasons = reasons;
   return merged;

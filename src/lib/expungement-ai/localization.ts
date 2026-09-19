@@ -39,6 +39,45 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "common.hide": { en: "Hide", es: "Ocultar" },
   "common.support": { en: "Support", es: "Ayuda" },
 
+  // The language control on the inner consumer surfaces. It exists here, and
+  // not only on the landing header, because a participant who arrives straight
+  // at a screening, sign-in or Briefcase link never passes the landing page: if
+  // the only way to choose Spanish is a control they never see, the journey has
+  // an English-only fallback for exactly the people it was written for.
+  "common.language_selector": { en: "Choose language", es: "Elegir idioma" },
+  "common.language_english": { en: "Use English", es: "Usar inglés" },
+  "common.language_spanish": { en: "Usar español", es: "Usar español" },
+
+  // The packet-ready result. These four steps and the price block are fixed
+  // interface copy, not engine text, so they belong here: rendered through
+  // `safeUserFacingEngineText` they stayed English in Spanish, which put the
+  // price and the order of payment in front of a Spanish-speaking participant
+  // in a language they may not read. The English is unchanged.
+  "result.next_step.save": {
+    en: "Save this result to your free Briefcase.",
+    es: "Guarde este resultado en su Maletín gratuito."
+  },
+  "result.next_step.complete_packet_information": {
+    en: "Complete the packet information.",
+    es: "Complete la información del paquete."
+  },
+  "result.next_step.verify_before_payment": {
+    en: "Verify the packet facts before payment or covered generation.",
+    es: "Verifique los datos del paquete antes del pago o de la generación cubierta."
+  },
+  "result.next_step.filing_checklist": {
+    en: "Read the filing checklist before you file anything with the court.",
+    es: "Lea la lista de presentación antes de presentar algo ante el tribunal."
+  },
+  "result.price_line": {
+    en: "$50 one time when you are ready to generate this packet",
+    es: "$50 una sola vez cuando esté listo para generar este paquete"
+  },
+  "result.price_sequence": {
+    en: "Save the matter to your free Briefcase, complete the packet information, and review it before payment.",
+    es: "Guarde el asunto en su Maletín gratuito, complete la información del paquete y revísela antes del pago."
+  },
+
   "screening.free_screening": { en: "Free screening", es: "Revisión gratis" },
   "screening.where_record": { en: "Where is the record?", es: "¿Dónde está el antecedente?" },
   "screening.state_picker_body": {

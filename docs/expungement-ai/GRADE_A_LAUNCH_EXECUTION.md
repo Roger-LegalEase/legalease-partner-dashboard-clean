@@ -46,7 +46,8 @@ lane, no agent swarm.
 | `dc-correct-misattributed-arrest` has a specification but no packet plan | 3 | `READY` | The one specification of nineteen whose pathway the planner cannot plan, so collection has nothing to ask. DC is noncommercial on this route; repair with the DC rows in Phase 3 |
 | GA-5-MS reapply the reverted `routeKeys` binding fix | 3 | `ACTIVE` | 132C. Reverted earlier to hold `rebuildRequired:false`; that is no longer the accepted end state |
 | GA-5-OR Oregon `caseMode` unresolved | 3 | `READY` | Moved here from 4.2 by owner instruction. The authority does not say whether the set-aside opens a new case or files into the existing one; the value stays `unresolved` and the component stays non-releaseable. Not a shared-contract question, and `existing_case`/`new_case` is not to be invented for it |
-| GA-6.2 real browser packet-information journey | 2 | `ACTIVE` | Mississippi original journey first, then activated conditional and high-friction cases, save/resume, Review/Edit, EN/ES, mobile and keyboard |
+| GA-6.2 real browser packet-information journey | 2 | `ACTIVE` | Anonymous half done (see Done). The authenticated half — builder, save/resume, Review/Edit, activated conditional cases, no surprise post-payment intake — needs a hosted origin and an account; see External blockers |
+| GA-6.2-ES filing-readiness copy has no Spanish | 2 | `READY` | `route-product-metadata.json` carries 354 filing-readiness and external-document strings as plain strings with no `translations.es`; only the ones whose exact English happens to sit in `EXPUNGEMENT_COPY` resolve. Some are enum tokens the copy audit miscounts (`guidance_only`), but participant-visible instructions such as "File the TF-810 request at your local Alaska trial court" are genuinely English-only. §6.2 exit condition names this ("no English-only fallback"); sizing it is a translation task across jurisdictions, not a browser-acceptance fix, and the strings name forms, courts and procedures, so they are not to be machine-translated |
 
 ## External blockers
 
@@ -58,6 +59,7 @@ lane, no agent swarm.
 | GA-8-127 nine patch successors + CA carrier | 3 | Adopt successor bytes; authorize re-freezing the correction assignment | Roger |
 | GA-8-22E1 corpus mount | 3 | Master Library (28 sources) + complete 583-file Nationwide package at their declared paths | Source custodian |
 | GA-10 push target and hosted-acceptance token role | 6 | Resolve branch target; grant Auth Config read-write on `hyflxnlhpmiqxvvcoiia` | Roger |
+| GA-6.2 authenticated journey credentials | 2 | A hosted origin plus `DTC_BROWSER_BASE_URL` / `DTC_BROWSER_EMAIL` / `DTC_BROWSER_PASSWORD` so `verify-expungement-commercial-browser.mjs` can run. Everything past the claim needs a Supabase account; the anonymous half runs locally with no credentials | Roger |
 
 ## Done
 
@@ -67,6 +69,7 @@ lane, no agent swarm.
 | GA-4.3 cross-jurisdiction presentation fallback removed | 1 | 13 configs now refuse; PA byte-identical 3/3; 190 checks |
 | GA-4.4 product branding removed from court-facing documents | 1 | renderer 1.0.0 -> 2.0.0; QA rule inverted; ND footer now audience-driven |
 | GA-4.2 shared document contract | 1 | 12 attributes on all 76 documents across 19 specifications, populated from `legal-design-packet-set-manifests.json`; consumed by the renderer and refused at the fulfillment boundary; 203 checks, four invariants each mutation-tested. Oregon `caseMode` moved to Phase 3 as a route question |
+| GA-6.2 anonymous journey in a real browser, four ways | 2 | `verify-expungement-anonymous-journey-browser.mjs`, run against a local dev server. The original Mississippi non-conviction route completes identically desktop/English, on a 390px phone (0px horizontal overflow), keyboard-only, and in Spanish. The free check asks **7** option-only questions, **0** free-text or date controls, **0** exact packet facts, and never requests checkout; the priced result states $50 and that the facts are verified before payment. Two English-only fallbacks found and fixed: no language control on any inner surface, and six result lines — including the price and the payment sequence — that stayed English in Spanish. Both mutation-proven to fail the check |
 | GA-6.1 no required participant-owned render fact after Checkout | 2 | **0 nationwide.** 538 checks in `verify-rcap-prepurchase-render-facts.mjs`: 13 reachable routes with a registered specification, 172 participant-owned specification facts, all in the pre-Checkout gate or excused with a recorded disposition (MS non-conviction excuses 5, all `derived`). Two route-level mutations proven to fail the check. No product change was warranted — see below |
 | Memo lineage restoration (32) | — | `e1834aac7`; sweep step 154 |
 | Resolution-lane sidecar (33) | — | `d01cc0e30`; steps 155, 158 |
@@ -125,6 +128,10 @@ One sentence each. No investigation beyond bucket assignment.
 - `verify-rcap-session-13-terminalization.mjs` rewrites tracked files when run (now `quarantine`).
 - The `postpay_*` question-lifecycle names and `postPaymentPacketCompletion` read as a payment boundary but are a journey-section boundary; renaming them would touch a public contract union and is not launch-affecting.
 - `missingProductFactIds` in the evaluator is a Wisconsin-only hardcoded precondition list where a route-contract lookup would do.
+- `scripts/test-expungement-checkout-guards.mjs` cannot resolve `@/lib/server-runtime-environment` through its own mock map and fails on a clean tree; it is in the `npm test` chain.
+- `data/expungement-ai/reports/plain-language-copy-audit.json` was generated on 2026-07-01 against a different tree (branch `unknown`); regenerating it moves ~8.6k lines, so its counts should not be quoted until it is refreshed deliberately.
+- The route's own legal label ("Non-conviction expungement for dismissal, no disposition, or acquittal") stays English on the Spanish result; translating the name of a statutory path is a legal-copy decision, not an interface one.
+- `court_requirements_completed` renders its optional badge with no separator, so its accessible name reads "...in this case?OPTIONAL" / "...este caso?OPCIONAL".
 
 ## Owner-only decisions
 
