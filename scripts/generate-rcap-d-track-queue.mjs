@@ -203,7 +203,43 @@ const CANDIDATE_TREATMENTS = new Set([
   "held_on_source_or_design"
 ]);
 
-if (map.tracks.length !== 67) fail(`expected 67 D tracks, found ${map.tracks.length}`);
+// The expected count is the map's OWN declared scope, not a literal repeated
+// here. The map states how many D tracks it covers in three independent
+// places -- scope.expectedTracks, scope.uniqueTracks and
+// verification.exactly67Tracks -- so comparing the array against its own
+// declaration is a cross-check rather than a tautology, and it follows the
+// map instead of having to be re-pinned whenever the lane legitimately grows.
+//
+// When they disagree, say WHICH entries are the problem. The bare count
+// ("expected 67, found 68") invites the one fix that must not happen: bumping
+// the literal. A D track has a known shape, so an entry missing most of it is
+// not a 68th D track, it is a record of some other kind in the wrong array.
+const declaredTracks = map.scope?.expectedTracks ?? map.scope?.uniqueTracks ?? null;
+if (declaredTracks === null) fail("the track-family map declares no expected track count in its scope");
+if (map.tracks.length !== declaredTracks) {
+  // The D-track shape, taken from the entries themselves: every field that at
+  // least four fifths of the array carries.
+  const frequency = new Map();
+  for (const track of map.tracks) {
+    for (const field of Object.keys(track)) frequency.set(field, (frequency.get(field) ?? 0) + 1);
+  }
+  const required = [...frequency.entries()]
+    .filter(([, count]) => count >= map.tracks.length * 0.8)
+    .map(([field]) => field);
+  const nonConforming = map.tracks
+    .filter((track) => required.some((field) => !(field in track)))
+    .map((track) => {
+      const missing = required.filter((field) => !(field in track));
+      return `${track.trackId ?? "(no trackId)"} is missing ${missing.length} of the ${required.length} fields a D track carries (${missing.slice(0, 4).join(", ")}${missing.length > 4 ? ", …" : ""})`;
+    });
+  fail(
+    `the map's scope declares ${declaredTracks} D tracks and its tracks array holds ${map.tracks.length}` +
+      (nonConforming.length > 0
+        ? `; ${nonConforming.length} entr${nonConforming.length === 1 ? "y does" : "ies do"} not have the shape of a D track: ${nonConforming.join("; ")}`
+        : "; every entry has the shape of a D track, so the scope declaration is what moved") +
+      ". Do not reconcile this by editing the count."
+  );
+}
 if (new Set(map.tracks.map((t) => t.trackId)).size !== map.tracks.length) fail("a D track id appears more than once");
 
 const tracks = [];
