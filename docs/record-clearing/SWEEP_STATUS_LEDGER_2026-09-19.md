@@ -42,14 +42,16 @@ These stay **explicitly fail-closed** and move out of the way. None blocks
 shipping routes whose authority is already proven; each returns to the queue only
 if its jurisdiction or route is being declared live in this release.
 
-`1/122` · `12` · `22E-1` · `22E-2` findings 3/4 · `32` · `33` · `36B` ·
+`1/122` · `12` · `22E-1` · `22E-2` finding 2 (owned by step 5) · `32` · `33` · `36B` ·
 the six step-41 owner adjudications
 
 ## Backlog, not holds
 
-- 22E-2 findings 3 and 4 — attachment and download both have Grade-A gates ahead
-  of their effects, and no execution probe has shown an unauthorized side effect.
-  Mocked side-effect tests would add confidence, not answer a release question.
+- 22E-2 findings 3 and 4 are **CLOSED** by direct attachment/delivery side-effect
+  controls, not backlogged: attachment refused for both unauthorized controls and
+  admitted for the proven one with zero writes and zero RPC, and `briefcase_ready`
+  (readiness presentation) separated from `private_download` / `repeat_download`
+  (delivery authority), all denied for the unauthorized controls.
 - the price-surface mutation, honestly `undetected` — re-aim it when someone is
   next in that file.
 - the tracked `__pycache__` that dirties the tree on every Python test run.
