@@ -47,7 +47,7 @@ decision and refused on every sponsored and credit surface.
 | 58 | Green. Control follows the workflow's stronger Git-resolved SHA | |
 | 106 | Green. One evidence-input fingerprint re-recorded; no eligibility movement | |
 | 142 | Green. 72 pass, 6 skipped naming the unmounted Master Library | |
-| 144 | Green. Drifted-receipt subject derived, not named | |
+| 144 | Green. Drifted-receipt subject derived, not named. **The verifier is fixed; the rejected receipt it discovered was a separate live product-state defect, now owned by 132 and withdrawn in its stage 1.** "144 green" never meant the receipt was repaired | |
 
 ## The 17 open, by disposition
 
@@ -55,7 +55,7 @@ decision and refused on every sponsored and credit surface.
 
 | Step | Finding | State |
 |---|---|---|
-| **132** | MS municipal approved-route specification-binding mismatch | `SHARED_SPEC_EXPLICITLY_AUTHORIZED`. The specification declares both routes in `routeKeys`, cites §§ 9-11-15(3) **and** 21-23-7(6) as parallel provisions, and forbids a sibling route; `consumerSpecificationBinding` compares the singular `pathwayId` instead. **Ordering constraint: the family's live RASTER_PASS is bound to the owner-REJECTED canonical `3c7588be…` and was never withdrawn — withdraw and re-raster against the approved `c2938658…` BEFORE honouring `routeKeys`, or the fix opens checkout on rejected acceptance evidence.** Record: `MUNICIPAL_ROUTE_BINDING_AUDIT_132_2026-09-19.md` |
+| **132** | MS municipal approved-route specification-binding mismatch | `SHARED_SPEC_EXPLICITLY_AUTHORIZED`, held in two stages. **Stage 1 DONE** — the RASTER_PASS bound to the owner-REJECTED canonical `3c7588be…` is withdrawn and kept as history; repo-wide receipt drift is now zero. **Stage 2 BLOCKED** — fresh acceptance evidence for the approved canonical `c2938658…` requires a `workflow_dispatch` run of `rcap-packet-raster-acceptance-batch.yml` on a Chrome runner, whose `workflowRunId`/`jobId`/`artifactId` cannot be manufactured here. Only then may `consumerSpecificationBinding` be corrected to honour the spec's plural `routeKeys`. Records: `MUNICIPAL_ROUTE_BINDING_AUDIT_132_2026-09-19.md` |
 | **61** | CA 1203.4a packet implementation complete; legal/owner adoption pending; fail-closed | `LEGAL_DECISION_REQUIRED`. Packet complete, proven and raster-passed; output legal approval is `REQUESTED` and ungranted, and no CA record exists in the fulfillment registry. Record: `ROUTE_TREATMENT_AUDIT_61_CA_1203_4A_2026-09-19.md` |
 | **5** | Approved-state record reconciliation required; patch 11 additionally requires owner adjudication of an intentional architecture change | Nine `SEMANTICALLY_EQUIVALENT_BUT_UNRECORDED` or `STRONGER_CONTROL_UNRECORDED`; **patch 11 `checkout/route.ts` is `AUTHORITY_CONFLICT`** — the approved control named two independent guards and one remains. No digest is eligible for rollover. Record: `AUTHORITY_RECONSTRUCTION_5A_5B_2026-09-19.md` |
 | **5B** | CA `ca-diversion-seal-primary-filing-2` dependency carrier | `APPROVED_SUCCESSOR_PROVEN` — produced by owner determination `DET-DT-CA-CRM307-001`, strictly narrowing. The stale digest lives in the frozen correction assignment, a different artifact; re-freezing it needs its own authority |
@@ -93,6 +93,15 @@ decision and refused on every sponsored and credit surface.
 | 32 | PA, RI, VA, VT memos differ from `origin/feat/record-clearing-production-integration` | Source fidelity; needs an ownership decision on which side is authoritative |
 | 123 | Oregon: three configurations exist, superseded route recorded, none commercially open, and then `INCOMPLETE / not_commercially_eligible / eligible 6` | Needs a terminal statement of the Oregon position |
 | 131 | `ND:first-offense-possession-sealing` has no packet fulfillment record; the verifier refuses to invent one | Correct behaviour, but "correctly refusing" is not a disposition. ND needs a terminal source/ownership decision |
+
+## 132 terminal condition
+
+132 goes green only when all four hold:
+
+1. approved canonical bytes on disk — **true now** (`c2938658…`);
+2. a fresh, non-rejected acceptance receipt bound to those exact bytes — **blocked**, needs the raster acceptance workflow;
+3. `consumerSpecificationBinding` honouring the specification's explicit `routeKeys`, with no Mississippi special case and no literal pathway added;
+4. commercial regression tests proving no sibling route is accidentally admitted.
 
 ## Completion standard
 
