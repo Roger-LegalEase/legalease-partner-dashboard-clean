@@ -88,6 +88,22 @@ for (const track of memoTracks) {
 //    published a sum that was short by exactly that.
 // ---------------------------------------------------------------------------
 
+/*
+ * Resolution lanes live OUTSIDE the memo corpus.
+ *
+ * The memos are Grade-A fulfillment evidence: adding a field to one invalidates
+ * the registry's evidence binding and forces a regeneration that revokes
+ * commercial authority. A bookkeeping field must never cost that, so the lane
+ * is recorded in its own file and read here.
+ */
+const RESOLUTION_LANES = (() => {
+  const file = path.join(root, "data/record-clearing/question-resolution-lanes.json");
+  if (!fs.existsSync(file)) return new Map();
+  return new Map((JSON.parse(fs.readFileSync(file, "utf8")).lanes ?? [])
+    .map((entry) => [entry.trackId, entry.resolutionLane]));
+})();
+const laneFor = (trackId) => RESOLUTION_LANES.get(trackId) ?? null;
+
 const QUESTION_OWNER = {
   counsel_confirmation_required: "counsel",
   explicit_state_addendum: "source_acquisition",
@@ -115,7 +131,7 @@ for (const track of memoTracks) {
      * A question may instead state its own `resolutionLane`, which is read here
      * and leaves provenance untouched.
      */
-    const owner = question.resolutionLane ?? QUESTION_OWNER[basis];
+    const owner = question.resolutionLane ?? laneFor(track.trackId) ?? QUESTION_OWNER[basis];
     if (!owner) uncategorized.push({ jurisdiction: track.jurisdiction, trackId: track.trackId, basis });
     byOwner[owner ?? "(unmapped)"] = (byOwner[owner ?? "(unmapped)"] ?? 0) + 1;
     const element = question.affectedElement ?? "(unstated)";
