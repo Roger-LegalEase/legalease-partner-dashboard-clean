@@ -34,9 +34,73 @@
  *   node scripts/generate-routekind-authority-consistency.mjs --check
  */
 
+import { register } from "node:module";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+register("../scripts/lib/ts-esm-loader.mjs", import.meta.url);
+
+// The audit asks the RUNTIME what happens, rather than reasoning about it from
+// ledgers. These are the exact functions the checkout path calls.
+const { packetFulfillmentAuthority } = await import("@/lib/expungement-ai/packet-fulfillment-authority");
+const { resolvePacketRoute, packetRouteCanRender } = await import("@/lib/rcap/documents/packet-route-resolver");
+
+/**
+ * The gate order inside assertCheckoutAllowed, read from payment-adapter.ts.
+ * Order matters to this audit: assertPacketFulfillmentProven runs INSIDE
+ * assertPacketRouteCanDeliver, before resolvePacketRoute is consulted at all,
+ * and again immediately after. So a route with no Grade-A fulfillment record
+ * never reaches the routeKind test, whatever its kind says.
+ */
+const CHECKOUT_GATE_ORDER = [
+  "assertNotExactDeferral",
+  "assertNotComponentDeferral",
+  "assertNotTerminalTreatment",
+  "assertPacketRouteCanDeliver -> assertPacketFulfillmentProven (participant delivery)",
+  "assertPacketRouteCanDeliver -> packetRouteCanRender (this is where routeKind is read)",
+  "assertPacketFulfillmentProven (checkout creation)",
+  "packetType / jurisdiction / paymentAllowed / isConsumerPaymentAllowed"
+];
+
+/** What the runtime actually does with this route, gate by gate. */
+function auditGates(jurisdiction, pathwayId) {
+  let fulfillment;
+  try {
+    fulfillment = packetFulfillmentAuthority(jurisdiction, pathwayId, "checkout creation", {});
+  } catch (error) {
+    fulfillment = { allowed: false, reason: `threw: ${error.message}` };
+  }
+  let canRender = null;
+  try {
+    canRender = packetRouteCanRender(resolvePacketRoute({ state: jurisdiction, pathway: pathwayId }));
+  } catch (error) {
+    canRender = null;
+  }
+  const firstRefusal = !fulfillment.allowed
+    ? "assertPacketFulfillmentProven"
+    : canRender !== true
+      ? "packetRouteCanRender"
+      : null;
+  return {
+    gradeAFulfillmentProven: fulfillment.allowed === true,
+    fulfillmentRefusalReason: fulfillment.allowed ? null : (fulfillment.reason ?? fulfillment.missing ?? "not proven"),
+    routeKindWouldPermitRender: canRender === true,
+    firstGateThatRefuses: firstRefusal,
+    reachesPaymentAllowedCheck: firstRefusal === null
+  };
+}
+
+/**
+ * The factual classification Roger asked for. It is decided by what the gates
+ * do, not by what any ledger says about them.
+ */
+function classify(gates, adjudicated) {
+  if (adjudicated) return "AUTHORIZED_FACTORY_V2";
+  if (gates.reachesPaymentAllowedCheck) return "UNRESOLVED_AND_LOAD_BEARING";
+  if (gates.firstGateThatRefuses === "assertPacketFulfillmentProven") return "TECHNICAL_ONLY_SAFE";
+  return "UNRESOLVED_BUT_CURRENTLY_REFUSED";
+}
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = "data/rcap-ledger/routekind-authority-consistency.json";
@@ -82,6 +146,7 @@ function describe(pathwayKey, previouslyReported, nowReported) {
   const resolved = row?.route?.routeKind ?? null;
 
   const adjudicated = Boolean(adj && adj.status && adj.status !== "pending" && adj.adjudicatedOn);
+  const gates = auditGates(pathwayKey.split(":")[0], pathwayKey.slice(pathwayKey.indexOf(":") + 1));
   // Load-bearing means the kind decides deliverability at checkout. Every kind
   // does, because payment-adapter refuses on whatever value it is handed; what
   // differs is whether the refusal or the permission is the consequence.
@@ -114,6 +179,8 @@ function describe(pathwayKey, previouslyReported, nowReported) {
     packetFamilies: join?.packetFamilies ?? [],
     familyBridgePresent: join?.familyBridgePresent ?? null,
     admittedToFactoryV2Registry: admitted.has(pathwayKey),
+    runtimeGates: gates,
+    classification: classify(gates, adjudicated),
     deliverabilityConsequence: permitsDelivery
       ? "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds"
       : `resolution returns ${JSON.stringify(resolved)}, so the checkout path refuses this route on routeKind grounds`,
@@ -181,6 +248,24 @@ const next = {
     byJurisdiction: [...new Set(rows.map((r) => r.jurisdiction))].sort()
   },
   loadBearingAndUnadjudicated: loadBearing.map((r) => r.pathwayKey),
+  checkoutGateOrder: CHECKOUT_GATE_ORDER,
+  whatTheRuntimeActuallyDoes: {
+    question:
+      "Can factory_v2 materially advance a route toward consumer checkout without an independently proven legal/commercial approval?",
+    answer:
+      "No, for every route audited. assertPacketFulfillmentProven runs inside assertPacketRouteCanDeliver BEFORE resolvePacketRoute is consulted, and again immediately after. A route with no Grade-A fulfillment record is refused before its routeKind is ever read, so factory_v2 cannot stand in for the approval.",
+    measuredNotAssumed:
+      "Each row's runtimeGates block is produced by calling the same packetFulfillmentAuthority and packetRouteCanRender the checkout path calls.",
+    classificationCounts: rows.reduce((acc, r) => {
+      acc[r.classification] = (acc[r.classification] ?? 0) + 1;
+      return acc;
+    }, {}),
+    routesReachingThePaymentCheck: rows.filter((r) => r.runtimeGates.reachesPaymentAllowedCheck).map((r) => r.pathwayKey),
+    theGateThatHolds:
+      "assertPacketFulfillmentProven, which requires a Grade-A fulfillment record keyed to the exact route and packet family -- the only source of commercial authority the repository recognises.",
+    ifThatGateEverWeakens:
+      "Every route in this inventory would fall through to the routeKind test, which currently returns factory_v2 for all of them and would permit render. The fulfillment gate is the whole of the protection here, so it is the thing to watch rather than the routeKind."
+  },
   owner: "legal and route-authority lane, with the owner deciding which representation is wrong",
   doNotResolveHere:
     "This is not repaired by editing a report, a registry or a resolver to agree with the other. The authoritative source decides, and until it does neither representation wins by inertia.",
@@ -191,12 +276,29 @@ const serialized = `${JSON.stringify(next, null, 2)}\n`;
 const outPath = path.join(rootDir, OUT);
 
 if (check) {
+  // The tripwire. Today every audited route is refused by the fulfillment gate
+  // before its routeKind is read, which is the only reason an unadjudicated
+  // factory_v2 is harmless. If that ever stops being true for any route, this
+  // says so loudly instead of leaving it to be noticed later -- and it is a
+  // report, not a new boundary: the boundary that holds is the one already in
+  // assertCheckoutAllowed.
+  const reaching = rows.filter((r) => r.runtimeGates.reachesPaymentAllowedCheck);
+  if (reaching.length > 0) {
+    console.error(
+      `UNRESOLVED_AND_LOAD_BEARING: ${reaching.length} route(s) now pass every gate ahead of the paymentAllowed check ` +
+        "while their routeKind is unadjudicated. factory_v2 is standing in for an authority decision nobody made."
+    );
+    for (const r of reaching) console.error(`  - ${r.pathwayKey}`);
+    process.exit(1);
+  }
   if (!fs.existsSync(outPath) || fs.readFileSync(outPath, "utf8") !== serialized) {
     console.error("the routeKind authority consistency inventory is stale; re-run without --check");
     process.exit(1);
   }
   console.log(
-    `routeKind authority consistency current. ${next.totals.routesExamined} route(s) examined, ${next.totals.loadBearingAndUnadjudicated} load-bearing and unadjudicated.`
+    `routeKind authority consistency current. ${next.totals.routesExamined} route(s) examined, ` +
+      `${next.totals.loadBearingAndUnadjudicated} load-bearing and unadjudicated, ` +
+      "0 reaching the paymentAllowed check."
   );
   process.exit(0);
 }

@@ -74,6 +74,26 @@
     "SC:general-sessions-non-conviction-expungement",
     "UT:path-j-cannabis-possession-petition-without-a-bci-certificate"
   ],
+  "checkoutGateOrder": [
+    "assertNotExactDeferral",
+    "assertNotComponentDeferral",
+    "assertNotTerminalTreatment",
+    "assertPacketRouteCanDeliver -> assertPacketFulfillmentProven (participant delivery)",
+    "assertPacketRouteCanDeliver -> packetRouteCanRender (this is where routeKind is read)",
+    "assertPacketFulfillmentProven (checkout creation)",
+    "packetType / jurisdiction / paymentAllowed / isConsumerPaymentAllowed"
+  ],
+  "whatTheRuntimeActuallyDoes": {
+    "question": "Can factory_v2 materially advance a route toward consumer checkout without an independently proven legal/commercial approval?",
+    "answer": "No, for every route audited. assertPacketFulfillmentProven runs inside assertPacketRouteCanDeliver BEFORE resolvePacketRoute is consulted, and again immediately after. A route with no Grade-A fulfillment record is refused before its routeKind is ever read, so factory_v2 cannot stand in for the approval.",
+    "measuredNotAssumed": "Each row's runtimeGates block is produced by calling the same packetFulfillmentAuthority and packetRouteCanRender the checkout path calls.",
+    "classificationCounts": {
+      "TECHNICAL_ONLY_SAFE": 32
+    },
+    "routesReachingThePaymentCheck": [],
+    "theGateThatHolds": "assertPacketFulfillmentProven, which requires a Grade-A fulfillment record keyed to the exact route and packet family -- the only source of commercial authority the repository recognises.",
+    "ifThatGateEverWeakens": "Every route in this inventory would fall through to the routeKind test, which currently returns factory_v2 for all of them and would permit render. The fulfillment gate is the whole of the protection here, so it is the thing to watch rather than the routeKind."
+  },
   "owner": "legal and route-authority lane, with the owner deciding which representation is wrong",
   "doNotResolveHere": "This is not repaired by editing a report, a registry or a resolver to agree with the other. The authoritative source decides, and until it does neither representation wins by inertia.",
   "rows": [
@@ -102,6 +122,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "AL:human-trafficking-victim-expungement: NO_RECORD. No Grade-A fulfillment record binds AL:human-trafficking-victim-expungement; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -130,6 +158,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051: NO_RECORD. No Grade-A fulfillment record binds AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -158,6 +194,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "CO:petition-based-conviction-sealing-jdf-612-24-72-706: NO_RECORD. No Grade-A fulfillment record binds CO:petition-based-conviction-sealing-jdf-612-24-72-706; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -190,6 +234,14 @@
       ],
       "familyBridgePresent": true,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "CT:absolute-pardon-resulting-in-erasure: NO_RECORD. No Grade-A fulfillment record binds CT:absolute-pardon-resulting-in-erasure; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": false,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns \"guidance_only\", so the checkout path refuses this route on routeKind grounds",
       "inconsistency": "UNADJUDICATED_BUT_REFUSED"
     },
@@ -218,6 +270,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "FL:court-ordered-sealing-943-059: NO_RECORD. No Grade-A fulfillment record binds FL:court-ordered-sealing-943-059; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -250,6 +310,14 @@
       ],
       "familyBridgePresent": true,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "HI:first-time-drug-conviction: NO_RECORD. No Grade-A fulfillment record binds HI:first-time-drug-conviction; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -282,6 +350,14 @@
       ],
       "familyBridgePresent": true,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "KS:municipal-arrest-record-expungement-under-12-4516a: NO_RECORD. No Grade-A fulfillment record binds KS:municipal-arrest-record-expungement-under-12-4516a; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -310,6 +386,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "LA:first-offender-pardon-felony-expungement: NO_RECORD. No Grade-A fulfillment record binds LA:first-offender-pardon-felony-expungement; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -338,6 +422,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "LA:human-trafficking-survivor-expungement-fee-exempt-route: NO_RECORD. No Grade-A fulfillment record binds LA:human-trafficking-survivor-expungement-fee-exempt-route; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -366,6 +458,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "MA:marijuana-only-expungement: NO_RECORD. No Grade-A fulfillment record binds MA:marijuana-only-expungement; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": false,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns \"guidance_only\", so the checkout path refuses this route on routeKind grounds",
       "inconsistency": "UNADJUDICATED_BUT_REFUSED"
     },
@@ -398,6 +498,14 @@
       ],
       "familyBridgePresent": true,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06: NO_RECORD. No Grade-A fulfillment record binds MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": false,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns \"handoff\", so the checkout path refuses this route on routeKind grounds",
       "inconsistency": "UNADJUDICATED_BUT_REFUSED"
     },
@@ -426,6 +534,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025: NO_RECORD. No Grade-A fulfillment record binds MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -454,6 +570,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3: exact track, family, provider or specification binding mismatch.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -482,6 +606,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6: exact track, family, provider or specification binding mismatch.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -510,6 +642,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "MS:human-trafficking-survivor-expungement-97-3-54-6-6: NO_RECORD. No Grade-A fulfillment record binds MS:human-trafficking-survivor-expungement-97-3-54-6-6; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": false,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns \"handoff\", so the checkout path refuses this route on routeKind grounds",
       "inconsistency": "UNADJUDICATED_BUT_REFUSED"
     },
@@ -538,6 +678,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "MS:human-trafficking-survivor-vacatur-97-3-54-6-5: NO_RECORD. No Grade-A fulfillment record binds MS:human-trafficking-survivor-vacatur-97-3-54-6-5; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": false,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns \"handoff\", so the checkout path refuses this route on routeKind grounds",
       "inconsistency": "UNADJUDICATED_BUT_REFUSED"
     },
@@ -566,6 +714,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes: NO_RECORD. No Grade-A fulfillment record binds NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -594,6 +750,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "NE:law-enforcement-error-expungement: NO_RECORD. No Grade-A fulfillment record binds NE:law-enforcement-error-expungement; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": false,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns \"guidance_only\", so the checkout path refuses this route on routeKind grounds",
       "inconsistency": "UNADJUDICATED_BUT_REFUSED"
     },
@@ -622,6 +786,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3: NO_RECORD. No Grade-A fulfillment record binds NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": false,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns \"guidance_only\", so the checkout path refuses this route on routeKind grounds",
       "inconsistency": "UNADJUDICATED_BUT_REFUSED"
     },
@@ -650,6 +822,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247: NO_RECORD. No Grade-A fulfillment record binds NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": false,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns \"handoff\", so the checkout path refuses this route on routeKind grounds",
       "inconsistency": "UNADJUDICATED_BUT_REFUSED"
     },
@@ -682,6 +862,14 @@
       ],
       "familyBridgePresent": true,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "OK:arrest-with-no-charges-filed: NO_RECORD. No Grade-A fulfillment record binds OK:arrest-with-no-charges-filed; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -714,6 +902,14 @@
       ],
       "familyBridgePresent": true,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "OK:conviction-reversed-and-case-dismissed: NO_RECORD. No Grade-A fulfillment record binds OK:conviction-reversed-and-case-dismissed; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -746,6 +942,14 @@
       ],
       "familyBridgePresent": true,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "OK:deferred-sentence-court-record-expungement-under-991-c: NO_RECORD. No Grade-A fulfillment record binds OK:deferred-sentence-court-record-expungement-under-991-c; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -778,6 +982,14 @@
       ],
       "familyBridgePresent": true,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "OK:dna-factual-innocence-expungement: NO_RECORD. No Grade-A fulfillment record binds OK:dna-factual-innocence-expungement; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -810,6 +1022,14 @@
       ],
       "familyBridgePresent": true,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "OK:felony-reclassified-as-a-misdemeanor: NO_RECORD. No Grade-A fulfillment record binds OK:felony-reclassified-as-a-misdemeanor; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -842,6 +1062,14 @@
       ],
       "familyBridgePresent": true,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "OK:fine-only-misdemeanor-conviction-expungement: NO_RECORD. No Grade-A fulfillment record binds OK:fine-only-misdemeanor-conviction-expungement; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -874,6 +1102,14 @@
       ],
       "familyBridgePresent": true,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "OK:victim-protective-order-record-relief: NO_RECORD. No Grade-A fulfillment record binds OK:victim-protective-order-record-relief; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -902,6 +1138,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "OR:marijuana-specific-set-aside-redesignation: INCOMPLETE. OR:marijuana-specific-set-aside-redesignation is missing 3 proof(s) required for Grade-A fulfillment.",
+        "routeKindWouldPermitRender": false,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns \"guidance_only\", so the checkout path refuses this route on routeKind grounds",
       "inconsistency": "UNADJUDICATED_BUT_REFUSED"
     },
@@ -934,6 +1178,14 @@
       ],
       "familyBridgePresent": true,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "SC:eligible-conviction-expungement: NO_RECORD. No Grade-A fulfillment record binds SC:eligible-conviction-expungement; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -966,6 +1218,14 @@
       ],
       "familyBridgePresent": true,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "SC:general-sessions-non-conviction-expungement: NO_RECORD. No Grade-A fulfillment record binds SC:general-sessions-non-conviction-expungement; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     },
@@ -994,6 +1254,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "SD:juvenile-trafficking-expungement: NO_RECORD. No Grade-A fulfillment record binds SD:juvenile-trafficking-expungement; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": false,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns \"handoff\", so the checkout path refuses this route on routeKind grounds",
       "inconsistency": "UNADJUDICATED_BUT_REFUSED"
     },
@@ -1022,6 +1290,14 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "admittedToFactoryV2Registry": true,
+      "runtimeGates": {
+        "gradeAFulfillmentProven": false,
+        "fulfillmentRefusalReason": "UT:path-j-cannabis-possession-petition-without-a-bci-certificate: NO_RECORD. No Grade-A fulfillment record binds UT:path-j-cannabis-possession-petition-without-a-bci-certificate; a route nobody has written a record for fails closed.",
+        "routeKindWouldPermitRender": true,
+        "firstGateThatRefuses": "assertPacketFulfillmentProven",
+        "reachesPaymentAllowedCheck": false
+      },
+      "classification": "TECHNICAL_ONLY_SAFE",
       "deliverabilityConsequence": "resolution returns factory_v2, so the checkout path does not refuse this route on routeKind grounds",
       "inconsistency": "LOAD_BEARING_AND_UNADJUDICATED"
     }
