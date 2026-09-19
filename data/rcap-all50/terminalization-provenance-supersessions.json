@@ -22,14 +22,22 @@
     "whoDecidesWhat": "The machine determines the delta, which dimensions it touches, and whether the earlier review is still isolable. The bucket is an owner record. The machine's only veto is that NO_SUBSTANTIVE_CHANGE cannot be recorded over a delta that moves an operative leaf."
   },
   "totals": {
-    "recordsCarryingAProfilePin": 75,
+    "recordsCarryingAProfilePin": 120,
     "pinsCurrent": 7,
-    "pinsSuperseded": 68,
-    "distinctProfileAndReviewedDigestPairs": 13,
+    "pinsSuperseded": 113,
+    "distinctProfileAndReviewedDigestPairs": 32,
+    "byPinField": {
+      "profileSha256": 75,
+      "fingerprint": 45
+    },
+    "supersededByPinField": {
+      "profileSha256": 68,
+      "fingerprint": 45
+    },
     "pairsDispositioned": 0,
-    "pairsAwaitingDisposition": 13,
-    "priorUnrecordedRepinEvents": 13,
-    "pairsWhosePinIsItselfARepin": 8
+    "pairsAwaitingDisposition": 32,
+    "priorUnrecordedRepinEvents": 25,
+    "pairsWhosePinIsItselfARepin": 19
   },
   "priorUnrecordedRepins": {
     "statement": "Before this mechanism existed, provenance digests were moved in place. These are every such move in committed history, derived from the records' own history rather than asserted.",
@@ -37,6 +45,20 @@
     "whatItMeansForADisposition": "Where pinnedDigestIsItselfARepin is true, the pinned digest was installed after the record's first commit and reviewedAsOf did not move with it. The delta from the pinned digest is the smaller, later half of the change; deltaFromOriginalCommittedDigest is the whole of it.",
     "reviewedAsOfMovedInAnyOfThem": false,
     "events": [
+      {
+        "commit": "8c9e83b8962d13de45c2bbb5aca29a67c700759f",
+        "date": "2026-08-12",
+        "subject": "Refresh terminalization integration: current B/C/E/F1/D0 inputs by owned path",
+        "fromSha256": "1c1b7cb5da7af9833ed388afd878397877c51218feddfe40431b4b75ae800f28",
+        "toSha256": "5bbfb4a10cb7a269008be6914fe5a36b12d0376099f06b5790e482b0c2d46079",
+        "reviewedAsOfMovedWithIt": false,
+        "reviewedAsOfBefore": null,
+        "reviewedAsOfAfter": null,
+        "records": [
+          "data/rcap-all50/pleadings/massachusetts/ma-bmc-multi/pleading-config.json"
+        ],
+        "recordCount": 1
+      },
       {
         "commit": "8c9e83b8962d13de45c2bbb5aca29a67c700759f",
         "date": "2026-08-12",
@@ -152,6 +174,174 @@
           "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/route.json"
         ],
         "recordCount": 7
+      },
+      {
+        "commit": "896cf35250687cdb08f6b107de3b2da49f8026a9",
+        "date": "2026-08-25",
+        "subject": "Refresh C2 C3 provenance for integrated profiles",
+        "fromSha256": "965e3a85ff74016d3e496debb8ee27f94d50ed6300203420a0825e4e5783fdbb",
+        "toSha256": "06eceb937b1c0fefa498ae11732ea2512c4efdad8b831808d56a24b2baedf6db",
+        "reviewedAsOfMovedWithIt": false,
+        "reviewedAsOfBefore": null,
+        "reviewedAsOfAfter": null,
+        "records": [
+          "data/rcap-all50/pleadings/kansas/ks-12-4516-municipal/pleading-config.json",
+          "data/rcap-all50/pleadings/kansas/ks-12-4516a-municipal-arrest/pleading-config.json"
+        ],
+        "recordCount": 2
+      },
+      {
+        "commit": "896cf35250687cdb08f6b107de3b2da49f8026a9",
+        "date": "2026-08-25",
+        "subject": "Refresh C2 C3 provenance for integrated profiles",
+        "fromSha256": "bc744e3f047c7a1303465b4a9d50e54477878daa1384689b5f98753cc90fe21a",
+        "toSha256": "41d071238908c558685dcee0fcc1c1e643169d9e4de55ac2028ed5ad647e2106",
+        "reviewedAsOfMovedWithIt": false,
+        "reviewedAsOfBefore": null,
+        "reviewedAsOfAfter": null,
+        "records": [
+          "data/rcap-all50/pleadings/oklahoma/ok_identity_theft/pleading-config.json"
+        ],
+        "recordCount": 1
+      },
+      {
+        "commit": "896cf35250687cdb08f6b107de3b2da49f8026a9",
+        "date": "2026-08-25",
+        "subject": "Refresh C2 C3 provenance for integrated profiles",
+        "fromSha256": "8dcbb9df659073834240a7824b092568e6baba5978ee0fd7e992a92db500e79e",
+        "toSha256": "542e4af13aeac2da40131659cfc0e0a7e6f9a3f75e880dea6f24b169b286fd9a",
+        "reviewedAsOfMovedWithIt": false,
+        "reviewedAsOfBefore": null,
+        "reviewedAsOfAfter": null,
+        "records": [
+          "data/rcap-all50/pleadings/hawaii/hi_first_time_property_offender_expungement/pleading-config.json",
+          "data/rcap-all50/pleadings/hawaii/hi_marijuana_three_grams_expungement/pleading-config.json"
+        ],
+        "recordCount": 2
+      },
+      {
+        "commit": "896cf35250687cdb08f6b107de3b2da49f8026a9",
+        "date": "2026-08-25",
+        "subject": "Refresh C2 C3 provenance for integrated profiles",
+        "fromSha256": "5bbfb4a10cb7a269008be6914fe5a36b12d0376099f06b5790e482b0c2d46079",
+        "toSha256": "76e109a79cf7292b850f5a9f4e14caec30ec50cb55741acc080c40c7b304202c",
+        "reviewedAsOfMovedWithIt": false,
+        "reviewedAsOfBefore": null,
+        "reviewedAsOfAfter": null,
+        "records": [
+          "data/rcap-all50/pleadings/massachusetts/ma-bmc-multi/pleading-config.json"
+        ],
+        "recordCount": 1
+      },
+      {
+        "commit": "896cf35250687cdb08f6b107de3b2da49f8026a9",
+        "date": "2026-08-25",
+        "subject": "Refresh C2 C3 provenance for integrated profiles",
+        "fromSha256": "c73ea8ee98d154b11b9260fc683a5f08421d0620c8a6f0f60aa515b2b6423b37",
+        "toSha256": "aa41244d859e503ca9c4c7dcde2d76d8f578702db76b9e8eb45dbc914376e75d",
+        "reviewedAsOfMovedWithIt": false,
+        "reviewedAsOfBefore": null,
+        "reviewedAsOfAfter": null,
+        "records": [
+          "data/rcap-all50/pleadings/georgia/ga-deaddocket-j3/pleading-config.json",
+          "data/rcap-all50/pleadings/georgia/ga-felony-j1/pleading-config.json",
+          "data/rcap-all50/pleadings/georgia/ga-fo-active-pre2026/pleading-config.json",
+          "data/rcap-all50/pleadings/georgia/ga-fo-discharged-pre2026/pleading-config.json",
+          "data/rcap-all50/pleadings/georgia/ga-fugitive-j5/pleading-config.json",
+          "data/rcap-all50/pleadings/georgia/ga-jail-k2/pleading-config.json",
+          "data/rcap-all50/pleadings/georgia/ga-vacated-j2/pleading-config.json"
+        ],
+        "recordCount": 7
+      },
+      {
+        "commit": "896cf35250687cdb08f6b107de3b2da49f8026a9",
+        "date": "2026-08-25",
+        "subject": "Refresh C2 C3 provenance for integrated profiles",
+        "fromSha256": "62ca0e40196e61fe3eb9979f89c176100cf927879fe4c71ffe1878c844916e41",
+        "toSha256": "b74be5afc18c8aeb12415904244961d0d2c7f68021e8b7a7cb8e97da217de084",
+        "reviewedAsOfMovedWithIt": false,
+        "reviewedAsOfBefore": null,
+        "reviewedAsOfAfter": null,
+        "records": [
+          "data/rcap-all50/pleadings/north-carolina/nc_auto_146_a4_agency_followup/pleading-config.json"
+        ],
+        "recordCount": 1
+      },
+      {
+        "commit": "896cf35250687cdb08f6b107de3b2da49f8026a9",
+        "date": "2026-08-25",
+        "subject": "Refresh C2 C3 provenance for integrated profiles",
+        "fromSha256": "baa3a99f2092579d01a5f6b2dd0ac736a530f6fd7cd94eb00dd1d39eaa8c969a",
+        "toSha256": "bbea0bb140157b2f5a29367109ee2f1d1f2d5bf6d54bd05bf07bbb6562169d79",
+        "reviewedAsOfMovedWithIt": false,
+        "reviewedAsOfBefore": null,
+        "reviewedAsOfAfter": null,
+        "records": [
+          "data/rcap-all50/pleadings/nevada/nv_repository_removal/pleading-config.json",
+          "data/rcap-all50/pleadings/nevada/nv_seal_decrim/pleading-config.json",
+          "data/rcap-all50/pleadings/nevada/nv_seal_multi/pleading-config.json",
+          "data/rcap-all50/pleadings/nevada/nv_seal_pardon/pleading-config.json"
+        ],
+        "recordCount": 4
+      },
+      {
+        "commit": "896cf35250687cdb08f6b107de3b2da49f8026a9",
+        "date": "2026-08-25",
+        "subject": "Refresh C2 C3 provenance for integrated profiles",
+        "fromSha256": "bfa39629addc28709f9f4619822612fbaab6944a11d98c69a14f655113b71301",
+        "toSha256": "c0a19b73d6f89b3b4122e13af699fac9eea08803ab59c9588e18a7b75b38de4d",
+        "reviewedAsOfMovedWithIt": false,
+        "reviewedAsOfBefore": null,
+        "reviewedAsOfAfter": null,
+        "records": [
+          "data/rcap-all50/pleadings/nebraska/ne-seal-enforcement/pleading-config.json"
+        ],
+        "recordCount": 1
+      },
+      {
+        "commit": "896cf35250687cdb08f6b107de3b2da49f8026a9",
+        "date": "2026-08-25",
+        "subject": "Refresh C2 C3 provenance for integrated profiles",
+        "fromSha256": "65778b6d0a1e03a6585b7c87cf64482ba0328805b2b6a491b997738a34cc2ca9",
+        "toSha256": "c0da4e003c2daedee91ea943b2753b607b259e25a69fba4e50870f4187783756",
+        "reviewedAsOfMovedWithIt": false,
+        "reviewedAsOfBefore": null,
+        "reviewedAsOfAfter": null,
+        "records": [
+          "data/rcap-all50/pleadings/washington/wa_crop_certificate_of_restoration/pleading-config.json",
+          "data/rcap-all50/pleadings/washington/wa_vac_post_probation_9_95_240/pleading-config.json"
+        ],
+        "recordCount": 2
+      },
+      {
+        "commit": "896cf35250687cdb08f6b107de3b2da49f8026a9",
+        "date": "2026-08-25",
+        "subject": "Refresh C2 C3 provenance for integrated profiles",
+        "fromSha256": "e94dc217093e5eac16d797ec1ded9629f15efdc5068a89cf35542fec84089c50",
+        "toSha256": "c10031cebf7c28760d0a9d81727b9741a42525278ec147faa3c07922a3ff8d02",
+        "reviewedAsOfMovedWithIt": false,
+        "reviewedAsOfBefore": null,
+        "reviewedAsOfAfter": null,
+        "records": [
+          "data/rcap-all50/pleadings/maine/me-screening/pleading-config.json"
+        ],
+        "recordCount": 1
+      },
+      {
+        "commit": "896cf35250687cdb08f6b107de3b2da49f8026a9",
+        "date": "2026-08-25",
+        "subject": "Refresh C2 C3 provenance for integrated profiles",
+        "fromSha256": "bcef5d018240769d36c6ec866b52395606db46769e95298c8f89e98b79b6f887",
+        "toSha256": "d6cccee1cabc4402c80f626e100f6650dc6842aebe377fe7d3c59fd2fa035779",
+        "reviewedAsOfMovedWithIt": false,
+        "reviewedAsOfBefore": null,
+        "reviewedAsOfAfter": null,
+        "records": [
+          "data/rcap-all50/pleadings/south-carolina/sc_aep/pleading-config.json",
+          "data/rcap-all50/pleadings/south-carolina/sc_conditional_discharge_44_53_450/pleading-config.json",
+          "data/rcap-all50/pleadings/south-carolina/sc_tep/pleading-config.json"
+        ],
+        "recordCount": 3
       },
       {
         "commit": "1fff2525b5c99627b57ab59869e318ab70ea3805",
@@ -272,6 +462,9 @@
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
       "reviewedSha256": "2472302ba06713eab793ae06fc9fd9af8627993ce1b10bfba57a6e3894b9c9d3",
+      "pinFields": [
+        "profileSha256"
+      ],
       "reviewedAsOf": "2026-07-30",
       "reviewedAsOfAcrossRecords": [
         "2026-07-30"
@@ -834,8 +1027,205 @@
       "disposition": null
     },
     {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+      "reviewedSha256": "311ad605d45145fc15725f007938ac9823bbbe54b243e433dfae2e4451934290",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "51167325a97a32cad9cf0f770dc4d9aa27aed1106ed8ddb06b8b883ea0010746",
+      "reviewedBytesCurrentAt": {
+        "commit": "c299632f967493c24087e6f7f374ecb9ee1a2922",
+        "date": "2026-06-21",
+        "subject": "fix(expungement): clean up stray helperText on case_outcome not sure option"
+      },
+      "movedBy": {
+        "commit": "57288700817dc11bb53fb007e48677fb107b81ae",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane D question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 112,
+          "removed": 0,
+          "changed": 0,
+          "totalMoved": 112,
+          "operativeLeaves": 112,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "eligibility",
+          "exclusions",
+          "filingActor",
+          "filingDestination",
+          "legalAuthority",
+          "packetComponents",
+          "participantFacingConclusion",
+          "paymentEligibility",
+          "remedyIdentity",
+          "requiredFacts",
+          "routeIdentity",
+          "triggerDates",
+          "unclassified_operative",
+          "waitingPeriods"
+        ],
+        "changedPaths": {
+          "added": [
+            "orderedDecisionRules[71].candidatePathwayIds[0]",
+            "orderedDecisionRules[71].id",
+            "orderedDecisionRules[71].legalAuthority.decisionId",
+            "orderedDecisionRules[71].legalAuthority.mechanism",
+            "orderedDecisionRules[71].legalAuthority.ruleId",
+            "orderedDecisionRules[71].legalAuthority.statute",
+            "orderedDecisionRules[71].priority",
+            "orderedDecisionRules[71].sourceRef",
+            "orderedDecisionRules[71].stage",
+            "orderedDecisionRules[71].then.frontendAction",
+            "orderedDecisionRules[71].then.suggestedResultCode",
+            "orderedDecisionRules[71].when.backendPathwayId",
+            "orderedDecisionRules[71].when.fieldsReferenced[0]",
+            "orderedDecisionRules[71].when.fieldsReferenced[1]",
+            "orderedDecisionRules[71].when.requiredFields[0]",
+            "orderedDecisionRules[71].when.requiredFields[1]",
+            "orderedDecisionRules[71].when.sourceConditionText",
+            "packetGenerator.pathways[3].formMappingStatus",
+            "packetGenerator.pathways[3].mode",
+            "packetGenerator.pathways[3].noPacketWhen[0]",
+            "packetGenerator.pathways[3].noPacketWhen[1]",
+            "packetGenerator.pathways[3].noPacketWhen[2]",
+            "packetGenerator.pathways[3].noPacketWhen[3]",
+            "packetGenerator.pathways[3].noPacketWhen[4]",
+            "packetGenerator.pathways[3].noPacketWhen[5]",
+            "packetGenerator.pathways[3].packetReadyWhen[0]",
+            "packetGenerator.pathways[3].packetReadyWhen[1]",
+            "packetGenerator.pathways[3].packetReadyWhen[2]",
+            "packetGenerator.pathways[3].packetReadyWhen[3]",
+            "packetGenerator.pathways[3].packetReadyWhen[4]",
+            "packetGenerator.pathways[3].pathwayId",
+            "packetGenerator.pathways[3].pathwayLabel",
+            "packetGenerator.pathways[3].selectionRule",
+            "packetGenerator.pathways[3].sourceRuleRefs[0]",
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[0].lawrenceRatification.legal_basis",
+            "pathways[0].lawrenceRatification.packet_capable",
+            "pathways[0].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[0].lawrenceRatification.status",
+            "pathways[3].automatic",
+            "pathways[3].exclusionRules[0]",
+            "pathways[3].exclusionRules[1]",
+            "pathways[3].exclusionRules[2]",
+            "pathways[3].filingRequired",
+            "pathways[3].frontendBranch",
+            "pathways[3].id",
+            "pathways[3].label",
+            "pathways[3].legalAuthority.artifactApprovalRequired",
+            "pathways[3].legalAuthority.commercialPosture.checkoutEnabled",
+            "pathways[3].legalAuthority.commercialPosture.note",
+            "pathways[3].legalAuthority.commercialPosture.packetCreditsConsumed",
+            "pathways[3].legalAuthority.commercialPosture.sponsoredGenerationEnabled",
+            "pathways[3].legalAuthority.decisionId",
+            "pathways[3].legalAuthority.deliveryGates[0].evidenceReference",
+            "pathways[3].legalAuthority.deliveryGates[0].id",
+            "pathways[3].legalAuthority.deliveryGates[0].items[0]",
+            "pathways[3].legalAuthority.deliveryGates[0].items[1]",
+            "pathways[3].legalAuthority.deliveryGates[0].items[2]",
+            "pathways[3].legalAuthority.deliveryGates[0].kind",
+            "pathways[3].legalAuthority.deliveryGates[0].note",
+            "pathways[3].legalAuthority.deliveryGates[0].owner",
+            "pathways[3].legalAuthority.deliveryGates[0].statusSource",
+            "pathways[3].legalAuthority.deliveryGates[1].evidenceReference",
+            "pathways[3].legalAuthority.deliveryGates[1].id",
+            "pathways[3].legalAuthority.deliveryGates[1].items[0]",
+            "pathways[3].legalAuthority.deliveryGates[1].items[1]",
+            "pathways[3].legalAuthority.deliveryGates[1].items[2]",
+            "pathways[3].legalAuthority.deliveryGates[1].kind",
+            "pathways[3].legalAuthority.deliveryGates[1].note",
+            "pathways[3].legalAuthority.deliveryGates[1].owner",
+            "pathways[3].legalAuthority.deliveryGates[1].statusSource",
+            "pathways[3].legalAuthority.effectiveFrom",
+            "pathways[3].legalAuthority.exclusions[0]",
+            "pathways[3].legalAuthority.exclusions[1]",
+            "pathways[3].legalAuthority.exclusions[2]",
+            "pathways[3].legalAuthority.mechanism",
+            "pathways[3].legalAuthority.notes",
+            "pathways[3].legalAuthority.outcomeMode",
+            "pathways[3].legalAuthority.packetComponents[0]",
+            "pathways[3].legalAuthority.packetComponents[1]",
+            "pathways[3].legalAuthority.packetFamily",
+            "pathways[3].legalAuthority.paymentAuthority",
+            "pathways[3].legalAuthority.requiredFacts[0]",
+            "pathways[3].legalAuthority.requiredFacts[1]",
+            "pathways[3].legalAuthority.requiredFacts[2]",
+            "pathways[3].legalAuthority.ruleId",
+            "pathways[3].legalAuthority.screeningFactIds[0]",
+            "pathways[3].legalAuthority.screeningFactIds[1]",
+            "pathways[3].legalAuthority.stage",
+            "pathways[3].legalAuthority.statute",
+            "pathways[3].legalAuthority.timing.anchorText",
+            "pathways[3].legalAuthority.timing.kind",
+            "pathways[3].routeType",
+            "pathways[3].ruleClauses[0]",
+            "pathways[3].sourceEvidenceRefs[0]",
+            "pathways[3].sourceEvidenceRefs[1]",
+            "pathways[3].sourceRef",
+            "pathways[3].suggestedResultCode",
+            "pathways[3].summary",
+            "pathways[3].triggerFields[0]",
+            "pathways[3].triggerFields[1]",
+            "pathways[3].waitingRules[0]",
+            "pathways[3].waitingRules[1]",
+            "questionLifecycle.completionAliasIds[0]",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.exactPacketFactIds[5]",
+            "questionLifecycle.exactPacketFactIds[6]"
+          ],
+          "removed": [],
+          "changed": []
+        },
+        "isolation": {
+          "pathwaysAtReview": 3,
+          "pathwaysNow": 4,
+          "pathwaysGained": [
+            "notation-of-clearance-after-a-wrongful-arrest-under-13-4051"
+          ],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "remedy-1-record-sealing",
+              "leavesMoved": 6
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.3333,
+          "leavesOutsidePathways": 42
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": false,
+        "originalCommittedDigests": [
+          "311ad605d45145fc15725f007938ac9823bbbe54b243e433dfae2e4451934290"
+        ],
+        "recordsWithAPriorRepin": [],
+        "deltasFromOriginalCommittedDigests": [],
+        "note": "The pinned digest is the digest this record was first committed with."
+      },
+      "recordCount": 1,
+      "records": [
+        "data/rcap-all50/pleadings/arizona/az_wrongful_arrest_clearance/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
       "reviewedSha256": "451fc6754e45f4b6cdffd948d5695daf6450d0b7e57e5a40b27c1fcb01ac9a09",
+      "pinFields": [
+        "profileSha256"
+      ],
       "reviewedAsOf": "2026-07-30",
       "reviewedAsOfAcrossRecords": [
         "2026-07-30"
@@ -1161,6 +1551,9 @@
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
       "reviewedSha256": "47a86bd5edec245949664a3302aecd1d077bafe11dad2876d866158c7437cdb7",
+      "pinFields": [
+        "profileSha256"
+      ],
       "reviewedAsOf": null,
       "reviewedAsOfAcrossRecords": [],
       "currentSha256": "9043831f6364e446daed1da81d78bb9558d8674e34adff9c6c095b040f4d0c92",
@@ -1454,6 +1847,9 @@
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
       "reviewedSha256": "8f857308ee82b7c9844d3828d7d87c78577f2aa297fe714ace1f953396008df7",
+      "pinFields": [
+        "profileSha256"
+      ],
       "reviewedAsOf": "2026-07-30",
       "reviewedAsOfAcrossRecords": [
         "2026-07-30"
@@ -1706,8 +2102,743 @@
       "disposition": null
     },
     {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+      "reviewedSha256": "426fed6ae99ae6b045eb09e56d4ec92d51569228877fe688a3db2f88bfd07211",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "83bc7d7b19cb61610a38964202ab11bfb3c0d1f952582bb1e481fb83f05ed5d4",
+      "reviewedBytesCurrentAt": {
+        "commit": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b",
+        "date": "2026-08-12",
+        "subject": "First terminalization integration window: B, C, E, D1 by owned path"
+      },
+      "movedBy": {
+        "commit": "57288700817dc11bb53fb007e48677fb107b81ae",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane D question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 13,
+          "removed": 0,
+          "changed": 13,
+          "totalMoved": 26,
+          "operativeLeaves": 26,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "legalAuthority",
+          "paymentEligibility",
+          "unclassified_operative"
+        ],
+        "changedPaths": {
+          "added": [
+            "pathways[1].lawrenceRatification.projectedFrom",
+            "pathways[3].lawrenceRatification.projectedFrom",
+            "pathways[4].lawrenceRatification.projectedFrom",
+            "pathways[5].lawrenceRatification.projectedFrom",
+            "questionLifecycle.completionAliasIds[0]",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.exactPacketFactIds[5]",
+            "questionLifecycle.routeConsumers.actual_innocence_basis[0]",
+            "questionLifecycle.routeConsumers.dc_offense_severity_group[0]"
+          ],
+          "removed": [],
+          "changed": [
+            "pathways[1].lawrenceRatification.lawrence_review",
+            "pathways[3].lawrenceRatification.lawrence_review",
+            "pathways[3].lawrenceRatification.packet_capable",
+            "pathways[3].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[3].lawrenceRatification.status",
+            "pathways[4].lawrenceRatification.lawrence_review",
+            "pathways[4].lawrenceRatification.packet_capable",
+            "pathways[4].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[4].lawrenceRatification.status",
+            "pathways[5].lawrenceRatification.lawrence_review",
+            "pathways[5].lawrenceRatification.packet_capable",
+            "pathways[5].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[5].lawrenceRatification.status"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 7,
+          "pathwaysNow": 7,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "dc_actual_innocence_expungement_16_803",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "dc_motion_seal_felony_conviction_8yr_16_806",
+              "leavesMoved": 5
+            },
+            {
+              "pathwayId": "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+              "leavesMoved": 5
+            },
+            {
+              "pathwayId": "dc_motion_seal_nonconviction_16_806",
+              "leavesMoved": 5
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.5714,
+          "leavesOutsidePathways": 9
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": false,
+        "originalCommittedDigests": [
+          "426fed6ae99ae6b045eb09e56d4ec92d51569228877fe688a3db2f88bfd07211"
+        ],
+        "recordsWithAPriorRepin": [],
+        "deltasFromOriginalCommittedDigests": [],
+        "note": "The pinned digest is the digest this record was first committed with."
+      },
+      "recordCount": 3,
+      "records": [
+        "data/rcap-all50/pleadings/dc/dc_correct_misattributed_arrest/pleading-config.json",
+        "data/rcap-all50/pleadings/dc/dc_seal_fugitive/pleading-config.json",
+        "data/rcap-all50/pleadings/dc/dc_yra_set_aside/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+      "reviewedSha256": "aa41244d859e503ca9c4c7dcde2d76d8f578702db76b9e8eb45dbc914376e75d",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "3992bda9c4961d0e9f19c05cb22c7efee84b1c21c8e5318ee73917ce02155507",
+      "reviewedBytesCurrentAt": {
+        "commit": "8840721b0f6b53cf9589ccfd4d1fc72a54dd4259",
+        "date": "2026-08-25",
+        "subject": "legal: gate route rules only on facts the flow actually guarantees"
+      },
+      "movedBy": {
+        "commit": "182db85f597375bb583aadca499aa7f09f639b1d",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane E question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 193,
+          "removed": 0,
+          "changed": 3,
+          "totalMoved": 196,
+          "operativeLeaves": 196,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "eligibility",
+          "exclusions",
+          "filingActor",
+          "filingDestination",
+          "legalAuthority",
+          "packetComponents",
+          "participantFacingConclusion",
+          "paymentEligibility",
+          "remedyIdentity",
+          "requiredFacts",
+          "routeIdentity",
+          "triggerDates",
+          "unclassified_operative",
+          "waitingPeriods"
+        ],
+        "changedPaths": {
+          "added": [
+            "orderedDecisionRules[76].candidatePathwayIds[0]",
+            "orderedDecisionRules[76].id",
+            "orderedDecisionRules[76].legalAuthority.decisionId",
+            "orderedDecisionRules[76].legalAuthority.mechanism",
+            "orderedDecisionRules[76].legalAuthority.ruleId",
+            "orderedDecisionRules[76].legalAuthority.statute",
+            "orderedDecisionRules[76].priority",
+            "orderedDecisionRules[76].sourceRef",
+            "orderedDecisionRules[76].stage",
+            "orderedDecisionRules[76].then.frontendAction",
+            "orderedDecisionRules[76].then.suggestedResultCode",
+            "orderedDecisionRules[76].when.backendPathwayId",
+            "orderedDecisionRules[76].when.fieldsReferenced[0]",
+            "orderedDecisionRules[76].when.fieldsReferenced[1]",
+            "orderedDecisionRules[76].when.requiredFields[0]",
+            "orderedDecisionRules[76].when.requiredFields[1]",
+            "orderedDecisionRules[76].when.sourceConditionText",
+            "packetGenerator.pathways[5].formMappingStatus",
+            "packetGenerator.pathways[5].mode",
+            "packetGenerator.pathways[5].noPacketWhen[0]",
+            "packetGenerator.pathways[5].noPacketWhen[1]",
+            "packetGenerator.pathways[5].noPacketWhen[2]",
+            "packetGenerator.pathways[5].noPacketWhen[3]",
+            "packetGenerator.pathways[5].noPacketWhen[4]",
+            "packetGenerator.pathways[5].noPacketWhen[5]",
+            "packetGenerator.pathways[5].packetReadyWhen[0]",
+            "packetGenerator.pathways[5].packetReadyWhen[1]",
+            "packetGenerator.pathways[5].packetReadyWhen[2]",
+            "packetGenerator.pathways[5].packetReadyWhen[3]",
+            "packetGenerator.pathways[5].packetReadyWhen[4]",
+            "packetGenerator.pathways[5].pathwayId",
+            "packetGenerator.pathways[5].pathwayLabel",
+            "packetGenerator.pathways[5].selectionRule",
+            "packetGenerator.pathways[5].sourceRuleRefs[0]",
+            "pathways[2].lawrenceRatification.projectedFrom",
+            "pathways[3].lawrenceRatification.projectedFrom",
+            "pathways[4].lawrenceRatification.projectedFrom",
+            "pathways[5].automatic",
+            "pathways[5].exclusionRules[0]",
+            "pathways[5].exclusionRules[1]",
+            "pathways[5].exclusionRules[2]",
+            "pathways[5].exclusionRules[3]",
+            "pathways[5].filingRequired",
+            "pathways[5].frontendBranch",
+            "pathways[5].id",
+            "pathways[5].label",
+            "pathways[5].legalAuthority.artifactApprovalRequired",
+            "pathways[5].legalAuthority.commercialPosture.checkoutEnabled",
+            "pathways[5].legalAuthority.commercialPosture.note",
+            "pathways[5].legalAuthority.commercialPosture.packetCreditsConsumed",
+            "pathways[5].legalAuthority.commercialPosture.sponsoredGenerationEnabled",
+            "pathways[5].legalAuthority.decisionId",
+            "pathways[5].legalAuthority.deliveryGates[0].evidenceReference",
+            "pathways[5].legalAuthority.deliveryGates[0].id",
+            "pathways[5].legalAuthority.deliveryGates[0].items[0]",
+            "pathways[5].legalAuthority.deliveryGates[0].items[1]",
+            "pathways[5].legalAuthority.deliveryGates[0].items[2]",
+            "pathways[5].legalAuthority.deliveryGates[0].items[3]",
+            "pathways[5].legalAuthority.deliveryGates[0].items[4]",
+            "pathways[5].legalAuthority.deliveryGates[0].items[5]",
+            "pathways[5].legalAuthority.deliveryGates[0].items[6]",
+            "pathways[5].legalAuthority.deliveryGates[0].items[7]",
+            "pathways[5].legalAuthority.deliveryGates[0].items[8]",
+            "pathways[5].legalAuthority.deliveryGates[0].items[9]",
+            "pathways[5].legalAuthority.deliveryGates[0].kind",
+            "pathways[5].legalAuthority.deliveryGates[0].note",
+            "pathways[5].legalAuthority.deliveryGates[0].owner",
+            "pathways[5].legalAuthority.deliveryGates[0].statusSource",
+            "pathways[5].legalAuthority.deliveryGates[1].evidenceReference",
+            "pathways[5].legalAuthority.deliveryGates[1].id",
+            "pathways[5].legalAuthority.deliveryGates[1].items[0]",
+            "pathways[5].legalAuthority.deliveryGates[1].items[1]",
+            "pathways[5].legalAuthority.deliveryGates[1].items[2]",
+            "pathways[5].legalAuthority.deliveryGates[1].items[3]",
+            "pathways[5].legalAuthority.deliveryGates[1].kind",
+            "pathways[5].legalAuthority.deliveryGates[1].note",
+            "pathways[5].legalAuthority.deliveryGates[1].owner",
+            "pathways[5].legalAuthority.deliveryGates[1].statusSource",
+            "pathways[5].legalAuthority.exclusions[0]",
+            "pathways[5].legalAuthority.exclusions[1]",
+            "pathways[5].legalAuthority.exclusions[2]",
+            "pathways[5].legalAuthority.exclusions[3]",
+            "pathways[5].legalAuthority.failureDisposition[0].disposition",
+            "pathways[5].legalAuthority.failureDisposition[0].id",
+            "pathways[5].legalAuthority.failureDisposition[0].note",
+            "pathways[5].legalAuthority.failureDisposition[0].selector.factId",
+            "pathways[5].legalAuthority.failureDisposition[0].selector.operator",
+            "pathways[5].legalAuthority.failureDisposition[0].selector.requiredProvenance",
+            "pathways[5].legalAuthority.failureDisposition[0].selector.value",
+            "pathways[5].legalAuthority.failureDisposition[0].when",
+            "pathways[5].legalAuthority.failureDisposition[1].disposition",
+            "pathways[5].legalAuthority.failureDisposition[1].id",
+            "pathways[5].legalAuthority.failureDisposition[1].note",
+            "pathways[5].legalAuthority.failureDisposition[1].selector.factId",
+            "pathways[5].legalAuthority.failureDisposition[1].selector.operator",
+            "pathways[5].legalAuthority.failureDisposition[1].selector.requiredProvenance",
+            "pathways[5].legalAuthority.failureDisposition[1].selector.value",
+            "pathways[5].legalAuthority.failureDisposition[1].when",
+            "pathways[5].legalAuthority.failureDisposition[2].disposition",
+            "pathways[5].legalAuthority.failureDisposition[2].id",
+            "pathways[5].legalAuthority.failureDisposition[2].note",
+            "pathways[5].legalAuthority.failureDisposition[2].selector.factId",
+            "pathways[5].legalAuthority.failureDisposition[2].selector.operator",
+            "pathways[5].legalAuthority.failureDisposition[2].selector.requiredProvenance",
+            "pathways[5].legalAuthority.failureDisposition[2].when",
+            "pathways[5].legalAuthority.mechanism",
+            "pathways[5].legalAuthority.notes",
+            "pathways[5].legalAuthority.outcomeMode",
+            "pathways[5].legalAuthority.packetComponents[0]",
+            "pathways[5].legalAuthority.packetComponents[1]",
+            "pathways[5].legalAuthority.packetComponents[2]",
+            "pathways[5].legalAuthority.packetComponents[3]",
+            "pathways[5].legalAuthority.packetComponents[4]",
+            "pathways[5].legalAuthority.packetComponents[5]",
+            "pathways[5].legalAuthority.packetComponents[6]",
+            "pathways[5].legalAuthority.packetComponents[7]",
+            "pathways[5].legalAuthority.packetComponents[8]",
+            "pathways[5].legalAuthority.packetComponents[9]",
+            "pathways[5].legalAuthority.packetFamily",
+            "pathways[5].legalAuthority.packetReleasePreconditions[0].collectedAt",
+            "pathways[5].legalAuthority.packetReleasePreconditions[0].id",
+            "pathways[5].legalAuthority.packetReleasePreconditions[0].note",
+            "pathways[5].legalAuthority.packetReleasePreconditions[0].requires",
+            "pathways[5].legalAuthority.packetReleasePreconditions[0].satisfiedWhen.factId",
+            "pathways[5].legalAuthority.packetReleasePreconditions[0].satisfiedWhen.operator",
+            "pathways[5].legalAuthority.packetReleasePreconditions[0].satisfiedWhen.requiredPhase",
+            "pathways[5].legalAuthority.packetReleasePreconditions[0].satisfiedWhen.requiredProvenance",
+            "pathways[5].legalAuthority.packetReleasePreconditions[0].satisfiedWhen.value",
+            "pathways[5].legalAuthority.packetReleasePreconditions[0].whenUnsatisfied",
+            "pathways[5].legalAuthority.paymentAuthority",
+            "pathways[5].legalAuthority.requiredFacts[0]",
+            "pathways[5].legalAuthority.requiredFacts[1]",
+            "pathways[5].legalAuthority.requiredFacts[2]",
+            "pathways[5].legalAuthority.requiredFacts[3]",
+            "pathways[5].legalAuthority.requiredFacts[4]",
+            "pathways[5].legalAuthority.requiredFacts[5]",
+            "pathways[5].legalAuthority.requiredFacts[6]",
+            "pathways[5].legalAuthority.ruleId",
+            "pathways[5].legalAuthority.screeningFactIds[0]",
+            "pathways[5].legalAuthority.screeningFactIds[1]",
+            "pathways[5].legalAuthority.serviceBranches[0].commercialPosture.checkoutEnabled",
+            "pathways[5].legalAuthority.serviceBranches[0].commercialPosture.note",
+            "pathways[5].legalAuthority.serviceBranches[0].commercialPosture.packetCreditsConsumed",
+            "pathways[5].legalAuthority.serviceBranches[0].commercialPosture.sponsoredGenerationEnabled",
+            "pathways[5].legalAuthority.serviceBranches[0].id",
+            "pathways[5].legalAuthority.serviceBranches[0].note",
+            "pathways[5].legalAuthority.serviceBranches[0].outcomeMode",
+            "pathways[5].legalAuthority.serviceBranches[0].packetFamily",
+            "pathways[5].legalAuthority.serviceBranches[0].selector.factId",
+            "pathways[5].legalAuthority.serviceBranches[0].selector.operator",
+            "pathways[5].legalAuthority.serviceBranches[0].selector.requiredPhase",
+            "pathways[5].legalAuthority.serviceBranches[0].selector.requiredProvenance",
+            "pathways[5].legalAuthority.serviceBranches[0].selector.value",
+            "pathways[5].legalAuthority.serviceBranches[0].stage",
+            "pathways[5].legalAuthority.serviceBranches[0].when",
+            "pathways[5].legalAuthority.serviceBranches[1].commercialPosture.checkoutEnabled",
+            "pathways[5].legalAuthority.serviceBranches[1].commercialPosture.note",
+            "pathways[5].legalAuthority.serviceBranches[1].commercialPosture.packetCreditsConsumed",
+            "pathways[5].legalAuthority.serviceBranches[1].commercialPosture.sponsoredGenerationEnabled",
+            "pathways[5].legalAuthority.serviceBranches[1].id",
+            "pathways[5].legalAuthority.serviceBranches[1].note",
+            "pathways[5].legalAuthority.serviceBranches[1].outcomeMode",
+            "pathways[5].legalAuthority.serviceBranches[1].packetFamily",
+            "pathways[5].legalAuthority.serviceBranches[1].selector.factId",
+            "pathways[5].legalAuthority.serviceBranches[1].selector.operator",
+            "pathways[5].legalAuthority.serviceBranches[1].selector.requiredPhase",
+            "pathways[5].legalAuthority.serviceBranches[1].selector.requiredProvenance",
+            "pathways[5].legalAuthority.serviceBranches[1].selector.value",
+            "pathways[5].legalAuthority.serviceBranches[1].stage",
+            "pathways[5].legalAuthority.serviceBranches[1].when",
+            "pathways[5].legalAuthority.stage",
+            "pathways[5].legalAuthority.statute",
+            "pathways[5].legalAuthority.timing.anchorText",
+            "pathways[5].legalAuthority.timing.kind",
+            "pathways[5].routeType",
+            "pathways[5].ruleClauses[0]",
+            "pathways[5].sourceEvidenceRefs[0]",
+            "pathways[5].sourceEvidenceRefs[1]",
+            "pathways[5].sourceRef",
+            "pathways[5].suggestedResultCode",
+            "pathways[5].summary",
+            "pathways[5].triggerFields[0]",
+            "pathways[5].triggerFields[1]",
+            "pathways[5].waitingRules[0]",
+            "questionLifecycle.completionAliasIds[0]",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.exactPacketFactIds[5]",
+            "questionLifecycle.exactPacketFactIds[6]",
+            "questionLifecycle.exactPacketFactIds[7]"
+          ],
+          "removed": [],
+          "changed": [
+            "pathways[2].lawrenceRatification.lawrence_review",
+            "pathways[3].lawrenceRatification.lawrence_review",
+            "pathways[4].lawrenceRatification.lawrence_review"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 5,
+          "pathwaysNow": 6,
+          "pathwaysGained": [
+            "retroactive-first-offender-treatment-under-42-8-66"
+          ],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "youthful-first-offender-restriction-route",
+              "leavesMoved": 2
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.6,
+          "leavesOutsidePathways": 43
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": true,
+        "originalCommittedDigests": [
+          "c73ea8ee98d154b11b9260fc683a5f08421d0620c8a6f0f60aa515b2b6423b37"
+        ],
+        "recordsWithAPriorRepin": [
+          "data/rcap-all50/pleadings/georgia/ga-deaddocket-j3/pleading-config.json",
+          "data/rcap-all50/pleadings/georgia/ga-felony-j1/pleading-config.json",
+          "data/rcap-all50/pleadings/georgia/ga-fo-active-pre2026/pleading-config.json",
+          "data/rcap-all50/pleadings/georgia/ga-fo-discharged-pre2026/pleading-config.json",
+          "data/rcap-all50/pleadings/georgia/ga-fugitive-j5/pleading-config.json",
+          "data/rcap-all50/pleadings/georgia/ga-jail-k2/pleading-config.json",
+          "data/rcap-all50/pleadings/georgia/ga-vacated-j2/pleading-config.json"
+        ],
+        "deltasFromOriginalCommittedDigests": [
+          {
+            "originalSha256": "c73ea8ee98d154b11b9260fc683a5f08421d0620c8a6f0f60aa515b2b6423b37",
+            "firstCommittedAt": {
+              "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+              "date": "2026-07-01",
+              "subject": "fix(rcap): enforce rule-driven packet eligibility"
+            },
+            "counts": {
+              "added": 278,
+              "removed": 63,
+              "changed": 12,
+              "totalMoved": 353,
+              "operativeLeaves": 353,
+              "nonOperativeLeaves": 0
+            },
+            "dimensionsTouched": [
+              "eligibility",
+              "exclusions",
+              "filingActor",
+              "filingDestination",
+              "legalAuthority",
+              "packetComponents",
+              "participantFacingConclusion",
+              "paymentEligibility",
+              "remedyIdentity",
+              "requiredFacts",
+              "routeIdentity",
+              "triggerDates",
+              "unclassified_operative",
+              "waitingPeriods"
+            ],
+            "isolation": {
+              "pathwaysAtReview": 5,
+              "pathwaysNow": 6,
+              "pathwaysGained": [
+                "retroactive-first-offender-treatment-under-42-8-66"
+              ],
+              "pathwaysLost": [],
+              "reviewedPathwaysDisturbed": [
+                {
+                  "pathwayId": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+                  "leavesMoved": 30
+                },
+                {
+                  "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
+                  "leavesMoved": 34
+                },
+                {
+                  "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+                  "leavesMoved": 2
+                },
+                {
+                  "pathwayId": "youthful-first-offender-restriction-route",
+                  "leavesMoved": 35
+                }
+              ],
+              "reviewedPathwaysDisturbedFraction": 0.8,
+              "leavesOutsidePathways": 105
+            }
+          }
+        ],
+        "note": "This group's pinned digest was installed by a later commit than the record's first, and reviewedAsOf did not move with it. A disposition here is deciding about the whole chain from the original committed digest, not only about the last leg."
+      },
+      "recordCount": 7,
+      "records": [
+        "data/rcap-all50/pleadings/georgia/ga-deaddocket-j3/pleading-config.json",
+        "data/rcap-all50/pleadings/georgia/ga-felony-j1/pleading-config.json",
+        "data/rcap-all50/pleadings/georgia/ga-fo-active-pre2026/pleading-config.json",
+        "data/rcap-all50/pleadings/georgia/ga-fo-discharged-pre2026/pleading-config.json",
+        "data/rcap-all50/pleadings/georgia/ga-fugitive-j5/pleading-config.json",
+        "data/rcap-all50/pleadings/georgia/ga-jail-k2/pleading-config.json",
+        "data/rcap-all50/pleadings/georgia/ga-vacated-j2/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json",
+      "reviewedSha256": "542e4af13aeac2da40131659cfc0e0a7e6f9a3f75e880dea6f24b169b286fd9a",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "30a1ffcd9ec2eda42fbf739a9806b61999777c52b709774ac2609095ef44ccc1",
+      "reviewedBytesCurrentAt": {
+        "commit": "8840721b0f6b53cf9589ccfd4d1fc72a54dd4259",
+        "date": "2026-08-25",
+        "subject": "legal: gate route rules only on facts the flow actually guarantees"
+      },
+      "movedBy": {
+        "commit": "182db85f597375bb583aadca499aa7f09f639b1d",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane E question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 25,
+          "removed": 0,
+          "changed": 0,
+          "totalMoved": 25,
+          "operativeLeaves": 25,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "legalAuthority",
+          "paymentEligibility",
+          "unclassified_operative"
+        ],
+        "changedPaths": {
+          "added": [
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[0].lawrenceRatification.legal_basis",
+            "pathways[0].lawrenceRatification.packet_capable",
+            "pathways[0].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[0].lawrenceRatification.status",
+            "pathways[3].lawrenceRatification.lawrence_review",
+            "pathways[3].lawrenceRatification.legal_basis",
+            "pathways[3].lawrenceRatification.packet_capable",
+            "pathways[3].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[3].lawrenceRatification.projectedFrom",
+            "pathways[3].lawrenceRatification.status",
+            "pathways[4].lawrenceRatification.lawrence_review",
+            "pathways[4].lawrenceRatification.legal_basis",
+            "pathways[4].lawrenceRatification.packet_capable",
+            "pathways[4].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[4].lawrenceRatification.projectedFrom",
+            "pathways[4].lawrenceRatification.status",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.routeConsumers.hi_court_order_confirmed[0]",
+            "questionLifecycle.routeConsumers.hi_court_order_confirmed[1]"
+          ],
+          "removed": [],
+          "changed": []
+        },
+        "isolation": {
+          "pathwaysAtReview": 5,
+          "pathwaysNow": 5,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "dui-under-21-conviction",
+              "leavesMoved": 6
+            },
+            {
+              "pathwayId": "first-time-drug-conviction",
+              "leavesMoved": 6
+            },
+            {
+              "pathwayId": "nonconviction-arrest-expungement",
+              "leavesMoved": 6
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.6,
+          "leavesOutsidePathways": 7
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": true,
+        "originalCommittedDigests": [
+          "8dcbb9df659073834240a7824b092568e6baba5978ee0fd7e992a92db500e79e"
+        ],
+        "recordsWithAPriorRepin": [
+          "data/rcap-all50/pleadings/hawaii/hi_first_time_property_offender_expungement/pleading-config.json",
+          "data/rcap-all50/pleadings/hawaii/hi_marijuana_three_grams_expungement/pleading-config.json"
+        ],
+        "deltasFromOriginalCommittedDigests": [
+          {
+            "originalSha256": "8dcbb9df659073834240a7824b092568e6baba5978ee0fd7e992a92db500e79e",
+            "firstCommittedAt": {
+              "commit": "c299632f967493c24087e6f7f374ecb9ee1a2922",
+              "date": "2026-06-21",
+              "subject": "fix(expungement): clean up stray helperText on case_outcome not sure option"
+            },
+            "counts": {
+              "added": 100,
+              "removed": 12,
+              "changed": 3,
+              "totalMoved": 115,
+              "operativeLeaves": 115,
+              "nonOperativeLeaves": 0
+            },
+            "dimensionsTouched": [
+              "eligibility",
+              "exclusions",
+              "filingActor",
+              "legalAuthority",
+              "packetComponents",
+              "participantFacingConclusion",
+              "paymentEligibility",
+              "remedyIdentity",
+              "requiredFacts",
+              "routeIdentity",
+              "triggerDates",
+              "unclassified_operative",
+              "waitingPeriods"
+            ],
+            "isolation": {
+              "pathwaysAtReview": 5,
+              "pathwaysNow": 5,
+              "pathwaysGained": [],
+              "pathwaysLost": [],
+              "reviewedPathwaysDisturbed": [
+                {
+                  "pathwayId": "dui-under-21-conviction",
+                  "leavesMoved": 6
+                },
+                {
+                  "pathwayId": "first-time-drug-conviction",
+                  "leavesMoved": 37
+                },
+                {
+                  "pathwayId": "nonconviction-arrest-expungement",
+                  "leavesMoved": 41
+                }
+              ],
+              "reviewedPathwaysDisturbedFraction": 0.6,
+              "leavesOutsidePathways": 31
+            }
+          }
+        ],
+        "note": "This group's pinned digest was installed by a later commit than the record's first, and reviewedAsOf did not move with it. A disposition here is deciding about the whole chain from the original committed digest, not only about the last leg."
+      },
+      "recordCount": 2,
+      "records": [
+        "data/rcap-all50/pleadings/hawaii/hi_first_time_property_offender_expungement/pleading-config.json",
+        "data/rcap-all50/pleadings/hawaii/hi_marijuana_three_grams_expungement/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+      "reviewedSha256": "caf89c5e9b391c4f67c353220b93bebb4ec369954003225b900db4895a389bd4",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "f357de27915d23754e906653bf9dfcba11ed8a51b46e41e8cd29bff0267f7e67",
+      "reviewedBytesCurrentAt": {
+        "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+        "date": "2026-07-01",
+        "subject": "fix(rcap): enforce rule-driven packet eligibility"
+      },
+      "movedBy": {
+        "commit": "182db85f597375bb583aadca499aa7f09f639b1d",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane E question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 15,
+          "removed": 0,
+          "changed": 6,
+          "totalMoved": 21,
+          "operativeLeaves": 21,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "legalAuthority",
+          "paymentEligibility",
+          "unclassified_operative"
+        ],
+        "changedPaths": {
+          "added": [
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[2].lawrenceRatification.projectedFrom",
+            "pathways[4].lawrenceRatification.lawrence_review",
+            "pathways[4].lawrenceRatification.legal_basis",
+            "pathways[4].lawrenceRatification.packet_capable",
+            "pathways[4].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[4].lawrenceRatification.projectedFrom",
+            "pathways[4].lawrenceRatification.status",
+            "questionLifecycle.completionAliasIds[0]",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.exactPacketFactIds[5]"
+          ],
+          "removed": [],
+          "changed": [
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[0].lawrenceRatification.status",
+            "pathways[2].lawrenceRatification.lawrence_review",
+            "pathways[2].lawrenceRatification.packet_capable",
+            "pathways[2].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[2].lawrenceRatification.status"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 5,
+          "pathwaysNow": 5,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
+              "leavesMoved": 6
+            },
+            {
+              "pathwayId": "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+              "leavesMoved": 3
+            },
+            {
+              "pathwayId": "withheld-judgment-idaho-code-19-2604-review-branch",
+              "leavesMoved": 5
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.6,
+          "leavesOutsidePathways": 7
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": false,
+        "originalCommittedDigests": [
+          "caf89c5e9b391c4f67c353220b93bebb4ec369954003225b900db4895a389bd4"
+        ],
+        "recordsWithAPriorRepin": [],
+        "deltasFromOriginalCommittedDigests": [],
+        "note": "The pinned digest is the digest this record was first committed with."
+      },
+      "recordCount": 2,
+      "records": [
+        "data/rcap-all50/pleadings/idaho/id_felony_reduction/pleading-config.json",
+        "data/rcap-all50/pleadings/idaho/id_set_aside_dismissal/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
       "reviewedSha256": "e491c80d8c586ba7fd23e08d8693ddf4d0b2ada0eec746cde9e27dc77c391595",
+      "pinFields": [
+        "profileSha256"
+      ],
       "reviewedAsOf": "2026-07-30",
       "reviewedAsOfAcrossRecords": [
         "2026-07-30"
@@ -1914,6 +3045,9 @@
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
       "reviewedSha256": "0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982",
+      "pinFields": [
+        "profileSha256"
+      ],
       "reviewedAsOf": "2026-07-30",
       "reviewedAsOfAcrossRecords": [
         "2026-07-30"
@@ -2030,8 +3164,413 @@
       "disposition": null
     },
     {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+      "reviewedSha256": "06eceb937b1c0fefa498ae11732ea2512c4efdad8b831808d56a24b2baedf6db",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "e750a59a6f31adf35076111cc71c3eefd6a3c14b228c8d8557c8d5dc7e222339",
+      "reviewedBytesCurrentAt": {
+        "commit": "8840721b0f6b53cf9589ccfd4d1fc72a54dd4259",
+        "date": "2026-08-25",
+        "subject": "legal: gate route rules only on facts the flow actually guarantees"
+      },
+      "movedBy": {
+        "commit": "182db85f597375bb583aadca499aa7f09f639b1d",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane E question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 245,
+          "removed": 0,
+          "changed": 3,
+          "totalMoved": 248,
+          "operativeLeaves": 248,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "eligibility",
+          "exclusions",
+          "filingActor",
+          "filingDestination",
+          "legalAuthority",
+          "packetComponents",
+          "participantFacingConclusion",
+          "paymentEligibility",
+          "remedyIdentity",
+          "requiredFacts",
+          "routeIdentity",
+          "triggerDates",
+          "unclassified_operative",
+          "waitingPeriods"
+        ],
+        "changedPaths": {
+          "added": [
+            "orderedDecisionRules[19].candidatePathwayIds[0]",
+            "orderedDecisionRules[19].id",
+            "orderedDecisionRules[19].legalAuthority.decisionId",
+            "orderedDecisionRules[19].legalAuthority.mechanism",
+            "orderedDecisionRules[19].legalAuthority.ruleId",
+            "orderedDecisionRules[19].legalAuthority.statute",
+            "orderedDecisionRules[19].priority",
+            "orderedDecisionRules[19].sourceRef",
+            "orderedDecisionRules[19].stage",
+            "orderedDecisionRules[19].then.frontendAction",
+            "orderedDecisionRules[19].then.suggestedResultCode",
+            "orderedDecisionRules[19].when.backendPathwayId",
+            "orderedDecisionRules[19].when.duration.raw",
+            "orderedDecisionRules[19].when.duration.unit",
+            "orderedDecisionRules[19].when.duration.value",
+            "orderedDecisionRules[19].when.fieldsReferenced[0]",
+            "orderedDecisionRules[19].when.fieldsReferenced[1]",
+            "orderedDecisionRules[19].when.fieldsReferenced[2]",
+            "orderedDecisionRules[19].when.requiredFields[0]",
+            "orderedDecisionRules[19].when.requiredFields[1]",
+            "orderedDecisionRules[19].when.requiredFields[2]",
+            "orderedDecisionRules[19].when.sourceConditionText",
+            "orderedDecisionRules[19].when.timingAnchorAlternateFactIds[0]",
+            "orderedDecisionRules[19].when.timingAnchorAlternateFactIds[1]",
+            "orderedDecisionRules[19].when.timingAnchorFactId",
+            "orderedDecisionRules[20].candidatePathwayIds[0]",
+            "orderedDecisionRules[20].id",
+            "orderedDecisionRules[20].legalAuthority.decisionId",
+            "orderedDecisionRules[20].legalAuthority.mechanism",
+            "orderedDecisionRules[20].legalAuthority.ruleId",
+            "orderedDecisionRules[20].legalAuthority.statute",
+            "orderedDecisionRules[20].priority",
+            "orderedDecisionRules[20].sourceRef",
+            "orderedDecisionRules[20].stage",
+            "orderedDecisionRules[20].then.frontendAction",
+            "orderedDecisionRules[20].then.suggestedResultCode",
+            "orderedDecisionRules[20].when.backendPathwayId",
+            "orderedDecisionRules[20].when.fieldsReferenced[0]",
+            "orderedDecisionRules[20].when.fieldsReferenced[1]",
+            "orderedDecisionRules[20].when.requiredFields[0]",
+            "orderedDecisionRules[20].when.requiredFields[1]",
+            "orderedDecisionRules[20].when.sourceConditionText",
+            "packetGenerator.pathways[4].formMappingStatus",
+            "packetGenerator.pathways[4].mode",
+            "packetGenerator.pathways[4].noPacketWhen[0]",
+            "packetGenerator.pathways[4].noPacketWhen[1]",
+            "packetGenerator.pathways[4].noPacketWhen[2]",
+            "packetGenerator.pathways[4].noPacketWhen[3]",
+            "packetGenerator.pathways[4].noPacketWhen[4]",
+            "packetGenerator.pathways[4].noPacketWhen[5]",
+            "packetGenerator.pathways[4].packetReadyWhen[0]",
+            "packetGenerator.pathways[4].packetReadyWhen[1]",
+            "packetGenerator.pathways[4].packetReadyWhen[2]",
+            "packetGenerator.pathways[4].packetReadyWhen[3]",
+            "packetGenerator.pathways[4].packetReadyWhen[4]",
+            "packetGenerator.pathways[4].pathwayId",
+            "packetGenerator.pathways[4].pathwayLabel",
+            "packetGenerator.pathways[4].selectionRule",
+            "packetGenerator.pathways[4].sourceRuleRefs[0]",
+            "packetGenerator.pathways[5].formMappingStatus",
+            "packetGenerator.pathways[5].mode",
+            "packetGenerator.pathways[5].noPacketWhen[0]",
+            "packetGenerator.pathways[5].noPacketWhen[1]",
+            "packetGenerator.pathways[5].noPacketWhen[2]",
+            "packetGenerator.pathways[5].noPacketWhen[3]",
+            "packetGenerator.pathways[5].noPacketWhen[4]",
+            "packetGenerator.pathways[5].noPacketWhen[5]",
+            "packetGenerator.pathways[5].packetReadyWhen[0]",
+            "packetGenerator.pathways[5].packetReadyWhen[1]",
+            "packetGenerator.pathways[5].packetReadyWhen[2]",
+            "packetGenerator.pathways[5].packetReadyWhen[3]",
+            "packetGenerator.pathways[5].packetReadyWhen[4]",
+            "packetGenerator.pathways[5].pathwayId",
+            "packetGenerator.pathways[5].pathwayLabel",
+            "packetGenerator.pathways[5].selectionRule",
+            "packetGenerator.pathways[5].sourceRuleRefs[0]",
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[1].lawrenceRatification.projectedFrom",
+            "pathways[2].lawrenceRatification.projectedFrom",
+            "pathways[4].automatic",
+            "pathways[4].exclusionRules[0]",
+            "pathways[4].exclusionRules[1]",
+            "pathways[4].exclusionRules[2]",
+            "pathways[4].exclusionRules[3]",
+            "pathways[4].filingRequired",
+            "pathways[4].frontendBranch",
+            "pathways[4].id",
+            "pathways[4].label",
+            "pathways[4].legalAuthority.artifactApprovalRequired",
+            "pathways[4].legalAuthority.commercialPosture.checkoutEnabled",
+            "pathways[4].legalAuthority.commercialPosture.note",
+            "pathways[4].legalAuthority.commercialPosture.packetCreditsConsumed",
+            "pathways[4].legalAuthority.commercialPosture.sponsoredGenerationEnabled",
+            "pathways[4].legalAuthority.decisionId",
+            "pathways[4].legalAuthority.deliveryGates[0].evidenceReference",
+            "pathways[4].legalAuthority.deliveryGates[0].id",
+            "pathways[4].legalAuthority.deliveryGates[0].items[0]",
+            "pathways[4].legalAuthority.deliveryGates[0].items[1]",
+            "pathways[4].legalAuthority.deliveryGates[0].items[2]",
+            "pathways[4].legalAuthority.deliveryGates[0].items[3]",
+            "pathways[4].legalAuthority.deliveryGates[0].kind",
+            "pathways[4].legalAuthority.deliveryGates[0].note",
+            "pathways[4].legalAuthority.deliveryGates[0].owner",
+            "pathways[4].legalAuthority.deliveryGates[0].statusSource",
+            "pathways[4].legalAuthority.deliveryGates[1].evidenceReference",
+            "pathways[4].legalAuthority.deliveryGates[1].id",
+            "pathways[4].legalAuthority.deliveryGates[1].items[0]",
+            "pathways[4].legalAuthority.deliveryGates[1].items[1]",
+            "pathways[4].legalAuthority.deliveryGates[1].items[2]",
+            "pathways[4].legalAuthority.deliveryGates[1].kind",
+            "pathways[4].legalAuthority.deliveryGates[1].note",
+            "pathways[4].legalAuthority.deliveryGates[1].owner",
+            "pathways[4].legalAuthority.deliveryGates[1].statusSource",
+            "pathways[4].legalAuthority.effectiveFrom",
+            "pathways[4].legalAuthority.exclusions[0]",
+            "pathways[4].legalAuthority.exclusions[1]",
+            "pathways[4].legalAuthority.exclusions[2]",
+            "pathways[4].legalAuthority.exclusions[3]",
+            "pathways[4].legalAuthority.mechanism",
+            "pathways[4].legalAuthority.notes",
+            "pathways[4].legalAuthority.outcomeMode",
+            "pathways[4].legalAuthority.packetComponents[0]",
+            "pathways[4].legalAuthority.packetComponents[1]",
+            "pathways[4].legalAuthority.packetComponents[2]",
+            "pathways[4].legalAuthority.packetFamily",
+            "pathways[4].legalAuthority.paymentAuthority",
+            "pathways[4].legalAuthority.requiredFacts[0]",
+            "pathways[4].legalAuthority.requiredFacts[1]",
+            "pathways[4].legalAuthority.requiredFacts[2]",
+            "pathways[4].legalAuthority.requiredFacts[3]",
+            "pathways[4].legalAuthority.requiredFacts[4]",
+            "pathways[4].legalAuthority.requiredFacts[5]",
+            "pathways[4].legalAuthority.requiredFacts[6]",
+            "pathways[4].legalAuthority.requiredFacts[7]",
+            "pathways[4].legalAuthority.requiredFacts[8]",
+            "pathways[4].legalAuthority.requiredFacts[9]",
+            "pathways[4].legalAuthority.ruleId",
+            "pathways[4].legalAuthority.screeningFactIds[0]",
+            "pathways[4].legalAuthority.screeningFactIds[1]",
+            "pathways[4].legalAuthority.screeningFactIds[2]",
+            "pathways[4].legalAuthority.stage",
+            "pathways[4].legalAuthority.statute",
+            "pathways[4].legalAuthority.timing.anchorAlternates[0]",
+            "pathways[4].legalAuthority.timing.anchorAlternates[1]",
+            "pathways[4].legalAuthority.timing.anchorFactId",
+            "pathways[4].legalAuthority.timing.anchorText",
+            "pathways[4].legalAuthority.timing.kind",
+            "pathways[4].legalAuthority.timing.unit",
+            "pathways[4].legalAuthority.timing.value",
+            "pathways[4].routeType",
+            "pathways[4].ruleClauses[0]",
+            "pathways[4].sourceEvidenceRefs[0]",
+            "pathways[4].sourceEvidenceRefs[1]",
+            "pathways[4].sourceRef",
+            "pathways[4].suggestedResultCode",
+            "pathways[4].summary",
+            "pathways[4].triggerFields[0]",
+            "pathways[4].triggerFields[1]",
+            "pathways[4].triggerFields[2]",
+            "pathways[4].waitingRules[0]",
+            "pathways[4].waitingRules[1]",
+            "pathways[5].automatic",
+            "pathways[5].exclusionRules[0]",
+            "pathways[5].exclusionRules[1]",
+            "pathways[5].filingRequired",
+            "pathways[5].frontendBranch",
+            "pathways[5].id",
+            "pathways[5].label",
+            "pathways[5].legalAuthority.artifactApprovalRequired",
+            "pathways[5].legalAuthority.commercialPosture.checkoutEnabled",
+            "pathways[5].legalAuthority.commercialPosture.note",
+            "pathways[5].legalAuthority.commercialPosture.packetCreditsConsumed",
+            "pathways[5].legalAuthority.commercialPosture.sponsoredGenerationEnabled",
+            "pathways[5].legalAuthority.decisionId",
+            "pathways[5].legalAuthority.deliveryGates[0].evidenceReference",
+            "pathways[5].legalAuthority.deliveryGates[0].id",
+            "pathways[5].legalAuthority.deliveryGates[0].items[0]",
+            "pathways[5].legalAuthority.deliveryGates[0].items[1]",
+            "pathways[5].legalAuthority.deliveryGates[0].items[2]",
+            "pathways[5].legalAuthority.deliveryGates[0].kind",
+            "pathways[5].legalAuthority.deliveryGates[0].note",
+            "pathways[5].legalAuthority.deliveryGates[0].owner",
+            "pathways[5].legalAuthority.deliveryGates[0].statusSource",
+            "pathways[5].legalAuthority.deliveryGates[1].evidenceReference",
+            "pathways[5].legalAuthority.deliveryGates[1].id",
+            "pathways[5].legalAuthority.deliveryGates[1].items[0]",
+            "pathways[5].legalAuthority.deliveryGates[1].items[1]",
+            "pathways[5].legalAuthority.deliveryGates[1].items[2]",
+            "pathways[5].legalAuthority.deliveryGates[1].kind",
+            "pathways[5].legalAuthority.deliveryGates[1].note",
+            "pathways[5].legalAuthority.deliveryGates[1].owner",
+            "pathways[5].legalAuthority.deliveryGates[1].statusSource",
+            "pathways[5].legalAuthority.effectiveFrom",
+            "pathways[5].legalAuthority.exclusions[0]",
+            "pathways[5].legalAuthority.exclusions[1]",
+            "pathways[5].legalAuthority.mechanism",
+            "pathways[5].legalAuthority.notes",
+            "pathways[5].legalAuthority.outcomeMode",
+            "pathways[5].legalAuthority.packetComponents[0]",
+            "pathways[5].legalAuthority.packetComponents[1]",
+            "pathways[5].legalAuthority.packetComponents[2]",
+            "pathways[5].legalAuthority.packetFamily",
+            "pathways[5].legalAuthority.paymentAuthority",
+            "pathways[5].legalAuthority.requiredFacts[0]",
+            "pathways[5].legalAuthority.requiredFacts[1]",
+            "pathways[5].legalAuthority.requiredFacts[2]",
+            "pathways[5].legalAuthority.requiredFacts[3]",
+            "pathways[5].legalAuthority.requiredFacts[4]",
+            "pathways[5].legalAuthority.requiredFacts[5]",
+            "pathways[5].legalAuthority.requiredFacts[6]",
+            "pathways[5].legalAuthority.requiredFacts[7]",
+            "pathways[5].legalAuthority.requiredFacts[8]",
+            "pathways[5].legalAuthority.ruleId",
+            "pathways[5].legalAuthority.screeningFactIds[0]",
+            "pathways[5].legalAuthority.screeningFactIds[1]",
+            "pathways[5].legalAuthority.stage",
+            "pathways[5].legalAuthority.statute",
+            "pathways[5].legalAuthority.timing.anchorText",
+            "pathways[5].legalAuthority.timing.kind",
+            "pathways[5].routeType",
+            "pathways[5].ruleClauses[0]",
+            "pathways[5].sourceEvidenceRefs[0]",
+            "pathways[5].sourceEvidenceRefs[1]",
+            "pathways[5].sourceRef",
+            "pathways[5].suggestedResultCode",
+            "pathways[5].summary",
+            "pathways[5].triggerFields[0]",
+            "pathways[5].triggerFields[1]",
+            "pathways[5].waitingRules[0]",
+            "pathways[5].waitingRules[1]",
+            "questionLifecycle.completionAliasIds[0]",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "waitingPeriodRules[3].anchor",
+            "waitingPeriodRules[3].duration.raw",
+            "waitingPeriodRules[3].duration.unit",
+            "waitingPeriodRules[3].duration.value",
+            "waitingPeriodRules[3].fieldsReferenced[0]",
+            "waitingPeriodRules[3].fieldsReferenced[1]",
+            "waitingPeriodRules[3].fieldsReferenced[2]",
+            "waitingPeriodRules[3].id",
+            "waitingPeriodRules[3].ruleText"
+          ],
+          "removed": [],
+          "changed": [
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[1].lawrenceRatification.lawrence_review",
+            "pathways[2].lawrenceRatification.lawrence_review"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 4,
+          "pathwaysNow": 6,
+          "pathwaysGained": [
+            "municipal-arrest-record-expungement-under-12-4516a",
+            "municipal-conviction-or-diversion-expungement-under-12-4516"
+          ],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "conviction-or-diversion-216614",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "prostitution-coercion",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "specialty-court-accelerated",
+              "leavesMoved": 2
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.75,
+          "leavesOutsidePathways": 91
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": true,
+        "originalCommittedDigests": [
+          "965e3a85ff74016d3e496debb8ee27f94d50ed6300203420a0825e4e5783fdbb"
+        ],
+        "recordsWithAPriorRepin": [
+          "data/rcap-all50/pleadings/kansas/ks-12-4516-municipal/pleading-config.json",
+          "data/rcap-all50/pleadings/kansas/ks-12-4516a-municipal-arrest/pleading-config.json"
+        ],
+        "deltasFromOriginalCommittedDigests": [
+          {
+            "originalSha256": "965e3a85ff74016d3e496debb8ee27f94d50ed6300203420a0825e4e5783fdbb",
+            "firstCommittedAt": {
+              "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+              "date": "2026-07-01",
+              "subject": "fix(rcap): enforce rule-driven packet eligibility"
+            },
+            "counts": {
+              "added": 277,
+              "removed": 6,
+              "changed": 5,
+              "totalMoved": 288,
+              "operativeLeaves": 288,
+              "nonOperativeLeaves": 0
+            },
+            "dimensionsTouched": [
+              "eligibility",
+              "exclusions",
+              "filingActor",
+              "filingDestination",
+              "legalAuthority",
+              "packetComponents",
+              "participantFacingConclusion",
+              "paymentEligibility",
+              "remedyIdentity",
+              "requiredFacts",
+              "routeIdentity",
+              "triggerDates",
+              "unclassified_operative",
+              "waitingPeriods"
+            ],
+            "isolation": {
+              "pathwaysAtReview": 4,
+              "pathwaysNow": 6,
+              "pathwaysGained": [
+                "municipal-arrest-record-expungement-under-12-4516a",
+                "municipal-conviction-or-diversion-expungement-under-12-4516"
+              ],
+              "pathwaysLost": [],
+              "reviewedPathwaysDisturbed": [
+                {
+                  "pathwayId": "conviction-or-diversion-216614",
+                  "leavesMoved": 2
+                },
+                {
+                  "pathwayId": "prostitution-coercion",
+                  "leavesMoved": 2
+                },
+                {
+                  "pathwayId": "specialty-court-accelerated",
+                  "leavesMoved": 30
+                }
+              ],
+              "reviewedPathwaysDisturbedFraction": 0.75,
+              "leavesOutsidePathways": 103
+            }
+          }
+        ],
+        "note": "This group's pinned digest was installed by a later commit than the record's first, and reviewedAsOf did not move with it. A disposition here is deciding about the whole chain from the original committed digest, not only about the last leg."
+      },
+      "recordCount": 2,
+      "records": [
+        "data/rcap-all50/pleadings/kansas/ks-12-4516-municipal/pleading-config.json",
+        "data/rcap-all50/pleadings/kansas/ks-12-4516a-municipal-arrest/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
       "reviewedSha256": "441a89c697a0443e6b429e4f3be750d26af5e1bb31afbabd61800f020394b438",
+      "pinFields": [
+        "profileSha256"
+      ],
       "reviewedAsOf": "2026-08-06",
       "reviewedAsOfAcrossRecords": [
         "2026-08-06"
@@ -2322,6 +3861,9 @@
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
       "reviewedSha256": "4f27411ff96682aebd9e72dbe347ed2aa8059af585286b412cd14a1ffffcf672",
+      "pinFields": [
+        "profileSha256"
+      ],
       "reviewedAsOf": "2026-08-06",
       "reviewedAsOfAcrossRecords": [
         "2026-08-06"
@@ -2584,8 +4126,586 @@
       "disposition": null
     },
     {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+      "reviewedSha256": "76e109a79cf7292b850f5a9f4e14caec30ec50cb55741acc080c40c7b304202c",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "66724c93b7103868d642c0d8df1c6c9af09c892cd1d273a0a00991e7777f0026",
+      "reviewedBytesCurrentAt": {
+        "commit": "8840721b0f6b53cf9589ccfd4d1fc72a54dd4259",
+        "date": "2026-08-25",
+        "subject": "legal: gate route rules only on facts the flow actually guarantees"
+      },
+      "movedBy": {
+        "commit": "67d2fbd1a52f446dc9da40d26a44d42127268553",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane F question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 11,
+          "removed": 7,
+          "changed": 17,
+          "totalMoved": 35,
+          "operativeLeaves": 35,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "filingActor",
+          "legalAuthority",
+          "packetComponents",
+          "participantFacingConclusion",
+          "paymentEligibility",
+          "remedyIdentity",
+          "unclassified_operative"
+        ],
+        "changedPaths": {
+          "added": [
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[2].lawrenceRatification.projectedFrom",
+            "pathways[3].lawrenceRatification.projectedFrom",
+            "pathways[4].lawrenceRatification.projectedFrom",
+            "pathways[5].lawrenceRatification.projectedFrom",
+            "pathways[6].lawrenceRatification.projectedFrom",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]"
+          ],
+          "removed": [
+            "pathways[1].lawrenceRatification.lawrence_review",
+            "pathways[1].lawrenceRatification.legal_basis",
+            "pathways[1].lawrenceRatification.packet_capable",
+            "pathways[1].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[1].lawrenceRatification.status",
+            "pathways[6].legalAuthority.packetComponents[0]",
+            "pathways[6].legalAuthority.packetComponents[1]"
+          ],
+          "changed": [
+            "orderedDecisionRules[30].then.suggestedResultCode",
+            "packetGenerator.pathways[6].mode",
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[0].lawrenceRatification.status",
+            "pathways[2].lawrenceRatification.lawrence_review",
+            "pathways[3].lawrenceRatification.lawrence_review",
+            "pathways[3].lawrenceRatification.status",
+            "pathways[4].lawrenceRatification.lawrence_review",
+            "pathways[4].lawrenceRatification.status",
+            "pathways[5].lawrenceRatification.lawrence_review",
+            "pathways[6].filingRequired",
+            "pathways[6].lawrenceRatification.lawrence_review",
+            "pathways[6].legalAuthority.notes",
+            "pathways[6].legalAuthority.outcomeMode",
+            "pathways[6].legalAuthority.packetFamily",
+            "pathways[6].legalAuthority.paymentAuthority",
+            "pathways[6].routeType"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 7,
+          "pathwaysNow": 7,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "adult-conviction-sealing-under-m-g-l-c-276-100a",
+              "leavesMoved": 3
+            },
+            {
+              "pathwayId": "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+              "leavesMoved": 5
+            },
+            {
+              "pathwayId": "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "juvenile-record-sealing-under-100b",
+              "leavesMoved": 3
+            },
+            {
+              "pathwayId": "marijuana-only-expungement",
+              "leavesMoved": 10
+            },
+            {
+              "pathwayId": "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "time-based-expungement-under-100f-100j",
+              "leavesMoved": 3
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 1,
+          "leavesOutsidePathways": 7
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": true,
+        "originalCommittedDigests": [
+          "1c1b7cb5da7af9833ed388afd878397877c51218feddfe40431b4b75ae800f28"
+        ],
+        "recordsWithAPriorRepin": [
+          "data/rcap-all50/pleadings/massachusetts/ma-bmc-multi/pleading-config.json"
+        ],
+        "deltasFromOriginalCommittedDigests": [
+          {
+            "originalSha256": "1c1b7cb5da7af9833ed388afd878397877c51218feddfe40431b4b75ae800f28",
+            "firstCommittedAt": {
+              "commit": "b9a8cf1770c3c22ed585b644a92fa03f5ace085d",
+              "date": "2026-07-01",
+              "subject": "fix(rcap): promote Final Four to paid packet coverage (46 -> 50 jurisdictions)"
+            },
+            "counts": {
+              "added": 86,
+              "removed": 86,
+              "changed": 27,
+              "totalMoved": 199,
+              "operativeLeaves": 199,
+              "nonOperativeLeaves": 0
+            },
+            "dimensionsTouched": [
+              "eligibility",
+              "exclusions",
+              "filingActor",
+              "legalAuthority",
+              "packetComponents",
+              "participantFacingConclusion",
+              "paymentEligibility",
+              "remedyIdentity",
+              "requiredFacts",
+              "routeIdentity",
+              "triggerDates",
+              "unclassified_operative",
+              "waitingPeriods"
+            ],
+            "isolation": {
+              "pathwaysAtReview": 7,
+              "pathwaysNow": 7,
+              "pathwaysGained": [],
+              "pathwaysLost": [],
+              "reviewedPathwaysDisturbed": [
+                {
+                  "pathwayId": "adult-conviction-sealing-under-m-g-l-c-276-100a",
+                  "leavesMoved": 3
+                },
+                {
+                  "pathwayId": "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+                  "leavesMoved": 42
+                },
+                {
+                  "pathwayId": "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+                  "leavesMoved": 43
+                },
+                {
+                  "pathwayId": "juvenile-record-sealing-under-100b",
+                  "leavesMoved": 3
+                },
+                {
+                  "pathwayId": "marijuana-only-expungement",
+                  "leavesMoved": 38
+                },
+                {
+                  "pathwayId": "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+                  "leavesMoved": 2
+                },
+                {
+                  "pathwayId": "time-based-expungement-under-100f-100j",
+                  "leavesMoved": 3
+                }
+              ],
+              "reviewedPathwaysDisturbedFraction": 1,
+              "leavesOutsidePathways": 65
+            }
+          }
+        ],
+        "note": "This group's pinned digest was installed by a later commit than the record's first, and reviewedAsOf did not move with it. A disposition here is deciding about the whole chain from the original committed digest, not only about the last leg."
+      },
+      "recordCount": 1,
+      "records": [
+        "data/rcap-all50/pleadings/massachusetts/ma-bmc-multi/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+      "reviewedSha256": "c10031cebf7c28760d0a9d81727b9741a42525278ec147faa3c07922a3ff8d02",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "f33ef12f104eab887a40bee4d2e3aca8e947dfd3570265912fb4c4455e00883d",
+      "reviewedBytesCurrentAt": {
+        "commit": "8840721b0f6b53cf9589ccfd4d1fc72a54dd4259",
+        "date": "2026-08-25",
+        "subject": "legal: gate route rules only on facts the flow actually guarantees"
+      },
+      "movedBy": {
+        "commit": "67d2fbd1a52f446dc9da40d26a44d42127268553",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane F question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 114,
+          "removed": 71,
+          "changed": 21,
+          "totalMoved": 206,
+          "operativeLeaves": 206,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "eligibility",
+          "exclusions",
+          "filingActor",
+          "filingDestination",
+          "legalAuthority",
+          "packetComponents",
+          "participantFacingConclusion",
+          "paymentEligibility",
+          "remedyIdentity",
+          "requiredFacts",
+          "routeIdentity",
+          "triggerDates",
+          "unclassified_operative",
+          "waitingPeriods"
+        ],
+        "changedPaths": {
+          "added": [
+            "orderedDecisionRules[27].legalAuthority.decisionId",
+            "orderedDecisionRules[27].legalAuthority.mechanism",
+            "orderedDecisionRules[27].legalAuthority.ruleId",
+            "orderedDecisionRules[27].legalAuthority.statute",
+            "orderedDecisionRules[28].legalAuthority.decisionId",
+            "orderedDecisionRules[28].legalAuthority.mechanism",
+            "orderedDecisionRules[28].legalAuthority.ruleId",
+            "orderedDecisionRules[28].legalAuthority.statute",
+            "orderedDecisionRules[29].legalAuthority.decisionId",
+            "orderedDecisionRules[29].legalAuthority.mechanism",
+            "orderedDecisionRules[29].legalAuthority.ruleId",
+            "orderedDecisionRules[29].legalAuthority.statute",
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[0].legalAuthority.commercialPosture.checkoutEnabled",
+            "pathways[0].legalAuthority.commercialPosture.note",
+            "pathways[0].legalAuthority.commercialPosture.packetCreditsConsumed",
+            "pathways[0].legalAuthority.commercialPosture.sponsoredGenerationEnabled",
+            "pathways[0].legalAuthority.decisionId",
+            "pathways[0].legalAuthority.deliveryGates[0].evidenceReference",
+            "pathways[0].legalAuthority.deliveryGates[0].id",
+            "pathways[0].legalAuthority.deliveryGates[0].items[0]",
+            "pathways[0].legalAuthority.deliveryGates[0].items[1]",
+            "pathways[0].legalAuthority.deliveryGates[0].items[2]",
+            "pathways[0].legalAuthority.deliveryGates[0].kind",
+            "pathways[0].legalAuthority.deliveryGates[0].note",
+            "pathways[0].legalAuthority.deliveryGates[0].owner",
+            "pathways[0].legalAuthority.deliveryGates[0].statusSource",
+            "pathways[0].legalAuthority.exclusions[0]",
+            "pathways[0].legalAuthority.mechanism",
+            "pathways[0].legalAuthority.notes",
+            "pathways[0].legalAuthority.outcomeMode",
+            "pathways[0].legalAuthority.packetComponents[0]",
+            "pathways[0].legalAuthority.packetComponents[1]",
+            "pathways[0].legalAuthority.packetComponents[2]",
+            "pathways[0].legalAuthority.packetFamily",
+            "pathways[0].legalAuthority.paymentAuthority",
+            "pathways[0].legalAuthority.requiredFacts[0]",
+            "pathways[0].legalAuthority.requiredFacts[1]",
+            "pathways[0].legalAuthority.requiredFacts[2]",
+            "pathways[0].legalAuthority.ruleId",
+            "pathways[0].legalAuthority.screeningFactIds[0]",
+            "pathways[0].legalAuthority.screeningFactIds[1]",
+            "pathways[0].legalAuthority.stage",
+            "pathways[0].legalAuthority.statute",
+            "pathways[0].legalAuthority.timing.anchorText",
+            "pathways[0].legalAuthority.timing.kind",
+            "pathways[1].lawrenceRatification.projectedFrom",
+            "pathways[1].legalAuthority.commercialPosture.checkoutEnabled",
+            "pathways[1].legalAuthority.commercialPosture.note",
+            "pathways[1].legalAuthority.commercialPosture.packetCreditsConsumed",
+            "pathways[1].legalAuthority.commercialPosture.sponsoredGenerationEnabled",
+            "pathways[1].legalAuthority.decisionId",
+            "pathways[1].legalAuthority.deliveryGates[0].evidenceReference",
+            "pathways[1].legalAuthority.deliveryGates[0].id",
+            "pathways[1].legalAuthority.deliveryGates[0].items[0]",
+            "pathways[1].legalAuthority.deliveryGates[0].items[1]",
+            "pathways[1].legalAuthority.deliveryGates[0].kind",
+            "pathways[1].legalAuthority.deliveryGates[0].note",
+            "pathways[1].legalAuthority.deliveryGates[0].owner",
+            "pathways[1].legalAuthority.deliveryGates[0].statusSource",
+            "pathways[1].legalAuthority.deliveryGates[1].evidenceReference",
+            "pathways[1].legalAuthority.deliveryGates[1].id",
+            "pathways[1].legalAuthority.deliveryGates[1].items[0]",
+            "pathways[1].legalAuthority.deliveryGates[1].items[1]",
+            "pathways[1].legalAuthority.deliveryGates[1].kind",
+            "pathways[1].legalAuthority.deliveryGates[1].note",
+            "pathways[1].legalAuthority.deliveryGates[1].owner",
+            "pathways[1].legalAuthority.deliveryGates[1].statusSource",
+            "pathways[1].legalAuthority.exclusions[0]",
+            "pathways[1].legalAuthority.mechanism",
+            "pathways[1].legalAuthority.notes",
+            "pathways[1].legalAuthority.outcomeMode",
+            "pathways[1].legalAuthority.packetFamily",
+            "pathways[1].legalAuthority.paymentAuthority",
+            "pathways[1].legalAuthority.requiredFacts[0]",
+            "pathways[1].legalAuthority.requiredFacts[1]",
+            "pathways[1].legalAuthority.requiredFacts[2]",
+            "pathways[1].legalAuthority.ruleId",
+            "pathways[1].legalAuthority.screeningFactIds[0]",
+            "pathways[1].legalAuthority.stage",
+            "pathways[1].legalAuthority.statute",
+            "pathways[1].legalAuthority.timing.anchorText",
+            "pathways[1].legalAuthority.timing.kind",
+            "pathways[2].lawrenceRatification.projectedFrom",
+            "pathways[2].legalAuthority.commercialPosture.checkoutEnabled",
+            "pathways[2].legalAuthority.commercialPosture.note",
+            "pathways[2].legalAuthority.commercialPosture.packetCreditsConsumed",
+            "pathways[2].legalAuthority.commercialPosture.sponsoredGenerationEnabled",
+            "pathways[2].legalAuthority.decisionId",
+            "pathways[2].legalAuthority.exclusions[0]",
+            "pathways[2].legalAuthority.mechanism",
+            "pathways[2].legalAuthority.notes",
+            "pathways[2].legalAuthority.outcomeMode",
+            "pathways[2].legalAuthority.packetFamily",
+            "pathways[2].legalAuthority.paymentAuthority",
+            "pathways[2].legalAuthority.requiredFacts[0]",
+            "pathways[2].legalAuthority.requiredFacts[1]",
+            "pathways[2].legalAuthority.ruleId",
+            "pathways[2].legalAuthority.screeningFactIds[0]",
+            "pathways[2].legalAuthority.stage",
+            "pathways[2].legalAuthority.statute",
+            "pathways[2].legalAuthority.timing.anchorText",
+            "pathways[2].legalAuthority.timing.kind",
+            "pathways[3].lawrenceRatification.projectedFrom",
+            "pathways[4].lawrenceRatification.projectedFrom",
+            "questionLifecycle.completionAliasIds[0]",
+            "questionLifecycle.completionAliasIds[1]",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.exactPacketFactIds[5]",
+            "questionLifecycle.exactPacketFactIds[6]"
+          ],
+          "removed": [
+            "orderedDecisionRules[27].when.fieldsReferenced[2]",
+            "orderedDecisionRules[27].when.fieldsReferenced[3]",
+            "orderedDecisionRules[27].when.fieldsReferenced[4]",
+            "orderedDecisionRules[27].when.fieldsReferenced[5]",
+            "orderedDecisionRules[27].when.fieldsReferenced[6]",
+            "orderedDecisionRules[27].when.fieldsReferenced[7]",
+            "orderedDecisionRules[27].when.fieldsReferenced[8]",
+            "orderedDecisionRules[27].when.fieldsReferenced[9]",
+            "orderedDecisionRules[27].when.requiredFields[2]",
+            "orderedDecisionRules[27].when.requiredFields[3]",
+            "orderedDecisionRules[27].when.requiredFields[4]",
+            "orderedDecisionRules[27].when.requiredFields[5]",
+            "orderedDecisionRules[27].when.requiredFields[6]",
+            "orderedDecisionRules[27].when.requiredFields[7]",
+            "orderedDecisionRules[27].when.requiredFields[8]",
+            "orderedDecisionRules[27].when.requiredFields[9]",
+            "orderedDecisionRules[28].when.fieldsReferenced[1]",
+            "orderedDecisionRules[28].when.fieldsReferenced[2]",
+            "orderedDecisionRules[28].when.fieldsReferenced[3]",
+            "orderedDecisionRules[28].when.fieldsReferenced[4]",
+            "orderedDecisionRules[28].when.fieldsReferenced[5]",
+            "orderedDecisionRules[28].when.fieldsReferenced[6]",
+            "orderedDecisionRules[28].when.fieldsReferenced[7]",
+            "orderedDecisionRules[28].when.requiredFields[1]",
+            "orderedDecisionRules[28].when.requiredFields[2]",
+            "orderedDecisionRules[28].when.requiredFields[3]",
+            "orderedDecisionRules[28].when.requiredFields[4]",
+            "orderedDecisionRules[28].when.requiredFields[5]",
+            "orderedDecisionRules[28].when.requiredFields[6]",
+            "orderedDecisionRules[28].when.requiredFields[7]",
+            "orderedDecisionRules[29].when.fieldsReferenced[1]",
+            "orderedDecisionRules[29].when.fieldsReferenced[2]",
+            "orderedDecisionRules[29].when.fieldsReferenced[3]",
+            "orderedDecisionRules[29].when.fieldsReferenced[4]",
+            "orderedDecisionRules[29].when.requiredFields[1]",
+            "orderedDecisionRules[29].when.requiredFields[2]",
+            "orderedDecisionRules[29].when.requiredFields[3]",
+            "orderedDecisionRules[29].when.requiredFields[4]",
+            "pathways[0].waitingRules[10]",
+            "pathways[0].waitingRules[11]",
+            "pathways[0].waitingRules[12]",
+            "pathways[0].waitingRules[13]",
+            "pathways[0].waitingRules[14]",
+            "pathways[0].waitingRules[1]",
+            "pathways[0].waitingRules[2]",
+            "pathways[0].waitingRules[3]",
+            "pathways[0].waitingRules[4]",
+            "pathways[0].waitingRules[5]",
+            "pathways[0].waitingRules[6]",
+            "pathways[0].waitingRules[7]",
+            "pathways[0].waitingRules[8]",
+            "pathways[0].waitingRules[9]",
+            "pathways[1].waitingRules[10]",
+            "pathways[1].waitingRules[11]",
+            "pathways[1].waitingRules[12]",
+            "pathways[1].waitingRules[13]",
+            "pathways[1].waitingRules[1]",
+            "pathways[1].waitingRules[2]",
+            "pathways[1].waitingRules[3]",
+            "pathways[1].waitingRules[4]",
+            "pathways[1].waitingRules[5]",
+            "pathways[1].waitingRules[6]",
+            "pathways[1].waitingRules[7]",
+            "pathways[1].waitingRules[8]",
+            "pathways[1].waitingRules[9]",
+            "pathways[2].waitingRules[1]",
+            "pathways[2].waitingRules[2]",
+            "pathways[2].waitingRules[3]",
+            "pathways[2].waitingRules[4]",
+            "pathways[2].waitingRules[5]",
+            "pathways[2].waitingRules[6]"
+          ],
+          "changed": [
+            "orderedDecisionRules[24].then.frontendAction",
+            "orderedDecisionRules[24].then.suggestedResultCode",
+            "orderedDecisionRules[27].when.sourceConditionText",
+            "orderedDecisionRules[28].when.sourceConditionText",
+            "orderedDecisionRules[29].then.suggestedResultCode",
+            "orderedDecisionRules[29].when.sourceConditionText",
+            "packetGenerator.pathways[2].mode",
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[0].lawrenceRatification.packet_capable",
+            "pathways[0].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[0].lawrenceRatification.status",
+            "pathways[0].waitingRules[0]",
+            "pathways[1].lawrenceRatification.lawrence_review",
+            "pathways[1].lawrenceRatification.status",
+            "pathways[1].waitingRules[0]",
+            "pathways[2].filingRequired",
+            "pathways[2].lawrenceRatification.lawrence_review",
+            "pathways[2].routeType",
+            "pathways[2].waitingRules[0]",
+            "pathways[3].lawrenceRatification.lawrence_review",
+            "pathways[4].lawrenceRatification.lawrence_review"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 5,
+          "pathwaysNow": 5,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "adult-conviction-sealing",
+              "leavesMoved": 53
+            },
+            {
+              "pathwayId": "adult-non-conviction-record-relief",
+              "leavesMoved": 30
+            },
+            {
+              "pathwayId": "juvenile-sealing",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "pardon-route",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "sex-trafficking-sexual-exploitation-survivor-sealing",
+              "leavesMoved": 53
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 1,
+          "leavesOutsidePathways": 66
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": true,
+        "originalCommittedDigests": [
+          "e94dc217093e5eac16d797ec1ded9629f15efdc5068a89cf35542fec84089c50"
+        ],
+        "recordsWithAPriorRepin": [
+          "data/rcap-all50/pleadings/maine/me-screening/pleading-config.json"
+        ],
+        "deltasFromOriginalCommittedDigests": [
+          {
+            "originalSha256": "e94dc217093e5eac16d797ec1ded9629f15efdc5068a89cf35542fec84089c50",
+            "firstCommittedAt": {
+              "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+              "date": "2026-07-01",
+              "subject": "fix(rcap): enforce rule-driven packet eligibility"
+            },
+            "counts": {
+              "added": 164,
+              "removed": 101,
+              "changed": 26,
+              "totalMoved": 291,
+              "operativeLeaves": 291,
+              "nonOperativeLeaves": 0
+            },
+            "dimensionsTouched": [
+              "eligibility",
+              "exclusions",
+              "filingActor",
+              "filingDestination",
+              "legalAuthority",
+              "packetComponents",
+              "participantFacingConclusion",
+              "paymentEligibility",
+              "remedyIdentity",
+              "requiredFacts",
+              "routeIdentity",
+              "triggerDates",
+              "unclassified_operative",
+              "waitingPeriods"
+            ],
+            "isolation": {
+              "pathwaysAtReview": 5,
+              "pathwaysNow": 5,
+              "pathwaysGained": [],
+              "pathwaysLost": [],
+              "reviewedPathwaysDisturbed": [
+                {
+                  "pathwayId": "adult-conviction-sealing",
+                  "leavesMoved": 53
+                },
+                {
+                  "pathwayId": "adult-non-conviction-record-relief",
+                  "leavesMoved": 30
+                },
+                {
+                  "pathwayId": "juvenile-sealing",
+                  "leavesMoved": 52
+                },
+                {
+                  "pathwayId": "pardon-route",
+                  "leavesMoved": 2
+                },
+                {
+                  "pathwayId": "sex-trafficking-sexual-exploitation-survivor-sealing",
+                  "leavesMoved": 53
+                }
+              ],
+              "reviewedPathwaysDisturbedFraction": 1,
+              "leavesOutsidePathways": 101
+            }
+          }
+        ],
+        "note": "This group's pinned digest was installed by a later commit than the record's first, and reviewedAsOf did not move with it. A disposition here is deciding about the whole chain from the original committed digest, not only about the last leg."
+      },
+      "recordCount": 1,
+      "records": [
+        "data/rcap-all50/pleadings/maine/me-screening/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
       "reviewedSha256": "2b9380c023275fce405992af514d59041ac077a164f4e48ff92bb0876f19fe96",
+      "pinFields": [
+        "profileSha256"
+      ],
       "reviewedAsOf": "2026-08-03",
       "reviewedAsOfAcrossRecords": [
         "2026-08-03"
@@ -2915,8 +5035,1681 @@
       "disposition": null
     },
     {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+      "reviewedSha256": "b74be5afc18c8aeb12415904244961d0d2c7f68021e8b7a7cb8e97da217de084",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "c15ef1c244fd45bffca2a0fe2d5e95523c10b844c715587bde3c52348e16a3c5",
+      "reviewedBytesCurrentAt": {
+        "commit": "053e8db1909c3af6395199148e41d04d62d84b7f",
+        "date": "2026-08-25",
+        "subject": "legal: consume authority contracts at runtime"
+      },
+      "movedBy": {
+        "commit": "61b2acd1aca857f021a594cc95fdf7a6a7b1c2eb",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane G question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 15,
+          "removed": 0,
+          "changed": 1,
+          "totalMoved": 16,
+          "operativeLeaves": 16,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "legalAuthority",
+          "paymentEligibility",
+          "unclassified_operative"
+        ],
+        "changedPaths": {
+          "added": [
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[0].lawrenceRatification.legal_basis",
+            "pathways[0].lawrenceRatification.packet_capable",
+            "pathways[0].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[0].lawrenceRatification.status",
+            "pathways[1].lawrenceRatification.projectedFrom",
+            "questionLifecycle.completionAliasIds[0]",
+            "questionLifecycle.completionAliasIds[1]",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.exactPacketFactIds[5]"
+          ],
+          "removed": [],
+          "changed": [
+            "pathways[1].lawrenceRatification.lawrence_review"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 3,
+          "pathwaysNow": 3,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "dismissal-and-not-guilty-expunction-under-g-s-15a-146",
+              "leavesMoved": 6
+            },
+            {
+              "pathwayId": "nonviolent-conviction-expunction-under-g-s-15a-145-5",
+              "leavesMoved": 2
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.6667,
+          "leavesOutsidePathways": 8
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": true,
+        "originalCommittedDigests": [
+          "62ca0e40196e61fe3eb9979f89c176100cf927879fe4c71ffe1878c844916e41"
+        ],
+        "recordsWithAPriorRepin": [
+          "data/rcap-all50/pleadings/north-carolina/nc_auto_146_a4_agency_followup/pleading-config.json"
+        ],
+        "deltasFromOriginalCommittedDigests": [
+          {
+            "originalSha256": "62ca0e40196e61fe3eb9979f89c176100cf927879fe4c71ffe1878c844916e41",
+            "firstCommittedAt": {
+              "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+              "date": "2026-07-01",
+              "subject": "fix(rcap): enforce rule-driven packet eligibility"
+            },
+            "counts": {
+              "added": 52,
+              "removed": 23,
+              "changed": 5,
+              "totalMoved": 80,
+              "operativeLeaves": 80,
+              "nonOperativeLeaves": 0
+            },
+            "dimensionsTouched": [
+              "eligibility",
+              "exclusions",
+              "filingActor",
+              "legalAuthority",
+              "packetComponents",
+              "participantFacingConclusion",
+              "paymentEligibility",
+              "remedyIdentity",
+              "requiredFacts",
+              "routeIdentity",
+              "triggerDates",
+              "unclassified_operative",
+              "waitingPeriods"
+            ],
+            "isolation": {
+              "pathwaysAtReview": 3,
+              "pathwaysNow": 3,
+              "pathwaysGained": [],
+              "pathwaysLost": [],
+              "reviewedPathwaysDisturbed": [
+                {
+                  "pathwayId": "dismissal-and-not-guilty-expunction-under-g-s-15a-146",
+                  "leavesMoved": 6
+                },
+                {
+                  "pathwayId": "nonviolent-conviction-expunction-under-g-s-15a-145-5",
+                  "leavesMoved": 2
+                },
+                {
+                  "pathwayId": "youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes",
+                  "leavesMoved": 49
+                }
+              ],
+              "reviewedPathwaysDisturbedFraction": 1,
+              "leavesOutsidePathways": 23
+            }
+          }
+        ],
+        "note": "This group's pinned digest was installed by a later commit than the record's first, and reviewedAsOf did not move with it. A disposition here is deciding about the whole chain from the original committed digest, not only about the last leg."
+      },
+      "recordCount": 1,
+      "records": [
+        "data/rcap-all50/pleadings/north-carolina/nc_auto_146_a4_agency_followup/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+      "reviewedSha256": "7396f7a8e07bfa588cc6075f930237b7fada380d30cbbca7f07f0ec0675ed473",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "3b63b0448fc34695e9cb23588236e73b895c8aca35fdf2f0e702512cc6ffb29f",
+      "reviewedBytesCurrentAt": {
+        "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+        "date": "2026-07-01",
+        "subject": "fix(rcap): enforce rule-driven packet eligibility"
+      },
+      "movedBy": {
+        "commit": "61b2acd1aca857f021a594cc95fdf7a6a7b1c2eb",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane G question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 97,
+          "removed": 25,
+          "changed": 21,
+          "totalMoved": 143,
+          "operativeLeaves": 143,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "eligibility",
+          "exclusions",
+          "filingActor",
+          "filingDestination",
+          "legalAuthority",
+          "packetComponents",
+          "participantFacingConclusion",
+          "paymentEligibility",
+          "remedyIdentity",
+          "requiredFacts",
+          "routeIdentity",
+          "triggerDates",
+          "waitingPeriods"
+        ],
+        "changedPaths": {
+          "added": [
+            "orderedDecisionRules[90].legalAuthority.decisionId",
+            "orderedDecisionRules[90].legalAuthority.mechanism",
+            "orderedDecisionRules[90].legalAuthority.ruleId",
+            "orderedDecisionRules[90].legalAuthority.statute",
+            "orderedDecisionRules[90].when.timingAnchorFactId",
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[1].lawrenceRatification.projectedFrom",
+            "pathways[1].legalAuthority.commercialPosture.checkoutEnabled",
+            "pathways[1].legalAuthority.commercialPosture.note",
+            "pathways[1].legalAuthority.commercialPosture.packetCreditsConsumed",
+            "pathways[1].legalAuthority.commercialPosture.sponsoredGenerationEnabled",
+            "pathways[1].legalAuthority.decisionId",
+            "pathways[1].legalAuthority.deliveryGates[0].evidenceReference",
+            "pathways[1].legalAuthority.deliveryGates[0].id",
+            "pathways[1].legalAuthority.deliveryGates[0].items[0]",
+            "pathways[1].legalAuthority.deliveryGates[0].kind",
+            "pathways[1].legalAuthority.deliveryGates[0].note",
+            "pathways[1].legalAuthority.deliveryGates[0].owner",
+            "pathways[1].legalAuthority.deliveryGates[0].statusSource",
+            "pathways[1].legalAuthority.effectiveFrom",
+            "pathways[1].legalAuthority.exclusions[0]",
+            "pathways[1].legalAuthority.exclusions[1]",
+            "pathways[1].legalAuthority.exclusions[2]",
+            "pathways[1].legalAuthority.failureDisposition[0].disposition",
+            "pathways[1].legalAuthority.failureDisposition[0].id",
+            "pathways[1].legalAuthority.failureDisposition[0].note",
+            "pathways[1].legalAuthority.failureDisposition[0].selector.factId",
+            "pathways[1].legalAuthority.failureDisposition[0].selector.operator",
+            "pathways[1].legalAuthority.failureDisposition[0].selector.requiredProvenance",
+            "pathways[1].legalAuthority.failureDisposition[0].when",
+            "pathways[1].legalAuthority.failureDisposition[1].disposition",
+            "pathways[1].legalAuthority.failureDisposition[1].id",
+            "pathways[1].legalAuthority.failureDisposition[1].note",
+            "pathways[1].legalAuthority.failureDisposition[1].selector.factId",
+            "pathways[1].legalAuthority.failureDisposition[1].selector.operator",
+            "pathways[1].legalAuthority.failureDisposition[1].selector.requiredProvenance",
+            "pathways[1].legalAuthority.failureDisposition[1].when",
+            "pathways[1].legalAuthority.failureDisposition[2].disposition",
+            "pathways[1].legalAuthority.failureDisposition[2].id",
+            "pathways[1].legalAuthority.failureDisposition[2].note",
+            "pathways[1].legalAuthority.failureDisposition[2].selector.factId",
+            "pathways[1].legalAuthority.failureDisposition[2].selector.operator",
+            "pathways[1].legalAuthority.failureDisposition[2].selector.requiredProvenance",
+            "pathways[1].legalAuthority.failureDisposition[2].when",
+            "pathways[1].legalAuthority.mechanism",
+            "pathways[1].legalAuthority.notes",
+            "pathways[1].legalAuthority.outcomeMode",
+            "pathways[1].legalAuthority.packetFamily",
+            "pathways[1].legalAuthority.paymentAuthority",
+            "pathways[1].legalAuthority.processingDeadlines[0].label",
+            "pathways[1].legalAuthority.processingDeadlines[0].note",
+            "pathways[1].legalAuthority.requiredFacts[0]",
+            "pathways[1].legalAuthority.requiredFacts[1]",
+            "pathways[1].legalAuthority.requiredFacts[2]",
+            "pathways[1].legalAuthority.requiredFacts[3]",
+            "pathways[1].legalAuthority.requiredFacts[4]",
+            "pathways[1].legalAuthority.requiredFacts[5]",
+            "pathways[1].legalAuthority.ruleId",
+            "pathways[1].legalAuthority.screeningFactIds[0]",
+            "pathways[1].legalAuthority.serviceBranches[0].branchDeliveryGateIds[0]",
+            "pathways[1].legalAuthority.serviceBranches[0].commercialPosture.checkoutEnabled",
+            "pathways[1].legalAuthority.serviceBranches[0].commercialPosture.note",
+            "pathways[1].legalAuthority.serviceBranches[0].commercialPosture.packetCreditsConsumed",
+            "pathways[1].legalAuthority.serviceBranches[0].commercialPosture.sponsoredGenerationEnabled",
+            "pathways[1].legalAuthority.serviceBranches[0].id",
+            "pathways[1].legalAuthority.serviceBranches[0].note",
+            "pathways[1].legalAuthority.serviceBranches[0].outcomeMode",
+            "pathways[1].legalAuthority.serviceBranches[0].packetComponents[0]",
+            "pathways[1].legalAuthority.serviceBranches[0].packetComponents[1]",
+            "pathways[1].legalAuthority.serviceBranches[0].packetFamily",
+            "pathways[1].legalAuthority.serviceBranches[0].selector.factId",
+            "pathways[1].legalAuthority.serviceBranches[0].selector.operator",
+            "pathways[1].legalAuthority.serviceBranches[0].selector.requiredPhase",
+            "pathways[1].legalAuthority.serviceBranches[0].selector.requiredProvenance",
+            "pathways[1].legalAuthority.serviceBranches[0].selector.value",
+            "pathways[1].legalAuthority.serviceBranches[0].stage",
+            "pathways[1].legalAuthority.serviceBranches[0].when",
+            "pathways[1].legalAuthority.serviceBranches[1].id",
+            "pathways[1].legalAuthority.serviceBranches[1].note",
+            "pathways[1].legalAuthority.serviceBranches[1].outcomeMode",
+            "pathways[1].legalAuthority.serviceBranches[1].packetFamily",
+            "pathways[1].legalAuthority.serviceBranches[1].selector.factId",
+            "pathways[1].legalAuthority.serviceBranches[1].selector.operator",
+            "pathways[1].legalAuthority.serviceBranches[1].selector.requiredPhase",
+            "pathways[1].legalAuthority.serviceBranches[1].selector.requiredProvenance",
+            "pathways[1].legalAuthority.serviceBranches[1].selector.value",
+            "pathways[1].legalAuthority.serviceBranches[1].stage",
+            "pathways[1].legalAuthority.serviceBranches[1].when",
+            "pathways[1].legalAuthority.stage",
+            "pathways[1].legalAuthority.statute",
+            "pathways[1].legalAuthority.timing.anchorFactId",
+            "pathways[1].legalAuthority.timing.anchorText",
+            "pathways[1].legalAuthority.timing.kind",
+            "pathways[2].lawrenceRatification.projectedFrom",
+            "pathways[3].lawrenceRatification.projectedFrom",
+            "pathways[4].lawrenceRatification.projectedFrom",
+            "pathways[5].lawrenceRatification.projectedFrom"
+          ],
+          "removed": [
+            "orderedDecisionRules[90].when.fieldsReferenced[1]",
+            "orderedDecisionRules[90].when.fieldsReferenced[2]",
+            "orderedDecisionRules[90].when.fieldsReferenced[3]",
+            "orderedDecisionRules[90].when.fieldsReferenced[4]",
+            "orderedDecisionRules[90].when.fieldsReferenced[5]",
+            "orderedDecisionRules[90].when.requiredFields[1]",
+            "orderedDecisionRules[90].when.requiredFields[2]",
+            "orderedDecisionRules[90].when.requiredFields[3]",
+            "orderedDecisionRules[90].when.requiredFields[4]",
+            "orderedDecisionRules[90].when.requiredFields[5]",
+            "pathways[1].waitingRules[10]",
+            "pathways[1].waitingRules[11]",
+            "pathways[1].waitingRules[12]",
+            "pathways[1].waitingRules[13]",
+            "pathways[1].waitingRules[14]",
+            "pathways[1].waitingRules[15]",
+            "pathways[1].waitingRules[16]",
+            "pathways[1].waitingRules[17]",
+            "pathways[1].waitingRules[3]",
+            "pathways[1].waitingRules[4]",
+            "pathways[1].waitingRules[5]",
+            "pathways[1].waitingRules[6]",
+            "pathways[1].waitingRules[7]",
+            "pathways[1].waitingRules[8]",
+            "pathways[1].waitingRules[9]"
+          ],
+          "changed": [
+            "orderedDecisionRules[24].then.frontendAction",
+            "orderedDecisionRules[24].then.suggestedResultCode",
+            "orderedDecisionRules[90].then.suggestedResultCode",
+            "orderedDecisionRules[90].when.sourceConditionText",
+            "packetGenerator.pathways[1].mode",
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[1].automatic",
+            "pathways[1].filingRequired",
+            "pathways[1].lawrenceRatification.lawrence_review",
+            "pathways[1].lawrenceRatification.packet_capable",
+            "pathways[1].routeType",
+            "pathways[1].waitingRules[0]",
+            "pathways[1].waitingRules[1]",
+            "pathways[1].waitingRules[2]",
+            "pathways[2].lawrenceRatification.lawrence_review",
+            "pathways[3].lawrenceRatification.lawrence_review",
+            "pathways[3].lawrenceRatification.packet_capable",
+            "pathways[3].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[3].lawrenceRatification.status",
+            "pathways[4].lawrenceRatification.lawrence_review",
+            "pathways[5].lawrenceRatification.lawrence_review"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 6,
+          "pathwaysNow": 6,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "deferred-imposition-dismissal-and-sealing",
+              "leavesMoved": 5
+            },
+            {
+              "pathwayId": "dui-record-sealing-under-the-separate-dui-statute",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "first-offense-possession-sealing",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "marijuana-specific-summary-pardon-or-sealing-relief",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+              "leavesMoved": 110
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 1,
+          "leavesOutsidePathways": 20
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": false,
+        "originalCommittedDigests": [
+          "7396f7a8e07bfa588cc6075f930237b7fada380d30cbbca7f07f0ec0675ed473"
+        ],
+        "recordsWithAPriorRepin": [],
+        "deltasFromOriginalCommittedDigests": [],
+        "note": "The pinned digest is the digest this record was first committed with."
+      },
+      "recordCount": 3,
+      "records": [
+        "data/rcap-all50/pleadings/north-dakota/nd-seal-felony-conviction/pleading-config.json",
+        "data/rcap-all50/pleadings/north-dakota/nd-seal-misdemeanor-conviction/pleading-config.json",
+        "data/rcap-all50/pleadings/north-dakota/nd-seal-pardoned-conviction/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+      "reviewedSha256": "c0a19b73d6f89b3b4122e13af699fac9eea08803ab59c9588e18a7b75b38de4d",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "c48b3be3bc23f7d5f5a84d6f2297aac6ffd26a569159d85648681e573cbbfe8f",
+      "reviewedBytesCurrentAt": {
+        "commit": "053e8db1909c3af6395199148e41d04d62d84b7f",
+        "date": "2026-08-25",
+        "subject": "legal: consume authority contracts at runtime"
+      },
+      "movedBy": {
+        "commit": "61b2acd1aca857f021a594cc95fdf7a6a7b1c2eb",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane G question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 16,
+          "removed": 12,
+          "changed": 24,
+          "totalMoved": 52,
+          "operativeLeaves": 52,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "filingActor",
+          "legalAuthority",
+          "packetComponents",
+          "participantFacingConclusion",
+          "paymentEligibility",
+          "remedyIdentity",
+          "unclassified_operative"
+        ],
+        "changedPaths": {
+          "added": [
+            "pathways[1].lawrenceRatification.projectedFrom",
+            "pathways[2].lawrenceRatification.projectedFrom",
+            "pathways[3].lawrenceRatification.projectedFrom",
+            "pathways[4].lawrenceRatification.projectedFrom",
+            "pathways[5].lawrenceRatification.projectedFrom",
+            "pathways[7].lawrenceRatification.projectedFrom",
+            "questionLifecycle.completionAliasIds[0]",
+            "questionLifecycle.completionAliasIds[1]",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.exactPacketFactIds[5]",
+            "questionLifecycle.exactPacketFactIds[6]",
+            "questionLifecycle.exactPacketFactIds[7]"
+          ],
+          "removed": [
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[0].lawrenceRatification.legal_basis",
+            "pathways[0].lawrenceRatification.packet_capable",
+            "pathways[0].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[0].lawrenceRatification.status",
+            "pathways[5].legalAuthority.packetComponents[0]",
+            "pathways[5].legalAuthority.packetComponents[1]",
+            "pathways[6].lawrenceRatification.lawrence_review",
+            "pathways[6].lawrenceRatification.legal_basis",
+            "pathways[6].lawrenceRatification.packet_capable",
+            "pathways[6].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[6].lawrenceRatification.status"
+          ],
+          "changed": [
+            "orderedDecisionRules[25].then.frontendAction",
+            "orderedDecisionRules[25].then.suggestedResultCode",
+            "orderedDecisionRules[34].then.frontendAction",
+            "orderedDecisionRules[34].then.suggestedResultCode",
+            "orderedDecisionRules[41].then.suggestedResultCode",
+            "packetGenerator.pathways[5].mode",
+            "pathways[1].lawrenceRatification.lawrence_review",
+            "pathways[1].lawrenceRatification.packet_capable",
+            "pathways[1].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[1].lawrenceRatification.status",
+            "pathways[2].lawrenceRatification.lawrence_review",
+            "pathways[2].lawrenceRatification.packet_capable",
+            "pathways[2].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[2].lawrenceRatification.status",
+            "pathways[3].lawrenceRatification.lawrence_review",
+            "pathways[4].lawrenceRatification.lawrence_review",
+            "pathways[5].filingRequired",
+            "pathways[5].lawrenceRatification.lawrence_review",
+            "pathways[5].legalAuthority.notes",
+            "pathways[5].legalAuthority.outcomeMode",
+            "pathways[5].legalAuthority.packetFamily",
+            "pathways[5].legalAuthority.paymentAuthority",
+            "pathways[5].routeType",
+            "pathways[7].lawrenceRatification.lawrence_review"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 8,
+          "pathwaysNow": 8,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "automatic-nonconviction-sealing",
+              "leavesMoved": 5
+            },
+            {
+              "pathwayId": "juvenile-automatic-sealing",
+              "leavesMoved": 5
+            },
+            {
+              "pathwayId": "juvenile-petition-backstop",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "law-enforcement-error-expungement",
+              "leavesMoved": 10
+            },
+            {
+              "pathwayId": "pardon-then-seal",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "set-aside-incarceration-one-year-or-less",
+              "leavesMoved": 5
+            },
+            {
+              "pathwayId": "set-aside-probation-fine-community-service",
+              "leavesMoved": 5
+            },
+            {
+              "pathwayId": "trafficking-survivor-set-aside-and-seal",
+              "leavesMoved": 2
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 1,
+          "leavesOutsidePathways": 16
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": true,
+        "originalCommittedDigests": [
+          "bfa39629addc28709f9f4619822612fbaab6944a11d98c69a14f655113b71301"
+        ],
+        "recordsWithAPriorRepin": [
+          "data/rcap-all50/pleadings/nebraska/ne-seal-enforcement/pleading-config.json"
+        ],
+        "deltasFromOriginalCommittedDigests": [
+          {
+            "originalSha256": "bfa39629addc28709f9f4619822612fbaab6944a11d98c69a14f655113b71301",
+            "firstCommittedAt": {
+              "commit": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b",
+              "date": "2026-08-12",
+              "subject": "First terminalization integration window: B, C, E, D1 by owned path"
+            },
+            "counts": {
+              "added": 75,
+              "removed": 20,
+              "changed": 24,
+              "totalMoved": 119,
+              "operativeLeaves": 119,
+              "nonOperativeLeaves": 0
+            },
+            "dimensionsTouched": [
+              "eligibility",
+              "exclusions",
+              "filingActor",
+              "legalAuthority",
+              "packetComponents",
+              "participantFacingConclusion",
+              "paymentEligibility",
+              "remedyIdentity",
+              "requiredFacts",
+              "routeIdentity",
+              "triggerDates",
+              "unclassified_operative",
+              "waitingPeriods"
+            ],
+            "isolation": {
+              "pathwaysAtReview": 8,
+              "pathwaysNow": 8,
+              "pathwaysGained": [],
+              "pathwaysLost": [],
+              "reviewedPathwaysDisturbed": [
+                {
+                  "pathwayId": "automatic-nonconviction-sealing",
+                  "leavesMoved": 5
+                },
+                {
+                  "pathwayId": "juvenile-automatic-sealing",
+                  "leavesMoved": 5
+                },
+                {
+                  "pathwayId": "juvenile-petition-backstop",
+                  "leavesMoved": 2
+                },
+                {
+                  "pathwayId": "law-enforcement-error-expungement",
+                  "leavesMoved": 26
+                },
+                {
+                  "pathwayId": "pardon-then-seal",
+                  "leavesMoved": 2
+                },
+                {
+                  "pathwayId": "set-aside-incarceration-one-year-or-less",
+                  "leavesMoved": 5
+                },
+                {
+                  "pathwayId": "set-aside-probation-fine-community-service",
+                  "leavesMoved": 33
+                },
+                {
+                  "pathwayId": "trafficking-survivor-set-aside-and-seal",
+                  "leavesMoved": 2
+                }
+              ],
+              "reviewedPathwaysDisturbedFraction": 1,
+              "leavesOutsidePathways": 39
+            }
+          }
+        ],
+        "note": "This group's pinned digest was installed by a later commit than the record's first, and reviewedAsOf did not move with it. A disposition here is deciding about the whole chain from the original committed digest, not only about the last leg."
+      },
+      "recordCount": 1,
+      "records": [
+        "data/rcap-all50/pleadings/nebraska/ne-seal-enforcement/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+      "reviewedSha256": "bbea0bb140157b2f5a29367109ee2f1d1f2d5bf6d54bd05bf07bbb6562169d79",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "cd21b127db9949f75356b5fc6186bd6d65c6cfde48e979c634ec8ee50e7f3752",
+      "reviewedBytesCurrentAt": {
+        "commit": "053e8db1909c3af6395199148e41d04d62d84b7f",
+        "date": "2026-08-25",
+        "subject": "legal: consume authority contracts at runtime"
+      },
+      "movedBy": {
+        "commit": "61b2acd1aca857f021a594cc95fdf7a6a7b1c2eb",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane G question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 128,
+          "removed": 3,
+          "changed": 12,
+          "totalMoved": 143,
+          "operativeLeaves": 143,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "eligibility",
+          "exclusions",
+          "filingActor",
+          "filingDestination",
+          "legalAuthority",
+          "packetComponents",
+          "participantFacingConclusion",
+          "paymentEligibility",
+          "remedyIdentity",
+          "requiredFacts",
+          "routeIdentity",
+          "triggerDates",
+          "unclassified_operative",
+          "waitingPeriods"
+        ],
+        "changedPaths": {
+          "added": [
+            "orderedDecisionRules[36].candidatePathwayIds[0]",
+            "orderedDecisionRules[36].id",
+            "orderedDecisionRules[36].legalAuthority.decisionId",
+            "orderedDecisionRules[36].legalAuthority.mechanism",
+            "orderedDecisionRules[36].legalAuthority.ruleId",
+            "orderedDecisionRules[36].legalAuthority.statute",
+            "orderedDecisionRules[36].priority",
+            "orderedDecisionRules[36].sourceRef",
+            "orderedDecisionRules[36].stage",
+            "orderedDecisionRules[36].then.frontendAction",
+            "orderedDecisionRules[36].then.suggestedResultCode",
+            "orderedDecisionRules[36].when.backendPathwayId",
+            "orderedDecisionRules[36].when.fieldsReferenced[0]",
+            "orderedDecisionRules[36].when.fieldsReferenced[1]",
+            "orderedDecisionRules[36].when.fieldsReferenced[2]",
+            "orderedDecisionRules[36].when.requiredFields[0]",
+            "orderedDecisionRules[36].when.requiredFields[1]",
+            "orderedDecisionRules[36].when.requiredFields[2]",
+            "orderedDecisionRules[36].when.sourceConditionText",
+            "packetGenerator.pathways[7].formMappingStatus",
+            "packetGenerator.pathways[7].mode",
+            "packetGenerator.pathways[7].noPacketWhen[0]",
+            "packetGenerator.pathways[7].noPacketWhen[1]",
+            "packetGenerator.pathways[7].noPacketWhen[2]",
+            "packetGenerator.pathways[7].noPacketWhen[3]",
+            "packetGenerator.pathways[7].noPacketWhen[4]",
+            "packetGenerator.pathways[7].noPacketWhen[5]",
+            "packetGenerator.pathways[7].packetReadyWhen[0]",
+            "packetGenerator.pathways[7].packetReadyWhen[1]",
+            "packetGenerator.pathways[7].packetReadyWhen[2]",
+            "packetGenerator.pathways[7].packetReadyWhen[3]",
+            "packetGenerator.pathways[7].packetReadyWhen[4]",
+            "packetGenerator.pathways[7].pathwayId",
+            "packetGenerator.pathways[7].pathwayLabel",
+            "packetGenerator.pathways[7].selectionRule",
+            "packetGenerator.pathways[7].sourceRuleRefs[0]",
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[7].automatic",
+            "pathways[7].exclusionRules[0]",
+            "pathways[7].exclusionRules[1]",
+            "pathways[7].exclusionRules[2]",
+            "pathways[7].exclusionRules[3]",
+            "pathways[7].exclusionRules[4]",
+            "pathways[7].exclusionRules[5]",
+            "pathways[7].exclusionRules[6]",
+            "pathways[7].filingRequired",
+            "pathways[7].frontendBranch",
+            "pathways[7].id",
+            "pathways[7].label",
+            "pathways[7].legalAuthority.artifactApprovalRequired",
+            "pathways[7].legalAuthority.commercialPosture.checkoutEnabled",
+            "pathways[7].legalAuthority.commercialPosture.note",
+            "pathways[7].legalAuthority.commercialPosture.packetCreditsConsumed",
+            "pathways[7].legalAuthority.commercialPosture.sponsoredGenerationEnabled",
+            "pathways[7].legalAuthority.decisionId",
+            "pathways[7].legalAuthority.deliveryGates[0].evidenceReference",
+            "pathways[7].legalAuthority.deliveryGates[0].id",
+            "pathways[7].legalAuthority.deliveryGates[0].items[0]",
+            "pathways[7].legalAuthority.deliveryGates[0].items[1]",
+            "pathways[7].legalAuthority.deliveryGates[0].items[2]",
+            "pathways[7].legalAuthority.deliveryGates[0].kind",
+            "pathways[7].legalAuthority.deliveryGates[0].note",
+            "pathways[7].legalAuthority.deliveryGates[0].owner",
+            "pathways[7].legalAuthority.deliveryGates[0].statusSource",
+            "pathways[7].legalAuthority.deliveryGates[1].evidenceReference",
+            "pathways[7].legalAuthority.deliveryGates[1].id",
+            "pathways[7].legalAuthority.deliveryGates[1].items[0]",
+            "pathways[7].legalAuthority.deliveryGates[1].items[1]",
+            "pathways[7].legalAuthority.deliveryGates[1].items[2]",
+            "pathways[7].legalAuthority.deliveryGates[1].items[3]",
+            "pathways[7].legalAuthority.deliveryGates[1].kind",
+            "pathways[7].legalAuthority.deliveryGates[1].note",
+            "pathways[7].legalAuthority.deliveryGates[1].owner",
+            "pathways[7].legalAuthority.deliveryGates[1].statusSource",
+            "pathways[7].legalAuthority.effectiveFrom",
+            "pathways[7].legalAuthority.exclusions[0]",
+            "pathways[7].legalAuthority.exclusions[1]",
+            "pathways[7].legalAuthority.exclusions[2]",
+            "pathways[7].legalAuthority.exclusions[3]",
+            "pathways[7].legalAuthority.exclusions[4]",
+            "pathways[7].legalAuthority.exclusions[5]",
+            "pathways[7].legalAuthority.exclusions[6]",
+            "pathways[7].legalAuthority.mechanism",
+            "pathways[7].legalAuthority.notes",
+            "pathways[7].legalAuthority.outcomeMode",
+            "pathways[7].legalAuthority.packetComponents[0]",
+            "pathways[7].legalAuthority.packetComponents[1]",
+            "pathways[7].legalAuthority.packetComponents[2]",
+            "pathways[7].legalAuthority.packetFamily",
+            "pathways[7].legalAuthority.paymentAuthority",
+            "pathways[7].legalAuthority.requiredFacts[0]",
+            "pathways[7].legalAuthority.requiredFacts[1]",
+            "pathways[7].legalAuthority.requiredFacts[2]",
+            "pathways[7].legalAuthority.requiredFacts[3]",
+            "pathways[7].legalAuthority.requiredFacts[4]",
+            "pathways[7].legalAuthority.requiredFacts[5]",
+            "pathways[7].legalAuthority.requiredFacts[6]",
+            "pathways[7].legalAuthority.requiredFacts[7]",
+            "pathways[7].legalAuthority.ruleId",
+            "pathways[7].legalAuthority.screeningFactIds[0]",
+            "pathways[7].legalAuthority.screeningFactIds[1]",
+            "pathways[7].legalAuthority.screeningFactIds[2]",
+            "pathways[7].legalAuthority.screeningFactIds[3]",
+            "pathways[7].legalAuthority.stage",
+            "pathways[7].legalAuthority.statute",
+            "pathways[7].legalAuthority.timing.anchorText",
+            "pathways[7].legalAuthority.timing.kind",
+            "pathways[7].routeType",
+            "pathways[7].ruleClauses[0]",
+            "pathways[7].sourceEvidenceRefs[0]",
+            "pathways[7].sourceEvidenceRefs[1]",
+            "pathways[7].sourceRef",
+            "pathways[7].suggestedResultCode",
+            "pathways[7].summary",
+            "pathways[7].triggerFields[0]",
+            "pathways[7].triggerFields[1]",
+            "pathways[7].triggerFields[2]",
+            "pathways[7].triggerFields[3]",
+            "pathways[7].waitingRules[0]",
+            "pathways[7].waitingRules[1]",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.exactPacketFactIds[5]",
+            "questionLifecycle.exactPacketFactIds[6]",
+            "questionLifecycle.exactPacketFactIds[7]"
+          ],
+          "removed": [
+            "pathways[4].legalAuthority.packetComponents[0]",
+            "pathways[4].legalAuthority.packetComponents[1]",
+            "pathways[4].legalAuthority.packetComponents[2]"
+          ],
+          "changed": [
+            "orderedDecisionRules[32].then.suggestedResultCode",
+            "packetGenerator.pathways[4].mode",
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[0].lawrenceRatification.packet_capable",
+            "pathways[0].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[0].lawrenceRatification.status",
+            "pathways[4].filingRequired",
+            "pathways[4].legalAuthority.notes",
+            "pathways[4].legalAuthority.outcomeMode",
+            "pathways[4].legalAuthority.packetFamily",
+            "pathways[4].legalAuthority.paymentAuthority",
+            "pathways[4].routeType"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 7,
+          "pathwaysNow": 8,
+          "pathwaysGained": [
+            "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160"
+          ],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "general-conviction-record-sealing-under-nrs-179-245",
+              "leavesMoved": 5
+            },
+            {
+              "pathwayId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+              "leavesMoved": 9
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.2857,
+          "leavesOutsidePathways": 46
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": true,
+        "originalCommittedDigests": [
+          "baa3a99f2092579d01a5f6b2dd0ac736a530f6fd7cd94eb00dd1d39eaa8c969a"
+        ],
+        "recordsWithAPriorRepin": [
+          "data/rcap-all50/pleadings/nevada/nv_repository_removal/pleading-config.json",
+          "data/rcap-all50/pleadings/nevada/nv_seal_decrim/pleading-config.json",
+          "data/rcap-all50/pleadings/nevada/nv_seal_multi/pleading-config.json",
+          "data/rcap-all50/pleadings/nevada/nv_seal_pardon/pleading-config.json"
+        ],
+        "deltasFromOriginalCommittedDigests": [
+          {
+            "originalSha256": "baa3a99f2092579d01a5f6b2dd0ac736a530f6fd7cd94eb00dd1d39eaa8c969a",
+            "firstCommittedAt": {
+              "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+              "date": "2026-07-01",
+              "subject": "fix(rcap): enforce rule-driven packet eligibility"
+            },
+            "counts": {
+              "added": 188,
+              "removed": 32,
+              "changed": 14,
+              "totalMoved": 234,
+              "operativeLeaves": 234,
+              "nonOperativeLeaves": 0
+            },
+            "dimensionsTouched": [
+              "eligibility",
+              "exclusions",
+              "filingActor",
+              "filingDestination",
+              "legalAuthority",
+              "packetComponents",
+              "participantFacingConclusion",
+              "paymentEligibility",
+              "remedyIdentity",
+              "requiredFacts",
+              "routeIdentity",
+              "triggerDates",
+              "unclassified_operative",
+              "waitingPeriods"
+            ],
+            "isolation": {
+              "pathwaysAtReview": 7,
+              "pathwaysNow": 8,
+              "pathwaysGained": [
+                "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160"
+              ],
+              "pathwaysLost": [],
+              "reviewedPathwaysDisturbed": [
+                {
+                  "pathwayId": "deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+                  "leavesMoved": 38
+                },
+                {
+                  "pathwayId": "general-conviction-record-sealing-under-nrs-179-245",
+                  "leavesMoved": 5
+                },
+                {
+                  "pathwayId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+                  "leavesMoved": 37
+                }
+              ],
+              "reviewedPathwaysDisturbedFraction": 0.4286,
+              "leavesOutsidePathways": 71
+            }
+          }
+        ],
+        "note": "This group's pinned digest was installed by a later commit than the record's first, and reviewedAsOf did not move with it. A disposition here is deciding about the whole chain from the original committed digest, not only about the last leg."
+      },
+      "recordCount": 4,
+      "records": [
+        "data/rcap-all50/pleadings/nevada/nv_repository_removal/pleading-config.json",
+        "data/rcap-all50/pleadings/nevada/nv_seal_decrim/pleading-config.json",
+        "data/rcap-all50/pleadings/nevada/nv_seal_multi/pleading-config.json",
+        "data/rcap-all50/pleadings/nevada/nv_seal_pardon/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
+      "reviewedSha256": "619b81642a3740b8110faefc3ba0ce45f107a8964ce03b2cc5d8054a507c087f",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "0ff24e417c35aef4751eb5bc926868d0242ae9fcf77edd0910e2e62be02c4fad",
+      "reviewedBytesCurrentAt": {
+        "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+        "date": "2026-07-01",
+        "subject": "fix(rcap): enforce rule-driven packet eligibility"
+      },
+      "movedBy": {
+        "commit": "a74ef489309f45a4c97a5158771536373c0f1e65",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane H question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 56,
+          "removed": 9,
+          "changed": 6,
+          "totalMoved": 71,
+          "operativeLeaves": 71,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "eligibility",
+          "exclusions",
+          "filingActor",
+          "filingDestination",
+          "legalAuthority",
+          "packetComponents",
+          "participantFacingConclusion",
+          "paymentEligibility",
+          "remedyIdentity",
+          "requiredFacts",
+          "routeIdentity",
+          "triggerDates",
+          "unclassified_operative",
+          "waitingPeriods"
+        ],
+        "changedPaths": {
+          "added": [
+            "orderedDecisionRules[28].legalAuthority.decisionId",
+            "orderedDecisionRules[28].legalAuthority.mechanism",
+            "orderedDecisionRules[28].legalAuthority.ruleId",
+            "orderedDecisionRules[28].legalAuthority.statute",
+            "orderedDecisionRules[28].when.timingAnchorFactId",
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[1].lawrenceRatification.lawrence_review",
+            "pathways[1].lawrenceRatification.legal_basis",
+            "pathways[1].lawrenceRatification.packet_capable",
+            "pathways[1].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[1].lawrenceRatification.projectedFrom",
+            "pathways[1].lawrenceRatification.status",
+            "pathways[2].legalAuthority.commercialPosture.checkoutEnabled",
+            "pathways[2].legalAuthority.commercialPosture.note",
+            "pathways[2].legalAuthority.commercialPosture.packetCreditsConsumed",
+            "pathways[2].legalAuthority.commercialPosture.sponsoredGenerationEnabled",
+            "pathways[2].legalAuthority.decisionId",
+            "pathways[2].legalAuthority.deliveryGates[0].evidenceReference",
+            "pathways[2].legalAuthority.deliveryGates[0].id",
+            "pathways[2].legalAuthority.deliveryGates[0].items[0]",
+            "pathways[2].legalAuthority.deliveryGates[0].items[1]",
+            "pathways[2].legalAuthority.deliveryGates[0].items[2]",
+            "pathways[2].legalAuthority.deliveryGates[0].items[3]",
+            "pathways[2].legalAuthority.deliveryGates[0].items[4]",
+            "pathways[2].legalAuthority.deliveryGates[0].kind",
+            "pathways[2].legalAuthority.deliveryGates[0].note",
+            "pathways[2].legalAuthority.deliveryGates[0].owner",
+            "pathways[2].legalAuthority.deliveryGates[0].statusSource",
+            "pathways[2].legalAuthority.effectiveFrom",
+            "pathways[2].legalAuthority.exclusions[0]",
+            "pathways[2].legalAuthority.exclusions[1]",
+            "pathways[2].legalAuthority.mechanism",
+            "pathways[2].legalAuthority.notes",
+            "pathways[2].legalAuthority.outcomeMode",
+            "pathways[2].legalAuthority.packetComponents[0]",
+            "pathways[2].legalAuthority.packetComponents[1]",
+            "pathways[2].legalAuthority.packetComponents[2]",
+            "pathways[2].legalAuthority.packetFamily",
+            "pathways[2].legalAuthority.paymentAuthority",
+            "pathways[2].legalAuthority.requiredFacts[0]",
+            "pathways[2].legalAuthority.requiredFacts[1]",
+            "pathways[2].legalAuthority.requiredFacts[2]",
+            "pathways[2].legalAuthority.requiredFacts[3]",
+            "pathways[2].legalAuthority.ruleId",
+            "pathways[2].legalAuthority.screeningFactIds[0]",
+            "pathways[2].legalAuthority.screeningFactIds[1]",
+            "pathways[2].legalAuthority.stage",
+            "pathways[2].legalAuthority.statute",
+            "pathways[2].legalAuthority.timing.anchorFactId",
+            "pathways[2].legalAuthority.timing.anchorText",
+            "pathways[2].legalAuthority.timing.kind",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]"
+          ],
+          "removed": [
+            "pathways[2].waitingRules[10]",
+            "pathways[2].waitingRules[2]",
+            "pathways[2].waitingRules[3]",
+            "pathways[2].waitingRules[4]",
+            "pathways[2].waitingRules[5]",
+            "pathways[2].waitingRules[6]",
+            "pathways[2].waitingRules[7]",
+            "pathways[2].waitingRules[8]",
+            "pathways[2].waitingRules[9]"
+          ],
+          "changed": [
+            "orderedDecisionRules[28].when.fieldsReferenced[1]",
+            "orderedDecisionRules[28].when.requiredFields[1]",
+            "orderedDecisionRules[28].when.sourceConditionText",
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[2].waitingRules[0]",
+            "pathways[2].waitingRules[1]"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 7,
+          "pathwaysNow": 7,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "adult-non-conviction-sealing-or-expungement-under-2953-33",
+              "leavesMoved": 6
+            },
+            {
+              "pathwayId": "marijuana-hashish-possession-expungement-under-2953-321",
+              "leavesMoved": 50
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.4286,
+          "leavesOutsidePathways": 13
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": false,
+        "originalCommittedDigests": [
+          "619b81642a3740b8110faefc3ba0ce45f107a8964ce03b2cc5d8054a507c087f"
+        ],
+        "recordsWithAPriorRepin": [],
+        "deltasFromOriginalCommittedDigests": [],
+        "note": "The pinned digest is the digest this record was first committed with."
+      },
+      "recordCount": 1,
+      "records": [
+        "data/rcap-all50/pleadings/ohio/oh_2953_32_sealing/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+      "reviewedSha256": "41d071238908c558685dcee0fcc1c1e643169d9e4de55ac2028ed5ad647e2106",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "741344600678fb394a60c90ec168d8fbe1d5b2642bc987658f5eac2d56261db1",
+      "reviewedBytesCurrentAt": {
+        "commit": "7d5684bdcc629d296895a26d0230f1483980a9bd",
+        "date": "2026-08-25",
+        "subject": "merge: integrate Corrections A, Corrections B, and QA lanes"
+      },
+      "movedBy": {
+        "commit": "a74ef489309f45a4c97a5158771536373c0f1e65",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane H question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 17,
+          "removed": 0,
+          "changed": 3,
+          "totalMoved": 20,
+          "operativeLeaves": 20,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "legalAuthority",
+          "paymentEligibility",
+          "unclassified_operative"
+        ],
+        "changedPaths": {
+          "added": [
+            "pathways[10].lawrenceRatification.projectedFrom",
+            "pathways[1].lawrenceRatification.lawrence_review",
+            "pathways[1].lawrenceRatification.legal_basis",
+            "pathways[1].lawrenceRatification.packet_capable",
+            "pathways[1].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[1].lawrenceRatification.projectedFrom",
+            "pathways[1].lawrenceRatification.status",
+            "pathways[8].lawrenceRatification.projectedFrom",
+            "pathways[9].lawrenceRatification.projectedFrom",
+            "questionLifecycle.completionAliasIds[0]",
+            "questionLifecycle.completionAliasIds[1]",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.exactPacketFactIds[5]"
+          ],
+          "removed": [],
+          "changed": [
+            "pathways[10].lawrenceRatification.lawrence_review",
+            "pathways[8].lawrenceRatification.lawrence_review",
+            "pathways[9].lawrenceRatification.lawrence_review"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 18,
+          "pathwaysNow": 18,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "acquittal-dismissal-or-other-no-conviction-expungement",
+              "leavesMoved": 6
+            },
+            {
+              "pathwayId": "not-more-than-two-eligible-felony-convictions-expungement",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "one-eligible-nonviolent-felony-conviction-expungement",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "other-eligible-misdemeanor-conviction-expungement",
+              "leavesMoved": 2
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.2222,
+          "leavesOutsidePathways": 8
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": true,
+        "originalCommittedDigests": [
+          "bc744e3f047c7a1303465b4a9d50e54477878daa1384689b5f98753cc90fe21a"
+        ],
+        "recordsWithAPriorRepin": [
+          "data/rcap-all50/pleadings/oklahoma/ok_identity_theft/pleading-config.json"
+        ],
+        "deltasFromOriginalCommittedDigests": [
+          {
+            "originalSha256": "bc744e3f047c7a1303465b4a9d50e54477878daa1384689b5f98753cc90fe21a",
+            "firstCommittedAt": {
+              "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+              "date": "2026-07-01",
+              "subject": "fix(rcap): enforce rule-driven packet eligibility"
+            },
+            "counts": {
+              "added": 459,
+              "removed": 110,
+              "changed": 50,
+              "totalMoved": 619,
+              "operativeLeaves": 619,
+              "nonOperativeLeaves": 0
+            },
+            "dimensionsTouched": [
+              "eligibility",
+              "exclusions",
+              "filingActor",
+              "legalAuthority",
+              "packetComponents",
+              "participantFacingConclusion",
+              "paymentEligibility",
+              "remedyIdentity",
+              "requiredFacts",
+              "routeIdentity",
+              "triggerDates",
+              "unclassified_operative",
+              "waitingPeriods"
+            ],
+            "isolation": {
+              "pathwaysAtReview": 18,
+              "pathwaysNow": 18,
+              "pathwaysGained": [],
+              "pathwaysLost": [],
+              "reviewedPathwaysDisturbed": [
+                {
+                  "pathwayId": "acquittal-dismissal-or-other-no-conviction-expungement",
+                  "leavesMoved": 6
+                },
+                {
+                  "pathwayId": "arrest-with-no-charges-filed",
+                  "leavesMoved": 40
+                },
+                {
+                  "pathwayId": "clean-slate-automatic-expungement",
+                  "leavesMoved": 43
+                },
+                {
+                  "pathwayId": "conviction-reversed-and-case-dismissed",
+                  "leavesMoved": 34
+                },
+                {
+                  "pathwayId": "deferred-sentence-court-record-expungement-under-991-c",
+                  "leavesMoved": 43
+                },
+                {
+                  "pathwayId": "dna-factual-innocence-expungement",
+                  "leavesMoved": 33
+                },
+                {
+                  "pathwayId": "felony-reclassified-as-a-misdemeanor",
+                  "leavesMoved": 46
+                },
+                {
+                  "pathwayId": "fine-only-misdemeanor-conviction-expungement",
+                  "leavesMoved": 39
+                },
+                {
+                  "pathwayId": "human-trafficking-survivor-relief",
+                  "leavesMoved": 38
+                },
+                {
+                  "pathwayId": "juvenile-record-expungement",
+                  "leavesMoved": 37
+                },
+                {
+                  "pathwayId": "not-more-than-two-eligible-felony-convictions-expungement",
+                  "leavesMoved": 2
+                },
+                {
+                  "pathwayId": "one-eligible-nonviolent-felony-conviction-expungement",
+                  "leavesMoved": 2
+                },
+                {
+                  "pathwayId": "other-eligible-misdemeanor-conviction-expungement",
+                  "leavesMoved": 2
+                },
+                {
+                  "pathwayId": "pardon-based-expungement",
+                  "leavesMoved": 37
+                },
+                {
+                  "pathwayId": "victim-protective-order-record-relief",
+                  "leavesMoved": 38
+                }
+              ],
+              "reviewedPathwaysDisturbedFraction": 0.8333,
+              "leavesOutsidePathways": 179
+            }
+          }
+        ],
+        "note": "This group's pinned digest was installed by a later commit than the record's first, and reviewedAsOf did not move with it. A disposition here is deciding about the whole chain from the original committed digest, not only about the last leg."
+      },
+      "recordCount": 1,
+      "records": [
+        "data/rcap-all50/pleadings/oklahoma/ok_identity_theft/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+      "reviewedSha256": "d6cccee1cabc4402c80f626e100f6650dc6842aebe377fe7d3c59fd2fa035779",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "a71935e25858ce9f03f2962c12d4a791ef72494cff00e6b69ab3721e19788f58",
+      "reviewedBytesCurrentAt": {
+        "commit": "8840721b0f6b53cf9589ccfd4d1fc72a54dd4259",
+        "date": "2026-08-25",
+        "subject": "legal: gate route rules only on facts the flow actually guarantees"
+      },
+      "movedBy": {
+        "commit": "a74ef489309f45a4c97a5158771536373c0f1e65",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane H question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 81,
+          "removed": 20,
+          "changed": 15,
+          "totalMoved": 116,
+          "operativeLeaves": 116,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "eligibility",
+          "exclusions",
+          "filingActor",
+          "filingDestination",
+          "legalAuthority",
+          "packetComponents",
+          "participantFacingConclusion",
+          "paymentEligibility",
+          "remedyIdentity",
+          "requiredFacts",
+          "routeIdentity",
+          "triggerDates",
+          "unclassified_operative",
+          "waitingPeriods"
+        ],
+        "changedPaths": {
+          "added": [
+            "orderedDecisionRules[33].legalAuthority.decisionId",
+            "orderedDecisionRules[33].legalAuthority.mechanism",
+            "orderedDecisionRules[33].legalAuthority.ruleId",
+            "orderedDecisionRules[33].legalAuthority.statute",
+            "pathways[2].lawrenceRatification.lawrence_review",
+            "pathways[2].lawrenceRatification.legal_basis",
+            "pathways[2].lawrenceRatification.packet_capable",
+            "pathways[2].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[2].lawrenceRatification.projectedFrom",
+            "pathways[2].lawrenceRatification.status",
+            "pathways[2].legalAuthority.commercialPosture.checkoutEnabled",
+            "pathways[2].legalAuthority.commercialPosture.note",
+            "pathways[2].legalAuthority.commercialPosture.packetCreditsConsumed",
+            "pathways[2].legalAuthority.commercialPosture.sponsoredGenerationEnabled",
+            "pathways[2].legalAuthority.decisionId",
+            "pathways[2].legalAuthority.deliveryGates[0].evidenceReference",
+            "pathways[2].legalAuthority.deliveryGates[0].id",
+            "pathways[2].legalAuthority.deliveryGates[0].items[0]",
+            "pathways[2].legalAuthority.deliveryGates[0].items[1]",
+            "pathways[2].legalAuthority.deliveryGates[0].items[2]",
+            "pathways[2].legalAuthority.deliveryGates[0].kind",
+            "pathways[2].legalAuthority.deliveryGates[0].note",
+            "pathways[2].legalAuthority.deliveryGates[0].owner",
+            "pathways[2].legalAuthority.deliveryGates[0].statusSource",
+            "pathways[2].legalAuthority.effectiveFrom",
+            "pathways[2].legalAuthority.exclusions[0]",
+            "pathways[2].legalAuthority.exclusions[1]",
+            "pathways[2].legalAuthority.failureDisposition[0].disposition",
+            "pathways[2].legalAuthority.failureDisposition[0].id",
+            "pathways[2].legalAuthority.failureDisposition[0].note",
+            "pathways[2].legalAuthority.failureDisposition[0].selector.factId",
+            "pathways[2].legalAuthority.failureDisposition[0].selector.operator",
+            "pathways[2].legalAuthority.failureDisposition[0].selector.requiredProvenance",
+            "pathways[2].legalAuthority.failureDisposition[0].selector.value",
+            "pathways[2].legalAuthority.failureDisposition[0].when",
+            "pathways[2].legalAuthority.failureDisposition[1].disposition",
+            "pathways[2].legalAuthority.failureDisposition[1].id",
+            "pathways[2].legalAuthority.failureDisposition[1].note",
+            "pathways[2].legalAuthority.failureDisposition[1].selector.factId",
+            "pathways[2].legalAuthority.failureDisposition[1].selector.operator",
+            "pathways[2].legalAuthority.failureDisposition[1].selector.requiredProvenance",
+            "pathways[2].legalAuthority.failureDisposition[1].when",
+            "pathways[2].legalAuthority.mechanism",
+            "pathways[2].legalAuthority.notes",
+            "pathways[2].legalAuthority.outcomeMode",
+            "pathways[2].legalAuthority.packetFamily",
+            "pathways[2].legalAuthority.paymentAuthority",
+            "pathways[2].legalAuthority.requiredFacts[0]",
+            "pathways[2].legalAuthority.requiredFacts[1]",
+            "pathways[2].legalAuthority.requiredFacts[2]",
+            "pathways[2].legalAuthority.requiredFacts[3]",
+            "pathways[2].legalAuthority.ruleId",
+            "pathways[2].legalAuthority.screeningFactIds[0]",
+            "pathways[2].legalAuthority.screeningFactIds[1]",
+            "pathways[2].legalAuthority.serviceBranches[0].id",
+            "pathways[2].legalAuthority.serviceBranches[0].note",
+            "pathways[2].legalAuthority.serviceBranches[0].outcomeMode",
+            "pathways[2].legalAuthority.serviceBranches[0].packetFamily",
+            "pathways[2].legalAuthority.serviceBranches[0].stage",
+            "pathways[2].legalAuthority.serviceBranches[0].when",
+            "pathways[2].legalAuthority.stage",
+            "pathways[2].legalAuthority.statute",
+            "pathways[2].legalAuthority.supersedes.note",
+            "pathways[2].legalAuthority.timing.anchorText",
+            "pathways[2].legalAuthority.timing.kind",
+            "pathways[3].lawrenceRatification.projectedFrom",
+            "pathways[5].legalAuthority.serviceBranches[0].id",
+            "pathways[5].legalAuthority.serviceBranches[0].note",
+            "pathways[5].legalAuthority.serviceBranches[0].outcomeMode",
+            "pathways[5].legalAuthority.serviceBranches[0].packetFamily",
+            "pathways[5].legalAuthority.serviceBranches[0].stage",
+            "pathways[5].legalAuthority.serviceBranches[0].when",
+            "questionLifecycle.completionAliasIds[0]",
+            "questionLifecycle.completionAliasIds[1]",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.exactPacketFactIds[5]",
+            "questionLifecycle.exactPacketFactIds[6]"
+          ],
+          "removed": [
+            "orderedDecisionRules[33].when.fieldsReferenced[1]",
+            "orderedDecisionRules[33].when.fieldsReferenced[2]",
+            "orderedDecisionRules[33].when.fieldsReferenced[3]",
+            "orderedDecisionRules[33].when.fieldsReferenced[4]",
+            "orderedDecisionRules[33].when.fieldsReferenced[5]",
+            "orderedDecisionRules[33].when.fieldsReferenced[6]",
+            "orderedDecisionRules[33].when.requiredFields[1]",
+            "orderedDecisionRules[33].when.requiredFields[2]",
+            "orderedDecisionRules[33].when.requiredFields[3]",
+            "orderedDecisionRules[33].when.requiredFields[4]",
+            "orderedDecisionRules[33].when.requiredFields[5]",
+            "orderedDecisionRules[33].when.requiredFields[6]",
+            "pathways[2].waitingRules[10]",
+            "pathways[2].waitingRules[3]",
+            "pathways[2].waitingRules[4]",
+            "pathways[2].waitingRules[5]",
+            "pathways[2].waitingRules[6]",
+            "pathways[2].waitingRules[7]",
+            "pathways[2].waitingRules[8]",
+            "pathways[2].waitingRules[9]"
+          ],
+          "changed": [
+            "orderedDecisionRules[21].then.frontendAction",
+            "orderedDecisionRules[21].then.suggestedResultCode",
+            "orderedDecisionRules[22].then.frontendAction",
+            "orderedDecisionRules[22].then.suggestedResultCode",
+            "orderedDecisionRules[23].then.frontendAction",
+            "orderedDecisionRules[23].then.suggestedResultCode",
+            "orderedDecisionRules[33].then.suggestedResultCode",
+            "orderedDecisionRules[33].when.sourceConditionText",
+            "packetGenerator.pathways[2].mode",
+            "pathways[2].filingRequired",
+            "pathways[2].routeType",
+            "pathways[2].waitingRules[0]",
+            "pathways[2].waitingRules[1]",
+            "pathways[2].waitingRules[2]",
+            "pathways[3].lawrenceRatification.lawrence_review"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 7,
+          "pathwaysNow": 7,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "diversion-or-program-completion-expungement",
+              "leavesMoved": 74
+            },
+            {
+              "pathwayId": "eligible-conviction-expungement",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "juvenile-expungement",
+              "leavesMoved": 6
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.4286,
+          "leavesOutsidePathways": 34
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": true,
+        "originalCommittedDigests": [
+          "bcef5d018240769d36c6ec866b52395606db46769e95298c8f89e98b79b6f887"
+        ],
+        "recordsWithAPriorRepin": [
+          "data/rcap-all50/pleadings/south-carolina/sc_aep/pleading-config.json",
+          "data/rcap-all50/pleadings/south-carolina/sc_conditional_discharge_44_53_450/pleading-config.json",
+          "data/rcap-all50/pleadings/south-carolina/sc_tep/pleading-config.json"
+        ],
+        "deltasFromOriginalCommittedDigests": [
+          {
+            "originalSha256": "bcef5d018240769d36c6ec866b52395606db46769e95298c8f89e98b79b6f887",
+            "firstCommittedAt": {
+              "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+              "date": "2026-07-01",
+              "subject": "fix(rcap): enforce rule-driven packet eligibility"
+            },
+            "counts": {
+              "added": 238,
+              "removed": 121,
+              "changed": 26,
+              "totalMoved": 385,
+              "operativeLeaves": 385,
+              "nonOperativeLeaves": 0
+            },
+            "dimensionsTouched": [
+              "eligibility",
+              "exclusions",
+              "filingActor",
+              "filingDestination",
+              "legalAuthority",
+              "packetComponents",
+              "participantFacingConclusion",
+              "paymentEligibility",
+              "remedyIdentity",
+              "requiredFacts",
+              "routeIdentity",
+              "triggerDates",
+              "unclassified_operative",
+              "waitingPeriods"
+            ],
+            "isolation": {
+              "pathwaysAtReview": 7,
+              "pathwaysNow": 7,
+              "pathwaysGained": [],
+              "pathwaysLost": [],
+              "reviewedPathwaysDisturbed": [
+                {
+                  "pathwayId": "diversion-or-program-completion-expungement",
+                  "leavesMoved": 74
+                },
+                {
+                  "pathwayId": "eligible-conviction-expungement",
+                  "leavesMoved": 54
+                },
+                {
+                  "pathwayId": "general-sessions-non-conviction-expungement",
+                  "leavesMoved": 40
+                },
+                {
+                  "pathwayId": "juvenile-expungement",
+                  "leavesMoved": 53
+                },
+                {
+                  "pathwayId": "pardon-guidance-for-otherwise-ineligible-convictions",
+                  "leavesMoved": 45
+                }
+              ],
+              "reviewedPathwaysDisturbedFraction": 0.7143,
+              "leavesOutsidePathways": 119
+            }
+          }
+        ],
+        "note": "This group's pinned digest was installed by a later commit than the record's first, and reviewedAsOf did not move with it. A disposition here is deciding about the whole chain from the original committed digest, not only about the last leg."
+      },
+      "recordCount": 3,
+      "records": [
+        "data/rcap-all50/pleadings/south-carolina/sc_aep/pleading-config.json",
+        "data/rcap-all50/pleadings/south-carolina/sc_conditional_discharge_44_53_450/pleading-config.json",
+        "data/rcap-all50/pleadings/south-carolina/sc_tep/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+      "reviewedSha256": "bd06899404e8457673231e6806ce31fb649d8aac8a28e45fc9a2988ae3ce2079",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "df29f2fb7a87ae434dd2f10f71122b230e95ff3523bd7f00c1cd00b5704cfe85",
+      "reviewedBytesCurrentAt": {
+        "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+        "date": "2026-07-01",
+        "subject": "fix(rcap): enforce rule-driven packet eligibility"
+      },
+      "movedBy": {
+        "commit": "a74ef489309f45a4c97a5158771536373c0f1e65",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane H question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 13,
+          "removed": 0,
+          "changed": 7,
+          "totalMoved": 20,
+          "operativeLeaves": 20,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "legalAuthority",
+          "paymentEligibility",
+          "unclassified_operative"
+        ],
+        "changedPaths": {
+          "added": [
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[1].lawrenceRatification.projectedFrom",
+            "pathways[2].lawrenceRatification.projectedFrom",
+            "pathways[3].lawrenceRatification.projectedFrom",
+            "questionLifecycle.completionAliasIds[0]",
+            "questionLifecycle.completionAliasIds[1]",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.exactPacketFactIds[5]",
+            "questionLifecycle.exactPacketFactIds[6]"
+          ],
+          "removed": [],
+          "changed": [
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[0].lawrenceRatification.packet_capable",
+            "pathways[0].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[0].lawrenceRatification.status",
+            "pathways[1].lawrenceRatification.lawrence_review",
+            "pathways[2].lawrenceRatification.lawrence_review",
+            "pathways[3].lawrenceRatification.lawrence_review"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 4,
+          "pathwaysNow": 4,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+              "leavesMoved": 5
+            },
+            {
+              "pathwayId": "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "pathway-4-two-offense-expunction-under-40-32-101-k",
+              "leavesMoved": 2
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 1,
+          "leavesOutsidePathways": 9
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": false,
+        "originalCommittedDigests": [
+          "bd06899404e8457673231e6806ce31fb649d8aac8a28e45fc9a2988ae3ce2079"
+        ],
+        "recordsWithAPriorRepin": [],
+        "deltasFromOriginalCommittedDigests": [],
+        "note": "The pinned digest is the digest this record was first committed with."
+      },
+      "recordCount": 8,
+      "records": [
+        "data/rcap-all50/pleadings/tennessee/tn_arrest_no_court_record/pleading-config.json",
+        "data/rcap-all50/pleadings/tennessee/tn_illegal_voting/pleading-config.json",
+        "data/rcap-all50/pleadings/tennessee/tn_mistaken_identity/pleading-config.json",
+        "data/rcap-all50/pleadings/tennessee/tn_nonconviction_petition/pleading-config.json",
+        "data/rcap-all50/pleadings/tennessee/tn_post_pardon/pleading-config.json",
+        "data/rcap-all50/pleadings/tennessee/tn_pretrial_diversion/pleading-config.json",
+        "data/rcap-all50/pleadings/tennessee/tn_recovery_court/pleading-config.json",
+        "data/rcap-all50/pleadings/tennessee/tn_redaction/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
       "reviewedSha256": "5d86879a794303a7b38faa37533db4037a356eb017f8a3229e62c51041309dc4",
+      "pinFields": [
+        "profileSha256"
+      ],
       "reviewedAsOf": null,
       "reviewedAsOfAcrossRecords": [],
       "currentSha256": "8f99b36519cf35b6ead155799f81605d045e55cad19b1c7d11a931f48b3097aa",
@@ -3092,8 +6885,101 @@
       "disposition": null
     },
     {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+      "reviewedSha256": "235b3e5ecc921c62f5dbcd6da7770ce0b4cf4ee39f291caea1ea211fe33c4d67",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "cb4f65b493534f699b67a3497b2402e446bba267b8285c9e705433e8f5f4b645",
+      "reviewedBytesCurrentAt": {
+        "commit": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b",
+        "date": "2026-08-12",
+        "subject": "First terminalization integration window: B, C, E, D1 by owned path"
+      },
+      "movedBy": {
+        "commit": "b86326a3e488fa465c53ecb357f5b41cdbda0af4",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane I question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 8,
+          "removed": 0,
+          "changed": 8,
+          "totalMoved": 16,
+          "operativeLeaves": 16,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "legalAuthority",
+          "paymentEligibility",
+          "unclassified_operative"
+        ],
+        "changedPaths": {
+          "added": [
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[2].lawrenceRatification.projectedFrom",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.exactPacketFactIds[5]"
+          ],
+          "removed": [],
+          "changed": [
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[0].lawrenceRatification.packet_capable",
+            "pathways[0].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[0].lawrenceRatification.status",
+            "pathways[2].lawrenceRatification.lawrence_review",
+            "pathways[2].lawrenceRatification.packet_capable",
+            "pathways[2].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[2].lawrenceRatification.status"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 3,
+          "pathwaysNow": 3,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "petition-based-sealing",
+              "leavesMoved": 5
+            },
+            {
+              "pathwayId": "regime-1-expungement-available-now",
+              "leavesMoved": 5
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.6667,
+          "leavesOutsidePathways": 6
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": false,
+        "originalCommittedDigests": [
+          "235b3e5ecc921c62f5dbcd6da7770ce0b4cf4ee39f291caea1ea211fe33c4d67"
+        ],
+        "recordsWithAPriorRepin": [],
+        "deltasFromOriginalCommittedDigests": [],
+        "note": "The pinned digest is the digest this record was first committed with."
+      },
+      "recordCount": 1,
+      "records": [
+        "data/rcap-all50/pleadings/virginia/va_exp_identity_used_by_another/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
       "reviewedSha256": "1a4267ce65b9ddc15a65e086cfba2860d088b06b4cd5ad801bda22514fecf9af",
+      "pinFields": [
+        "profileSha256"
+      ],
       "reviewedAsOf": "2026-08-01",
       "reviewedAsOfAcrossRecords": [
         "2026-08-01"
@@ -3195,8 +7081,261 @@
       "disposition": null
     },
     {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+      "reviewedSha256": "c0da4e003c2daedee91ea943b2753b607b259e25a69fba4e50870f4187783756",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "f9d4f29d291682a01f0398b886d65ee7a4b74f140a3ecf4042a8ac4afba44e00",
+      "reviewedBytesCurrentAt": {
+        "commit": "8840721b0f6b53cf9589ccfd4d1fc72a54dd4259",
+        "date": "2026-08-25",
+        "subject": "legal: gate route rules only on facts the flow actually guarantees"
+      },
+      "movedBy": {
+        "commit": "b86326a3e488fa465c53ecb357f5b41cdbda0af4",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane I question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 13,
+          "removed": 0,
+          "changed": 2,
+          "totalMoved": 15,
+          "operativeLeaves": 15,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "legalAuthority",
+          "paymentEligibility",
+          "unclassified_operative"
+        ],
+        "changedPaths": {
+          "added": [
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[1].lawrenceRatification.projectedFrom",
+            "pathways[2].lawrenceRatification.lawrence_review",
+            "pathways[2].lawrenceRatification.legal_basis",
+            "pathways[2].lawrenceRatification.packet_capable",
+            "pathways[2].lawrenceRatification.payment_allowed_when_engine_confirms",
+            "pathways[2].lawrenceRatification.projectedFrom",
+            "pathways[2].lawrenceRatification.status",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]"
+          ],
+          "removed": [],
+          "changed": [
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[1].lawrenceRatification.lawrence_review"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 7,
+          "pathwaysNow": 7,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "adult-felony-vacation-under-rcw-9-94a-640",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "non-conviction-record-deletion-under-rcw-10-97-060",
+              "leavesMoved": 6
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.4286,
+          "leavesOutsidePathways": 5
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": true,
+        "originalCommittedDigests": [
+          "65778b6d0a1e03a6585b7c87cf64482ba0328805b2b6a491b997738a34cc2ca9"
+        ],
+        "recordsWithAPriorRepin": [
+          "data/rcap-all50/pleadings/washington/wa_crop_certificate_of_restoration/pleading-config.json",
+          "data/rcap-all50/pleadings/washington/wa_vac_post_probation_9_95_240/pleading-config.json"
+        ],
+        "deltasFromOriginalCommittedDigests": [
+          {
+            "originalSha256": "65778b6d0a1e03a6585b7c87cf64482ba0328805b2b6a491b997738a34cc2ca9",
+            "firstCommittedAt": {
+              "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+              "date": "2026-07-01",
+              "subject": "fix(rcap): enforce rule-driven packet eligibility"
+            },
+            "counts": {
+              "added": 136,
+              "removed": 73,
+              "changed": 13,
+              "totalMoved": 222,
+              "operativeLeaves": 222,
+              "nonOperativeLeaves": 0
+            },
+            "dimensionsTouched": [
+              "eligibility",
+              "exclusions",
+              "filingActor",
+              "legalAuthority",
+              "packetComponents",
+              "participantFacingConclusion",
+              "paymentEligibility",
+              "remedyIdentity",
+              "requiredFacts",
+              "routeIdentity",
+              "triggerDates",
+              "unclassified_operative",
+              "waitingPeriods"
+            ],
+            "isolation": {
+              "pathwaysAtReview": 7,
+              "pathwaysNow": 7,
+              "pathwaysGained": [],
+              "pathwaysLost": [],
+              "reviewedPathwaysDisturbed": [
+                {
+                  "pathwayId": "adult-felony-vacation-under-rcw-9-94a-640",
+                  "leavesMoved": 2
+                },
+                {
+                  "pathwayId": "adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060",
+                  "leavesMoved": 2
+                },
+                {
+                  "pathwayId": "juvenile-record-sealing-under-rcw-13-50-260",
+                  "leavesMoved": 54
+                },
+                {
+                  "pathwayId": "misdemeanor-cannabis-conviction-vacation",
+                  "leavesMoved": 46
+                },
+                {
+                  "pathwayId": "non-conviction-record-deletion-under-rcw-10-97-060",
+                  "leavesMoved": 6
+                },
+                {
+                  "pathwayId": "victim-survivor-conviction-vacation-route",
+                  "leavesMoved": 47
+                }
+              ],
+              "reviewedPathwaysDisturbedFraction": 0.8571,
+              "leavesOutsidePathways": 65
+            }
+          }
+        ],
+        "note": "This group's pinned digest was installed by a later commit than the record's first, and reviewedAsOf did not move with it. A disposition here is deciding about the whole chain from the original committed digest, not only about the last leg."
+      },
+      "recordCount": 2,
+      "records": [
+        "data/rcap-all50/pleadings/washington/wa_crop_certificate_of_restoration/pleading-config.json",
+        "data/rcap-all50/pleadings/washington/wa_vac_post_probation_9_95_240/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+      "reviewedSha256": "1384658236651b0412425445df309c38eef7dda6e32971c2d6f06b1e33b2667f",
+      "pinFields": [
+        "fingerprint"
+      ],
+      "reviewedAsOf": null,
+      "reviewedAsOfAcrossRecords": [],
+      "currentSha256": "cc174d60c0a99078c7050eb608be311a9b85bbf701bf7d3e42b997f99de1743e",
+      "reviewedBytesCurrentAt": {
+        "commit": "c8d71187b503108131e882fce1797b7638a40f38",
+        "date": "2026-07-01",
+        "subject": "fix(rcap): enforce rule-driven packet eligibility"
+      },
+      "movedBy": {
+        "commit": "b86326a3e488fa465c53ecb357f5b41cdbda0af4",
+        "date": "2026-08-26",
+        "subject": "fix(rcap): map Lane I question lifecycles"
+      },
+      "delta": {
+        "counts": {
+          "added": 12,
+          "removed": 0,
+          "changed": 2,
+          "totalMoved": 14,
+          "operativeLeaves": 14,
+          "nonOperativeLeaves": 0
+        },
+        "dimensionsTouched": [
+          "legalAuthority",
+          "unclassified_operative"
+        ],
+        "changedPaths": {
+          "added": [
+            "pathways[0].lawrenceRatification.projectedFrom",
+            "pathways[2].lawrenceRatification.projectedFrom",
+            "questionLifecycle.completionAliasIds[0]",
+            "questionLifecycle.exactPacketFactIds[0]",
+            "questionLifecycle.exactPacketFactIds[1]",
+            "questionLifecycle.exactPacketFactIds[2]",
+            "questionLifecycle.exactPacketFactIds[3]",
+            "questionLifecycle.exactPacketFactIds[4]",
+            "questionLifecycle.exactPacketFactIds[5]",
+            "questionLifecycle.exactPacketFactIds[6]",
+            "questionLifecycle.routeConsumers.wi_expungement_ordered_at_sentencing[0]",
+            "questionLifecycle.routeConsumers.wi_no_probation_jail_prison[0]"
+          ],
+          "removed": [],
+          "changed": [
+            "pathways[0].lawrenceRatification.lawrence_review",
+            "pathways[2].lawrenceRatification.lawrence_review"
+          ]
+        },
+        "isolation": {
+          "pathwaysAtReview": 5,
+          "pathwaysNow": 5,
+          "pathwaysGained": [],
+          "pathwaysLost": [],
+          "reviewedPathwaysDisturbed": [
+            {
+              "pathwayId": "adult-conviction-expungement-under-wis-stat-973-015",
+              "leavesMoved": 2
+            },
+            {
+              "pathwayId": "human-trafficking-prostitution-relief-under-973-015-2m",
+              "leavesMoved": 2
+            }
+          ],
+          "reviewedPathwaysDisturbedFraction": 0.4,
+          "leavesOutsidePathways": 10
+        }
+      },
+      "priorChain": {
+        "pinnedDigestIsItselfARepin": false,
+        "originalCommittedDigests": [
+          "1384658236651b0412425445df309c38eef7dda6e32971c2d6f06b1e33b2667f"
+        ],
+        "recordsWithAPriorRepin": [],
+        "deltasFromOriginalCommittedDigests": [],
+        "note": "The pinned digest is the digest this record was first committed with."
+      },
+      "recordCount": 1,
+      "records": [
+        "data/rcap-all50/pleadings/wisconsin/wi_exp_certificate_of_discharge_followup/pleading-config.json"
+      ],
+      "disposition": null
+    },
+    {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
       "reviewedSha256": "0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78",
+      "pinFields": [
+        "profileSha256"
+      ],
       "reviewedAsOf": "2026-08-01",
       "reviewedAsOfAcrossRecords": [
         "2026-08-01"
@@ -3379,6 +7518,9 @@
     {
       "profilePath": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
       "reviewedSha256": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+      "pinFields": [
+        "profileSha256"
+      ],
       "reviewedAsOf": "2026-08-01",
       "reviewedAsOfAcrossRecords": [
         "2026-08-01"

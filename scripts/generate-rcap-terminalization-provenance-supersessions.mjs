@@ -82,11 +82,13 @@ for (const pin of drifted) {
       reviewedSha256: pin.reviewedSha256,
       currentSha256: pin.currentSha256,
       reviewedAsOf: new Set(),
+      pinFields: new Set(),
       records: []
     });
   }
   const group = grouped.get(key);
   group.records.push(pin.record);
+  group.pinFields.add(pin.pinField);
   if (pin.reviewedAsOf) group.reviewedAsOf.add(pin.reviewedAsOf);
 }
 
@@ -140,6 +142,7 @@ const supersessions = [...grouped.values()]
     return {
       profilePath: group.profilePath,
       reviewedSha256: group.reviewedSha256,
+      pinFields: [...group.pinFields].sort(),
       reviewedAsOf: reviewedAsOf.length === 1 ? reviewedAsOf[0] : null,
       reviewedAsOfAcrossRecords: reviewedAsOf,
       currentSha256: group.currentSha256,
@@ -198,6 +201,14 @@ const next = {
     pinsCurrent: pins.length - drifted.length,
     pinsSuperseded: drifted.length,
     distinctProfileAndReviewedDigestPairs: supersessions.length,
+    byPinField: {
+      profileSha256: pins.filter((p) => p.pinField === "profileSha256").length,
+      fingerprint: pins.filter((p) => p.pinField === "fingerprint").length
+    },
+    supersededByPinField: {
+      profileSha256: drifted.filter((p) => p.pinField === "profileSha256").length,
+      fingerprint: drifted.filter((p) => p.pinField === "fingerprint").length
+    },
     pairsDispositioned: supersessions.filter((s) => s.disposition).length,
     pairsAwaitingDisposition: supersessions.filter((s) => !s.disposition).length,
     priorUnrecordedRepinEvents: priorUnrecordedRepins.length,

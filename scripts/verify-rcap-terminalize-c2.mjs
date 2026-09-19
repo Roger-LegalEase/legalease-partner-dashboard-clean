@@ -54,8 +54,13 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { provenanceState, loadSupersessions } from "./lib/terminalization-provenance-model.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
+// Shared with C1 so the two controls cannot disagree about what a satisfied
+// provenance state is.
+const { byKey: supersessionsByKey } = loadSupersessions({ root: rootDir });
 
 const { PDFDocument, StandardFonts } = await import("pdf-lib");
 const rendererMod = await import(
@@ -653,14 +658,34 @@ function validateConfigShape(trackId, doc, failures) {
     failures.push(`[${trackId}] qaProhibitedTerms missing (may be empty array)`);
 }
 
-function validateProvenance(trackId, doc, failures, warnings) {
+function validateProvenance(trackId, doc, failures, warnings, recordPath) {
   const prov = doc.provenance ?? {};
   if (prov.profilePath) {
     const profileFile = path.join(rootDir, prov.profilePath);
     if (!fs.existsSync(profileFile)) {
       failures.push(`[${trackId}] provenance.profilePath does not exist: ${prov.profilePath}`);
-    } else if (prov.fingerprint !== sha256(fs.readFileSync(profileFile))) {
-      failures.push(`[${trackId}] provenance.fingerprint does not match sha256 of ${prov.profilePath}`);
+    } else {
+      // The same two-state model C1 uses, over the same supersession record.
+      // These tracks name their pin `fingerprint` rather than `profileSha256`,
+      // but it is the same fact about the same profiles, so it gets the same
+      // treatment rather than a parallel mechanism: a review is either against
+      // the bytes that ship, or against earlier bytes whose delta has been
+      // recorded and dispositioned. Nothing here moves a fingerprint.
+      const verdict = provenanceState({
+        pin: {
+          record: recordPath,
+          profilePath: prov.profilePath,
+          reviewedSha256: prov.fingerprint,
+          reviewedAsOf: prov.reviewedAsOf ?? null,
+          currentSha256: sha256(fs.readFileSync(profileFile))
+        },
+        supersessionsByKey
+      });
+      if (!verdict.satisfied) {
+        failures.push(
+          `[${trackId}] provenance is ${verdict.state} against ${prov.profilePath} — ${verdict.reason}`
+        );
+      }
     }
   }
   const pinned = pinnedRegistryTrack(trackId);
@@ -1174,7 +1199,8 @@ for (const job of selected) {
     const rendered = await renderTrack(slug, trackId, mode === "render", loadedFailures, warnings);
     if (rendered && mode === "verify") {
       validateConfigShape(trackId, rendered.doc, loadedFailures);
-      validateProvenance(trackId, rendered.doc, loadedFailures, warnings);
+      validateProvenance(trackId, rendered.doc, loadedFailures, warnings,
+        `data/rcap-all50/pleadings/${slug}/${trackId}/pleading-config.json`);
       validateNoInvention(trackId, rendered.doc, job.jurisdiction, loadedFailures);
       validateSourceSilences(trackId, rendered.doc, loadedFailures);
       validateInstructionsAgainstSilences(trackId, trackDir(slug, trackId), rendered.doc, loadedFailures);

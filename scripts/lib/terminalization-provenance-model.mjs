@@ -135,13 +135,21 @@ export function collectPins({ root }) {
           continue;
         }
         const provenance = doc?.provenance;
-        if (!provenance?.profilePath || !provenance?.profileSha256) continue;
+        if (!provenance?.profilePath) continue;
+        // Two corpora pin the same thing under two names: the controlled
+        // pleadings and composed routes C1 verifies use profileSha256, the
+        // terminalization treatments C2 verifies use fingerprint. They are
+        // the same fact and the same failure, so one mechanism covers both
+        // rather than the second corpus growing a parallel one.
+        const field = provenance.profileSha256 ? "profileSha256" : provenance.fingerprint ? "fingerprint" : null;
+        if (!field) continue;
         const profileAbs = path.join(root, provenance.profilePath);
         if (!fs.existsSync(profileAbs)) continue;
         pins.push({
           record: path.relative(root, abs).split(path.sep).join("/"),
+          pinField: field,
           profilePath: provenance.profilePath,
-          reviewedSha256: provenance.profileSha256,
+          reviewedSha256: provenance[field],
           reviewedAsOf: provenance.reviewedAsOf ?? null,
           currentSha256: sha256(fs.readFileSync(profileAbs))
         });
@@ -293,7 +301,7 @@ export function repinHistory({ root, record }) {
     } catch {
       continue;
     }
-    const digest = doc?.provenance?.profileSha256;
+    const digest = doc?.provenance?.profileSha256 ?? doc?.provenance?.fingerprint;
     const reviewedAsOf = doc?.provenance?.reviewedAsOf ?? null;
     if (!digest) continue;
     if (original === null) original = { digest, reviewedAsOf, commit, date };
