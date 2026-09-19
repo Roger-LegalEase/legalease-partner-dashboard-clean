@@ -163,3 +163,78 @@ Production activation is not authorized, and nothing here changes that.
 Measurement only; no byte moved, all probe files removed.
 `comparedInputs: 30`, `changedPaths: []`, `rebuildRequired: false` — an observed
 result here, not a condition the eventual repair must preserve.
+
+---
+
+# Repair pass 1 — findings 5 and 6 closed
+
+## No worker-input change was needed
+
+The 64 unaccounted `factory_v2` refusals were fully explained by a decision the
+implementation already makes. `buildRenderJobSpec` consults counsel's
+`route-ratification-registry.json` and refuses any **listed** route whose status
+is not `ratified_deployable`. Accounting the 104 refusals against the contract's
+own three branches, in the contract's own order:
+
+| Branch | Routes |
+|---|---|
+| `legacy_retired` (ADR-0004) | 40 |
+| ratification `hard_gate_pending` | 32 |
+| ratification `held_guidance` | 15 |
+| ratification `intentional_unsupported` | 15 |
+| ratification `corrected_awaiting_reconfirmation` | 2 |
+| **unexplained** | **0** |
+| **threw** | **0** |
+
+32 + 15 + 15 + 2 = 64, exactly. **`job-contract.ts` was not modified**, so no
+worker-image input moved and the gate is unchanged as a *result*, not as a
+preserved objective.
+
+## What changed, in the verifier only
+
+**The exception swallow is gone.** `catch { built = null; }` collapsed a
+deliberate refusal and an unexpected fault into one outcome — a
+`RenderContractError` such as `profile_version_unknown`, which is a
+configuration failure, was counted as the boundary holding. The error is now
+captured and reported with its code and message.
+
+**The two pinned counts are replaced by an accounting.** `jobSpecBuilt.length === renderable.length`
+and `kinds === "factory_v2,legacy_retired"` both pinned the historical set and
+fired when the boundary moved in the **safe** direction. Now every renderable
+route must land in exactly one place — a spec, or a refusal one of the
+contract's own branches explains, read from the same authority records the
+contract reads — and three things are asserted: nothing threw, nothing is
+unexplained, and **no route its own authority refuses produced a spec**. Counts
+are printed, never asserted.
+
+```
+renderable 212 = 108 spec + 104 refused + 0 threw + 0 unexplained
+```
+
+## Mutation evidence
+
+| | Mutation | Result |
+|---|---|---|
+| M1 | remove the `legacy_retired` refusal | **caught** — 23 retired routes named as building a spec against ADR-0004 |
+| M2 | remove the ratification refusal | **caught** — all 64 named with their exact registry status |
+| M3 | inject a `RenderContractError` on one ratified route | **caught as a fault**, not counted as a refusal — the defect the old `catch` hid |
+| M4 | a `ratified_deployable` route returns null with no branch | **caught** — named with routeKind and status |
+| positive control | unmutated | 108 legitimate specs still build; rejecting everything cannot pass |
+
+`job-contract.ts` was restored from git after each mutation and the tree
+verified clean.
+
+## Pre-existing, not caused here
+
+`--mutations` case *"a forged packet-fulfillment ledger row reopened a
+commercial surface"* **FAILS**, and fails **identically with this change removed**
+— measured by stashing the edit and re-running. It is a separate defect in the
+same script, and it is not part of findings 1–6. The other four mutation cases
+pass.
+
+## Still open
+
+Findings 1, 3 and 4 — sponsored entitlement, attachment, delivery — remain
+undispositioned and unrepaired. They need the no-record / held-record /
+authorized positive controls and the intercepted side-effect traces described
+above. Finding 2 stays red by intent, pending step 5.

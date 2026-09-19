@@ -91,7 +91,14 @@ const FORGED_FACTORY_ROUTE = "AL:human-trafficking-victim-expungement";
 if (CHILD) {
   register("./lib/ts-esm-loader.mjs", import.meta.url);
 
-  const { resolvePacketRoute } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
+  const { resolvePacketRoute, packetRouteCanRender } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
+  // Counsel's ratification decisions, read from the same file the job contract
+  // reads. The census does not keep its own copy of the answer; it checks that
+  // every refusal the contract makes is one this record already explains.
+  const RATIFICATION_STATUS_OF = new Map(
+    JSON.parse(fs.readFileSync("data/record-clearing/legal-decisions/route-ratification-registry.json", "utf8"))
+      .routes.map((entry) => [entry.routeKey, entry.status])
+  );
   const ca = await import("../src/lib/rcap/render/commercial-admission.ts");
   const { admitCommercial } = await import("../src/lib/rcap/fulfillment/grade-a-admission.ts");
   const pay = await import("../src/lib/expungement-ai/payment-adapter.ts");
@@ -204,6 +211,10 @@ if (CHILD) {
   const attached = [];
   const delivered = [];
   const jobSpecBuilt = [];
+  const jobSpecThrew = [];
+  const jobSpecRefused = [];
+  const jobSpecUnexplained = [];
+  const jobSpecWidened = [];
   const sellableTrue = [];
   const creditTrue = [];
   const jobSpecKinds = new Map();
@@ -240,6 +251,7 @@ if (CHILD) {
 
     // ---- 4 & 6. a render job, and the credit it could reach -----------------
     let built = null;
+    let jobThrew = null;
     try {
       built = jobContract.buildRenderJobSpec({
         packetId: "00000000-0000-4000-8000-000000000001",
@@ -249,12 +261,51 @@ if (CHILD) {
         briefcaseItemId: "census-item",
         packetFields: { fullName: "Census Probe", caseNumber: "CENSUS-1" }
       });
-    } catch { built = null; }
+    } catch (error) {
+      // NOT `catch { built = null }`. That collapsed a deliberate refusal and an
+      // unexpected failure into one outcome, so a RenderContractError -- say
+      // `profile_version_unknown`, which is a configuration fault -- was counted
+      // as the boundary holding. A throw is a failure and is reported as one.
+      jobThrew = error;
+      built = null;
+    }
+    if (jobThrew) {
+      jobSpecThrew.push(`${r.routeId} (${jobThrew?.code ?? jobThrew?.name ?? "error"}: ${String(jobThrew?.message ?? jobThrew).slice(0, 80)})`);
+    }
     if (built?.spec) {
       jobSpecBuilt.push(r.routeId);
       jobSpecKinds.set(route.routeKind, (jobSpecKinds.get(route.routeKind) ?? 0) + 1);
       check(built.spec.routeId === r.routeId,
         `${r.routeId}: the job spec carries routeId ${built.spec.routeId}; a job must name the exact route it was built for`);
+      // A spec is a widening if the route's own authority refuses it. These are
+      // the two decisions the contract makes before it builds, checked here
+      // against the records rather than against a remembered count.
+      if (route.routeKind === "legacy_retired") {
+        jobSpecWidened.push(`${r.routeId} (legacy_retired built a spec; ADR-0004 refuses new render jobs)`);
+      }
+      const builtStatus = RATIFICATION_STATUS_OF.get(r.routeId);
+      if (builtStatus !== undefined && builtStatus !== "ratified_deployable") {
+        jobSpecWidened.push(`${r.routeId} (ratification ${builtStatus} built a spec)`);
+      }
+    } else if (!jobThrew && route.rendererKind !== "none") {
+      // Only the census denominator -- the routes that CAN render -- is
+      // accounted here. A route with rendererKind "none" never reaches the
+      // build and is not evidence about the shadow boundary.
+      //
+      // Every refusal must be one the contract's own branches explain, in the
+      // contract's own order. An unexplained null is red: it cannot be told from
+      // a fault, which is what "no reason returned" costs.
+      const kind = route.routeKind;
+      const status = RATIFICATION_STATUS_OF.get(r.routeId);
+      if (kind === "component_deferral" || kind === "exact_supported_deferral" || !packetRouteCanRender(route)) {
+        jobSpecRefused.push({ routeId: r.routeId, branch: `deferral_or_not_renderable:${kind}` });
+      } else if (kind === "legacy_retired") {
+        jobSpecRefused.push({ routeId: r.routeId, branch: "legacy_retired" });
+      } else if (status !== undefined && status !== "ratified_deployable") {
+        jobSpecRefused.push({ routeId: r.routeId, branch: `ratification:${status}` });
+      } else {
+        jobSpecUnexplained.push(`${r.routeId} (routeKind ${kind}, ratification ${JSON.stringify(status ?? null)})`);
+      }
     }
     const credit = await slots.finalizeSponsoredPacketGeneration({
       sessionId: "census-session",
@@ -325,16 +376,42 @@ if (CHILD) {
    * fail here instead of passing quietly.
    */
   const renderable = routes.filter((r) => resolvePacketRoute({ state: r.jurisdiction, pathway: r.pathwayId, trackId: null }).rendererKind !== "none");
-  check(jobSpecBuilt.length === renderable.length,
-    `buildRenderJobSpec produced ${jobSpecBuilt.length} specs for ${renderable.length} renderable routes; the shadow boundary moved`);
+
+  /*
+   * These two checks used to pin the exact historical set: every renderable
+   * route builds a spec, and the kinds are exactly factory_v2 + legacy_retired.
+   * Both went red when the boundary moved in the SAFE direction -- ADR-0004
+   * retirement reached the job contract, so `legacy_retired` stopped building
+   * specs, and counsel's ratification registry refuses every listed route that
+   * is not `ratified_deployable`. A count pinned to "before" reports a
+   * narrowing as a defect and cannot tell one from a widening.
+   *
+   * Replaced by an accounting that survives both directions. Every renderable
+   * route must land in exactly one place: a spec, or a refusal one of the
+   * contract's OWN branches explains, read from the same authority records the
+   * contract reads. The counts are printed, never asserted; what is asserted is
+   * that nothing is unexplained, nothing threw, and no route the authority
+   * refuses produced a spec.
+   */
+  check(jobSpecThrew.length === 0,
+    summarise("renderable routes where buildRenderJobSpec threw; an exception is a fault, not a refusal", jobSpecThrew));
+  check(jobSpecUnexplained.length === 0,
+    summarise("renderable routes refused with no branch that explains it; an unexplained null cannot be told from a fault", jobSpecUnexplained));
+  check(jobSpecWidened.length === 0,
+    summarise("routes that built a render job spec against their own authority", jobSpecWidened));
+  check(jobSpecBuilt.length + jobSpecRefused.length + jobSpecThrew.length + jobSpecUnexplained.length === renderable.length,
+    `${jobSpecBuilt.length} built + ${jobSpecRefused.length} refused + ${jobSpecThrew.length} threw + ${jobSpecUnexplained.length} unexplained does not account for ${renderable.length} renderable routes`);
+
+  const byBranch = {};
+  for (const row of jobSpecRefused) byBranch[row.branch] = (byBranch[row.branch] ?? 0) + 1;
   const kinds = [...jobSpecKinds.keys()].sort();
-  check(kinds.join(",") === "factory_v2,legacy_retired",
-    `shadow render specs now cover route kinds [${kinds.join(", ")}]; only the retired legacy generators and the shadow factory may build one`);
 
   console.log(`census v1: ${routes.length} compiled routes over ${profiles.length} jurisdictions, ${checks} assertion(s).`);
   console.log(`  sellable:false ${routes.length}/${routes.length} · creditConsumable:false ${routes.length}/${routes.length}`);
   console.log(`  price ${priced.length} · checkout ${checkedOut.length} · sponsored ${sponsored.length} · credit ${creditSpent.length} · attach ${attached.length} · deliver ${delivered.length}`);
   console.log(`  shadow render specs: ${jobSpecBuilt.length} (${[...jobSpecKinds].map(([k, v]) => `${k} ${v}`).join(", ")})`);
+  console.log(`  renderable ${renderable.length} = ${jobSpecBuilt.length} spec + ${jobSpecRefused.length} refused + ${jobSpecThrew.length} threw + ${jobSpecUnexplained.length} unexplained`);
+  for (const [branch, n] of Object.entries(byBranch).sort()) console.log(`    refused by ${branch}: ${n}`);
 
   if (failures.length > 0) {
     console.error(`\nverify-rcap-census-v1-money-credit-gate FAILED — ${failures.length} problem(s):\n`);
