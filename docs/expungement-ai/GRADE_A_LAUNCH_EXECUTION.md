@@ -43,6 +43,7 @@ lane, no agent swarm.
 | GA-5-TOKENS unresolved caption tokens on filed documents | 3 | `READY` | 11 of 28 rendered documents print `{courtLevel}`, `{county}`, `{caseNumber}` etc. in captions. **Contained**: all 11 are CT/KY/VT/WV, which hold zero Grade-A records; every row is UNFINISHED or MAINTENANCE_HOLD, not sellable, not admitted. Per-config repair in Phase 3 |
 | ND visual review — `STALE / RE-REVIEW REQUIRED` | 3 | `READY` | Bound to 1.x bytes; both ND packets are 8 pages at renderer 2.0.0. Ordinary ND acceptance work, not a separate workstream. ND is already noncommercial, so it blocks nothing else; it must complete before the corrected ND packet can be Grade-A deliverable again |
 | ND output legal review — `STALE / RE-REVIEW REQUIRED` | 3 | `READY` | Same binding, same phase, same condition |
+| `dc-correct-misattributed-arrest` has a specification but no packet plan | 3 | `READY` | The one specification of nineteen whose pathway the planner cannot plan, so collection has nothing to ask. DC is noncommercial on this route; repair with the DC rows in Phase 3 |
 | GA-5-MS reapply the reverted `routeKeys` binding fix | 3 | `ACTIVE` | 132C. Reverted earlier to hold `rebuildRequired:false`; that is no longer the accepted end state |
 
 ## External blockers
@@ -60,6 +61,7 @@ lane, no agent swarm.
 
 | Item | Phase | Evidence |
 |---|---|---|
+| GA-4.1 one authoritative route definition | 1 | Already correct. `packetPlanForPathway` derives required inputs from the packet specification (`packetSpecificationRequiredFactIdsFor`); mutation-proven on a registered and an unregistered spec. No duplication to remove, and no control added — a parity check between them cannot fail |
 | GA-4.3 cross-jurisdiction presentation fallback removed | 1 | 13 configs now refuse; PA byte-identical 3/3; 190 checks |
 | GA-4.4 product branding removed from court-facing documents | 1 | renderer 1.0.0 -> 2.0.0; QA rule inverted; ND footer now audience-driven |
 | Memo lineage restoration (32) | — | `e1834aac7`; sweep step 154 |
