@@ -709,16 +709,30 @@ check("no synthetic record reaches the shipped registry", () => {
     ? "a synthetic hardening record was committed" : null;
 });
 
-check("the shipped registry admits only the five exact evidence-complete productized records", () => {
+check("the shipped registry admits exactly the evidence-complete productized records the authority proves", () => {
   const shipped = JSON.parse(readSource("data/rcap-grade-a/fulfillment-authority-registry.json"));
   const observations = JSON.parse(readSource("data/rcap-grade-a/fulfillment-observation-snapshot.json"));
-  const expectedAdmitted = new Set([
-    "DC:dc_actual_innocence_expungement_16_803",
-    "IL:felony-prostitution-relief",
-    "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
-    "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
-    "WY:felony-conviction-expungement-w-s-7-13-1502"
-  ]);
+  /*
+   * The expected set was a hard-coded five. It went stale on 2026-09-14, when
+   * MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal
+   * became a proven paid consumer route under the named owner decision
+   * data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json.
+   * A literal cannot follow an owner decision, so the check reported an
+   * authorized route as "unexpectedly admitted".
+   *
+   * Read from the authority's own projection instead. Not circular: the
+   * projection states which routes are COMPLETE_PACKET_PROVEN, while the
+   * admissions below are computed from the registry and the observation
+   * snapshot. The check is unchanged in strength -- every proven route must be
+   * admitted at every point, and every route the authority does not prove must
+   * be denied at every point. A route added to the registry without becoming
+   * proven still fails here.
+   */
+  const projection = JSON.parse(readSource("data/rcap-grade-a/fulfillment-authority-projection.json"));
+  const expectedAdmitted = new Set((projection.routes ?? [])
+    .filter((route) => route.state === "COMPLETE_PACKET_PROVEN")
+    .map((route) => route.routeId));
+  if (expectedAdmitted.size === 0) return "the projection proves no route at all; the expected set cannot be empty";
   const admittedRoutes = new Set();
   for (const record of shipped.records) {
     for (const point of ALL_POINTS) {

@@ -16,10 +16,32 @@ export function consumerSpecificationBinding(
   binding?: { trackId?: string | null; packetFamilyId?: string | null }
 ) {
   const specification = composablePacketSpecificationFor(record.routeId);
+  /*
+   * A specification may name more than one route, and some do: the MS
+   * additional-misdemeanor packet declares
+   *   routeKeys: ["MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+   *               "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6"]
+   * because one assembled packet serves both parallel courts. Comparing only
+   * `specification.pathwayId` bound the first of those and refused the second,
+   * so an owner-approved route could not bind the specification that authorizes
+   * it — fail-closed under-delivery.
+   *
+   * The binding is still EXACT. It is satisfied only by a route the
+   * specification itself names, read from the specification's own `routeKeys`.
+   * Where a specification declares no `routeKeys` the singular `pathwayId`
+   * remains the whole test, so no other family's binding changes. No
+   * jurisdiction is special-cased and no pathway is added as a literal.
+   */
+  const declaredRoutes: string[] = Array.isArray((specification as { routeKeys?: unknown })?.routeKeys)
+    ? ((specification as unknown as { routeKeys: string[] }).routeKeys)
+    : [];
+  const routeIsDeclared = declaredRoutes.length > 0
+    ? declaredRoutes.includes(record.routeId)
+    : specification?.pathwayId === record.pathwayId;
   if (!specification || !binding?.trackId || binding.trackId.includes("*")
     || packetSpecificationForTrack(record.routeId, binding.trackId) !== specification
     || specification.jurisdiction !== record.jurisdiction
-    || specification.pathwayId !== record.pathwayId
+    || !routeIsDeclared
     || specification.packetFamily !== record.packetFamilyId
     || (binding.packetFamilyId !== undefined && binding.packetFamilyId !== specification.packetFamily)
     || record.packetCompleteness?.specificationId !== specification.specificationId
