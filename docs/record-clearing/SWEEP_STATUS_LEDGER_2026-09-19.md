@@ -1,22 +1,52 @@
 # Sweep status ledger — live
 
-The current state of the 154-step canonical sweep. This **supersedes the naming**
-in `POST_C2_DISCOVERY_INVENTORY_2026-09-19.md`, which is frozen as the record the
+> **Verification complete: 258/276 pass, 18/276 fail, with every failure mapped
+> to an explicit known hold. Repository tree clean. No compared release input
+> changed. `rebuildRequired: false`. Release intentionally undeclared pending
+> nine named authority, CI, schema and architectural holds.**
+>
+> The verification phase is closed. The next phase is closing the nine holds,
+> not hunting for unknown breakage.
+
+The current state of the canonical sweep. This **supersedes the naming** in
+`POST_C2_DISCOVERY_INVENTORY_2026-09-19.md`, which is frozen as the record the
 remediation lanes were planned from and is deliberately not edited.
 
 Where a step's name here differs from the inventory's, this one is the proven
 finding and the inventory's is the first impression.
 
+## Denominator
+
+**The "154-step" figure below the line is superseded and must not be reused.**
+The measured surface is 276 steps over 259 distinct scripts; the full evidence is
+`SWEEP_CLOSEOUT_2026-09-19.md`.
+
 | | |
 |---|---|
-| Steps swept | 154 |
-| Pass | 137 |
-| Fail | 17 |
-| Failing identically at the accepted baseline `8682bd007` | 17 of 17 |
-| Regressions introduced by this session | 0 |
+| Steps swept | **276**, all accounted for |
+| Distinct scripts | **259**, all accounted for |
+| Pass | **258** |
+| Fail | **18** |
+| Unexplained failures | **0** |
+| New defects exposed by the full sweep | **0** |
+| Regressions introduced by this session | **0** |
+| Tree after the sweep | clean; mutation residue disproven per file |
 
-Worker equivalence gate at every commit: `comparedInputs: 30`,
-`changedPaths: []`, `rebuildRequired: false`.
+Worker equivalence gate, recomputed only after the last mutation process exited
+and the tree was verified clean: `comparedInputs: 30`, `changedPaths: []`,
+`rebuildRequired: false`.
+
+Step 76 (`test-clinic-mobile-accessibility`) is **not** in the 18: it was
+environmental — a `next-server` alive since 11:43 holding the project-wide dev
+lock — and passes cleanly once that process is cleared.
+
+### Superseded interim figures
+
+| Reported | Actual |
+|---|---|
+| 154 steps | 276 steps / 259 scripts |
+| 137 pass / 17 fail | 258 pass / 18 fail |
+| "7 failures at step 136" | interim only; never a release count |
 
 ## Renamed
 
@@ -56,7 +86,8 @@ decision and refused on every sponsored and credit surface.
 | Step | Finding | State |
 |---|---|---|
 | **132** | MS municipal approved-route specification-binding mismatch | `SHARED_SPEC_EXPLICITLY_AUTHORIZED`, held. **132A COMPLETE** — the RASTER_PASS bound to the owner-REJECTED canonical `3c7588be…` is withdrawn and kept as history; repo-wide receipt drift is now zero. **132B BLOCKED ON CI/OWNER ACTION** — fresh acceptance evidence for the approved canonical `c2938658…` requires a `workflow_dispatch` run of `rcap-packet-raster-acceptance-batch.yml` on a Chrome runner, whose `workflowRunId`/`jobId`/`artifactId` cannot be manufactured here. **132C NOT YET PERMITTED** — correcting `consumerSpecificationBinding` to honour the spec's plural `routeKeys`. **132D PENDING AFTER 132C** — commercial/sibling regression proof. After 132B runs, verify the committed receipt's canonical digest equals `c2938658…` before touching binding code; a green workflow alone is not enough. Records: `MUNICIPAL_ROUTE_BINDING_AUDIT_132_2026-09-19.md` |
-| **61** | CA 1203.4a packet implementation complete; legal/owner adoption pending; fail-closed | `LEGAL_DECISION_REQUIRED`. Packet complete, proven and raster-passed; output legal approval is `REQUESTED` and ungranted, and no CA record exists in the fulfillment registry. Record: `ROUTE_TREATMENT_AUDIT_61_CA_1203_4A_2026-09-19.md` |
+| **61A** | CA 1203.4a packet implementation complete; legal/owner adoption pending; fail-closed | **Substantive authority hold.** `LEGAL_DECISION_REQUIRED`. Packet complete, proven and raster-passed; output legal approval is `REQUESTED` and ungranted, and no CA record exists in the fulfillment registry. Surfaces directly as sweep step 20. Record: `ROUTE_TREATMENT_AUDIT_61_CA_1203_4A_2026-09-19.md` |
+| **61B** | Stale downstream propagation of the `guidance_substitution` blocker — sweep steps 151, 192, 195 | **One problem, not three.** `sellable-pathway-closure.json` is current, carries the CA 1203.4a `guidance_substitution` blocker and hashes to `cf55c9a3…`; the coverage reconciliation, the factory-v2 registry and the launch graph still pin the pre-blocker `402b5a79…`, so **three downstream records under-report a blocking condition**. Measured by regenerate-diff-restore: every diff is the same blocker propagating. **Deliberately not repinned.** `factory-v2-route-registry.json` is one of the 30 worker-image inputs, so carrying it forward flips `rebuildRequired`. Their red state is presently useful — it stops a stale downstream representation being mistaken for terminal release state. Record: `SWEEP_CLOSEOUT_2026-09-19.md` §4 |
 | **5** | Approved-state record reconciliation required; patch 11 additionally requires owner adjudication of an intentional architecture change | Nine `SEMANTICALLY_EQUIVALENT_BUT_UNRECORDED` or `STRONGER_CONTROL_UNRECORDED`; **patch 11 `checkout/route.ts` is `AUTHORITY_CONFLICT`** — the approved control named two independent guards and one remains. No digest is eligible for rollover. Record: `AUTHORITY_RECONSTRUCTION_5A_5B_2026-09-19.md` |
 | **5B** | CA `ca-diversion-seal-primary-filing-2` dependency carrier | `APPROVED_SUCCESSOR_PROVEN` — produced by owner determination `DET-DT-CA-CRM307-001`, strictly narrowing. The stale digest lives in the frozen correction assignment, a different artifact; re-freezing it needs its own authority |
 
@@ -123,8 +154,64 @@ moves in this release**, and the gate stays `rebuildRequired: false`.
 3. `consumerSpecificationBinding` honouring the specification's explicit `routeKeys`, with no Mississippi special case and no literal pathway added;
 4. commercial regression tests proving no sibling route is accidentally admitted.
 
-## Completion standard
+## Completion standard — met for verification, not for release
 
-17 known failures is not completion. This sweep is complete when every step is
-either green, or explicitly terminalized as a sanctioned fail-closed release
-hold — in which case the release itself is intentionally not declared complete.
+The standard was: every step either green, or explicitly terminalized as a
+sanctioned fail-closed release hold, with the release then intentionally not
+declared complete.
+
+**That standard is now met.** 258/276 green; the other 18 each mapped to a named
+hold against that hold's own record; 0 unexplained and 0 new. The release is
+intentionally undeclared, which is the sanctioned state rather than an
+outstanding defect.
+
+## The finish queue
+
+Nine holds. None is a debugging question; each needs a decision, an external
+proof, or a migration.
+
+| Hold | Needs | Sweep steps |
+|---|---|---|
+| 5 | owner adjudication of the consolidated guard architecture (patch 11) | 127 |
+| 12 | canonical cross-lane track→family bridge; remove the foreign VA lane-D record **only afterward** | 134 |
+| 1 / 122 | owner re-review of answers against successor compiled-profile bytes | 121, 122, 123, 244 |
+| 22 residual | repair two CI-wired red verifiers, or an owner decision to unwire | 144 |
+| 32 | memo succession/lineage governance — the controls falsely mix import identity with successor hashes | 154 |
+| 33 | per-question resolution ownership/schema decision | 155 |
+| 36B | per-question out-of-report-scope reason/source model | 158, 164, 165 |
+| 41 owner queue | six pathway adjudications; the generator itself is terminal | 163 |
+| 61A / 61B | CA § 1203.4a authority decision, then downstream propagation | 20 / 151, 192, 195 |
+| 132 | A complete; **B** real CI raster evidence blocked; **C** prohibited until B; **D** regression proof after C | 254 |
+
+### The 61 sequence, in order
+
+61B must not be repinned before 61A is decided. Mechanically refreshing those
+three to make the sweep greener would replace a useful red with a stale
+downstream representation that could be mistaken for terminal release state.
+
+1. obtain the actual step 61 owner/legal decision;
+2. establish the truthful resulting closure state;
+3. regenerate 151 / 192 / 195 from that state;
+4. allow `factory-v2-route-registry.json` — a worker-image input — to move;
+5. recompute `changedPaths` / `rebuildRequired`;
+6. rebuild and run the relevant acceptance controls.
+
+## No longer mysteries
+
+Conclusively dispositioned, each on its own proof rather than on the final
+sweep: 17/18, 22, 22A, 26→27, 36A, 41 generator behaviour, 58, 101, 106, 123,
+131, 142, 144, the routeKind commercial concern, the audit-harness restoration
+contract, and the consumer payment-evidence guard.
+
+## Outside the release determination
+
+Repository hygiene, not product authority; recorded so it is not lost:
+
+- a **tracked** Python bytecode cache,
+  `scripts/rcap-packet-recovery/__pycache__/admit-completed-fixture-raster.cpython-311.pyc`,
+  is rewritten by every run of the raster admission test, so every Python test
+  run dirties the tree. Restored from HEAD; derived output should not be tracked.
+- the SC window-precedence guard added during 17/18 stays recorded on its own
+  evidence even though 17/18 are green: renaming the later window to sort first
+  makes all three SC treatments fail by name, so filename sort order is no longer
+  load-bearing for authority.
