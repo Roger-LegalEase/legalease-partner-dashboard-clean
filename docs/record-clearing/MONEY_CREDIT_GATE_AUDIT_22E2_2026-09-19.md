@@ -320,3 +320,71 @@ They are what makes the six `caught` verdicts mean something.
 
 Test-side only; `job-contract.ts` unchanged (mutations restored after each run).
 `comparedInputs: 30`, `changedPaths: []`, `rebuildRequired: false`.
+
+---
+
+# Pass 3a — the sponsored probe asked the wrong question in the wrong channel
+
+## The fixture was driving the wrong channel
+
+`EntitlementKind` is `"consumer_payment" | "sponsored_credit"`. The census drove
+the **sponsored** probe with the **consumer** kind.
+
+This is not itself a product defect: the Grade-A authority does not require a
+particular kind for `sponsored_entitlement` — it checks verification,
+idempotency and consumption state — and the real sponsored path verifies the
+partner session separately. But a census that asks about the sponsored channel
+must supply the sponsored context the production path supplies, or its answer is
+about the wrong channel. Fixed; `permissive()` now takes `entitlementKind` and
+the sponsored probe passes `sponsored_credit`.
+
+## The question was semantically wrong — `STALE_VERIFIER_SEMANTICS`
+
+`resolvePartnerPacketCapDecision` is **read-only**. It reserves nothing and
+consumes nothing. Source order:
+
+1. `governCommercialAdmission("sponsored_entitlement", …)` — on refusal returns
+   `{ partnerBenefit: true, pausedAtCap: true, admissionDenialCode }`
+   **before Supabase is consulted at all**;
+2. `getSupabaseAdminClient()` — **if absent, returns `{ partnerBenefit: false, pausedAtCap: false }`**;
+3. otherwise reads `screening_sessions` and the entitlement tables.
+
+The atomic credit consumption and the artifact-ready mutation happen later, in
+`finalizeSponsoredPacketGeneration` — probe 4/6, the finding-2 boundary.
+
+So `if (!cap.admissionDenialCode) sponsored.push(route)` never meant "sponsored
+entitlement was reserved". With no Supabase client configured — this environment
+— every route that clears Grade-A admission falls into step 2 and returns **no
+denial code**, and the old check counted it. It was reporting a reservation for
+routes the function had just told `partnerBenefit: false`.
+
+The renamed invariant now carries that evidence in its own message:
+
+```
+routes that pass sponsored-cap admission and so may be promised sponsored
+generation (this call reserves and consumes nothing): 5 —
+  DC:dc_actual_innocence_expungement_16_803 (partnerBenefit=false, pausedAtCap=false)
+  MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal (partnerBenefit=false, pausedAtCap=false)
+  MS:additional-justice-court-misdemeanor-relief-9-11-15-3 (partnerBenefit=false, pausedAtCap=false)
+  MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 (partnerBenefit=false, pausedAtCap=false)
+  WY:felony-conviction-expungement-w-s-7-13-1502 (partnerBenefit=false, pausedAtCap=false)
+```
+
+`no_sponsored_entitlement` → **`no_sponsored_cap_admission`**, and the probe now
+requires `pausedAtCap !== true` as well as an absent denial code.
+
+## Still owed before finding 1 closes
+
+The three controls: **no Grade-A record** and **held/incomplete record** must
+show a Grade-A denial with `pausedAtCap: true` and **zero Supabase calls**; an
+**authorized route with a mocked active partner session** must show
+`partnerBenefit: true`, `pausedAtCap: false`, and **zero writes and zero RPC
+consumption** from this function. Credit-consumption proof stays with
+`finalizeSponsoredPacketGeneration` and does not move into finding 1.
+
+Findings 3 and 4 are unchanged and still owe their side-effect traces —
+attachment through `attachConsumerPacketArtifactIfVerified`, and delivery
+through `gradeAPacketDownload`, with `briefcase_ready` (readiness presentation)
+separated from `private_download` / `repeat_download` (actual delivery
+authority). `briefcase_ready` must stop being added to a list called
+`delivered`.

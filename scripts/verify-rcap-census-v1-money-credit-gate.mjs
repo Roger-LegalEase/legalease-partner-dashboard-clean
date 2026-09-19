@@ -198,7 +198,7 @@ if (CHILD) {
    * server-verified unspent entitlement, private storage with a digest. What
    * refuses under this is the route.
    */
-  function permissive(r, { entitlement = false, storage = false, repeatDownload = false } = {}) {
+  function permissive(r, { entitlement = false, storage = false, repeatDownload = false, entitlementKind = "consumer_payment" } = {}) {
     const identity = ca.commercialRouteIdentity({ jurisdiction: r.jurisdiction, pathwayId: r.pathwayId });
     const matterId = `census-matter-${r.routeId}`;
     const context = ca.fulfillmentRequestContext({
@@ -212,8 +212,17 @@ if (CHILD) {
         ownerUserId: "census-participant",
         packetFamilyId: identity.packetFamilyId
       }),
+      // The kind is the CHANNEL. `EntitlementKind` is "consumer_payment" |
+      // "sponsored_credit", and the sponsored probe was driving the consumer
+      // kind. The Grade-A authority does not require a particular kind for
+      // `sponsored_entitlement` -- it checks verification, idempotency and
+      // consumption state -- so this was not producing a wrong ADMISSION, but a
+      // census that asks about the sponsored channel must supply the sponsored
+      // context the production path supplies, or its answer is about the wrong
+      // channel. Consumer and sponsored stay distinct here for the same reason
+      // they stay distinct in the product.
       entitlement: entitlement
-        ? ca.entitlementContext({ kind: "consumer_payment", idempotencyKey: "census-key", alreadyConsumed: false, serverVerified: true })
+        ? ca.entitlementContext({ kind: entitlementKind, idempotencyKey: "census-key", alreadyConsumed: false, serverVerified: true })
         : null,
       storage: storage
         ? ca.artifactStorageContext({ privateStorage: true, artifactSha256: HASH, repeatDownload })
@@ -262,10 +271,31 @@ if (CHILD) {
     const checkoutDecision = admitCommercial("consumer_checkout", co.identity, co.context);
     if (checkoutGuardThrew === null && checkoutDecision.admitted) checkedOut.push(r.routeId);
 
-    // ---- 3. sponsored entitlement ------------------------------------------
-    const sp = permissive(r, { entitlement: true });
+    /* ---- 3. sponsored-cap admission ----------------------------------------
+     *
+     * WHAT THIS ASKS, corrected. `resolvePartnerPacketCapDecision` is READ-ONLY.
+     * It reserves nothing and consumes nothing: on a Grade-A refusal it returns
+     * `pausedAtCap: true` with the denial code BEFORE it asks Supabase anything,
+     * and when admitted it performs reads against the screening-session and
+     * entitlement tables. The atomic credit consumption and the artifact-ready
+     * mutation happen later, in `finalizeSponsoredPacketGeneration`, which is
+     * probe 4/6 and the finding-2 boundary.
+     *
+     * So `!cap.admissionDenialCode` never meant "sponsored entitlement was
+     * reserved". It meant "the Grade-A admission returned no denial code" --
+     * and with no Supabase client configured the function returns
+     * `{ partnerBenefit: false, pausedAtCap: false }`, no denial code at all,
+     * which the old check counted as a reservation. It was counting routes that
+     * had just been told `partnerBenefit: false`.
+     *
+     * Renamed to what it measures: whether the route PASSES sponsored-cap
+     * admission and so may be promised sponsored generation. Driven with the
+     * `sponsored_credit` context the production path uses.
+     */
+    const sp = permissive(r, { entitlement: true, entitlementKind: "sponsored_credit" });
     const cap = await slots.resolvePartnerPacketCapDecision("census-session", { identity: sp.identity, context: sp.context });
-    if (!cap.admissionDenialCode) sponsored.push(r.routeId);
+    const capAdmitted = !cap.admissionDenialCode && cap.pausedAtCap !== true;
+    if (capAdmitted) sponsored.push(`${r.routeId} (partnerBenefit=${cap.partnerBenefit}, pausedAtCap=${cap.pausedAtCap})`);
 
     // ---- 4 & 6. a render job, and the credit it could reach -----------------
     let built = null;
@@ -385,8 +415,8 @@ if (CHILD) {
   withRoutes("no_consumer_price", priced);
   check(checkedOut.length === 0, summarise("sellable:false routes that reach Stripe Checkout Session creation", checkedOut), "no_checkout_session");
   withRoutes("no_checkout_session", checkedOut);
-  check(sponsored.length === 0, summarise("sellable:false routes that reserve sponsored entitlement", sponsored), "no_sponsored_entitlement");
-  withRoutes("no_sponsored_entitlement", sponsored);
+  check(sponsored.length === 0, summarise("routes that pass sponsored-cap admission and so may be promised sponsored generation (this call reserves and consumes nothing)", sponsored), "no_sponsored_cap_admission");
+  withRoutes("no_sponsored_cap_admission", sponsored);
   check(creditSpent.length === 0, summarise("creditConsumable:false routes that reach packet-credit accounting", creditSpent), "no_packet_credit");
   withRoutes("no_packet_credit", creditSpent);
   check(attached.length === 0, summarise("sellable:false routes that attach a new commercial artifact", attached), "no_artifact_attachment");
@@ -599,7 +629,7 @@ const cases = [
   {
     name: "the authority honours an unproven route",
     detail: "every money probe must be the authority's answer, not a coincidence upstream of it",
-    breaks: ["no_sponsored_entitlement"],
+    breaks: ["no_sponsored_cap_admission"],
     forgeLedger: false,
     mutate: () => editSource(
       AUTHORITY,
