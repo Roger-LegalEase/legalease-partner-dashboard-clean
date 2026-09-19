@@ -79,6 +79,38 @@ export function runPleadingQa(input: PleadingQaInput): QaResult {
     );
   }
 
+  // HARD: a proposed order is signed by the judge, on the rendered page.
+  //
+  // The config-level rule refuses a component that CLAIMS another signer. This
+  // checks the document that actually came out, so a template change cannot
+  // quietly put a participant signature under an order while the config still
+  // reads "judge". Preparation and signature stay distinct: the participant
+  // prepares and submits it, the court signs it.
+  const proposedOrder = input.renderResult.sections.find((s) => s.sectionId === "proposed_order");
+  if (proposedOrder) {
+    if (!/BY THE COURT:/.test(proposedOrder.text)) {
+      failures.push(
+        "A proposed order must carry the court's signature block; only a judge signs it."
+      );
+    }
+    // Under the court's signature block, only the signature rule and the judge's
+    // designation may appear. A participant signature arrives as a name line, a
+    // typed address, or a "Date:" line, and each of those fails here.
+    const belowSignature = (proposedOrder.text.split("BY THE COURT:")[1] ?? "")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line !== "");
+    // No \b after "J.": the "." is already a non-word character at end of
+    // string, so a word boundary can never match there.
+    const courtBlockLine = (line: string) => /^_+$/.test(line) || /^(J\.|Judge|JUDGE)/.test(line);
+    const intruder = belowSignature.find((line) => !courtBlockLine(line));
+    if (intruder) {
+      failures.push(
+        `A proposed order must not carry a participant signature line (found "${intruder}" under the court's signature block).`
+      );
+    }
+  }
+
   // HARD: no seal or logo markers
   if (/\[seal\]/i.test(text) || /\[logo\]/i.test(text)) {
     failures.push(

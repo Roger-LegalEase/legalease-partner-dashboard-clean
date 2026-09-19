@@ -18,6 +18,30 @@ export interface PleadingStatute {
 }
 
 /**
+ * Who prepares a document, which is not the same question as who signs it.
+ *
+ * This renderer produces PARTICIPANT-PREPARED documents and nothing else. A
+ * document the authority assigns to the court, the prosecutor or an agency is
+ * theirs to produce; the fact that a template could render one does not make it
+ * the participant's to file. Several routes in the remediation plan exist
+ * precisely because that line was crossed -- automatic relief rendered as a
+ * participant petition, prosecutor stages rendered as participant filings,
+ * outside records rendered as pleadings.
+ */
+export type DocumentPreparer = "participant" | "court" | "prosecutor" | "agency";
+
+/**
+ * Who signs the proposed order.
+ *
+ * A participant may be required to SUBMIT a proposed order, and only a judge may
+ * SIGN one. The two responsibilities are distinct and the second is not the
+ * product's to assign, so "judge" is the only permitted value: the field exists
+ * to be checked, not to be chosen. A config stating anything else refuses rather
+ * than rendering an order carrying a participant signature line.
+ */
+export type ProposedOrderSigner = "judge";
+
+/**
  * Jurisdiction-specific presentation strings for the pleading body.
  *
  * EVERY jurisdiction supplies its own, Pennsylvania included. There is no
@@ -152,6 +176,18 @@ export interface PleadingTrackConfig {
   serviceNote: string | null;
   counselFlags: string[];
   /**
+   * Who prepares this document. Absent means "participant", which is what every
+   * config authored before this contract existed meant: the renderer only ever
+   * produced participant documents. Stating anything else refuses, because the
+   * correct repair is to route the step to its real actor, not to render it here.
+   */
+  preparedBy?: DocumentPreparer;
+  /**
+   * Who signs the proposed order, when this component includes one. Absent means
+   * "judge", which is what the order template already renders (BY THE COURT).
+   */
+  proposedOrderSignedBy?: ProposedOrderSigner;
+  /**
    * This jurisdiction's own presentation. Required: there is no default and no
    * inheritance. Configs authored as JSON bypass this type, so the renderer
    * enforces it again at runtime.
@@ -251,6 +287,19 @@ export interface PleadingRenderResult {
  * that names no court, no venue or no custodian is worse than receiving none.
  */
 function presentationRefusal(config: PleadingTrackConfig): string | null {
+  // Preparation responsibility, before anything is composed. A court-,
+  // prosecutor- or agency-prepared document is not the participant's to file,
+  // and producing one here would sell a filing the authority never assigned to
+  // them.
+  const preparedBy = config.preparedBy ?? "participant";
+  if (preparedBy !== "participant") {
+    return `${config.jurisdictionCode}:${config.trackId} is prepared by the ${preparedBy}, not the participant. This renderer produces participant-prepared documents only; route the step to its actual actor rather than rendering it as a participant filing.`;
+  }
+  // Signature responsibility, which is a different question from preparation. A
+  // participant may submit a proposed order; only a judge signs one.
+  if (config.includeProposedOrder && (config.proposedOrderSignedBy ?? "judge") !== "judge") {
+    return `${config.jurisdictionCode}:${config.trackId} states that its proposed order is signed by ${config.proposedOrderSignedBy}. A participant-prepared proposed order is signed by the judge; the product does not assign a signature it cannot obtain.`;
+  }
   const pres = config.presentation;
   if (!pres) {
     return `${config.jurisdictionCode}:${config.trackId} states no presentation; a court filing cannot inherit another jurisdiction's court, venue or custodian.`;
