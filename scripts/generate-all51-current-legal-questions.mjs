@@ -109,6 +109,13 @@ const TUPLE_BASELINE = {
       reason: "Both terminal Mississippi misdemeanor routes were bound to ms-misd-addl, which carries the open Miss. Code Ann. § 99-19-72 filing-fee question. That question names §§ 9-11-15(3) and 21-23-7(6) directly as sections the § 99-19-71 fee does not reach by its terms, so binding the routes is what surfaced it. One question text, reached by two pathways."
     },
     {
+      trackId: "ky_void_seal_marijuana_synthetic_salvia",
+      pathwayKeys: ["KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276"],
+      tuples: 1,
+      reason: "Regenerating the sellable-pathway closure after the track-terminalization ledger was brought current bound this pathway to ky_void_seal_marijuana_synthetic_salvia, which already carried the open question about the static legal propositions the generated motion asserts (register Q-058, KRS 218A.276(1),(8),(9),(10)). The question is not new; the binding is what let the paid-pathway legal join reach it, exactly as the Mississippi entry above describes. Recorded at commit c5c0f3d50, which made that binding.",
+      evidence: "data/rcap-ledger/sellable-pathway-closure.json"
+    },
+    {
       trackId: "sc_pti_17_22_150",
       pathwayKeys: ["SC:diversion-or-program-completion-expungement"],
       tuples: 0,
