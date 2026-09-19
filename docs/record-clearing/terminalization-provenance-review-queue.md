@@ -10,6 +10,33 @@ Every unit below is a terminalization review that was performed against compiled
 
 Before this mechanism existed, provenance digests were moved in place — 25 events across four commits in August 2026, none of which moved a `reviewedAsOf` date with it. So for many units the digest a record pins is **not** the digest its review saw. Where that is the case the review baseline is forced back to the digest the record was first committed with, and where a unit has more than one such original, to the widest of them. Reviewing from the pinned digest instead would re-review the later half of the change and leave the earlier half carrying a review nobody performed.
 
+## Priority
+
+**All 32 units are released to counsel at once.** The 20 full-profile reviews are not held behind the 12 targeted ones and should be under way in parallel; nothing is gained by serialising them.
+
+**Priority 1 — the 12 targeted reviews.** Review only the machine-computed disturbed and newly added pathways and confirm the current profile treatment is legally and source-correct. Do not re-review the excluded pathways. These are bounded, they should turn faster, and they are the ones that prove the review-record format, the digest binding, the computed scope and the C1/C2 consumption all work before weeks go into full-profile work.
+
+**Priority 2 — the 20 full-profile reviews.** Review the entire current compiled jurisdiction profile, because the whole-chain delta disturbed too much of the previously reviewed surface to isolate any part of it safely.
+
+Priority is workflow order, not permission to postpone. Canonical `npm test` cannot reach zero until every review both controls require is satisfied, so the second band is as blocking as the first.
+
+## What every review must carry
+
+- who performed it, by name
+- the review date
+- the baseline digest (given per unit below)
+- the current digest (given per unit below)
+- the exact scope reviewed
+- the sources examined
+- findings and corrections, if any
+- an explicit approval **or hold**
+
+Two things a review must never do: change a historical `reviewedAsOf`, or replace a historical pin. Both are preserved permanently, and both are checked.
+
+## A hold is a result
+
+**A review may come back `hold_correction_required`, and nobody should feel pressure to approve current bytes because a suite is red.** If a profile is wrong, say so. The correct next step is to fix the profile — which moves its current digest, retires that unit as `superseded_by_new_profile`, and opens a fresh unit against the corrected bytes for review. A held review is the mechanism working, not a failure to deliver. Approving bytes a reviewer doubts would reproduce, with more ceremony, exactly the problem this queue exists to correct.
+
 ## How a unit leaves this queue
 
 A reviewer produces a record, and the unit's `disposition.reviewRecord` is set to:
@@ -29,469 +56,44 @@ Both bindings are checked. A review record that does not name both ends is a doc
 - **19** units review the whole original-digest chain because the pin was itself re-pinned
 - **32** outstanding
 
-| # | Jurisdiction | Disposition | Baseline | Pathways to review |
-|---|---|---|---|---|
-| 1 | AR `2472302ba067` | FULL | pinned | entire current profile |
-| 2 | IN `0202d536113b` | FULL | pinned | entire current profile |
-| 3 | MA `76e109a79cf7` | FULL | original (re-pinned) | entire current profile |
-| 4 | ME `c10031cebf7c` | FULL | original (re-pinned) | entire current profile |
-| 5 | MT `2b9380c02327` | FULL | pinned | entire current profile |
-| 6 | NC `b74be5afc18c` | FULL | original (re-pinned) | entire current profile |
-| 7 | ND `7396f7a8e07b` | FULL | pinned | entire current profile |
-| 8 | NE `c0a19b73d6f8` | FULL | original (re-pinned) | entire current profile |
-| 9 | TN `bd06899404e8` | FULL | pinned | entire current profile |
-| 10 | IL `e491c80d8c58` | FULL | original (re-pinned) | entire current profile |
-| 11 | WA `c0da4e003c2d` | FULL | original (re-pinned) | entire current profile |
-| 12 | WV `0d5885d3ee56` | FULL | original (re-pinned) | entire current profile |
-| 13 | WV `ee9a8d389b77` | FULL | original (re-pinned) | entire current profile |
-| 14 | OK `41d071238908` | FULL | original (re-pinned) | entire current profile |
-| 15 | GA `aa41244d859e` | FULL | original (re-pinned) | entire current profile |
-| 16 | KY `441a89c697a0` | FULL | original (re-pinned) | entire current profile |
-| 17 | KY `4f27411ff966` | FULL | original (re-pinned) | entire current profile |
-| 18 | KS `06eceb937b1c` | FULL | original (re-pinned) | entire current profile |
-| 19 | SC `d6cccee1cabc` | FULL | original (re-pinned) | entire current profile |
-| 20 | TX `5d86879a7943` | FULL | original (re-pinned) | entire current profile |
-| 21 | VA `235b3e5ecc92` | TARGETED | pinned | 2 named |
-| 22 | HI `542e4af13aea` | TARGETED | original (re-pinned) | 3 named |
-| 23 | ID `caf89c5e9b39` | TARGETED | pinned | 3 named |
-| 24 | DC `426fed6ae99a` | TARGETED | pinned | 4 named |
-| 25 | VT `1a4267ce65b9` | TARGETED | pinned | 4 named |
-| 26 | NV `bbea0bb14015` | TARGETED | original (re-pinned) | 4 named |
-| 27 | OH `619b81642a37` | TARGETED | pinned | 3 named |
-| 28 | CT `451fc6754e45` | TARGETED | original (re-pinned) | 3 named |
-| 29 | CT `47a86bd5edec` | TARGETED | pinned | 3 named |
-| 30 | CT `8f857308ee82` | TARGETED | original (re-pinned) | 3 named |
-| 31 | WI `138465823665` | TARGETED | pinned | 2 named |
-| 32 | AZ `311ad605d451` | TARGETED | pinned | 2 named |
+| # | Priority | Jurisdiction | Disposition | Baseline | Pathways to review |
+|---|---|---|---|---|---|
+| 1 | 1 | VA `235b3e5ecc92` | TARGETED | pinned | 2 named |
+| 2 | 1 | HI `542e4af13aea` | TARGETED | original (re-pinned) | 3 named |
+| 3 | 1 | ID `caf89c5e9b39` | TARGETED | pinned | 3 named |
+| 4 | 1 | DC `426fed6ae99a` | TARGETED | pinned | 4 named |
+| 5 | 1 | VT `1a4267ce65b9` | TARGETED | pinned | 4 named |
+| 6 | 1 | NV `bbea0bb14015` | TARGETED | original (re-pinned) | 4 named |
+| 7 | 1 | OH `619b81642a37` | TARGETED | pinned | 3 named |
+| 8 | 1 | CT `451fc6754e45` | TARGETED | original (re-pinned) | 3 named |
+| 9 | 1 | CT `47a86bd5edec` | TARGETED | pinned | 3 named |
+| 10 | 1 | CT `8f857308ee82` | TARGETED | original (re-pinned) | 3 named |
+| 11 | 1 | WI `138465823665` | TARGETED | pinned | 2 named |
+| 12 | 1 | AZ `311ad605d451` | TARGETED | pinned | 2 named |
+| 13 | 2 | AR `2472302ba067` | FULL | pinned | entire current profile |
+| 14 | 2 | IN `0202d536113b` | FULL | pinned | entire current profile |
+| 15 | 2 | MA `76e109a79cf7` | FULL | original (re-pinned) | entire current profile |
+| 16 | 2 | ME `c10031cebf7c` | FULL | original (re-pinned) | entire current profile |
+| 17 | 2 | MT `2b9380c02327` | FULL | pinned | entire current profile |
+| 18 | 2 | NC `b74be5afc18c` | FULL | original (re-pinned) | entire current profile |
+| 19 | 2 | ND `7396f7a8e07b` | FULL | pinned | entire current profile |
+| 20 | 2 | NE `c0a19b73d6f8` | FULL | original (re-pinned) | entire current profile |
+| 21 | 2 | TN `bd06899404e8` | FULL | pinned | entire current profile |
+| 22 | 2 | IL `e491c80d8c58` | FULL | original (re-pinned) | entire current profile |
+| 23 | 2 | WA `c0da4e003c2d` | FULL | original (re-pinned) | entire current profile |
+| 24 | 2 | WV `0d5885d3ee56` | FULL | original (re-pinned) | entire current profile |
+| 25 | 2 | WV `ee9a8d389b77` | FULL | original (re-pinned) | entire current profile |
+| 26 | 2 | OK `41d071238908` | FULL | original (re-pinned) | entire current profile |
+| 27 | 2 | GA `aa41244d859e` | FULL | original (re-pinned) | entire current profile |
+| 28 | 2 | KY `441a89c697a0` | FULL | original (re-pinned) | entire current profile |
+| 29 | 2 | KY `4f27411ff966` | FULL | original (re-pinned) | entire current profile |
+| 30 | 2 | KS `06eceb937b1c` | FULL | original (re-pinned) | entire current profile |
+| 31 | 2 | SC `d6cccee1cabc` | FULL | original (re-pinned) | entire current profile |
+| 32 | 2 | TX `5d86879a7943` | FULL | original (re-pinned) | entire current profile |
 
 ---
 
-## 1. AR — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/AR-arkansas.json`
-- **Review baseline:** `2472302ba067` — the pinned digest is the digest this record was first committed with
-- **Current bytes:** `640152c67534`
-- **Review as of (preserved, not advanced):** 2026-07-30
-- **Records depending on it:** 17
-- **Owner's reason for the bucket:** 3/3 reviewed pathways disturbed, 466 operative leaves
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 3 pathways, of which 3 were disturbed.
-
-**Measured delta from the pinned digest:** +118 −115 ~233, 466 operative. Dimensions touched: eligibility, filingActor, legalAuthority, participantFacingConclusion, paymentEligibility, routeIdentity, unclassified_operative.
-
-**Status:** not_started
-
-## 2. IN — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/IN-indiana.json`
-- **Review baseline:** `0202d536113b` — the pinned digest is the digest this record was first committed with
-- **Current bytes:** `69e8fcc87b69`
-- **Review as of (preserved, not advanced):** 2026-07-30
-- **Records depending on it:** 4
-- **Owner's reason for the bucket:** 4/4 pathways disturbed
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 4 pathways, of which 4 were disturbed.
-
-**Measured delta from the pinned digest:** +24 −0 ~9, 33 operative. Dimensions touched: legalAuthority, packetComponents, paymentEligibility, unclassified_operative.
-
-**Status:** not_started
-
-## 3. MA — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json`
-- **Review baseline:** `1c1b7cb5da7a` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `66724c93b710`
-- **Review as of (preserved, not advanced):** not recorded
-- **Records depending on it:** 1
-- **Owner's reason for the bucket:** 7/7 disturbed
-- **Prior silent re-pin:** yes. The pinned digest `76e109a79cf7` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 7 pathways, of which 7 were disturbed.
-
-**Measured delta from the pinned digest:** +11 −7 ~17, 35 operative. Dimensions touched: filingActor, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, unclassified_operative.
-
-**Measured delta across the whole chain (what this review actually covers):** +86 −86 ~27, 199 operative, 7/7 pathways disturbed.
-
-**Status:** not_started
-
-## 4. ME — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/ME-maine.json`
-- **Review baseline:** `e94dc217093e` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `f33ef12f104e`
-- **Review as of (preserved, not advanced):** not recorded
-- **Records depending on it:** 1
-- **Owner's reason for the bucket:** 5/5 disturbed
-- **Prior silent re-pin:** yes. The pinned digest `c10031cebf7c` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 5 pathways, of which 5 were disturbed.
-
-**Measured delta from the pinned digest:** +114 −71 ~21, 206 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
-
-**Measured delta across the whole chain (what this review actually covers):** +164 −101 ~26, 291 operative, 5/5 pathways disturbed.
-
-**Status:** not_started
-
-## 5. MT — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/MT-montana.json`
-- **Review baseline:** `2b9380c02327` — the pinned digest is the digest this record was first committed with
-- **Current bytes:** `a553e31c98c2`
-- **Review as of (preserved, not advanced):** 2026-08-03
-- **Records depending on it:** 7
-- **Owner's reason for the bucket:** 5/5 disturbed, 229 operative leaves
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 5 pathways, of which 5 were disturbed.
-
-**Measured delta from the pinned digest:** +126 −70 ~33, 229 operative. Dimensions touched: eligibility, exclusions, filingActor, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
-
-**Status:** not_started
-
-## 6. NC — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json`
-- **Review baseline:** `62ca0e40196e` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `c15ef1c244fd`
-- **Review as of (preserved, not advanced):** not recorded
-- **Records depending on it:** 1
-- **Owner's reason for the bucket:** whole chain 3/3 disturbed
-- **Prior silent re-pin:** yes. The pinned digest `b74be5afc18c` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 3 pathways, of which 3 were disturbed.
-
-**Measured delta from the pinned digest:** +15 −0 ~1, 16 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
-
-**Measured delta across the whole chain (what this review actually covers):** +52 −23 ~5, 80 operative, 3/3 pathways disturbed.
-
-**Status:** not_started
-
-## 7. ND — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json`
-- **Review baseline:** `7396f7a8e07b` — the pinned digest is the digest this record was first committed with
-- **Current bytes:** `3b63b0448fc3`
-- **Review as of (preserved, not advanced):** not recorded
-- **Records depending on it:** 3
-- **Owner's reason for the bucket:** 6/6 disturbed; commercial refusal remains unchanged
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 6 pathways, of which 6 were disturbed.
-
-**Measured delta from the pinned digest:** +97 −25 ~21, 143 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, waitingPeriods.
-
-**Status:** not_started
-
-## 8. NE — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/NE-nebraska.json`
-- **Review baseline:** `bfa39629addc` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `c48b3be3bc23`
-- **Review as of (preserved, not advanced):** not recorded
-- **Records depending on it:** 1
-- **Owner's reason for the bucket:** whole chain 8/8 disturbed
-- **Prior silent re-pin:** yes. The pinned digest `c0a19b73d6f8` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 8 pathways, of which 8 were disturbed.
-
-**Measured delta from the pinned digest:** +16 −12 ~24, 52 operative. Dimensions touched: filingActor, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, unclassified_operative.
-
-**Measured delta across the whole chain (what this review actually covers):** +75 −20 ~24, 119 operative, 8/8 pathways disturbed.
-
-**Status:** not_started
-
-## 9. TN — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/TN-tennessee.json`
-- **Review baseline:** `bd06899404e8` — the pinned digest is the digest this record was first committed with
-- **Current bytes:** `df29f2fb7a87`
-- **Review as of (preserved, not advanced):** not recorded
-- **Records depending on it:** 8
-- **Owner's reason for the bucket:** 4/4 disturbed
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 4 pathways, of which 4 were disturbed.
-
-**Measured delta from the pinned digest:** +13 −0 ~7, 20 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
-
-**Status:** not_started
-
-## 10. IL — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/IL-illinois.json`
-- **Review baseline:** `83705171c77c` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `7999f618fd37`
-- **Review as of (preserved, not advanced):** 2026-07-30
-- **Records depending on it:** 1
-- **Owner's reason for the bucket:** whole chain 8/9 disturbed, 197 operative leaves
-- **Prior silent re-pin:** yes. The pinned digest `e491c80d8c58` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 9 pathways, of which 8 were disturbed.
-
-**Measured delta from the pinned digest:** +15 −0 ~18, 33 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
-
-**Measured delta across the whole chain (what this review actually covers):** +99 −74 ~24, 197 operative, 8/9 pathways disturbed.
-
-**Status:** not_started
-
-## 11. WA — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/WA-washington.json`
-- **Review baseline:** `65778b6d0a1e` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `f9d4f29d2916`
-- **Review as of (preserved, not advanced):** not recorded
-- **Records depending on it:** 2
-- **Owner's reason for the bucket:** whole chain 6/7 disturbed
-- **Prior silent re-pin:** yes. The pinned digest `c0da4e003c2d` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 7 pathways, of which 6 were disturbed.
-
-**Measured delta from the pinned digest:** +13 −0 ~2, 15 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
-
-**Measured delta across the whole chain (what this review actually covers):** +136 −73 ~13, 222 operative, 6/7 pathways disturbed.
-
-**Status:** not_started
-
-## 12. WV — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json`
-- **Review baseline:** `26830a24672e` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `bf9709154f74`
-- **Review as of (preserved, not advanced):** 2026-08-01
-- **Records depending on it:** 5
-- **Owner's reason for the bucket:** whole chain 6/7, 499 operative leaves; different SCA-C903 bytes
-- **Prior silent re-pin:** yes. The pinned digest `0d5885d3ee56` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 7 pathways, of which 6 were disturbed.
-
-**Measured delta from the pinned digest:** +30 −0 ~12, 42 operative. Dimensions touched: packetComponents, unclassified_operative.
-
-**Measured delta across the whole chain (what this review actually covers):** +298 −162 ~39, 499 operative, 6/7 pathways disturbed.
-
-**Status:** not_started
-
-## 13. WV — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json`
-- **Review baseline:** `26830a24672e` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `bf9709154f74`
-- **Review as of (preserved, not advanced):** 2026-08-01
-- **Records depending on it:** 2
-- **Owner's reason for the bucket:** same whole chain 6/7, 499 operative leaves
-- **Prior silent re-pin:** yes. The pinned digest `ee9a8d389b77` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 7 pathways, of which 6 were disturbed.
-
-**Measured delta from the pinned digest:** +220 −110 ~33, 363 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
-
-**Measured delta across the whole chain (what this review actually covers):** +298 −162 ~39, 499 operative, 6/7 pathways disturbed.
-
-**Status:** not_started
-
-## 14. OK — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json`
-- **Review baseline:** `bc744e3f047c` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `741344600678`
-- **Review as of (preserved, not advanced):** not recorded
-- **Records depending on it:** 1
-- **Owner's reason for the bucket:** whole chain 15/18 disturbed, 619 operative leaves
-- **Prior silent re-pin:** yes. The pinned digest `41d071238908` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 18 pathways, of which 15 were disturbed.
-
-**Measured delta from the pinned digest:** +17 −0 ~3, 20 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
-
-**Measured delta across the whole chain (what this review actually covers):** +459 −110 ~50, 619 operative, 15/18 pathways disturbed.
-
-**Status:** not_started
-
-## 15. GA — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/GA-georgia.json`
-- **Review baseline:** `c73ea8ee98d1` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `3992bda9c496`
-- **Review as of (preserved, not advanced):** not recorded
-- **Records depending on it:** 7
-- **Owner's reason for the bucket:** whole chain 4/5 disturbed plus one new route
-- **Prior silent re-pin:** yes. The pinned digest `aa41244d859e` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 5 pathways, of which 4 were disturbed.
-
-**Measured delta from the pinned digest:** +193 −0 ~3, 196 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
-
-**Measured delta across the whole chain (what this review actually covers):** +278 −63 ~12, 353 operative, 4/5 pathways disturbed.
-
-**Status:** not_started
-
-## 16. KY — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/KY-kentucky.json`
-- **Review baseline:** `6af5fcab97b4` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `277a4df1f6a1`
-- **Review as of (preserved, not advanced):** 2026-08-06
-- **Records depending on it:** 5
-- **Owner's reason for the bucket:** whole chain 4/5 plus one new route, 223 operative leaves
-- **Prior silent re-pin:** yes. The pinned digest `441a89c697a0` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 5 pathways, of which 4 were disturbed.
-
-**Measured delta from the pinned digest:** +123 −0 ~6, 129 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
-
-**Measured delta across the whole chain (what this review actually covers):** +203 −8 ~12, 223 operative, 4/5 pathways disturbed.
-
-**Status:** not_started
-
-## 17. KY — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/KY-kentucky.json`
-- **Review baseline:** `6af5fcab97b4` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `277a4df1f6a1`
-- **Review as of (preserved, not advanced):** 2026-08-06
-- **Records depending on it:** 3
-- **Owner's reason for the bucket:** same whole-chain exposure: 4/5 plus one new route
-- **Prior silent re-pin:** yes. The pinned digest `4f27411ff966` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 5 pathways, of which 4 were disturbed.
-
-**Measured delta from the pinned digest:** +116 −0 ~0, 116 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
-
-**Measured delta across the whole chain (what this review actually covers):** +203 −8 ~12, 223 operative, 4/5 pathways disturbed.
-
-**Status:** not_started
-
-## 18. KS — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/KS-kansas.json`
-- **Review baseline:** `965e3a85ff74` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `e750a59a6f31`
-- **Review as of (preserved, not advanced):** not recorded
-- **Records depending on it:** 2
-- **Owner's reason for the bucket:** whole chain 3/4 old pathways plus two new routes
-- **Prior silent re-pin:** yes. The pinned digest `06eceb937b1c` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 4 pathways, of which 3 were disturbed.
-
-**Measured delta from the pinned digest:** +245 −0 ~3, 248 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
-
-**Measured delta across the whole chain (what this review actually covers):** +277 −6 ~5, 288 operative, 3/4 pathways disturbed.
-
-**Status:** not_started
-
-## 19. SC — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json`
-- **Review baseline:** `bcef5d018240` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `a71935e25858`
-- **Review as of (preserved, not advanced):** not recorded
-- **Records depending on it:** 3
-- **Owner's reason for the bucket:** whole chain 5/7 and broad protected dimensions
-- **Prior silent re-pin:** yes. The pinned digest `d6cccee1cabc` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 7 pathways, of which 5 were disturbed.
-
-**Measured delta from the pinned digest:** +81 −20 ~15, 116 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
-
-**Measured delta across the whole chain (what this review actually covers):** +238 −121 ~26, 385 operative, 5/7 pathways disturbed.
-
-**Status:** not_started
-
-## 20. TX — FULL_REREVIEW_REQUIRED
-
-- **Profile:** `src/lib/rcap-engine/compiled/profiles/TX-texas.json`
-- **Review baseline:** `2820312fd974` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
-- **Current bytes:** `8f99b36519cf`
-- **Review as of (preserved, not advanced):** not recorded
-- **Records depending on it:** 9
-- **Owner's reason for the bucket:** whole chain 6/9, 215 operative leaves; the pinned leg badly understated it
-- **Prior silent re-pin:** yes. The pinned digest `5d86879a7943` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
-
-**Scope:** the entire current profile, against the operative legal and source evidence.
-
-The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
-
-At the baseline this profile had 9 pathways, of which 6 were disturbed.
-
-**Measured delta from the pinned digest:** +16 −0 ~2, 18 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
-
-**Measured delta across the whole chain (what this review actually covers):** +120 −80 ~15, 215 operative, 6/9 pathways disturbed.
-
-**Status:** not_started
-
-## 21. VA — TARGETED_REREVIEW_REQUIRED
+## 1. VA — TARGETED_REREVIEW_REQUIRED (Priority 1)
 
 - **Profile:** `src/lib/rcap-engine/compiled/profiles/VA-virginia.json`
 - **Review baseline:** `235b3e5ecc92` — the pinned digest is the digest this record was first committed with
@@ -511,9 +113,9 @@ Disturbed since the review:
 
 **Measured delta from the pinned digest:** +8 −0 ~8, 16 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
 
-**Status:** not_started
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
 
-## 22. HI — TARGETED_REREVIEW_REQUIRED
+## 2. HI — TARGETED_REREVIEW_REQUIRED (Priority 1)
 
 - **Profile:** `src/lib/rcap-engine/compiled/profiles/HI-hawaii.json`
 - **Review baseline:** `8dcbb9df6590` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
@@ -537,9 +139,9 @@ Disturbed since the review:
 
 **Measured delta across the whole chain (what this review actually covers):** +100 −12 ~3, 115 operative, 3/5 pathways disturbed.
 
-**Status:** not_started
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
 
-## 23. ID — TARGETED_REREVIEW_REQUIRED
+## 3. ID — TARGETED_REREVIEW_REQUIRED (Priority 1)
 
 - **Profile:** `src/lib/rcap-engine/compiled/profiles/ID-idaho.json`
 - **Review baseline:** `caf89c5e9b39` — the pinned digest is the digest this record was first committed with
@@ -560,9 +162,9 @@ Disturbed since the review:
 
 **Measured delta from the pinned digest:** +15 −0 ~6, 21 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
 
-**Status:** not_started
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
 
-## 24. DC — TARGETED_REREVIEW_REQUIRED
+## 4. DC — TARGETED_REREVIEW_REQUIRED (Priority 1)
 
 - **Profile:** `src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json`
 - **Review baseline:** `426fed6ae99a` — the pinned digest is the digest this record was first committed with
@@ -584,9 +186,9 @@ Disturbed since the review:
 
 **Measured delta from the pinned digest:** +13 −0 ~13, 26 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
 
-**Status:** not_started
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
 
-## 25. VT — TARGETED_REREVIEW_REQUIRED
+## 5. VT — TARGETED_REREVIEW_REQUIRED (Priority 1)
 
 - **Profile:** `src/lib/rcap-engine/compiled/profiles/VT-vermont.json`
 - **Review baseline:** `1a4267ce65b9` — the pinned digest is the digest this record was first committed with
@@ -608,9 +210,9 @@ Disturbed since the review:
 
 **Measured delta from the pinned digest:** +17 −0 ~3, 20 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
 
-**Status:** not_started
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
 
-## 26. NV — TARGETED_REREVIEW_REQUIRED
+## 6. NV — TARGETED_REREVIEW_REQUIRED (Priority 1)
 
 - **Profile:** `src/lib/rcap-engine/compiled/profiles/NV-nevada.json`
 - **Review baseline:** `baa3a99f2092` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
@@ -638,9 +240,9 @@ Added since the review (never reviewed at all):
 
 **Measured delta across the whole chain (what this review actually covers):** +188 −32 ~14, 234 operative, 3/7 pathways disturbed.
 
-**Status:** not_started
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
 
-## 27. OH — TARGETED_REREVIEW_REQUIRED
+## 7. OH — TARGETED_REREVIEW_REQUIRED (Priority 1)
 
 - **Profile:** `src/lib/rcap-engine/compiled/profiles/OH-ohio.json`
 - **Review baseline:** `619b81642a37` — the pinned digest is the digest this record was first committed with
@@ -661,9 +263,9 @@ Disturbed since the review:
 
 **Measured delta from the pinned digest:** +56 −9 ~6, 71 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
 
-**Status:** not_started
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
 
-## 28. CT — TARGETED_REREVIEW_REQUIRED
+## 8. CT — TARGETED_REREVIEW_REQUIRED (Priority 1)
 
 - **Profile:** `src/lib/rcap-engine/compiled/profiles/CT-connecticut.json`
 - **Review baseline:** `47a86bd5edec` — the pinned digest was itself re-pinned, and this is the widest of the original committed digests
@@ -690,9 +292,9 @@ Added since the review (never reviewed at all):
 
 **Measured delta across the whole chain (what this review actually covers):** +152 −15 ~37, 204 operative, 2/5 pathways disturbed.
 
-**Status:** not_started
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
 
-## 29. CT — TARGETED_REREVIEW_REQUIRED
+## 9. CT — TARGETED_REREVIEW_REQUIRED (Priority 1)
 
 - **Profile:** `src/lib/rcap-engine/compiled/profiles/CT-connecticut.json`
 - **Review baseline:** `47a86bd5edec` — the pinned digest is the digest this record was first committed with
@@ -716,9 +318,9 @@ Added since the review (never reviewed at all):
 
 **Measured delta from the pinned digest:** +152 −15 ~37, 204 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
 
-**Status:** not_started
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
 
-## 30. CT — TARGETED_REREVIEW_REQUIRED
+## 10. CT — TARGETED_REREVIEW_REQUIRED (Priority 1)
 
 - **Profile:** `src/lib/rcap-engine/compiled/profiles/CT-connecticut.json`
 - **Review baseline:** `f6fd7cc7636f` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
@@ -745,9 +347,9 @@ Added since the review (never reviewed at all):
 
 **Measured delta across the whole chain (what this review actually covers):** +152 −15 ~5, 172 operative, 2/5 pathways disturbed.
 
-**Status:** not_started
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
 
-## 31. WI — TARGETED_REREVIEW_REQUIRED
+## 11. WI — TARGETED_REREVIEW_REQUIRED (Priority 1)
 
 - **Profile:** `src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json`
 - **Review baseline:** `138465823665` — the pinned digest is the digest this record was first committed with
@@ -767,9 +369,9 @@ Disturbed since the review:
 
 **Measured delta from the pinned digest:** +12 −0 ~2, 14 operative. Dimensions touched: legalAuthority, unclassified_operative.
 
-**Status:** not_started
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
 
-## 32. AZ — TARGETED_REREVIEW_REQUIRED
+## 12. AZ — TARGETED_REREVIEW_REQUIRED (Priority 1)
 
 - **Profile:** `src/lib/rcap-engine/compiled/profiles/AZ-arizona.json`
 - **Review baseline:** `311ad605d451` — the pinned digest is the digest this record was first committed with
@@ -792,5 +394,430 @@ Added since the review (never reviewed at all):
 
 **Measured delta from the pinned digest:** +112 −0 ~0, 112 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
 
-**Status:** not_started
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 13. AR — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/AR-arkansas.json`
+- **Review baseline:** `2472302ba067` — the pinned digest is the digest this record was first committed with
+- **Current bytes:** `640152c67534`
+- **Review as of (preserved, not advanced):** 2026-07-30
+- **Records depending on it:** 17
+- **Owner's reason for the bucket:** 3/3 reviewed pathways disturbed, 466 operative leaves
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 3 pathways, of which 3 were disturbed.
+
+**Measured delta from the pinned digest:** +118 −115 ~233, 466 operative. Dimensions touched: eligibility, filingActor, legalAuthority, participantFacingConclusion, paymentEligibility, routeIdentity, unclassified_operative.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 14. IN — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/IN-indiana.json`
+- **Review baseline:** `0202d536113b` — the pinned digest is the digest this record was first committed with
+- **Current bytes:** `69e8fcc87b69`
+- **Review as of (preserved, not advanced):** 2026-07-30
+- **Records depending on it:** 4
+- **Owner's reason for the bucket:** 4/4 pathways disturbed
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 4 pathways, of which 4 were disturbed.
+
+**Measured delta from the pinned digest:** +24 −0 ~9, 33 operative. Dimensions touched: legalAuthority, packetComponents, paymentEligibility, unclassified_operative.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 15. MA — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json`
+- **Review baseline:** `1c1b7cb5da7a` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `66724c93b710`
+- **Review as of (preserved, not advanced):** not recorded
+- **Records depending on it:** 1
+- **Owner's reason for the bucket:** 7/7 disturbed
+- **Prior silent re-pin:** yes. The pinned digest `76e109a79cf7` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 7 pathways, of which 7 were disturbed.
+
+**Measured delta from the pinned digest:** +11 −7 ~17, 35 operative. Dimensions touched: filingActor, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, unclassified_operative.
+
+**Measured delta across the whole chain (what this review actually covers):** +86 −86 ~27, 199 operative, 7/7 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 16. ME — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/ME-maine.json`
+- **Review baseline:** `e94dc217093e` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `f33ef12f104e`
+- **Review as of (preserved, not advanced):** not recorded
+- **Records depending on it:** 1
+- **Owner's reason for the bucket:** 5/5 disturbed
+- **Prior silent re-pin:** yes. The pinned digest `c10031cebf7c` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 5 pathways, of which 5 were disturbed.
+
+**Measured delta from the pinned digest:** +114 −71 ~21, 206 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
+
+**Measured delta across the whole chain (what this review actually covers):** +164 −101 ~26, 291 operative, 5/5 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 17. MT — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/MT-montana.json`
+- **Review baseline:** `2b9380c02327` — the pinned digest is the digest this record was first committed with
+- **Current bytes:** `a553e31c98c2`
+- **Review as of (preserved, not advanced):** 2026-08-03
+- **Records depending on it:** 7
+- **Owner's reason for the bucket:** 5/5 disturbed, 229 operative leaves
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 5 pathways, of which 5 were disturbed.
+
+**Measured delta from the pinned digest:** +126 −70 ~33, 229 operative. Dimensions touched: eligibility, exclusions, filingActor, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 18. NC — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json`
+- **Review baseline:** `62ca0e40196e` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `c15ef1c244fd`
+- **Review as of (preserved, not advanced):** not recorded
+- **Records depending on it:** 1
+- **Owner's reason for the bucket:** whole chain 3/3 disturbed
+- **Prior silent re-pin:** yes. The pinned digest `b74be5afc18c` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 3 pathways, of which 3 were disturbed.
+
+**Measured delta from the pinned digest:** +15 −0 ~1, 16 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
+
+**Measured delta across the whole chain (what this review actually covers):** +52 −23 ~5, 80 operative, 3/3 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 19. ND — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json`
+- **Review baseline:** `7396f7a8e07b` — the pinned digest is the digest this record was first committed with
+- **Current bytes:** `3b63b0448fc3`
+- **Review as of (preserved, not advanced):** not recorded
+- **Records depending on it:** 3
+- **Owner's reason for the bucket:** 6/6 disturbed; commercial refusal remains unchanged
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 6 pathways, of which 6 were disturbed.
+
+**Measured delta from the pinned digest:** +97 −25 ~21, 143 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, waitingPeriods.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 20. NE — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/NE-nebraska.json`
+- **Review baseline:** `bfa39629addc` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `c48b3be3bc23`
+- **Review as of (preserved, not advanced):** not recorded
+- **Records depending on it:** 1
+- **Owner's reason for the bucket:** whole chain 8/8 disturbed
+- **Prior silent re-pin:** yes. The pinned digest `c0a19b73d6f8` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 8 pathways, of which 8 were disturbed.
+
+**Measured delta from the pinned digest:** +16 −12 ~24, 52 operative. Dimensions touched: filingActor, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, unclassified_operative.
+
+**Measured delta across the whole chain (what this review actually covers):** +75 −20 ~24, 119 operative, 8/8 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 21. TN — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/TN-tennessee.json`
+- **Review baseline:** `bd06899404e8` — the pinned digest is the digest this record was first committed with
+- **Current bytes:** `df29f2fb7a87`
+- **Review as of (preserved, not advanced):** not recorded
+- **Records depending on it:** 8
+- **Owner's reason for the bucket:** 4/4 disturbed
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 4 pathways, of which 4 were disturbed.
+
+**Measured delta from the pinned digest:** +13 −0 ~7, 20 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 22. IL — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/IL-illinois.json`
+- **Review baseline:** `83705171c77c` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `7999f618fd37`
+- **Review as of (preserved, not advanced):** 2026-07-30
+- **Records depending on it:** 1
+- **Owner's reason for the bucket:** whole chain 8/9 disturbed, 197 operative leaves
+- **Prior silent re-pin:** yes. The pinned digest `e491c80d8c58` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 9 pathways, of which 8 were disturbed.
+
+**Measured delta from the pinned digest:** +15 −0 ~18, 33 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
+
+**Measured delta across the whole chain (what this review actually covers):** +99 −74 ~24, 197 operative, 8/9 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 23. WA — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/WA-washington.json`
+- **Review baseline:** `65778b6d0a1e` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `f9d4f29d2916`
+- **Review as of (preserved, not advanced):** not recorded
+- **Records depending on it:** 2
+- **Owner's reason for the bucket:** whole chain 6/7 disturbed
+- **Prior silent re-pin:** yes. The pinned digest `c0da4e003c2d` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 7 pathways, of which 6 were disturbed.
+
+**Measured delta from the pinned digest:** +13 −0 ~2, 15 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
+
+**Measured delta across the whole chain (what this review actually covers):** +136 −73 ~13, 222 operative, 6/7 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 24. WV — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json`
+- **Review baseline:** `26830a24672e` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `bf9709154f74`
+- **Review as of (preserved, not advanced):** 2026-08-01
+- **Records depending on it:** 5
+- **Owner's reason for the bucket:** whole chain 6/7, 499 operative leaves; different SCA-C903 bytes
+- **Prior silent re-pin:** yes. The pinned digest `0d5885d3ee56` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 7 pathways, of which 6 were disturbed.
+
+**Measured delta from the pinned digest:** +30 −0 ~12, 42 operative. Dimensions touched: packetComponents, unclassified_operative.
+
+**Measured delta across the whole chain (what this review actually covers):** +298 −162 ~39, 499 operative, 6/7 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 25. WV — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json`
+- **Review baseline:** `26830a24672e` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `bf9709154f74`
+- **Review as of (preserved, not advanced):** 2026-08-01
+- **Records depending on it:** 2
+- **Owner's reason for the bucket:** same whole chain 6/7, 499 operative leaves
+- **Prior silent re-pin:** yes. The pinned digest `ee9a8d389b77` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 7 pathways, of which 6 were disturbed.
+
+**Measured delta from the pinned digest:** +220 −110 ~33, 363 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
+
+**Measured delta across the whole chain (what this review actually covers):** +298 −162 ~39, 499 operative, 6/7 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 26. OK — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json`
+- **Review baseline:** `bc744e3f047c` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `741344600678`
+- **Review as of (preserved, not advanced):** not recorded
+- **Records depending on it:** 1
+- **Owner's reason for the bucket:** whole chain 15/18 disturbed, 619 operative leaves
+- **Prior silent re-pin:** yes. The pinned digest `41d071238908` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 18 pathways, of which 15 were disturbed.
+
+**Measured delta from the pinned digest:** +17 −0 ~3, 20 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
+
+**Measured delta across the whole chain (what this review actually covers):** +459 −110 ~50, 619 operative, 15/18 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 27. GA — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/GA-georgia.json`
+- **Review baseline:** `c73ea8ee98d1` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `3992bda9c496`
+- **Review as of (preserved, not advanced):** not recorded
+- **Records depending on it:** 7
+- **Owner's reason for the bucket:** whole chain 4/5 disturbed plus one new route
+- **Prior silent re-pin:** yes. The pinned digest `aa41244d859e` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 5 pathways, of which 4 were disturbed.
+
+**Measured delta from the pinned digest:** +193 −0 ~3, 196 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
+
+**Measured delta across the whole chain (what this review actually covers):** +278 −63 ~12, 353 operative, 4/5 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 28. KY — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/KY-kentucky.json`
+- **Review baseline:** `6af5fcab97b4` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `277a4df1f6a1`
+- **Review as of (preserved, not advanced):** 2026-08-06
+- **Records depending on it:** 5
+- **Owner's reason for the bucket:** whole chain 4/5 plus one new route, 223 operative leaves
+- **Prior silent re-pin:** yes. The pinned digest `441a89c697a0` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 5 pathways, of which 4 were disturbed.
+
+**Measured delta from the pinned digest:** +123 −0 ~6, 129 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
+
+**Measured delta across the whole chain (what this review actually covers):** +203 −8 ~12, 223 operative, 4/5 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 29. KY — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/KY-kentucky.json`
+- **Review baseline:** `6af5fcab97b4` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `277a4df1f6a1`
+- **Review as of (preserved, not advanced):** 2026-08-06
+- **Records depending on it:** 3
+- **Owner's reason for the bucket:** same whole-chain exposure: 4/5 plus one new route
+- **Prior silent re-pin:** yes. The pinned digest `4f27411ff966` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 5 pathways, of which 4 were disturbed.
+
+**Measured delta from the pinned digest:** +116 −0 ~0, 116 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
+
+**Measured delta across the whole chain (what this review actually covers):** +203 −8 ~12, 223 operative, 4/5 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 30. KS — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/KS-kansas.json`
+- **Review baseline:** `965e3a85ff74` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `e750a59a6f31`
+- **Review as of (preserved, not advanced):** not recorded
+- **Records depending on it:** 2
+- **Owner's reason for the bucket:** whole chain 3/4 old pathways plus two new routes
+- **Prior silent re-pin:** yes. The pinned digest `06eceb937b1c` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 4 pathways, of which 3 were disturbed.
+
+**Measured delta from the pinned digest:** +245 −0 ~3, 248 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
+
+**Measured delta across the whole chain (what this review actually covers):** +277 −6 ~5, 288 operative, 3/4 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 31. SC — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json`
+- **Review baseline:** `bcef5d018240` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `a71935e25858`
+- **Review as of (preserved, not advanced):** not recorded
+- **Records depending on it:** 3
+- **Owner's reason for the bucket:** whole chain 5/7 and broad protected dimensions
+- **Prior silent re-pin:** yes. The pinned digest `d6cccee1cabc` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 7 pathways, of which 5 were disturbed.
+
+**Measured delta from the pinned digest:** +81 −20 ~15, 116 operative. Dimensions touched: eligibility, exclusions, filingActor, filingDestination, legalAuthority, packetComponents, participantFacingConclusion, paymentEligibility, remedyIdentity, requiredFacts, routeIdentity, triggerDates, unclassified_operative, waitingPeriods.
+
+**Measured delta across the whole chain (what this review actually covers):** +238 −121 ~26, 385 operative, 5/7 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
+
+## 32. TX — FULL_REREVIEW_REQUIRED (Priority 2)
+
+- **Profile:** `src/lib/rcap-engine/compiled/profiles/TX-texas.json`
+- **Review baseline:** `2820312fd974` — the pinned digest was itself re-pinned, so the review runs from the original committed digest
+- **Current bytes:** `8f99b36519cf`
+- **Review as of (preserved, not advanced):** not recorded
+- **Records depending on it:** 9
+- **Owner's reason for the bucket:** whole chain 6/9, 215 operative leaves; the pinned leg badly understated it
+- **Prior silent re-pin:** yes. The pinned digest `5d86879a7943` was installed after this record was first committed, and the review date did not move with it. The baseline above is the original, so this review covers the whole chain.
+
+**Scope:** the entire current profile, against the operative legal and source evidence.
+
+The prior review is **not** carried forward as substantive authority for any pathway — Preserved as historical provenance only. The delta is broad enough that the earlier review can no longer be meaningfully isolated, so it is not carried forward as substantive authority for any pathway.
+
+At the baseline this profile had 9 pathways, of which 6 were disturbed.
+
+**Measured delta from the pinned digest:** +16 −0 ~2, 18 operative. Dimensions touched: legalAuthority, paymentEligibility, unclassified_operative.
+
+**Measured delta across the whole chain (what this review actually covers):** +120 −80 ~15, 215 operative, 6/9 pathways disturbed.
+
+**Status:** `not_started`. Only `approved_current_bytes`, with a review record binding both digests above, satisfies the control; `hold_correction_required` is an equally valid outcome.
 

@@ -325,6 +325,35 @@ export function repinHistory({ root, record }) {
 export const DISPOSITIONS = ["NO_SUBSTANTIVE_CHANGE", "TARGETED_REREVIEW_REQUIRED", "FULL_REREVIEW_REQUIRED"];
 
 /**
+ * Where a required re-review has got to.
+ *
+ * Exactly one of these satisfies a control, and it is the narrow one:
+ * approved_current_bytes, bound to the exact digests in scope. The other four
+ * exist so that "not done" can be said precisely instead of by omission —
+ * a unit nobody has started and a unit counsel sent back with corrections
+ * are both unsatisfied, and they are not the same situation.
+ *
+ * hold_correction_required is the one that matters most to get right. A
+ * reviewer who finds a profile wrong must be able to say so without that
+ * reading as a failure to deliver. The correct next step there is to fix the
+ * profile, which moves the current digest, which retires this unit and opens
+ * a new one against the corrected bytes — and that is superseded_by_new_profile.
+ */
+export const REVIEW_STATUSES = {
+  not_started: { satisfies: false, why: "the review this disposition requires has not begun" },
+  in_review: { satisfies: false, why: "the review is under way" },
+  approved_current_bytes: { satisfies: true, why: "a reviewer approved the current bytes for the scope in question" },
+  hold_correction_required: {
+    satisfies: false,
+    why: "a reviewer examined the current bytes and held them: a correction is required before they can be approved"
+  },
+  superseded_by_new_profile: {
+    satisfies: false,
+    why: "the profile moved after this unit was opened, so this unit is retired and a new one covers the corrected bytes"
+  }
+};
+
+/**
  * The digest a re-review must start from.
  *
  * Normally that is the digest the record pins. Where the pin was itself
@@ -475,14 +504,25 @@ export function evaluateSupersession({ pin, supersession }) {
     // C1 and C2 go on refusing, but it must not make the supersession record
     // itself look corrupt: conflating the two would mean the only way to a
     // clean integrity check is to claim reviews that did not happen.
+    const status = String(disposition.reviewStatus ?? "");
+    const known = REVIEW_STATUSES[status];
+    if (!known) {
+      problems.push(`${disposition.bucket} carries reviewStatus ${JSON.stringify(status)}, which is not one of ${Object.keys(REVIEW_STATUSES).join(", ")}`);
+    }
+
     const review = disposition.reviewRecord;
     if (!review) {
-      const status = String(disposition.reviewStatus ?? "");
-      if (!["not_started", "in_progress"].includes(status)) {
-        problems.push(`${disposition.bucket} carries no review record and no recognised reviewStatus`);
-      } else {
-        outstanding.push(`${disposition.bucket} recorded; the review is ${status.replace("_", " ")}`);
+      // Only approved_current_bytes may carry a review record, and it must.
+      if (known?.satisfies) {
+        problems.push(`${disposition.bucket} is ${status} but carries no review record`);
+      } else if (known) {
+        outstanding.push(`${disposition.bucket} recorded; ${known.why}`);
       }
+    } else if (!known?.satisfies) {
+      // A record attached to a status that does not satisfy is either a
+      // mislabelled approval or an approval somebody is holding back. Either
+      // way the document is saying two things at once.
+      problems.push(`${disposition.bucket} carries a review record while its status is ${status}`);
     } else if (!review.path) {
       problems.push(`${disposition.bucket} names a review record with no path`);
     } else if (!review.sha256) {

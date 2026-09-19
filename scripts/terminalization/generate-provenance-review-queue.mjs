@@ -34,10 +34,15 @@ const document = JSON.parse(fs.readFileSync(path.join(rootDir, SOURCE), "utf8"))
 const jurisdiction = (profilePath) => path.basename(profilePath, ".json").split("-")[0];
 const short = (sha) => String(sha).slice(0, 12);
 
-// Widest first: the units that can least be isolated are the ones whose
-// answer most changes what the rest mean.
+// Priority 1 (targeted) first, because those are bounded and turn faster, and
+// because they prove the review-record format, the digest binding, the
+// computed scope and the C1/C2 consumption against real signed reviews before
+// anyone spends weeks on a full profile. Within each band, widest first.
+//
+// The ordering is a workflow priority and nothing more. Both bands start at
+// once, and no control reaches zero until every unit in both is satisfied.
 const units = [...document.supersessions].sort((a, b) => {
-  const rank = (e) => (e.disposition?.bucket === "FULL_REREVIEW_REQUIRED" ? 0 : 1);
+  const rank = (e) => (e.disposition?.bucket === "FULL_REREVIEW_REQUIRED" ? 1 : 0);
   const weight = (e) => {
     const scope = e.disposition?.reviewScope;
     const iso =
@@ -76,6 +81,53 @@ L.push(
     "pinned digest instead would re-review the later half of the change and leave the earlier half carrying a review nobody performed."
 );
 L.push("");
+L.push("## Priority");
+L.push("");
+L.push(
+  "**All 32 units are released to counsel at once.** The 20 full-profile reviews are not held behind the 12 targeted ones and should be " +
+    "under way in parallel; nothing is gained by serialising them."
+);
+L.push("");
+L.push(
+  "**Priority 1 — the 12 targeted reviews.** Review only the machine-computed disturbed and newly added pathways and confirm the current " +
+    "profile treatment is legally and source-correct. Do not re-review the excluded pathways. These are bounded, they should turn faster, " +
+    "and they are the ones that prove the review-record format, the digest binding, the computed scope and the C1/C2 consumption all work " +
+    "before weeks go into full-profile work."
+);
+L.push("");
+L.push(
+  "**Priority 2 — the 20 full-profile reviews.** Review the entire current compiled jurisdiction profile, because the whole-chain delta " +
+    "disturbed too much of the previously reviewed surface to isolate any part of it safely."
+);
+L.push("");
+L.push(
+  "Priority is workflow order, not permission to postpone. Canonical `npm test` cannot reach zero until every review both controls require " +
+    "is satisfied, so the second band is as blocking as the first."
+);
+L.push("");
+L.push("## What every review must carry");
+L.push("");
+L.push("- who performed it, by name");
+L.push("- the review date");
+L.push("- the baseline digest (given per unit below)");
+L.push("- the current digest (given per unit below)");
+L.push("- the exact scope reviewed");
+L.push("- the sources examined");
+L.push("- findings and corrections, if any");
+L.push("- an explicit approval **or hold**");
+L.push("");
+L.push("Two things a review must never do: change a historical `reviewedAsOf`, or replace a historical pin. Both are preserved permanently, and both are checked.");
+L.push("");
+L.push("## A hold is a result");
+L.push("");
+L.push(
+  "**A review may come back `hold_correction_required`, and nobody should feel pressure to approve current bytes because a suite is red.** " +
+    "If a profile is wrong, say so. The correct next step is to fix the profile — which moves its current digest, retires that unit as " +
+    "`superseded_by_new_profile`, and opens a fresh unit against the corrected bytes for review. A held review is the mechanism working, " +
+    "not a failure to deliver. Approving bytes a reviewer doubts would reproduce, with more ceremony, exactly the problem this queue exists to " +
+    "correct."
+);
+L.push("");
 L.push("## How a unit leaves this queue");
 L.push("");
 L.push("A reviewer produces a record, and the unit's `disposition.reviewRecord` is set to:");
@@ -100,16 +152,17 @@ L.push(`- **${document.totals.pinsSuperseded}** of ${document.totals.recordsCarr
 L.push(`- **${units.filter((u) => u.priorChain?.pinnedDigestIsItselfARepin).length}** units review the whole original-digest chain because the pin was itself re-pinned`);
 L.push(`- **${document.totals.reviewsOutstanding}** outstanding`);
 L.push("");
-L.push("| # | Jurisdiction | Disposition | Baseline | Pathways to review |");
-L.push("|---|---|---|---|---|");
+L.push("| # | Priority | Jurisdiction | Disposition | Baseline | Pathways to review |");
+L.push("|---|---|---|---|---|---|");
 units.forEach((unit, index) => {
   const scope = unit.disposition.reviewScope;
   const target =
     unit.disposition.bucket === "FULL_REREVIEW_REQUIRED"
       ? "entire current profile"
       : `${scope.pathways.length} named`;
+  const priority = unit.disposition.bucket === "FULL_REREVIEW_REQUIRED" ? 2 : 1;
   L.push(
-    `| ${index + 1} | ${jurisdiction(unit.profilePath)} \`${short(unit.reviewedSha256)}\` | ${unit.disposition.bucket === "FULL_REREVIEW_REQUIRED" ? "FULL" : "TARGETED"} | ` +
+    `| ${index + 1} | ${priority} | ${jurisdiction(unit.profilePath)} \`${short(unit.reviewedSha256)}\` | ${priority === 2 ? "FULL" : "TARGETED"} | ` +
       `${scope.baseline === "original_committed_digest" ? "original (re-pinned)" : "pinned"} | ${target} |`
   );
 });
@@ -120,7 +173,7 @@ L.push("");
 units.forEach((unit, index) => {
   const scope = unit.disposition.reviewScope;
   const full = unit.disposition.bucket === "FULL_REREVIEW_REQUIRED";
-  L.push(`## ${index + 1}. ${jurisdiction(unit.profilePath)} — ${unit.disposition.bucket}`);
+  L.push(`## ${index + 1}. ${jurisdiction(unit.profilePath)} — ${unit.disposition.bucket} (Priority ${full ? 2 : 1})`);
   L.push("");
   L.push(`- **Profile:** \`${unit.profilePath}\``);
   L.push(`- **Review baseline:** \`${short(scope.baselineSha256)}\` — ${scope.baselineWhy}`);
@@ -176,7 +229,7 @@ units.forEach((unit, index) => {
     );
   }
   L.push("");
-  L.push(`**Status:** ${unit.disposition.reviewStatus}`);
+  L.push(`**Status:** \`${unit.disposition.reviewStatus}\`. Only \`approved_current_bytes\`, with a review record binding both digests above, satisfies the control; \`hold_correction_required\` is an equally valid outcome.`);
   L.push("");
 });
 
