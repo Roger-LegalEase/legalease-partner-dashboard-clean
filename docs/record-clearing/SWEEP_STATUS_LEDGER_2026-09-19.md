@@ -64,7 +64,7 @@ decision and refused on every sponsored and credit surface.
 
 | Step | Finding |
 |---|---|
-| 12 | VA `va_exp_absolute_pardon` missing a D-track field — the map's scope and its array disagree because one entry is not D-track shaped |
+| 12 | **`MOVE_TO_EXISTING_OWNER_DATASET`.** `va_exp_absolute_pardon` shares 0/67 of the D schema, lacks 26 of 29 universal fields, and is excluded by D's own derivation rule (lane D is `official_form_standard`/`production_packet`; the track is `controlled_pleading` with null treatment). No owner decision ever placed it there — commit `97adcecd5` wrote it in as a track-to-family bridge because that is the file the paid-pathway join reads. **Removal alone is wrong**: measured, it flips VA from `owner_approval_pending` to a false "no packet family is reachable". Root: a lane-D non-canonical analysis is being used as the universal track→family map. Record: `D_TRACK_FOREIGN_RECORD_AUDIT_12_2026-09-19.md` |
 | 22 | **Not a register defect.** Both scripts are genuinely red, both red at baseline, and both invoked by `rcap-all50-handoff.yml` — a red check really is in CI. Resolved by repairing `verify-rcap-problematic-pdf-remediation` (master-list arithmetic: 153 vs 128 assets) and `verify-rcap-census-v1-money-credit-gate` (the resolver-flag vs Grade-A-authority split), or by an owner decision to unwire. A false "Green" claim in the register's recorded reason was corrected by dated appendix |
 | 33 | 3 questions carry a provenance with no owner mapping |
 | 36 | Question ledger arithmetic; Q-058 legally open but not recorded as outside the national report's scope |
