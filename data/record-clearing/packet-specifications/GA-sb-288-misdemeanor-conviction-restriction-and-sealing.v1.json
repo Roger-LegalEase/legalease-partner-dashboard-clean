@@ -274,11 +274,38 @@
     "notaryOwnedFields": [],
     "prosecutorOwnedFields": [],
     "courtOwnedFields": [
-      "primary_filing.caption_judge",
-      "proposed_order.order_caption_judge",
-      "proposed_order.order_date",
-      "proposed_order.judge_signature",
-      "certificate_of_service.clerk_office_address"
+      "primary_filing_judge",
+      "proposed_order_judge",
+      "certificate_of_service_judge"
+    ],
+    "participantCompletesBeforeFilingFields": [
+      "primary_filing_court",
+      "primary_filing_county",
+      "primary_filing_case_number",
+      "primary_filing_otn",
+      "primary_filing_blank_1",
+      "primary_filing_blank_2",
+      "primary_filing_blank_3",
+      "primary_filing_blank_4",
+      "primary_filing_blank_5",
+      "primary_filing_blank_6",
+      "primary_filing_blank_7",
+      "proposed_order_court",
+      "proposed_order_county",
+      "proposed_order_case_number",
+      "proposed_order_otn",
+      "proposed_order_blank_1",
+      "proposed_order_blank_2",
+      "proposed_order_blank_3",
+      "certificate_of_service_court",
+      "certificate_of_service_county",
+      "certificate_of_service_case_number",
+      "certificate_of_service_otn",
+      "certificate_of_service_blank_1",
+      "certificate_of_service_blank_2",
+      "certificate_of_service_blank_3",
+      "certificate_of_service_blank_4",
+      "certificate_of_service_blank_5"
     ]
   },
   "documents": [
@@ -294,23 +321,122 @@
       "manifestComponentId": "ga-misd-j4-primary-filing-1",
       "sections": [
         {
-          "heading": "Caption in the existing criminal case, the numbered eligibility statements under § 35-3-37(j)(4)(A) to (C), the defendant's own statement, and the request for restriction and sealing under subsection (m)",
-          "kind": "approved_shipping_component",
+          "heading": "Caption",
+          "kind": "pleading_caption",
           "fields": [
-            "court",
-            "county",
-            "case_number",
-            "otn",
-            "participant_full_legal_name",
-            "arrest_date",
-            "disposition_date",
-            "charge",
-            "sentence_completion_date",
-            "criminal_history",
-            "pending_cases",
-            "prior_relief",
-            "participant_narrative"
-          ]
+            "primary_filing_court",
+            "primary_filing_county",
+            "primary_filing_case_number",
+            "primary_filing_otn",
+            "primary_filing_judge"
+          ],
+          "fieldTreatments": {
+            "primary_filing_court": "ruled_blank",
+            "primary_filing_county": "ruled_blank",
+            "primary_filing_case_number": "ruled_blank",
+            "primary_filing_otn": "ruled_blank",
+            "primary_filing_judge": "court_owned_space"
+          },
+          "captionContract": {
+            "courtLines": [
+              {
+                "prefix": "IN THE",
+                "field": "primary_filing_court",
+                "suffix": "COURT OF"
+              },
+              {
+                "prefix": "",
+                "field": "primary_filing_county",
+                "suffix": "COUNTY, STATE OF GEORGIA"
+              }
+            ],
+            "courtInstruction": "COURT AND COUNTY NAMED IN THE CAPTION - THE COURT THAT ENTERED THE CONVICTION, AND ITS COUNTY (STATE, SUPERIOR, MAGISTRATE, PROBATE OR MUNICIPAL; YOUR OWN CASE PAPERS NAME BOTH, AND THE INSTRUCTIONS PAGE SAYS WHO CAN CONFIRM THEM)",
+            "matterTitle": "STATE OF GEORGIA,\nv.\n{{participant_full_legal_name}}, Defendant.",
+            "caseNumber": "primary_filing_case_number",
+            "caseNumberLabel": "CASE NO.:",
+            "documentTitle": "DEFENDANT'S MOTION TO RESTRICT AND SEAL RECORDS OF A MISDEMEANOR CONVICTION\n(O.C.G.A. § 35-3-37(j)(4)(A) and § 35-3-37(m))"
+          }
+        },
+        {
+          "heading": "The defendant, Jordan Avery Reyes, files this motion in the above-styl",
+          "kind": "pleading_paragraph",
+          "body": "The defendant, {{participant_full_legal_name}}, files this motion in the above-styled criminal case, in the existing case under the existing case number, under O.C.G.A. § 35-3-37(j)(4)(A) and § 35-3-37(m). The defendant states:\n\n1. The defendant was convicted of a misdemeanor offense, or of a series of misdemeanor offenses arising from a single incident, in the above-styled case.\n\n2. The defendant has completed the terms of the sentence, including any probation, fines and restitution.\n\n3. The defendant has not been convicted of any crime in any jurisdiction, excluding nonserious traffic offenses, for at least four years immediately preceding the filing of this motion.\n\n4. The defendant has no pending charged offenses in any jurisdiction.\n\n5. The offense of conviction is not an offense excluded by O.C.G.A. Sec. 35-3-37(j)(4)(B), and the lifetime maximum of two restrictions under O.C.G.A. Sec. 35-3-37(j)(4)(C) has not been reached. The exclusions turn on the exact Code section of conviction, which the defendant states below.\n\n6. The harm otherwise resulting to the defendant clearly outweighs the public interest in the criminal history record information being publicly available.\n\nCASE FACTS THE DEFENDANT SUPPLIES (fill each blank from the court record, never from memory; the instructions page lists where each record lives):"
+        },
+        {
+          "heading": "Date of arrest in this case:",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "primary_filing_blank_1"
+          ],
+          "fieldLabels": {
+            "primary_filing_blank_1": "Date of arrest in this case:"
+          },
+          "fieldTreatments": {
+            "primary_filing_blank_1": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Date the adjudication of guilt was entered:",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "primary_filing_blank_2"
+          ],
+          "fieldLabels": {
+            "primary_filing_blank_2": "Date the adjudication of guilt was entered:"
+          },
+          "fieldTreatments": {
+            "primary_filing_blank_2": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Exact O.C.G.A. Code section of the misdemeanor conviction to be restri",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "primary_filing_blank_3"
+          ],
+          "fieldLabels": {
+            "primary_filing_blank_3": "Exact O.C.G.A. Code section of the misdemeanor conviction to be restricted:"
+          },
+          "fieldTreatments": {
+            "primary_filing_blank_3": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Terms of the sentence, itemized, and the date every term was completed",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "primary_filing_blank_4"
+          ],
+          "fieldLabels": {
+            "primary_filing_blank_4": "Terms of the sentence, itemized, and the date every term was completed:"
+          },
+          "fieldTreatments": {
+            "primary_filing_blank_4": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Your own statement of what has changed in your life and how this recor",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "primary_filing_blank_5",
+            "primary_filing_blank_6",
+            "primary_filing_blank_7"
+          ],
+          "fieldLabels": {
+            "primary_filing_blank_5": "Your own statement of what has changed in your life and how this record has been a barrier (state only what you know first-hand; nothing on these lines is written for you):",
+            "primary_filing_blank_6": "Your own statement of what has changed in your life and how  (continued)",
+            "primary_filing_blank_7": "Your own statement of what has changed in your life and how  (continued)"
+          },
+          "fieldTreatments": {
+            "primary_filing_blank_5": "ruled_blank",
+            "primary_filing_blank_6": "ruled_blank",
+            "primary_filing_blank_7": "ruled_blank"
+          }
+        },
+        {
+          "heading": "READ EACH NUMBERED STATEMENT BEFORE SIGNING. Each is pleaded as your o",
+          "kind": "pleading_paragraph",
+          "body": "READ EACH NUMBERED STATEMENT BEFORE SIGNING. Each is pleaded as your own statement. If any numbered statement is not true of your case, do not file this motion; the instructions page tells you where to get help instead.\n\nWHEREFORE, the defendant asks the Court to enter an order directing the Georgia Crime Information Center (GCIC) and every agency in the county named in the caption, including the arresting agency and the jail or detention center, to restrict all criminal history record information pertaining to this case, pursuant to O.C.G.A. Sec. 35-3-37(j)(4)(A); directing the Clerk of the named court to seal the record of the case, including index references and online records, pursuant to O.C.G.A. Sec. 35-3-37(m), with disclosure limited to what O.C.G.A. Sec. 35-3-37(t) and (v) permit; and, in the alternative, that the motion be set for hearing within 90 days of filing.\n\nDATE ..............................   SIGNATURE OF DEFENDANT ......................................\n\n(The defendant signs and dates this motion personally. Nothing on this page is signed or dated for the defendant. No verification and no notary block is required by statute, and none is added.)\n\nPRINTED NAME: {{participant_full_legal_name}}\n\nMAILING ADDRESS: {{mailing_address}}\n\nTELEPHONE: {{phone_number}}\n\nEMAIL: {{email_address}}\n\nDefendant, Pro Se (where unrepresented)"
         }
       ],
       "documentContract": {
@@ -327,7 +453,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "Adopted artifact. The owner-adopted output opens this component with IN THE ____ COURT OF ____ COUNTY / STATE OF GEORGIA, the State-versus-defendant block and the case-number line, and the build host that produced those adopted bytes composes it."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+        "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
       }
     },
     {
@@ -342,15 +476,90 @@
       "manifestComponentId": "ga-misd-j4-proposed-order-2",
       "sections": [
         {
-          "heading": "Order naming GCIC, the arresting agency, the jail and every county agency, the OTN and arrest date, and the protected judge, SO ORDERED date and signature blocks",
-          "kind": "approved_shipping_component",
+          "heading": "Caption",
+          "kind": "pleading_caption",
           "fields": [
-            "court",
-            "county",
-            "case_number",
-            "otn",
-            "arrest_date"
-          ]
+            "proposed_order_court",
+            "proposed_order_county",
+            "proposed_order_case_number",
+            "proposed_order_otn",
+            "proposed_order_judge"
+          ],
+          "fieldTreatments": {
+            "proposed_order_court": "ruled_blank",
+            "proposed_order_county": "ruled_blank",
+            "proposed_order_case_number": "ruled_blank",
+            "proposed_order_otn": "ruled_blank",
+            "proposed_order_judge": "court_owned_space"
+          },
+          "captionContract": {
+            "courtLines": [
+              {
+                "prefix": "IN THE",
+                "field": "proposed_order_court",
+                "suffix": "COURT OF"
+              },
+              {
+                "prefix": "",
+                "field": "proposed_order_county",
+                "suffix": "COUNTY, STATE OF GEORGIA"
+              }
+            ],
+            "courtInstruction": "COURT AND COUNTY NAMED IN THE CAPTION - THE COURT THAT ENTERED THE CONVICTION, AND ITS COUNTY (STATE, SUPERIOR, MAGISTRATE, PROBATE OR MUNICIPAL; YOUR OWN CASE PAPERS NAME BOTH, AND THE INSTRUCTIONS PAGE SAYS WHO CAN CONFIRM THEM)",
+            "matterTitle": "STATE OF GEORGIA,\nv.\n{{participant_full_legal_name}}, Defendant.",
+            "caseNumber": "proposed_order_case_number",
+            "caseNumberLabel": "CASE NO.:",
+            "documentTitle": "PROPOSED ORDER RESTRICTING ACCESS TO CRIMINAL HISTORY RECORD INFORMATION AND SEALING THE RECORD OF THE CASE\n(O.C.G.A. § 35-3-37(j)(4)(A) and § 35-3-37(m))"
+          }
+        },
+        {
+          "heading": "(This page is proposed by the defendant for the Court's consideration,",
+          "kind": "pleading_paragraph",
+          "body": "(This page is proposed by the defendant for the Court's consideration, as the controlling practice directs a proposed order always accompany the filing. Every order line below is completed, signed and dated only by the Court.)\n\nBefore the Court is the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction under O.C.G.A. Sec. 35-3-37(j)(4)(A) and Sec. 35-3-37(m).\n\nIT IS ORDERED that the Georgia Crime Information Center (GCIC) and every agency in the county named in the caption, including the arresting agency and the jail or detention center, restrict all criminal history record information pertaining to this case, identified by the OTN and the date of arrest stated below, pursuant to O.C.G.A. Sec. 35-3-37(j)(4)(A).\n\nIT IS FURTHER ORDERED that the Clerk of the court named in the caption seal the record of this case, including index references and online records, pursuant to O.C.G.A. Sec. 35-3-37(m).\n\nDisclosure of the restricted and sealed information remains limited to what O.C.G.A. Sec. 35-3-37(t) and (v) permit."
+        },
+        {
+          "heading": "OTN of the case (needed for this order to be actionable by GCIC):",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "proposed_order_blank_1"
+          ],
+          "fieldLabels": {
+            "proposed_order_blank_1": "OTN of the case (needed for this order to be actionable by GCIC):"
+          },
+          "fieldTreatments": {
+            "proposed_order_blank_1": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Date of arrest identified in this order:",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "proposed_order_blank_2"
+          ],
+          "fieldLabels": {
+            "proposed_order_blank_2": "Date of arrest identified in this order:"
+          },
+          "fieldTreatments": {
+            "proposed_order_blank_2": "ruled_blank"
+          }
+        },
+        {
+          "heading": "SO ORDERED, this ............ day of ........................, 20.....",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "proposed_order_blank_3"
+          ],
+          "fieldLabels": {
+            "proposed_order_blank_3": "SO ORDERED, this ............ day of ........................, 20......."
+          },
+          "fieldTreatments": {
+            "proposed_order_blank_3": "ruled_blank"
+          }
+        },
+        {
+          "heading": "JUDGE, COURT NAMED IN THE CAPTION",
+          "kind": "pleading_paragraph",
+          "body": "JUDGE, COURT NAMED IN THE CAPTION\n\n(The judge's signature block is a third-party block. It is never prefilled, and the court dates its own order.)"
         }
       ],
       "documentContract": {
@@ -367,7 +576,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "Adopted artifact. The owner-adopted output opens this component with IN THE ____ COURT OF ____ COUNTY / STATE OF GEORGIA, the State-versus-defendant block and the case-number line, and the build host that produced those adopted bytes composes it."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+        "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
       }
     },
     {
@@ -382,12 +599,96 @@
       "manifestComponentId": "ga-misd-j4-certificate-of-service-3",
       "sections": [
         {
-          "heading": "Service on the District Attorney or Solicitor-General and the clerk of court by certified mail, e-filing or hand delivery",
-          "kind": "approved_shipping_component",
+          "heading": "Caption",
+          "kind": "pleading_caption",
           "fields": [
-            "prosecuting_authority",
-            "service_method"
-          ]
+            "certificate_of_service_court",
+            "certificate_of_service_county",
+            "certificate_of_service_case_number",
+            "certificate_of_service_otn",
+            "certificate_of_service_judge"
+          ],
+          "fieldTreatments": {
+            "certificate_of_service_court": "ruled_blank",
+            "certificate_of_service_county": "ruled_blank",
+            "certificate_of_service_case_number": "ruled_blank",
+            "certificate_of_service_otn": "ruled_blank",
+            "certificate_of_service_judge": "court_owned_space"
+          },
+          "captionContract": {
+            "courtLines": [
+              {
+                "prefix": "IN THE",
+                "field": "certificate_of_service_court",
+                "suffix": "COURT OF"
+              },
+              {
+                "prefix": "",
+                "field": "certificate_of_service_county",
+                "suffix": "COUNTY, STATE OF GEORGIA"
+              }
+            ],
+            "courtInstruction": "COURT AND COUNTY NAMED IN THE CAPTION - THE COURT THAT ENTERED THE CONVICTION, AND ITS COUNTY (STATE, SUPERIOR, MAGISTRATE, PROBATE OR MUNICIPAL; YOUR OWN CASE PAPERS NAME BOTH, AND THE INSTRUCTIONS PAGE SAYS WHO CAN CONFIRM THEM)",
+            "matterTitle": "STATE OF GEORGIA,\nv.\n{{participant_full_legal_name}}, Defendant.",
+            "caseNumber": "certificate_of_service_case_number",
+            "caseNumberLabel": "CASE NO.:",
+            "documentTitle": "CERTIFICATE OF SERVICE"
+          }
+        },
+        {
+          "heading": "I, Jordan Avery Reyes, certify that on the date stated below I served ",
+          "kind": "pleading_paragraph",
+          "body": "I, {{participant_full_legal_name}}, certify that on the date stated below I served a copy of the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction and the accompanying proposed order on each person listed below, by certified mail, e-filing or hand delivery."
+        },
+        {
+          "heading": "NAME AND MAILING ADDRESS OF THE PROSECUTING ATTORNEY SERVED, IDENTIFIE",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "certificate_of_service_blank_1",
+            "certificate_of_service_blank_2"
+          ],
+          "fieldLabels": {
+            "certificate_of_service_blank_1": "NAME AND MAILING ADDRESS OF THE PROSECUTING ATTORNEY SERVED, IDENTIFIED AS DISTRICT ATTORNEY OR SOLICITOR-GENERAL FOR THE COUNTY (you write it here before service; the clerk's office can provide it):",
+            "certificate_of_service_blank_2": "NAME AND MAILING ADDRESS OF THE PROSECUTING ATTORNEY SERVED, (continued)"
+          },
+          "fieldTreatments": {
+            "certificate_of_service_blank_1": "ruled_blank",
+            "certificate_of_service_blank_2": "ruled_blank"
+          }
+        },
+        {
+          "heading": "OFFICE OF THE CLERK OF COURT SERVED (the clerk of the court named in t",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "certificate_of_service_blank_3",
+            "certificate_of_service_blank_4"
+          ],
+          "fieldLabels": {
+            "certificate_of_service_blank_3": "OFFICE OF THE CLERK OF COURT SERVED (the clerk of the court named in the caption; the clerk's office can confirm its service address):",
+            "certificate_of_service_blank_4": "OFFICE OF THE CLERK OF COURT SERVED (the clerk of the court  (continued)"
+          },
+          "fieldTreatments": {
+            "certificate_of_service_blank_3": "ruled_blank",
+            "certificate_of_service_blank_4": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Method used to serve each recipient (chosen from those listed above, a",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "certificate_of_service_blank_5"
+          ],
+          "fieldLabels": {
+            "certificate_of_service_blank_5": "Method used to serve each recipient (chosen from those listed above, as the clerk directs):"
+          },
+          "fieldTreatments": {
+            "certificate_of_service_blank_5": "ruled_blank"
+          }
+        },
+        {
+          "heading": "DATE OF SERVICE ........................................",
+          "kind": "pleading_paragraph",
+          "body": "DATE OF SERVICE ........................................\n\nSIGNATURE OF DEFENDANT ................................................\n\nThis page is not proof of service and does not say that anything has been served. It is completed and signed when the copies actually go out. A date or a signature written before the copies go out would be false."
         }
       ],
       "documentContract": {
@@ -404,7 +705,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "Adopted artifact. The owner-adopted output opens this component with IN THE ____ COURT OF ____ COUNTY / STATE OF GEORGIA, the State-versus-defendant block and the case-number line, and the build host that produced those adopted bytes composes it."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+        "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
       }
     },
     {
@@ -419,8 +728,9 @@
       "manifestComponentId": "ga-misd-j4-attachment-4",
       "sections": [
         {
-          "heading": "Final disposition obtained by the participant from the clerk of the convicting court",
-          "kind": "approved_shipping_component"
+          "heading": "EXHIBIT A - FINAL DISPOSITION",
+          "kind": "static",
+          "body": "For: {{participant_full_legal_name}}\n\nFiling: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.\n\nATTACH BEHIND THIS PAGE: a copy of the final disposition of this case.\n\nWHERE YOU GET IT: the clerk of the convicting court.\n\nHOW: Ask the clerk of the convicting court for a copy of the final disposition and attach it behind this page.\n\nThe platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
         }
       ],
       "documentContract": {
@@ -437,7 +747,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "supporting_page",
+        "captionTreatmentEvidence": "Adopted artifact. This exhibit cover sheet is filed behind the captioned petition as an attachment -- its own contract classifies it instrumentClass attachment with the court as recipient -- and the adopted page carries no caption of its own, only the title, what to attach, and where to obtain it. It accompanies a captioned instrument rather than owing no caption at all."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+        "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
       }
     },
     {
@@ -453,8 +771,9 @@
       "manifestComponentId": "ga-misd-j4-attachment-5",
       "sections": [
         {
-          "heading": "Georgia criminal history report obtained by the participant",
-          "kind": "approved_shipping_component"
+          "heading": "EXHIBIT B - GEORGIA CRIMINAL HISTORY REPORT",
+          "kind": "static",
+          "body": "ATTACH THIS ONLY WHERE YOU RELY ON IT OR THE COURT EXPECTS IT.\n\nFor: {{participant_full_legal_name}}\n\nFiling: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.\n\nATTACH BEHIND THIS PAGE: your own Georgia criminal history report.\n\nWHERE YOU GET IT: most Georgia sheriff's offices and police departments, or GCIC.\n\nHOW: GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. Bring government photo identification and the agency's fee.\n\nThe platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
         }
       ],
       "documentContract": {
@@ -471,7 +790,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "supporting_page",
+        "captionTreatmentEvidence": "Adopted artifact. This exhibit cover sheet is filed behind the captioned petition as an attachment -- its own contract classifies it instrumentClass attachment with the court as recipient -- and the adopted page carries no caption of its own, only the title, what to attach, and where to obtain it. It accompanies a captioned instrument rather than owing no caption at all."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+        "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
       }
     },
     {
@@ -487,8 +814,9 @@
       "manifestComponentId": "ga-misd-j4-attachment-6",
       "sections": [
         {
-          "heading": "Proof of sentence completion obtained by the participant",
-          "kind": "approved_shipping_component"
+          "heading": "EXHIBIT C - PROOF OF SENTENCE COMPLETION",
+          "kind": "static",
+          "body": "ATTACH THIS ONLY WHERE YOU HAVE IT, SUCH AS A PROBATION TERMINATION ORDER.\n\nFor: {{participant_full_legal_name}}\n\nFiling: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.\n\nATTACH BEHIND THIS PAGE: proof that every term of the sentence was completed, such as a probation termination order.\n\nWHERE YOU GET IT: the clerk of the convicting court, or the supervising probation office.\n\nHOW: Ask the clerk of the convicting court or the supervising probation office for the order terminating probation or documentation that the sentence was completed.\n\nThe platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
         }
       ],
       "documentContract": {
@@ -505,7 +833,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "supporting_page",
+        "captionTreatmentEvidence": "Adopted artifact. This exhibit cover sheet is filed behind the captioned petition as an attachment -- its own contract classifies it instrumentClass attachment with the court as recipient -- and the adopted page carries no caption of its own, only the title, what to attach, and where to obtain it. It accompanies a captioned instrument rather than owing no caption at all."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+        "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
       }
     },
     {
@@ -521,8 +857,9 @@
       "manifestComponentId": "ga-misd-j4-attachment-7",
       "sections": [
         {
-          "heading": "Diplomas, certificates, letters of support, treatment records or evidence of community involvement the participant chooses to supply; formatted, never assessed",
-          "kind": "approved_shipping_component"
+          "heading": "EXHIBIT D - PARTICIPANT-SUPPLIED SUPPORTING EXHIBITS",
+          "kind": "static",
+          "body": "ATTACH THESE ONLY WHERE YOU CHOOSE TO SUPPLY THEM.\n\nFor: {{participant_full_legal_name}}\n\nFiling: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.\n\nATTACH BEHIND THIS PAGE: supporting exhibits you choose to supply: diplomas, certificates, letters of support, treatment records, evidence of community involvement.\n\nWHERE YOU GET IT: your own records.\n\nHOW: The packet formats what you supply and assesses none of it.\n\nThe platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
         }
       ],
       "documentContract": {
@@ -539,7 +876,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "supporting_page",
+        "captionTreatmentEvidence": "Adopted artifact. This exhibit cover sheet is filed behind the captioned petition as an attachment -- its own contract classifies it instrumentClass attachment with the court as recipient -- and the adopted page carries no caption of its own, only the title, what to attach, and where to obtain it. It accompanies a captioned instrument rather than owing no caption at all."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+        "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
       }
     }
   ],

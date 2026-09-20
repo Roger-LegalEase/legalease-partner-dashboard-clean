@@ -376,7 +376,10 @@ const REGENERATION_BRIDGE = {
   },
   "GA:sb-288-misdemeanor-conviction-restriction-and-sealing": {
     proven: true,
-    detail: "scripts/build-census-v1-ga-host.mjs ga-seal-m-set --no-raster regenerated the same way; both fixtures came back at the adopted digests. Only build metadata moved, and it was restored."
+    // Named ga-misd-j4-set, not ga-seal-m-set: the route's own packetSetId is
+    // the misdemeanour J4 family, and a bridge citing a neighbouring Georgia
+    // family would prove a regeneration of the wrong artifact.
+    detail: "scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster regenerated the same way; both fixtures came back at the adopted digests. Only build metadata moved, and it was restored."
   }
 };
 
