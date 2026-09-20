@@ -104,6 +104,41 @@ check(
 );
 
 // ---------------------------------------------------------------------------
+// 1b. An implementation is not its own document authority.
+//
+// "The composer emits a caption today" proves what the renderer does, not what
+// the document should carry, and classifying from it is how a legacy behaviour
+// validates itself. So every RECORDED treatment — as opposed to one derived
+// from a source field that states it — must cite what establishes it: a
+// controlling official or local form, adopted or approved artifact bytes, a
+// source-backed document specification, or an owner or legal decision.
+// ---------------------------------------------------------------------------
+
+const RECORDED_TREATMENTS = new Set(["full_independent_caption", "supporting_page"]);
+const recorded = courtFacing.filter((row) => RECORDED_TREATMENTS.has(row.contract.captionTreatment));
+check(recorded.length > 0, `there are recorded caption treatments to audit (${recorded.length})`);
+
+const AUTHORITY = /adopted artifact|approved artifact|official form|local form|owner|legal decision|specification/i;
+const withoutEvidence = recorded.filter((row) => {
+  const evidence = row.document.documentContract?.captionTreatmentEvidence;
+  return typeof evidence !== "string" || evidence.trim().length < 40 || !AUTHORITY.test(evidence);
+});
+check(
+  withoutEvidence.length === 0,
+  `every recorded caption treatment cites an authority${withoutEvidence.length ? `; missing on ${withoutEvidence.map((row) => `${row.spec.routeKey}|${row.document.documentId}`).join(", ")}` : ""}`
+);
+
+// And the evidence may not be the renderer. A treatment justified by what the
+// composer currently emits is the error this check exists to make impossible.
+const selfValidating = recorded.filter((row) =>
+  /\b(composer|renderer) (emits|draws|produces|outputs)|emits a caption (block )?today|current(ly)? (emits|renders|draws)/i
+    .test(row.document.documentContract?.captionTreatmentEvidence ?? ""));
+check(
+  selfValidating.length === 0,
+  `no caption treatment is justified by what the implementation currently emits${selfValidating.length ? `; ${selfValidating.map((row) => row.document.documentId).join(", ")}` : ""}`
+);
+
+// ---------------------------------------------------------------------------
 // 2. Positive control A — a filing that carries its own caption still renders.
 // ---------------------------------------------------------------------------
 

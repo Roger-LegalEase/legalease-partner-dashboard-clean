@@ -700,6 +700,34 @@ function composeSection(
             : ""))
       }];
 
+    case "approved_shipping_component":
+      // Not a composer gap, and deliberately not implemented.
+      //
+      // This kind is a DESCRIPTION of an approved component — a heading naming
+      // what it contains ("Caption and motion", "the numbered eligibility
+      // statements under § 35-3-37(j)(7), the pardon, ...") plus the field ids
+      // it uses. It carries no body, no assertions and no text. There is
+      // nothing authoritative here to render, so generic handling could only
+      // be invention, and inventing a motion's words is the one thing this
+      // composer may never do.
+      //
+      // The approved text does exist: all 8 families carrying this kind have a
+      // census-v1 build host that composed the adopted artifact. So each is the
+      // same derivation defect Nevada had — the specification kept the
+      // description and dropped the substance — and the fix is per family, in
+      // its own §5 batch, by transcribing the adopted text. The shared
+      // capabilities that transcription needs (the declaration kind, blanks on
+      // numbered assertions, the explicit caption contract) were built for
+      // Nevada and are reused, so this is 8 transcriptions and not 8 bespoke
+      // renderers.
+      throw new GradeAPacketCompositionError(
+        specification.routeKey, [],
+        `section "${section.heading}" is recorded as an approved_shipping_component, which describes an `
+        + "approved component rather than carrying its text. The approved substance is in this family's "
+        + "census-v1 build host and was dropped when the specification was derived; transcribe it into the "
+        + "specification. Refusing rather than inventing the words it describes."
+      );
+
     default:
       // No silent fallback. An unrecognised section kind means the
       // specification describes something this composer cannot render, and

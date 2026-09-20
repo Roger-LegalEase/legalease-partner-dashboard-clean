@@ -119,6 +119,18 @@ export type CaptionTreatment =
 
 export interface DocumentContract {
   captionTreatment: Resolvable<CaptionTreatment>;
+  /**
+   * What establishes the caption treatment, where it was recorded rather than
+   * derived from a source field.
+   *
+   * Required because an implementation cannot be its own document authority.
+   * "The composer emits a caption today" proves what the renderer does, not
+   * what the document should carry, and classifying from it is how a legacy
+   * behaviour validates itself. An affirmative treatment must cite one of: a
+   * controlling official or local form, adopted or approved artifact bytes, a
+   * source-backed document specification, or an owner or legal decision.
+   */
+  captionTreatmentEvidence?: string;
   instrumentClass: Resolvable<InstrumentClass>;
   preparedBy: Resolvable<PreparedBy>;
   signer: Resolvable<DocumentSigner>;

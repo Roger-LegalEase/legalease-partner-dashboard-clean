@@ -5,9 +5,7 @@
   "reviewDate": "2026-09-20",
   "familyId": "cross-jurisdiction-document-contract",
   "question": "The Grade-A renderer required every component presented as a pleading to carry its own caption. Is that a valid universal rule about court documents, and if not, what decides a component's caption?",
-
   "finding": "Not valid, and the corpus says so. Of 51 court-facing components, 42 declare no caption section, and they are not one kind of thing. A single rule keyed on presentation can only be satisfied two ways where it does not fit — manufacture a caption, or relabel a court-facing filing as guidance — and both are forbidden. Caption behaviour is a property of the component, so it moved into the §4.2 document contract.",
-
   "theContract": {
     "attribute": "documentContract.captionTreatment",
     "values": {
@@ -24,7 +22,6 @@
       "whereItRuns": "over every document before anything is drawn, not inside the pleading path, because a court-facing component presented as guidance raises the same question and must not escape it."
     }
   },
-
   "nevadaFirst": {
     "question": "Was the captionless declaration itself part of the owner-adopted output bytes and component set?",
     "method": "Read the adopted output directly (pdftotext over the census-v1 canonical fixture), rather than reasoning from the build script alone.",
@@ -38,15 +35,18 @@
     },
     "digestCaveat": "The on-disk canonical fixture hashes 3b02d62f…, the adopted bytes were 533cf8ec… and FIX07 rebuilt them to 8fe5e209…. The structural facts relied on here — which components exist, which pages carry captions — are identical across all three vintages and are independently recorded by FIX07. The digest drift itself is a separate matter: the adoption's own condition is that a shipping-artifact digest change requires re-review, and whether that re-review happened is not resolved here."
   },
-
   "boundedClassificationPass": {
-    "method": "One pass over the existing authoritative and adopted records. No new audit framework and no fresh legal research. Two rules only, both evidence-based: a component whose own composition emits a caption block today is proven to carry one; a component whose source field states the answer takes it from there.",
+    "method": "One pass over the existing authoritative and adopted records. No new audit framework and no fresh legal research. A treatment is recorded only where an AUTHORITY establishes it — a controlling official or local form, adopted or approved artifact bytes, a source-backed document specification, or an owner or legal decision — or where a source field on the document states it. See correction1 below: the first version of this pass used a weaker rule and was corrected.",
     "whatWasDeliberatelyNotDone": "A packet-level caption test was run over the census-v1 fixtures and then discarded as a classifier. It reports that 12 of 13 families' approved artifacts contain a caption somewhere — which is true and useless, because Nevada is the counterexample in its own packet: captions on pages 4 and 6, none on page 7. A packet-level signal cannot classify a component, and using it would have been exactly the blunt inference this correction removes.",
     "results": {
       "official_form_controls": {
         "count": 3,
         "basis": "derived from outputStrategy official_pdf_fill",
-        "components": ["CT ct-cleanslate-petition-primary-filing-1 (JD-CR-202)", "OR or_acquittal-primary-filing-1", "OR or_acquittal-proposed-order-2"]
+        "components": [
+          "CT ct-cleanslate-petition-primary-filing-1 (JD-CR-202)",
+          "OR or_acquittal-primary-filing-1",
+          "OR or_acquittal-proposed-order-2"
+        ]
       },
       "not_applicable": {
         "count": 5,
@@ -54,23 +54,25 @@
       },
       "full_independent_caption": {
         "count": 7,
-        "basis": "proven: each emits a pleading_caption block from its own composition today",
+        "basis": "adopted or approved artifact bytes, read page by page and cited per component in documentContract.captionTreatmentEvidence. See correction1 for each route's evidence and for the rule that replaced the original basis.",
         "components": [
           "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal — ms-petition-for-expungement, ms-proposed-order, ms-service-and-attachments",
           "IL:felony-prostitution-relief — primary_filing, proposed_order",
           "NV:probation-or-specialty-court-dismissal-set-aside-sealing — primary_filing, proposed_order"
         ],
-        "note": "MS non-conviction is the live commercial route and IL felony-prostitution is the one commercially eligible family that composes and renders through this path. Both were caught by the new invariant before it landed and are recorded from their own observed output, so their renders are unchanged."
+        "note": "MS non-conviction is the live commercial route and IL felony-prostitution is the one commercially eligible family that composes and renders through this path. The new invariant caught both before it landed; each is bound to its approved artifact, and both render unchanged."
       },
       "supporting_page": {
         "count": 1,
-        "basis": "proven from the owner-adopted output page by page",
-        "components": ["NV declaration_and_verification"]
+        "basis": "the owner-adopted output read page by page, corroborated by FIX07's independent page census. Cited in documentContract.captionTreatmentEvidence.",
+        "components": [
+          "NV declaration_and_verification"
+        ]
       },
       "unresolved": {
         "count": 35,
         "andTherefore": "refuse to render",
-        "why": "27 of them declare a single approved_shipping_component section, which this composer does not implement, so they do not compose at all and their caption lives in an approved artifact this pass did not open page by page. The rest declare no sections, or declare sections that emit no caption. None of them is unresolved on purpose; unresolved means nothing has been recorded yet.",
+        "why": "27 of them declare a single approved_shipping_component section, which describes an approved component rather than carrying its text, so they do not compose at all. See correction2. The rest declare no sections, or declare sections that carry no caption. None is unresolved on purpose; unresolved means no authority has been recorded yet.",
         "sixThatComposeAndNowRefuse": [
           "DC:dc_correct_misattributed_arrest primary_filing",
           "KS:municipal-arrest-record-expungement-under-12-4516a primary-filing-1",
@@ -84,13 +86,64 @@
     },
     "oneSignalWorthRecording": "VA:regime-1's approved artifact carries no caption anywhere in the packet, unlike every other family tested. That is consistent with the open question already recorded about whether its instrument opens a civil docket at all, and it is the first place to look when VA's batch comes up."
   },
-
   "control": "scripts/verify-caption-treatment-contract.mjs. Two positive controls and two negative, because an invariant that only refuses is satisfied by refusing everything: (A) an independently captioned filing renders; (B) an approved supporting page with no caption of its own renders, in the same packet as captioned filings, while still being court-facing rather than reclassified; (C) a court-facing component with an unresolved treatment refuses; (D) a component that declares a full caption and carries none refuses as a derivation defect. It also proves the treatment is not a restatement of presentation, and that the same unresolved value on a non-court-facing component does not refuse.",
-
   "isCounselApproval": false,
   "createsOutputApproval": false,
   "createsTerminalStatus": false,
   "productionTouched": false,
   "commercialRoutesOpened": 0,
-  "remainingReview": "Counsel review of Nevada's supporting-page treatment, and per-component caption classification for the 35 unresolved components, remain required. No route is opened, no artifact is approved and no digest is re-signed by this record."
+  "remainingReview": "Counsel review of Nevada's supporting-page treatment, and per-component caption classification for the 35 unresolved components, remain required. No route is opened, no artifact is approved and no digest is re-signed by this record.",
+  "correction1_implementationIsNotItsOwnAuthority": {
+    "whatWasWrong": "The first pass classified a component full_independent_caption because its own composition emits a caption block today. That proves what the renderer does, not what the document should carry, and it is how a legacy behaviour validates itself. The rule was wrong even where the conclusion happened to be right.",
+    "ruleNow": "Every RECORDED caption treatment must cite one of: a controlling official or local form, adopted or approved artifact bytes, a source-backed document specification, or an owner or legal decision. It is recorded in documentContract.captionTreatmentEvidence and enforced by control, including a check that rejects evidence phrased as what the implementation currently emits.",
+    "recheckOfTheSeven": [
+      {
+        "route": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "components": [
+          "ms-petition-for-expungement",
+          "ms-proposed-order",
+          "ms-service-and-attachments"
+        ],
+        "verdict": "resolved on authority",
+        "evidence": "Approved artifact bytes, digest-verified. The fulfillment record pins participant_delivery_canonical at sha256 413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f with artifactApprovalStatus participant_delivery_exact_hashes_approved_held_for_technical_preview_acceptance. The file on disk matches that digest exactly, and pages 2, 5 and 9 each open with the full caption block (CITY OF JACKSON / PLAINTIFF / VS. / CASE NO. / DEFENDANT-PETITIONER) for the petition, the order and the service component respectively."
+      },
+      {
+        "route": "IL:felony-prostitution-relief",
+        "components": [
+          "primary_filing",
+          "proposed_order"
+        ],
+        "verdict": "resolved on authority, after a closer look that nearly went the other way",
+        "evidence": "OWNER_BATCH_ADOPTION_2026-09-02 adopts il-prostitution-j-vacate-set and names it in none of the eight withholding answers. The bytes on disk are NOT the adopted ones: the adopted canonical digest is 7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d and the file is d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657, the artifact-rereview-20260914 vintage, whose status is INSPECTED_FOR_OWNER_REVIEW_NOT_APPROVED. That alone would have sent this back to unresolved. What saves it is that the re-review publishes its own diff, and the entire change is one explanatory sentence added below JUDGE on page 3, with pages 1 and 2 rendering identically. The motion caption is on page 1 and the order caption on page 3 above the added line, so both are byte-identical to the approved bytes and the adoption covers them.",
+        "separateMatter": "The IL shipping-artifact digest drift itself remains recorded and unapproved. It does not touch the caption and is not cleared here."
+      },
+      {
+        "route": "NV:probation-or-specialty-court-dismissal-set-aside-sealing",
+        "components": [
+          "primary_filing",
+          "proposed_order",
+          "declaration_and_verification"
+        ],
+        "verdict": "resolved on authority",
+        "evidence": "The adopted output read page by page, plus the owner-adopted build host that composed it, plus FIX07 independently recording the page census and stating that the only post-adoption change was removal of a route footer from proposed_order, with no substantive change."
+      }
+    ],
+    "outcome": "All eight recorded treatments survive the recheck, but on corrected bases. None now rests on renderer output, and the control makes that permanent: stripping the evidence from one component reds it, and so does phrasing the evidence as what the composer emits."
+  },
+  "correction2_approvedShippingComponent": {
+    "question": "Are the components carrying an approved_shipping_component section a shared composer capability gap, or a route-specific content gap?",
+    "answer": "B, route-specific content — but with a shared cause that is already fixed.",
+    "whatTheMarkerIs": "A DESCRIPTION of an approved component: a heading naming what it contains — for example \"Caption and motion\", or \"the numbered eligibility statements under section 35-3-37(j)(7), the pardon, the petitioner's own statement, and the request for restriction\" — plus the field ids it uses. No body, no assertions, no text.",
+    "whyNoGenericHandler": "There is nothing authoritative in the marker to render. A generic handler could only invent the motion's words, which is the one thing the composer may never do. This is exactly the case the instruction named: do not invent a generic renderer where the section type does not carry enough authoritative content.",
+    "whereTheContentIs": "It exists, upstream, per family. All 8 families carrying this kind — DC actual-innocence, GA pardon-J7, GA SB-288, IL mistaken-identity, MS 9-11-15-3, MS 99-19-71-1, SD SIS, WY 7-13-1502 — have a census-v1 build host that composed the adopted artifact. Five carry their composed text inline; three delegate to a shared regional host.",
+    "therefore": "Each is the same derivation defect Nevada had: the specification kept the description and dropped the substance. The fix is per family, in its own §5 batch, by transcribing the adopted text. That is 36 documents across 8 families, not 36 separate problems.",
+    "theSharedPartIsAlreadyDone": "Transcription needs shared composer capabilities, and those were built for Nevada and are reused rather than rebuilt: the declaration section kind, labelled participant-completable blanks after numbered assertions, and the explicit caption contract. So this is 8 transcriptions and not 8 bespoke renderers, and no custom workaround is warranted for any of them.",
+    "sharedCorrectionMade": "The composer now refuses an approved_shipping_component section by its real cause rather than as an unimplemented kind. The old message read \"this composer does not implement\", which invites someone to implement it. The new one names the section, says it describes an approved component rather than carrying its text, points at the family build host, and says the substance was dropped in derivation. That is the one-time shared fix this population warranted."
+  },
+  "stillOutstanding": [
+    "Transcribe the adopted text for the 8 families carrying approved_shipping_component, per family, in their §5 batches. The shared capability is in place; only content is missing.",
+    "Per-component caption classification for the remaining unresolved court-facing components, from each family's own approved artifact page by page.",
+    "The IL shipping-artifact digest drift remains recorded and unapproved. It does not affect the caption classification but is not cleared here.",
+    "Counsel review of Nevada's supporting-page treatment."
+  ]
 }
