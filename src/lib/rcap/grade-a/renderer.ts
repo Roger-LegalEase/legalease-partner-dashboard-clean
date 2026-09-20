@@ -1092,5 +1092,16 @@ export function sanitize(value: string) {
     .replaceAll("—", "-")
     .replaceAll("…", "...")
     .replaceAll(" ", " ")
+    /*
+     * Line breaks become spaces BEFORE the strip below removes them.
+     *
+     * The strip keeps only printable Latin-1, and a newline is not in that
+     * range, so it was deleted outright -- welding the last word of one line to
+     * the first of the next. A multi-paragraph body rendered as
+     * "...THIS PACKET IS FORAfter a suspended imposition of sentence..." on the
+     * page while reading correctly in the specification, and every wrapper here
+     * splits on whitespace afterwards, so a space is what a newline must become.
+     */
+    .replace(/[\r\n\t\f\v]+/g, " ")
     .replace(/[^\x20-\x7E¡-ÿ]/g, "");
 }

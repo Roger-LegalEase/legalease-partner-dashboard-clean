@@ -109,6 +109,15 @@ for (const specification of specifications) {
     if (document.requirement === "conditional") document.requirement = "required";
   }
 
+  /*
+   * AND: the substance actually reaches the page.
+   *
+   * South Dakota's guidance components were transcribed with `pleading_paragraph`
+   * sections, which only the pleading path draws. The packet rendered, the page
+   * carried its title, and every step beneath it was missing -- with nothing
+   * reporting it. A control that stops at "a PDF was produced" cannot see that,
+   * so every transcribed section's own words are looked for in the drawn text.
+   */
   const rendered = [];
   for (const [index, person] of PEOPLE.entries()) {
     /*
@@ -162,6 +171,31 @@ for (const specification of specifications) {
     );
     const tokens = text.match(/\{\{[a-z0-9_]+\}\}/g);
     check(!tokens, `${where}: no unsubstituted binding is printed${tokens ? ` (${[...new Set(tokens)].join(", ")})` : ""}`);
+  }
+
+  // Every transcribed section's substance is on the page, not merely composed.
+  {
+    const drawn = rendered[0].text;
+    const missing = [];
+    for (const document of everyComponent.documents) {
+      if (!document.transcriptionProvenance) continue;
+      for (const section of document.sections ?? []) {
+        const body = String(section.body ?? "").trim();
+        if (body.length < 40) continue;
+        // A distinctive run from the middle, past any heading the page prints
+        // regardless, and clear of the fact bindings that differ per participant.
+        const probe = body.split(/\s+/).slice(4, 14).join(" ");
+        if (probe.length < 25 || /\{\{/.test(probe)) continue;
+        if (!drawn.replace(/\s+/g, " ").includes(probe.replace(/\s+/g, " "))) {
+          missing.push(`${document.documentId}/"${section.heading}"`);
+        }
+      }
+    }
+    check(
+      missing.length === 0,
+      `${where}: every transcribed section's substance reaches the rendered page${
+        missing.length ? ` (${missing.length} drawn nowhere, first: ${missing[0]})` : ""}`
+    );
   }
 
   /*
