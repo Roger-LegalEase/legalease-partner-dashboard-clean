@@ -205,6 +205,35 @@ the workflow's own safe path. The re-pin of `AUTHORIZED_WORKER_SOURCE_SHA` and
 `AUTHORIZED_WORKER_DIGEST` to the resulting digest is ordinary build work and
 does not need Roger; it is the same move recorded at `a1eed1c6e`.
 
+> **CORRECTION, 2026-09-20 — the sentence above is wrong, and it published the
+> wrong commit.** `integration_sha` left empty is *not* the path to the release
+> candidate. The resolve step reads
+> `REF="${resolve_from_ref:-$CANONICAL_INTEGRATION_BRANCH}"`, and
+> `CANONICAL_INTEGRATION_BRANCH` is **`main`** — not
+> `RELEASE_INTEGRATION_BRANCH`, which is the branch the fast-forward above
+> advances. So an empty dispatch builds `origin/main`.
+>
+> Acting on this paragraph, run
+> [35537699575](https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35537699575)
+> published an image of `a3d4587b0fbbbfa887c78372afbfdb8824906333` — the tip of
+> `origin/main`, **5,928 commits behind** the approved candidate
+> `995b5a17c611f580440f834bc3478b85e54d3321`. Every gate passed, correctly: a
+> commit on `main` is trivially contained in `main`, so the containment check
+> had nothing to object to. The defect is in which ref gets resolved, not in
+> what verifies it.
+>
+> Nothing was overwritten (the tag guard found no existing tag for that SHA),
+> nothing was deployed, and no authority record was bound to the resulting
+> digest. The image is a real and accurate image *of `main`*; it simply is not
+> the candidate.
+>
+> **The dispatch that actually builds the candidate** sets the ref explicitly —
+> `resolve_from_ref: claude/legalease-sprint-captain-utucnw` with
+> `integration_sha` empty, or `integration_sha` set to the full candidate SHA.
+> The register said "empty is the safe path" because empty avoids a *typed*
+> SHA; that is true and beside the point, since the risk it removes is
+> transcription and the risk it adds is building an entirely different branch.
+
 ## Item 13A — RESOLVED 2026-09-20 — five routes the registry could no longer prove from a stale pin
 
 | # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
