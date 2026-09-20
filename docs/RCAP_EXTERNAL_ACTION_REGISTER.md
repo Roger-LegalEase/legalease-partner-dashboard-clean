@@ -309,11 +309,72 @@ routes' artifacts were unchanged, which is true of the build-host artifacts and
 worker-publication gap alone. That looked like the correct pre-publication
 state. It was not sufficient, and Item 13B is why.
 
-## Item 13B — OPEN — six routes' current commercial artifacts are unapproved
+## Item 13B — CLOSED 2026-09-20 — the owner approved the six routes' current commercial artifacts
 
-| # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
-|---|------|-------|----------------|-------------------|--------------------|
-| 13B | Decide the current composed Grade-A artifact for each of the five repaired-specification routes, **and** the replacement Mississippi non-conviction bytes the shared Fees & costs correction moved | Roger | Before any of the six is commercially opened | `data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_REVIEW_2026-09-20.json`, the artifacts and per-page rasters it names, the visual review at `CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_2026-09-20.json`, and the move record at `MS_NONCONVICTION_ARTIFACT_MOVE_2026-09-20.json` | Approving the exact bytes a participant receives is an owner decision. The build may produce them and hold the route; it may not approve them |
+| # | Item | Owner | Decided | Evidence | Why it was external |
+|---|------|-------|---------|----------|---------------------|
+| 13B | Decide the current composed Grade-A artifact for each of the five repaired-specification routes, **and** the replacement Mississippi non-conviction bytes the shared Fees & costs correction moved | Roger | 2026-09-20, APPROVED | `data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json` (18 artifact entries), bound to commit `ed7356a733b5f47976e012c9ba386f0a021057ca`, batch `5166d9159e7d4ff1…`, visual review `bd248b2aa8fb84e5…` | Approving the exact bytes a participant receives is an owner decision. The build may produce them and hold the route; it may not approve them |
+
+**The decision.** One owner-decision record approves eighteen artifact entries by
+digest: the fifteen Item 13B artifacts across five routes, and the three-artifact
+Mississippi non-conviction successor set. It approves composed bytes and says so
+— including the §7 supplemental guides and the route-derived Mississippi
+statutory branches — and it authorizes the canonical integration fast-forward and
+one worker publication. Production promotion and live charges remain
+unauthorized, which the record states as fields rather than as prose.
+
+The four recorded visual observations are accepted as nonblocking for these exact
+artifacts and, the owner stated, are not reasons to alter the approval. They do
+not require another artifact loop.
+
+**How the approval is consumed, and how it stops applying.**
+`scripts/lib/current-commercial-artifact-approval.mjs` loads it and re-derives
+every binding from disk: the batch digest, the visual-review digest, each
+artifact's own bytes, and the custody digests of every record it supersedes or
+preserves. Nothing is taken from the decision's own say-so. So regenerate an
+artifact, re-run the batch or re-inspect a page and a digest moves, the approval
+stops loading, and the routes close again — which is the property that makes it
+an approval of bytes rather than of a route.
+
+**What the Mississippi supersession did and did not do.** The v3 successor
+decision names the moved bytes and supersedes the 2026-09-20 v2 approval, which
+is preserved exactly as signed; v2 in turn still names v1 exactly, and the loader
+verifies the chain two links back rather than stopping at the immediate
+predecessor. v3 also has to be right about *what* moved: the loader ties each
+`movedArtifacts` entry's `from` to the superseded decision's digest and its `to`
+to the digest this decision approves, and refuses a supersession in which nothing
+moved.
+
+**Confirmed before publication**, by `scripts/test-item-13b-approval-preconditions.mjs`:
+
+1. the five Item 13B routes carry no missing proof at all — the composed-artifact
+   gap is gone and nothing replaced it;
+2. the Mississippi non-conviction `owner_decision` mismatch is gone, and the
+   record binds `MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920-V3`;
+3. the v2 and v1 approvals are byte-identical to their state at
+   `ed7356a733b5f47976e012c9ba386f0a021057ca`;
+4. the explained-move path cannot substitute for the decision — and cannot even
+   fire against it, because a move record accounting for one decision's digests
+   cannot account for another's;
+5. every remaining hold on all six routes is provider or publication, checked as
+   a whitelist of the two permitted reasons so a new hold fails rather than being
+   absorbed.
+
+`scripts/test-explained-artifact-move-is-not-approval.mjs` holds the boundary the
+owner named, in 20 controls: withdraw the decision and the same published world
+does not open the route, with the move record sitting on disk, readable, and
+unable to stand in for it.
+
+**A stale control found while running them all.**
+`scripts/test-worker-publication-separation.mjs` had been passing `rebuildRequired`
+as true for every input because its synthetic tree never carried the §7
+supplemental guides or the brand asset, which were added to
+`CANONICAL_WORKER_INPUTS` after the fixture was written. A canonical input the
+candidate lacks is a difference, so the fixture's `rebuildRequired` was pinned
+true and every assertion below it had stopped measuring anything. It was failing
+identically at `ed7356a73`, so it is pre-existing rather than something this
+change exposed; the fixture now builds itself from `CANONICAL_WORKER_INPUTS`, so
+the next input added to the product cannot silently disable it again.
 
 **The error Item 13A made.** "No participant-facing byte moved" was measured
 against the census-v1 build hosts. Those hosts do not deliver. For an ordinary
@@ -474,5 +535,7 @@ are identity evidence for which bytes were looked at; they are not visual
 acceptance, and the file says so.
 
 **Not repaired here, deliberately.** Approving composed bytes is an owner
-decision, and the build must not manufacture one. All five stay held, and so does
-Mississippi non-conviction until a new owner decision names its current bytes.
+decision, and the build must not manufacture one. That decision has since been
+recorded; the section above is what it approved and how the approval is bound.
+All six routes remain commercially closed on provider and publication, which is
+the gate the authorized worker publication answers and the only one it answers.

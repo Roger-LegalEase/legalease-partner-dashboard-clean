@@ -123,8 +123,8 @@
     "data/rcap-all50/contact-sheet-visual-proof.json": "9b34268741438fb1965324bee3ef6af4e7734614a5892fa4a96703aac9b52157",
     "data/rcap-render/worker-publication-evidence.json": "d0b030510b1b1bb56403de106d09b8a65a305f9ed93b8bdbdad00dcb4b5dfe0b",
     "data/rcap-grade-a/official-source-registry.json": "ff8336d2788ea22fe25ab730dcd102c344ed79ce4cb60ee4b76396ff8b73d1cc",
-    "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json": "be3be9979f69cb01f5ecf5ec003044401b90a48c3c6efb9a0efa514bce647502",
-    "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json": "7e9c1da4651c7c2b4ef4ba1ed9f16ee9cc345d891a64a9d0eb6a405ddba1eb07",
+    "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json": "f8cce1368da9d3398a30c944023ec180ad915a09fef65faf182013890c2d0563",
+    "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json": "fcd6690dbd00f1ca4a53c173616dabec168a4272ede699dc9ff9d2b3cd2c8d2c",
     "data/rcap-grade-a/participant-data-rights/ms-sponsored-preview-authority-preserved-20260914.json": "be7d4bc93339e37009ffe7704abb036f73fe60ae028f61da2ad7facaa6f79297",
     "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json": "1cd7947e482e5b95b5dce3da83076fbd357df578ece1c61634a201ae92b975f2",
     "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json": "a0dbb755fcad8e0916d26913e56219a2c2d5a52479b7f01492055000b79325b6",
@@ -197,7 +197,7 @@
       "pathwayId": "dc_actual_innocence_expungement_16_803",
       "packetFamilyId": "dc_innocence_expungement-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 26,
+      "version": 27,
       "effectiveFrom": "2026-09-02",
       "supersededBy": null,
       "supersededAt": null,
@@ -351,10 +351,47 @@
           },
           "isCurrentCommercialArtifact": false,
           "currentCommercialArtifactReview": {
-            "state": "pending_owner_review",
+            "state": "approved",
             "composedBy": "rcap_grade_a_composer_v1 -> buildGradeAArtifact -> composeGradeAPacket -> assembleParticipantPacket, from the current packet specification",
-            "approval": null,
-            "why": "The reviewed artifact d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076 was produced by scripts/build-census-v1-dc_innocence_expungement-set.mjs@sha256:8b59bddbdc444d40aca545651c96373bddec47a822fc740b6ce3c6feeaa14268, which is not the current commercial provider. The packet a participant would receive is composed from the current specification at delivery, and no approval names those composed bytes. Specification derivation may be reconciled separately; that reconciles the words, not the output."
+            "approval": {
+              "path": "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json",
+              "sha256": "f6dfbd5e9336627df5a1beac174a85bf11d95849cf0cef6795ce86a8fd9c30d5",
+              "recordId": "OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920",
+              "artifactSha256": "baaf7e489216c8fd7de7cc197afd163351f2909dacddd175b011caa89a1f6b9c",
+              "artifactPageCount": 11,
+              "decidedAt": "2026-09-20",
+              "owner": "Roger Roman",
+              "boundToCommit": "ed7356a733b5f47976e012c9ba386f0a021057ca",
+              "boundToBatchSha256": "5166d9159e7d4ff111c36a264b224d7760e47356ee119cdefa6ac3abe44c82ee",
+              "boundToVisualReviewSha256": "bd248b2aa8fb84e57893f4c5695733816fb9db24eb20d1c693edd8a97b0f1c29",
+              "approvedArtifacts": [
+                {
+                  "artifactId": "full-en",
+                  "variant": "full",
+                  "locale": "en",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-full-en.pdf",
+                  "sha256": "baaf7e489216c8fd7de7cc197afd163351f2909dacddd175b011caa89a1f6b9c",
+                  "pageCount": 11
+                },
+                {
+                  "artifactId": "court-only",
+                  "variant": "court_only",
+                  "locale": "en",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-court-only.pdf",
+                  "sha256": "761dd42907ca6bb68985fbc6a74f4d19747170ae51ab704b391bf74881565e78",
+                  "pageCount": 5
+                },
+                {
+                  "artifactId": "full-es",
+                  "variant": "full",
+                  "locale": "es",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-full-es.pdf",
+                  "sha256": "d5533512366af8334b242986e65e8d3e9aa1dc23c882028212cb131dce52a509",
+                  "pageCount": 11
+                }
+              ]
+            },
+            "why": "The reviewed artifact d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076 was produced by scripts/build-census-v1-dc_innocence_expungement-set.mjs@sha256:8b59bddbdc444d40aca545651c96373bddec47a822fc740b6ce3c6feeaa14268, which is not the current commercial provider, so it is an adopted artifact and not the packet a participant receives. What the participant receives is composed at delivery, and OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920 approves those exact composed bytes -- bound to commit ed7356a733b5f47976e012c9ba386f0a021057ca, to the Item 13B batch, to the page-by-page visual review, and to each artifact's own digest. This closes the composed-artifact question and nothing else: every other gate on this route still applies."
           }
         }
       },
@@ -791,6 +828,15 @@
           "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
           "recordSha256": "c317b4bba5781ce47f6374d428b5d317b391ebf320e608d14947f6efce2bebed",
           "supersedesRecordSha256": "11c7612615dfe92f628391b41817950bc8c7c2c19b757f80f3f8448159e1c3ce"
+        },
+        {
+          "version": 27,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-20",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "61c3f12e9a8ffd39bb86db57501751d90f58dce6161672b1423a8b32b36f51cc",
+          "supersedesRecordSha256": "c317b4bba5781ce47f6374d428b5d317b391ebf320e608d14947f6efce2bebed"
         }
       ]
     },
@@ -802,7 +848,7 @@
       "pathwayId": "felony-prostitution-relief",
       "packetFamilyId": "il-prostitution-j-vacate-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 28,
+      "version": 29,
       "effectiveFrom": "2026-09-14",
       "supersededBy": null,
       "supersededAt": null,
@@ -956,10 +1002,47 @@
           },
           "isCurrentCommercialArtifact": false,
           "currentCommercialArtifactReview": {
-            "state": "pending_owner_review",
+            "state": "approved",
             "composedBy": "rcap_grade_a_composer_v1 -> buildGradeAArtifact -> composeGradeAPacket -> assembleParticipantPacket, from the current packet specification",
-            "approval": null,
-            "why": "The reviewed artifact d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657 was produced by scripts/build-census-v1-il-prostitution-j-vacate-set.mjs@sha256:993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b, which is not the current commercial provider. The packet a participant would receive is composed from the current specification at delivery, and no approval names those composed bytes. Specification derivation may be reconciled separately; that reconciles the words, not the output."
+            "approval": {
+              "path": "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json",
+              "sha256": "f6dfbd5e9336627df5a1beac174a85bf11d95849cf0cef6795ce86a8fd9c30d5",
+              "recordId": "OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920",
+              "artifactSha256": "9f9f28401f89c79712689c645826c6e53486412e7254b79a6c38fd027ed6a04e",
+              "artifactPageCount": 9,
+              "decidedAt": "2026-09-20",
+              "owner": "Roger Roman",
+              "boundToCommit": "ed7356a733b5f47976e012c9ba386f0a021057ca",
+              "boundToBatchSha256": "5166d9159e7d4ff111c36a264b224d7760e47356ee119cdefa6ac3abe44c82ee",
+              "boundToVisualReviewSha256": "bd248b2aa8fb84e57893f4c5695733816fb9db24eb20d1c693edd8a97b0f1c29",
+              "approvedArtifacts": [
+                {
+                  "artifactId": "full-en",
+                  "variant": "full",
+                  "locale": "en",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/il-felony-prostitution-full-en.pdf",
+                  "sha256": "9f9f28401f89c79712689c645826c6e53486412e7254b79a6c38fd027ed6a04e",
+                  "pageCount": 9
+                },
+                {
+                  "artifactId": "court-only",
+                  "variant": "court_only",
+                  "locale": "en",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/il-felony-prostitution-court-only.pdf",
+                  "sha256": "6e201b2537cdf036748802e5b715efe1f0732b423928facf31fd5109cc937eed",
+                  "pageCount": 4
+                },
+                {
+                  "artifactId": "full-es",
+                  "variant": "full",
+                  "locale": "es",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/il-felony-prostitution-full-es.pdf",
+                  "sha256": "b216432ddc58cb57ea446a695713b76e286e9d6805b0c5ce66ff2e080fa45b26",
+                  "pageCount": 11
+                }
+              ]
+            },
+            "why": "The reviewed artifact d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657 was produced by scripts/build-census-v1-il-prostitution-j-vacate-set.mjs@sha256:993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b, which is not the current commercial provider, so it is an adopted artifact and not the packet a participant receives. What the participant receives is composed at delivery, and OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920 approves those exact composed bytes -- bound to commit ed7356a733b5f47976e012c9ba386f0a021057ca, to the Item 13B batch, to the page-by-page visual review, and to each artifact's own digest. This closes the composed-artifact question and nothing else: every other gate on this route still applies."
           }
         }
       },
@@ -1605,6 +1688,15 @@
           "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
           "recordSha256": "ba9afde444e18fcbe69e1c08e0ba92144b893585e633f23f634d140ef7bdb52d",
           "supersedesRecordSha256": "303d687e6bb811e229aa22de7489145242013890867f7ac801219676fa009b51"
+        },
+        {
+          "version": 29,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-20",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "06aeadd9cd0c56f7570ac47c715c40fb65b5ed289ddd620b301b1b7ee226f567",
+          "supersedesRecordSha256": "ba9afde444e18fcbe69e1c08e0ba92144b893585e633f23f634d140ef7bdb52d"
         }
       ]
     },
@@ -1616,7 +1708,7 @@
       "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
       "packetFamilyId": "ms-misd-addl-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 28,
+      "version": 29,
       "effectiveFrom": "2026-09-14",
       "supersededBy": null,
       "supersededAt": null,
@@ -1789,10 +1881,47 @@
           },
           "isCurrentCommercialArtifact": false,
           "currentCommercialArtifactReview": {
-            "state": "pending_owner_review",
+            "state": "approved",
             "composedBy": "rcap_grade_a_composer_v1 -> buildGradeAArtifact -> composeGradeAPacket -> assembleParticipantPacket, from the current packet specification",
-            "approval": null,
-            "why": "The reviewed artifact c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b was produced by scripts/build-census-v1-ms-misd-addl-set.mjs@sha256:cc66b9fb6092bb826a2cd91a829a8bb0e550242c71ec7564368f238cb210553f, which is not the current commercial provider. The packet a participant would receive is composed from the current specification at delivery, and no approval names those composed bytes. Specification derivation may be reconciled separately; that reconciles the words, not the output."
+            "approval": {
+              "path": "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json",
+              "sha256": "f6dfbd5e9336627df5a1beac174a85bf11d95849cf0cef6795ce86a8fd9c30d5",
+              "recordId": "OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920",
+              "artifactSha256": "c0bfa886b8156bb7dd4f5d386a20ae94b68fe920dcfe8ae54b3410c469227649",
+              "artifactPageCount": 12,
+              "decidedAt": "2026-09-20",
+              "owner": "Roger Roman",
+              "boundToCommit": "ed7356a733b5f47976e012c9ba386f0a021057ca",
+              "boundToBatchSha256": "5166d9159e7d4ff111c36a264b224d7760e47356ee119cdefa6ac3abe44c82ee",
+              "boundToVisualReviewSha256": "bd248b2aa8fb84e57893f4c5695733816fb9db24eb20d1c693edd8a97b0f1c29",
+              "approvedArtifacts": [
+                {
+                  "artifactId": "full-en",
+                  "variant": "full",
+                  "locale": "en",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/ms-justice-court-misdemeanor-full-en.pdf",
+                  "sha256": "c0bfa886b8156bb7dd4f5d386a20ae94b68fe920dcfe8ae54b3410c469227649",
+                  "pageCount": 12
+                },
+                {
+                  "artifactId": "court-only",
+                  "variant": "court_only",
+                  "locale": "en",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/ms-justice-court-misdemeanor-court-only.pdf",
+                  "sha256": "8f11eaef9c6089a1c1cf844539833e1d3e0622bd7fac8313f01428af789fa4fb",
+                  "pageCount": 6
+                },
+                {
+                  "artifactId": "full-es",
+                  "variant": "full",
+                  "locale": "es",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/ms-justice-court-misdemeanor-full-es.pdf",
+                  "sha256": "b5e7b6c40a83c4a56b8f242d7e1635f84d1f807b7ee063363b77e53f7531078f",
+                  "pageCount": 12
+                }
+              ]
+            },
+            "why": "The reviewed artifact c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b was produced by scripts/build-census-v1-ms-misd-addl-set.mjs@sha256:cc66b9fb6092bb826a2cd91a829a8bb0e550242c71ec7564368f238cb210553f, which is not the current commercial provider, so it is an adopted artifact and not the packet a participant receives. What the participant receives is composed at delivery, and OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920 approves those exact composed bytes -- bound to commit ed7356a733b5f47976e012c9ba386f0a021057ca, to the Item 13B batch, to the page-by-page visual review, and to each artifact's own digest. This closes the composed-artifact question and nothing else: every other gate on this route still applies."
           }
         }
       },
@@ -2448,6 +2577,15 @@
           "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
           "recordSha256": "5cd5132ea9e40f827a3f2b6127d5092588af2a82ae83ea56f1dcd307c6373576",
           "supersedesRecordSha256": "ad9c1356b16d301099ee5993ccf24ad2ec9015c9eeaf2073320b4cee4db1d713"
+        },
+        {
+          "version": 29,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-20",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "9c6a398cd186ca1bed994d77fbbd96186204a070afe7ff06fb7eb5f0a7e65ec7",
+          "supersedesRecordSha256": "5cd5132ea9e40f827a3f2b6127d5092588af2a82ae83ea56f1dcd307c6373576"
         }
       ]
     },
@@ -2459,7 +2597,7 @@
       "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
       "packetFamilyId": "ms-misd-addl-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 28,
+      "version": 29,
       "effectiveFrom": "2026-09-14",
       "supersededBy": null,
       "supersededAt": null,
@@ -2632,10 +2770,47 @@
           },
           "isCurrentCommercialArtifact": false,
           "currentCommercialArtifactReview": {
-            "state": "pending_owner_review",
+            "state": "approved",
             "composedBy": "rcap_grade_a_composer_v1 -> buildGradeAArtifact -> composeGradeAPacket -> assembleParticipantPacket, from the current packet specification",
-            "approval": null,
-            "why": "The reviewed artifact c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b was produced by scripts/build-census-v1-ms-misd-addl-set.mjs@sha256:cc66b9fb6092bb826a2cd91a829a8bb0e550242c71ec7564368f238cb210553f, which is not the current commercial provider. The packet a participant would receive is composed from the current specification at delivery, and no approval names those composed bytes. Specification derivation may be reconciled separately; that reconciles the words, not the output."
+            "approval": {
+              "path": "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json",
+              "sha256": "f6dfbd5e9336627df5a1beac174a85bf11d95849cf0cef6795ce86a8fd9c30d5",
+              "recordId": "OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920",
+              "artifactSha256": "8bd7af6b397e213b3aee5dc7be8c25e6c0a22af09118be2cfa32014f173bb18a",
+              "artifactPageCount": 12,
+              "decidedAt": "2026-09-20",
+              "owner": "Roger Roman",
+              "boundToCommit": "ed7356a733b5f47976e012c9ba386f0a021057ca",
+              "boundToBatchSha256": "5166d9159e7d4ff111c36a264b224d7760e47356ee119cdefa6ac3abe44c82ee",
+              "boundToVisualReviewSha256": "bd248b2aa8fb84e57893f4c5695733816fb9db24eb20d1c693edd8a97b0f1c29",
+              "approvedArtifacts": [
+                {
+                  "artifactId": "full-en",
+                  "variant": "full",
+                  "locale": "en",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/ms-municipal-court-misdemeanor-full-en.pdf",
+                  "sha256": "8bd7af6b397e213b3aee5dc7be8c25e6c0a22af09118be2cfa32014f173bb18a",
+                  "pageCount": 12
+                },
+                {
+                  "artifactId": "court-only",
+                  "variant": "court_only",
+                  "locale": "en",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/ms-municipal-court-misdemeanor-court-only.pdf",
+                  "sha256": "54b90eff86f419f1cd1495f432d6fd9bb855019bfd179f4b8d289b9084dbc963",
+                  "pageCount": 6
+                },
+                {
+                  "artifactId": "full-es",
+                  "variant": "full",
+                  "locale": "es",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/ms-municipal-court-misdemeanor-full-es.pdf",
+                  "sha256": "4fec8705672b019387bf98b6d486499c20ce1b1bbb2ac315b691ce13b38b8e37",
+                  "pageCount": 12
+                }
+              ]
+            },
+            "why": "The reviewed artifact c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b was produced by scripts/build-census-v1-ms-misd-addl-set.mjs@sha256:cc66b9fb6092bb826a2cd91a829a8bb0e550242c71ec7564368f238cb210553f, which is not the current commercial provider, so it is an adopted artifact and not the packet a participant receives. What the participant receives is composed at delivery, and OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920 approves those exact composed bytes -- bound to commit ed7356a733b5f47976e012c9ba386f0a021057ca, to the Item 13B batch, to the page-by-page visual review, and to each artifact's own digest. This closes the composed-artifact question and nothing else: every other gate on this route still applies."
           }
         }
       },
@@ -3291,6 +3466,15 @@
           "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
           "recordSha256": "60ab3b8235f8885323a95ebf27f76062c97dda163c941e77619f528c1a6e1805",
           "supersedesRecordSha256": "71ceead37401f4b2e0e0db4c5519a61a8aa6cc6aea37f509ee0c3935647b813b"
+        },
+        {
+          "version": 29,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-20",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "df662472b2f03418bf2389e422be6c97f147d59d822c2ad51aabc1d8bf6472a7",
+          "supersedesRecordSha256": "60ab3b8235f8885323a95ebf27f76062c97dda163c941e77619f528c1a6e1805"
         }
       ]
     },
@@ -3302,7 +3486,7 @@
       "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
       "packetFamilyId": "ms-nonconv-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 4,
+      "version": 5,
       "effectiveFrom": "2026-09-20",
       "supersededBy": null,
       "supersededAt": null,
@@ -3324,11 +3508,86 @@
         "sha256": "1cd7947e482e5b95b5dce3da83076fbd357df578ece1c61634a201ae92b975f2",
         "complete": true
       },
-      "officialSources": [],
+      "officialSources": [
+        {
+          "sourceKind": "codified_authority",
+          "sourceId": "codified-authority:ms-nonconv-set",
+          "sha256": "790a95e681384bb8db7f7d00cf0670ba2ba831096b0c261d09cd18de5017ec88",
+          "expectedSha256": "790a95e681384bb8db7f7d00cf0670ba2ba831096b0c261d09cd18de5017ec88",
+          "installedSha256": "790a95e681384bb8db7f7d00cf0670ba2ba831096b0c261d09cd18de5017ec88",
+          "corpusReleaseId": "not_applicable:codified_authority",
+          "corpusArchiveSha256": "not_applicable:codified_authority",
+          "verifiedAt": "base:ed7356a733b5f47976e012c9ba386f0a021057ca",
+          "verificationRecord": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json",
+          "officialBinaryExpected": false,
+          "officialBinarySource": null,
+          "contract": "rcap-codified-authority-bound-inputs/v1",
+          "boundInputs": {
+            "contract": "rcap-codified-authority-bound-inputs/v1",
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "familyId": "ms-nonconv-set",
+            "trackId": "ms-nonconv",
+            "packetSetId": "ms-nonconv-set",
+            "implementationStrategy": "custom_pleading",
+            "officialBinaryComponentsExpected": false,
+            "supplementalGuideSupersession": {
+              "supersededPacketComponentId": "ms-filing-and-next-steps",
+              "assemblyKind": "rcap_supplemental_guide_v1",
+              "assemblyVersion": "2.0.0",
+              "guideContentSha256": "c86d63517d85a3e0e8317b30efe428a7c4f7780f9cf9090881e10131fb49c750"
+            },
+            "authorityInputs": [
+              {
+                "role": "track_authority",
+                "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+                "selector": {
+                  "trackId": "ms-nonconv"
+                },
+                "sha256": "dba3db005ab3a4c9b61837f99bf553c40938f567ce8b1280179b4ecb31eabd05"
+              },
+              {
+                "role": "packet_set_authority",
+                "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+                "selector": {
+                  "packetSetId": "ms-nonconv-set"
+                },
+                "sha256": "87f4fe657e4064ee9a624eabf924fa3cf5a911a4c6e9b984e4b40f668f44ba5f"
+              },
+              {
+                "role": "packet_specification_authority",
+                "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+                "sha256": "1cd7947e482e5b95b5dce3da83076fbd357df578ece1c61634a201ae92b975f2"
+              },
+              {
+                "role": "supplemental_guide_authority",
+                "path": "data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json",
+                "sha256": "14bf2c28d1e4b553028c75c6250288c437895265916d8d374ed33610f882230c"
+              },
+              {
+                "role": "approved_output_authority",
+                "path": "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json",
+                "sha256": "86414be006fd5ecec1a3c91f8c6b65b05fb3a35b5f908d3b4af56c5483ea5a8e"
+              },
+              {
+                "role": "paid_scope_authority",
+                "path": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json",
+                "sha256": "f8cce1368da9d3398a30c944023ec180ad915a09fef65faf182013890c2d0563"
+              },
+              {
+                "role": "superseded_output_authority",
+                "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+                "sha256": "f9eb16e52304b772f27b1bd59068a952eff0e2f6dcad647a8c66a30c22efc07a"
+              }
+            ],
+            "officialRuleClaims": "The specification retains its asserted-by-ingestion administrative/notary references. This proves adopted custom-pleading authority, not possession of an official binary or a new legal review."
+          },
+          "boundInputsSha256": "790a95e681384bb8db7f7d00cf0670ba2ba831096b0c261d09cd18de5017ec88"
+        }
+      ],
       "provider": {
-        "providerId": "rcap_grade_a_composer_v1",
-        "rendererKind": "rcap_grade_a_document_v1",
-        "rendererVersion": "2.0.0",
+        "providerId": "ghcr.io/roger-legalease/rcap-render-worker",
+        "rendererKind": "packet_document_v1",
+        "rendererVersion": "1.0.0",
         "imageDigest": ""
       },
       "evidenceBindings": {
@@ -3349,27 +3608,78 @@
           "state": "missing_current_publication",
           "hostedAcceptance": "not_established_by_this_record"
         },
-        "paidConsumerSuccessorAwaitingOwnerDecision": {
-          "path": "data/rcap-grade-a/legal-decisions/MS_NONCONVICTION_ARTIFACT_MOVE_2026-09-20.json",
-          "sha256": "ee6a414accf1d1d082f235fd610aeea1223457ff91e611705c9a499f2eac9fbf",
-          "recordId": "MS-NONCONVICTION-ARTIFACT-MOVE-20260920",
-          "supersedesDecisionId": "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920",
-          "consumerPaidAuthorized": false,
-          "why": "The 2026-09-20 owner approval names artifact bytes the product no longer composes. The move is recorded with both digests of each artifact and its one cause; the approval itself is unedited and simply does not apply to these bytes. This route carries no paid consumer authority until the owner decides them.",
-          "movedArtifacts": [
+        "paidConsumerSuccessor": {
+          "decisionId": "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920-V3",
+          "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+          "jurisdiction": "MS",
+          "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+          "trackId": "ms-nonconv",
+          "packetFamilyId": "ms-nonconv-set",
+          "decisionPath": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json",
+          "decisionSha256": "f8cce1368da9d3398a30c944023ec180ad915a09fef65faf182013890c2d0563",
+          "supersededDecisionPath": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json",
+          "supersededDecisionSha256": "be3be9979f69cb01f5ecf5ec003044401b90a48c3c6efb9a0efa514bce647502",
+          "specificationPath": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+          "specificationSha256": "1cd7947e482e5b95b5dce3da83076fbd357df578ece1c61634a201ae92b975f2",
+          "supplementalGuidePath": "data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json",
+          "supplementalGuideSha256": "14bf2c28d1e4b553028c75c6250288c437895265916d8d374ed33610f882230c",
+          "supplementalGuideContentSha256": "c86d63517d85a3e0e8317b30efe428a7c4f7780f9cf9090881e10131fb49c750",
+          "assemblyKind": "rcap_supplemental_guide_v1",
+          "assemblyVersion": "2.0.0",
+          "reviewEvidencePath": "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json",
+          "reviewEvidenceSha256": "86414be006fd5ecec1a3c91f8c6b65b05fb3a35b5f908d3b4af56c5483ea5a8e",
+          "reviewFixturePath": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json",
+          "packetContentsChanged": true,
+          "approvedArtifacts": [
             {
               "id": "full-en",
+              "variant": "full",
+              "locale": "en",
+              "guideAssembled": true,
               "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf",
-              "approved": "518f12411df4091927642cd6a0bd6c5cede0833b793e16ab356fef96fbb5408d",
-              "composedNow": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd"
+              "sha256": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd",
+              "pageCount": 16
             },
             {
               "id": "full-es",
+              "variant": "full",
+              "locale": "es",
+              "guideAssembled": true,
               "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
-              "approved": "53d1577b1dc0a023fde8338edb80e16ab36282d827c602f99daf89aaa51386c3",
-              "composedNow": "28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04"
+              "sha256": "28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04",
+              "pageCount": 17
+            },
+            {
+              "id": "court-only",
+              "variant": "court_only",
+              "locale": "en",
+              "guideAssembled": false,
+              "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf",
+              "sha256": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe",
+              "pageCount": 8
             }
-          ]
+          ],
+          "historicalApprovalPath": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+          "historicalApprovalSha256": "f9eb16e52304b772f27b1bd59068a952eff0e2f6dcad647a8c66a30c22efc07a",
+          "historicalRasterReviewPath": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
+          "historicalRasterReviewSha256": "74f8aab9cdfb2518b6ec57b1d888d52bddd31a6b8bba7adb874fa330a1025d26",
+          "consumerPaidAuthorized": true,
+          "priceCents": 5000,
+          "currency": "USD",
+          "productionAuthorized": false,
+          "technicalAcceptanceWaived": false,
+          "historicalSponsoredPreview": {
+            "path": "data/rcap-grade-a/participant-data-rights/ms-sponsored-preview-authority-preserved-20260914.json",
+            "sha256": "be7d4bc93339e37009ffe7704abb036f73fe60ae028f61da2ad7facaa6f79297",
+            "recordId": "grade-a-ms-non-conviction-expungement-clinic-demo-v1"
+          },
+          "legacyRetirementPreserved": true
+        },
+        "exactPaidPacketProof": {
+          "path": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json",
+          "sha256": "fcd6690dbd00f1ca4a53c173616dabec168a4272ede699dc9ff9d2b3cd2c8d2c",
+          "currentInputsVerified": true,
+          "hostedAcceptance": false
         }
       },
       "fixture": {
@@ -3379,8 +3689,8 @@
       },
       "artifactValidation": {
         "state": "validated",
-        "artifactSha256": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
-        "validatedAt": "2026-09-03"
+        "artifactSha256": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd",
+        "validatedAt": "2026-09-20"
       },
       "packetCompleteness": {
         "specificationId": "ms-nonconviction-expungement-99-19-71-4",
@@ -3416,7 +3726,9 @@
         },
         "postFilingSteps": {
           "state": "covered",
-          "basis": "ms-nonconv-set:ms-nonconv-instructions-5"
+          "basis": "supplemental-guide:c86d63517d85a3e0e8317b30efe428a7c4f7780f9cf9090881e10131fb49c750",
+          "supersedes": "ms-nonconv-set:ms-nonconv-instructions-5",
+          "supersededSpecificationDocumentId": "ms-filing-and-next-steps"
         },
         "hearingAndObjectionStopConditions": {
           "state": "covered",
@@ -3429,12 +3741,12 @@
         },
         "filingFormatArtifact": {
           "format": "pdf",
-          "sha256": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
-          "pageCount": 12,
+          "sha256": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd",
+          "pageCount": 16,
           "producedBy": {
             "renderer": "rcap_grade_a_document_v1@2.0.0",
-            "matchesRecordProvider": true,
-            "reconciliation": null,
+            "matchesRecordProvider": false,
+            "reconciliation": "The reviewed PDF producer is rcap_grade_a_document_v1@2.0.0. The delivery worker uses packet_document_v1 dispatch and selects the protected exact-route participant composer. Current worker publication remains separately required.",
             "deterministicRenderVerified": true
           },
           "isCurrentCommercialArtifact": true,
@@ -3443,11 +3755,11 @@
       },
       "visualReview": {
         "state": "passed",
-        "pagesReviewed": 12,
-        "pageCount": 12,
-        "evidenceSha256": "74f8aab9cdfb2518b6ec57b1d888d52bddd31a6b8bba7adb874fa330a1025d26",
-        "reviewedBy": "Codex primary implementation agent /root",
-        "reviewedAt": "2026-09-03"
+        "pagesReviewed": 41,
+        "pageCount": 41,
+        "evidenceSha256": "86414be006fd5ecec1a3c91f8c6b65b05fb3a35b5f908d3b4af56c5483ea5a8e",
+        "reviewedBy": "Roger Roman",
+        "reviewedAt": "2026-09-20"
       },
       "outputLegalApproval": {
         "state": "passed",
@@ -3456,12 +3768,48 @@
         "scopeSha256": "beb7d7f69f6c3cff724a15cf602a3d5ea97b42431cd2a415850d3d96f59436a4"
       },
       "finalVerification": {
-        "contract": "rcap-final-verification-bound-inputs/v1",
-        "contractModule": "src/lib/rcap/fulfillment/final-verification-contract.ts",
-        "state": "unbound",
-        "verifierId": null,
-        "boundInputsSha256": null,
-        "verifiedAt": null
+        "contract": "rcap-independent-packet-final-verification/v1",
+        "contractModule": "scripts/verify-ms-paid-packet-proof.mjs",
+        "state": "bound",
+        "verifierId": "scripts/verify-ms-paid-packet-proof.mjs",
+        "boundInputsSha256": "bdc5d5ae5560383504a5840169442d33a9a89b413e93052fb0d2b2f366bf8b85",
+        "verifiedAt": "base:ed7356a733b5f47976e012c9ba386f0a021057ca",
+        "boundInputs": {
+          "contract": "rcap-independent-packet-final-verification/v1",
+          "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+          "familyId": "ms-nonconv-set",
+          "packetSpecificationSha256": "1cd7947e482e5b95b5dce3da83076fbd357df578ece1c61634a201ae92b975f2",
+          "supplementalGuideContentSha256": "c86d63517d85a3e0e8317b30efe428a7c4f7780f9cf9090881e10131fb49c750",
+          "assemblyKind": "rcap_supplemental_guide_v1",
+          "assemblyVersion": "2.0.0",
+          "approvedArtifactSha256": {
+            "full-en": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd",
+            "full-es": "28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04",
+            "court-only": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe"
+          },
+          "proofPath": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json",
+          "proofSha256": "fcd6690dbd00f1ca4a53c173616dabec168a4272ede699dc9ff9d2b3cd2c8d2c",
+          "participantVerifications": [
+            {
+              "artifactId": "full-en",
+              "variant": "full",
+              "locale": "en",
+              "boundInputsSha256": "aeed2e00b77cb12c2686d4c04090edb75f15183c38b0cbd2beb3c7dded511c58"
+            },
+            {
+              "artifactId": "full-es",
+              "variant": "full",
+              "locale": "es",
+              "boundInputsSha256": "93ed18984ce8a97e606a8a1269c3570843649ea1c9791b1239656d83e485cf5e"
+            },
+            {
+              "artifactId": "court-only",
+              "variant": "court_only",
+              "locale": "en",
+              "boundInputsSha256": "cf02d78bd015c6cc8793c0bece22d418b656dec282330af1e8cfe6cc078d5e83"
+            }
+          ]
+        }
       },
       "history": [
         {
@@ -3499,25 +3847,17 @@
           "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
           "recordSha256": "6a7f7c10aaafdfc6d0a1992ff0b470ad67660c8dc8f64f716d9113c8f3666b1b",
           "supersedesRecordSha256": "52ca00670e2ad9879aad0e086f3a3c4ce143aa6e325202ef77584782adc0fd49"
+        },
+        {
+          "version": 5,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-20",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "New exact paid-consumer owner approval data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json sha256:f8cce1368da9d3398a30c944023ec180ad915a09fef65faf182013890c2d0563, superseding data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json sha256:be3be9979f69cb01f5ecf5ec003044401b90a48c3c6efb9a0efa514bce647502. The packet contents changed: the shared §7 supplemental guide is assembled into the full packet and the specification's own ms-filing-and-next-steps page is retired in its favour, and the owner approved those exact bytes. Preserves the prior sponsored Preview authority separately. No technical proof, legal review or retirement status is fabricated or waived, and no production or publication authority is created.",
+          "recordSha256": "a283251629d591560e4bfc85eb439c75a5f47173f241ddf65db7448dd15fe630",
+          "supersedesRecordSha256": "6a7f7c10aaafdfc6d0a1992ff0b470ad67660c8dc8f64f716d9113c8f3666b1b"
         }
-      ],
-      "ownerDecisionPendingOnComposedArtifact": {
-        "recordPath": "data/rcap-grade-a/legal-decisions/MS_NONCONVICTION_ARTIFACT_MOVE_2026-09-20.json",
-        "recordSha256": "ee6a414accf1d1d082f235fd610aeea1223457ff91e611705c9a499f2eac9fbf",
-        "supersedesDecisionId": "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920",
-        "movedArtifacts": [
-          {
-            "id": "full-en",
-            "approved": "518f12411df4091927642cd6a0bd6c5cede0833b793e16ab356fef96fbb5408d",
-            "composedNow": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd"
-          },
-          {
-            "id": "full-es",
-            "approved": "53d1577b1dc0a023fde8338edb80e16ab36282d827c602f99daf89aaa51386c3",
-            "composedNow": "28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04"
-          }
-        ]
-      }
+      ]
     },
     {
       "schemaVersion": "rcap-grade-a-fulfillment-authority/v1",
@@ -5350,7 +5690,7 @@
       "pathwayId": "felony-conviction-expungement-w-s-7-13-1502",
       "packetFamilyId": "wy_fel_1502-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 28,
+      "version": 29,
       "effectiveFrom": "2026-09-02",
       "supersededBy": null,
       "supersededAt": null,
@@ -5615,10 +5955,47 @@
           },
           "isCurrentCommercialArtifact": false,
           "currentCommercialArtifactReview": {
-            "state": "pending_owner_review",
+            "state": "approved",
             "composedBy": "rcap_grade_a_composer_v1 -> buildGradeAArtifact -> composeGradeAPacket -> assembleParticipantPacket, from the current packet specification",
-            "approval": null,
-            "why": "The reviewed artifact 3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30 was produced by scripts/build-census-v1-wy_fel_1502-set.mjs@sha256:5ff1ae7b72ad6d52281c68fc18b7431ba5ca2a2c974aa67f6de3dc6880b5bf76, which is not the current commercial provider. The packet a participant would receive is composed from the current specification at delivery, and no approval names those composed bytes. Specification derivation may be reconciled separately; that reconciles the words, not the output."
+            "approval": {
+              "path": "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json",
+              "sha256": "f6dfbd5e9336627df5a1beac174a85bf11d95849cf0cef6795ce86a8fd9c30d5",
+              "recordId": "OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920",
+              "artifactSha256": "07873ad856fe45a882a5504d06d3167de6d9de04105abf1f4a23da23fd7627d7",
+              "artifactPageCount": 14,
+              "decidedAt": "2026-09-20",
+              "owner": "Roger Roman",
+              "boundToCommit": "ed7356a733b5f47976e012c9ba386f0a021057ca",
+              "boundToBatchSha256": "5166d9159e7d4ff111c36a264b224d7760e47356ee119cdefa6ac3abe44c82ee",
+              "boundToVisualReviewSha256": "bd248b2aa8fb84e57893f4c5695733816fb9db24eb20d1c693edd8a97b0f1c29",
+              "approvedArtifacts": [
+                {
+                  "artifactId": "full-en",
+                  "variant": "full",
+                  "locale": "en",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/wy-felony-expungement-full-en.pdf",
+                  "sha256": "07873ad856fe45a882a5504d06d3167de6d9de04105abf1f4a23da23fd7627d7",
+                  "pageCount": 14
+                },
+                {
+                  "artifactId": "court-only",
+                  "variant": "court_only",
+                  "locale": "en",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/wy-felony-expungement-court-only.pdf",
+                  "sha256": "9cebe2d3cd4ac086b2b175383569f0b6c35484dc02b7738fe9b14143e603b6af",
+                  "pageCount": 7
+                },
+                {
+                  "artifactId": "full-es",
+                  "variant": "full",
+                  "locale": "es",
+                  "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/wy-felony-expungement-full-es.pdf",
+                  "sha256": "d544a6233e1b4c12ec5b642105bddd9730e63453d40807e907d3c696cdec3169",
+                  "pageCount": 14
+                }
+              ]
+            },
+            "why": "The reviewed artifact 3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30 was produced by scripts/build-census-v1-wy_fel_1502-set.mjs@sha256:5ff1ae7b72ad6d52281c68fc18b7431ba5ca2a2c974aa67f6de3dc6880b5bf76, which is not the current commercial provider, so it is an adopted artifact and not the packet a participant receives. What the participant receives is composed at delivery, and OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920 approves those exact composed bytes -- bound to commit ed7356a733b5f47976e012c9ba386f0a021057ca, to the Item 13B batch, to the page-by-page visual review, and to each artifact's own digest. This closes the composed-artifact question and nothing else: every other gate on this route still applies."
           }
         }
       },
@@ -6183,6 +6560,15 @@
           "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
           "recordSha256": "226371adf968533cd30b700a2d52c9004f19494a6d31a042a29ce10cb8d43307",
           "supersedesRecordSha256": "0d67ebc5dd7c783d9af211d18a1284c84cb9db9f29793506e814d7c22b166c04"
+        },
+        {
+          "version": 29,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-20",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "088702e9c23f115e302e6e92d3eb72668a78174d89e9065ad44f80740c65a384",
+          "supersedesRecordSha256": "226371adf968533cd30b700a2d52c9004f19494a6d31a042a29ce10cb8d43307"
         }
       ]
     }

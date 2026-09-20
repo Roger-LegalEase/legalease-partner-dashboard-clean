@@ -23,6 +23,21 @@
  * controls prove that ordering holds, by evaluating each record against a
  * FULLY CURRENT observation -- the state the repository will be in after the
  * next publication -- and requiring the five to stay closed anyway.
+ *
+ * WHAT CHANGED ON 2026-09-20, AND WHAT DID NOT
+ *
+ * The owner approved the composed bytes, so the five routes' gap is closed and
+ * they are now held only by the observation. That is the gate opening the one
+ * way it was built to open, and it would be easy to delete this control as
+ * answered.
+ *
+ * It is not answered, it is inverted, and the inverted question is the sharper
+ * one: the hold must still be unreachable by publication, and must close again
+ * the instant the approval stops describing the bytes on disk. So each control
+ * below now runs in BOTH worlds -- the real records, and the same records with
+ * the approval withdrawn -- and asserts the approval is the only thing that
+ * moved. A control that only proved the open state would pass just as happily
+ * if the gate had been removed.
  */
 
 import assert from "node:assert/strict";
@@ -89,27 +104,84 @@ function published(record) {
   return { ...record, provider: { ...record.provider, imageDigest: `sha256:${"a".repeat(64)}` } };
 }
 
+/**
+ * The same record with the owner approval taken away, and nothing else touched.
+ *
+ * This is what every route looked like before 2026-09-20 and what each will look
+ * like again if its bytes move: the artifact is still adopted, still produced by
+ * a build host, still reviewed -- and no decision names what the product
+ * composes. Built by removing the approval rather than by hand-writing a
+ * "pending" record, so the two worlds differ in exactly one field.
+ */
+function withoutTheApproval(record) {
+  const clone = structuredClone(record);
+  const artifact = clone.packetCompleteness.filingFormatArtifact;
+  artifact.currentCommercialArtifactReview = {
+    ...artifact.currentCommercialArtifactReview,
+    state: "pending_owner_review",
+    approval: null
+  };
+  return clone;
+}
+
 for (const routeId of HELD) {
   const record = current(routeId);
-  check(`${routeId}: the record says its artifact is not the commercial one`, () => {
+
+  check(`${routeId}: the artifact is adopted, and an owner decision names the composed bytes`, () => {
     const artifact = record.packetCompleteness.filingFormatArtifact;
+    // Still not the commercial artifact. The approval does not change what
+    // produced these bytes; it names the OTHER bytes, the composed ones.
     assert.equal(artifact.isCurrentCommercialArtifact, false);
-    assert.equal(artifact.currentCommercialArtifactReview.state, "pending_owner_review");
-    assert.equal(artifact.currentCommercialArtifactReview.approval, null);
+    const review = artifact.currentCommercialArtifactReview;
+    assert.equal(review.state, "approved");
+    assert.equal(review.approval.recordId, "OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920");
+    assert.equal(review.approval.boundToCommit, "ed7356a733b5f47976e012c9ba386f0a021057ca");
+    // Naming bytes is the whole job: an approval with no digest is the case the
+    // control at the bottom of this file still refuses.
+    assert.match(review.approval.artifactSha256, /^[0-9a-f]{64}$/);
+    assert.match(review.approval.sha256, /^[0-9a-f]{64}$/);
   });
-  check(`${routeId}: held today, and the reason is the composed artifact`, () => {
-    const decision = evaluateFulfillmentAuthority(record, null, routeId);
-    assert.equal(decision.authorized, false);
-    assert.equal(decision.state, "INCOMPLETE");
-    assert.ok(decision.missingProof.some((gap) => GAP.test(gap)), decision.missingProof.join("; "));
+
+  check(`${routeId}: the composed-artifact gap is closed, and only by that decision`, () => {
+    const open = evaluateFulfillmentAuthority(record, null, routeId);
+    assert.equal(open.missingProof.some((gap) => GAP.test(gap)), false, open.missingProof.join("; "));
+
+    const closed = evaluateFulfillmentAuthority(withoutTheApproval(record), null, routeId);
+    assert.equal(closed.authorized, false);
+    assert.equal(closed.state, "INCOMPLETE");
+    assert.ok(closed.missingProof.some((gap) => GAP.test(gap)),
+      `withdrawing the approval left the route open: ${closed.missingProof.join("; ")}`);
   });
-  check(`${routeId}: STILL held against a fully current observation`, () => {
-    const decision = evaluateFulfillmentAuthority(
-      published(record), observationAfterPublication(published(record)), routeId);
+
+  check(`${routeId}: without the approval, publication STILL cannot clear it`, () => {
+    /*
+     * The original question, asked where it still bites. Publication clears the
+     * observation; this gap is collected before the observation is looked for,
+     * so a fully current world must not reach it.
+     */
+    const pending = published(withoutTheApproval(record));
+    const decision = evaluateFulfillmentAuthority(pending, observationAfterPublication(pending), routeId);
     assert.equal(decision.commercialStatus, "not_commercially_eligible");
     assert.equal(decision.state, "INCOMPLETE", "publication must not turn this into a staleness question");
     assert.ok(decision.missingProof.some((gap) => GAP.test(gap)),
       `publication cleared the composed-artifact hold: ${decision.missingProof.join("; ")}`);
+  });
+
+  check(`${routeId}: approved, the only thing left is the observation`, () => {
+    /*
+     * Not "it is open now" -- what it is still waiting for, named. A route that
+     * silently lost another gate in the same change would pass a looser check.
+     *
+     * These five hold no missing proof at all: every dimension is proven and the
+     * record carries a provider digest, so what remains is the observation --
+     * the world the worker publication establishes. That is a staleness
+     * question, which is the one question publication is allowed to answer.
+     */
+    const decision = evaluateFulfillmentAuthority(record, null, routeId);
+    assert.deepEqual(decision.missingProof, [], decision.missingProof.join("; "));
+    assert.equal(decision.state, "STALE");
+    assert.equal(decision.commercialStatus, "not_commercially_eligible");
+    assert.deepEqual(decision.stalenessReasons, ["observation: the current world could not be established"]);
   });
 }
 
@@ -125,21 +197,20 @@ check("Mississippi non-conviction is not held by this proof", () => {
   /*
    * The exact list, so nothing else can hold this route unnoticed.
    *
-   * It used to be one line: the provider digest. The shared Fees & Costs
-   * correction then moved two of the artifacts Roger approved on 2026-09-20,
-   * which refuses that approval and drops the record to the pre-successor
-   * candidate -- so the route now waits on an owner decision and, without the
-   * successor binding, on a final verification and an official source too.
+   * This line has now been three different lists, and the history is the point.
+   * It was ["provider"]. The shared Fees & Costs correction moved two of the
+   * artifacts Roger approved on 2026-09-20, which refused that approval and
+   * dropped the record to the pre-successor candidate, so it became
+   * ["final_verification", "official_sources", "owner_decision", "provider"].
+   * The v3 successor decision names the moved bytes, so the successor record
+   * binds again and it is ["provider"] once more.
    *
-   * None of that is the composed-artifact hold, which is what this control is
-   * about and which is still absent. The list is pinned rather than sampled
-   * because "not held by THIS proof" is only worth asserting alongside what the
-   * route IS held by.
+   * None of that was ever the composed-artifact hold, which is what this control
+   * is about. The list is pinned rather than sampled because "not held by THIS
+   * proof" is only worth asserting alongside what the route IS held by.
    */
-  assert.deepEqual(decision.missingProof.map((gap) => gap.split(":")[0]).sort(),
-    ["final_verification", "official_sources", "owner_decision", "provider"]);
-  assert.match(decision.missingProof.find((gap) => gap.startsWith("owner_decision:")),
-    /MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920 names artifact bytes the product no longer composes/);
+  assert.deepEqual(decision.missingProof.map((gap) => gap.split(":")[0]).sort(), ["provider"],
+    decision.missingProof.join("; "));
 });
 
 check("a record cannot claim the commercial artifact without the commercial renderer", () => {

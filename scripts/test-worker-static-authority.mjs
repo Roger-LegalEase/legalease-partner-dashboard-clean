@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {execFileSync} from 'node:child_process';
 import {register} from 'node:module';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const {evaluateStaticRenderAuthority,evaluateFulfillmentAuthority}=await import('../src/lib/rcap/fulfillment/grade-a-authority.ts');
@@ -39,20 +38,24 @@ assert.equal(evaluateFulfillmentAuthority(entry.record,entry.observation,route).
 /*
  * Everything below measures the OTHER rules -- revocation, supersession, legal
  * status, source digests, packet completeness, provider identity -- and each
- * one has to be able to fail on its own. Against a record the pending owner
- * decision already refuses they would all pass while asking nothing, which is
- * the worst kind of green.
+ * one has to be able to fail on its own. Against a record something else already
+ * refuses they would all pass while asking nothing, which is the worst kind of
+ * green.
  *
- * So they run against the record as HEAD committed it -- the same route, before
- * the correction refused its approval -- purely as something that still renders,
- * so each mutation has to do the work of breaking it. Nothing here approves
- * anything: the record that actually ships, a few lines above, is still refused.
+ * For one commit they ran against the HEAD-committed record, because the live
+ * one was refused by the pending owner decision and a mutation cannot break what
+ * is already broken. The owner has since approved the moved bytes, so the live
+ * record renders again and the mutations run against WHAT SHIPS -- which is what
+ * they were always supposed to measure, and a borrowed baseline can drift from.
+ *
+ * The guard below is therefore not ceremony. If this route is ever refused for
+ * another reason, this control must say so loudly rather than quietly testing a
+ * record that was never going to pass.
  */
-const committed=JSON.parse(execFileSync('git',['show','HEAD:data/rcap-grade-a/worker-static-authority.json'],{encoding:'utf8',maxBuffer:1<<28}));
-const baseline=committed.entries.find(e=>e.record.routeId===route);
-assert(baseline,'the committed static authority still carries this route');
+const baseline=entry;
 assert(evaluateStaticRenderAuthority(baseline.record,baseline.observation).allowed,
- 'the committed baseline must render, or these mutations are measuring nothing');
+ 'the shipped record must render, or these mutations are measuring nothing: '
+ +evaluateStaticRenderAuthority(baseline.record,baseline.observation).reason);
 const mutations=[
  r=>r.revocation.revoked=true,r=>r.supersededBy='successor',r=>r.legalAuthority.status='unapproved',
  r=>r.packetSpecification.complete=false,r=>r.officialSources[0].installedSha256='wrong',

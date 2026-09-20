@@ -37,7 +37,7 @@ export const CANONICAL_WORKER_INPUTS = Object.freeze([
   "data/record-clearing/brand/legalease-logo.png"
 ]);
 
-const FIXED_FILE_INPUTS = new Set([
+export const FIXED_FILE_INPUTS = new Set([
   "package.json",
   "package-lock.json",
   "tsconfig.json",

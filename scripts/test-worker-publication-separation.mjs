@@ -4,7 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createStaticWorkerAuthority, STATIC_AUTHORITY_PATH} from './lib/worker-static-authority.mjs';
-import {createWorkerInputPlan} from './rcap-hosted-acceptance-worker-input-plan.mjs';
+import {createWorkerInputPlan,CANONICAL_WORKER_INPUTS,FIXED_FILE_INPUTS} from './rcap-hosted-acceptance-worker-input-plan.mjs';
 const registry=JSON.parse(fs.readFileSync('data/rcap-grade-a/fulfillment-authority-registry.json'));
 const observation=JSON.parse(fs.readFileSync('data/rcap-grade-a/fulfillment-observation-snapshot.json'));
 const before=createStaticWorkerAuthority(registry,observation);
@@ -21,7 +21,26 @@ const rootDir=fs.mkdtempSync(path.join(os.tmpdir(),'worker-publication-boundary-
 try {
  const git=(...args)=>execFileSync('git',args,{cwd:rootDir,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
  const write=(f,bytes)=>{fs.mkdirSync(path.dirname(path.join(rootDir,f)),{recursive:true});fs.writeFileSync(path.join(rootDir,f),bytes);};
+ /*
+  * The synthetic tree has to carry every CANONICAL_WORKER_INPUT.
+  *
+  * A canonical input the candidate does not have is a difference, so a fixture
+  * missing one has `rebuildRequired` pinned true and every assertion below it
+  * stops measuring anything. That is what happened when §7's supplemental
+  * guides and the brand asset were added to the canonical list and this fixture
+  * was not: the control went on running and stopped asking.
+  *
+  * Built from the list rather than restated, so the next input added to the
+  * product appears here too instead of silently disabling this file again.
+  */
  const files={'package.json':'{}','package-lock.json':'{}','tsconfig.json':'{}','scripts/rcap-render-worker.mjs':'export {};','scripts/lib/runtime.mjs':'export {};','src/runtime.ts':'export {};','deploy/rcap-render-worker/Dockerfile':`FROM node:22-slim\nCOPY ${STATIC_AUTHORITY_PATH} data/rcap-grade-a/\n`};
+ for(const input of CANONICAL_WORKER_INPUTS) {
+  if(Object.keys(files).some(f=>f===input||f.startsWith(input+'/')))continue;
+  // A tree input needs a file inside it; a file input is itself. Which one it
+  // is comes from the product's own FIXED_FILE_INPUTS, not from guessing at
+  // the path's shape.
+  files[FIXED_FILE_INPUTS.has(input)?input:`${input}/synthetic-input`]='synthetic\n';
+ }
  for(const [f,bytes] of Object.entries(files))write(f,bytes);
  write(STATIC_AUTHORITY_PATH,JSON.stringify(before));
  git('init','--quiet');git('config','user.name','Synthetic boundary test');git('config','user.email','test@example.invalid');

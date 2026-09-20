@@ -2,9 +2,22 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 
-export const MS_PAID_SUCCESSOR_DECISION_PATH = "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json";
-/** Superseded on 2026-09-20 because the packet contents changed. Preserved, never edited. */
-export const MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH = "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json";
+export const MS_PAID_SUCCESSOR_DECISION_PATH = "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json";
+/**
+ * The decision this one supersedes: the 2026-09-20 approval, signed against the
+ * pre-correction bytes. The shared §7 Fees & costs fix moved this route's full
+ * EN and full ES artifacts, so it stopped describing what the product composes.
+ * Preserved exactly as signed, never edited.
+ */
+export const MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH = "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json";
+/**
+ * And the one BEFORE that, kept in the chain so custody is transitive.
+ *
+ * Checking only the immediate predecessor would let the tail of the chain be
+ * rewritten while every loaded decision still verified -- which is the failure
+ * "supersede, do not rewrite history" exists to prevent, one link further back.
+ */
+export const MS_PAID_SUCCESSOR_FIRST_DECISION_PATH = "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json";
 export const MS_PAID_SUCCESSOR_ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 const SPECIFICATION = "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json";
 const SUPPLEMENTAL_GUIDE = "data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json";
@@ -50,8 +63,8 @@ export function loadMsPaidConsumerSuccessor(root = process.cwd()) {
   try {
     const bytes = fs.readFileSync(path.join(root, MS_PAID_SUCCESSOR_DECISION_PATH));
     const decision = JSON.parse(bytes.toString("utf8"));
-    if (decision.schemaVersion !== "rcap-owner-paid-consumer-successor/v2"
-      || decision.decisionId !== "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920"
+    if (decision.schemaVersion !== "rcap-owner-paid-consumer-successor/v3"
+      || decision.decisionId !== "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920-V3"
       || decision.status !== "APPROVED_EXACT_PAID_CONSUMER_SUCCESSOR"
       || decision.owner !== "Roger Roman" || decision.decidedAt !== "2026-09-20"
       || decision.authenticationKind !== "owner_instruction_in_current_conversation"
@@ -68,16 +81,47 @@ export function loadMsPaidConsumerSuccessor(root = process.cwd()) {
       || ["eligibilityChanged", "selfHelpStopsChanged", "legalTreatmentChanged", "paymentSecurityWaived", "technicalAcceptanceWaived", "productionAuthorized"].some(key => decision[key] !== false)
       || decision.legacyRetirementPreserved !== true || decision.historicalSponsoredPreviewApprovalPreserved !== true) return null;
 
-    // Custody of the superseded decision: it must still be present, and still be
-    // exactly the record this one supersedes. Editing it away is refused here.
+    /*
+     * Custody of the chain, not just of the immediate predecessor.
+     *
+     * Each superseded decision must still be present and still be exactly the
+     * bytes its successor says it superseded, all the way back to the first one.
+     * A check that stopped at the immediate predecessor would let the tail be
+     * rewritten while everything loaded, which is the failure this is for.
+     */
     const priorBytes = fs.readFileSync(path.join(root, MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH));
     const prior = JSON.parse(priorBytes.toString("utf8"));
     if (decision.supersedes?.path !== MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH
-      || decision.supersedes?.decisionId !== "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260914"
+      || decision.supersedes?.decisionId !== "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920"
       || decision.supersedes?.sha256 !== digest(priorBytes)
       || decision.supersedes?.priorDecisionMutated !== false
-      || prior.decisionId !== decision.supersedes.decisionId
-      || prior.packetContentsChanged !== false) return null;
+      || prior.decisionId !== decision.supersedes.decisionId) return null;
+
+    const firstBytes = fs.readFileSync(path.join(root, MS_PAID_SUCCESSOR_FIRST_DECISION_PATH));
+    const first = JSON.parse(firstBytes.toString("utf8"));
+    if (prior.supersedes?.path !== MS_PAID_SUCCESSOR_FIRST_DECISION_PATH
+      || prior.supersedes?.decisionId !== "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260914"
+      || prior.supersedes?.sha256 !== digest(firstBytes)
+      || prior.supersedes?.priorDecisionMutated !== false
+      || first.decisionId !== prior.supersedes.decisionId
+      || first.packetContentsChanged !== false) return null;
+
+    /*
+     * And which bytes moved, stated artifact by artifact against the record being
+     * superseded rather than left for a reader to infer from two hashes. The
+     * superseding decision has to be RIGHT about what changed: claiming an
+     * artifact moved when it did not, or holding one still when it did, is the
+     * same defect as an approval that names the wrong bytes.
+     */
+    const movedFrom = new Map<string, string>(
+      (prior.approvedArtifacts ?? []).map((entry: { id: string; sha256: string }) => [entry.id, entry.sha256]));
+    const moved = decision.supersedes?.movedArtifacts;
+    if (!Array.isArray(moved) || moved.length !== movedFrom.size) return null;
+    for (const entry of moved) {
+      if (movedFrom.get(entry.id) !== entry.from) return null;
+      if (entry.moved !== (entry.from !== entry.to)) return null;
+    }
+    if (!moved.some((entry: { moved: boolean }) => entry.moved)) return null;
 
     // Read the exact evidence bytes at statically identifiable paths. Neither an
     // evidence record nor a loop variable can widen filesystem tracing.
@@ -116,6 +160,9 @@ export function loadMsPaidConsumerSuccessor(root = process.cwd()) {
       if (id === "court-only"
         ? entry.variant !== "court_only" || entry.guideAssembled !== false
         : entry.variant !== "full" || entry.guideAssembled !== true) return null;
+      // The supersession's "to" side is the approved digest, so the account of
+      // what moved cannot name bytes this decision does not approve.
+      if (moved.find((row: { id?: string }) => row.id === id)?.to !== entry.sha256) return null;
       approved.push(entry as MsPaidSuccessorArtifact);
     }
     if (new Set(approved.map(entry => entry.locale)).size !== 2) return null;
