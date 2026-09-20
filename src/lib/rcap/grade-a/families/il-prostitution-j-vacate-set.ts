@@ -6,6 +6,7 @@ import {
   type GradeAMatter,
   type GradeAPacket
 } from "@/lib/rcap/grade-a/composer";
+import { documentContractFor, isCourtFacing } from "@/lib/rcap/grade-a/document-contract";
 import type { PacketSpecification } from "@/lib/rcap/grade-a/packet-specification";
 import {
   IL_PROSTITUTION_J_VACATE_COMPONENTS,
@@ -163,6 +164,8 @@ export function composeIlProstitutionJVacateParticipantPacket(
     order: document.order,
     outputStrategy: document.outputStrategy,
     presentation: "pleading",
+    captionTreatment: documentContractFor(document).captionTreatment,
+    courtFacing: isCourtFacing(documentContractFor(document)),
     blocks: composedCourtDocumentBlocks(
       approvedComponentId(matter.routeKey, document.documentId), participant) as GradeABlock[]
   }));

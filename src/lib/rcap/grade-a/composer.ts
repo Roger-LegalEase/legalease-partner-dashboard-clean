@@ -3,6 +3,7 @@ import {
   type PacketSpecificationDocument,
   type PacketSpecificationSection
 } from "@/lib/rcap/grade-a/packet-specification";
+import { documentContractFor, isCourtFacing, type DocumentContract } from "@/lib/rcap/grade-a/document-contract";
 import { NEVADA_176A_PETITION_BRANCH_CONDITION, nevada176ABranch } from "@/lib/rcap-engine/nevada-176a-branch";
 
 /**
@@ -105,6 +106,13 @@ export type GradeADocument = {
   order: number;
   outputStrategy: "custom_pleading" | "process_guidance";
   presentation: "guidance" | "pleading";
+  /**
+   * The component's own caption decision and whether it is court-facing,
+   * carried from the §4.2 document contract so the renderer enforces the
+   * contract rather than re-deriving one from `presentation`.
+   */
+  captionTreatment: DocumentContract["captionTreatment"];
+  courtFacing: boolean;
   blocks: GradeABlock[];
 };
 
@@ -397,6 +405,8 @@ export function composeGradeAPacket(
       order: document.order,
       outputStrategy: document.outputStrategy,
       presentation: document.presentation ?? "guidance",
+      captionTreatment: documentContractFor(document).captionTreatment,
+      courtFacing: isCourtFacing(documentContractFor(document)),
       blocks: document.sections.flatMap((section) =>
         composeSection(section, specification, matter, included, document.presentation ?? "guidance"))
     });

@@ -107,6 +107,8 @@ export async function renderGradeAPacketPdf(packet: GradeAPacket): Promise<Buffe
     && packet.specificationVersion === "2.0.0"
     ? MS_REVISION_GUIDANCE_LAYOUT
     : LEGACY_GUIDANCE_LAYOUT;
+  for (const entry of ordered) assertCaptionContractSatisfied(entry);
+
   ordered.forEach((entry, index) => {
     if (index > 0) pageBreak(cursor, document);
     if (entry.presentation === "pleading") {
@@ -128,6 +130,41 @@ export function gradeAPacketFilename(packet: GradeAPacket): string {
   return `${slug || "legalease"}-packet.pdf`;
 }
 
+/**
+ * The caption invariant, keyed on the component's contract rather than on how
+ * it happens to be presented.
+ *
+ * This replaced "a pleading without a pleading caption is not a pleading",
+ * which is a true statement about SOME filings and a false universal. Of the 51
+ * court-facing components in the corpus, 42 declare no caption section, and they
+ * are not one kind of thing: some take their caption from an official form,
+ * some are supporting pages filed with a captioned instrument and identified by
+ * it, and some lost a caption in derivation. Forcing them into one shape leaves
+ * only two ways out, and both are forbidden — manufacture a caption, or relabel
+ * a filing as guidance.
+ *
+ * It runs over every document before anything is drawn, and it is not inside
+ * the pleading path, because a court-facing component presented as guidance
+ * raises the same question and must not escape it.
+ */
+function assertCaptionContractSatisfied(entry: GradeADocument) {
+  if (entry.courtFacing && entry.captionTreatment === "unresolved") {
+    throw new Error(
+      `Court-facing document ${entry.documentId} has no resolved caption treatment. `
+      + "Record whether it carries its own caption, is a supporting page filed with a captioned "
+      + "instrument, or takes its caption from an official form. Refusing rather than guessing one."
+    );
+  }
+  if (entry.captionTreatment === "full_independent_caption"
+    && !entry.blocks.some((block) => block.kind === "pleading_caption")) {
+    throw new Error(
+      `Document ${entry.documentId} declares a full independent caption and carries none. `
+      + "Its caption is authoritative and missing, which is a derivation defect: restore it from "
+      + "the approved artifact rather than rendering a filing with no caption."
+    );
+  }
+}
+
 function drawPleadingDocument(
   cursor: Cursor,
   document: PDFDocument,
@@ -137,12 +174,33 @@ function drawPleadingDocument(
   const caption = entry.blocks.find(
     (block): block is Extract<GradeABlock, { kind: "pleading_caption" }> => block.kind === "pleading_caption"
   );
-  if (!caption) throw new Error(`Pleading document ${entry.documentId} has no pleading caption.`);
 
+  // The caption rule is the component's contract, not its presentation.
+  //
+  // This used to read: a pleading without a pleading caption is not a pleading.
+  // That is a true statement about SOME filings and a false universal. Of the
+  // 51 court-facing components in the corpus, 42 declare no caption section, and
+  // they are not one kind of thing: some take their caption from an official
+  // form, some are supporting pages filed with a captioned instrument and
+  // identified by it, and some lost a caption in derivation. Forcing them all
+  // into one shape leaves only two ways out, and both are forbidden —
+  // manufacture a caption, or relabel a filing as guidance.
+  //
+  // So the invariant is now: a court-facing component must carry an explicit,
+  // satisfied caption treatment. An unresolved one refuses, because nothing
+  // read establishes what its caption should be. A component that declares it
+  // carries its own caption and then does not is the derivation defect this
+  // rule exists to catch. A supporting page, an official-form component and a
+  // non-filing each need no caption of their own, and rendering one without a
+  // caption is correct rather than a gap.
+  // A supporting page has no caption of its own, so it has no court and no case
+  // number to run across its continuation headers. They are left empty and the
+  // header draws only what it has, rather than printing "CASE NO." with nothing
+  // after it.
   const context: PleadingContext = {
-    court: caption.court,
-    caseNumber: caption.caseNumber,
-    title: caption.title,
+    court: caption?.court ?? "",
+    caseNumber: caption?.caseNumber ?? "",
+    title: caption?.title ?? entry.title,
     pageNumber: 1,
     confidential: false
   };
@@ -579,22 +637,25 @@ function pleadingPageBreak(
   context.pageNumber += 1;
   drawPleadingFooter(cursor.page, fonts, context);
   const court = sanitize(context.court);
-  const caseLabel = `CASE NO. ${sanitize(context.caseNumber)}`;
   const titleText = sanitize(context.title);
-  cursor.page.drawText(court, {
-    x: PLEADING_MARGIN,
-    y: PAGE_HEIGHT - 44,
-    size: 8.5,
-    font: fonts.pleadingBody,
-    color: MUTED
-  });
-  cursor.page.drawText(caseLabel, {
-    x: PLEADING_MARGIN,
-    y: PAGE_HEIGHT - 56,
-    size: 8.5,
-    font: fonts.pleadingBody,
-    color: MUTED
-  });
+  if (court) {
+    cursor.page.drawText(court, {
+      x: PLEADING_MARGIN,
+      y: PAGE_HEIGHT - 44,
+      size: 8.5,
+      font: fonts.pleadingBody,
+      color: MUTED
+    });
+  }
+  if (context.caseNumber) {
+    cursor.page.drawText(`CASE NO. ${sanitize(context.caseNumber)}`, {
+      x: PLEADING_MARGIN,
+      y: PAGE_HEIGHT - 56,
+      size: 8.5,
+      font: fonts.pleadingBody,
+      color: MUTED
+    });
+  }
   cursor.page.drawText(titleText, {
     x: PAGE_WIDTH - PLEADING_MARGIN - fonts.pleadingItalic.widthOfTextAtSize(titleText, 8.5),
     y: PAGE_HEIGHT - 56,
@@ -614,8 +675,8 @@ function pleadingPageBreak(
 function drawPleadingFooter(page: PDFPage, fonts: PleadingFonts, context: PleadingContext) {
   const left = context.confidential
     ? "CONFIDENTIAL MCIC PROCESSING COPY - DO NOT SERVE OR PUBLICLY FILE"
-    : `CASE NO. ${sanitize(context.caseNumber)}`;
-  page.drawText(left, { x: PLEADING_MARGIN, y: 38, size: 8, font: fonts.pleadingBody, color: MUTED });
+    : context.caseNumber ? `CASE NO. ${sanitize(context.caseNumber)}` : "";
+  if (left) page.drawText(left, { x: PLEADING_MARGIN, y: 38, size: 8, font: fonts.pleadingBody, color: MUTED });
   const pageLabel = `Page ${context.pageNumber}`;
   page.drawText(pageLabel, {
     x: PAGE_WIDTH - PLEADING_MARGIN - fonts.pleadingBody.widthOfTextAtSize(pageLabel, 8),

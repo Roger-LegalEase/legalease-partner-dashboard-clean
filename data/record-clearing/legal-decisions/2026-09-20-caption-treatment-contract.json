@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "CAPTION-TREATMENT-CONTRACT-2026-09-20",
+  "reviewer": "Captain (implementation finding; not a counsel approval)",
+  "reviewDate": "2026-09-20",
+  "familyId": "cross-jurisdiction-document-contract",
+  "question": "The Grade-A renderer required every component presented as a pleading to carry its own caption. Is that a valid universal rule about court documents, and if not, what decides a component's caption?",
+
+  "finding": "Not valid, and the corpus says so. Of 51 court-facing components, 42 declare no caption section, and they are not one kind of thing. A single rule keyed on presentation can only be satisfied two ways where it does not fit — manufacture a caption, or relabel a court-facing filing as guidance — and both are forbidden. Caption behaviour is a property of the component, so it moved into the §4.2 document contract.",
+
+  "theContract": {
+    "attribute": "documentContract.captionTreatment",
+    "values": {
+      "full_independent_caption": "the component carries its own caption naming the court and the case.",
+      "supporting_page": "a page filed WITH a captioned instrument and identified by it, carrying no caption of its own.",
+      "official_form_controls": "an official form supplies the caption, so the composer neither writes nor requires one.",
+      "not_applicable": "the component is not court-facing, so no caption arises.",
+      "unresolved": "nothing read establishes which of the above is true. A court-facing component in this state refuses."
+    },
+    "derivedOnlyWhereASourceFieldStatesIt": "official_pdf_fill yields official_form_controls; process_guidance yields not_applicable. custom_pleading yields unresolved, because 'a custom pleading is permitted' says nothing about whether this particular component carries a caption. Nothing is inferred from presentation.",
+    "renderInvariant": {
+      "was": "presentation === 'pleading' && no caption block -> refuse",
+      "now": "court-facing && captionTreatment === 'unresolved' -> refuse; and captionTreatment === 'full_independent_caption' && no caption block -> refuse as a derivation defect",
+      "whereItRuns": "over every document before anything is drawn, not inside the pleading path, because a court-facing component presented as guidance raises the same question and must not escape it."
+    }
+  },
+
+  "nevadaFirst": {
+    "question": "Was the captionless declaration itself part of the owner-adopted output bytes and component set?",
+    "method": "Read the adopted output directly (pdftotext over the census-v1 canonical fixture), rather than reasoning from the build script alone.",
+    "answer": "Yes. The adopted packet is one document of nine pages carrying all eight components. Page 7 is the declaration. It opens \"This declaration accompanies the subsection 2 petition\" and carries no court line, no in-the-matter-of line and no case number — while page 4 (the petition) and page 6 (the proposed order) each carry a full caption with participant-completable blanks.",
+    "corroboration": "FIX07 (data/rcap-grade-a/packet-factory-24h/fix07/nv-seal-probation-pagination-return.json) independently records page 7 as declaration_and_verification starting with a substantive heading, in both the canonical and boundary fixtures.",
+    "determination": "The adoption establishes the caption behaviour. The declaration is a supporting page with no independent caption, and that exact treatment is encoded. No caption was manufactured for it, and it was not relabelled as guidance.",
+    "recorded": {
+      "primary_filing": "full_independent_caption",
+      "proposed_order": "full_independent_caption",
+      "declaration_and_verification": "supporting_page"
+    },
+    "digestCaveat": "The on-disk canonical fixture hashes 3b02d62f…, the adopted bytes were 533cf8ec… and FIX07 rebuilt them to 8fe5e209…. The structural facts relied on here — which components exist, which pages carry captions — are identical across all three vintages and are independently recorded by FIX07. The digest drift itself is a separate matter: the adoption's own condition is that a shipping-artifact digest change requires re-review, and whether that re-review happened is not resolved here."
+  },
+
+  "boundedClassificationPass": {
+    "method": "One pass over the existing authoritative and adopted records. No new audit framework and no fresh legal research. Two rules only, both evidence-based: a component whose own composition emits a caption block today is proven to carry one; a component whose source field states the answer takes it from there.",
+    "whatWasDeliberatelyNotDone": "A packet-level caption test was run over the census-v1 fixtures and then discarded as a classifier. It reports that 12 of 13 families' approved artifacts contain a caption somewhere — which is true and useless, because Nevada is the counterexample in its own packet: captions on pages 4 and 6, none on page 7. A packet-level signal cannot classify a component, and using it would have been exactly the blunt inference this correction removes.",
+    "results": {
+      "official_form_controls": {
+        "count": 3,
+        "basis": "derived from outputStrategy official_pdf_fill",
+        "components": ["CT ct-cleanslate-petition-primary-filing-1 (JD-CR-202)", "OR or_acquittal-primary-filing-1", "OR or_acquittal-proposed-order-2"]
+      },
+      "not_applicable": {
+        "count": 5,
+        "basis": "derived from outputStrategy process_guidance; court-facing but not a filing"
+      },
+      "full_independent_caption": {
+        "count": 7,
+        "basis": "proven: each emits a pleading_caption block from its own composition today",
+        "components": [
+          "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal — ms-petition-for-expungement, ms-proposed-order, ms-service-and-attachments",
+          "IL:felony-prostitution-relief — primary_filing, proposed_order",
+          "NV:probation-or-specialty-court-dismissal-set-aside-sealing — primary_filing, proposed_order"
+        ],
+        "note": "MS non-conviction is the live commercial route and IL felony-prostitution is the one commercially eligible family that composes and renders through this path. Both were caught by the new invariant before it landed and are recorded from their own observed output, so their renders are unchanged."
+      },
+      "supporting_page": {
+        "count": 1,
+        "basis": "proven from the owner-adopted output page by page",
+        "components": ["NV declaration_and_verification"]
+      },
+      "unresolved": {
+        "count": 35,
+        "andTherefore": "refuse to render",
+        "why": "27 of them declare a single approved_shipping_component section, which this composer does not implement, so they do not compose at all and their caption lives in an approved artifact this pass did not open page by page. The rest declare no sections, or declare sections that emit no caption. None of them is unresolved on purpose; unresolved means nothing has been recorded yet.",
+        "sixThatComposeAndNowRefuse": [
+          "DC:dc_correct_misattributed_arrest primary_filing",
+          "KS:municipal-arrest-record-expungement-under-12-4516a primary-filing-1",
+          "KS:municipal-conviction-or-diversion-expungement-under-12-4516 primary-filing-1",
+          "ND:first-offense-possession-sealing nd-motion-to-seal",
+          "ND:first-offense-possession-sealing nd-proposed-order",
+          "VA:regime-1-expungement-available-now primary_filing"
+        ],
+        "allSixAreNoncommercial": "and each is already on the board for its own reason: DC has a specification but no packet plan; both Kansas specifications record legalSectionsBound false; the ND reviews are stale; VA's caseMode is unresolved because its instrument may be an administrative transmittal rather than a petition."
+      }
+    },
+    "oneSignalWorthRecording": "VA:regime-1's approved artifact carries no caption anywhere in the packet, unlike every other family tested. That is consistent with the open question already recorded about whether its instrument opens a civil docket at all, and it is the first place to look when VA's batch comes up."
+  },
+
+  "control": "scripts/verify-caption-treatment-contract.mjs. Two positive controls and two negative, because an invariant that only refuses is satisfied by refusing everything: (A) an independently captioned filing renders; (B) an approved supporting page with no caption of its own renders, in the same packet as captioned filings, while still being court-facing rather than reclassified; (C) a court-facing component with an unresolved treatment refuses; (D) a component that declares a full caption and carries none refuses as a derivation defect. It also proves the treatment is not a restatement of presentation, and that the same unresolved value on a non-court-facing component does not refuse.",
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "remainingReview": "Counsel review of Nevada's supporting-page treatment, and per-component caption classification for the 35 unresolved components, remain required. No route is opened, no artifact is approved and no digest is re-signed by this record."
+}

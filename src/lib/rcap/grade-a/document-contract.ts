@@ -79,7 +79,46 @@ export const UNRESOLVED = "unresolved" as const;
 export type Unresolved = typeof UNRESOLVED;
 export type Resolvable<T> = T | Unresolved;
 
+/**
+ * How a component's caption is decided — a property of the component, not of
+ * the fact that it is a pleading.
+ *
+ * The renderer used to treat `presentation: "pleading"` as equivalent to "must
+ * carry its own caption". That is not a valid universal rule about court
+ * documents, and the corpus says so: 21 court-facing components across 9 routes
+ * declare no caption section, including three of the six commercially eligible
+ * families. Some of those are supporting pages whose approved structure
+ * deliberately has none; some are governed by an official form that carries its
+ * own; some lost a caption in derivation. One blunt rule cannot tell those
+ * apart, and forcing every filing into one shape either invents captions or
+ * relabels filings as guidance.
+ *
+ *   full_independent_caption      the component carries its own caption naming
+ *                                 the court and the case.
+ *   supporting_page               a page filed WITH a captioned instrument and
+ *                                 identified by it, carrying no caption of its
+ *                                 own. Nevada's declaration is the reference
+ *                                 case: page 7 of the owner-adopted output
+ *                                 opens "This declaration accompanies the
+ *                                 subsection 2 petition" and has no caption,
+ *                                 while the petition and proposed order on
+ *                                 pages 4 and 6 each carry a full one.
+ *   official_form_controls        an official form supplies the caption, so the
+ *                                 composer neither writes nor requires one.
+ *   not_applicable                the component is not court-facing, so no
+ *                                 caption arises.
+ *   unresolved                    nothing read establishes which of the above
+ *                                 is true. A court-facing component in this
+ *                                 state refuses.
+ */
+export type CaptionTreatment =
+  | "full_independent_caption"
+  | "supporting_page"
+  | "official_form_controls"
+  | "not_applicable";
+
 export interface DocumentContract {
+  captionTreatment: Resolvable<CaptionTreatment>;
   instrumentClass: Resolvable<InstrumentClass>;
   preparedBy: Resolvable<PreparedBy>;
   signer: Resolvable<DocumentSigner>;
@@ -172,6 +211,11 @@ const RECIPIENT_BY_INSTRUMENT: Record<InstrumentClass, DocumentRecipient> = {
 /** Derives the contract this document's existing fields already determine. */
 export function deriveDocumentContract(document: SpecificationDocument): DocumentContract {
   const unresolvedReasons: Record<string, string> = {};
+  // Caption treatment is derived only where a source field actually states it.
+  // An official form carries its own caption, and a component that is not a
+  // filing has none to carry. Everything else is a per-component decision made
+  // from the approved artifact, recorded on the document, and unresolved until
+  // then — never inferred from `presentation: "pleading"`.
   const instrumentClass: Resolvable<InstrumentClass> = INSTRUMENT_BY_ROLE[document.role] ?? UNRESOLVED;
   if (instrumentClass === UNRESOLVED) {
     unresolvedReasons.instrumentClass =
@@ -213,7 +257,17 @@ export function deriveDocumentContract(document: SpecificationDocument): Documen
   };
   for (const [key, reason] of Object.entries(stillUnresolved)) unresolvedReasons[key] = reason;
 
+  const captionTreatment: Resolvable<CaptionTreatment> =
+    formApplicability === "official_form_required" ? "official_form_controls"
+      : formApplicability === "not_a_filing" ? "not_applicable"
+        : UNRESOLVED;
+  if (captionTreatment === UNRESOLVED) {
+    unresolvedReasons.captionTreatment =
+      "no source read states whether this component carries its own caption, is a supporting page filed with a captioned instrument, or takes its caption from an official form. Record it from the approved artifact rather than inferring one from the fact that it is a pleading.";
+  }
+
   return {
+    captionTreatment,
     instrumentClass,
     preparedBy: UNRESOLVED,
     signer,
@@ -270,6 +324,17 @@ const REQUIRED_ATTRIBUTES: Record<InstrumentClass, (keyof DocumentContract)[]> =
 };
 
 /** True when this component is filed with a court. */
+/**
+ * Whether this component's caption question is settled.
+ *
+ * The renderer's invariant is built on this rather than on the document's
+ * presentation: a court-facing component must have an explicit, satisfied
+ * caption treatment, and every other component is free of the question.
+ */
+export function captionTreatmentIsResolved(contract: DocumentContract): boolean {
+  return contract.captionTreatment !== UNRESOLVED;
+}
+
 export function isCourtFacing(contract: DocumentContract): boolean {
   return contract.instrumentClass === "participant_filing"
     || contract.instrumentClass === "proposed_order"
