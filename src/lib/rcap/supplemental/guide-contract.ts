@@ -176,6 +176,20 @@ export type SupplementalGuide = {
    */
   adoptedDigest?: string;
   /**
+   * The artifact the text was actually read from, where that is NOT the adopted
+   * one.
+   *
+   * Illinois is the case. Independent review read its adopted mistaken-identity
+   * bytes and failed them; a recorded repair answered the findings, and the
+   * repaired page is where this guide's sentences come from. Putting that
+   * digest in `adoptedDigest` would have said the owner adopted these words,
+   * and leaving it out would have said nothing about where they came from. So
+   * the artifact is named here and `sourceArtifactNote` says what it is —
+   * traceability, never an approval of the repaired bytes.
+   */
+  sourceArtifactDigest?: string;
+  sourceArtifactNote?: string;
+  /**
    * The component or components in the packet this guide replaces, once it ships.
    *
    * A list, because a route does not always keep its participant guidance on

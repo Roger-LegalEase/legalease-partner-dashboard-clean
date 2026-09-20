@@ -87,6 +87,11 @@ export type PacketSpecificationSection = {
    * line with its instruction beneath, never as an empty value and never as a
    * placeholder token.
    */
+  /**
+   * The label above a signature block's date rule, where the adopted page
+   * rules one. Absent where the page has only a signature line.
+   */
+  signatureDateLabel?: string;
   captionContract?: {
     court: string;
     courtInstruction?: string;
@@ -213,6 +218,36 @@ export type PacketSpecificationDocument = {
    *   recovered_from_adopted the drift reaches this component's substance, so the
    *                          text was recovered from the adopted version rather
    *                          than copied from current bytes.
+   *   adopted_substance_split the adopted component mixed filed content with
+   *                          participant instruction on one page; its lines are
+   *                          carried verbatim across two documents that together
+   *                          hold the component's substance, and
+   *                          `artifactBoundarySplit` records the division.
+   *   recovered_from_recorded_repair
+   *                          independent review read the ADOPTED bytes and
+   *                          failed them on named obligations; a recorded repair
+   *                          lane corrected those findings; the substance is
+   *                          carried from the repaired artifact.
+   *
+   * WHY THE LAST ONE EXISTS
+   *
+   * "Transcribe the adopted substance" assumes the adopted substance is the
+   * better of the two versions. Illinois is where that stopped being true. VF07
+   * read the adopted mistaken-identity bytes and returned FAIL_REPAIR_REQUIRED
+   * on five obligations: a petition calling itself VERIFIED with no
+   * certification, oath or penalty-of-perjury language anywhere in it;
+   * unconditional demands for prostitution statute and class, sentence
+   * completion and trafficking facts from a participant correcting a record
+   * someone else created in their name; implementation identifiers printed on
+   * court deliverables; and an unsupported inability-to-pay prohibition.
+   * FIXILCAP repaired exactly those findings.
+   *
+   * Recovering "the adopted version" would have carried every one of them into
+   * production wearing the adoption's authority. So the state is named for what
+   * it is: the text comes from the repair, the failing verdict and the repair
+   * are both committed records, and this claims NO owner adoption for the
+   * repaired bytes. Traceability, not approval — and the repair's own
+   * independent re-verification is a separate matter this does not assert.
    *
    * A characterisation is evidence about what changed. It is never an owner
    * re-approval, and nothing here claims one.
@@ -225,8 +260,22 @@ export type PacketSpecificationDocument = {
       | "untouched_by_drift"
       | "drift_outside_substance"
       | "recovered_from_adopted"
-      | "adopted_substance_split";
+      | "adopted_substance_split"
+      | "recovered_from_recorded_repair";
     evidence: string;
+    /**
+     * Where the failing review of the adopted bytes and the repair that
+     * answered it are recorded. Required by `recovered_from_recorded_repair`,
+     * which is otherwise just a claim that the newer bytes are better.
+     */
+    repairRecord?: {
+      /** The lane row recording the repair and the digest it produced. */
+      repairRow: string;
+      /** The independent review that failed the adopted bytes. */
+      failingReview: string;
+      /** The obligations that review returned FAIL on. */
+      obligationsFailed: string[];
+    };
   };
   /**
    * How one adopted component was divided between what the court receives and

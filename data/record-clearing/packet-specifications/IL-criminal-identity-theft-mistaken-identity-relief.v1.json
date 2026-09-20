@@ -2,7 +2,6 @@
   "schemaVersion": 2,
   "specificationId": "il-criminal-identity-theft-mistaken-identity-relief",
   "specificationVersion": "1.0.0",
-  "specificationSha256": "b8ffaec0593554f25941d2b13fef120a0349346f464f0c28d85ffc192375b4e5",
   "obligationRouteKey": "obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
   "routeKey": "IL:criminal-identity-theft-mistaken-identity-relief",
   "routeKeys": [
@@ -180,28 +179,16 @@
       "ownership": "participant"
     },
     {
-      "factId": "exact_prostitution_statute_class",
-      "use": "Item C3 of the petition, carried because the route contract records it as a required fact of the two-route decision; a prostitution record is a stop on this route",
-      "inRegistryRequiredInputs": false,
-      "ownership": "participant"
-    },
-    {
-      "factId": "sentence_completion_date",
-      "use": "Item C4 of the petition: sentence completion, copied from the record",
-      "inRegistryRequiredInputs": true,
-      "ownership": "participant"
-    },
-    {
-      "factId": "trafficking_status",
-      "use": "Item C5 of the petition: trafficking or victimization facts the route contract records as a required fact",
-      "inRegistryRequiredInputs": true,
-      "ownership": "participant"
-    },
-    {
       "factId": "automatic_seal_status",
       "use": "Item C6 of the petition: whether Illinois automatic sealing has already reached the record, which the route contract records as a fact this route must collect",
       "inRegistryRequiredInputs": false,
       "ownership": "participant"
+    },
+    {
+      "factId": "arrest_circuit_court",
+      "use": "the Illinois circuit court named in the caption, whose chief judge is petitioned",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant_completes_before_filing"
     }
   ],
   "finalVerificationRequirements": [
@@ -220,9 +207,6 @@
       "case_outcome",
       "identity_theft_report_and_mismatched_identifiers",
       "arrest_circuit",
-      "exact_prostitution_statute_class",
-      "sentence_completion_date",
-      "trafficking_status",
       "automatic_seal_status"
     ],
     "serverOwnedRouteFacts": [
@@ -239,7 +223,13 @@
     "notaryOwnedFields": [],
     "prosecutorOwnedFields": [],
     "courtOwnedFields": [
-      "il-mistaken-identity-primary-filing-1.case_number"
+      "case_number"
+    ],
+    "participantCompletesBeforeFilingFields": [
+      "arrest_circuit_court",
+      "arrest_circuit",
+      "identity_theft_report_and_mismatched_identifiers",
+      "automatic_seal_status"
     ]
   },
   "documents": [
@@ -254,19 +244,84 @@
       "officialFormId": null,
       "sections": [
         {
-          "heading": "Caption for the chief judge of the circuit where the arrest occurred, the route's statutory ground stated in the title and body, Items C1 to C6, and the participant's signature",
-          "kind": "approved_shipping_component",
+          "heading": "Caption",
+          "kind": "pleading_caption",
+          "fields": [
+            "arrest_circuit_court",
+            "case_number"
+          ],
+          "captionContract": {
+            "court": "arrest_circuit_court",
+            "courtLines": [
+              {
+                "prefix": "IN THE",
+                "field": "arrest_circuit_court",
+                "suffix": "COURT"
+              }
+            ],
+            "courtInstruction": "Illinois circuit where the arrest occurred; addressed to its chief judge",
+            "matterTitle": "IN RE: {{participant_full_legal_name}}, PETITIONER.",
+            "caseNumber": "case_number",
+            "caseNumberLabel": "Case number assigned by the court:",
+            "caseNumberInstruction": "Leave a new court-assigned case number blank until the court supplies it.",
+            "documentTitle": "ILLINOIS VERIFIED MISTAKEN-IDENTITY PETITION UNDER 20 ILCS 2630/5.2"
+          },
+          "fieldTreatments": {
+            "arrest_circuit_court": "ruled_blank",
+            "case_number": "court_owned_space"
+          }
+        },
+        {
+          "heading": "A. REQUEST FOR MISTAKEN-IDENTITY CORRECTION",
+          "kind": "pleading_paragraph",
+          "body": "I petition the chief judge under the mistaken-identity provisions of 20 ILCS 2630/5.2 to correct records made in my name through identity theft or unauthorized use of my identity. The facts and supporting records are described below."
+        },
+        {
+          "heading": "B. THE PETITIONER",
+          "kind": "pleading_identity_list",
           "fields": [
             "participant_full_legal_name",
-            "date_of_birth",
-            "contact_information",
+            "date_of_birth"
+          ],
+          "fieldLabels": {
+            "participant_full_legal_name": "Name",
+            "date_of_birth": "Date of birth"
+          }
+        },
+        {
+          "heading": "C. CASE INFORMATION TO COMPLETE BEFORE SIGNING",
+          "kind": "pleading_identity_list",
+          "fields": [
             "identity_theft_report_and_mismatched_identifiers",
             "arrest_circuit",
-            "exact_prostitution_statute_class",
-            "sentence_completion_date",
-            "trafficking_status",
             "automatic_seal_status"
-          ]
+          ],
+          "fieldLabels": {
+            "identity_theft_report_and_mismatched_identifiers": "[C1 - identity theft report and mismatched identifiers] Describe the affected record and how the identifiers show that someone else used your name. Identify the attached identity-theft report and supporting identifier evidence.",
+            "arrest_circuit": "[C2 - arrest circuit] Illinois circuit where the arrest occurred",
+            "automatic_seal_status": "[C6 - automatic-seal status] State the record's automatic-seal status. If uncertain, ask the circuit clerk or get legal help before filing."
+          },
+          "fieldTreatments": {
+            "identity_theft_report_and_mismatched_identifiers": "ruled_blank",
+            "arrest_circuit": "ruled_blank",
+            "automatic_seal_status": "ruled_blank"
+          }
+        },
+        {
+          "heading": "D. RELIEF REQUESTED",
+          "kind": "pleading_paragraph",
+          "body": "I ask the chief judge to correct the arrest or conviction and official records by removing my name and substituting the offender's name if known. An unknown offender name must not be invented."
+        },
+        {
+          "heading": "E. CERTIFICATION UNDER 735 ILCS 5/1-109",
+          "kind": "pleading_paragraph",
+          "body": "Under penalties as provided by law pursuant to Section 1-109 of the Code of Civil Procedure, I certify that the statements set forth in this petition are true and correct, except as to matters stated to be on information and belief and as to such matters I certify that I verily believe the same to be true.\n\n(Sign and date personally after completing and checking this petition. No notarization is required by this certification.)"
+        },
+        {
+          "heading": "SIGNATURE OF PETITIONER",
+          "kind": "pro_se_signature_block",
+          "signatureDateLabel": "DATE",
+          "body": "{{participant_full_legal_name}}, Petitioner"
         }
       ],
       "documentContract": {
@@ -275,17 +330,34 @@
         "signer": "participant",
         "recipient": "court",
         "formApplicability": "custom_document_permitted",
-        "caseMode": "unresolved",
-        "executionType": "unresolved",
+        "caseMode": "new_petition_to_the_chief_judge",
+        "executionType": "certified_under_penalty_of_perjury",
         "serviceTreatment": "unresolved",
         "orderTreatment": "no_proposed_order",
         "privacyTreatment": "masked_on_public_filing",
         "localVariant": "unresolved",
         "unresolvedReasons": {
-          "executionType": "no packet-set manifest joins this specification, so execution is not established.",
           "serviceTreatment": "no packet-set manifest joins this specification, so service treatment is not established.",
-          "caseMode": "the specification requires no case or cause number and the recorded filing action does not say which case this is filed into: \"\"",
           "localVariant": "no source read states whether a local form or practice controls this component."
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "The repaired artifact prints the petition's own caption -- the Illinois circuit court where the arrest occurred, an IN RE line naming the petitioner, and a court-assigned case number line -- above its own title. It is the instrument that opens the matter before the chief judge and is filed behind nothing."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "25f0c6a12204671455391f35dc7d1d801eef8266abdf08153190c960e7bd9426",
+        "sourceUsed": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/canonical.pdf",
+        "componentEquivalence": "recovered_from_recorded_repair",
+        "evidence": "Recovered from the recorded repair, not from the adopted bytes. VF07 (data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-il-mistaken-identity-current-semantic-fail-20260912.json) read the adopted artifact 25f0c6a122046714… and returned FAIL_REPAIR_REQUIRED on COMPONENT_SET, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, ARTIFACTS and FEE_AND_WAIVER: a petition calling itself VERIFIED with no certification, oath or penalty-of-perjury language anywhere in it (IL-MI-01); unconditional demands for prostitution statute and class, sentence completion and trafficking facts from a participant correcting a record another person created in their name (IL-MI-02); implementation identifiers on participant and court deliverables (IL-MI-03); and an unsupported inability-to-pay prohibition. FIXILCAP (data/rcap-grade-a/packet-factory-24h/fixilcap/rows-fixilcap-il-mistaken-identity-20260912.json) repaired those findings and produced 433dc445780603b7…, which is the artifact on disk and the source of every string carried here. Transcribing the adopted substance would have carried all five defects into production under the adoption's authority. This records traceability and claims no owner adoption for the repaired bytes; FIXILCAP's own independent re-verification is recorded PENDING and nothing here asserts it.",
+        "repairRecord": {
+          "repairRow": "data/rcap-grade-a/packet-factory-24h/fixilcap/rows-fixilcap-il-mistaken-identity-20260912.json",
+          "failingReview": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-il-mistaken-identity-current-semantic-fail-20260912.json",
+          "obligationsFailed": [
+            "COMPONENT_SET",
+            "REQUIRED_BEFORE_FILING",
+            "ROUTE_OPTIONS",
+            "ARTIFACTS",
+            "FEE_AND_WAIVER"
+          ]
         }
       }
     },
@@ -300,8 +372,9 @@
       "officialFormId": null,
       "sections": [
         {
-          "heading": "What this set is, where it goes, what the record establishes about cost and notice, the documents to obtain, and when to stop",
-          "kind": "approved_shipping_component"
+          "heading": "FILING INSTRUCTIONS - ILLINOIS VERIFIED MISTAKEN-IDENTITY PETITION UNDER 20 ILCS 2630/5.2",
+          "kind": "static",
+          "body": "This page is for {{participant_full_legal_name}}.\n\nPURPOSE AND FILING COURT\n\nUse this petition for criminal identity theft or mistaken identity under 20 ILCS 2630/5.2. Petition the chief judge of the Illinois circuit where the arrest occurred. This is a record-correction process; an ordinary expungement petition is not a substitute.\n\nBEFORE YOU SIGN\n\nObtain the identity-theft report and evidence showing the mismatch between your identifiers and those in the affected arrest or conviction record. Attach these records to the petition.\n\nComplete C1, C2 and C6 and the arrest-circuit caption from accurate records. Do not guess case facts, dates or an unknown offender's name.\n\nReview the entire completed petition and its certification under 735 ILCS 5/1-109. Sign and date personally only if its statements are true. The certification does not require a notary.\n\nLeave a new court-assigned case number blank until the court supplies it.\n\nFILING COST AND WAIVER\n\nConfirm the current filing fee and any fee-waiver procedure with the office of the chief judge of the Illinois circuit where the arrest occurred. This packet does not establish a fee amount or a waiver decision. If you cannot afford a fee, ask about available waiver procedures or legal aid; do not assume inability to pay bars filing.\n\nNOTICE AND SERVICE\n\nBefore filing, ask the office of the chief judge of the arrest circuit who must receive notice or service, how to provide it, and whether proof of service is required. Follow the court's instructions; this packet does not certify that anyone has been served.\n\nWHEN TO GET LEGAL HELP\n\n- you are uncertain that someone else used your identity to create the record;\n- the arrest or conviction is actually your own, rather than a mistaken-identity record;\n- the record may already have been automatically sealed and its status is unresolved;\n- you need relief on the separate prostitution or trafficking-related conviction route;\n- an immigration issue is involved."
         }
       ],
       "documentContract": {
@@ -319,7 +392,26 @@
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
         }
-      }
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "25f0c6a12204671455391f35dc7d1d801eef8266abdf08153190c960e7bd9426",
+        "sourceUsed": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/canonical.pdf",
+        "componentEquivalence": "recovered_from_recorded_repair",
+        "evidence": "Recovered from the recorded repair, not from the adopted bytes. VF07 (data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-il-mistaken-identity-current-semantic-fail-20260912.json) read the adopted artifact 25f0c6a122046714… and returned FAIL_REPAIR_REQUIRED on COMPONENT_SET, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, ARTIFACTS and FEE_AND_WAIVER: a petition calling itself VERIFIED with no certification, oath or penalty-of-perjury language anywhere in it (IL-MI-01); unconditional demands for prostitution statute and class, sentence completion and trafficking facts from a participant correcting a record another person created in their name (IL-MI-02); implementation identifiers on participant and court deliverables (IL-MI-03); and an unsupported inability-to-pay prohibition. FIXILCAP (data/rcap-grade-a/packet-factory-24h/fixilcap/rows-fixilcap-il-mistaken-identity-20260912.json) repaired those findings and produced 433dc445780603b7…, which is the artifact on disk and the source of every string carried here. Transcribing the adopted substance would have carried all five defects into production under the adoption's authority. This records traceability and claims no owner adoption for the repaired bytes; FIXILCAP's own independent re-verification is recorded PENDING and nothing here asserts it.",
+        "repairRecord": {
+          "repairRow": "data/rcap-grade-a/packet-factory-24h/fixilcap/rows-fixilcap-il-mistaken-identity-20260912.json",
+          "failingReview": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-il-mistaken-identity-current-semantic-fail-20260912.json",
+          "obligationsFailed": [
+            "COMPONENT_SET",
+            "REQUIRED_BEFORE_FILING",
+            "ROUTE_OPTIONS",
+            "ARTIFACTS",
+            "FEE_AND_WAIVER"
+          ]
+        }
+      },
+      "supersededBy": "supplemental_guide",
+      "supersessionNote": "Every line of this page is participant guidance and none of it is filed. Its substance is carried into the shared §7 guide at data/record-clearing/supplemental-guides/IL-criminal-identity-theft-mistaken-identity-relief.v1.json, across Overview, Next Steps, Filing Checklist and Fees & Costs. It stays in the packet only until that guide is assembled with the delivery, and the renderer drops it at that point rather than shipping two sets of instructions for one filing."
     }
   ],
   "filingDestination": {
@@ -349,7 +441,7 @@
   },
   "postFilingTimeline": [
     {
-      "step": "Read the filing-instructions page, fill Items C1 to C6 of the petition from the record itself, obtain the identity-theft report and the mismatched-identifier evidence, and sign and date the petition personally.",
+      "step": "Read the filing-instructions page, fill Items C1, C2 and C6 of the petition from the record itself, obtain the identity-theft report and the mismatched-identifier evidence, and sign and date the petition personally.",
       "timing": "before filing; the route contract records no elapsed waiting period, so the verified petition may be filed upon learning of the record"
     },
     {
@@ -432,5 +524,19 @@
       "text": "Sign and date the petition personally; leave the case number for the court to assign at filing.",
       "requiredBeforeFiling": true
     }
-  ]
+  ],
+  "factsRemovedByReviewFinding": {
+    "finding": "IL-MI-02",
+    "review": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-il-mistaken-identity-current-semantic-fail-20260912.json",
+    "bindingRule": "Keep this petition and its collection/handback specific to the supported mistaken-identity branch. Model applicability explicitly for any retained conditional facts, keep the separate prostitution routing stop, and do not impose a conviction waiting clock or fabricate sentence facts. Preserve the genuinely relevant identity-report/mismatched-identifiers and arrest-circuit items.",
+    "factIds": [
+      "exact_prostitution_statute_class",
+      "sentence_completion_date",
+      "trafficking_status"
+    ],
+    "why": "Each was requiredBeforeFiling with no applicability condition, on a route whose own doNotImport says \"Do not treat a prostitution record on this route\". A participant correcting a record another person created in their name may have no conviction, no sentence and no trafficking facts to give, and was being asked to swear to them. The repaired artifact prints C1, C2 and C6 only; this removes the collection that matched the old page.",
+    "preservedIn": "The removed declarations are preserved in git history and in the VF07 return that condemned them.",
+    "alsoCorrected": "postFilingTimeline step 1 told the participant to \"fill Items C1 to C6 of the petition\". C3, C4 and C5 are the three items this finding removed, and the repaired page prints C1, C2 and C6 only, so the sentence was sending a participant to look for items that are not on their petition."
+  },
+  "specificationSha256": "a84104d47241d3b4eb6afc8d759db85da4dcb1e1198ee915eb0a645c7a61b5ff"
 }

@@ -130,7 +130,17 @@ check(
 );
 check(recorded.length > 0, `there are recorded caption treatments to audit (${recorded.length})`);
 
-const AUTHORITY = /adopted artifact|approved artifact|official form|local form|owner|legal decision|specification/i;
+/*
+ * What may settle a caption treatment.
+ *
+ * "repaired artifact" joins the list because a component can now be carried
+ * from a recorded repair rather than from the adopted bytes -- Illinois's
+ * mistaken-identity petition is, its adopted version having failed independent
+ * semantic review. The page that settles the caption is the page the component
+ * was transcribed from, and for that route the adopted one is not it.
+ */
+const AUTHORITY =
+  /adopted artifact|approved artifact|repaired artifact|official form|local form|owner|legal decision|specification/i;
 const withoutEvidence = recorded.filter((row) => {
   const evidence = row.document.documentContract?.captionTreatmentEvidence;
   return typeof evidence !== "string" || evidence.trim().length < 40 || !AUTHORITY.test(evidence);

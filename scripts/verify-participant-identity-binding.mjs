@@ -61,7 +61,13 @@ const FIXTURE_IDENTITIES = [
   "Jordan Avery Reyes",
   "42 Coteau Street",
   "605-555-0142",
-  "jordan.reyes@example.org"
+  "jordan.reyes@example.org",
+  // Illinois renders with the same sample person at a different address, so the
+  // name alone would not have caught a leak from its pages.
+  "42 Magnolia Street",
+  "Springfield 62704",
+  "555-0142",
+  "1991-04-17"
 ];
 
 /** Two participants who share no name part, so a leak cannot hide behind a match. */

@@ -92,6 +92,15 @@ export type GradeABlock =
       name: string;
       role: string;
       contactLines: string[];
+      /**
+       * The label for a dated signature, where the adopted page rules one.
+       *
+       * A signature block that cannot carry a date drops something the
+       * participant must complete: Illinois's certification page rules
+       * "DATE .......... SIGNATURE OF PETITIONER ..........", and a signature
+       * rule alone leaves a certification under penalty of perjury undated.
+       */
+      dateLabel?: string;
     }
   | {
       kind: "notary_verification";
@@ -340,6 +349,29 @@ function structuredBlocks(
     blocks.push({ kind: paragraphKind, text: lines.join(" ").trim() } as GradeABlock);
   }
   return blocks;
+}
+
+/**
+ * The heading a pleading section DRAWS, where the adopted page draws one.
+ *
+ * Most section headings are the specification's own labels for its parts --
+ * "Caption", "Petitioner", "The conviction" -- and belong in the file rather
+ * than on the page, which is why a pleading section's heading was never drawn.
+ * But some adopted pleadings organise themselves with printed section markers:
+ * Illinois's mistaken-identity petition runs A. REQUEST FOR MISTAKEN-IDENTITY
+ * CORRECTION through E. CERTIFICATION UNDER 735 ILCS 5/1-109, and its own
+ * filing instructions tell the participant to "Complete C1, C2 and C6". A page
+ * that drops those markers loses the structure its instructions refer to.
+ *
+ * So a heading is drawn when it LOOKS like a printed marker -- a number or a
+ * capital letter, a period, then a title -- and not otherwise. "Caption" and
+ * "The conviction" do not match, so nothing already shipping changes; a bare
+ * "3." keeps its existing meaning as a numbered block.
+ */
+function sectionDesignator(heading: string): string | undefined {
+  const text = String(heading ?? "").trim();
+  if (/^\d+\.$/.test(text)) return text;
+  return /^(?:\d+|[A-Z])\.\s+\S/.test(text) ? text : undefined;
 }
 
 function fill(text: string, matter: GradeAMatter): string {
@@ -607,8 +639,16 @@ function composeSection(
       }];
     }
 
-    case "pleading_paragraph":
-      return structuredBlocks(fill(section.body ?? "", matter), "pleading_paragraph");
+    case "pleading_paragraph": {
+      const blocks = structuredBlocks(fill(section.body ?? "", matter), "pleading_paragraph");
+      const designator = sectionDesignator(section.heading);
+      // The designator belongs to the section, so it is drawn once, above the
+      // first paragraph -- not repeated over each one.
+      if (designator && blocks.length > 0 && blocks[0].kind === "pleading_paragraph") {
+        blocks[0] = { ...blocks[0], number: designator };
+      }
+      return blocks;
+    }
 
     case "pleading_numbered_assertions": {
       const assertions = (section.assertions ?? []).filter((assertion) =>
@@ -661,7 +701,7 @@ function composeSection(
       const hasImpact = fact(matter, "personal_impact_confirmed") === "Yes";
       const number = section.heading === "AUTO"
         ? (hasImpact ? "5." : "4.")
-        : (/^\d+\.$/.test(section.heading) ? section.heading : undefined);
+        : sectionDesignator(section.heading);
       /*
        * A multi-paragraph introduction is not one run of text. Nevada's
        * proposed order opens with a recital, then a blank line, then the
@@ -693,7 +733,8 @@ function composeSection(
           fact(matter, "mailing_address"),
           `Telephone: ${fact(matter, "phone_number")}`,
           `Email: ${fact(matter, "email_address")}`
-        ]
+        ],
+        ...(section.signatureDateLabel ? { dateLabel: section.signatureDateLabel } : {})
       }];
 
     case "verification_on_oath":

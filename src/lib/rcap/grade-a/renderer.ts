@@ -390,7 +390,25 @@ function drawPleadingCaption(
     } else {
       cursor.page.drawText(sanitize(block.caseNumber), { x: afterDocket, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
     }
-    cursor.y -= 26;
+    cursor.y -= PLEADING_LEADING;
+    /*
+     * The case-number instruction is drawn on THIS path too.
+     *
+     * It was drawn only on the single-court-line path, so a caption using
+     * `courtLines` could declare one and have it silently dropped -- the
+     * contract recording an instruction the page never printed, which is the
+     * exact shape of defect these transcriptions keep turning up. Illinois
+     * needs it: the court opens the matter and assigns the number, and the
+     * participant has to be told to leave that rule blank rather than invent
+     * something to write on it.
+     */
+    if (block.caseNumberInstruction) {
+      cursor.y = drawCenteredWrapped(
+        cursor.page, fonts.pleadingBody, sanitize(`(${block.caseNumberInstruction})`), 9,
+        PLEADING_CONTENT_WIDTH, cursor.y, 11
+      );
+    }
+    cursor.y -= 14;
     if (block.matterTitle) {
       cursor.y = drawCenteredWrapped(cursor.page, fonts.pleadingBold, sanitize(block.matterTitle.toUpperCase()), 12, PLEADING_CONTENT_WIDTH, cursor.y, PLEADING_LEADING) - 20;
     }
@@ -591,6 +609,16 @@ function drawPleadingIdentityList(
     drawPleadingText(cursor, document, fonts, context, block.introduction, { firstLineIndent: 36 });
     cursor.y -= 8;
   }
+  /*
+   * A label that already ends a sentence does not get another colon.
+   *
+   * The idiom here is "(a) Case number:" -- a short noun label followed by the
+   * value or its rule. Some adopted pages label a blank with a whole
+   * instruction instead ("... Identify the attached identity-theft report and
+   * supporting identifier evidence."), and appending the colon unconditionally
+   * printed ".:" at the end of it.
+   */
+  const label = (text: string) => (/[.:?!]$/.test(text.trim()) ? text.trim() : `${text.trim()}:`);
   block.items.forEach((item, index) => {
     const letter = String.fromCharCode(97 + index);
     if (item.blank) {
@@ -598,13 +626,13 @@ function drawPleadingIdentityList(
       // line is drawn for it, the same way a signature line is drawn: printing
       // "(a) Case number: " with nothing after it reads as a value the packet
       // failed to supply, and a line reads as the instruction it is.
-      drawPleadingText(cursor, document, fonts, context, `(${letter}) ${item.label}:`, { indent: 24 });
+      drawPleadingText(cursor, document, fonts, context, `(${letter}) ${label(item.label)}`, { indent: 24 });
       cursor.y -= 6;
       drawBlankLine(cursor, fonts, 320);
       cursor.y -= 3;
       return;
     }
-    drawPleadingText(cursor, document, fonts, context, `(${letter}) ${item.label}: ${item.value}`, { indent: 24 });
+    drawPleadingText(cursor, document, fonts, context, `(${letter}) ${label(item.label)} ${item.value}`, { indent: 24 });
     cursor.y -= 3;
   });
   cursor.y -= 8;
@@ -617,11 +645,20 @@ function drawPleadingSignature(
   context: PleadingContext,
   block: Extract<GradeABlock, { kind: "pleading_signature" }>
 ) {
-  ensurePleading(cursor, document, fonts, context, 205);
+  ensurePleading(cursor, document, fonts, context, block.dateLabel ? 240 : 205);
   drawPleadingText(cursor, document, fonts, context, block.heading);
   cursor.y -= 18;
   drawPleadingText(cursor, document, fonts, context, block.role, { font: fonts.pleadingBold });
   cursor.y -= 28;
+  // A dated signature gets its own ruled line above the signature rule, rather
+  // than a date squeezed onto the same line, so neither is written in the
+  // other's space.
+  if (block.dateLabel) {
+    drawPleadingText(cursor, document, fonts, context, block.dateLabel);
+    cursor.y -= 6;
+    drawBlankLine(cursor, fonts, 220);
+    cursor.y -= 16;
+  }
   drawBlankLine(cursor, fonts, 280);
   drawPleadingText(cursor, document, fonts, context, block.name.toUpperCase());
   for (const line of block.contactLines) drawPleadingText(cursor, document, fonts, context, line);
@@ -998,10 +1035,25 @@ function title(cursor: Cursor, document: PDFDocument, fonts: Fonts, text: string
   cursor.y -= 6;
 }
 
+/*
+ * A heading WRAPS, like every other run on the page.
+ *
+ * It was drawn as one line at the left margin with no width, so a heading
+ * wider than the page ran off the right edge and the rest of it simply was not
+ * there. Illinois found it: "FILING INSTRUCTIONS - ILLINOIS VERIFIED
+ * MISTAKEN-IDENTITY PETITION UNDER 20 ILCS 2630/5.2" was drawn up to
+ * "...2630" and the statute it names was cut off the page. Nothing reported
+ * it, and no control caught it either -- the checks that read what reaches the
+ * page read section BODIES, and this is a heading.
+ */
 function heading(cursor: Cursor, document: PDFDocument, fonts: Fonts, text: string) {
-  ensure(cursor, document, 30);
-  cursor.page.drawText(sanitize(text), { x: MARGIN, y: cursor.y, size: 12, font: fonts.bold, color: INK });
-  cursor.y -= 19;
+  const lines = wrap(sanitize(text), fonts.bold, 12, CONTENT_WIDTH);
+  for (const line of lines) {
+    ensure(cursor, document, 30);
+    cursor.page.drawText(line, { x: MARGIN, y: cursor.y, size: 12, font: fonts.bold, color: INK });
+    cursor.y -= 16;
+  }
+  cursor.y -= 3;
 }
 
 function paragraph(

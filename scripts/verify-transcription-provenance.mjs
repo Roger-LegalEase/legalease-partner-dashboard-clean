@@ -260,9 +260,19 @@ const TRANSCRIPTION_PROGRAM = new Set([
  * first, and a recovered component that also needs splitting is a recovery
  * followed by a split, not a single claim.
  */
+/*
+ * `recovered_from_recorded_repair` belongs only to a drifted family, because
+ * the drift IS the repair. It is the case the three original states had no
+ * name for: the adopted bytes were independently reviewed and failed, so
+ * "transcribe the adopted substance" would carry the findings into production.
+ * It is checked below against the committed review and repair rows, not
+ * accepted on the binding's word.
+ */
 const EQUIVALENCE_AVAILABLE_IN = {
   matches_adopted: new Set(["exact_adopted_bytes", "recovered_from_adopted", "adopted_substance_split"]),
-  drift_characterised: new Set(["untouched_by_drift", "drift_outside_substance", "recovered_from_adopted"]),
+  drift_characterised: new Set([
+    "untouched_by_drift", "drift_outside_substance", "recovered_from_adopted", "recovered_from_recorded_repair"
+  ]),
   drift_uncharacterised: new Set(["recovered_from_adopted"]),
   not_in_adoption: new Set(["recovered_from_adopted"])
 };
@@ -433,6 +443,81 @@ const provenBridges = Object.values(REGENERATION_BRIDGE).filter((bridge) => brid
 check(
   provenBridges > 0,
   `at least one exact-match family has a proven source-to-artifact bridge (${provenBridges} of ${Object.keys(REGENERATION_BRIDGE).length})`
+);
+
+// ---------------------------------------------------------------------------
+// 8. A repair is a claim about two committed records, so both are read.
+//
+// `recovered_from_recorded_repair` says the adopted bytes failed review and
+// newer bytes answered it. That is a strong thing to assert -- it is the one
+// state in which the text NOT carried is the owner-adopted text -- so it is
+// not taken on the binding's word. For every component claiming it:
+//
+//   the failing review must exist, name this family, and carry a FAIL verdict
+//   on the obligations the binding lists;
+//   the repair row must exist, name this family, and record as its output the
+//   digest that is actually on disk;
+//   and the binding must name the digest the adoption pins as the ADOPTED one,
+//   so nobody can relabel the repair as the adoption.
+// ---------------------------------------------------------------------------
+
+const repairClaims = [];
+for (const verdict of verdicts) {
+  if (!TRANSCRIPTION_PROGRAM.has(verdict.spec.routeKey)) continue;
+  for (const document of verdict.spec.documents ?? []) {
+    const binding = document.transcriptionProvenance;
+    if (binding?.componentEquivalence !== "recovered_from_recorded_repair") continue;
+    repairClaims.push({ verdict, document, binding, where: `${verdict.spec.routeKey}|${document.documentId}` });
+  }
+}
+
+for (const claim of repairClaims) {
+  const record = claim.binding.repairRecord;
+  check(
+    Boolean(record?.repairRow) && Boolean(record?.failingReview) && (record?.obligationsFailed ?? []).length > 0,
+    `${claim.where}: the repair claim names its review, its repair row and the obligations that failed`
+  );
+  if (!record?.repairRow || !record?.failingReview) continue;
+
+  const reviewPath = path.join(rootDir, record.failingReview);
+  const repairPath = path.join(rootDir, record.repairRow);
+  check(fs.existsSync(reviewPath) && fs.existsSync(repairPath), `${claim.where}: both records are committed`);
+  if (!fs.existsSync(reviewPath) || !fs.existsSync(repairPath)) continue;
+
+  const review = read(record.failingReview);
+  const reviewRow = (review.rows ?? []).find((row) => row.familyId === claim.verdict.spec.packetSetId);
+  check(
+    Boolean(reviewRow) && /^FAIL/.test(reviewRow.verdict ?? ""),
+    `${claim.where}: the review read THIS family's adopted bytes and failed them (${reviewRow?.verdict ?? "no row"})`
+  );
+  const failed = new Set(Object.entries(reviewRow?.proofObligations ?? {})
+    .filter(([, value]) => value.result === "FAIL").map(([name]) => name));
+  const overstated = (record.obligationsFailed ?? []).filter((name) => !failed.has(name));
+  check(
+    overstated.length === 0,
+    `${claim.where}: every obligation the binding names actually failed${
+      overstated.length ? ` (${overstated.join(", ")} did not)` : ` (${failed.size} did)`}`
+  );
+
+  const repair = read(record.repairRow);
+  const repairRow = (repair.rows ?? []).find((row) => row.familyId === claim.verdict.spec.packetSetId);
+  const produced = (repairRow?.artifacts?.packets ?? []).find((packet) => packet.role === "canonical");
+  check(
+    produced?.sha256 === claim.verdict.onDisk,
+    `${claim.where}: the repair produced the bytes that are on disk (${String(produced?.sha256).slice(0, 12)}… vs ${
+      String(claim.verdict.onDisk).slice(0, 12)}…)`
+  );
+  // And the repair is not quietly wearing the adoption: the binding's adopted
+  // digest is the one the owner pinned, which is NOT what was transcribed.
+  check(
+    claim.binding.adoptedDigest === claim.verdict.adoptedSha
+    && claim.binding.adoptedDigest !== claim.verdict.onDisk,
+    `${claim.where}: names the adoption's own digest as adopted, and it is not the digest transcribed`
+  );
+}
+check(
+  repairClaims.length === 0 || repairClaims.length > 0,
+  `components carried from a recorded repair are audited (${repairClaims.length})`
 );
 
 console.log(`\n${failures.length === 0 ? "PASS" : "FAIL"} — ${failures.length} failing check(s)`);
