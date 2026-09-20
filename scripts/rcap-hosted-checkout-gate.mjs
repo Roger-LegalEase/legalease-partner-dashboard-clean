@@ -505,6 +505,28 @@ async function main() {
     trackId: null,
     packetFields: {}
   });
+  const consumerMappingEvidence = {
+    specPresent: built.spec !== null,
+    routeKind: built.route?.routeKind ?? null,
+    routeReason: built.route?.reason ?? null,
+    operands: [
+      ["consumerProfileVersion", consumerProfileVersion, null],
+      ["consumerPacketType", consumerPacketType, "custom_pleading"],
+      ["isConsumerPaymentAllowed", isConsumerPaymentAllowed(consumerResultCode, true), true],
+      ["compiledProfile.jurisdiction.code", compiledProfile?.jurisdiction?.code, "PA"],
+      ["compiledPathway.label", compiledPathway?.label, PA_PATHWAY],
+      ["built.spec.profileVersion", built.spec?.profileVersion, String(compiledProfile?.profileVersion)],
+      ["built.spec.profileId", built.spec?.profileId, "PA"]
+    ].map(([operand, actual, expected]) => ({
+      operand,
+      // JSON drops undefined properties: preserve absence explicitly so a
+      // refused spec cannot hide the very values this case is measuring.
+      actual: actual === undefined ? "(undefined)" : actual,
+      actualType: typeof actual,
+      expected,
+      passed: actual === expected
+    }))
+  };
   record(
     "consumer_caller_profile_and_eligibility_mapping_exact",
     consumerProfileVersion === null
@@ -515,7 +537,8 @@ async function main() {
       // The derived value, not merely the absence of a literal.
       && built.spec?.profileVersion === String(compiledProfile?.profileVersion)
       && built.spec?.profileId === "PA",
-    `caller profile literal=${consumerProfileVersion ?? "(none, as required)"}; compiled profile=${compiledProfile?.profileVersion ?? "(absent)"}; pathway id=${compiledPathway?.id ?? "(absent)"}; result=${consumerResultCode}; packet=${consumerPacketType ?? "(not derived)"}; payment admitted=${isConsumerPaymentAllowed(consumerResultCode, true)}`
+    JSON.stringify(consumerMappingEvidence),
+    consumerMappingEvidence
   );
   const routeIdentity = {
     routeKind: built.route?.routeKind ?? null,
