@@ -92,7 +92,36 @@ for (const [id, subsection] of [
     `the memo no longer attributes ${subsection} to ${id}; this record's conclusion rests on that attribution and must be revisited, not inherited`);
 }
 
-// --- 3. the review really does say what this record overturns ------------------
+// --- 3. the record does not outrun its own evidence ---------------------------
+// The quotes above prove what the MEMO says. Nothing in this repository proves
+// what Oregon Laws 2025 chapter 349 says: those bytes are not here and not in
+// the source library. A record that resolves which interpretation the repository
+// follows can slide into reading as a statutory holding just by being cited a
+// few times, so the limitation is checked rather than trusted to stay written.
+const standing = record.evidentiaryStanding ?? null;
+check(Boolean(standing), "the record no longer states its evidentiary standing; a provenance resolution that does not say so reads as primary-source proof");
+if (standing) {
+  // The disclaimer lives under a key whose name supplies the negation, so match
+  // on what it asserts -- that no enrolled or session-law text backs this record
+  // -- rather than on the word "not", which the key already carries.
+  check(typeof standing.whatThisRecordIsNot === "string"
+    && /enrolled/i.test(standing.whatThisRecordIsNot)
+    && /no enrolled or session-law text was read/i.test(standing.whatThisRecordIsNot),
+    "the record no longer disclaims resting on the enrolled statute's own text");
+  const gate = standing.beforeStatutoryAuthorityMayBeBound ?? {};
+  const options = Array.isArray(gate.options) ? gate.options : [];
+  check(options.length === 2, "the two routes to binding statutoryAuthority (primary source, or counsel) are no longer both recorded");
+  check(options.some(option => /primary[- ]source|enrolled|session[- ]law/i.test(option)),
+    "the primary-source route to binding statutoryAuthority is no longer recorded");
+  check(options.some(option => /counsel/i.test(option)),
+    "the counsel route to binding statutoryAuthority is no longer recorded");
+}
+// The record must not claim to open anything, whatever its prose says elsewhere.
+for (const [field, expected] of [["opensAnyRoute", false], ["isCounselApproval", false], ["createsOutputApproval", false], ["productionAuthorized", false], ["commercialRoutesOpened", 0]]) {
+  check(record[field] === expected, `${field} is no longer ${JSON.stringify(expected)}; this record may not carry authority it did not earn`);
+}
+
+// --- 4. the review really does say what this record overturns ------------------
 const corpusRoot = CORPUS_CANDIDATES
   .map(candidate => path.resolve(ROOT, candidate))
   .find(candidate => fs.existsSync(path.join(candidate, REVIEW_RELATIVE)));
@@ -111,7 +140,25 @@ if (!corpusRoot) {
   const sealing = record.whatTheEnrolledReadingEstablished?.sealingEffect?.reviewText ?? "";
   check(normalize(review).includes(normalize(sealing)) && sealing.length > 0,
     "the sealing-effect quote is not verbatim in the review");
+
+  // The proposed-order conclusion rests on one sentence in the acquisition
+  // manifest. It is the reason no custom order is drafted, so it is checked
+  // against the manifest rather than trusted to have been read correctly.
+  const manifestPath = path.join(corpusRoot, "STATES/OR/STATE_MANIFEST.csv");
+  if (!fs.existsSync(manifestPath)) {
+    skipped.push("the OJD order statement could not be checked: STATES/OR/STATE_MANIFEST.csv is not present");
+  } else {
+    const manifest = normalize(fs.readFileSync(manifestPath, "utf8"));
+    const claimed = record.vehicleConfirmedIndependently?.proposedOrderGap?.lookupPerformed?.ojdStatement ?? "";
+    check(claimed.length > 0 && manifest.includes(normalize(claimed)),
+      "the OJD statement that the court creates the order is not verbatim in the Oregon acquisition manifest; the decision not to draft a proposed order rests on it");
+  }
 }
+
+// --- 5. the proposed-order gap stays closed the way it was closed -------------
+const gap = record.vehicleConfirmedIndependently?.proposedOrderGap ?? {};
+check(/Do not draft a custom proposed order/i.test(String(gap.disposition ?? "")),
+  "the proposed-order disposition no longer refuses to draft a custom order");
 
 for (const note of skipped) console.log(`  skipped  ${note}`);
 for (const problem of problems) console.error(`  FAIL  ${problem}`);

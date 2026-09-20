@@ -12,7 +12,34 @@
     "or_dismissed_charge"
   ],
   "question": "The specification's statutoryAuthority section is unbound because two committed records disagree about which ORS subsection governs the dismissed-charge and acquittal branches. Which record controls, and does the disagreement survive?",
-  "finding": "It does not survive. The disagreement is between a review and a later reading of the enrolled session laws that supersedes it, and the enrolled reading answers the question: ORS 137.225(1)(d) governs dismissals and acquittals, ORS 137.225(1)(c) governs the no-accusatory-instrument branch. The memo's attribution is correct and the review's is superseded.",
+  "finding": "The disagreement does not survive as a question of which committed record the repository currently follows: the memo supersedes the review, and the memo attributes ORS 137.225(1)(d) to dismissals and acquittals and (1)(c) to the no-accusatory-instrument branch. That is a provenance resolution, not a statutory holding. What is established is what the repository's current interpretation is and why, NOT that the enrolled text says so as a matter of directly verified primary source.",
+  "evidentiaryStanding": {
+    "whatThisRecordIs": "A provenance resolution between two committed records. It decides which one the repository follows and why.",
+    "whatThisRecordIsNot": "Direct proof of the enrolled statute. No enrolled or session-law text was read for this record, and none is hashed, quoted or bound by it.",
+    "theExactChainOfCustody": [
+      "This record reads data/record-clearing/legal-design-intake/OR.memo.json.",
+      "That memo's `_officialAuthorityConfirmation` STATES that an official-authority refresh read the enrolled session laws at the Oregon Legislature's own channel on 2026-08-06 and reports what it found.",
+      "This record quotes that statement verbatim and the verifier proves the quotation is faithful.",
+      "The verifier therefore proves what the memo says. It does not and cannot prove what Oregon Laws 2025 chapter 349 says: those bytes are not in this repository and not in the source library."
+    ],
+    "thereforeDoNotSay": "Do not describe ORS 137.225(1)(d) as finally authoritative for generated output on the strength of this record. 'The subsections are now known per branch' means known as the repository's current interpretation, not established from primary source.",
+    "beforeStatutoryAuthorityMayBeBound": {
+      "requirement": "One of the following two, and neither is satisfied today.",
+      "options": [
+        "Direct primary-source confirmation: the enrolled or session-law text of Oregon Laws 2025 chapter 349 acquired, hashed and tied to the implementation record the way the OJD form is tied to the specification by sha256, so that a verifier can check the subsection assignment against the enacted words rather than against a memo's account of them.",
+        "Counsel approval of the branch-specific subsection assignment."
+      ],
+      "appliesTo": "Binding statutoryAuthority in the split routes, and any participant-facing statement of which subsection governs a branch.",
+      "whyThisIsNotMerelyCautious": "Every other statutory figure this record carries -- the 120-day objection window, the fee position, the grant standard -- rests on the same single account. If that account is wrong about the subsection it may be wrong about those too, so none of them may be printed to a participant on this record's strength either."
+    },
+    "whatIsSafeToUseNow": [
+      "That the later memo supersedes the older review as the repository's current interpretation.",
+      "That the memo records an official-authority refresh using enrolled session laws.",
+      "That the earlier (1)(c) treatment of the dismissed and acquitted branches must not be inherited blindly.",
+      "That the split recorded on 2026-09-19 should not be dissolved on the strength of the review's track table."
+    ],
+    "ownerCorrection": "Roger Roman, 2026-09-20: keep this commit as a valid provenance-resolution record, not as final legal approval; do not let a memo-based resolution quietly become final statutory authority before the primary-source or counsel step is satisfied."
+  },
   "theTrapThisRecordExists": {
     "what": "data/record-clearing/legal-design-intake/OR.memo.json and the Edition 1.2 legal review disagree in a way that reads, on a first pass, as the review being right.",
     "reviewSays": "OR__LEGAL-REVIEW__STATEWIDE__oregon-record-clearing-legal-review__ASOF-2026-08-01__EN.md files Track 1 (arrest, no charges), Track 2 (dismissed charge) AND Track 3 (acquittal) all under ORS 137.225(1)(c), and files subsection (1)(d) relief separately as Track 7, 'Unidentified / Additional research required'.",
@@ -53,7 +80,16 @@
       "statute": "ORS 137.225(12) requires statewide motion AND proposed-order forms.",
       "observed": "The OJD Criminal Set-Aside (Adult Cases) packet at REV-2026-01 is five pages -- three instruction pages, then Motion and Declaration pages 1-2. It contains no proposed order, and the Oregon source library holds no proposed-order form: 02_PACKET_FORMS carries only this packet and the marijuana motion.",
       "alsoObserved": "The packet-set manifest declares a proposed-order component (or_acquittal-proposed-order-2), and the memo's filing rule for all three branches says 'File the motion and proposed order'.",
-      "disposition": "Open. A required statewide form that the corpus does not hold is a source gap, not a licence to draft one: the Form vs Custom Pleading rule says an official form controls where one exists, and ORS 137.225(12) says this one is supposed to exist. Acquire the OJD proposed-order form before deciding whether any custom proposed order is appropriate. Not resolved here and not drafted here."
+      "disposition": "Do not draft a custom proposed order. The earlier disposition asked for acquisition before deciding; the acquisition record answers it, and the answer points away from an applicant-supplied order rather than towards drafting one. What follows is a legal-design decision for counsel, not a build step: whether the packet-set manifest's declared proposed-order component (or_acquittal-proposed-order-2) and the memo's filing rule 'File the motion and proposed order' should stand at all, given that the controlling OJD packet contains no order and OJD says the court creates it. Until counsel decides, the component stays undeclared in any participant-facing output and no order is generated.",
+      "lookupPerformed": {
+        "step1_libraryVariants": "Searched every edition present under private/source-imports for Oregon assets and for any file anywhere named like an order or a proposed order. Oregon holds exactly seven files in one edition and none is an order. Other states do carry applicant order forms -- Colorado JDF-418/642/681/686/2374, Louisiana CCRP Art. 995 and 999.1 -- so the absence is Oregon-specific rather than a library that omits orders.",
+        "step2_officialSource": "Did not require a fetch: the acquisition already did it and recorded the answer. STATES/OR/STATE_MANIFEST.csv carries, on all four Oregon rows, the note below, against source_urls that include the OJD forms centre and the Clackamas, Multnomah, Lane, Marion and Linn county set-aside pages, checked_date 2026-08-02.",
+        "ojdStatement": "OJD states the court creates the order rather than providing an applicant order form.",
+        "step3_acquire": "Nothing to acquire. The form is not missing from the library; by OJD's own statement it does not exist as an applicant form.",
+        "readmeOpenItem": "The Oregon STATE_README records one open source-gap entry and it is not this one: 'OJD or county set-aside packets for supported counties, plus OSP fingerprint materials', classified local_jurisdiction_required / jurisdiction_input_required. The proposed order was never recorded as missing."
+      },
+      "theRemainingTension": "The memo's account of ORS 137.225(12) says the State Court Administrator must create statewide motion AND proposed-order forms, while OJD's own statement is that the court creates the order. Both can be true if the statutory proposed-order form is the instrument the court issues rather than one the applicant files, and they can also be true if OJD has not yet published one. This record does not choose between those, and the statutory half rests on the memo rather than on the enacted text, so it carries the same evidentiaryStanding limit as everything else here.",
+      "changedFromEarlierToday": "Opened as 'acquire the OJD proposed-order form before deciding'. Closed as 'there is no such form to acquire, and that is itself the evidence'. Recorded rather than silently replaced."
     }
   },
   "effectOnThePriorRecord": {
@@ -62,7 +98,7 @@
     "refinement": "Its comparison table recorded the timing precondition for the (1)(d) branches as 'no waiting period'. The enrolled text is stronger and should be used instead: subsection (9), 'There is no time limit for making an application'."
   },
   "whatIsNowAvailableToBind": {
-    "note": "Six of the specification's seven unbound sections now have an authority, between this record and the form record. They are NOT bound by this record; binding happens in the specification when the route split lands, so the specification and the route model move together.",
+    "note": "Six of the specification's seven unbound sections now have an authority NAMED, between this record and the form record. Named is not verified: the statutory citations below come from the memo's account of the enrolled laws, not from the enrolled text, and are subject to evidentiaryStanding.beforeStatutoryAuthorityMayBeBound. The form-sourced items are stronger, because the form's bytes are hashed and checkable. Nothing here is bound by this record.",
     "sections": {
       "filingDestination": "OJD instructions page 3 of 3: file in the circuit court where the case happened or would have happened. Branch-invariant.",
       "feeAndWaiver": "ORS 137.225(1)(g) no court filing fee; ORS 137.225(2)(e) the prosecuting attorney may not charge; one State Police record check means one fee across counties. The OJD caption prints 'No Filing Fee'.",
@@ -71,7 +107,7 @@
       "hearingAndObjectionStops": "ORS 137.225(2)(a), 120 days from filing to object; OJD instructions describe a hearing being scheduled on objection.",
       "postFilingTimeline": "OJD instructions steps 1-6 and 'What happens next?', with the grant standard at ORS 137.225(3)(a)-(b)."
     },
-    "stillUnbound": "statutoryAuthority. Not because the subsections are unknown -- they are now known per branch -- but because this one runtime route still stands in for more than one of them. It binds when the split lands and each route carries its own subsection."
+    "stillUnbound": "statutoryAuthority, for two reasons now rather than one. One runtime route still stands in for more than one subsection, so it could not be bound to a single value anyway; and the subsection assignment itself rests on a memo's account of the enrolled text rather than on the text, so it may not be bound until primary source or counsel supplies it."
   },
   "notResolvedHere": {
     "sameEpisodeRule": "The memo records that ORS 137.225(7)(a)(B) as enacted disqualifies a person convicted of any other offence within the look-back period 'whether or not the other conviction is for conduct associated with the same criminal episode', while the OJD packet describes the carve-out as 'traffic violations or a single violation offense' without mentioning same-episode convictions. The memo adopts neither reading and makes no eligibility statement where a same-episode conviction is in play. That position is preserved here unchanged.",
@@ -85,5 +121,5 @@
   "commercialRoutesOpened": 0,
   "opensAnyRoute": false,
   "productionAuthorized": false,
-  "remainingReview": "Counsel review of the branch split and of every statutory reading relied on here. This record resolves which committed record controls; it does not substitute for counsel reading ORS 137.225 as amended by Oregon Laws 2025 chapter 349. The proposed-order form gap and the same-episode rule both remain open."
+  "remainingReview": "Counsel review of the branch split and of every statutory reading relied on here. This record resolves which committed record controls; it does not substitute for counsel reading ORS 137.225 as amended by Oregon Laws 2025 chapter 349. The proposed-order form gap and the same-episode rule both remain open. Added by the owner correction of 2026-09-20: statutoryAuthority may not be bound until either the enrolled or session-law text is acquired, hashed and tied to the implementation record, or counsel approves the branch-specific subsection assignment. Until then no statutory figure carried here may be printed to a participant."
 }
