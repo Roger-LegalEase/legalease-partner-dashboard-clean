@@ -116,6 +116,18 @@ check(
 
 const RECORDED_TREATMENTS = new Set(["full_independent_caption", "supporting_page"]);
 const recorded = courtFacing.filter((row) => RECORDED_TREATMENTS.has(row.contract.captionTreatment));
+
+// The denominator, stated so it cannot drift into ambiguity. The two recorded
+// treatments are counted separately and then together, because "seven" and
+// "eight" are both true of this population and mean different things: seven
+// components carry their own caption, one is an approved supporting page that
+// carries none, and eight is the number of treatments recorded on authority.
+const independentCount = recorded.filter((row) => row.contract.captionTreatment === "full_independent_caption").length;
+const supportingCount = recorded.filter((row) => row.contract.captionTreatment === "supporting_page").length;
+check(
+  recorded.length === independentCount + supportingCount,
+  `recorded caption treatments = ${independentCount} full_independent_caption + ${supportingCount} supporting_page = ${recorded.length} total`
+);
 check(recorded.length > 0, `there are recorded caption treatments to audit (${recorded.length})`);
 
 const AUTHORITY = /adopted artifact|approved artifact|official form|local form|owner|legal decision|specification/i;
@@ -287,7 +299,8 @@ const byTreatment = {};
 for (const row of courtFacing) {
   byTreatment[row.contract.captionTreatment] = (byTreatment[row.contract.captionTreatment] ?? 0) + 1;
 }
-console.log(`\ncourt-facing components by caption treatment: ${
+console.log(`\nrecorded on authority: ${independentCount} full_independent_caption + ${supportingCount} supporting_page = ${recorded.length}`);
+console.log(`court-facing components by caption treatment: ${
   Object.entries(byTreatment).sort((a, b) => b[1] - a[1]).map(([name, count]) => `${name}=${count}`).join(", ")}`);
 const unresolvedRows = courtFacing.filter((row) => row.contract.captionTreatment === "unresolved");
 if (unresolvedRows.length > 0) {

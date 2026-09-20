@@ -141,9 +141,50 @@
     "sharedCorrectionMade": "The composer now refuses an approved_shipping_component section by its real cause rather than as an unimplemented kind. The old message read \"this composer does not implement\", which invites someone to implement it. The new one names the section, says it describes an approved component rather than carrying its text, points at the family build host, and says the substance was dropped in derivation. That is the one-time shared fix this population warranted."
   },
   "stillOutstanding": [
-    "Transcribe the adopted text for the 8 families carrying approved_shipping_component, per family, in their §5 batches. The shared capability is in place; only content is missing.",
+    "Transcribe the adopted text for the 8 families carrying approved_shipping_component, per family, in their §5 batches: 5 from a build host proven to reproduce the adopted artifact, 3 from the adopted substance using the recorded characterisation of their drift. Preserve adopted component membership and requirement state independently of the text; do not draft missing substance.",
     "Per-component caption classification for the remaining unresolved court-facing components, from each family's own approved artifact page by page.",
-    "The IL shipping-artifact digest drift remains recorded and unapproved. It does not affect the caption classification but is not cleared here.",
+    "The IL felony-prostitution shipping-artifact digest drift, and Nevada's, remain recorded and unapproved. Neither affects the caption classification, and neither is cleared here.",
     "Counsel review of Nevada's supporting-page treatment."
-  ]
+  ],
+  "correction3_transcriptionProvenance": {
+    "rule": "A census-v1 build host is a transcription source only where its output still corresponds to what the owner adopted. It is not authority merely because it exists. Illinois felony-prostitution already showed the failure mode: its shipping bytes drifted after adoption, the record of that drift is explicitly not an approval, and transcribing from the current host would have carried an unapproved post-adoption edit into production wearing the adoption's authority.",
+    "method": "Per family, hash the on-disk canonical fixture and compare it to the digest OWNER_BATCH_ADOPTION_2026-09-02 pins for that family. Where they differ, look for a committed record that names the current digest. Three states result, and a family that has already had text carried into it while in the worst state is a failure.",
+    "states": {
+      "matches_adopted": "the on-disk canonical fixture hashes to the adopted digest, so the build host reproduces the adopted artifact and is a proven source.",
+      "drift_characterised": "the bytes moved and a committed record names the current digest and says what changed. Transcribe the ADOPTED substance, using the characterisation to know what the current host adds or moves.",
+      "drift_uncharacterised": "the bytes moved and nothing committed explains them. Recover the approved content or version first; do not transcribe."
+    },
+    "whatThisProves": "Traceability, never approval. A characterised drift is still an unapproved drift; it is simply one whose contents are known.",
+    "theEightFamilies": {
+      "matches_adopted": [
+        "DC:dc_actual_innocence_expungement_16_803 (3 documents)",
+        "GA:restriction-and-sealing-of-a-pardoned-felony (6)",
+        "GA:sb-288-misdemeanor-conviction-restriction-and-sealing (7)",
+        "SD:suspended-imposition-of-sentence-sealing (3)",
+        "WY:felony-conviction-expungement-w-s-7-13-1502 (5)"
+      ],
+      "drift_characterised": [
+        "IL:criminal-identity-theft-mistaken-identity-relief (2)",
+        "MS:additional-justice-court-misdemeanor-relief-9-11-15-3 (5) — OWNER_ARTIFACT_REREVIEW_MS_ADDITIONAL_MISDEMEANOR_2026-09-14 records the change as pagination-only, whitespace-normalized words identical, a 21-word parenthetical moved from page 3 to page 4, eight pages retained, status INSPECTED_FOR_OWNER_REVIEW_NOT_APPROVED",
+        "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1 (5)"
+      ],
+      "drift_uncharacterised": [],
+      "note": "No family is blocked outright today. The guard exists so that one appearing later is caught rather than transcribed."
+    },
+    "nevadaOwnProvenance": {
+      "why": "Nevada is the family already transcribed, so its own chain had to be established rather than assumed.",
+      "chain": [
+        "adopted 533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7, 10 pages",
+        "FIX07 -> 8fe5e209783ff5f70a18f8a37045f25126b020b23373aeba98956347440cd041, 9 pages. Removed the participant-irrelevant internal route footer from the proposed_order component only, and records: no legal theory, component, filing destination, fee, service statement, or substantive instruction changed.",
+        "FIX72 -> 3b02d62f748c5f3ec5150742f3e225d0418ca4ddb7203ef5bc7fce9552b2de9a, 9 pages. Records that pdftotext of both fixtures before and after differ in exactly the final stop bullet of the referral page, with page counts and recorded page manifests unchanged."
+      ],
+      "consequenceForTheTranscription": "Neither hop touches the three components whose text was carried. FIX07 changed a route footer on the proposed order, which is not pleading text; FIX72 changed one bullet on referral_instructions, which is a component deliberately left untranscribed because it already composed from a top-level specification block. So the petition, the proposed order and the declaration are the adopted substance.",
+      "honestResidual": "Both hops are characterised and neither is an owner re-approval. Nevada's shipping-artifact digest still differs from the adopted one, and the adoption's own condition is that such a change requires re-review. That re-review is not performed or claimed here."
+    },
+    "control": "scripts/verify-transcription-provenance.mjs. Classifies every family carrying approved_shipping_component and every family already transcribed, prints the digest movement and the records that explain it, and fails if a family with uncharacterised drift has transcribed text in its specification. Mutation-proven: making Nevada's drift look unexplained while its text is transcribed reds it twice."
+  },
+  "denominator": {
+    "statement": "Eight caption treatments are recorded on authority: SEVEN full_independent_caption and ONE supporting_page. Both numbers are true of this population and mean different things — seven components carry their own caption, and one is an approved supporting page that carries none.",
+    "assertedBy": "scripts/verify-caption-treatment-contract.mjs prints and asserts the split rather than only the total, so it cannot become ambiguous later."
+  }
 }
