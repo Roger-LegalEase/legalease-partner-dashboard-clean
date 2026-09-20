@@ -13,12 +13,19 @@
  * That distinction is not pedantry, and it was earned. An earlier version of
  * this file's positive example asserted "File the petition with the clerk
  * within 30 days" against Wyo. Stat. Ann. 7-13-1502(c). Every check here
- * passed it, and it was wrong twice: (c) is the PROSECUTOR's obligation to
- * notify identifiable victims after service, not a participant filing
- * deadline — and thirty days is the misdemeanour route's objection window
- * under 7-13-1501, where this route's is ninety. A citation string satisfied
- * the control while the sentence assigned the wrong action to the wrong person
- * on the wrong clock.
+ * passed it, and the sentence was false: (c) is the PROSECUTOR's obligation to
+ * notify identifiable victims within thirty days after service upon the
+ * prosecutor, and the statute prescribes no deadline by which the participant
+ * must file at all. A citation string satisfied the control while the sentence
+ * assigned the wrong action to the wrong person.
+ *
+ * The number itself was never the defect, and saying so would be its own error.
+ * Wyoming carries three distinct clocks: the thirty days in 7-13-1502(c) above;
+ * a ninety-day objection window in 7-13-1502(e)-(f), running from the same
+ * service, before which no expungement order may issue; and a separate
+ * thirty-day objection window on the misdemeanour route at 7-13-1501(e)-(f).
+ * All three are real and a guide may state any of them. What none of them is,
+ * is a participant filing deadline.
  *
  * So: a green run here means the metadata is well-formed and an instruction is
  * not masquerading as product copy. Whether a cited source actually says what
@@ -225,27 +232,31 @@ for (const guide of guides) {
  * mutating a real route's data.
  *
  * An invariant that only refuses is satisfied by refusing everything, and one
- * that only accepts is satisfied by accepting everything. So both fixtures
- * carry an instruction, and the ONLY difference between them is whether the
- * instruction names something beyond product copy.
+ * that only accepts is satisfied by accepting everything. So the two fixtures
+ * carry the SAME sentence and differ in exactly one field: the provenance. An
+ * earlier version used two different sentences while claiming they differed
+ * only in provenance, which is not a controlled comparison -- a wording
+ * difference could have carried the result.
  *
- * The positive fixture states a proposition Wyo. Stat. Ann. 7-13-1502(c)
- * genuinely carries — the prosecuting attorney, not the participant, notifies
- * identifiable victims after service — which the adopted artifact states in
- * the same terms on its filing-instructions page. It is deliberately the same
+ * The sentence states a proposition Wyo. Stat. Ann. 7-13-1502(c) genuinely
+ * carries: the prosecuting attorney, not the participant, notifies identifiable
+ * victims after service on the prosecutor. It is deliberately the same
  * subsection the earlier bad example misused, put to the proposition it
- * actually supports. It is newly authored rather than carried verbatim, which
- * is the whole point: a source-backed new sentence has to pass.
+ * actually supports, and it is newly authored rather than carried verbatim --
+ * which is the whole point, since a source-backed new sentence has to pass.
  */
+const CONTROL_SENTENCE =
+  "The prosecuting attorney, not you, notifies any identifiable victims after you serve the petition.";
+
 const instructionCarriedByProductCopy = {
-  text: "Serve the prosecuting attorney and file proof of service with the court.",
+  text: CONTROL_SENTENCE,
   provenance: { kind: "product_copy" }
 };
 const instructionProperlySourced = {
-  text: "The prosecuting attorney, not you, notifies any identifiable victims after you serve the petition.",
+  text: CONTROL_SENTENCE,
   provenance: {
     kind: "authoritative_source",
-    cite: "Wyo. Stat. Ann. 7-13-1502(c) — the prosecuting attorney's victim-notice obligation following service; stated in the same terms on the adopted wy_fel_1502-set filing-instructions page, line 8"
+    cite: "Wyo. Stat. Ann. 7-13-1502(c) — the prosecuting attorney must notify identifiable victims within thirty days after service upon the prosecutor; stated in the same terms on the adopted wy_fel_1502-set filing-instructions page, line 8"
   }
 };
 
@@ -256,21 +267,60 @@ const citesASource = (entry) =>
   || (typeof entry.provenance.cite === "string" && entry.provenance.cite.trim().length >= 8);
 
 check(
-  carriesInstruction(instructionCarriedByProductCopy) && carriesInstruction(instructionProperlySourced),
-  "control fixtures: both carry a legal or procedural instruction, so the pair differs only in provenance"
+  instructionCarriedByProductCopy.text === instructionProperlySourced.text
+  && carriesInstruction(instructionProperlySourced),
+  "control fixtures: one instruction, two provenances -- the pair differs in nothing else"
 );
 check(
   refusedAsProductCopy(instructionCarriedByProductCopy),
-  "NEGATIVE control: an instruction carried as product copy is refused"
+  "NEGATIVE control: the instruction carried as product copy is refused"
 );
 check(
   !refusedAsProductCopy(instructionProperlySourced) && citesASource(instructionProperlySourced),
-  "POSITIVE control: the same kind of instruction, cited to the source that supports it, is accepted"
+  "POSITIVE control: the same instruction, cited to the source that supports it, is accepted"
 );
-check(
-  !/within 30 days|within thirty days/i.test(JSON.stringify(guides)),
-  "no route guide asserts a 30-day filing deadline -- 7-13-1502's objection window is ninety days; thirty is 7-13-1501's"
-);
+
+/*
+ * A NAMED REGRESSION, NOT A DEADLINE VALIDATOR.
+ *
+ * The defect this guards was one false sentence on one route: a participant
+ * filing deadline asserted for WY 7-13-1502, which prescribes none.
+ *
+ * An earlier version of this guard banned "within 30 days" across every loaded
+ * guide. That is far broader than the defect and would have become a false
+ * gate, because thirty days is a real figure in this very statute and in
+ * others. Wyoming alone carries three distinct clocks:
+ *
+ *   7-13-1502(c)      the prosecutor notifies identifiable victims within
+ *                     THIRTY days after service upon the prosecutor;
+ *   7-13-1502(e)-(f)  a NINETY-day objection window measured from that same
+ *                     service, before which no expungement order may issue;
+ *   7-13-1501(e)-(f)  the misdemeanour route's separate THIRTY-day objection
+ *                     window.
+ *
+ * All three are legitimate and a guide may state any of them. What none of
+ * them is, is a deadline by which the participant must file. So the guard is
+ * scoped to the route and to the false proposition, and whether a stated
+ * deadline is correct is a content-review question, not this file's.
+ */
+const KNOWN_FALSE_ASSERTIONS = [
+  {
+    routeKey: "WY:felony-conviction-expungement-w-s-7-13-1502",
+    pattern: /\bfil(?:e|ing)\b[^.]{0,80}\bwithin\s+(?:\d+|thirty|sixty|ninety)\s+days/i,
+    why: "7-13-1502 prescribes no deadline by which the participant must file. Its thirty-day clock is the prosecutor's victim notice under (c) and its ninety-day clock is the objection window under (e)-(f), both running from service on the prosecutor."
+  }
+];
+
+for (const guard of KNOWN_FALSE_ASSERTIONS) {
+  const guide = guides.find((candidate) => candidate.routeKey === guard.routeKey);
+  if (!guide) continue;
+  const offending = allGuideEntries(guide).filter((entry) => guard.pattern.test(entry.text));
+  check(
+    offending.length === 0,
+    `${guard.routeKey}: no entry asserts a participant filing deadline${
+      offending.length ? `: "${offending[0].text.slice(0, 70)}…"` : ""}`
+  );
+}
 
 console.log(`\n${failures.length === 0 ? "PASS" : "FAIL"} — ${failures.length} failing check(s)`);
 if (failures.length > 0) {
