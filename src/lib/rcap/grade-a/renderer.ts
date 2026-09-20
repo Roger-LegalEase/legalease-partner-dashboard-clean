@@ -147,6 +147,31 @@ export async function renderGradeAPacketPdf(
     ? packet.documents.filter((entry) => !entry.supersededByGuide)
     : packet.documents;
   const selected = variant === "court_only" ? packetFilingDocuments(packet) : shipped;
+
+  /*
+   * THE CONTENTS LIST NAMES WHAT SHIPS, NOT WHAT WAS PLANNED.
+   *
+   * The list is composed before anyone knows whether a guide is coming, so it
+   * carries every planned component -- including the filing-instructions page
+   * the guide retires. Left alone, the Mississippi packet's own contents page
+   * listed "Filing Instructions, Next Steps, and When to Get Legal Help" as
+   * item 5 of a packet that no longer contains it, and a participant would go
+   * looking for a document that was deliberately removed.
+   *
+   * Filtered by documentId rather than by title: two components can share a
+   * title, and a list that drops the wrong one is worse than one that drops
+   * nothing.
+   */
+  const shippedIds = new Set(selected.map((entry) => entry.documentId));
+  for (const entry of selected) {
+    entry.blocks = entry.blocks.map((block) => {
+      if (block.kind !== "numbered" || !block.documentIds) return block;
+      const keep = block.documentIds
+        .map((documentId, index) => ({ documentId, item: block.items[index] }))
+        .filter((row) => shippedIds.has(row.documentId));
+      return { ...block, items: keep.map((row) => row.item), documentIds: keep.map((row) => row.documentId) };
+    });
+  }
   /*
    * Nothing to file is two different situations, and they must not share a
    * message. A matter whose selection produced only guidance is COMPLETE --

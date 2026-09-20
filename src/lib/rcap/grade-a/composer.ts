@@ -49,7 +49,16 @@ export type GradeABlock =
   | { kind: "paragraph"; text: string }
   | { kind: "labelled"; label: string; value: string }
   | { kind: "bulleted"; items: string[] }
-  | { kind: "numbered"; items: string[] }
+  /**
+   * `documentIds` is present only on the packet's own contents list.
+   *
+   * The list is composed from the planned document set, and the renderer drops
+   * superseded components afterwards -- so without a way to tell which entry
+   * names which component, a retired page stays listed in a packet it is no
+   * longer in. The participant then looks for a document that was deliberately
+   * removed.
+   */
+  | { kind: "numbered"; items: string[]; documentIds?: string[] }
   | { kind: "signature"; label: string; lines: string[]; note: string }
   | { kind: "rule" }
   | {
@@ -795,7 +804,11 @@ function composeSection(
       return [head, ...structuredBlocks(fill(section.body ?? "", matter), "paragraph")];
 
     case "contents_list":
-      return [head, { kind: "numbered", items: included.map((document) => document.title) }];
+      return [head, {
+        kind: "numbered",
+        items: included.map((document) => document.title),
+        documentIds: included.map((document) => document.documentId)
+      }];
 
     case "participant_checklist_summary":
       return [head, {
