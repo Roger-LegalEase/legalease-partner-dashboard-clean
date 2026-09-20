@@ -321,6 +321,81 @@ check(
   `no component in a drifted family claims exact adopted bytes${unargued.length ? `: ${unargued.map((row) => row.where).join(", ")}` : ""}`
 );
 
+// ---------------------------------------------------------------------------
+// 7. The source-to-artifact bridge.
+//
+// `matches_adopted` proves the FIXTURE equals the adopted artifact. It does not
+// prove that today's build host is what produced those bytes: a host can be
+// edited without anyone regenerating, and the fixture on disk would go on
+// matching the adoption while the source that claims to produce it no longer
+// does. So `exact_adopted_bytes` may be claimed from a current host only with a
+// direct bridge:
+//
+//   A. regenerate the family from the current host and show the resulting
+//      artifact digest equals the adopted digest; or
+//   B. take the text from the exact historical or adopted source version bound
+//      to the approved artifact instead of from today's host.
+//
+// Route A was run for the exact-match families. Two reproduce the adopted bytes
+// exactly. Three cannot be regenerated here at all, because their build hosts
+// require the Master Library corpus that is not mounted in this environment —
+// an external blocker that already exists on the board, not a new finding. For
+// those, route B is the available bridge.
+// ---------------------------------------------------------------------------
+
+const REGENERATION_BRIDGE = {
+  "WY:felony-conviction-expungement-w-s-7-13-1502": {
+    proven: true,
+    detail: "scripts/build-census-v1-wy_fel_1502-set.mjs regenerated in place; the canonical fixture hashed 3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30 before and after, which is the digest the adoption pins. Nothing in the family directory changed."
+  },
+  "SD:suspended-imposition-of-sentence-sealing": {
+    proven: true,
+    detail: "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs regenerated in place; both fixtures came back byte-identical and the canonical digest d74ec3c175844dbe… is the one the adoption pins. Only build metadata moved, because the run used --no-raster, and it was restored."
+  },
+  "DC:dc_actual_innocence_expungement_16_803": {
+    proven: false,
+    detail: "cannot be regenerated in this environment: the build host asserts the Master Library corpus is mounted at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, which is the existing GA-8-22E1 external blocker. Use route B, or regenerate once the corpus is mounted."
+  },
+  "GA:restriction-and-sealing-of-a-pardoned-felony": {
+    proven: false,
+    detail: "same corpus assertion, via scripts/build-census-v1-ga-host.mjs. Use route B, or regenerate once the corpus is mounted."
+  },
+  "GA:sb-288-misdemeanor-conviction-restriction-and-sealing": {
+    proven: false,
+    detail: "same corpus assertion, via scripts/build-census-v1-ga-host.mjs. Use route B, or regenerate once the corpus is mounted."
+  }
+};
+
+const CURRENT_HOST = /^scripts\//;
+const unbridged = [];
+for (const verdict of verdicts) {
+  if (!TRANSCRIPTION_PROGRAM.has(verdict.spec.routeKey)) continue;
+  for (const document of verdict.spec.documents ?? []) {
+    const binding = document.transcriptionProvenance;
+    if (!binding || binding.componentEquivalence !== "exact_adopted_bytes") continue;
+    if (!CURRENT_HOST.test(binding.sourceUsed ?? "")) continue;
+    if (REGENERATION_BRIDGE[verdict.spec.routeKey]?.proven !== true) {
+      unbridged.push(`${verdict.spec.routeKey}|${document.documentId}`);
+    }
+  }
+}
+check(
+  unbridged.length === 0,
+  `no component claims exact adopted bytes from a current build host without a proven regeneration bridge${
+    unbridged.length ? `: ${unbridged.join(", ")}` : ""}`
+);
+
+console.log("source-to-artifact bridge, exact-match families:");
+for (const [route, bridge] of Object.entries(REGENERATION_BRIDGE)) {
+  console.log(`  ${bridge.proven ? "PROVEN    " : "UNAVAILABLE"} ${route}`);
+  if (!bridge.proven) console.log(`              ${bridge.detail.slice(0, 120)}…`);
+}
+const provenBridges = Object.values(REGENERATION_BRIDGE).filter((bridge) => bridge.proven).length;
+check(
+  provenBridges > 0,
+  `at least one exact-match family has a proven source-to-artifact bridge (${provenBridges} of ${Object.keys(REGENERATION_BRIDGE).length})`
+);
+
 console.log(`\n${failures.length === 0 ? "PASS" : "FAIL"} — ${failures.length} failing check(s)`);
 if (failures.length > 0) {
   for (const failure of failures) console.log(`  - ${failure}`);

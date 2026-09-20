@@ -203,6 +203,24 @@
       "five_matches_adopted": "DC actual-innocence, GA pardon-J7, GA SB-288, SD SIS, WY 1502 — the current host reproduces the adopted artifact, so it may supply the text and each component records exact_adopted_bytes.",
       "three_drifted": "IL mistaken-identity, MS 9-11-15-3, MS 99-19-71-1 — the current host may supply a component only where that component is proven untouched or the change is proven outside the substance carried, each recorded with its evidence. Where neither is established, recover the component from the adopted version. A family-level characterisation is not a pass for the whole packet.",
       "alwaysAndRegardless": "Preserve adopted component membership and requirement state independently of text recovery, and draft no missing legal substance. This remains 8 family derivation repairs, not 36 handcrafted court documents."
+    },
+    "sourceToArtifactBridge": {
+      "rule": "matches_adopted proves the FIXTURE equals the adopted artifact. It does not prove that today's build host is what produced those bytes: a host can be edited without anyone regenerating, and the fixture would go on matching the adoption while the source claiming to produce it no longer does. So exact_adopted_bytes may be claimed from a current host only with a direct bridge — (A) regenerate the family from that host and show the artifact digest equals the adopted digest, or (B) take the text from the exact historical or adopted source version bound to the approved artifact.",
+      "routeARun": "Performed once per exact-match family, non-destructively, with the tree restored afterwards and verified clean.",
+      "results": {
+        "proven": [
+          "WY:felony-conviction-expungement-w-s-7-13-1502 — regenerated in place; the canonical fixture hashed 3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30 before and after, which is the digest the adoption pins, and nothing in the family directory changed.",
+          "SD:suspended-imposition-of-sentence-sealing — regenerated in place; both fixtures came back byte-identical and the canonical digest is the one the adoption pins. Only build metadata moved, because the run used --no-raster, and it was restored."
+        ],
+        "unavailable": [
+          "DC:dc_actual_innocence_expungement_16_803 — the build host asserts the Master Library corpus is mounted at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and refuses without it.",
+          "GA:restriction-and-sealing-of-a-pardoned-felony — same corpus assertion, via the shared GA host.",
+          "GA:sb-288-misdemeanor-conviction-restriction-and-sealing — same corpus assertion, via the shared GA host."
+        ]
+      },
+      "whatTheUnavailableThreeMean": "Not a new blocker. The corpus mount is the existing GA-8-22E1 external blocker already on the board. Those three take route B — transcribe from the adopted artifact — or wait for the mount and then regenerate. Either way exact_adopted_bytes is not claimable from their current hosts today.",
+      "enforcement": "verify-transcription-provenance.mjs fails any component claiming exact_adopted_bytes from a source path under scripts/ whose family has no proven regeneration bridge. Mutation-proven: a component making that claim reds three separate checks. Withdrawing a bridge that nothing claims does not fail, because the bridge is a precondition for a claim rather than a claim in itself.",
+      "honest": "Two of five bridges are proven today. The rule is in force for all five, so the other three cannot quietly take the shortcut when their transcription comes up."
     }
   },
   "denominator": {
