@@ -141,40 +141,25 @@
       "ownership": "participant"
     },
     {
-      "factId": "contact_information",
-      "use": "mailing address, telephone and email of the person making the request",
+      "factId": "mailing_address",
+      "use": "mailing address of the person making the request, printed on both instruments",
       "inRegistryRequiredInputs": true,
-      "ownership": "participant"
+      "ownership": "participant",
+      "decomposedFrom": "contact_information"
     },
     {
-      "factId": "court",
-      "use": "the court in the original criminal case that entered the discharge and dismissal, and its county, named in the captions of the request and the motion",
+      "factId": "phone_number",
+      "use": "telephone of the person making the request, printed on both instruments",
       "inRegistryRequiredInputs": true,
-      "ownership": "participant"
+      "ownership": "participant",
+      "decomposedFrom": "contact_information"
     },
     {
-      "factId": "case_number",
-      "use": "the case number of the original criminal case, copied from the court record",
-      "inRegistryRequiredInputs": false,
-      "ownership": "participant"
-    },
-    {
-      "factId": "disposition_date",
-      "use": "the date of the order of discharge and dismissal, copied from the attached order",
+      "factId": "email_address",
+      "use": "email of the person making the request, printed on both instruments",
       "inRegistryRequiredInputs": true,
-      "ownership": "participant"
-    },
-    {
-      "factId": "public_record_evidence",
-      "use": "what still shows the matter on a public record search, in the participant's own words, with dated evidence attached",
-      "inRegistryRequiredInputs": false,
-      "ownership": "participant"
-    },
-    {
-      "factId": "post_request_outcome",
-      "use": "what happened after the written request, whether the record was corrected, in the participant's own words, with a copy of the request attached; used only on the enforcement motion",
-      "inRegistryRequiredInputs": false,
-      "ownership": "participant"
+      "ownership": "participant",
+      "decomposedFrom": "contact_information"
     }
   ],
   "finalVerificationRequirements": [
@@ -188,12 +173,9 @@
   "fieldOwnership": {
     "participantOwnedFacts": [
       "participant_full_legal_name",
-      "contact_information",
-      "court",
-      "case_number",
-      "disposition_date",
-      "public_record_evidence",
-      "post_request_outcome"
+      "mailing_address",
+      "phone_number",
+      "email_address"
     ],
     "serverOwnedRouteFacts": [
       "jurisdiction",
@@ -202,15 +184,29 @@
       "packet_family"
     ],
     "participantAtSigningFields": [
-      "implementation_request.request_signature",
-      "implementation_request.request_signature_date",
-      "enforcement_motion.motion_signature",
-      "enforcement_motion.motion_signature_date"
+      "request_signature",
+      "request_signature_date",
+      "motion_signature",
+      "motion_signature_date"
     ],
     "participantAtServiceFields": [],
     "notaryOwnedFields": [],
     "prosecutorOwnedFields": [],
-    "courtOwnedFields": []
+    "courtOwnedFields": [],
+    "participantCompletesBeforeFilingFields": [
+      "request_court",
+      "request_county",
+      "request_case_number",
+      "request_discharge_order_date",
+      "request_public_record_evidence_1",
+      "request_public_record_evidence_2",
+      "motion_court",
+      "motion_county",
+      "motion_case_number",
+      "motion_discharge_order_date",
+      "motion_request_outcome_1",
+      "motion_request_outcome_2"
+    ]
   },
   "documents": [
     {
@@ -224,15 +220,113 @@
       "officialFormId": null,
       "sections": [
         {
-          "heading": "Caption in the original criminal case, the discharge and dismissal, the evidence that the matter still appears on a public record search, and the request that the statutorily required sealing order be entered and implemented",
-          "kind": "approved_shipping_component",
+          "heading": "Caption",
+          "kind": "pleading_caption",
           "fields": [
-            "court",
-            "case_number",
+            "request_court",
+            "request_county",
+            "request_case_number"
+          ],
+          "captionContract": {
+            "court": "request_court",
+            "courtLines": [
+              {
+                "prefix": "IN THE",
+                "field": "request_court",
+                "suffix": "COURT"
+              },
+              {
+                "prefix": "",
+                "field": "request_county",
+                "suffix": "COUNTY, SOUTH DAKOTA"
+              }
+            ],
+            "courtInstruction": "THE COURT IN THE ORIGINAL CRIMINAL CASE, AND ITS COUNTY - that court's own office can confirm both",
+            "matterTitle": "STATE OF SOUTH DAKOTA, PLAINTIFF\nv.\n{{participant_full_legal_name}}, DEFENDANT.",
+            "caseNumber": "request_case_number",
+            "caseNumberLabel": "Case number of the original criminal case:",
+            "documentTitle": "WRITTEN REQUEST TO IMPLEMENT MANDATORY SEALING UNDER SDCL Sec. 23A-27-17"
+          },
+          "fieldTreatments": {
+            "request_court": "ruled_blank",
+            "request_county": "ruled_blank",
+            "request_case_number": "ruled_blank"
+          }
+        },
+        {
+          "heading": "The suspended imposition of sentence",
+          "kind": "pleading_paragraph",
+          "body": "1. The defendant, Jordan Avery Reyes, received a suspended imposition of sentence in this case, completed the conditions the court ordered, and was discharged, and the case was dismissed. A copy of the order of discharge and dismissal is attached to this request."
+        },
+        {
+          "heading": "The discharge and dismissal, from the attached order",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "request_discharge_order_date"
+          ],
+          "fieldLabels": {
+            "request_discharge_order_date": "Date of the order of discharge and dismissal, from the attached order:"
+          },
+          "fieldTreatments": {
+            "request_discharge_order_date": "ruled_blank"
+          }
+        },
+        {
+          "heading": "What the statute directs",
+          "kind": "pleading_paragraph",
+          "body": "2. SDCL Sec. 23A-27-17 provides that upon the discharge and dismissal a court shall order that all official records, other than the nonpublic records retained by the Division of Criminal Investigation, be sealed, along with all records relating to the arrest, indictment or information, trial, finding of guilt, and dismissal and discharge."
+        },
+        {
+          "heading": "The matter still appears publicly",
+          "kind": "pleading_paragraph",
+          "body": "3. The matter still appears on a public record search. My evidence of that (attach it - for example a dated printout of the public entry):"
+        },
+        {
+          "heading": "Evidence of the public entry",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "request_public_record_evidence_1",
+            "request_public_record_evidence_2"
+          ],
+          "fieldLabels": {
+            "request_public_record_evidence_1": "Evidence of the public entry",
+            "request_public_record_evidence_2": "Evidence of the public entry (continued)"
+          },
+          "fieldTreatments": {
+            "request_public_record_evidence_1": "ruled_blank",
+            "request_public_record_evidence_2": "ruled_blank"
+          }
+        },
+        {
+          "heading": "The request",
+          "kind": "pleading_paragraph",
+          "body": "4. THE REQUEST: I ask that the statutorily required sealing order be entered and implemented in this case, as SDCL Sec. 23A-27-17 directs. If the position of this court's office is that judicial action is required, please say so in writing."
+        },
+        {
+          "heading": "Signature",
+          "kind": "pro_se_signature_block",
+          "body": "{{participant_full_legal_name}}, Defendant"
+        },
+        {
+          "heading": "Who signs this page",
+          "kind": "pleading_paragraph",
+          "body": "The defendant signs and dates this request personally. Nothing on this page is signed or dated for the defendant."
+        },
+        {
+          "heading": "The defendant's contact details",
+          "kind": "pleading_identity_list",
+          "fields": [
             "participant_full_legal_name",
-            "disposition_date",
-            "public_record_evidence"
-          ]
+            "mailing_address",
+            "phone_number",
+            "email_address"
+          ],
+          "fieldLabels": {
+            "participant_full_legal_name": "PRINTED NAME",
+            "mailing_address": "MAILING ADDRESS",
+            "phone_number": "TELEPHONE",
+            "email_address": "EMAIL"
+          }
         }
       ],
       "documentContract": {
@@ -250,7 +344,15 @@
         "unresolvedReasons": {
           "executionType": "the packet-set manifest records no signing action for this route.",
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "Adopted artifact. The owner-adopted sd_sis_sealing output opens this component with IN THE ____ COURT / ____ COUNTY, SOUTH DAKOTA, the STATE OF SOUTH DAKOTA v. defendant block, and the case-number line beneath, and the build host that produced those adopted bytes composes it."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32",
+        "sourceUsed": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs was regenerated in place and both fixtures came back byte-identical; the canonical digest d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32 is the one OWNER_BATCH_ADOPTION_2026-09-02 pins for the sd_sis_sealing family. The host is therefore the source that produced the adopted bytes, and every substantive line carried here was read back from that host's own composed output. The trailing machine route footer is not carried, on the basis recorded for Nevada's proposed_order under FIX07: the host appends it after all component text, outside the instrument's substance."
       }
     },
     {
@@ -265,15 +367,112 @@
       "officialFormId": null,
       "sections": [
         {
-          "heading": "Caption in the original criminal docket, the discharge and dismissal, what happened after the written request, and the motion to enforce the mandatory sealing duty",
-          "kind": "approved_shipping_component",
+          "heading": "Use this page only after the written request",
+          "kind": "pleading_paragraph",
+          "body": "USE THIS PAGE ONLY AFTER THE WRITTEN REQUEST. The recorded escalation is: first the written implementation request in the original case; then this motion, only if the record is not corrected. If the court refuses after this motion, the recorded next step is a lawyer - attorney handoff for refusal or mandamus - not another filing from this packet."
+        },
+        {
+          "heading": "Caption",
+          "kind": "pleading_caption",
           "fields": [
-            "court",
-            "case_number",
+            "motion_court",
+            "motion_county",
+            "motion_case_number"
+          ],
+          "captionContract": {
+            "court": "motion_court",
+            "courtLines": [
+              {
+                "prefix": "IN THE",
+                "field": "motion_court",
+                "suffix": "COURT"
+              },
+              {
+                "prefix": "",
+                "field": "motion_county",
+                "suffix": "COUNTY, SOUTH DAKOTA"
+              }
+            ],
+            "matterTitle": "STATE OF SOUTH DAKOTA, PLAINTIFF\nv.\n{{participant_full_legal_name}}, DEFENDANT.",
+            "caseNumber": "motion_case_number",
+            "caseNumberLabel": "Case number of the original criminal case:",
+            "documentTitle": "MOTION TO ENFORCE SDCL Sec. 23A-27-17"
+          },
+          "fieldTreatments": {
+            "motion_court": "ruled_blank",
+            "motion_county": "ruled_blank",
+            "motion_case_number": "ruled_blank"
+          }
+        },
+        {
+          "heading": "The suspended imposition of sentence",
+          "kind": "pleading_paragraph",
+          "body": "1. The defendant, Jordan Avery Reyes, received a suspended imposition of sentence in this case, completed the conditions the court ordered, and was discharged, and the case was dismissed. The order of discharge and dismissal is attached."
+        },
+        {
+          "heading": "The discharge and dismissal",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "motion_discharge_order_date"
+          ],
+          "fieldLabels": {
+            "motion_discharge_order_date": "Date of the order of discharge and dismissal:"
+          },
+          "fieldTreatments": {
+            "motion_discharge_order_date": "ruled_blank"
+          }
+        },
+        {
+          "heading": "What the statute directs, and what followed the request",
+          "kind": "pleading_paragraph",
+          "body": "2. Upon the discharge and dismissal, SDCL Sec. 23A-27-17 directs that the court shall order the official records sealed, other than the nonpublic records retained by the Division of Criminal Investigation. The matter still appears on a public record search, and a written implementation request was made in this case. What happened after that request (state it in your own words, and attach a copy of your request):"
+        },
+        {
+          "heading": "What happened after the written request",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "motion_request_outcome_1",
+            "motion_request_outcome_2"
+          ],
+          "fieldLabels": {
+            "motion_request_outcome_1": "What happened after the written request",
+            "motion_request_outcome_2": "What happened after the written request (continued)"
+          },
+          "fieldTreatments": {
+            "motion_request_outcome_1": "ruled_blank",
+            "motion_request_outcome_2": "ruled_blank"
+          }
+        },
+        {
+          "heading": "The requested relief",
+          "kind": "pleading_paragraph",
+          "body": "3. THE REQUESTED RELIEF: the defendant asks the Court, in the original criminal docket, to enforce SDCL Sec. 23A-27-17 by entering and implementing the sealing order the statute directs."
+        },
+        {
+          "heading": "Signature",
+          "kind": "pro_se_signature_block",
+          "body": "{{participant_full_legal_name}}, Defendant"
+        },
+        {
+          "heading": "Who signs this page",
+          "kind": "pleading_paragraph",
+          "body": "The defendant signs and dates this motion personally."
+        },
+        {
+          "heading": "The defendant's contact details",
+          "kind": "pleading_identity_list",
+          "fields": [
             "participant_full_legal_name",
-            "disposition_date",
-            "post_request_outcome"
-          ]
+            "mailing_address",
+            "phone_number",
+            "email_address"
+          ],
+          "fieldLabels": {
+            "participant_full_legal_name": "PRINTED NAME",
+            "mailing_address": "MAILING ADDRESS",
+            "phone_number": "TELEPHONE",
+            "email_address": "EMAIL"
+          }
         }
       ],
       "documentContract": {
@@ -291,7 +490,15 @@
         "unresolvedReasons": {
           "executionType": "the packet-set manifest records no signing action for this route.",
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "Adopted artifact. Same caption block as the written request on the adopted page, beneath the use-restriction note that precedes it."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32",
+        "sourceUsed": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs was regenerated in place and both fixtures came back byte-identical; the canonical digest d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32 is the one OWNER_BATCH_ADOPTION_2026-09-02 pins for the sd_sis_sealing family. The host is therefore the source that produced the adopted bytes, and every substantive line carried here was read back from that host's own composed output. The trailing machine route footer is not carried, on the basis recorded for Nevada's proposed_order under FIX07: the host appends it after all component text, outside the instrument's substance."
       }
     },
     {
@@ -305,8 +512,39 @@
       "officialFormId": null,
       "sections": [
         {
-          "heading": "The sequence, what sealing does and does not do, what this packet must never be used for, and when to stop and get help",
-          "kind": "approved_shipping_component"
+          "heading": "What this packet is for",
+          "kind": "pleading_paragraph",
+          "body": "This packet is prepared for asking the original South Dakota court to enter and implement the mandatory SDCL § 23A-27-17 sealing order it did not enter after your discharge and dismissal."
+        },
+        {
+          "heading": "The one situation this packet is for",
+          "kind": "pleading_paragraph",
+          "body": "THE ONE SITUATION THIS PACKET IS FOR\n\nAfter a suspended imposition of sentence, when you complete the court's conditions and the court enters the discharge and dismissal, SDCL Sec. 23A-27-17 makes sealing the COURT'S duty: upon the discharge and dismissal a court shall order the official records sealed, other than the nonpublic records retained by the Division of Criminal Investigation. You apply for nothing to obtain it. This packet is only for the case where the discharge and dismissal issued and the sealing did not happen."
+        },
+        {
+          "heading": "What you do, in order",
+          "kind": "pleading_paragraph",
+          "body": "WHAT YOU DO, IN ORDER\n\nSTEP ONE. Confirm the duty was triggered: your conditions are complete and the order of discharge and dismissal issued. If it has not issued, stop - nothing here applies yet.\nSTEP TWO. Get the SIS order and the order of discharge and dismissal from the office of the court in the original criminal case, and keep dated evidence of the public record entry that still shows the matter.\nSTEP THREE. Complete and file the WRITTEN REQUEST in the original case, attaching a copy of the discharge and dismissal order. Ask the office of that court how it accepts delivery and whether any fee applies - no committed record this packet is built from states either.\nSTEP FOUR. Only if the record is not corrected, complete and file the ENFORCEMENT MOTION in the original criminal docket.\nSTEP FIVE. Sign and date each page yourself."
+        },
+        {
+          "heading": "What sealing does, and does not do",
+          "kind": "pleading_paragraph",
+          "body": "WHAT SEALING DOES, AND DOES NOT DO\n\nThe recorded effect: the order restores you to the status you occupied before arrest, indictment or information, and you are not guilty of perjury or of giving a false statement for failing to recite or acknowledge the matter. The recorded limits: the nonpublic records retained by the Division of Criminal Investigation are expressly outside the sealing order, and sealing is not expungement. If your underlying conviction was under SDCL Sec. 22-22-1 or Sec. 22-22-7 and you hold or seek a certified teaching licence, the recorded caveat is that the licensure authority may refuse or revoke notwithstanding the sealing - get advice before relying on the seal."
+        },
+        {
+          "heading": "What this packet must never be used for",
+          "kind": "pleading_paragraph",
+          "body": "WHAT THIS PACKET MUST NEVER BE USED FOR\n\n- As an arrest-expungement filing. The recorded rule: do not use a form designed for a separate arrest-expungement statute as a fallback.\n- After a refusal, or where eligibility is disputed. The recorded escalation is attorney handoff for refusal or mandamus."
+        },
+        {
+          "heading": "When to stop and get help instead of filing",
+          "kind": "pleading_paragraph",
+          "body": "WHEN TO STOP AND GET HELP INSTEAD OF FILING\n\n- the discharge and dismissal has not issued, your conditions are not complete, or your discharge status is unclear;\n- the court refuses after the motion, or eligibility is disputed;\n- the underlying conviction was under SDCL Sec. 22-22-1 or Sec. 22-22-7 and a teaching licence is in play;\n- you are relying on sealing to erase the matter everywhere;\n- any immigration question is involved."
+        },
+        {
+          "heading": "What this packet is not",
+          "kind": "pleading_paragraph",
+          "body": "WHAT THIS PACKET IS NOT\n\nThis is a prepared set of composed enforcement instruments for one recorded failure branch. It is not legal advice, it is not filed for you, and it does not decide whether the court will act. Sealing restricts access; it does not erase the DCI's nonpublic records."
         }
       ],
       "documentContract": {
@@ -323,7 +561,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "not_applicable",
+        "captionTreatmentEvidence": "Adopted artifact. This component is a guidance page addressed to the participant, not an instrument filed with a court; the adopted page carries no caption and none is owed."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32",
+        "sourceUsed": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs was regenerated in place and both fixtures came back byte-identical; the canonical digest d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32 is the one OWNER_BATCH_ADOPTION_2026-09-02 pins for the sd_sis_sealing family. The host is therefore the source that produced the adopted bytes, and every substantive line carried here was read back from that host's own composed output. The trailing machine route footer is not carried, on the basis recorded for Nevada's proposed_order under FIX07: the host appends it after all component text, outside the instrument's substance."
       }
     }
   ],
@@ -464,5 +710,57 @@
       "text": "Sign and date each page yourself, and know that sealing restores your pre-arrest status and protects you from perjury for not acknowledging the matter, but does not reach the Division of Criminal Investigation's nonpublic records.",
       "requiredBeforeFiling": true
     }
-  ]
+  ],
+  "requiredFactReconciliation": {
+    "question": "Why does this route ask for two things when the documents show twelve blanks?",
+    "rule": "A value the adopted artifact PRINTS is a fact the platform must collect. A value the adopted artifact rules a dotted line for is a blank the participant completes at filing, and asking for it as a screening question invents work the approved document does not want.",
+    "printedAsValues": [
+      "participant_full_legal_name",
+      "mailing_address",
+      "phone_number",
+      "email_address"
+    ],
+    "ruledAsBlanks": {
+      "fromFacts": [
+        "court",
+        "case_number",
+        "disposition_date",
+        "public_record_evidence",
+        "post_request_outcome"
+      ],
+      "printedLines": 12,
+      "why": "court and case_number appear in the caption of BOTH the written request and the enforcement motion, and court is two adopted lines (the court, then the county), so five fact ids correspond to twelve ruled lines across the two instruments. disposition_date appears on both. public_record_evidence is two ruled lines on the request; post_request_outcome is two on the motion.",
+      "everyLine": [
+        "request_court",
+        "request_county",
+        "request_case_number",
+        "request_discharge_order_date",
+        "request_public_record_evidence_1",
+        "request_public_record_evidence_2",
+        "motion_court",
+        "motion_county",
+        "motion_case_number",
+        "motion_discharge_order_date",
+        "motion_request_outcome_1",
+        "motion_request_outcome_2"
+      ]
+    },
+    "decomposed": {
+      "contact_information": [
+        {
+          "factId": "mailing_address",
+          "use": "mailing address of the person making the request, printed on both instruments"
+        },
+        {
+          "factId": "phone_number",
+          "use": "telephone of the person making the request, printed on both instruments"
+        },
+        {
+          "factId": "email_address",
+          "use": "email of the person making the request, printed on both instruments"
+        }
+      ]
+    },
+    "noNewQuestionsCreated": "Zero questions were added. Five were removed, because the approved document rules a line for each of them rather than printing an answer."
+  }
 }
