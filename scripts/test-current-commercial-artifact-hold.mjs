@@ -197,20 +197,44 @@ check("Mississippi non-conviction is not held by this proof", () => {
   /*
    * The exact list, so nothing else can hold this route unnoticed.
    *
-   * This line has now been three different lists, and the history is the point.
+   * This line has now been four different lists, and the history is the point.
    * It was ["provider"]. The shared Fees & Costs correction moved two of the
    * artifacts Roger approved on 2026-09-20, which refused that approval and
    * dropped the record to the pre-successor candidate, so it became
    * ["final_verification", "official_sources", "owner_decision", "provider"].
    * The v3 successor decision names the moved bytes, so the successor record
-   * binds again and it is ["provider"] once more.
+   * bound again and it was ["provider"] once more. Publication run 35538783807
+   * then supplied the provider digest, and it is empty.
    *
    * None of that was ever the composed-artifact hold, which is what this control
    * is about. The list is pinned rather than sampled because "not held by THIS
-   * proof" is only worth asserting alongside what the route IS held by.
+   * proof" is only worth asserting alongside what the route IS held by -- and
+   * now that the answer is "nothing", pinning it is what would notice a new hold
+   * arriving, or an old one quietly disappearing.
    */
-  assert.deepEqual(decision.missingProof.map((gap) => gap.split(":")[0]).sort(), ["provider"],
-    decision.missingProof.join("; "));
+  assert.deepEqual(decision.missingProof, [], decision.missingProof.join("; "));
+});
+
+/*
+ * And the end state this whole file was built to gate: the six approved routes
+ * are open, and they are open on the owner decision plus a real published image
+ * rather than on anything this build could have granted itself.
+ *
+ * Asserted as an exact set. "At least the six" would pass if a seventh route
+ * opened by accident, which is the failure that matters most here -- commercial
+ * authority is keyed to an exact route and packet family, and a route nobody
+ * approved becoming sellable is the thing the whole lane exists to prevent.
+ */
+check("exactly the six approved routes are commercially eligible, and no others", () => {
+  const projection = JSON.parse(fs.readFileSync("data/rcap-grade-a/fulfillment-authority-projection.json", "utf8"));
+  const eligible = projection.routes
+    .filter((route) => route.commercialStatus !== "not_commercially_eligible")
+    .map((route) => route.routeId).sort();
+  assert.deepEqual(eligible, [...HELD, MS_NONCONV].sort(), eligible.join("; "));
+  for (const routeId of eligible) {
+    const route = projection.routes.find((entry) => entry.routeId === routeId);
+    assert.equal(route.state, "COMPLETE_PACKET_PROVEN", `${routeId} is ${route.state}`);
+  }
 });
 
 check("a record cannot claim the commercial artifact without the commercial renderer", () => {
