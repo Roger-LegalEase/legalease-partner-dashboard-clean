@@ -160,6 +160,13 @@
       "inRegistryRequiredInputs": true,
       "ownership": "participant",
       "decomposedFrom": "contact_information"
+    },
+    {
+      "factId": "sd_sis_record_correction_stage",
+      "use": "where the participant is in the recorded escalation sequence, which decides whether the enforcement motion belongs in this packet",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "decidesComponent": "enforcement_motion"
     }
   ],
   "finalVerificationRequirements": [
@@ -175,7 +182,8 @@
       "participant_full_legal_name",
       "mailing_address",
       "phone_number",
-      "email_address"
+      "email_address",
+      "sd_sis_record_correction_stage"
     ],
     "serverOwnedRouteFacts": [
       "jurisdiction",
@@ -499,7 +507,9 @@
         "sourceUsed": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
         "componentEquivalence": "exact_adopted_bytes",
         "evidence": "Route A, proven. scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs was regenerated in place and both fixtures came back byte-identical; the canonical digest d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32 is the one OWNER_BATCH_ADOPTION_2026-09-02 pins for the sd_sis_sealing family. The host is therefore the source that produced the adopted bytes, and every substantive line carried here was read back from that host's own composed output. The trailing machine route footer is not carried, on the basis recorded for Nevada's proposed_order under FIX07: the host appends it after all component text, outside the instrument's substance."
-      }
+      },
+      "includeWhen": "sd_sis_enforcement_stage_reached",
+      "conditionNote": "The adopted family records the sequence: the written implementation request first, and the motion to enforce Sec. 23A-27-17 only if the record is not corrected. The condition asks where the participant is in that sequence; it never asks for a document."
     },
     {
       "documentId": "filing_instructions",

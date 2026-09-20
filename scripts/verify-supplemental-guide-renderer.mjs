@@ -347,29 +347,36 @@ check(guideBelongsInPacket("full") === true && guideBelongsInPacket("court_only"
   }
 
   // 3. A conditional document and its checklist entry agree with the branch.
+  //
+  //    Driven by the route's REAL condition, not by forcing the requirement.
+  //    South Dakota's escalation motion is selected by the participant's answer
+  //    about where they are in the recorded sequence, so both branches here are
+  //    ones a participant can actually be on.
   {
-    const sd = packetSpecificationFor("SD:suspended-imposition-of-sentence-sealing");
-    const sdFacts = { participant_full_legal_name: "Tobias Fenwick Ashgrove" };
+    const SD = await import("../src/lib/rcap-engine/south-dakota-23a-27-17-escalation.ts");
+    const sd = packetSpecificationFor(SD.SD_SIS_ROUTE_KEY);
+    const base = { participant_full_legal_name: "Tobias Fenwick Ashgrove" };
     for (const required of sd.requiredFacts ?? []) {
-      if (!sdFacts[required.factId]) sdFacts[required.factId] = `${required.factId.replace(/_/g, " ")} value`;
+      if (!base[required.factId]) base[required.factId] = `${required.factId.replace(/_/g, " ")} value`;
     }
-    const make = (spec) => composeGradeAPacket(spec, {
-      routeKey: sd.routeKey, verificationHash: "branch-agreement-0001", facts: sdFacts
+    const compose = (stage) => composeGradeAPacket(sd, {
+      routeKey: sd.routeKey, verificationHash: `branch-${stage}`,
+      facts: { ...base, [SD.SD_SIS_STAGE_FACT_ID]: stage }
     }, {});
 
-    const notSelected = make(sd);
-    const selectedSpec = structuredClone(sd);
-    selectedSpec.documents.find((d) => d.documentId === "enforcement_motion").requirement = "required";
-    const selected = make(selectedSpec);
-
+    const notSelected = compose(SD.SD_SIS_STAGE_REQUEST_NOT_MADE);
+    const selected = compose(SD.SD_SIS_STAGE_RECORD_NOT_CORRECTED);
     const idsIn = (p) => guideDocuments(p).map((d) => d.documentId);
+
     check(
-      !idsIn(notSelected).includes("enforcement_motion") && !packetFilingDocuments(notSelected).some((d) => d.documentId === "enforcement_motion"),
-      "on the branch that omits the escalation motion, neither the packet nor the checklist lists it"
+      !idsIn(notSelected).includes("enforcement_motion")
+      && !packetFilingDocuments(notSelected).some((d) => d.documentId === "enforcement_motion"),
+      "before the escalation stage, neither the packet nor the checklist lists the motion"
     );
     check(
-      idsIn(selected).includes("enforcement_motion") && packetFilingDocuments(selected).some((d) => d.documentId === "enforcement_motion"),
-      "on the branch that selects it, both the packet and the checklist list it"
+      idsIn(selected).includes("enforcement_motion")
+      && packetFilingDocuments(selected).some((d) => d.documentId === "enforcement_motion"),
+      "at the escalation stage, both the packet and the checklist list it"
     );
     check(
       idsIn(notSelected).length + 1 === idsIn(selected).length,

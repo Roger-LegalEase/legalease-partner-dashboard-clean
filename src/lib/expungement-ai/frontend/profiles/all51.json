@@ -24492,6 +24492,47 @@
             "helperText": "también puede llamarse número de expediente, causa o arresto; aparece en sus documentos del tribunal"
           }
         }
+      },
+      {
+        "id": "sd_sis_record_correction_stage",
+        "stage": "record_readiness",
+        "prompt": "Have you already filed the written request asking the court to seal this case, and has the record still not been corrected?",
+        "helperText": "South Dakota's sequence is the written request first, and the motion to enforce only if the record is still not corrected afterwards. Answer from what has happened so far. You do not need to send us anything.",
+        "type": "single_choice",
+        "required": true,
+        "lifecyclePhase": "postpay_packet_field",
+        "contextOnly": false,
+        "doesNotSelectPathway": true,
+        "options": [
+          {
+            "value": "request_not_yet_made",
+            "label": "No — I have not filed the written request yet",
+            "translations": {
+              "es": "No — todavia no he presentado la solicitud por escrito"
+            }
+          },
+          {
+            "value": "request_made_record_corrected",
+            "label": "I filed the written request and the record has now been corrected",
+            "translations": {
+              "es": "Presente la solicitud por escrito y el registro ya fue corregido"
+            }
+          },
+          {
+            "value": "request_made_record_not_corrected",
+            "label": "Yes — I filed the written request and the record still has not been corrected",
+            "translations": {
+              "es": "Si — presente la solicitud por escrito y el registro aun no ha sido corregido"
+            }
+          }
+        ],
+        "translations": {
+          "es": {
+            "prompt": "Ya presento la solicitud por escrito pidiendo al tribunal que selle este caso, y el registro aun no ha sido corregido?",
+            "helperText": "La secuencia en Dakota del Sur es primero la solicitud por escrito, y la mocion para hacer cumplir la ley solo si despues el registro sigue sin corregirse. Responda segun lo que ha ocurrido hasta ahora. No necesita enviarnos nada."
+          }
+        },
+        "source": "sd_23a_27_17_recorded_escalation_sequence"
       }
     ]
   },

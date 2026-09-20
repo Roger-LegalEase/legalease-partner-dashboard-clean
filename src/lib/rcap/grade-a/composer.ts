@@ -5,6 +5,10 @@ import {
 } from "@/lib/rcap/grade-a/packet-specification";
 import { documentContractFor, isCourtFacing, type DocumentContract } from "@/lib/rcap/grade-a/document-contract";
 import { NEVADA_176A_PETITION_BRANCH_CONDITION, nevada176ABranch } from "@/lib/rcap-engine/nevada-176a-branch";
+import {
+  SD_SIS_ESCALATION_CONDITION,
+  southDakotaEscalationStageReached
+} from "@/lib/rcap-engine/south-dakota-23a-27-17-escalation";
 
 /**
  * Turns a packet specification plus a verified matter into a document set.
@@ -217,7 +221,15 @@ const CONDITION_EVALUATORS: Record<string, (facts: Readonly<Record<string, strin
   [NEVADA_176A_PETITION_BRANCH_CONDITION]: (facts) => {
     const branch = nevada176ABranch(facts);
     return branch === "unresolved" ? undefined : branch === "subsection_2_petition";
-  }
+  },
+  /*
+   * South Dakota's ordered pair. The written request comes first; the motion to
+   * enforce applies only where the request was made and the record was still
+   * not corrected. Unanswered is undefined, so the planner reports the
+   * condition unevaluable and composition refuses rather than shipping a packet
+   * missing the instrument the participant needs.
+   */
+  [SD_SIS_ESCALATION_CONDITION]: (facts) => southDakotaEscalationStageReached(facts)
 };
 
 /**
