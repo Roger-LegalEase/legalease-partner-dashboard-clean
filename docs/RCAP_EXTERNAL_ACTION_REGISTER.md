@@ -205,7 +205,7 @@ the workflow's own safe path. The re-pin of `AUTHORIZED_WORKER_SOURCE_SHA` and
 `AUTHORIZED_WORKER_DIGEST` to the resulting digest is ordinary build work and
 does not need Roger; it is the same move recorded at `a1eed1c6e`.
 
-## Item 13 — five routes lost commercial eligibility the moment the registry could be regenerated
+## Item 13 — RESOLVED 2026-09-20 — five routes the registry could no longer prove from a stale pin
 
 | # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
 |---|------|-------|----------------|-------------------|--------------------|
@@ -250,25 +250,64 @@ The four revocations are the generator's own designed refusal —
 `carriedForwardSpecificationSha256` cannot show that only approved-artifact pins
 moved. Every change is toward closure; nothing was opened.
 
-**This is a correction, not a regression.** The eligibility those six rows
-carried was not withdrawn on 2026-09-20 — it stopped being true on 2026-09-20
-and the registry went on asserting it. `commerciallyEligible: 6` described
-specification bytes that no longer existed. The regenerated `0` is what the
-evidence in the tree actually supports.
+**What that did and did not establish — a correction to this entry's first
+wording.** "The registry stopped being able to prove those five routes on
+2026-09-20" is supported: the pins named specification bytes that no longer
+existed. "Their commercial eligibility actually ceased on 2026-09-20" was NOT
+supported at the time it was written, and measurement has since shown it to be
+wrong. The approved participant-facing artifacts never moved. The correct
+reading is narrower: a stale pin fails closed, which is right, and says nothing
+by itself about whether the approved document set changed.
 
-**Not repaired here, deliberately.** Re-admitting those five routes means either
-recording a carry-forward the successor accepts, or deciding a fresh owner
-artifact approval against the current bytes. Both are owner approvals of exact
-document sets. The build must not manufacture either, and
-`verify-rcap-grade-a-fulfillment-authority.mjs` is left reporting four failures
-rather than having its hard-coded DC digest quietly updated to match:
+**Resolved by measurement, not by a new owner approval.** Each of the five was
+reproduced and classified rather than assumed, and all four families landed in
+the same class: the specification digest moved, and the approved
+participant-facing artifact bytes did not.
 
-```
-✗ DC:dc_actual_innocence_expungement_16_803 binds a different packet specification
-✗ DC:dc_actual_innocence_expungement_16_803: bound inputs carry a different specification digest
-✗ DC:dc_actual_innocence_expungement_16_803: packet_specification_authority does not bind its exact admitted path and digest
-✗ MS:additional-justice-court-misdemeanor-relief-9-11-15-3 static packet authority failed: {"revoked":true}
-```
+| Family | Approved artifacts | Build host reads the specification | Prior spec could produce a packet | Composed assertions already in the approved artifact |
+|--------|--------------------|-----------------------------------|-----------------------------------|------------------------------------------------------|
+| `dc_innocence_expungement-set` | byte-identical | no | no | 57/57 |
+| `il-prostitution-j-vacate-set` | byte-identical | no | no | 16/16 |
+| `ms-misd-addl-set` | byte-identical | no | no | 66/67 + 1 heading |
+| `wy_fel_1502-set` | byte-identical | no | no | 86/87 + 1 heading |
 
-Those four failures are the finding. Making them green would mean admitting
-bytes nobody approved.
+What those four commits actually were is stated by the composer itself, in the
+branch that refuses an `approved_shipping_component` section: *"the same
+derivation defect Nevada had — the specification kept the description and
+dropped the substance — and the fix is per family, by transcribing the adopted
+text."* The specifications had never held the words; each family's census-v1
+build host did. The repair transcribed the already-adopted words back in.
+
+Three of the four builders were re-run in full and the working tree did not
+change by a single byte, which is a reproduction rather than an inference. The
+District of Columbia host resolves a bound reference source from the Master
+Library, which is not mounted in this environment, so DC rests on its tracked
+inputs instead: the two build scripts unchanged since 2026-09-01, the overlay
+outputs unchanged since 2026-09-09, and its corpus-index entries byte-identical.
+
+So this was **Class A — evidence-backed carry-forward**, for all five routes.
+No new owner approval was required and none was manufactured. The reconciliation
+is recorded at
+`data/rcap-grade-a/legal-decisions/SPECIFICATION_DERIVATION_RECONCILIATION_2026-09-20.json`,
+proven on every run by `scripts/verify-specification-derivation-reconciliation.mjs`,
+consumed under a byte pin by `scripts/lib/specification-derivation-reconciliation.mjs`,
+and held to 27 refusal controls by
+`scripts/test-specification-derivation-reconciliation.mjs`. No verifier had a
+current digest hard-coded into it: the authority verifier now reads the admitted
+digest from that reconciliation, and a specification move it does not cover
+still fails against the original literal.
+
+**What it deliberately does not do.** It carries a specification digest forward
+and nothing else. It creates no approval, opens no route, and establishes no
+provider or publication proof. In particular it does **not** approve the packet
+these repaired specifications now compose: that composed output is new, no
+owner approval names it, and a route that ever delivers it needs those exact
+composed bytes reviewed and approved first. That remains open work, and none of
+the five is sellable through the route resolver today.
+
+**Where the five now stand.** Zero revoked. All five are STALE for one shared
+reason — `observation: the current world could not be established` — which is
+the worker-publication gap, the same gate that leaves the Mississippi
+non-conviction successor INCOMPLETE for `provider`. `commerciallyEligible` stays
+0 until that publication happens, which is the correct pre-publication state
+rather than a residue of this repair.
