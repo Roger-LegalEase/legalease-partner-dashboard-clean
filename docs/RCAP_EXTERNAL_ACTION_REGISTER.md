@@ -233,6 +233,17 @@ does not need Roger; it is the same move recorded at `a1eed1c6e`.
 > The register said "empty is the safe path" because empty avoids a *typed*
 > SHA; that is true and beside the point, since the risk it removes is
 > transcription and the risk it adds is building an entirely different branch.
+>
+> **Closed 2026-09-20, after the image was published and bound.** The default
+> now resolves `RELEASE_INTEGRATION_BRANCH` rather than
+> `CANONICAL_INTEGRATION_BRANCH`, and both input descriptions say what actually
+> happens. The release branch is the correct default on the workflow's own
+> reasoning: the comment on `RELEASE_INTEGRATION_BRANCH` explains that
+> publication deliberately runs from the head that is about to merge, because
+> requiring the merge first and the publication first at once is a deadlock.
+> `main` is still buildable by naming it in `resolve_from_ref`. The fix was held
+> until after publication deliberately — changing it earlier would have moved
+> the authorized source SHA again.
 
 > **SECOND DEFECT, found by the corrected dispatch — the candidate could not be
 > built at all.** Run

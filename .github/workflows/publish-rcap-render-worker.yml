@@ -13,12 +13,12 @@ on:
   workflow_dispatch:
     inputs:
       integration_sha:
-        description: "Optional. Leave EMPTY to build the tip of the integration branch, which is the safe default: Git resolves the SHA and no one has to type one. Supplying a value is only for rebuilding an older commit, and it must be the full 40-character SHA; an abbreviated or reconstructed value is refused."
+        description: "The exact 40-character SHA to build. Leaving it EMPTY builds the tip of resolve_from_ref, which defaults to the RELEASE integration branch (claude/legalease-sprint-captain-utucnw) — the branch that is fast-forwarded to a release candidate. Supplying the full SHA is stronger and is what a release publication should do: it resolves and checks out that exact commit, so the image cannot follow a branch that moved. An abbreviated or reconstructed value is refused."
         required: false
         type: string
         default: ""
       resolve_from_ref:
-        description: "Branch whose tip to build when integration_sha is empty. Defaults to the canonical integration branch."
+        description: "Branch whose tip to build when integration_sha is empty. Defaults to the RELEASE integration branch, which is where release candidates live. Pass 'main' explicitly to build the canonical branch instead."
         required: false
         type: string
         default: ""
@@ -95,7 +95,22 @@ jobs:
         run: |
           set -euo pipefail
           REF="${{ inputs.resolve_from_ref }}"
-          REF="${REF:-$CANONICAL_INTEGRATION_BRANCH}"
+          # Defaults to the RELEASE integration branch, not the canonical one.
+          #
+          # This defaulted to $CANONICAL_INTEGRATION_BRANCH, which is `main`, and
+          # on 2026-09-20 that published an image of main -- 5,929 commits behind
+          # the approved release candidate -- from a dispatch whose whole purpose
+          # was to build that candidate. Every gate passed and every gate was
+          # right to: a commit on main is contained in main, so the containment
+          # check had nothing to object to. No verification downstream can catch
+          # a resolve step that pointed at the wrong branch.
+          #
+          # The release branch is the correct default because it is where release
+          # candidates live: the comment on RELEASE_INTEGRATION_BRANCH above
+          # explains why publication deliberately runs from the head that is
+          # about to merge rather than after the merge. `main` is still
+          # buildable, by naming it in resolve_from_ref.
+          REF="${REF:-$RELEASE_INTEGRATION_BRANCH}"
           SUPPLIED="${{ inputs.integration_sha }}"
           if [ -z "$SUPPLIED" ]; then
             git fetch --no-tags origin "$REF"
