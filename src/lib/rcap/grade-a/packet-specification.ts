@@ -54,6 +54,25 @@ export type PacketSpecificationSection = {
   fields?: string[];
   fieldLabels?: Record<string, string>;
   /**
+   * How each field is presented, declared per field.
+   *
+   * Ownership and presentation are separate contracts. Ownership answers who
+   * supplies a value; it does not answer what the page draws. A participant
+   * filing blank is a ruled line, a participant signature is a signature
+   * structure, a judge's signature is a judicial one, a notary field is a
+   * jurat, and a court-owned value is the court's own space — and none of those
+   * follows from the single fact that the platform does not hold the value.
+   *
+   * So a field that the platform does not supply must say here how it is drawn.
+   * Where it says nothing and nobody else supplies it, the composer refuses
+   * rather than guessing a shape.
+   *
+   *   value              the platform's fact, printed.
+   *   ruled_blank        a labelled line the participant completes before filing.
+   *   court_owned_space  a labelled space the court itself completes.
+   */
+  fieldTreatments?: Record<string, "value" | "ruled_blank" | "court_owned_space">;
+  /**
    * An explicit caption, for a filing whose caption is not the generic
    * two-party one and whose caption values the participant writes on the page.
    *
@@ -107,6 +126,17 @@ export type PacketSpecificationDocument = {
   conditionDescription?: string;
   includeWhen?: string;
   manifestComponentId?: string;
+  /**
+   * A component the shared §7 participant guide replaces.
+   *
+   * Marked rather than deleted while both exist: the guide is not shipping yet,
+   * and removing the page first would leave the packet short. `supersessionNote`
+   * says what happens when it does ship. The point of recording it is that a
+   * legacy guidance page should not quietly become permanent furniture beside
+   * the guide that was built to replace it.
+   */
+  supersededBy?: "supplemental_guide";
+  supersessionNote?: string;
   /**
    * Where this component's text came from, when it was carried into the
    * specification by a derivation repair rather than authored here.
@@ -359,6 +389,17 @@ export type DerivedPacketSpecification = {
     requirement?: "required" | "conditional";
     officialFormId?: string | null;
     manifestComponentId?: string;
+  /**
+   * A component the shared §7 participant guide replaces.
+   *
+   * Marked rather than deleted while both exist: the guide is not shipping yet,
+   * and removing the page first would leave the packet short. `supersessionNote`
+   * says what happens when it does ship. The point of recording it is that a
+   * legacy guidance page should not quietly become permanent furniture beside
+   * the guide that was built to replace it.
+   */
+  supersededBy?: "supplemental_guide";
+  supersessionNote?: string;
   /**
    * Where this component's text came from, when it was carried into the
    * specification by a derivation repair rather than authored here.

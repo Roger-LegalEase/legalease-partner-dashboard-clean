@@ -76,7 +76,7 @@ export type GradeABlock =
        * renderer draws a line for it instead of a value, and the composer never
        * fills one, so an approved blank cannot quietly become a prefilled field.
        */
-      items: Array<{ label: string; value: string; blank?: boolean }>;
+      items: Array<{ label: string; value: string; blank?: boolean; completedBy?: "participant" | "court" }>;
     }
   | {
       kind: "pleading_signature";
@@ -145,14 +145,20 @@ export class GradeAPacketCompositionError extends Error {
  * approved packet design made it one, and this function reports that decision
  * rather than making it.
  */
-function completedBeforeFiling(specification: PacketSpecification): ReadonlySet<string> {
+/**
+ * Fields the platform does not supply.
+ *
+ * This is an OWNERSHIP question and it answers exactly one thing: whether the
+ * composer may demand the value as a fact. It deliberately says nothing about
+ * how the field is drawn. An earlier version of this let ownership decide the
+ * shape too — every non-platform field became a ruled line — which is wrong:
+ * a signature, a jurat, a judicial signature and a court's own findings space
+ * are different document structures, and "we do not hold this value" does not
+ * distinguish them. Presentation is declared per field in
+ * `section.fieldTreatments`.
+ */
+function notSuppliedByPlatform(specification: PacketSpecification): ReadonlySet<string> {
   const ownership = specification.fieldOwnership;
-  // Every ownership bucket except the platform's own says the same thing about
-  // rendering: this value is not one we hold, so the page carries a line for
-  // whoever does supply it. Who that is differs — the participant at filing, the
-  // participant at signing, the court, a notary, the prosecutor — and the
-  // buckets keep that distinction for every other purpose. The composer only
-  // needs to know not to demand it as a fact and not to fill it.
   return new Set([
     ...(ownership?.participantCompletesBeforeFilingFields ?? []),
     ...(ownership?.participantAtSigningFields ?? []),
@@ -397,7 +403,7 @@ export function composeGradeAPacket(
   // is composed. Composing the ones that happen to be satisfiable would hand a
   // participant a partial packet, which is the failure mode this whole gate
   // exists to prevent.
-  const blanks = completedBeforeFiling(specification);
+  const blanks = notSuppliedByPlatform(specification);
   const missing = [...new Set([
     ...specification.requiredFacts.map((requiredFact) => requiredFact.factId),
     ...included.flatMap((document) => factsUsedBy(document, blanks))
@@ -449,17 +455,31 @@ function composeSection(
   presentation: "guidance" | "pleading"
 ): GradeABlock[] {
   const head: GradeABlock = { kind: "heading", text: section.heading };
-  const blanks = completedBeforeFiling(specification);
+  const blanks = notSuppliedByPlatform(specification);
   // A field the approved design leaves for the participant to write on the page
   // is emitted as a labelled blank, never filled. `fact()` is not consulted for
   // one: there is nothing to consult, and reaching for a value here is how an
   // approved blank turns into a prefilled field nobody approved.
-  const fieldItem = (field: string) => (blanks.has(field)
-    ? { label: section.fieldLabels?.[field] ?? captionLabel(field), value: "", blank: true }
-    : {
-      label: section.fieldLabels?.[field] ?? captionLabel(field),
-      value: fill(section.fieldValueTemplates?.[field] ?? `{{${field}}}`, matter)
-    });
+  // Presentation comes from the section's own declaration, never from who owns
+  // the value. A field nobody else supplies and that declares no treatment is a
+  // refusal: the composer does not know what the adopted page draws there, and
+  // guessing a ruled line is how one shape silently becomes every shape.
+  const fieldItem = (field: string) => {
+    const label = section.fieldLabels?.[field] ?? captionLabel(field);
+    const treatment = section.fieldTreatments?.[field]
+      ?? (blanks.has(field) ? undefined : "value");
+    if (treatment === "ruled_blank") return { label, value: "", blank: true, completedBy: "participant" as const };
+    if (treatment === "court_owned_space") return { label, value: "", blank: true, completedBy: "court" as const };
+    if (treatment === "value") {
+      return { label, value: fill(section.fieldValueTemplates?.[field] ?? `{{${field}}}`, matter) };
+    }
+    throw new GradeAPacketCompositionError(
+      specification.routeKey, [],
+      `field "${field}" in section "${section.heading}" is not supplied by the platform and declares no `
+      + "presentation. Record how the adopted page draws it — a ruled blank the participant completes, a "
+      + "space the court completes, or a signature structure — rather than letting ownership imply a shape."
+    );
+  };
 
   switch (section.kind) {
     case "pleading_caption": {

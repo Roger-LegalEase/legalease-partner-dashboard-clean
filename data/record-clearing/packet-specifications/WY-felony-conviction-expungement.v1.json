@@ -310,6 +310,11 @@
             "caseNumber": "docket_number",
             "caseNumberLabel": "Docket / Criminal Case No.:",
             "documentTitle": "VERIFIED PETITION FOR EXPUNGEMENT OF RECORDS OF CONVICTION"
+          },
+          "fieldTreatments": {
+            "judicial_district": "ruled_blank",
+            "county_of_conviction": "ruled_blank",
+            "docket_number": "ruled_blank"
           }
         },
         {
@@ -354,6 +359,12 @@
             "statute_of_conviction": "Wyoming statute section of conviction, as the judgment states it:",
             "conviction_date": "Date of conviction / date judgment and sentence entered:",
             "same_occurrence_felonies": "Where more than one felony is included, state that they arose out of the same occurrence or the same related course of events, and identify each:"
+          },
+          "fieldTreatments": {
+            "felony_offense": "ruled_blank",
+            "statute_of_conviction": "ruled_blank",
+            "conviction_date": "ruled_blank",
+            "same_occurrence_felonies": "ruled_blank"
           }
         },
         {
@@ -369,6 +380,9 @@
           ],
           "fieldLabels": {
             "sentence_expiry_date": "Date all terms of the sentence expired, including any probation:"
+          },
+          "fieldTreatments": {
+            "sentence_expiry_date": "ruled_blank"
           }
         },
         {
@@ -386,6 +400,10 @@
           "fieldLabels": {
             "program_completion": "Date any court-ordered program was completed (or state that none was ordered):",
             "restitution_satisfaction": "Restitution ordered, and the date it was paid in full (or state that none was ordered):"
+          },
+          "fieldTreatments": {
+            "program_completion": "ruled_blank",
+            "restitution_satisfaction": "ruled_blank"
           }
         },
         {
@@ -407,6 +425,12 @@
             "not_excluded_allegation": "(b) That the felony is not an offense excluded from expungement by Sec. 7-13-1502:",
             "not_substantial_danger_allegation": "(c) That Petitioner does not represent a substantial danger to himself or herself, to any identifiable victim, or to society:",
             "no_prior_1502_allegation": "(d) That Petitioner has not previously received an expungement of records of conviction under Sec. 7-13-1502, which permits one in a lifetime:"
+          },
+          "fieldTreatments": {
+            "no_other_felony_allegation": "ruled_blank",
+            "not_excluded_allegation": "ruled_blank",
+            "not_substantial_danger_allegation": "ruled_blank",
+            "no_prior_1502_allegation": "ruled_blank"
           }
         },
         {
@@ -486,6 +510,11 @@
             "caseNumber": "order_docket_number",
             "caseNumberLabel": "Docket / Criminal Case No.:",
             "documentTitle": ""
+          },
+          "fieldTreatments": {
+            "order_judicial_district": "ruled_blank",
+            "order_county": "ruled_blank",
+            "order_docket_number": "ruled_blank"
           }
         },
         {
@@ -506,6 +535,9 @@
           ],
           "fieldLabels": {
             "order_findings": "ORDER FOR EXPUNGEMENT"
+          },
+          "fieldTreatments": {
+            "order_findings": "court_owned_space"
           }
         },
         {
@@ -566,6 +598,9 @@
           ],
           "fieldLabels": {
             "verification_docket_number": "Docket / Criminal Case No."
+          },
+          "fieldTreatments": {
+            "verification_docket_number": "ruled_blank"
           }
         },
         {
@@ -583,6 +618,10 @@
           "fieldLabels": {
             "verification_state": "STATE OF",
             "verification_county": "COUNTY OF"
+          },
+          "fieldTreatments": {
+            "verification_state": "ruled_blank",
+            "verification_county": "ruled_blank"
           }
         },
         {
@@ -654,6 +693,9 @@
           ],
           "fieldLabels": {
             "cos_docket_number": "Docket / Criminal Case No."
+          },
+          "fieldTreatments": {
+            "cos_docket_number": "ruled_blank"
           }
         },
         {
@@ -685,6 +727,12 @@
             "prosecutor_address": "Address served:",
             "prosecutor_service_manner": "Manner of service",
             "prosecutor_service_date": "Date served"
+          },
+          "fieldTreatments": {
+            "prosecutor_identity": "ruled_blank",
+            "prosecutor_address": "ruled_blank",
+            "prosecutor_service_manner": "ruled_blank",
+            "prosecutor_service_date": "ruled_blank"
           }
         },
         {
@@ -704,6 +752,11 @@
             "dci_address": "Address served (confirm the current address for service with the Division before sending):",
             "dci_service_manner": "Manner of service",
             "dci_service_date": "Date served"
+          },
+          "fieldTreatments": {
+            "dci_address": "ruled_blank",
+            "dci_service_manner": "ruled_blank",
+            "dci_service_date": "ruled_blank"
           }
         },
         {
@@ -779,7 +832,9 @@
         "sourceUsed": "scripts/build-census-v1-wy_fel_1502-set.mjs",
         "componentEquivalence": "exact_adopted_bytes",
         "evidence": "Route A, proven. The build host was regenerated in place and the canonical fixture hashed 3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30 before and after, which is the digest OWNER_BATCH_ADOPTION_2026-09-02 pins for wy_fel_1502-set; nothing in the family directory changed. The host is therefore the source that produced the adopted bytes, and every substantive line carried here was additionally checked back against the adopted PDF text — 74 of 74 matched verbatim."
-      }
+      },
+      "supersededBy": "supplemental_guide",
+      "supersessionNote": "Every line of this page is participant guidance, and none of it is filed with the court. Its substance is carried into the shared §7 guide at data/record-clearing/supplemental-guides/WY-felony-conviction-expungement.v1.json — 19 entries across Overview, Next Steps, Filing Checklist and Fees & Costs, with 13 lines carried elsewhere (one packet chrome, twelve stop conditions that belong in hearingAndObjectionStops rather than a second list that could disagree with the first). This component stays in the packet only until the shared guide ships, and retires then rather than shipping beside it."
     }
   ],
   "filingDestination": {
