@@ -80,6 +80,17 @@ a defect in this branch's own code, not an external dependency.
 
 Items 1–7 are untouched by this branch and remain as their owners left them.
 
+## Item 12 — RESOLVED 2026-09-20 — the Mississippi paid-consumer successor pin was stale, and the route was refused
+
+**Resolved.** Roger approved the successor packet set at commit `32d0bf2f9` on
+2026-09-20 and the decision is recorded at
+`data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json`,
+which supersedes the 2026-09-14 decision without editing it. The approval
+records `packetContentsChanged: true` and names the three approved artifacts by
+digest. `loadMsPaidConsumerSuccessor()` returns an approval again. Item 13
+records what regenerating the registry then revealed. The original entry is
+preserved below unchanged.
+
 ## Item 12 — the Mississippi paid-consumer successor pin is stale, and the route is refused
 
 | # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
@@ -193,3 +204,71 @@ Then re-dispatch the publication with `integration_sha` left empty, which is
 the workflow's own safe path. The re-pin of `AUTHORIZED_WORKER_SOURCE_SHA` and
 `AUTHORIZED_WORKER_DIGEST` to the resulting digest is ordinary build work and
 does not need Roger; it is the same move recorded at `a1eed1c6e`.
+
+## Item 13 — five routes lost commercial eligibility the moment the registry could be regenerated
+
+| # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
+|---|------|-------|----------------|-------------------|--------------------|
+| 13 | Decide how the five routes whose specification bytes moved on 2026-09-20 regain admitted authority | Roger | Before any of those five routes is offered again | For each route, a recorded admission of the moved specification — a carry-forward the successor accepts, or a fresh owner artifact approval decided against the current bytes | Each is an owner approval of an exact document set. The build may regenerate a registry from evidence; it may not admit bytes no approval names |
+
+**What happened, measured.** Item 12 is resolved: the 2026-09-20 owner decision
+supersedes the stale pin and `loadMsPaidConsumerSuccessor()` returns an approval
+again. That unblocked `scripts/generate-rcap-grade-a-fulfillment-authority.mjs`,
+which had been refusing outright — and the first regeneration in a day revealed
+that the committed registry had been claiming authority for specifications it
+had never seen.
+
+The registry was last regenerated at `c5c0f3d50` (2026-09-19). Five
+specification files moved on 2026-09-20, in four reviewed commits, all after it:
+
+| Route | Registry pinned | File now | Moved in |
+|-------|-----------------|----------|----------|
+| `DC:dc_actual_innocence_expungement_16_803` | `a66e9b44315d` | `bd1bc2afac28` | `b45949177` Repair the District of Columbia derivation defect (3 of 8) |
+| `IL:felony-prostitution-relief` | `50dfb8afa1ca` | `aeb7ace411d0` | `c4296e0d0` GA-5-CAPTIONS bind every caption treatment to authority |
+| `MS:additional-justice-court-misdemeanor-relief-9-11-15-3` | `e870e694b917` | `737bcbb2edcc` | `94f70f10a` Mississippi document purity |
+| `MS:additional-municipal-court-misdemeanor-relief-21-23-7-6` | `e870e694b917` | `737bcbb2edcc` | `94f70f10a` Mississippi document purity |
+| `WY:felony-conviction-expungement-w-s-7-13-1502` | `97572a2e564a` | `c057a748a753` | `94f70f10a` Mississippi document purity |
+
+Every file above is byte-identical at `HEAD` and in the working tree, so this is
+neither a local edit nor a consequence of the §7 successor work. The successor
+work only removed the refusal that was hiding it.
+
+**What the regeneration did.** The projection moved from 6 commercially eligible
+routes to 0:
+
+| Route | Was | Now |
+|-------|-----|-----|
+| `DC:dc_actual_innocence_expungement_16_803` | COMPLETE_PACKET_PROVEN | STALE |
+| `IL:felony-prostitution-relief` | COMPLETE_PACKET_PROVEN | REVOKED |
+| `MS:additional-justice-court-misdemeanor-relief-9-11-15-3` | COMPLETE_PACKET_PROVEN | REVOKED |
+| `MS:additional-municipal-court-misdemeanor-relief-21-23-7-6` | COMPLETE_PACKET_PROVEN | REVOKED |
+| `WY:felony-conviction-expungement-w-s-7-13-1502` | COMPLETE_PACKET_PROVEN | REVOKED |
+| `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` | COMPLETE_PACKET_PROVEN | INCOMPLETE |
+
+The four revocations are the generator's own designed refusal —
+`artifact successor legal specification changed`, raised when
+`carriedForwardSpecificationSha256` cannot show that only approved-artifact pins
+moved. Every change is toward closure; nothing was opened.
+
+**This is a correction, not a regression.** The eligibility those six rows
+carried was not withdrawn on 2026-09-20 — it stopped being true on 2026-09-20
+and the registry went on asserting it. `commerciallyEligible: 6` described
+specification bytes that no longer existed. The regenerated `0` is what the
+evidence in the tree actually supports.
+
+**Not repaired here, deliberately.** Re-admitting those five routes means either
+recording a carry-forward the successor accepts, or deciding a fresh owner
+artifact approval against the current bytes. Both are owner approvals of exact
+document sets. The build must not manufacture either, and
+`verify-rcap-grade-a-fulfillment-authority.mjs` is left reporting four failures
+rather than having its hard-coded DC digest quietly updated to match:
+
+```
+✗ DC:dc_actual_innocence_expungement_16_803 binds a different packet specification
+✗ DC:dc_actual_innocence_expungement_16_803: bound inputs carry a different specification digest
+✗ DC:dc_actual_innocence_expungement_16_803: packet_specification_authority does not bind its exact admitted path and digest
+✗ MS:additional-justice-court-misdemeanor-relief-9-11-15-3 static packet authority failed: {"revoked":true}
+```
+
+Those four failures are the finding. Making them green would mean admitting
+bytes nobody approved.

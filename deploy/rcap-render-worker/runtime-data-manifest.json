@@ -4,8 +4,8 @@
   "purpose": "The exact read-only data/ closure the render worker reads at runtime, so the container image carries it and no more.",
   "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
   "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
-  "fileCount": 132,
-  "totalBytes": 14753906,
+  "fileCount": 138,
+  "totalBytes": 14967486,
   "excluded": [
     {
       "path": "data/rcap-all50/composed-routes/**, other than route.json",
@@ -689,24 +689,52 @@
     },
     {
       "path": "data/rcap-grade-a/worker-static-authority.json",
-      "sha256": "0bacfc40da7441efd38da6dc97253204475e67b41444dffdfe45d0fcda235492",
-      "bytes": 195673,
+      "sha256": "2d1b2ea0a2ad1846981f9c2f2bc9f841ccf6f15e0885bed59cf6b37f8703c33a",
+      "bytes": 200754,
       "readBy": "src/lib/rcap/fulfillment/worker-static-authority.ts",
       "why": "Render-only legal/source/specification authority; external publication facts remain outside the image."
+    },
+    {
+      "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf",
+      "sha256": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe",
+      "bytes": 20758,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
+      "why": "An approved artifact. The loader hashes the bytes themselves, so the approval cannot outlive the packet it approved."
+    },
+    {
+      "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf",
+      "sha256": "518f12411df4091927642cd6a0bd6c5cede0833b793e16ab356fef96fbb5408d",
+      "bytes": 69813,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
+      "why": "An approved artifact. The loader hashes the bytes themselves, so the approval cannot outlive the packet it approved."
+    },
+    {
+      "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
+      "sha256": "53d1577b1dc0a023fde8338edb80e16ab36282d827c602f99daf89aaa51386c3",
+      "bytes": 71718,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
+      "why": "An approved artifact. The loader hashes the bytes themselves, so the approval cannot outlive the packet it approved."
     },
     {
       "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
       "sha256": "f9eb16e52304b772f27b1bd59068a952eff0e2f6dcad647a8c66a30c22efc07a",
       "bytes": 6353,
       "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
-      "why": "Exact owner-paid successor and preserved packet approval bytes; absent or changed evidence refuses the successor."
+      "why": "Preserved historical participant-delivery approval; absent or changed evidence refuses the successor."
     },
     {
       "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
       "sha256": "74f8aab9cdfb2518b6ec57b1d888d52bddd31a6b8bba7adb874fa330a1025d26",
       "bytes": 4752,
       "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
-      "why": "Exact owner-paid successor and preserved packet approval bytes; absent or changed evidence refuses the successor."
+      "why": "Preserved historical raster review; absent or changed evidence refuses the successor."
+    },
+    {
+      "path": "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json",
+      "sha256": "9ac6072e3932c2949e91df02eb1adf9547e654a4aaeaa9d41395f09e390d6629",
+      "bytes": 10105,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
+      "why": "The review the approval rests on: the specification, guide and assembly the approved bytes were produced from, and the per-page raster hashes of all three artifacts."
     },
     {
       "path": "data/rcap-ledger/packet-correction-required.json",
@@ -762,7 +790,14 @@
       "sha256": "e2ad8a71790622fb23037c88ce5afed6ea2caeb0e86942390eeb73f9e9b69ec8",
       "bytes": 2664,
       "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
-      "why": "Exact owner-paid successor and preserved packet approval bytes; absent or changed evidence refuses the successor."
+      "why": "The superseded decision, kept in custody: the loader reads it to prove the record it supersedes is still present and unedited."
+    },
+    {
+      "path": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json",
+      "sha256": "be3be9979f69cb01f5ecf5ec003044401b90a48c3c6efb9a0efa514bce647502",
+      "bytes": 8834,
+      "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
+      "why": "The controlling owner-paid successor decision. It approves the changed packet set in which the shared §7 guide replaces the specification's own filing page, and names the exact approved bytes."
     },
     {
       "path": "data/record-clearing/legal-decisions/route-ratification-registry.json",
@@ -857,8 +892,8 @@
     },
     {
       "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
-      "sha256": "155417ffbfa9bb83efc5aee937ce9a640a2b71722e8dbdffe8a0bb6669fce9d4",
-      "bytes": 63493,
+      "sha256": "1cd7947e482e5b95b5dce3da83076fbd357df578ece1c61634a201ae92b975f2",
+      "bytes": 64769,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
@@ -943,6 +978,13 @@
       "path": "data/record-clearing/supplemental-guides/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json",
       "sha256": "644d1f18a8ce34d0b27ac47ad7c7d63d9ea177fc2f2b548f6475640fdc4320fe",
       "bytes": 19467,
+      "readBy": "src/lib/rcap/supplemental/guide-registry.ts (ESM JSON imports)",
+      "why": "Static imports: the module graph cannot load without every registered guide present, and the participant's full packet is assembled from them."
+    },
+    {
+      "path": "data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json",
+      "sha256": "6c430978f1499018b1466f00ffd3cae99cd9a6721a0c25e2fd49937179be0cbd",
+      "bytes": 25995,
       "readBy": "src/lib/rcap/supplemental/guide-registry.ts (ESM JSON imports)",
       "why": "Static imports: the module graph cannot load without every registered guide present, and the participant's full packet is assembled from them."
     },

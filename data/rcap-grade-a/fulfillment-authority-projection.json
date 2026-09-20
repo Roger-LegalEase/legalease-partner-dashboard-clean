@@ -9,12 +9,12 @@
   "rule": "This file is a projection. It is derived by the shipped authority module from the controlling registry; editing it changes nothing, because the runtime reads the registry.",
   "counters": {
     "routesWithARecord": 14,
-    "completePacketProven": 6,
-    "incomplete": 8,
-    "stale": 0,
-    "revoked": 0,
+    "completePacketProven": 0,
+    "incomplete": 9,
+    "stale": 1,
+    "revoked": 4,
     "superseded": 0,
-    "commerciallyEligible": 6
+    "commerciallyEligible": 0
   },
   "routes": [
     {
@@ -22,20 +22,22 @@
       "jurisdiction": "DC",
       "packetFamilyId": "dc_innocence_expungement-set",
       "serviceDisposition": "paid_packet_intended",
-      "recordVersion": 23,
-      "state": "COMPLETE_PACKET_PROVEN",
-      "commercialStatus": "commercially_eligible",
+      "recordVersion": 24,
+      "state": "STALE",
+      "commercialStatus": "not_commercially_eligible",
       "missingProof": [],
-      "stalenessReasons": []
+      "stalenessReasons": [
+        "observation: the current world could not be established"
+      ]
     },
     {
       "routeId": "IL:felony-prostitution-relief",
       "jurisdiction": "IL",
       "packetFamilyId": "il-prostitution-j-vacate-set",
       "serviceDisposition": "paid_packet_intended",
-      "recordVersion": 23,
-      "state": "COMPLETE_PACKET_PROVEN",
-      "commercialStatus": "commercially_eligible",
+      "recordVersion": 24,
+      "state": "REVOKED",
+      "commercialStatus": "not_commercially_eligible",
       "missingProof": [],
       "stalenessReasons": []
     },
@@ -44,9 +46,9 @@
       "jurisdiction": "MS",
       "packetFamilyId": "ms-misd-addl-set",
       "serviceDisposition": "paid_packet_intended",
-      "recordVersion": 23,
-      "state": "COMPLETE_PACKET_PROVEN",
-      "commercialStatus": "commercially_eligible",
+      "recordVersion": 24,
+      "state": "REVOKED",
+      "commercialStatus": "not_commercially_eligible",
       "missingProof": [],
       "stalenessReasons": []
     },
@@ -55,9 +57,9 @@
       "jurisdiction": "MS",
       "packetFamilyId": "ms-misd-addl-set",
       "serviceDisposition": "paid_packet_intended",
-      "recordVersion": 23,
-      "state": "COMPLETE_PACKET_PROVEN",
-      "commercialStatus": "commercially_eligible",
+      "recordVersion": 24,
+      "state": "REVOKED",
+      "commercialStatus": "not_commercially_eligible",
       "missingProof": [],
       "stalenessReasons": []
     },
@@ -66,10 +68,12 @@
       "jurisdiction": "MS",
       "packetFamilyId": "ms-nonconv-set",
       "serviceDisposition": "paid_packet_intended",
-      "recordVersion": 18,
-      "state": "COMPLETE_PACKET_PROVEN",
-      "commercialStatus": "commercially_eligible",
-      "missingProof": [],
+      "recordVersion": 1,
+      "state": "INCOMPLETE",
+      "commercialStatus": "not_commercially_eligible",
+      "missingProof": [
+        "provider: a provider identity, renderer version and image digest are required"
+      ],
       "stalenessReasons": []
     },
     {
@@ -218,9 +222,9 @@
       "jurisdiction": "WY",
       "packetFamilyId": "wy_fel_1502-set",
       "serviceDisposition": "paid_packet_intended",
-      "recordVersion": 23,
-      "state": "COMPLETE_PACKET_PROVEN",
-      "commercialStatus": "commercially_eligible",
+      "recordVersion": 24,
+      "state": "REVOKED",
+      "commercialStatus": "not_commercially_eligible",
       "missingProof": [],
       "stalenessReasons": []
     }
