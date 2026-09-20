@@ -199,6 +199,54 @@ for (const specification of specifications) {
   }
 
   /*
+   * STRUCTURE, not just words.
+   *
+   * "Every word is on the page somewhere" passes a document that flattened six
+   * adopted paragraphs into one wall of text. A blank line in a transcribed
+   * body is a paragraph boundary the adopted document has, and a list is a
+   * list; both are structure, and `sanitize()` was deciding them by deleting
+   * newlines.
+   *
+   * So each boundary is checked where it actually shows: the last words of one
+   * paragraph must never be drawn immediately followed by the first words of
+   * the next. If they are, the boundary is gone however complete the text is.
+   */
+  {
+    /*
+     * Line by line, NOT over the flowed page.
+     *
+     * A first version of this normalised all whitespace and then looked for
+     * "tail head" -- which is exactly what two correctly separated paragraphs
+     * also collapse to, so it reported every boundary flattened, including the
+     * ones that were fine. A boundary shows as a LINE break: the tail and the
+     * head are never on the same drawn line.
+     */
+    const lines = rendered[0].text.split("\n").map((line) => line.replace(/\s+/g, " ").trim());
+    const joined = [];
+    for (const document of everyComponent.documents) {
+      if (!document.transcriptionProvenance) continue;
+      for (const section of document.sections ?? []) {
+        const parts = String(section.body ?? "").split(/\n\s*\n/)
+          .map((part) => part.replace(/\s+/g, " ").trim()).filter(Boolean);
+        if (parts.length < 2) continue;
+        for (let index = 0; index + 1 < parts.length; index += 1) {
+          const tail = parts[index].split(" ").slice(-4).join(" ");
+          const head = parts[index + 1].split(" ").slice(0, 4).join(" ");
+          if (tail.length < 12 || head.length < 12 || /\{\{/.test(tail + head)) continue;
+          if (lines.some((line) => line.includes(`${tail} ${head}`))) {
+            joined.push(`${document.documentId}/"${section.heading}" after "${tail}"`);
+          }
+        }
+      }
+    }
+    check(
+      joined.length === 0,
+      `${where}: every adopted paragraph boundary survives into the drawn page${
+        joined.length ? ` (${joined.length} flattened, first: ${joined[0]})` : ""}`
+    );
+  }
+
+  /*
    * The decisive test: a literal that survived transcription appears IDENTICALLY
    * in both renders, while everything correctly bound differs. Comparing the two
    * outputs finds a hard-coded identity even if it is a name nobody listed above.

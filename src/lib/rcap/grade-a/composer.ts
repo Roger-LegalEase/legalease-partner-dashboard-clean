@@ -277,6 +277,45 @@ export function includedDocumentIdsForFacts(
   return planIncludedDocuments(specification, facts).included.map((document) => document.documentId);
 }
 
+
+/**
+ * A structured body's own paragraph and list boundaries, as BLOCKS.
+ *
+ * A transcribed body is not one flowed string: a blank line is a paragraph
+ * boundary and a run of "- " lines is a list. Those are the document's
+ * structure, and structure is decided here, in the block model, where the
+ * section says what it is.
+ *
+ * It is emphatically NOT decided by `sanitize()`. That function exists to make
+ * a single run of text drawable -- folding curly quotes, dropping characters
+ * the standard fonts cannot encode -- and it was silently deciding structure by
+ * deleting newlines, welding the end of one paragraph to the start of the next.
+ * Replacing the newline with a space stopped the welding and still flattened
+ * six adopted paragraphs into one. Inline text normalises whitespace; a
+ * structured body keeps its boundaries.
+ */
+function structuredBlocks(
+  body: string,
+  paragraphKind: "pleading_paragraph" | "paragraph"
+): GradeABlock[] {
+  const isListLine = (line: string) => /^\s*(?:[-•*]|\(?\d+[.)])\s+/.test(line);
+  const blocks: GradeABlock[] = [];
+  for (const chunk of body.split(/\n\s*\n/)) {
+    const lines = chunk.split("\n").map((line) => line.trimEnd()).filter((line) => line.trim().length > 0);
+    if (lines.length === 0) continue;
+    // A run of list lines is a list, and keeps one item per line.
+    if (lines.length > 1 && lines.every(isListLine)) {
+      blocks.push({
+        kind: "bulleted",
+        items: lines.map((line) => line.replace(/^\s*(?:[-•*]|\(?\d+[.)])\s+/, "").trim())
+      } as GradeABlock);
+      continue;
+    }
+    blocks.push({ kind: paragraphKind, text: lines.join(" ").trim() } as GradeABlock);
+  }
+  return blocks;
+}
+
 function fill(text: string, matter: GradeAMatter): string {
   return text
     .replaceAll(/\{\{([a-z0-9_]+)\}\}/g, (_match, id: string) => fact(matter, id))
@@ -542,7 +581,7 @@ function composeSection(
     }
 
     case "pleading_paragraph":
-      return [{ kind: "pleading_paragraph", text: fill(section.body ?? "", matter) }];
+      return structuredBlocks(fill(section.body ?? "", matter), "pleading_paragraph");
 
     case "pleading_numbered_assertions": {
       const assertions = (section.assertions ?? []).filter((assertion) =>
@@ -589,19 +628,32 @@ function composeSection(
     case "route_detection":
     case "route_branch_screen":
     case "discharge_type_screen":
-      return [head, { kind: "paragraph", text: fill(section.body ?? "", matter) }];
+      return [head, ...structuredBlocks(fill(section.body ?? "", matter), "paragraph")];
 
     case "pleading_identity_list": {
       const hasImpact = fact(matter, "personal_impact_confirmed") === "Yes";
       const number = section.heading === "AUTO"
         ? (hasImpact ? "5." : "4.")
         : (/^\d+\.$/.test(section.heading) ? section.heading : undefined);
-      return [{
-        kind: "pleading_identity_list",
-        introduction: fill(section.body ?? "", matter),
-        number,
-        items: (section.fields ?? []).map(fieldItem)
-      }];
+      /*
+       * A multi-paragraph introduction is not one run of text. Nevada's
+       * proposed order opens with a recital, then a blank line, then the
+       * sentence that introduces the list -- and only the last of those is the
+       * list's introduction. Earlier paragraphs stand on their own, as they do
+       * on the adopted page.
+       */
+      const introBlocks = structuredBlocks(fill(section.body ?? "", matter), "pleading_paragraph");
+      const introduces = introBlocks.length > 0 ? introBlocks[introBlocks.length - 1] : null;
+      const standalone = introBlocks.slice(0, Math.max(0, introBlocks.length - 1));
+      return [
+        ...standalone,
+        {
+          kind: "pleading_identity_list",
+          introduction: introduces && "text" in introduces ? introduces.text : "",
+          number,
+          items: (section.fields ?? []).map(fieldItem)
+        }
+      ];
     }
 
     case "pro_se_signature_block":
@@ -660,7 +712,7 @@ function composeSection(
       }];
 
     case "static":
-      return [head, { kind: "paragraph", text: fill(section.body ?? "", matter) }];
+      return [head, ...structuredBlocks(fill(section.body ?? "", matter), "paragraph")];
 
     case "contents_list":
       return [head, { kind: "numbered", items: included.map((document) => document.title) }];

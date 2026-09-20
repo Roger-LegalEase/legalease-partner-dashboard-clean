@@ -354,11 +354,17 @@ const REGENERATION_BRIDGE = {
   },
   /*
    * These three were recorded as unregenerable because their hosts assert the
-   * Master Library corpus, and the corpus is not at the path they default to.
-   * That was read as the GA-8-22E1 external blocker. It is not: the hosts take
-   * MASTER_LIBRARY_SOURCE_DIR, and the corpus is readable in this environment,
-   * so all three regenerate and route A is available after all. "Blocked on a
-   * mount" and "blocked on a default path" are not the same sentence.
+   * Master Library corpus and it is not at the path they default to. The hosts
+   * take MASTER_LIBRARY_SOURCE_DIR, the corpus is readable in this environment,
+   * and all three regenerate -- so route A is available for them after all.
+   *
+   * SCOPE, stated narrowly: this resolves the Master Library dependency for
+   * THESE transcriptions. It does not resolve the repository's corpus
+   * governance. The "513 of 583, 70 missing" figure is still the
+   * recovery-kit-only view, the consolidated disposition still has to be
+   * reconciled into the active dependency contract, and the nine unheld active
+   * dependencies in NATIONWIDE_ACTIVE_DEPENDENCY_STATUS.json are unaffected by
+   * anything here. One host finding its corpus is not a corpus audit.
    */
   "DC:dc_actual_innocence_expungement_16_803": {
     proven: true,
