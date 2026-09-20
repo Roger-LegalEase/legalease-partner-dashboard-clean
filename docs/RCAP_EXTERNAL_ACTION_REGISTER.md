@@ -221,6 +221,115 @@ itself, so they would pass while asking nothing — the precise failure the
 freeze is a release decision, so it is recorded here rather than chosen by the
 thing being checked.
 
+## Item 11C — RESOLVED 2026-09-20 — the Preview could not be built from any commit that carries the accepted worker
+
+**Where it surfaced.** `hosted_full` run 35540766972 (job 106157870806),
+dispatched at `2a5dfe9ea` with worker source `117b469c4` and digest
+`sha256:9faa24e8…`. Item 11B's rebind worked: step 21, *Verify the reuse-only
+human Checkout gate* — the previous blocker — now **succeeds**, as do the Stripe
+fixtures and Preview resolution. The first actual failing gate is step 24,
+*Deploy the frozen application SHA to Vercel Preview*, at 22:11:41 → 22:11:44:
+
+```
+  creating one REST Preview from exact Git SHA 2a5dfe9ea101975abd107d82769d0fbb86925394
+DEPLOY FAILED — REST_FROZEN_METADATA_MISMATCH
+```
+
+Three seconds is a refusal, not a build. The gallery and the
+"every required matrix step ran" check failed downstream of it; *the emitted
+evidence earns the verdict it reports* passed, so the run reported its own
+failure honestly.
+
+**The defect.** `scripts/rcap-hosted-vercel-rest-transport.mjs` is what tells
+Vercel which commit to build. Its `FROZEN_APPLICATION_SHA` still named
+`4e16d6d8e` — the application frozen on 2026-09-17 for the
+`c88f10341` / `sha256:df6c2965…` worker. That pin and the accepted worker had
+become **jointly unsatisfiable**: `rcap-f1-ephemeral-staging.yml` independently
+requires `worker_source_sha` to be an ancestor of `application_sha`, and
+`117b469c4` is not an ancestor of `4e16d6d8e`. No value of `application_sha`
+could satisfy both, so no `hosted_full` run could reach the gallery.
+
+**Candidate-caused, established against the baseline.** The constant is
+byte-identical at `4e16d6d8e`, `117b469c4`, `ed7356a73`, `95913fd49` and
+`2a5dfe9ea`: the pin never moved. What moved is the accepted worker, at
+`117b469c4`. The contradiction therefore begins with this candidate and is this
+candidate's to repair. The previous run never reached step 24 because the
+checkout gate stopped it first, which is why the run that fixed Item 11B is the
+run that found this.
+
+**The pin had a second copy, and it had drifted the same way.**
+`scripts/rcap-hosted-stripe-webhook-retarget.mjs`, which the acceptance workflow
+runs after the Preview is READY, carried its own `EXPECTED_APPLICATION_SHA =
+4e16d6d8e` and would have refused the very Preview the transport had just built.
+It now imports `FROZEN_APPLICATION_SHA` instead of copying it, and a test
+refuses any 40-character SHA literal in that file: one declaration cannot
+disagree with itself.
+
+**The new pin.** `884ad51d0ad50c520ec0ba2834eac03194ce88ac` — the first commit
+whose tree carries the publication receipt for `117b469c4` /
+`sha256:9faa24e8…` and the six-route observations regenerated against it. It has
+`117b469c4` as an ancestor, and it differs from the branch tip on no application
+bytes, so `tools_sha` may remain at the tip.
+
+**The control that should have caught this could not run at all.**
+`rcap-hosted-vercel-rest-transport.test.mjs` evaluates the deploy script's real
+env construction in a VM. When that env gained `CATALOG_PRODUCT_ID`,
+`LEGAL_AID_EMAIL` and `acceptanceServerSecret`, the test context did not, and
+**22 of its 23 tests had been failing on `CATALOG_PRODUCT_ID is not defined`**
+ever since. Proven pre-existing: the identical failure reproduces at
+`4e16d6d8e` itself. With the context supplied, the suite also reported a second
+thing it had been unable to say — that two of the four deploy-script segments it
+pins as unchanged had legitimately moved forward (the reuse matcher gained the
+`rcapCatalogProduct` discriminator; the env gained the catalog Product, the
+Legal Aid provider and the per-acceptance secrets). That baseline is re-pinned
+from `6a0217b024c` to `7d606f90a`, which is the mechanism, and the two mismatched
+end markers that only happened to align at `6a0217b` are now one marker.
+
+A new check gives the suite teeth against exactly this drift: the frozen pin
+must be a real commit, the accepted publication receipt's `sourceSha` must be an
+ancestor of it, and the receipt in **its** tree must name the same source SHA
+and digest. Restoring the superseded pin fails that check and only that check.
+
+**A second control had gone stale on my own change.**
+`verify-release-candidate-binding.test.mjs` passes at `4e16d6d8e` and fails from
+`117b469c4` onward. Cause: `117b469c4` added
+`deploy/rcap-render-worker/Dockerfile.dockerignore` to the canonical worker
+inputs, and the synthetic fixture did not gain it — nor the §7 supplemental
+guides or the brand asset. A tree missing a canonical input is reported
+`rebuild-required`, so the fixture's clean-candidate case stopped being clean
+for a reason that said nothing about the real repository. The fixture now
+carries all three.
+
+**Left open, proven pre-existing, and deliberately not repaired here.** The
+release-candidate binding and the hosted tools binding still name superseded
+tuples — `4e16d6d8e` / `c88f10341` / `sha256:df6c2965…` and `436520e4a`
+respectively — and the production application pins still name `4e16d6d8e`.
+None of these is on the `hosted_full` path, and the binding's own verifier
+already reported `STALE_OR_UNVERIFIED` at `4e16d6d8e` itself, so that staleness
+pre-dates this candidate rather than following from it. Re-freezing them
+truthfully needs two things this session does not have: a read-only image
+acceptance for `sha256:9faa24e8…` (the receipt records `imageAcceptance: null`,
+`runtimeAccepted: false`, `registryPullByDigestStatus: "not_yet_attempted"`),
+and, for the production pins, a production authorization for this candidate.
+Recording them here is the honest disposition; a partial re-freeze would make
+the repository less truthful, not more.
+
+**A CLI-era cohort of local controls is red, and was red before this change.**
+All four fail identically at a clean checkout of `2a5dfe9ea`, and no workflow
+runs any of them, so none is a gate on `hosted_full`:
+
+| Control | What it still asserts | Why it fails |
+|---|---|---|
+| `rcap-hosted-acceptance-preflight.test.mjs` (2, 3) | `const deployArgsLine = deploySource.match(...)`; a `VERCEL_TOKEN:` line in the workflow | the deploy path moved from the Vercel CLI to the REST transport |
+| `rcap-hosted-acceptance-redaction.test.mjs` (2) | the deploy script names `rcap-hosted-acceptance-redaction.mjs` | redaction moved into `rcap-hosted-vercel-diagnostics.mjs` |
+| `rcap-hosted-acceptance-preparation.test.mjs` (5) | `rcapStagingScopeSha256=` as a CLI argument | the REST transport sends `meta` as JSON, not as `key=value` arguments |
+| `rcap-hosted-acceptance-preparation.test.mjs` (6, 7) | two historical SHAs are clean reuse cases | those trees genuinely predate three canonical worker inputs, so `rebuild-required` is the correct answer about them |
+| `verify-hosted-tools-binding.test.mjs` (1) | the `436520e4a` tools tuple | superseded, and the same staleness as the bindings above |
+
+Each is a control describing a product that has moved on, which is a repair to
+make deliberately rather than while chasing a dispatch. They are named here so
+the next pass starts from a list rather than from a rediscovery.
+
 ## Item 11 — the worker publication gate refuses the release candidate
 
 | # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |

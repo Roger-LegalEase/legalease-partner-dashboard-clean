@@ -7,9 +7,13 @@ import {createPreviewRequest, createRestPreview, FROZEN_APPLICATION_SHA, CREATE_
 import {resolveHostedVercelIdentity, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
 const identity={teamId:HOSTED_VERCEL_TEAM_ID,projectId:HOSTED_VERCEL_PROJECT_ID,projectName:HOSTED_VERCEL_PROJECT_NAME};
 const source=fs.readFileSync(new URL('./rcap-hosted-acceptance-deploy.mjs',import.meta.url),'utf8');
-function fixture(route='') {
-  // Evaluate the actual unchanged env construction, including every env/build-env value.
-  const context={RETURN_ORIGIN:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA),SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',keys:{anon:'synthetic-anon',service:'synthetic-service'},ROUTE_STATE:route,SCOPE_IDS:route?'synthetic-id':'',process:{env:{HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}}};
+function fixture(route='',{catalog='prod_synthetic',email=null}={}) {
+  // Evaluate the actual unchanged env construction, including every env/build-env
+  // value. Every free name the block reads must be supplied here: when the
+  // deployment env grew CATALOG_PRODUCT_ID, LEGAL_AID_EMAIL and
+  // acceptanceServerSecret and this context did not, every test below stopped
+  // running on `CATALOG_PRODUCT_ID is not defined` rather than on a contract.
+  const context={RETURN_ORIGIN:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA),SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',keys:{anon:'synthetic-anon',service:'synthetic-service'},ROUTE_STATE:route,SCOPE_IDS:route?'synthetic-id':'',CATALOG_PRODUCT_ID:catalog,LEGAL_AID_EMAIL:email,acceptanceServerSecret:(purpose,bytes)=>Buffer.alloc(bytes,7),Buffer,process:{env:{HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}}};
   const env=vm.runInNewContext(source.slice(source.indexOf('const runtimeEnv ='),source.indexOf('// A live Stripe key'))+'\nJSON.stringify({runtimeEnv,buildEnv});',context);
   return {identity,token:'synthetic-token',applicationSha:FROZEN_APPLICATION_SHA,...JSON.parse(env),meta:{rcapApplicationSha:FROZEN_APPLICATION_SHA,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapStripeConfigured:'true',rcapRouteState:route||'disabled',rcapReturnOrigin:context.RETURN_ORIGIN,rcapClinicDemoMode:'none',rcapStagingScopeSha256:'a'.repeat(64)}};
 }
@@ -18,8 +22,13 @@ function mock(o,{status=200,changes={}}={}) {
   const calls=[];return {calls,fetchImpl:async(url,init)=>{calls.push({url,init});return {ok:status>=200&&status<300,status,json:async()=>response(o,changes)};}};
 }
 test('exact team/project/SHA and per-deployment runtime/build values; no production override',async()=>{
-  for(const route of ['', 'staging_scoped']) {
-    const o=fixture(route);const m=mock(o);await createRestPreview({...o,target:'production',projectSettings:{},env:{VERCEL_ENV:'production'}},m);
+  // Both optional branches of the deployment env are exercised: the catalog
+  // Product that the Checkout path needs, and the nonproduction email provider
+  // that only the Legal Aid phase supplies.
+  for(const [route,options] of [['',{}],['staging_scoped',{}],['',{catalog:''}],['staging_scoped',{email:{apiKey:'synthetic-resend',from:'synthetic@example.test'}}]]) {
+    const o=fixture(route,options);const m=mock(o);await createRestPreview({...o,target:'production',projectSettings:{},env:{VERCEL_ENV:'production'}},m);
+    assert.equal(Object.hasOwn(o.runtimeEnv,'STRIPE_CONSUMER_PACKET_PRODUCT_ID'),Boolean(options.catalog??'prod_synthetic'));
+    assert.equal(Object.hasOwn(o.runtimeEnv,'RESEND_API_KEY'),Boolean(options.email));
     assert.equal(m.calls.length,1);assert.equal(m.calls[0].url,`https://api.vercel.com/v13/deployments?teamId=${HOSTED_VERCEL_TEAM_ID}`);
     const b=JSON.parse(m.calls[0].init.body);assert.equal(b.project,HOSTED_VERCEL_PROJECT_ID);assert.equal(b.name,HOSTED_VERCEL_PROJECT_NAME);
     assert.deepEqual(b.gitSource,{type:'github',repoId:'1248656766',ref:FROZEN_APPLICATION_SHA,sha:FROZEN_APPLICATION_SHA});
@@ -46,6 +55,28 @@ for(const status of [401,403,429,500])test(`creation HTTP ${status} fails closed
 for(const changes of [{id:null},{id:'wrong'},{target:'production'},{target:undefined},{url:'evil.example'},{projectId:'prj_wrong'},{gitSource:{sha:'0'.repeat(40)}},{meta:{}},{readyState:'ERROR'}])test(`invalid creation response refuses ${JSON.stringify(changes)}`,async()=>{
   const o=fixture(),m=mock(o,{changes});await assert.rejects(createRestPreview(o,m));assert.equal(m.calls.length,1);
 });
+test('the frozen application pin names a tree that carries the accepted worker publication receipt',()=>{
+  // The pin is what tells Vercel which commit to build, so it is only truthful
+  // while the tree it names carries the receipt for the worker the deployment
+  // will run beside. Nothing asserted that before: when the accepted worker
+  // moved to a descendant of the pin, the pin and the entry workflow's
+  // "worker source is an ancestor of the application" guard became jointly
+  // unsatisfiable, and the contradiction surfaced only as a REST refusal in a
+  // dispatched acceptance run. This is that check, made locally and cheaply.
+  const root=new URL('..',import.meta.url);
+  const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
+  const accepted=JSON.parse(fs.readFileSync(new URL('./data/rcap-render/worker-publication-evidence.json',root),'utf8'));
+  assert.match(accepted.sourceSha,/^[0-9a-f]{40}$/);
+  assert.equal(accepted.workflowConclusion,'success');
+  assert.match(FROZEN_APPLICATION_SHA,/^[0-9a-f]{40}$/);
+  assert.equal(git(['cat-file','-t',FROZEN_APPLICATION_SHA]),'commit');
+  // The accepted worker source must already be in the pinned tree's history,
+  // which is exactly what rcap-f1-ephemeral-staging.yml independently requires.
+  git(['merge-base','--is-ancestor',accepted.sourceSha,FROZEN_APPLICATION_SHA]);
+  const pinned=JSON.parse(git(['show',`${FROZEN_APPLICATION_SHA}:data/rcap-render/worker-publication-evidence.json`]));
+  assert.equal(pinned.sourceSha,accepted.sourceSha);
+  assert.equal(pinned.immutableRegistryDigest,accepted.immutableRegistryDigest);
+});
 test('ambiguous network response is never retried',async()=>{
   let calls=0;await assert.rejects(createRestPreview(fixture(),{fetchImpl:async()=>{calls++;throw Error('network');}}));assert.equal(calls,1);
 });
@@ -56,11 +87,21 @@ test('build polling is GET-only, exact ID-bound, and never creates twice',async(
   const m=mock(o,{changes:{readyState:'BUILDING'}});await assert.rejects(createRestPreview(o,{...m,maxPolls:0}),/REST_BUILD_TIMEOUT_NO_RETRY/);assert.equal(m.calls.length,1);
 });
 test('reuse, metadata inputs, snapshots and post-probes preserved; alias gated after identity',()=>{
-  const baseline=execFileSync('git',['show','6a0217b024c3c00409a5fef9338ad3f7976dbadf:scripts/rcap-hosted-acceptance-deploy.mjs'],{encoding:'utf8'});
+  // Re-pinned from 6a0217b024c to 7d606f90a, the commit that owns these
+  // segments today. Two of the four had legitimately moved forward since
+  // 6a0217b: findReusableDeployment gained the rcapCatalogProduct
+  // discriminator, so a Preview built for a different catalog Product is no
+  // longer reusable, and the deployment env gained the catalog Product, the
+  // Legal Aid email provider and the per-acceptance server secrets. Both are
+  // deliberate product moves the older pin could not describe -- and it never
+  // reported them, because the whole suite was failing to evaluate first.
+  // Re-pinning is the mechanism; the end marker is now the same on both sides
+  // rather than two different ones that only happened to align at 6a0217b.
+  const baseline=execFileSync('git',['show','7d606f90ac9f750f94d2c7b99a3bb2c38f2fb2a3:scripts/rcap-hosted-acceptance-deploy.mjs'],{encoding:'utf8'});
   const segment=(s,a,b)=>s.slice(s.indexOf(a),s.indexOf(b,s.indexOf(a)));
-  for(const [a,b] of [['async function findReusableDeployment()','// Resolve the acceptance'],['const runtimeEnv =','// `--archive=tgz`'],['// --- 0. Before-picture','// --- 0b.'],['// --- 2b.','// --- verdict']]) {
-    if(a==='const runtimeEnv =')assert.equal(segment(source,a,'const deploymentMeta ='),segment(baseline,a,b));
-    else assert.equal(segment(source,a,b),segment(baseline,a,b));
+  for(const [a,b] of [['async function findReusableDeployment()','// Resolve the acceptance'],['const runtimeEnv =','const deploymentMeta ='],['// --- 0. Before-picture','// --- 0b.'],['// --- 2b.','// --- verdict']]) {
+    assert.notEqual(segment(source,a,b),'',a);
+    assert.equal(segment(source,a,b),segment(baseline,a,b));
   }
   assert(source.indexOf('await resolveHostedVercelIdentity')<source.indexOf('await createRestPreview'));
   assert(source.indexOf('if (reusable)')<source.indexOf('await createRestPreview'));

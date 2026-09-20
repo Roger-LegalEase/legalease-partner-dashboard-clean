@@ -39,6 +39,20 @@ function endpoint(overrides = {}) {
   };
 }
 
+test("the retarget names the same application pin the Preview is created from", async () => {
+  // A second literal copy of the application SHA is how this drifted: the
+  // transport moved and this file did not, so the retarget would have refused
+  // the exact Preview the transport had just built. The pin must be imported,
+  // and the source must contain no 40-character SHA literal of its own.
+  const source = fs.readFileSync(implementationPath, "utf8");
+  const { FROZEN_APPLICATION_SHA } = await import(
+    pathToFileURL(path.join(root, "scripts/rcap-hosted-vercel-rest-transport.mjs")).href
+  );
+  assert.match(source, /EXPECTED_APPLICATION_SHA = FROZEN_APPLICATION_SHA/);
+  assert.match(source, /import \{ FROZEN_APPLICATION_SHA \} from "\.\/rcap-hosted-vercel-rest-transport\.mjs"/);
+  assert.equal(source.match(/\b[0-9a-f]{40}\b/g), null, "no copied application SHA literal");
+  assert.match(FROZEN_APPLICATION_SHA, /^[0-9a-f]{40}$/);
+});
 test("builds the exact Preview webhook URL with one protection-bypass parameter", () => {
   const parsed = new URL(requiredUrl);
   assert.equal(parsed.origin, "https://legalease-rcap-441ee3188ee5-roger947s-projects.vercel.app");

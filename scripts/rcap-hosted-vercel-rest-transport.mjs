@@ -1,7 +1,16 @@
 import {sanitizeVercelDiagnostic} from './rcap-hosted-vercel-diagnostics.mjs';
 import {HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
 
-export const FROZEN_APPLICATION_SHA = '4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb';
+// The commit whose TREE the acceptance Preview is built from. It must carry the
+// publication receipt and Grade-A route observations that name the worker the
+// deployment runs beside, and the accepted worker source must be an ancestor of
+// it -- the entry workflow refuses otherwise. 884ad51d0 is the first commit that
+// carries the receipt for 117b469c4 / sha256:9faa24e8 and the six-route
+// observations regenerated against it. The superseded 4e16d6d8e pin named the
+// c88f10341 / sha256:df6c2965 tuple; once the worker moved past it, no Preview
+// could satisfy both this pin and the accepted worker, which is how a run that
+// reached the deploy step found it. The agreement is now a test, not a comment.
+export const FROZEN_APPLICATION_SHA = '884ad51d0ad50c520ec0ba2834eac03194ce88ac';
 export const CREATE_PREVIEW_URL = `https://api.vercel.com/v13/deployments?teamId=${HOSTED_VERCEL_TEAM_ID}`;
 const ACCEPTANCE_PROJECT = 'hyflxnlhpmiqxvvcoiia';
 

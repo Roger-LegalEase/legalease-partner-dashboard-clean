@@ -47,7 +47,15 @@ const CANONICAL_INPUTS = [
   "scripts/rcap-render-worker.mjs",
   "scripts/lib",
   "src",
-  "deploy/rcap-render-worker/Dockerfile"
+  "deploy/rcap-render-worker/Dockerfile",
+  // The build-context allowlist decides what the Dockerfile's COPY lines can
+  // see, so it is as canonical as the Dockerfile; the §7 supplemental guides
+  // and the brand asset are packaged into the image and are canonical for the
+  // same reason. Each was added to the plan without being added here, and this
+  // list is the declaration the plan is measured against.
+  "deploy/rcap-render-worker/Dockerfile.dockerignore",
+  "data/record-clearing/supplemental-guides",
+  "data/record-clearing/brand/legalease-logo.png"
 ];
 
 const IDENTITY_ROLES = [

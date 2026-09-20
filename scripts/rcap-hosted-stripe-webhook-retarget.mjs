@@ -12,6 +12,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import { FROZEN_APPLICATION_SHA } from "./rcap-hosted-vercel-rest-transport.mjs";
 import {
   expectedHostedReturnOrigin,
   hostedVercelScopedUrl,
@@ -27,7 +28,13 @@ export const EXPECTED_EVENTS = Object.freeze([
   "invoice.voided"
 ].sort());
 
-const EXPECTED_APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
+// The same application pin the Preview is created from, imported rather than
+// copied. Two independent copies of one identity drift, and this one did: it
+// still named 4e16d6d8e after the accepted worker moved past that commit, so
+// the retarget would have refused the very Preview the transport built even
+// once the transport pin was correct. One declaration cannot disagree with
+// itself.
+const EXPECTED_APPLICATION_SHA = FROZEN_APPLICATION_SHA;
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 const EXPECTED_ENDPOINT_ID = "we_1U4AKGRWROAHlAKyNFChAnWr";
 
