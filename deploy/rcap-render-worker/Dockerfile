@@ -75,9 +75,25 @@ COPY data/record-clearing/packet-specifications/ data/record-clearing/packet-spe
 # whose filing-instructions page the specification had already retired.
 COPY data/record-clearing/supplemental-guides/ data/record-clearing/supplemental-guides/
 COPY data/record-clearing/brand/legalease-logo.png data/record-clearing/brand/
-COPY data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json data/record-clearing/legal-decisions/
-COPY data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json data/rcap-ledger/grade-a/
-COPY data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json data/rcap-ledger/grade-a/
+# The MS paid-consumer successor closure. The loader reads all of it on every
+# call and returns null when any part is absent, so an omission here does not
+# fail the build or crash the worker -- it quietly withdraws the owner's scope.
+# The controlling decision is the 2026-09-20 one; the 2026-09-14 decision ships
+# beside it because the loader proves the superseded record is still present and
+# unedited before it admits the successor.
+COPY data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json \
+     data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json \
+     data/record-clearing/legal-decisions/
+COPY data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json \
+     data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json \
+     data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json \
+     data/rcap-ledger/grade-a/
+# The approved bytes themselves: the loader hashes these files, so the approval
+# cannot outlive the packet it approved.
+COPY data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf \
+     data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf \
+     data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf \
+     data/rcap-ledger/grade-a/artifacts/
 USER rcapworker
 # Liveness: the loop logs one JSON line per non-idle cycle; the healthcheck
 # asserts the process is alive and can reach its own module graph.

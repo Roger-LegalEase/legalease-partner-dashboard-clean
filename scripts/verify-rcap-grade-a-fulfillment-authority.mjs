@@ -1214,8 +1214,12 @@ const observationDocument = readJson(OBSERVATION_PATH);
 check("the shipped registry loads with no structural problems", () => {
   const loaded = buildRegistry(registryDocument);
   if (loaded.problems.length > 0) return loaded.problems.map((p) => `${p.recordId ?? "(no id)"}: ${p.problem}`).join("; ");
-  return loaded.current.size === registryDocument.records.length ? null
-    : `${registryDocument.records.length} records produced ${loaded.current.size} current routes`;
+  // One current route per live record. A superseded predecessor is preserved
+  // history, not a route, so counting it here would read the preservation of
+  // an authority's past as a structural fault.
+  const live = registryDocument.records.filter((record) => !record.supersededBy);
+  return loaded.current.size === live.length ? null
+    : `${live.length} current records produced ${loaded.current.size} current routes`;
 });
 
 check("the projection names exactly the routes the registry controls", () => {
@@ -1260,9 +1264,9 @@ check("the candidate lanes, bounded clinic route and exact productized routes ar
 });
 
 check("Mississippi authority is limited to the clinic demo and two enumerated first-cohort routes", () => {
-  const mississippiRoutes = registryDocument.records
-    .filter((record) => record.jurisdiction === "MS")
-    .map((record) => record.routeId)
+  const mississippiRoutes = [...new Set(registryDocument.records
+    .filter((record) => record.jurisdiction === "MS" && !record.supersededBy)
+    .map((record) => record.routeId))]
     .sort();
   const expected = [
     "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",

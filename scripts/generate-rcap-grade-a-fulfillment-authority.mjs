@@ -852,6 +852,25 @@ function mississippiClinicCandidateRecord() {
   if (!canonical) throw new Error("Mississippi clinic artifact evidence has no canonical artifact");
   if (!boundary) throw new Error("Mississippi clinic artifact evidence has no boundary artifact");
   if (!canonicalRaster) throw new Error("Mississippi clinic raster evidence has no canonical artifact");
+  /*
+   * THE SPECIFICATION THESE HISTORICAL APPROVALS ACTUALLY NAMED.
+   *
+   * Both reviews below were taken over the pre-guide specification and record
+   * its digest. This check used to compare them against `sha256(specificationBytes)`
+   * -- today's file -- which was indistinguishable from the right check only
+   * while the two were equal. They are no longer equal, and they should not be:
+   * the 2026-09-20 owner decision supersedes that packet. Asserting the old
+   * approval against the new specification would be a claim that a review
+   * nobody re-ran describes bytes it never saw.
+   *
+   * So the historical bytes are fetched from the commit the preserved sponsored
+   * Preview authority names, and the historical approvals are held to that.
+   * Custody is proved, not asserted: if those bytes are not retrievable at that
+   * commit, or do not hash to what the approvals record, this refuses.
+   */
+  const preservedPreview = readJson(MS_PREVIEW_HISTORY);
+  const historicalSpecificationBytes = readGitBlob(preservedPreview.sourceSha, MS_CLINIC_SPECIFICATION);
+  const historicalSpecificationSha256 = sha256(historicalSpecificationBytes);
   if (!historicalCanonical || !historicalBoundary ||
     historicalApproval?.state !== "approved" ||
     historicalApproval.decision !== "APPROVE" ||
@@ -861,7 +880,7 @@ function mississippiClinicCandidateRecord() {
     historicalApproval.packetFamily !== "ms-nonconv-set" ||
     historicalApproval.canonicalSha256 !== historicalCanonical.sha256 ||
     historicalApproval.boundarySha256 !== historicalBoundary.sha256 ||
-    historicalApproval.specificationSha256 !== sha256(specificationBytes) ||
+    historicalApproval.specificationSha256 !== historicalSpecificationSha256 ||
     historicalApproval.consumerPaidAuthorized !== false ||
     historicalApproval.productionAuthorized !== false
   ) {
@@ -887,7 +906,7 @@ function mississippiClinicCandidateRecord() {
     || participantReview.documentCount !== 5
     || participantReview.packetSpecificationId !== "ms-nonconviction-expungement-99-19-71-4"
     || participantReview.packetSpecificationVersion !== "2.0.0"
-    || participantReview.packetSpecificationSha256 !== sha256(specificationBytes)
+    || participantReview.packetSpecificationSha256 !== historicalSpecificationSha256
     || participantReview.rendererIdentity !== "rcap_grade_a_document_v1"
     || participantReview.rendererVersion !== "2.0.0"
     || participantReview.workerSourceSha !== "b680a4e4dd92e7422bc7030aa2189026929782a1"
@@ -1067,9 +1086,9 @@ function mississippiPaidConsumerSuccessorRecord() {
   // output review remains exact and historical. Missing technical proof is
   // deliberately carried forward, never converted into an approval.
   const record = mississippiClinicCandidateRecord();
-  record.recordId = "grade-a-ms-nonconv-paid-consumer-successor-20260914";
+  record.recordId = "grade-a-ms-nonconv-paid-consumer-successor-20260920";
   record.version = 1;
-  record.effectiveFrom = "2026-09-14";
+  record.effectiveFrom = "2026-09-20";
   record.evidenceBindings.paidConsumerSuccessor = {
     ...approval, consumerPaidAuthorized: true, priceCents: 5000, currency: "USD",
     productionAuthorized: false, technicalAcceptanceWaived: false,
@@ -1077,6 +1096,53 @@ function mississippiPaidConsumerSuccessorRecord() {
     legacyRetirementPreserved: true
   };
   const {proof, sha256: proofSha256} = loadMsPaidPacketProof({readBytes:readEvidenceBytes, stableStringify, approval});
+  /*
+   * THE RECORD DESCRIBES THE APPROVED PACKET, NOT THE SUPERSEDED ONE.
+   *
+   * The candidate it is cloned from carries the historical clinic artifact --
+   * the pre-guide canonical PDF, its page count and its raster review. Those
+   * bytes no longer reproduce, and a record that kept describing them would
+   * claim a filing-format artifact nobody can produce and a visual review of
+   * pages nobody ships. The approved full English packet is what a participant
+   * receives, so that is what the record names.
+   */
+  const deliverable = proof.results.find(result => result.variant === "full" && result.locale === "en");
+  if (!deliverable) throw new Error("The MS paid packet proof names no full English participant packet");
+  const reviewEvidence = readJson(approval.reviewEvidencePath);
+  const reviewedPages = reviewEvidence.rasterReview.artifacts
+    .reduce((total, artifact) => total + artifact.pagesReviewed, 0);
+  const reviewedPageCount = reviewEvidence.rasterReview.artifacts
+    .reduce((total, artifact) => total + artifact.pageCount, 0);
+  record.artifactValidation = {
+    state: "validated", artifactSha256: deliverable.artifactSha256, validatedAt: "2026-09-20"
+  };
+  record.packetCompleteness.filingFormatArtifact = {
+    format: "pdf", sha256: deliverable.artifactSha256, pageCount: deliverable.pageCount,
+    producedBy: {
+      renderer: "rcap_grade_a_document_v1@2.0.0",
+      matchesRecordProvider: true, reconciliation: null,
+      // The proof re-assembled these exact bytes through the production
+      // assembly and through a PostgreSQL round trip of the same facts.
+      deterministicRenderVerified: deliverable.currentAssemblyByteIdentical === true
+        && deliverable.postgresJsonbByteIdentical === true
+    }
+  };
+  /* The retired page is no longer the basis for anything. The §7 guide carries
+   * the participant's post-filing steps, so the completeness claim names it. */
+  record.packetCompleteness.postFilingSteps = {
+    state: "covered",
+    basis: `supplemental-guide:${approval.supplementalGuideContentSha256}`,
+    supersedes: "ms-nonconv-set:ms-nonconv-instructions-5",
+    supersededSpecificationDocumentId: "ms-filing-and-next-steps"
+  };
+  record.visualReview = {
+    state: reviewEvidence.rasterReview.status === "passed" && reviewedPages === reviewedPageCount ? "passed" : "pending",
+    pagesReviewed: reviewedPages, pageCount: reviewedPageCount,
+    evidenceSha256: approval.reviewEvidenceSha256,
+    // Every page of all three artifacts was rastered and inspected as an image
+    // before the owner approved these exact hashes.
+    reviewedBy: "Roger Roman", reviewedAt: "2026-09-20"
+  };
   // The worker dispatch adapter and the internal PDF composer have different
   // identities. Preserve the reviewed producer while naming the actual queue
   // provider; publication is still missing until exact current inputs publish.
@@ -1093,11 +1159,18 @@ function mississippiPaidConsumerSuccessorRecord() {
     officialBinaryExpected: false, officialBinarySource: null, contract: source.boundInputs.contract,
     boundInputs: source.boundInputs, boundInputsSha256: source.boundInputsSha256
   }];
+  // The approved set is three artifacts now -- both delivery languages of the
+  // full packet, and the court-facing subset that carries no guide -- so the
+  // binding names them by id rather than by a canonical/boundary pair that no
+  // longer describes what was approved.
+  const approvedArtifactSha256 = Object.fromEntries(proof.results.map(r=>[r.id,r.artifactSha256]));
   const finalInputs = {contract: INDEPENDENT_FINAL_VERIFICATION_CONTRACT, routeId: record.routeId,
     familyId: record.packetFamilyId, packetSpecificationSha256: record.packetSpecification.sha256,
-    canonicalArtifactSha256: proof.results[0].artifactSha256, boundaryArtifactSha256: proof.results[1].artifactSha256,
+    supplementalGuideContentSha256: proof.assemblyIdentity.supplementalGuideContentSha256,
+    assemblyKind: proof.assemblyIdentity.assemblyKind, assemblyVersion: proof.assemblyIdentity.assemblyVersion,
+    approvedArtifactSha256,
     proofPath: MS_PAID_PACKET_PROOF, proofSha256,
-    participantVerifications: proof.results.map(r=>({fixture:r.fixture,boundInputsSha256:r.verificationBoundInputsSha256}))};
+    participantVerifications: proof.results.map(r=>({artifactId:r.id,variant:r.variant,locale:r.locale,boundInputsSha256:r.verificationBoundInputsSha256}))};
   record.finalVerification = {contract: INDEPENDENT_FINAL_VERIFICATION_CONTRACT,
     contractModule: proof.generatedBy, state: "bound", verifierId: proof.generatedBy,
     boundInputsSha256: sha256(stableStringify(finalInputs)), verifiedAt: `base:${proof.sourceSha}`,
@@ -1111,8 +1184,8 @@ function mississippiPaidConsumerSuccessorRecord() {
   record.version = sameIdentity ? prior.version + 1 : 1;
   record.history = [...(sameIdentity ? prior.history : []), {
     version: record.version, changeKind: sameIdentity ? "proof_added" : "created",
-    changedAt: "2026-09-14", changedBy: GENERATOR_ID,
-    reason: `New exact paid-consumer owner approval ${approval.decisionPath} sha256:${approval.decisionSha256}; preserves the prior sponsored Preview authority separately. No technical proof, legal review, packet content or retirement status is fabricated or waived.`,
+    changedAt: "2026-09-20", changedBy: GENERATOR_ID,
+    reason: `New exact paid-consumer owner approval ${approval.decisionPath} sha256:${approval.decisionSha256}, superseding ${approval.supersededDecisionPath} sha256:${approval.supersededDecisionSha256}. The packet contents changed: the shared §7 supplemental guide is assembled into the full packet and the specification's own ms-filing-and-next-steps page is retired in its favour, and the owner approved those exact bytes. Preserves the prior sponsored Preview authority separately. No technical proof, legal review or retirement status is fabricated or waived, and no production or publication authority is created.`,
     recordSha256: fulfillmentRecordSha256(record),
     supersedesRecordSha256: sameIdentity ? prior.history.at(-1).recordSha256 : null
   }];
@@ -1944,8 +2017,54 @@ const records = [
   })
   .sort((a, b) => a.routeId.localeCompare(b.routeId));
 
+/*
+ * A ROUTE WHOSE RECORD IDENTITY CHANGES SUPERSEDES ITS PREDECESSOR. IT DOES NOT
+ * DELETE IT.
+ *
+ * Until now every regeneration produced the same `recordId` for a route, so the
+ * in-place path above -- keep the version, append one history entry -- was the
+ * only one ever taken, and `supersededBy` had never been set by anything. The
+ * first time an identity actually changed, the prior record simply stopped
+ * being written: eighteen versions of authority history for that route would
+ * have disappeared from the registry with nothing recording that they ever
+ * existed, and nothing reporting the loss.
+ *
+ * That is the failure this generator exists to prevent one level up. The
+ * registry schema already has the mechanism -- the runtime loader groups by
+ * route, keeps every version as history and requires exactly one non-superseded
+ * record -- so the predecessor is carried forward, marked superseded by its
+ * successor, with its own history intact and one entry saying why.
+ *
+ * This creates no authority. A superseded record is never current, never read
+ * by `getCurrentFulfillmentRecord`, and supersession does not alter what the
+ * predecessor claimed while it was live.
+ */
+const supersededRecords = [];
+for (const record of records) {
+  const prior = priorCurrentRecordFor(record.routeId);
+  if (!prior || prior.recordId === record.recordId) continue;
+  const retired = {
+    ...prior,
+    version: prior.version + 1,
+    supersededBy: record.recordId,
+    supersededAt: changeDate,
+    history: [...prior.history]
+  };
+  retired.history.push({
+    version: retired.version, changeKind: "superseded", changedAt: changeDate, changedBy: GENERATOR_ID,
+    reason: `Superseded by ${record.recordId}. The route's current authority moved to a new record identity; this record is preserved with its history and is no longer current. Nothing it claimed while it was live is rewritten, and its supersession grants the successor nothing.`,
+    recordSha256: fulfillmentRecordSha256(retired),
+    supersedesRecordSha256: prior.history.at(-1)?.recordSha256 ?? null
+  });
+  supersededRecords.push(retired);
+}
+records.push(...supersededRecords);
+records.sort((a, b) => a.routeId.localeCompare(b.routeId) || a.version - b.version);
+
 for (const withdrawn of withdrawnCandidates) {
-  const current = records.find(record => record.routeId === withdrawn.routeId);
+  // Explicitly the live record: the registry can now also carry a superseded
+  // predecessor for this route, and that is never what "current" means.
+  const current = records.find(record => record.routeId === withdrawn.routeId && !record.supersededBy);
   if (current && withdrawn.recordId === current.recordId) withdrawn.version = current.version;
 }
 
@@ -2000,7 +2119,7 @@ const registry = {
   candidateScope: {
     jurisdictions: allCandidateJurisdictions,
     routes: [MS_CLINIC_ROUTE, ...EXACT_PRODUCTIZED_ROUTES.map((entry) => entry.routeId)].sort(),
-    rule: "Candidate records exist only for lanes and exact routes that were asked to provide evidence. The four first-cohort records and the separately productized exact Illinois v2 route bind their own current packet/raster/independent-verification, owner-audit, codified-authority, provider and fixture evidence. A fulfillment record is additive: it opens no route and supplies no hosted canary, deployment pin, payment, sponsorship, launch-graph or Production gate. Codified authority is accepted only where both specification and packet-set components require no official PDF; official-PDF routes still require exact official bytes. The Mississippi paid-consumer successor binds the new 2026-09-14 owner scope decision while preserving the historical sponsored Preview authority separately. It remains incomplete while final verification, source authority or current publication proof is absent. A route absent from this registry fails closed."
+    rule: "Candidate records exist only for lanes and exact routes that were asked to provide evidence. The four first-cohort records and the separately productized exact Illinois v2 route bind their own current packet/raster/independent-verification, owner-audit, codified-authority, provider and fixture evidence. A fulfillment record is additive: it opens no route and supplies no hosted canary, deployment pin, payment, sponsorship, launch-graph or Production gate. Codified authority is accepted only where both specification and packet-set components require no official PDF; official-PDF routes still require exact official bytes. The Mississippi paid-consumer successor binds the 2026-09-20 owner decision, which approves the exact changed packet set in which the shared §7 supplemental guide replaces the specification's own ms-filing-and-next-steps page, and records packetContentsChanged: true. It supersedes the 2026-09-14 decision and the record written against it; both are preserved unchanged, as is the historical sponsored Preview authority. It remains incomplete while final verification, source authority or current publication proof is absent. A route absent from this registry fails closed."
   },
   evidenceInputs: {
     [LAUNCH_GRAPH]: sha256(readEvidenceBytes(LAUNCH_GRAPH)),
@@ -2027,7 +2146,11 @@ const registry = {
 // moment an upstream evidence file changes and only the snapshot is regenerated
 // — which is exactly the signal it exists to produce.
 const observationRoutes = {};
-for (const record of records) {
+const liveRecords = records.filter((record) => !record.supersededBy);
+// Only the live record is observed. The map is keyed by route, so a superseded
+// predecessor would otherwise overwrite its successor's observation with the
+// evidence of a packet that is no longer current.
+for (const record of liveRecords) {
   const codifiedAuthorityOnly = record.officialSources.length > 0
     && record.officialSources.every((source) => source.sourceKind === "codified_authority");
   observationRoutes[record.routeId] = {
@@ -2152,7 +2275,7 @@ if (CHECK && projectionResult.changed) {
 const staticResult = writeIfNeeded(STATIC_AUTHORITY_PATH, createStaticWorkerAuthority(registry, observation));
 if (CHECK && staticResult.changed) throw new Error(`Regeneration required: ${STATIC_AUTHORITY_PATH}`);
 const verb = CHECK ? "verified" : "written";
-console.log(`Grade-A fulfillment authority ${verb}: ${records.length} candidate record(s) across ${allCandidateJurisdictions.join(", ")}.`);
+console.log(`Grade-A fulfillment authority ${verb}: ${liveRecords.length} current record(s) (${records.length - liveRecords.length} superseded) across ${allCandidateJurisdictions.join(", ")}.`);
 console.log(`  ${COMPLETE_PACKET_PROVEN}: ${projection.counters.completePacketProven}`);
 console.log(`  INCOMPLETE: ${projection.counters.incomplete}   STALE: ${projection.counters.stale}`);
 console.log(`  commercially eligible: ${projection.counters.commerciallyEligible}`);

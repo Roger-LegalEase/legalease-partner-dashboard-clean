@@ -18,6 +18,12 @@ test("image reuse follows committed Docker COPY data and executable inputs", (t)
     "package.json": "{}", "package-lock.json": "{}", "tsconfig.json": "{}",
     "scripts/rcap-render-worker.mjs": "export {};", "scripts/lib/loader.mjs": "export {};", "src/worker.ts": "export {};",
     "data/runtime/authority.json": "{}", "data/specifications/a.json": "{}",
+    // The two inputs CANONICAL_WORKER_INPUTS names unconditionally, rather than
+    // deriving from the Dockerfile. A synthetic tree without them is a tree
+    // missing a canonical worker input, which the planner correctly answers
+    // with "rebuild required" -- not the equivalence this case is about.
+    "data/record-clearing/supplemental-guides/synthetic.v1.json": "{}",
+    "data/record-clearing/brand/legalease-logo.png": "synthetic",
     "deploy/rcap-render-worker/runtime-data-manifest.json": "{}",
     "deploy/rcap-render-worker/preflight.mjs": "export {};",
     "deploy/rcap-render-worker/Dockerfile.dockerignore": "private/\n",
@@ -65,6 +71,23 @@ test("image reuse follows committed Docker COPY data and executable inputs", (t)
     assert.notEqual(current.aggregateInputSha256, initial.aggregateInputSha256);
     assert.equal(current.image.digest, "pending");
   }
+
+  /*
+   * A tree missing a canonical worker input is answered, not refused.
+   *
+   * `CANONICAL_WORKER_INPUTS` names the §7 guides and the brand asset whatever
+   * the Dockerfile says, so every tree from before §7 lacks an input the list
+   * requires. That used to raise, which made the planner unable to answer the
+   * one question it exists for — can this tree reuse the accepted digest — for
+   * exactly the historical trees that question gets asked about. The answer is
+   * no, and it is reported as a missing input rather than an exception.
+   */
+  git("rm", "--quiet", "-r", "--", "data/record-clearing/supplemental-guides");
+  git("commit", "--quiet", "-m", "synthetic tree without the §7 guides");
+  const withoutGuides = plan();
+  assert.equal(withoutGuides.rebuildRequired, true);
+  assert(withoutGuides.missingCanonicalInputs.includes("data/record-clearing/supplemental-guides"));
+  assert.equal(withoutGuides.image.digest, "pending");
 
   write("deploy/rcap-render-worker/Dockerfile", "FROM node:22-slim\nCOPY data/*.json data/\n");
   git("add", "--", "deploy/rcap-render-worker/Dockerfile");

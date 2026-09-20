@@ -100,14 +100,45 @@ function git(rootDir, args, { binary = false } = {}) {
   return result.stdout;
 }
 
+/**
+ * Which canonical inputs the candidate tree does not have, and a hard refusal
+ * for any it has in the wrong shape.
+ *
+ * ABSENT AND MALFORMED ARE DIFFERENT ANSWERS.
+ *
+ * `CANONICAL_WORKER_INPUTS` names the §7 guides and the brand asset
+ * unconditionally, on purpose: their visibility must not depend on which
+ * revision happens to be the freeze. The consequence is that every tree from
+ * before §7 is missing an input this list requires, and an absent path made
+ * `git cat-file -t` exit non-zero -- so asking this planner about any such tree
+ * raised an exception instead of answering. A control that throws where it
+ * should decide cannot be asked the question it exists for, which is exactly
+ * what the superseded-publication comparison asks.
+ *
+ * The answer for a tree missing a canonical input was never "error". It is that
+ * the tree cannot reuse the accepted digest, because an image built from it
+ * would not contain the inputs the accepted one did. So absence is reported as
+ * a changed path and forces a rebuild -- the strictest of the two outcomes, and
+ * the one that is actually true.
+ *
+ * A path present in the wrong shape -- a blob where a directory belongs -- is
+ * still a hard refusal. That is not a tree from another time; it is a tree
+ * whose worker inputs are malformed, and no digest decision should be made
+ * from it at all.
+ */
 function verifyCanonicalInputs(rootDir, candidateSha, inputs) {
+  const missing = [];
   for (const canonicalPath of inputs) {
-    const type = String(git(rootDir, ["cat-file", "-t", `${candidateSha}:${canonicalPath}`])).trim();
+    const probe = spawnSync("git", ["cat-file", "-t", `${candidateSha}:${canonicalPath}`],
+      { cwd: rootDir, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+    if (probe.status !== 0) { missing.push(canonicalPath); continue; }
+    const type = String(probe.stdout).trim();
     const expectedType = FIXED_FILE_INPUTS.has(canonicalPath) ? "blob" : CANONICAL_WORKER_INPUTS.includes(canonicalPath) ? "tree" : null;
     if ((expectedType && type !== expectedType) || !["blob", "tree"].includes(type)) {
       throw new Error(`canonical worker input ${canonicalPath} must be a Git ${expectedType} at the candidate SHA`);
     }
   }
+  return missing.sort();
 }
 
 function changedCanonicalPaths(rootDir, acceptedSourceSha, candidateSha, inputs) {
@@ -170,11 +201,14 @@ export function createWorkerInputPlan({
   git(resolvedRoot, ["cat-file", "-e", `${candidateSha}^{commit}`]);
   const candidateInputs = dockerCopyInputs(resolvedRoot, candidateSha);
   const acceptedInputs = dockerCopyInputs(resolvedRoot, acceptedSourceSha);
-  verifyCanonicalInputs(resolvedRoot, candidateSha, candidateInputs);
+  const missingCanonicalInputs = verifyCanonicalInputs(resolvedRoot, candidateSha, candidateInputs);
   const comparedInputs = [...new Set([...candidateInputs, ...acceptedInputs])].sort();
 
   const changedPaths = changedCanonicalPaths(resolvedRoot, acceptedSourceSha, candidateSha, comparedInputs);
-  const rebuildRequired = changedPaths.length > 0;
+  // A canonical input the candidate does not have is a difference, not an
+  // error: an image built from this tree would be missing what the accepted
+  // one packaged, so the accepted digest cannot be reused for it.
+  const rebuildRequired = changedPaths.length > 0 || missingCanonicalInputs.length > 0;
   const imageSourceSha = rebuildRequired ? candidateSha : acceptedSourceSha;
 
   return {
@@ -185,7 +219,12 @@ export function createWorkerInputPlan({
     canonicalInputs: candidateInputs,
     comparedInputs,
     changedPaths,
-    aggregateInputSha256: aggregateCanonicalInputs(resolvedRoot, candidateSha, candidateInputs),
+    missingCanonicalInputs,
+    // Over the inputs this tree actually has. Identical to the full candidate
+    // set whenever nothing is missing, so the value does not move for a tree
+    // that carries every canonical input.
+    aggregateInputSha256: aggregateCanonicalInputs(resolvedRoot, candidateSha,
+      candidateInputs.filter((input) => !missingCanonicalInputs.includes(input))),
     aggregateAlgorithm: "sha256 of sorted path, mode, type, and Git object ID records",
     rebuildRequired,
     decision: rebuildRequired ? "rebuild-required" : "reuse-accepted-digest",

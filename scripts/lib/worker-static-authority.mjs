@@ -5,7 +5,13 @@ export const staticAuthorityHash = v => createHash('sha256').update(stable(v)).d
 /** A derived render-only projection. Original version/history remain in the
  * controlling server registry. No publication-dependent value enters this file. */
 export function createStaticWorkerAuthority(registry, observation) {
-  const entries = registry.records.map(original => {
+  /*
+   * Only current records. A superseded predecessor is history, not authority:
+   * the worker must never be handed a second entry for a route, and pairing one
+   * with the live observation would describe a packet that is no longer current
+   * as though it were.
+   */
+  const entries = registry.records.filter(record => !record.supersededBy).map(original => {
     const record = structuredClone(original);
     record.version = 1; // Projection schema revision, not an owner approval version.
     record.history = [];

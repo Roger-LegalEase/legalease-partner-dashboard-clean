@@ -29,9 +29,19 @@ const OUT = path.join(here, "runtime-data-manifest.json");
 
 /** Every entry carries why it is in the image and what reads it. */
 const ENTRIES = [
-  {"path": "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "Exact owner-paid successor and preserved packet approval bytes; absent or changed evidence refuses the successor."},
-  {"path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "Exact owner-paid successor and preserved packet approval bytes; absent or changed evidence refuses the successor."},
-  {"path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "Exact owner-paid successor and preserved packet approval bytes; absent or changed evidence refuses the successor."},
+  // The MS paid-consumer successor loader reads every one of these on each
+  // call, at statically identifiable paths, and returns null if any is absent
+  // or has moved. A missing file therefore does not crash the worker: it
+  // silently withdraws the successor scope, which is why the whole closure is
+  // listed rather than only the decision.
+  {"path": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "The controlling owner-paid successor decision. It approves the changed packet set in which the shared §7 guide replaces the specification's own filing page, and names the exact approved bytes."},
+  {"path": "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "The superseded decision, kept in custody: the loader reads it to prove the record it supersedes is still present and unedited."},
+  {"path": "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "The review the approval rests on: the specification, guide and assembly the approved bytes were produced from, and the per-page raster hashes of all three artifacts."},
+  {"path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "An approved artifact. The loader hashes the bytes themselves, so the approval cannot outlive the packet it approved."},
+  {"path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "An approved artifact. The loader hashes the bytes themselves, so the approval cannot outlive the packet it approved."},
+  {"path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "An approved artifact. The loader hashes the bytes themselves, so the approval cannot outlive the packet it approved."},
+  {"path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "Preserved historical participant-delivery approval; absent or changed evidence refuses the successor."},
+  {"path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json", "kind": "file", "readBy": "src/lib/rcap/fulfillment/paid-consumer-successor.ts", "why": "Preserved historical raster review; absent or changed evidence refuses the successor."},
 
   { path: "data/rcap-grade-a/worker-static-authority.json", kind: "file",
     readBy: "src/lib/rcap/fulfillment/worker-static-authority.ts",
