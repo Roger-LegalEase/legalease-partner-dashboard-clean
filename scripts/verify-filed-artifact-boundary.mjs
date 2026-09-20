@@ -351,7 +351,18 @@ check(movedLines >= 0, `sentences moved off a filed page are audited (${movedLin
  * about the software rather than about the case.
  */
 const NOT_FILING_CONTENT = [
-  { label: "a product self-reference", pattern: /\bthe platform (never|does not|will not)\b/i },
+  /*
+   * A SENTENCE ABOUT THIS SOFTWARE, ON A PAGE ABOUT A CASE.
+   *
+   * Written first as "the platform (never|does not|will not)", from Georgia's
+   * wording. Mississippi's certificate of service said "the platform holds
+   * none for any Mississippi justice or municipal court and does not guess
+   * one" -- the same defect, on a document served on a prosecuting attorney,
+   * and the pattern walked straight past it because the verb was different.
+   * A rule keyed to one phrasing of a defect only finds that phrasing, so this
+   * matches the SUBJECT: any statement whose subject is the platform.
+   */
+  { label: "a product self-reference", pattern: /\bthe platform\b(?!\s+(fee|price))/i },
   { label: "an acquisition instruction", pattern: /\bWHERE YOU GET IT\b/ },
   { label: "an assembly instruction", pattern: /\bATTACH (BEHIND|THIS ONLY|THESE ONLY)\b/i },
   { label: "a how-to-obtain heading", pattern: /\bHOW TO OBTAIN IT\b/i },
@@ -437,7 +448,17 @@ for (const specification of specifications) {
   const full = textOf(await renderGradeAPacketPdf(packet, { variant: "full" }));
   const courtOnly = textOf(await renderGradeAPacketPdf(packet, { variant: "court_only" }));
 
-  const leaked = notFilingContent(courtOnly);
+  /*
+   * FLATTENED, because a line wrap is not a defence.
+   *
+   * These rules were read against raw `pdftotext -layout` output, so any
+   * multi-word pattern failed whenever the renderer happened to wrap between
+   * two of its words. Wyoming's petition says "The platform does not assert
+   * them" on a filed page and the rule walked past it for exactly that reason:
+   * the wrap fell after "platform". A check that only finds a defect when the
+   * text lands conveniently is worse than none, because it reports a pass.
+   */
+  const leaked = notFilingContent(flat(courtOnly));
   check(
     leaked.length === 0,
     `${where}: the court-only download carries no participant instruction or product copy${
