@@ -11,16 +11,61 @@ import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity"
 import { CONSUMER_PACKET_SAFETY_DISCLAIMER } from "@/lib/expungement-ai/consumer-packet-safety";
 import { composeParticipantDeliveryPacket } from "@/lib/rcap/grade-a/participant-packet";
 import { composablePacketSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
-import { renderGradeAPacketPdf, GRADE_A_RENDERER_KIND, GRADE_A_RENDERER_VERSION } from "@/lib/rcap/grade-a/renderer";
+import { GRADE_A_RENDERER_KIND, GRADE_A_RENDERER_VERSION } from "@/lib/rcap/grade-a/renderer";
+import {
+  renderParticipantPacketPdf, participantGuideMatter, PARTICIPANT_DELIVERY_VARIANT
+} from "@/lib/rcap/render/participant-packet-assembly";
+import { supplementalGuideIdentityFor } from "@/lib/rcap/supplemental/guide-registry";
+import { GUIDE_RENDERER_KIND, GUIDE_RENDERER_VERSION } from "@/lib/rcap/supplemental/guide-renderer";
 import { stableStringify } from "@/lib/rcap/fulfillment/grade-a-registry";
 import { buildRenderJobSpec, computeInputHash, type RenderJobClaim } from "@/lib/rcap/render/job-contract";
 import type { PacketVerificationSnapshot } from "@/lib/expungement-ai/types";
 
 export const PERSONALIZED_DELIVERY_ROUTE = "IL:felony-prostitution-relief";
 
+/**
+ * WHICH ROUTES BELONG TO PERSONALIZED DELIVERY. NOT WHICH MAY RENDER TODAY.
+ *
+ * These are two different questions and this answers only the first. The
+ * earlier version answered both at once: Mississippi counted as a personalized
+ * route only while `loadMsPaidConsumerSuccessor()` returned a decision, so the
+ * moment that owner approval went stale the route stopped being personalized
+ * rather than stopping being authorized.
+ *
+ * That is not a refusal. `renderClaimPacket` asks this predicate first and
+ * falls through to `renderRcapPacketPdf` when it is false, so a stale approval
+ * silently re-routed Mississippi onto the legacy generator -- a path ADR-0004
+ * and AGENTS.md record as not an approved commercial fulfillment path. Losing
+ * authority produced a downgrade, and nothing reported it, because from the
+ * dispatcher's side nothing had gone wrong: it was told this was not a
+ * personalized route and it believed it.
+ *
+ * So membership is static and authority is enforced where authority lives:
+ * `packetFulfillmentAuthority` on the preparation path, and
+ * `workerStaticPacketBinding` on the worker's. Both already refuse by
+ * throwing. A route named here whose authority is stale or absent now reaches
+ * those refusals instead of quietly leaving the lane.
+ *
+ * It is a set of exact route ids, not a registry and not a pattern. Nothing
+ * joins by jurisdiction, family or resemblance.
+ */
+const PERSONALIZED_DELIVERY_ROUTES: ReadonlySet<string> = new Set([
+  PERSONALIZED_DELIVERY_ROUTE,
+  MS_PAID_SUCCESSOR_ROUTE
+]);
+
 export function isPersonalizedDeliveryRoute(routeId: string): boolean {
-  return routeId === PERSONALIZED_DELIVERY_ROUTE
-    || (routeId === MS_PAID_SUCCESSOR_ROUTE && loadMsPaidConsumerSuccessor() !== null);
+  return PERSONALIZED_DELIVERY_ROUTES.has(routeId);
+}
+
+/**
+ * The commercial half of the old predicate, kept callable for anything that
+ * genuinely needs to ask whether Mississippi's successor scope is live.
+ *
+ * Nothing on the rendering path may use it to decide which renderer runs.
+ */
+export function msPaidSuccessorAvailable(): boolean {
+  return loadMsPaidConsumerSuccessor() !== null;
 }
 
 function uuidFor(seed: string) {
@@ -75,14 +120,38 @@ function prepareBoundPersonalizedPacket(input: PersonalizedInput, binding: {pack
     specificationId: specification.specificationId, specificationVersion: specification.specificationVersion,
     specificationSha256: binding.packetSpecificationSha256,
     specificationFileSha256: binding.packetSpecificationFileSha256,
-    provider: GRADE_A_RENDERER_KIND, providerVersion: GRADE_A_RENDERER_VERSION
+    provider: GRADE_A_RENDERER_KIND, providerVersion: GRADE_A_RENDERER_VERSION,
+    /*
+     * THE SUPPLEMENTAL GUIDE IS PART OF THE RENDER IDENTITY.
+     *
+     * The packet id is a uuid over this payload and the input hash is derived
+     * from it, so everything named here is something the worker cannot change
+     * without the job becoming a different job. Before §7 the guide was not in
+     * it, which was harmless only while no guide was ever assembled: the
+     * moment the delivered PDF depends on the guide's words, a guide edited
+     * between generation and render would produce different participant bytes
+     * under an identity that said nothing had changed, and the download's
+     * re-render check would fail against a digest nobody could explain.
+     *
+     * `null` is written explicitly for a route with no guide. "This route has
+     * no guide" and "nobody asked about a guide" must not serialise the same
+     * way, or adding §7 to a route later would silently reuse the identity of
+     * packets built before it.
+     *
+     * The variant is here for the same reason: `full` and `court_only` are
+     * different documents, and a stored artifact of one must never verify as
+     * the other.
+     */
+    supplementalGuide: supplementalGuideIdentityFor(routeId) ?? null,
+    assemblyVariant: PARTICIPANT_DELIVERY_VARIANT,
+    assemblyKind: GUIDE_RENDERER_KIND, assemblyVersion: GUIDE_RENDERER_VERSION
   };
   const packetId = uuidFor(`rcap:personalized-packet:v1:${stableStringify(payload)}`);
   const built = buildRenderJobSpec({ packetId, state: snapshot.jurisdiction, pathway: snapshot.pathwayId,
     trackId: snapshot.selectedTrackId, briefcaseItemId: input.briefcaseItemId, packetFields: payload });
   if (!built.spec) throw new Error("personalized route cannot render");
   return {
-    packet, spec: built.spec,
+    packet, specification, spec: built.spec,
     payload: {
       // The enqueue transactions insert this row as-is; every not-null column
       // without a database default must be present (safety_disclaimer has none).
@@ -136,5 +205,21 @@ export async function renderPersonalizedClaim(claim: RenderJobClaim): Promise<Bu
     || prepared.spec.profileId !== claim.profileId || prepared.spec.profileVersion !== claim.profileVersion) {
     throw new Error("personalized render specification changed");
   }
-  return renderGradeAPacketPdf(prepared.packet);
+  /*
+   * Assembled, not rendered bare. This line used to be
+   * `renderGradeAPacketPdf(prepared.packet)`, which returned the court-facing
+   * documents and nothing else -- so every participant who paid received a
+   * packet with no §7 guide, on a route whose specification had already
+   * retired its own filing-instructions page in favour of one.
+   *
+   * The variant and the guide come from the same identity the job was built
+   * with, through the single assembly function the download check also uses.
+   */
+  return renderParticipantPacketPdf(prepared.packet, {
+    routeKey: claim.routeId,
+    specification: prepared.specification,
+    variant: PARTICIPANT_DELIVERY_VARIANT,
+    verifiedAt: verification.snapshot.verifiedAt,
+    matter: participantGuideMatter(verification.snapshot, claim.packetId)
+  });
 }

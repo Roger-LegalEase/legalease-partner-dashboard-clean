@@ -30,7 +30,36 @@ const { PACKET_RENDERER_KIND } = await import("../src/lib/rcap/documents/packet-
 const { isPersonalizedDeliveryRoute, renderPersonalizedClaim } = await import("../src/lib/rcap/render/personalized-packet.ts");
 
 export async function renderClaimPacket(claim) {
+  // A personalized route renders on the personalized path or it does not
+  // render. renderPersonalizedClaim refuses loudly when the route's authority
+  // is stale, missing or bound to bytes that moved; that refusal is the
+  // correct outcome and it must reach the caller unconverted.
   if (isPersonalizedDeliveryRoute(claim.routeId)) return renderPersonalizedClaim(claim);
+
+  /*
+   * The invariant, asserted rather than assumed.
+   *
+   * Mississippi reached this line for real. Route membership used to depend on
+   * the owner's paid-consumer successor decision still matching the
+   * specification bytes, so when the §4.2 document-contract work moved those
+   * bytes the route stopped being personalized and an MS claim arrived here --
+   * at the legacy renderer, which AGENTS.md records as not an approved
+   * commercial fulfillment path. No exception was thrown, because as far as
+   * the dispatcher knew this was simply not a personalized route.
+   *
+   * Membership is now static, so this cannot recur by that route. The check
+   * stays anyway: it costs one set lookup and it makes the next attempt to
+   * make membership conditional fail here, loudly, instead of downgrading a
+   * participant's packet quietly.
+   */
+  if (isPersonalizedDeliveryRoute(claim.routeId)) {
+    throw new Error(
+      `${claim.routeId} is a personalized delivery route and must never render through the legacy packet `
+      + "renderer. If its fulfillment authority is unavailable, that is a refusal to be reported, not a "
+      + "renderer to be substituted."
+    );
+  }
+
   const { getRcapDocumentPacket } = await import("../src/lib/rcap/documents/source-repository.ts");
   const packet = await getRcapDocumentPacket(claim.packetId);
   if (!packet) throw new Error(`packet ${claim.packetId} not found`);

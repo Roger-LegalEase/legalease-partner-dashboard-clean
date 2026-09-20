@@ -15,7 +15,26 @@ export const CANONICAL_WORKER_INPUTS = Object.freeze([
   "scripts/rcap-render-worker.mjs",
   "scripts/lib",
   "src",
-  "deploy/rcap-render-worker/Dockerfile"
+  "deploy/rcap-render-worker/Dockerfile",
+  /*
+   * §7, named here rather than left to Dockerfile derivation.
+   *
+   * `dockerCopyInputs` reads the COPY lines of the FREEZE's Dockerfile, so an
+   * input added by the candidate's Dockerfile is only seen because the
+   * Dockerfile itself is a canonical input and changing it makes the diff
+   * non-empty. That works for the commit that introduces a COPY and stops
+   * working immediately afterwards: once a freeze carries the new Dockerfile,
+   * a later edit to the data it copies is compared -- but a freeze taken
+   * BEFORE it never compares them at all.
+   *
+   * These two decide the bytes a participant downloads. The guides are the
+   * words of the packet's filing instructions; the brand asset is on every
+   * guide page. Leaving their visibility to depend on which revision happens
+   * to be the freeze is how an image that renders different participant bytes
+   * passes an equivalence gate, so they are named unconditionally.
+   */
+  "data/record-clearing/supplemental-guides",
+  "data/record-clearing/brand/legalease-logo.png"
 ]);
 
 const FIXED_FILE_INPUTS = new Set([
@@ -23,7 +42,10 @@ const FIXED_FILE_INPUTS = new Set([
   "package-lock.json",
   "tsconfig.json",
   "scripts/rcap-render-worker.mjs",
-  "deploy/rcap-render-worker/Dockerfile"
+  "deploy/rcap-render-worker/Dockerfile",
+  // A single asset, not a directory: only this one file is read, and shipping
+  // the whole brand folder would put unrelated art in the worker image.
+  "data/record-clearing/brand/legalease-logo.png"
 ]);
 
 // Keep historical image comparisons valid while including the inputs copied by

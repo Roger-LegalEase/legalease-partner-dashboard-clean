@@ -38,6 +38,12 @@
 !data/record-clearing/legal-decisions/route-ratification-registry.json
 !data/record-clearing/packet-specifications
 
+# §7. The guides are static ESM imports in guide-registry.ts, so the module
+# graph will not load without them; the brand asset is read at render time and
+# the guide renderer now refuses rather than degrading to a text wordmark.
+!data/record-clearing/supplemental-guides
+!data/record-clearing/brand/legalease-logo.png
+
 !data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json
 !data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json
 !data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json

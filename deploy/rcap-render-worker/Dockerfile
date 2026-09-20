@@ -68,6 +68,13 @@ COPY data/record-clearing/legal-decisions/route-ratification-registry.json data/
 # The binding scans this whole directory and matches file bytes against a
 # record's packetSpecification.sha256, so it ships complete.
 COPY data/record-clearing/packet-specifications/ data/record-clearing/packet-specifications/
+# §7 supplemental guides, and the brand asset the approved design carries.
+# The guides are static ESM imports in guide-registry.ts -- a missing one stops
+# the module graph loading, which is why the registry does not scan a directory:
+# a scan would read an omitted guide as "this route has no §7" and ship a packet
+# whose filing-instructions page the specification had already retired.
+COPY data/record-clearing/supplemental-guides/ data/record-clearing/supplemental-guides/
+COPY data/record-clearing/brand/legalease-logo.png data/record-clearing/brand/
 COPY data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json data/record-clearing/legal-decisions/
 COPY data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json data/rcap-ledger/grade-a/
 COPY data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json data/rcap-ledger/grade-a/

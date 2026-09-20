@@ -112,6 +112,13 @@ export type GuideRenderOptions = {
   /** Spanish for the stop conditions, keyed by situation. */
   stopsEs?: Readonly<Record<string, { situation: string; whatItMeans: string }>>;
   verifiedAt?: string;
+  /**
+   * Render without the brand asset instead of refusing.
+   *
+   * For internal tooling running outside a tree that carries
+   * `data/record-clearing/brand/`. Participant delivery never sets it.
+   */
+  allowMissingBrandAsset?: boolean;
 };
 
 /**
@@ -252,21 +259,49 @@ type Sheet = {
 const LOGO_RELATIVE = "data/record-clearing/brand/legalease-logo.png";
 
 /**
- * The wordmark, if this process can reach it.
+ * The wordmark.
  *
- * Loaded lazily and tolerantly: a missing asset falls back to the wordmark set
- * in type. A participant's packet must not fail to render because a brand file
- * is not on disk in some deployment.
+ * IT USED TO BE TOLERANT, AND THAT WAS THE DEFECT
+ *
+ * The earlier comment here read: "a participant's packet must not fail to
+ * render because a brand file is not on disk in some deployment." The
+ * deployment it was protecting against turned out to be the real one. The
+ * render worker's image carried no `data/record-clearing/brand/`, so every
+ * guide it produced would have fallen back to a "LEGALEASE" string drawn in
+ * Helvetica -- on the participant's delivered packet, with nothing logged,
+ * nothing failing, and no way to tell from the outside that the approved
+ * design had not been used.
+ *
+ * A tolerant fallback is only tolerant to the person who does not receive the
+ * document. So the default is now a refusal, and the asset is in the worker's
+ * runtime manifest, which means the image fails preflight before it claims a
+ * job rather than degrading quietly once it has one.
+ *
+ * `allowMissingBrandAsset` stays for internal tooling that legitimately runs
+ * outside a tree containing the brand directory. Participant delivery never
+ * sets it: `assembleParticipantPacket` does not pass it and offers no way to.
  */
-async function loadLogo(document: PDFDocument): Promise<PDFImage | null> {
+export class MissingBrandAssetError extends Error {
+  constructor() {
+    super(
+      `the supplemental guide's brand asset is not reachable (${LOGO_RELATIVE}). A participant's guide is not `
+      + "rendered without it: falling back to a text wordmark would ship a packet that is not the approved "
+      + "design and say nothing. Package the asset, or set allowMissingBrandAsset for internal tooling."
+    );
+    this.name = "MissingBrandAssetError";
+  }
+}
+
+async function loadLogo(document: PDFDocument, allowMissing: boolean): Promise<PDFImage | null> {
   for (const base of [process.cwd(), path.resolve(process.cwd(), "..")]) {
     const file = path.join(base, LOGO_RELATIVE);
-    try {
-      if (!fs.existsSync(file)) continue;
-      return await document.embedPng(fs.readFileSync(file));
-    } catch { return null; }
+    if (!fs.existsSync(file)) continue;
+    // A file that exists and will not embed is a corrupt asset, which is worse
+    // than an absent one: it is never reported by a presence check.
+    return await document.embedPng(fs.readFileSync(file));
   }
-  return null;
+  if (allowMissing) return null;
+  throw new MissingBrandAssetError();
 }
 
 function text(sheet: Sheet, value: string, x: number, size: number, font: PDFFont, color = INK) {
@@ -664,7 +699,7 @@ export async function drawSupplementalGuide(
     },
     locale,
     words: COPY[locale],
-    logo: await loadLogo(document),
+    logo: await loadLogo(document, options.allowMissingBrandAsset === true),
     matter: options.matter ?? {},
     pages: [],
     page: null as unknown as PDFPage,

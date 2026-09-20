@@ -78,6 +78,32 @@ const ENTRIES = [
   { path: "data/rcap-all50/terminalization-treatments", kind: "dir", ext: ".json",
     readBy: "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
     why: "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships." },
+  /*
+   * §7. Both of these were absent from the image while the guide system was
+   * verifier-only, and both had to be here before the guide could reach a
+   * participant.
+   *
+   * The guides are static ESM imports in guide-registry.ts, so a missing file
+   * stops the module graph loading -- which is the behaviour we want and the
+   * reason the registry does not scan the directory. A scan would have read a
+   * missing guide as "this route has no §7", and silently shipped a packet
+   * whose filing-instructions page the specification had already retired.
+   *
+   * The logo is read from disk at render time. It used to fall back to a text
+   * wordmark when absent, which inside this image meant every participant guide
+   * would have shipped unbranded with nothing reporting it. The renderer now
+   * refuses instead, and this entry makes the refusal impossible to reach: the
+   * preflight compares the packaged bytes against the digest below before the
+   * worker claims anything.
+   */
+  { path: "data/record-clearing/supplemental-guides", kind: "dir", ext: ".json",
+    readBy: "src/lib/rcap/supplemental/guide-registry.ts (ESM JSON imports)",
+    why: "Static imports: the module graph cannot load without every registered guide present, and the "
+      + "participant's full packet is assembled from them." },
+  { path: "data/record-clearing/brand/legalease-logo.png", kind: "file",
+    readBy: "src/lib/rcap/supplemental/guide-renderer.ts (LOGO_RELATIVE, readFileSync at render time)",
+    why: "The approved supplemental design carries the wordmark. Absent, the guide render now refuses rather "
+      + "than degrading to a text fallback on a participant's delivered packet." },
   { path: "data/record-clearing/packet-specifications", kind: "dir", ext: ".json",
     readBy: "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
     why: "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported." }
