@@ -101,6 +101,35 @@ function drawnHeading(entry) {
   return entry.title;
 }
 
+/**
+ * The facts of a matter someone actually wrote for this route, where one exists.
+ *
+ * A PARTICIPANT-DELIVERY fixture, specifically. Mississippi non-conviction has
+ * four, and the two marked `internal_review` carry an MCIC identifier-delivery
+ * method that is not a court-approved channel -- so the filing gate refuses
+ * them, and it is right to: an internal-review matter is not a matter anyone
+ * may file. The guide's document table describes what a participant receives,
+ * so it is built from a matter that could actually be delivered to one.
+ *
+ * Only the Grade-A ledger's own recorded fixtures are consulted, by exact route
+ * key, so nothing here invents a participant or relaxes a gate.
+ */
+function recordedFixtureMatter(routeKey) {
+  const directory = path.join(rootDir, "data/rcap-ledger/grade-a");
+  if (!fs.existsSync(directory)) return null;
+  const candidates = [];
+  for (const name of fs.readdirSync(directory).filter((file) => file.endsWith(".fixture.json")).sort()) {
+    try {
+      const fixture = JSON.parse(fs.readFileSync(path.join(directory, name), "utf8"));
+      if (fixture?.routeKey === routeKey && fixture.facts && typeof fixture.facts === "object") {
+        candidates.push(fixture);
+      }
+    } catch { /* a malformed fixture is not this control's subject */ }
+  }
+  const delivery = candidates.find((fixture) => fixture.generationPurpose === "participant_delivery");
+  return delivery ?? candidates[0] ?? null;
+}
+
 for (const guide of guides) {
   const where = guide.routeKey;
   const specification = packetSpecificationFor(where);
@@ -108,6 +137,20 @@ for (const guide of guides) {
 
   // The checklist lists what THIS MATTER ships, so the table is built from a
   // composed packet rather than from the specification's catalogue.
+  /*
+   * Filled-in placeholders, unless the route has a recorded fixture.
+   *
+   * Generated values satisfy most routes, and they stopped being enough when
+   * Mississippi non-conviction arrived: its filing gate refuses unless the
+   * arrest and release are affirmatively confirmed, the social-security digits
+   * agree with each other, and the MCIC identifier-delivery method is a
+   * protected channel the court of origin has confirmed. A placeholder string
+   * cannot satisfy any of that, and nothing should relax the gate to let it --
+   * those checks are the reason the route is safe to compose at all.
+   *
+   * So a route with a recorded fixture is composed from the fixture, which is
+   * the matter someone actually wrote for it.
+   */
   const sampleFacts = { participant_full_legal_name: "Marisol Okonkwo-Baptiste",
     date_of_birth: "1984-11-02", mailing_address: "9 Larkspur Row, Cheyenne, WY 82001",
     phone_number: "307-555-0188", email_address: "m.okonkwo@example.test" };
@@ -116,9 +159,46 @@ for (const guide of guides) {
       sampleFacts[required.factId] = /date/i.test(required.factId) ? "2019-03-14" : `${required.factId.replace(/_/g, " ")} value`;
     }
   }
-  const samplePacket = composeGradeAPacket(specification, {
-    routeKey: where, verificationHash: "guide-table-0001", facts: sampleFacts
-  }, {});
+  /*
+   * A fixture is used WHOLE, not merged over the placeholders.
+   *
+   * Merging looked harmless and was not: the generated filler supplies a value
+   * for every required fact, including the ones the filing gate inspects, and
+   * a fact the fixture does not happen to name then keeps its placeholder and
+   * fails the gate. The fixture is a matter somebody composed deliberately, so
+   * it is composed as written.
+   */
+  const fixture = recordedFixtureMatter(where);
+  const facts = fixture?.facts ?? sampleFacts;
+
+  let samplePacket = null;
+  try {
+    /*
+     * The fixture's own verifiedAt travels with its facts.
+     *
+     * Mississippi's gate reads the MCIC confirmation date out of a fact and
+     * compares it against the matter's verifiedAt, so a matter with no
+     * verifiedAt fails it -- not because the confirmation is missing, but
+     * because there is no date to compare it to. Composing half a recorded
+     * matter is how a control reports a defect that only its own shortcut
+     * created.
+     */
+    samplePacket = composeGradeAPacket(specification, {
+      routeKey: where,
+      verificationHash: fixture?.verificationHash ?? "guide-table-0001",
+      verifiedAt: fixture?.verifiedAt,
+      generationPurpose: fixture?.generationPurpose,
+      facts
+    }, {});
+  } catch (error) {
+    // Reported, never swallowed and never crashed on. A route this file cannot
+    // compose is a route it is not measuring, and saying so is the honest
+    // outcome -- silently skipping it would read as a pass.
+    check(false, `${where}: a sample packet composes for the guide's document table `
+      + `(${fixture ? "recorded fixture" : "generated placeholders"}: ${
+        error instanceof Error ? error.message.slice(0, 160) : String(error)})`);
+    continue;
+  }
   const documents = guideDocuments(samplePacket);
   const matter = {
     preparedFor: "Marisol Okonkwo-Baptiste",

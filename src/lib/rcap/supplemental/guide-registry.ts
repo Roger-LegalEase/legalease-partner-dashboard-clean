@@ -5,6 +5,7 @@ import georgiaSb288MisdemeanorRestriction from "@/../data/record-clearing/supple
 import illinoisMistakenIdentityRelief from "@/../data/record-clearing/supplemental-guides/IL-criminal-identity-theft-mistaken-identity-relief.v1.json";
 import mississippiAdditionalMisdemeanorRelief from "@/../data/record-clearing/supplemental-guides/MS-additional-misdemeanor-relief.v1.json";
 import mississippiFirstOffenderMisdemeanor from "@/../data/record-clearing/supplemental-guides/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json";
+import mississippiNonConviction from "@/../data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json";
 import wyomingFelonyConvictionExpungement from "@/../data/record-clearing/supplemental-guides/WY-felony-conviction-expungement.v1.json";
 
 import { type SupplementalGuide } from "@/lib/rcap/supplemental/guide-contract";
@@ -103,6 +104,11 @@ const REGISTERED: ReadonlyArray<RegisteredGuide> = [
     routeKey: "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
     guide: mississippiFirstOffenderMisdemeanor as unknown as SupplementalGuide,
     sourcePath: "data/record-clearing/supplemental-guides/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json"
+  },
+  {
+    routeKey: "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+    guide: mississippiNonConviction as unknown as SupplementalGuide,
+    sourcePath: "data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json"
   },
   {
     routeKey: "WY:felony-conviction-expungement-w-s-7-13-1502",

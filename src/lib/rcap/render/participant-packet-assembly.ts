@@ -246,9 +246,40 @@ export function recordedDeliveryLocale(artifactRefs: Record<string, unknown> | u
  * establish is passed as null, which the renderer prints in terms rather than
  * filling with something plausible.
  */
+/**
+ * A calendar date a participant can read, from an ISO instant.
+ *
+ * The cover's PREPARED ON was drawing `verifiedAt` unchanged, so it printed
+ * `2026-09-03T15:00:00.000Z` on the page. The controls never saw it because
+ * their sample matter passes an already-formatted string.
+ *
+ * Month names come from a fixed table rather than `Intl`. These bytes are
+ * hashed at generation and re-rendered at download, and ICU data differs
+ * between Node builds and between the application and the worker image -- a
+ * date formatted by the platform is a date that can change underneath a
+ * recorded digest.
+ */
+const MONTHS: Record<GuideLocale, ReadonlyArray<string>> = {
+  en: ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"],
+  es: ["enero", "febrero", "marzo", "abril", "mayo", "junio",
+    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+};
+
+export function participantGuideDate(value: string | null | undefined, locale: GuideLocale): string | null {
+  if (!value) return null;
+  const at = new Date(value);
+  if (Number.isNaN(at.getTime())) return null;
+  const day = at.getUTCDate();
+  const month = MONTHS[locale][at.getUTCMonth()];
+  const year = at.getUTCFullYear();
+  return locale === "es" ? `${day} de ${month} de ${year}` : `${month} ${day}, ${year}`;
+}
+
 export function participantGuideMatter(
   snapshot: PacketVerificationSnapshot,
-  packetId: string
+  packetId: string,
+  locale: GuideLocale
 ): GuideMatter {
   const answers: Record<string, unknown> = {
     ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers,
@@ -264,7 +295,7 @@ export function participantGuideMatter(
   };
   return {
     preparedFor: plain("participant_full_legal_name"),
-    preparedOn: snapshot.verifiedAt ?? null,
+    preparedOn: participantGuideDate(snapshot.verifiedAt, locale),
     jurisdiction: snapshot.jurisdiction ?? null,
     courtOrAgency: plain("court_name"),
     caseOrMatter: plain("cause_number"),

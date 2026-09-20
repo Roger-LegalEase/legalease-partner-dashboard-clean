@@ -407,6 +407,34 @@ check(
 );
 
 /*
+ * PREPARED ON is a date a person can read, in their own language.
+ *
+ * It was drawing `verifiedAt` unchanged, so the cover printed
+ * `2026-09-03T15:00:00.000Z`. The renderer controls never saw it because their
+ * sample matter passes an already-formatted string; only reading a real
+ * rendered page did.
+ *
+ * The month names come from a fixed table rather than `Intl`, because these
+ * bytes are hashed at generation and re-rendered at download and ICU data
+ * differs between Node builds -- so the boundary cases are checked in UTC.
+ */
+const { participantGuideDate } = await import("../src/lib/rcap/render/participant-packet-assembly.ts");
+check(
+  participantGuideDate("2026-09-03T15:00:00.000Z", "en") === "September 3, 2026"
+  && participantGuideDate("2026-09-03T15:00:00.000Z", "es") === "3 de septiembre de 2026",
+  "the cover date is a readable date in each language, not an ISO timestamp"
+);
+check(
+  participantGuideDate("2026-01-01T00:00:00.000Z", "en") === "January 1, 2026"
+  && participantGuideDate("2026-12-31T23:59:59.000Z", "en") === "December 31, 2026",
+  "and it reads the calendar date in UTC, so a late-evening instant does not roll to the next day"
+);
+check(
+  participantGuideDate(null, "en") === null && participantGuideDate("nonsense", "en") === null,
+  "an absent or unparseable instant yields no date rather than a wrong one"
+);
+
+/*
  * The required-ness itself, measured rather than asserted from the type.
  *
  * TypeScript refuses a caller that omits `locale`, but the worker and these
