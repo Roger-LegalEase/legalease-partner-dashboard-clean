@@ -308,6 +308,7 @@ function requireEvidence(condition, message) {
 }
 
 const { loadMsPaidConsumerSuccessor, MS_PAID_SUCCESSOR_DECISION_PATH } = await import("../src/lib/rcap/fulfillment/paid-consumer-successor.ts");
+import { msNonconvictionArtifactMove, MS_NONCONVICTION_ARTIFACT_MOVE_PATH } from "./lib/ms-nonconviction-artifact-move.mjs";
 const MS_PREVIEW_HISTORY = "data/rcap-grade-a/participant-data-rights/ms-sponsored-preview-authority-preserved-20260914.json";
 const { stableStringify, fulfillmentRecordSha256 } = await import("../src/lib/rcap/fulfillment/grade-a-registry.ts");
 const {
@@ -1076,7 +1077,49 @@ function mississippiClinicCandidateRecord() {
 
 function mississippiPaidConsumerSuccessorRecord() {
   const approval = loadMsPaidConsumerSuccessor(rootDir);
-  if (!approval) throw new Error("Mississippi paid successor owner decision or preserved evidence refused");
+  if (!approval) {
+    /*
+     * An approval that no longer matches disk is a refusal. The question is
+     * whether it is an EXPLAINED refusal.
+     *
+     * This threw unconditionally, on the assumption that approved bytes and
+     * composed bytes could only diverge by accident. A shared-renderer
+     * correction can move them on purpose, mid-review, and when that happens
+     * the repository still has to be buildable enough to put the new digests
+     * in front of the owner. So an unexplained mismatch still halts everything,
+     * and a mismatch a move record accounts for artifact by artifact produces
+     * the route WITHOUT its paid consumer authority and with a gap naming what
+     * it waits for. Neither path invents an approval; one of them can be read.
+     */
+    const decision = JSON.parse(readEvidenceBytes(MS_PAID_SUCCESSOR_DECISION_PATH).toString("utf8"));
+    const move = msNonconvictionArtifactMove(rootDir, decision);
+    if (!move) throw new Error("Mississippi paid successor owner decision or preserved evidence refused");
+    const record = mississippiClinicCandidateRecord();
+    record.recordId = "grade-a-ms-nonconv-paid-consumer-successor-20260920";
+    record.effectiveFrom = "2026-09-20";
+    record.ownerDecisionPendingOnComposedArtifact = {
+      recordPath: MS_NONCONVICTION_ARTIFACT_MOVE_PATH,
+      recordSha256: sha256(readEvidenceBytes(MS_NONCONVICTION_ARTIFACT_MOVE_PATH)),
+      supersedesDecisionId: move.supersedes.decisionId,
+      movedArtifacts: move.artifacts.filter((entry) => entry.moved).map((entry) => ({
+        id: entry.id, approved: entry.from, composedNow: entry.to
+      }))
+    };
+    record.evidenceBindings.paidConsumerSuccessorAwaitingOwnerDecision = {
+      path: MS_NONCONVICTION_ARTIFACT_MOVE_PATH,
+      sha256: sha256(readEvidenceBytes(MS_NONCONVICTION_ARTIFACT_MOVE_PATH)),
+      recordId: move.recordId,
+      supersedesDecisionId: move.supersedes.decisionId,
+      consumerPaidAuthorized: false,
+      why: "The 2026-09-20 owner approval names artifact bytes the product no longer composes. The move is recorded "
+        + "with both digests of each artifact and its one cause; the approval itself is unedited and simply does "
+        + "not apply to these bytes. This route carries no paid consumer authority until the owner decides them.",
+      movedArtifacts: move.artifacts.filter((entry) => entry.moved).map((entry) => ({
+        id: entry.id, path: entry.path, approved: entry.from, composedNow: entry.to
+      }))
+    };
+    return record;
+  }
   const archived = readJson(MS_PREVIEW_HISTORY);
   const originalBytes = readGitBlob(archived.sourceSha, archived.sourcePath);
   const original = JSON.parse(originalBytes).records.find(entry => entry.routeId === MS_CLINIC_ROUTE);

@@ -290,6 +290,28 @@ export type GradeAFulfillmentRecord = {
    * become "no record" and lose its own history.
    */
   packetCompleteness?: PacketCompletenessProof | null;
+  /**
+   * An owner approval whose named bytes the product no longer composes.
+   *
+   * Set where a change the build made on purpose -- a shared-renderer
+   * correction, say -- moved artifacts an owner had already approved. The
+   * approval itself is never edited and never widened; it simply stops
+   * describing what ships, and this says so on the record rather than leaving
+   * the route to look merely unfinished.
+   *
+   * It is a REFUSAL, not a note. A recorded explanation of why bytes moved is
+   * exactly the kind of thing that turns into a bypass if anything is ever
+   * allowed to read it as consent, so it is collected as missing proof before
+   * the authority looks at the world, and neither publication nor a fresh
+   * observation can clear it. Only a new owner decision naming the new bytes
+   * removes it, by removing the mismatch.
+   */
+  ownerDecisionPendingOnComposedArtifact?: {
+    recordPath: string;
+    recordSha256: string;
+    supersedesDecisionId: string;
+    movedArtifacts: Array<{ id: string; approved: string; composedNow: string }>;
+  } | null;
   visualReview: VisualReviewProof;
   outputLegalApproval: OutputLegalApprovalProof;
   finalVerification: FinalVerificationProof;
@@ -486,6 +508,23 @@ function nonEmpty(value: string | null | undefined): boolean {
  */
 function collectMissingProof(record: GradeAFulfillmentRecord, requirePublication = true): string[] {
   const missing: string[] = [];
+
+  /*
+   * First, because it is the one nothing downstream may soften.
+   *
+   * A pending artifact move says: an owner approved bytes, and these are not
+   * those bytes. Everything else on the record can be perfect and this route
+   * still has no approval for what it would hand a participant.
+   */
+  const pending = record.ownerDecisionPendingOnComposedArtifact;
+  if (pending) {
+    const moved = pending.movedArtifacts.map((entry) => entry.id).join(", ") || "the approved set";
+    missing.push(
+      `owner_decision: the approval ${pending.supersedesDecisionId} names artifact bytes the product no longer `
+      + `composes (${moved}). The move is recorded at ${pending.recordPath}; recording it explains the mismatch `
+      + "and approves nothing. Only a new owner decision naming the current bytes clears this."
+    );
+  }
 
   if (record.serviceDisposition !== "paid_packet_intended") {
     missing.push(`service_disposition: ${record.serviceDisposition} is not a paid packet, so no proof can make this route commercially eligible`);

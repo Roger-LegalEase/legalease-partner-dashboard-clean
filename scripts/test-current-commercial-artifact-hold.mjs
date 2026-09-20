@@ -122,8 +122,24 @@ check("Mississippi non-conviction is not held by this proof", () => {
   assert.ok(String(artifact.producedBy.renderer).startsWith("rcap_grade_a_document_v1"));
   const decision = evaluateFulfillmentAuthority(record, null, MS_NONCONV);
   assert.equal(decision.missingProof.some((gap) => GAP.test(gap)), false, decision.missingProof.join("; "));
-  assert.deepEqual(decision.missingProof,
-    ["provider: a provider identity, renderer version and image digest are required"]);
+  /*
+   * The exact list, so nothing else can hold this route unnoticed.
+   *
+   * It used to be one line: the provider digest. The shared Fees & Costs
+   * correction then moved two of the artifacts Roger approved on 2026-09-20,
+   * which refuses that approval and drops the record to the pre-successor
+   * candidate -- so the route now waits on an owner decision and, without the
+   * successor binding, on a final verification and an official source too.
+   *
+   * None of that is the composed-artifact hold, which is what this control is
+   * about and which is still absent. The list is pinned rather than sampled
+   * because "not held by THIS proof" is only worth asserting alongside what the
+   * route IS held by.
+   */
+  assert.deepEqual(decision.missingProof.map((gap) => gap.split(":")[0]).sort(),
+    ["final_verification", "official_sources", "owner_decision", "provider"]);
+  assert.match(decision.missingProof.find((gap) => gap.startsWith("owner_decision:")),
+    /MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920 names artifact bytes the product no longer composes/);
 });
 
 check("a record cannot claim the commercial artifact without the commercial renderer", () => {

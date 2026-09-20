@@ -209,9 +209,9 @@
     },
     {
       "factId": "section_branch",
-      "use": "the Code section the petition is brought under, written on the page by the participant from which court convicted them",
+      "use": "the Code section the petition is brought under; the exact route decides it (9-11-15(3) from the justice court, 21-23-7(6) from the municipal court) and the packet prints it",
       "inRegistryRequiredInputs": false,
-      "ownership": "participant_completes_before_filing"
+      "ownership": "server_route"
     }
   ],
   "finalVerificationRequirements": [
@@ -230,9 +230,10 @@
     ],
     "serverOwnedRouteFacts": [
       "jurisdiction",
+      "packet_family",
       "pathway_id",
       "route_key",
-      "packet_family"
+      "section_branch"
     ],
     "participantAtSigningFields": [
       "ms-misd-addl-primary-filing-1.signature",
@@ -260,7 +261,6 @@
       "court",
       "county",
       "cause_number",
-      "section_branch",
       "conviction_list",
       "last_conviction_any_court_date",
       "prosecuting_authority",
@@ -321,10 +321,10 @@
             "section_branch"
           ],
           "fieldLabels": {
-            "section_branch": "This petition is brought under Miss. Code Ann. Sec."
+            "section_branch": "This petition is brought under"
           },
           "fieldTreatments": {
-            "section_branch": "ruled_blank"
+            "section_branch": "value"
           }
         },
         {
@@ -445,13 +445,13 @@
           "text": "STATE THE SECTION THIS PETITION IS BROUGHT UNDER. Both sections say the same thing; which one applies depends on which court convicted you.",
           "destinationDocumentId": "ms-misd-addl-instructions-5",
           "destinationText": "WHICH SECTION, AND WHERE THIS IS FILED. Both sections say the same thing and which applies depends only on which court convicted you.",
-          "why": "An imperative to whoever fills the petition in. The petition still PLEADS its section -- \"This petition is brought under Miss. Code Ann. Sec. ____\" with its rule -- and a judge reading the filed page is not the person choosing between them."
+          "why": "An imperative to whoever fills the petition in, and nobody fills this one in: the exact route decides the section, so the petition PLEADS it in terms -- \"This petition is brought under Miss. Code Ann. Sec. 9-11-15(3)\" on the justice-court route, Sec. 21-23-7(6) on the municipal-court route -- and the guidance explains which court maps to which section rather than asking the participant to choose."
         },
         {
           "text": "Justice court conviction .... Miss. Code Ann. Sec. 9-11-15(3)",
           "destinationDocumentId": "ms-misd-addl-instructions-5",
           "destinationText": "Convicted in JUSTICE COURT .... Miss. Code Ann. Sec. 9-11-15(3), filed with the clerk of that justice court.",
-          "why": "Half of a two-line table mapping each court to its section, printed so the preparer can pick one. The filed petition names the section it is actually brought under; listing both is scaffolding for filling the page in."
+          "why": "Half of a two-line table mapping each court to its section. The filed petition names the one section it is brought under, derived from the route; both lines stay in the guidance so a participant can see why theirs is the one that applies."
         },
         {
           "text": "Municipal court conviction .. Miss. Code Ann. Sec. 21-23-7(6)",
@@ -519,7 +519,7 @@
         {
           "heading": "The proposed recital",
           "kind": "pleading_identity_list",
-          "body": "THIS CAUSE came before the Court on the Petition of {{participant_full_legal_name}} for expungement of misdemeanor convictions had in this Court, under Miss. Code Ann. Sec. ........................ , and upon the showing made in open court.",
+          "body": "THIS CAUSE came before the Court on the Petition of {{participant_full_legal_name}} for expungement of misdemeanor convictions had in this Court, under {{section_branch}}, and upon the showing made in open court.",
           "fields": [
             "order_findings"
           ],
@@ -649,7 +649,7 @@
             "service_date"
           ],
           "fieldLabels": {
-            "prosecuting_authority": "Prosecuting authority - the MUNICIPAL PROSECUTING ATTORNEY on the Sec. 21-23-7(6) branch, or the equivalent prosecutor for the justice court on the Sec. 9-11-15(3) branch. Name and office",
+            "prosecuting_authority": "Prosecuting authority for this Court - {{prosecuting_authority_role}}, who receives prior notice under {{section_branch}}. Name and office",
             "prosecutor_address": "Address served",
             "service_manner": "Manner of service (United States mail or hand delivery)",
             "service_date": "Date served"
@@ -892,5 +892,15 @@
       "requiredBeforeFiling": true
     }
   ],
-  "specificationSha256": "1a1f89b4f67f8e503fe4e65926ca8f3e24b6ef4cf7dde78c8658feb643a62bcc"
+  "specificationSha256": "1a1f89b4f67f8e503fe4e65926ca8f3e24b6ef4cf7dde78c8658feb643a62bcc",
+  "routeDerivedFacts": {
+    "MS:additional-justice-court-misdemeanor-relief-9-11-15-3": {
+      "section_branch": "Miss. Code Ann. Sec. 9-11-15(3)",
+      "prosecuting_authority_role": "the prosecutor who appears for the State in that justice court"
+    },
+    "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6": {
+      "section_branch": "Miss. Code Ann. Sec. 21-23-7(6)",
+      "prosecuting_authority_role": "the MUNICIPAL PROSECUTING ATTORNEY"
+    }
+  }
 }

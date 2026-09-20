@@ -34,7 +34,7 @@ export const DERIVATION_RECONCILIATION_PATH =
  * moves this pin, which is an edit a reviewer sees.
  */
 export const DERIVATION_RECONCILIATION_SHA256 =
-  "13b2f38ae3fd6d75467e40eb0287c2076ee342c8c5851fb836d05d6af227703c";
+  "189a7e9616d8114b540ffcede6372c1794583c67e2136dcfba418b5722ab0043";
 
 const digest = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const insist = (condition, message) => {

@@ -195,6 +195,46 @@ function* prose(value) {
 }
 
 /**
+ * Sentences the current packet composes that the approved artifact does NOT
+ * contain, on purpose, each with the reason it is there.
+ *
+ * The check above asks whether every composed assertion is already in the
+ * owner-approved build-host artifact, and that is the right question: an
+ * assertion that appeared from nowhere is how a specification quietly starts
+ * saying something nobody approved. But the answer is not always yes, and when
+ * a repair is the reason it must be written down rather than tolerated by a
+ * looser rule.
+ *
+ * These two are Mississippi's additional-misdemeanour pair. The approved
+ * artifact printed the Code section as a dotted blank and described the
+ * prosecuting authority by listing BOTH branches, because the build host had no
+ * route to derive either from. The exact route does, so the packet now names
+ * one section and one prosecutor. The approved artifact cannot contain those
+ * words; that is the defect being fixed, not evidence of drift.
+ *
+ * Matched on a leading fragment, not a whole sentence, because the rest of each
+ * line is the route-derived value and differs between the two routes by design.
+ * Neither entry widens to anything else: a sentence that does not start with
+ * these words is still unexplained and still fails.
+ */
+const DELIBERATELY_BEYOND_THE_APPROVED_ARTIFACT = {
+  "ms-misd-addl-set": [
+    {
+      startsWith: "and upon the showing made in open court",
+      why: "The proposed order recites the section the petition is brought under. The approved artifact printed a "
+        + "run of dots there because the build host could not know which of the two sections applied; the exact "
+        + "route does, so the order recites it."
+    },
+    {
+      startsWith: "Prosecuting authority for this Court -",
+      why: "The certificate of service names the prosecutor who receives prior notice. The approved artifact named "
+        + "both branches in one label and left the participant to pick on a page filed with the court; the exact "
+        + "route decides which, so the certificate names one."
+    }
+  ]
+};
+
+/**
  * The specification's own structural labels: document titles, section headings,
  * attachment titles and field ids. A composed string that is not in the
  * approved artifact is tolerated only if it is one of these -- a name for a
@@ -350,6 +390,11 @@ for (const family of FAMILIES) {
     // A structural label, in full or as the head of a longer printed line.
     for (const structural of labels) {
       if (structural === sentence || structural.startsWith(sentence) || sentence.startsWith(structural)) return false;
+    }
+    // Or a sentence the product composes DELIBERATELY and the approved artifact
+    // does not contain, named one at a time with its reason below.
+    for (const deliberate of DELIBERATELY_BEYOND_THE_APPROVED_ARTIFACT[family.familyId] ?? []) {
+      if (sentence.includes(normalise(deliberate.startsWith))) return false;
     }
     return true;
   });

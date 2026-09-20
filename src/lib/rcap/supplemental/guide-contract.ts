@@ -200,6 +200,24 @@ export type SupplementalGuide = {
    * rest. `null` is still a route with no packet guidance page to replace.
    */
   supersedesPacketComponent: string | string[] | null;
+  /**
+   * Who numbers the Next Steps: the renderer, or the route's own wording.
+   *
+   * The renderer draws an ordinal down the margin for each entry. Where a
+   * route's adopted text also numbers its steps -- "STEP ONE", "(1) THE
+   * PROSECUTING ATTORNEY" -- the page carried two counts that disagreed,
+   * because the margin counts ENTRIES and an entry is not always a step: a
+   * heading, a parenthetical aside and a sub-item are entries too. A participant
+   * asking "which step am I on" got two answers.
+   *
+   * The guide says which, in terms, and it is required rather than defaulted.
+   * The first fix read the entry text and suppressed the margin where it looked
+   * numbered, which makes the presentation of a legal packet depend on whether
+   * a sentence happens to start with a bracket -- reword the step and the page
+   * silently renumbers. A route that writes its own step labels declares it,
+   * and a route that does not gets the margin count it always had.
+   */
+  nextStepsNumbering: "renderer_ordinal" | "source_step_labels";
   overview: SupplementalGuideEntry[];
   nextSteps: SupplementalGuideEntry[];
   filingChecklist: SupplementalGuideEntry[];

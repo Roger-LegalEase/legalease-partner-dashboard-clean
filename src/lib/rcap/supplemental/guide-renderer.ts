@@ -155,7 +155,21 @@ type Words = {
   fees: string; feesLead: string; estimate: string; lastVerified: string; officialSource: string;
   breakdown: string; colItem: string; colAmount: string; colWhen: string;
   waiver: string; availability: string; formOrProcess: string; whereToSubmit: string;
-  stops: string; notEstablished: string; footerBrand: string;
+  stops: string; notEstablished: string;
+  /**
+   * The fallback for a slot whose answer is a DATE we do not hold.
+   *
+   * `notEstablished` is a sentence about the route -- "ask the clerk or filing
+   * office" -- and it was printed in the Last verified half of a cell whose
+   * other half already names the official source. Wyoming showed what that
+   * costs: a $300.00 filing fee on the left, and beside it a cell opening "Not
+   * established for this route - ask the clerk". The label says the two halves
+   * are different facts; the sentence reads as if the fee were in doubt. A
+   * missing verification date is not a route with nothing established, and it
+   * does not send anyone anywhere, so it says so in two words.
+   */
+  notRecorded: string;
+  footerBrand: string;
   guideOf: (n: number, total: number) => string;
 };
 
@@ -197,6 +211,7 @@ const COPY: Record<GuideLocale, Words> = {
     availability: "AVAILABILITY", formOrProcess: "FORM / PROCESS", whereToSubmit: "WHERE TO SUBMIT",
     stops: "WHEN TO STOP AND GET HELP",
     notEstablished: "Not established for this route — ask the clerk or filing office.",
+    notRecorded: "Not recorded",
     footerBrand: "Expungement.ai by LegalEase",
     guideOf: (n: number, total: number) => `GUIDE ${n} OF ${total}`
   },
@@ -237,6 +252,7 @@ const COPY: Record<GuideLocale, Words> = {
     availability: "DISPONIBILIDAD", formOrProcess: "FORMULARIO / PROCESO", whereToSubmit: "DÓNDE PRESENTARLO",
     stops: "CUÁNDO DETENERSE Y BUSCAR AYUDA",
     notEstablished: "No establecido para este trámite — pregunte al secretario u oficina de presentación.",
+    notRecorded: "No registrado",
     footerBrand: "Expungement.ai by LegalEase",
     guideOf: (n: number, total: number) => `GUÍA ${n} DE ${total}`
   }
@@ -532,10 +548,45 @@ function drawNextSteps(sheet: Sheet, guide: SupplementalGuide, options: GuideRen
     [w.nextEvent, fieldText(sheet, strip?.nextEvent ?? null, guide.routeKey, "the next event")]
   ]);
 
-  (guide.nextSteps ?? []).forEach((entry, index) => {
+  /*
+   * ONE NUMBERING SYSTEM PER PAGE.
+   *
+   * The renderer numbers Next Steps entries down the margin. Where a route's
+   * own adopted wording also numbers its steps, the page carried two counts
+   * that disagreed: a margin "7" beside "STEP SIX", a margin "3" beside "(1)
+   * THE PROSECUTING ATTORNEY". They disagree because they count different
+   * things -- the margin counts entries, and an entry is not always a step; a
+   * heading, a parenthetical aside and a sub-item are entries too.
+   *
+   * The GUIDE says which, in `nextStepsNumbering`. It is not read off the text:
+   * deciding presentation by whether a sentence starts with a bracket means
+   * rewording a step silently renumbers a legal packet. Where the route
+   * declares its own step labels the margin goes quiet for the whole section --
+   * the section is the unit, because "which step am I on" has to have one
+   * answer for the page -- and where it does not, the margin numbers every
+   * entry exactly as before.
+   *
+   * The source wording is untouched either way.
+   */
+  const entries = guide.nextSteps ?? [];
+  const routeNumbersItsOwnSteps = guide.nextStepsNumbering === "source_step_labels";
+
+  entries.forEach((entry, index) => {
     const body = fieldText(sheet, entry, guide.routeKey, "a Next Steps entry");
     ensure(sheet, LINE * 2);
-    text(sheet, String(index + 1), MARGIN, BODY, sheet.fonts.bold, MUTED);
+    /*
+     * The 26-point gutter stays even when nothing is drawn in it.
+     *
+     * Closing it up reads better -- an empty gutter is an indent nobody asked
+     * for -- and widening the column to the full content width pushed lines
+     * past the right margin on DC and Mississippi, because the wrap measures a
+     * kerned width and the page draws an unkerned one. Trading a cosmetic
+     * indent for ink outside the text block is not a trade. It stays until that
+     * measurement is fixed, and it is recorded with it.
+     */
+    if (!routeNumbersItsOwnSteps) {
+      text(sheet, String(index + 1), MARGIN, BODY, sheet.fonts.bold, MUTED);
+    }
     const lines = wrap(sanitize(body), sheet.fonts.body, BODY, CONTENT_WIDTH - 26);
     lines.forEach((line, lineIndex) => {
       if (lineIndex > 0) ensure(sheet, LINE);
@@ -588,7 +639,7 @@ function drawFeesAndCosts(sheet: Sheet, guide: SupplementalGuide, options: Guide
   cellPanel(sheet, [
     [w.estimate, fees?.estimate ?? w.notEstablished],
     [`${w.lastVerified} / ${w.officialSource}`,
-      [fees?.lastVerified ?? w.notEstablished,
+      [fees?.lastVerified ?? w.notRecorded,
         fees?.officialSource ? fieldText(sheet, fees.officialSource, guide.routeKey, "the official fee source") : w.notEstablished
       ].join("  |  ")]
   ]);

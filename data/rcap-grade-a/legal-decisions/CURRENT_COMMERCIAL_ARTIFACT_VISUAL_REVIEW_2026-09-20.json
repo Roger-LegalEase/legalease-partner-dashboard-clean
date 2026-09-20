@@ -6,7 +6,20 @@
   "createsApproval": false,
   "approvesAnyArtifact": false,
   "method": "Every page of every produced artifact was opened as an image at 150 dpi and looked at -- not hashed and counted. Page hashes are identity evidence: they prove which bytes were inspected and that the same page was not inspected twice under two names. They are not visual acceptance, and this record does not treat them as such.",
-  "coverage": "Pages that are byte-identical across artifacts were inspected once and matched by hash to every artifact carrying them. Each court-only packet was proven page-for-page identical to the court-facing pages of its full packet, and the two Mississippi routes were proven identical except for the review packet identifier printed in the guide footer. Every remaining page was inspected on its own.",
+  "coverage": "Pages that are byte-identical across artifacts were inspected once and matched by hash to every artifact carrying them. Each court-only packet was proven page-for-page identical to the court-facing pages of its full packet. Every remaining page was inspected on its own.",
+  "reinspectionAfterTheThreeCorrections": {
+    "why": "The three corrections recorded below moved bytes in artifacts this record had already inspected, so the earlier inspection no longer described them. Rather than re-open every page or carry the old finding forward, the two page sets were compared by exact raster hash.",
+    "method": "Each artifact's page rasters were regenerated from the corrected PDF and their sha256 compared page-for-page against the rasters this record was previously bound to. A page whose raster hash is unchanged is the identical image and its prior inspection still describes it. Every page whose raster hash moved was opened again as an image and looked at.",
+    "changedPageSlots": 47,
+    "uniqueChangedImages": 36,
+    "unchangedPagesCarriedByRasterIdentity": 103,
+    "result": "All 36 changed images were re-inspected. No blocking defect was found in any of them, and no new pagination spillover appeared beyond the pages already counted as changed.",
+    "whatTheChangedPagesShow": [
+      "the Mississippi petition, order and certificate of service now print the route's own statutory branch instead of a blank the participant fills",
+      "the Fees & costs Last verified cell reads \"Not recorded\" / \"No registrado\" beside its official source",
+      "the Next Steps pages of the routes that number their own steps no longer carry a second count down the margin"
+    ]
+  },
   "whatWasLookedFor": [
     "text clipped at or past a margin, or a token broken across lines",
     "a heading, list or signature block separated from what it introduces or signs",
@@ -71,6 +84,25 @@
       "what": "The renderer's margin ordinal printed \"8\" beside text reading \"7. KNOW THE OBJECTION WINDOW\".",
       "why": "This route's guide numbered its own steps as well.",
       "fix": "The self-numbering is removed; the renderer's ordinal is the only number. The objection-window sentence also carries the adopted wording again (\"to object with supporting evidence\"), which an earlier transcription had shortened."
+    },
+    {
+      "where": "MS additional-misdemeanour, the petition, the proposed order and the certificate of service",
+      "what": "\"This petition is brought under: Miss. Code Ann. Sec. ______\" -- the statutory branch was a blank the participant filled in, and the certificate named the prosecuting authority with the same blank. Because nothing else distinguished them, the two routes' court-only packets were byte-identical.",
+      "why": "section_branch was carried as participant_completes_before_filing while the same specification's final verification said the server owns the route and a client-supplied section never chooses it. Those two statements conflict, and the one the participant saw was the wrong one: the route key already says which section applies.",
+      "fix": "The specification carries routeDerivedFacts keyed by the exact admitted routeKey, and the composer injects them after the route-identity guard, overwriting anything a caller supplied. The justice route prints Miss. Code Ann. Sec. 9-11-15(3) and names the prosecutor who appears for the State in that justice court; the municipal route prints Miss. Code Ann. Sec. 21-23-7(6) and names the MUNICIPAL PROSECUTING ATTORNEY. A route not in routeKeys is still refused. The court name, county and cause number stay blanks, because the product does not know them.",
+      "provenBy": "scripts/test-ms-section-branch-is-route-derived.mjs, which reads the drawn text out of both rendered packets and checks each branch appears in its own route and not the other, that no dotted or underscore blank remains where the section is printed, that a participant-supplied section is discarded, and that the two court-only outputs no longer hash to the same value."
+    },
+    {
+      "where": "every route, the Fees & costs page, the \"Last verified / Official source\" cell",
+      "what": "The cell read \"Not established for this route - ask the clerk or filing office. | <the official source>\". Wyoming showed it worst: a $300.00 filing fee sat beside a cell that opened by saying nothing was established.",
+      "why": "The two halves answer different questions -- when the figure was last checked, and where it comes from -- and the renderer printed the route-level not-established sentence into the half that had no date. A slot that says \"not established\" next to a named official source contradicts itself.",
+      "fix": "The Last verified half prints \"Not recorded\" / \"No registrado\". The Official source half is unchanged and still prints the route-level sentence when a route names no source. The change is in the shared renderer, so it also moved the Mississippi non-conviction artifacts Roger approved on 2026-09-20; those three artifacts were regenerated and are inspected and listed in this record."
+    },
+    {
+      "where": "DC, MS additional-misdemeanour and WY, the Next steps page",
+      "what": "The renderer's margin ordinal counted entries while the route's own text counted steps, so a margin \"2\" sat beside \"STEP ONE\" and a margin \"3\" beside \"(1) THE PROSECUTING ATTORNEY\". A participant asking which step they were on got two answers.",
+      "why": "A heading, a parenthetical aside and a sub-item are entries too, so the two counts drift by however many entries are not steps.",
+      "fix": "The guide contract carries a required nextStepsNumbering field -- \"renderer_ordinal\" or \"source_step_labels\" -- and the renderer reads that declaration. A route whose source writes its own step labels declares it and the margin ordinal is suppressed; a route that does not keeps the count it always had. The renderer never inspects the entry text to decide: an earlier attempt did, which made a legal packet's presentation depend on whether a sentence happened to start with a bracket."
     }
   ],
   "observationsNotFixedInThisBatch": [
@@ -87,23 +119,6 @@
       "whyNotFixedHere": "The fix is a widow-and-orphan rule in the shared renderers, which changes where every packet breaks. That is a renderer change to be reviewed on its own evidence, and it would move bytes Roger approved on 2026-09-20 for a route that is not in this batch."
     },
     {
-      "observation": "The Fees & costs panel joins two different answers with a pipe.",
-      "pages": [
-        "every route, the Fees & costs page, the \"Last verified / Official source\" cell"
-      ],
-      "assessment": "It prints \"Not established for this route - ask the clerk or filing office. | <the official source>\". Wyoming makes it clearest: a $300.00 filing fee sits beside a cell that opens \"Not established for this route\". The two halves are a last-verified date and an official source and the label says so, but the eye reads the sentence first.",
-      "whyNotFixedHere": "Every guide in the product records lastVerified as null, including the approved Mississippi non-conviction guide, so a shorter slot-specific phrase moves those approved bytes. Proposed fix: the Last verified half prints a short \"not recorded\" rather than the route-level sentence."
-    },
-    {
-      "observation": "The guide's Next Steps ordinal counts entries, not steps.",
-      "pages": [
-        "dc-actual-innocence (STEP ONE is entry 2)",
-        "wy-felony-expungement (\"(1) THE PROSECUTING ATTORNEY\" is entry 3)"
-      ],
-      "assessment": "Where a route's own text names its steps, the margin number and the named step differ by the number of entries that are not steps. The approved Wyoming guide already reads this way.",
-      "whyNotFixedHere": "Pre-existing and uniform across the family; changing it is a renderer or a guide-structure decision, not a repair."
-    },
-    {
       "observation": "The document-check table names court-facing documents in English on the Spanish page.",
       "pages": [
         "every route with a Spanish guide, the Lista de verificación page"
@@ -111,26 +126,32 @@
       "assessment": "Read as deliberate: the documents themselves are in English and a participant has to identify them by those titles at a counter, which is the same reason court names stay in English inside Spanish sentences throughout these guides. Flagged so the owner can confirm that is the intent."
     },
     {
-      "observation": "The two Mississippi routes deliver the same participant packet.",
+      "observation": "The two Mississippi routes still share their guide wording, and now differ in their court documents.",
       "pages": [
         "ms-justice-court-misdemeanor and ms-municipal-court-misdemeanor, all variants"
       ],
-      "assessment": "They differ only in the review packet identifier printed in the guide footer. The family is one specification serving both sections, the guide names \"justice court or municipal court\" throughout, and which court it is arrives as a blank the participant fills from their own record. That is what the shared family is supposed to do, and it is stated here because a reader comparing the two hashes should not have to discover it."
+      "assessment": "The court-facing documents now diverge, because the statutory branch is derived from the route: the petition, the order and the certificate of service each name that route's own section and prosecuting authority, and the two court-only packets no longer hash alike. The §7 guide text is still shared and still describes both sections -- it explains which one applies and why, and which court name the participant writes into the caption. That is orientation, not a choice being asked of the participant, and the court documents no longer depend on the participant getting it right. It is recorded because a reader comparing the two packets should know which parts are deliberately common and which are deliberately not.",
+      "whyNotFixedHere": "Narrowing the shared guide text to one section per route would edit reviewed §7 transcription for a presentational gain, and the participant-facing risk it addressed is gone."
     },
     {
       "observation": "The renderer wraps on a kerned measurement and draws unkerned text.",
       "pages": [
-        "measured across every §7 guide; the tightest line in the batch is 1.3pt past the text block"
+        "the worst line in the batch is 2.32pt past the text block: \"justice\" on ms-justice- and ms-municipal-court-misdemeanor full-es p2",
+        "then 2.30pt, \"firma.\" on dc-actual-innocence full-es",
+        "English is milder: 0.74pt on dc full-en, 0.14pt on the Mississippi full-en packets",
+        "the approved Mississippi non-conviction full-en guide is at 1.27pt"
       ],
-      "assessment": "pdf-lib's widthOfTextAtSize applies the standard font's kern pairs; drawText does not, so a drawn line can be a few points wider than the wrap believed and the last word can sit just outside the margin. The renderer control allows 1.5pt for this. The approved Mississippi non-conviction guide has a line at 1.3pt, which is inside the allowance with 0.2pt to spare.",
-      "whyNotFixedHere": "Measuring without kerning is the correct fix and it re-wraps text product-wide, including bytes Roger has approved. It belongs in its own reviewed change."
+      "assessment": "pdf-lib's widthOfTextAtSize applies the standard font's kern pairs; drawText does not, so a drawn line can be a few points wider than the wrap believed and the last word can sit just outside the text block. The page margin is 46pt, so the worst of these still leaves about 43.7pt of paper to its right: nothing is clipped, and every one of these lines was read in the raster.",
+      "correctionToThisRecord": "An earlier version of this entry reported the batch's worst line as 1.3pt. That was the approved Mississippi non-conviction ENGLISH guide, and it was carried here as though it were the batch's worst. It was not. The renderer control measured only the English render, so no Spanish page was ever asked the question, and every line in the batch that sits furthest past the text block is a Spanish one. The measurements above are the whole batch, English and Spanish. The 1.3pt figure was not an assessment the owner should have been given.",
+      "whatChangedInTheControl": "scripts/verify-supplemental-guide-renderer.mjs now measures the Spanish render as well, against its own pinned allowance (2.4pt, the measured worst case) with the English allowance left at 1.5pt, and separately refuses any glyph within 8pt of the paper edge in either locale with no tolerance at all. Tightening the Spanish allowance to the English 1.5pt makes it fail on exactly the two guides named above, which is how the new check was shown to bite.",
+      "whyNotFixedHere": "Measuring without kerning is the correct fix and it re-wraps text product-wide, including bytes Roger has approved. It belongs in its own reviewed change. The allowances above pin today's worst case so it cannot grow unnoticed while that change waits; they are not a finding that the overrun is correct."
     }
   ],
   "artifacts": [
     {
       "routeId": "DC:dc_actual_innocence_expungement_16_803",
       "artifactId": "full-en",
-      "sha256": "114f5ff10b2dbdcbd91a4d552b5b7edfdbc388deee61b15a90f96d766cbd167b",
+      "sha256": "baaf7e489216c8fd7de7cc197afd163351f2909dacddd175b011caa89a1f6b9c",
       "pageCount": 11,
       "rasterDirectory": "data/rcap-ledger/grade-a/reviews/current-commercial-artifact-rasters/dc-actual-innocence-full-en",
       "pagesInspectedAsImages": 11,
@@ -148,7 +169,7 @@
     {
       "routeId": "DC:dc_actual_innocence_expungement_16_803",
       "artifactId": "full-es",
-      "sha256": "3b8f95d8372202a321795c76733eae940f7569c47ad2dc79cd833ec65f89332d",
+      "sha256": "d5533512366af8334b242986e65e8d3e9aa1dc23c882028212cb131dce52a509",
       "pageCount": 11,
       "rasterDirectory": "data/rcap-ledger/grade-a/reviews/current-commercial-artifact-rasters/dc-actual-innocence-full-es",
       "pagesInspectedAsImages": 11,
@@ -157,7 +178,7 @@
     {
       "routeId": "IL:felony-prostitution-relief",
       "artifactId": "full-en",
-      "sha256": "48519f1381d8e92eea9966d968be305652dc235699e507610294af0a1045cbbb",
+      "sha256": "9f9f28401f89c79712689c645826c6e53486412e7254b79a6c38fd027ed6a04e",
       "pageCount": 9,
       "rasterDirectory": "data/rcap-ledger/grade-a/reviews/current-commercial-artifact-rasters/il-felony-prostitution-full-en",
       "pagesInspectedAsImages": 9,
@@ -175,7 +196,7 @@
     {
       "routeId": "IL:felony-prostitution-relief",
       "artifactId": "full-es",
-      "sha256": "aad0ed42dbc6942dcf88c2b1194805150c20296f431cb0c9e48b18902f319554",
+      "sha256": "b216432ddc58cb57ea446a695713b76e286e9d6805b0c5ce66ff2e080fa45b26",
       "pageCount": 11,
       "rasterDirectory": "data/rcap-ledger/grade-a/reviews/current-commercial-artifact-rasters/il-felony-prostitution-full-es",
       "pagesInspectedAsImages": 11,
@@ -184,7 +205,7 @@
     {
       "routeId": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
       "artifactId": "full-en",
-      "sha256": "fed4083a51b7c042cbf08ebaf3a0b10c5c234bf55bbd3be12aed3c79dfcfd157",
+      "sha256": "c0bfa886b8156bb7dd4f5d386a20ae94b68fe920dcfe8ae54b3410c469227649",
       "pageCount": 12,
       "rasterDirectory": "data/rcap-ledger/grade-a/reviews/current-commercial-artifact-rasters/ms-justice-court-misdemeanor-full-en",
       "pagesInspectedAsImages": 12,
@@ -193,7 +214,7 @@
     {
       "routeId": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
       "artifactId": "court-only",
-      "sha256": "a56f00d0ecb59d97e411331889eb94fd94cc06508db8b557d443e805f382a131",
+      "sha256": "8f11eaef9c6089a1c1cf844539833e1d3e0622bd7fac8313f01428af789fa4fb",
       "pageCount": 6,
       "rasterDirectory": "data/rcap-ledger/grade-a/reviews/current-commercial-artifact-rasters/ms-justice-court-misdemeanor-court-only",
       "pagesInspectedAsImages": 6,
@@ -202,7 +223,7 @@
     {
       "routeId": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
       "artifactId": "full-es",
-      "sha256": "28e2b9f21c53dc3ceae94c034210df35dc009ccdad60ea5f15ca8269b39af232",
+      "sha256": "b5e7b6c40a83c4a56b8f242d7e1635f84d1f807b7ee063363b77e53f7531078f",
       "pageCount": 12,
       "rasterDirectory": "data/rcap-ledger/grade-a/reviews/current-commercial-artifact-rasters/ms-justice-court-misdemeanor-full-es",
       "pagesInspectedAsImages": 12,
@@ -211,7 +232,7 @@
     {
       "routeId": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
       "artifactId": "full-en",
-      "sha256": "9b00b606a2e1f8639c44bcc99686a3b5fa59b860f0fcc0176a74e7e3a20dd9ce",
+      "sha256": "8bd7af6b397e213b3aee5dc7be8c25e6c0a22af09118be2cfa32014f173bb18a",
       "pageCount": 12,
       "rasterDirectory": "data/rcap-ledger/grade-a/reviews/current-commercial-artifact-rasters/ms-municipal-court-misdemeanor-full-en",
       "pagesInspectedAsImages": 12,
@@ -220,7 +241,7 @@
     {
       "routeId": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
       "artifactId": "court-only",
-      "sha256": "a56f00d0ecb59d97e411331889eb94fd94cc06508db8b557d443e805f382a131",
+      "sha256": "54b90eff86f419f1cd1495f432d6fd9bb855019bfd179f4b8d289b9084dbc963",
       "pageCount": 6,
       "rasterDirectory": "data/rcap-ledger/grade-a/reviews/current-commercial-artifact-rasters/ms-municipal-court-misdemeanor-court-only",
       "pagesInspectedAsImages": 6,
@@ -229,7 +250,7 @@
     {
       "routeId": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
       "artifactId": "full-es",
-      "sha256": "74a71f31bb2e202f670c7ee5ddb9686b7a10b8a5f1fe06e099732cebbeadc3b7",
+      "sha256": "4fec8705672b019387bf98b6d486499c20ce1b1bbb2ac315b691ce13b38b8e37",
       "pageCount": 12,
       "rasterDirectory": "data/rcap-ledger/grade-a/reviews/current-commercial-artifact-rasters/ms-municipal-court-misdemeanor-full-es",
       "pagesInspectedAsImages": 12,
@@ -238,7 +259,7 @@
     {
       "routeId": "WY:felony-conviction-expungement-w-s-7-13-1502",
       "artifactId": "full-en",
-      "sha256": "09a9b25590e9e46fba91d697a9f8e9c68117d6fa46eaf4108a9a2d4283e13714",
+      "sha256": "07873ad856fe45a882a5504d06d3167de6d9de04105abf1f4a23da23fd7627d7",
       "pageCount": 14,
       "rasterDirectory": "data/rcap-ledger/grade-a/reviews/current-commercial-artifact-rasters/wy-felony-expungement-full-en",
       "pagesInspectedAsImages": 14,
@@ -256,11 +277,41 @@
     {
       "routeId": "WY:felony-conviction-expungement-w-s-7-13-1502",
       "artifactId": "full-es",
-      "sha256": "7f8128a52781854c82f862924bf317618582e7746afc14dea54356cb89f77baa",
+      "sha256": "d544a6233e1b4c12ec5b642105bddd9730e63453d40807e907d3c696cdec3169",
       "pageCount": 14,
       "rasterDirectory": "data/rcap-ledger/grade-a/reviews/current-commercial-artifact-rasters/wy-felony-expungement-full-es",
       "pagesInspectedAsImages": 14,
       "status": "inspected_no_blocking_defect"
+    },
+    {
+      "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "artifactId": "full-en",
+      "sha256": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd",
+      "pageCount": 16,
+      "rasterDirectory": "data/rcap-ledger/grade-a/reviews/ms-nonconviction-successor-review-rasters/full-en",
+      "pagesInspectedAsImages": 16,
+      "status": "inspected_no_blocking_defect",
+      "note": "Replacement bytes. The approval Roger signed on 2026-09-20 names this artifact's PREVIOUS digest and is preserved unedited; the move is accounted for in MS_NONCONVICTION_ARTIFACT_MOVE_2026-09-20.json, which approves nothing."
+    },
+    {
+      "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "artifactId": "court-only",
+      "sha256": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe",
+      "pageCount": 8,
+      "rasterDirectory": "data/rcap-ledger/grade-a/reviews/ms-nonconviction-successor-review-rasters/court-only",
+      "pagesInspectedAsImages": 8,
+      "status": "inspected_no_blocking_defect",
+      "note": "Court-only carries no guide, so the Fees & costs correction did not reach it: these are the same bytes Roger approved on 2026-09-20."
+    },
+    {
+      "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "artifactId": "full-es",
+      "sha256": "28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04",
+      "pageCount": 17,
+      "rasterDirectory": "data/rcap-ledger/grade-a/reviews/ms-nonconviction-successor-review-rasters/full-es",
+      "pagesInspectedAsImages": 17,
+      "status": "inspected_no_blocking_defect",
+      "note": "Replacement bytes. The approval Roger signed on 2026-09-20 names this artifact's PREVIOUS digest and is preserved unedited; the move is accounted for in MS_NONCONVICTION_ARTIFACT_MOVE_2026-09-20.json, which approves nothing."
     }
   ]
 }

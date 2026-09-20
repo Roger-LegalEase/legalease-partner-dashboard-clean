@@ -510,6 +510,21 @@ export type PacketSpecification = {
   requiredFacts: PacketSpecificationFact[];
   finalVerificationRequirements: string[];
   legalSectionsBound?: true;
+  /**
+   * Fact values the EXACT ROUTE decides, keyed by route then fact id.
+   *
+   * For a specification serving one route this is unnecessary: the value could
+   * be written into the document. It exists for a family whose routes differ in
+   * a value the server already knows — Mississippi's additional-misdemeanour
+   * pair differ only in which Code section the petition is brought under, and
+   * that follows from the route, not from anything the participant is in a
+   * position to decide better than we are.
+   *
+   * It is not a general prefill. A value belongs here only where the route
+   * determines it; anything the participant genuinely knows and we do not — the
+   * court's name, the county, the cause number — stays a blank they complete.
+   */
+  routeDerivedFacts?: Record<string, Record<string, string>>;
   fieldOwnership?: {
     participantOwnedFacts: string[];
     serverOwnedRouteFacts: string[];

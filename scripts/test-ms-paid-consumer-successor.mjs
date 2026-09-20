@@ -23,6 +23,43 @@ try {
     fs.mkdirSync(path.dirname(path.join(scratch, rel)), { recursive: true });
     fs.copyFileSync(path.join(root, rel), path.join(scratch, rel));
   }
+  /*
+   * The scratch decision names the scratch bytes.
+   *
+   * This copies the real artifacts, and after the shared Fees & Costs
+   * correction moved two of them the real decision no longer names what was
+   * copied -- so every control below failed for one reason that has nothing to
+   * do with the rule it is testing. These 49 controls are about the LOADER's
+   * rules: that it refuses a changed route, a waived gate, an edited
+   * supersession, a swapped artifact path. Re-pointing the fixture's decision
+   * at the fixture's own bytes is what lets each of them fail for its own
+   * reason again.
+   *
+   * It is a fixture, and it says nothing about what Roger approved. The real
+   * mismatch is recorded in MS_NONCONVICTION_ARTIFACT_MOVE_2026-09-20.json and
+   * held by its own control; the real decision is never edited.
+   */
+  const fixtureDecision = JSON.parse(JSON.stringify(approved));
+  const scratchDigest = rel => crypto.createHash('sha256')
+    .update(fs.readFileSync(path.join(scratch, rel))).digest('hex');
+  for (const entry of fixtureDecision.approvedArtifacts) entry.sha256 = scratchDigest(entry.path);
+  for (const entry of fixtureDecision.preservedEvidence) entry.sha256 = scratchDigest(entry.path);
+  // The assembly binding pins the guide the review was produced from; the
+  // review evidence in the fixture tree states it, so the fixture reads it from
+  // there rather than restating a digest of its own.
+  const fixtureReview = JSON.parse(fs.readFileSync(path.join(scratch,
+    'data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json'), 'utf8'));
+  fixtureDecision.assemblyBinding.supplementalGuideContentSha256 =
+    fixtureReview.generatedFrom.supplementalGuideIdentity.contentSha256;
+  fixtureDecision.assemblyBinding.supplementalGuideSha256 =
+    fixtureReview.generatedFrom.supplementalGuideSha256;
+  fixtureDecision.assemblyBinding.specificationSha256 = fixtureReview.generatedFrom.specificationSha256;
+  for (const entry of fixtureDecision.approvedArtifacts) {
+    const produced = (fixtureReview.artifacts ?? []).find(row => row.id === entry.id);
+    if (produced) entry.pageCount = produced.pageCount;
+  }
+  writeDecision(fixtureDecision);
+
   check('new exact approval loads without granting technical acceptance', () => {
     const a = loadMsPaidConsumerSuccessor(scratch);
     assert.equal(a.routeId, route); assert.equal(a.trackId, 'ms-nonconv');
@@ -63,18 +100,18 @@ try {
     'a claim that the superseded bytes still reproduce': d => d.historicalApprovalStatus.artifactBytesStillReproduce = true
   };
   for (const [label, mutate] of Object.entries(mutations)) {
-    const d = structuredClone(approved); mutate(d); writeDecision(d);
+    const d = structuredClone(fixtureDecision); mutate(d); writeDecision(d);
     check(`refuses ${label}`, () => assert.equal(loadMsPaidConsumerSuccessor(scratch), null));
   }
-  writeDecision(approved);
-  const evidencePath = path.join(scratch, approved.preservedEvidence[0].path);
+  writeDecision(fixtureDecision);
+  const evidencePath = path.join(scratch, fixtureDecision.preservedEvidence[0].path);
   fs.appendFileSync(evidencePath, '\n');
   check('refuses changed packet specification bytes', () => assert.equal(loadMsPaidConsumerSuccessor(scratch), null));
-  fs.copyFileSync(path.join(root, approved.preservedEvidence[0].path), evidencePath);
-  const approvedPdf = path.join(scratch, artifact(approved, 'full-en').path);
+  fs.copyFileSync(path.join(root, fixtureDecision.preservedEvidence[0].path), evidencePath);
+  const approvedPdf = path.join(scratch, artifact(fixtureDecision, 'full-en').path);
   fs.appendFileSync(approvedPdf, '\n');
   check('refuses changed approved packet bytes', () => assert.equal(loadMsPaidConsumerSuccessor(scratch), null));
-  fs.copyFileSync(path.join(root, artifact(approved, 'full-en').path), approvedPdf);
+  fs.copyFileSync(path.join(root, artifact(fixtureDecision, 'full-en').path), approvedPdf);
   check('the restored evidence and bytes load again (control for the two refusals above)',
     () => assert.ok(loadMsPaidConsumerSuccessor(scratch)));
   fs.unlinkSync(path.join(scratch, priorDecisionPath));
@@ -89,9 +126,23 @@ try {
   });
 } finally { fs.rmSync(scratch, {recursive:true, force:true}); }
 const { resolvePacketRoute } = await import('../src/lib/rcap/documents/packet-route-resolver.ts');
-check('exact successor resolves through factory and stays technically held', () => {
+/*
+ * While the approval is refused, the route is not a live factory route.
+ *
+ * This asserted factory_v2 on the premise that the approval loads. The shared
+ * Fees & Costs correction moved two of the artifacts it names, so it does not,
+ * and the resolver falls all the way back to legacy_retired. That is the
+ * product failing closed, not a regression: no approval, no factory route, and
+ * nothing sellable either way.
+ *
+ * It goes back to factory_v2 when a new owner decision names the current bytes.
+ * The control asserts BOTH halves so neither direction can drift unnoticed --
+ * the resolution follows the approval, and it is never sellable from here.
+ */
+check('the successor route follows its approval, and is never sellable from here', () => {
   const result = resolvePacketRoute({state:'MS', pathway:route.slice(3)});
-  assert.equal(result.routeKind, 'factory_v2');
+  const approvalLoads = loadMsPaidConsumerSuccessor(root) !== null;
+  assert.equal(result.routeKind, approvalLoads ? 'factory_v2' : 'legacy_retired');
   assert.equal(result.sellable, false);
 });
 check('unmigrated Mississippi route remains retired', () => {
@@ -121,9 +172,26 @@ check('new active record binds owner scope and does not invent missing technical
   const current = registry.records.filter(r => r.routeId === route && !r.supersededBy);
   assert.equal(current.length, 1);
   assert.equal(current[0].recordId, 'grade-a-ms-nonconv-paid-consumer-successor-20260920');
-  assert.equal(current[0].evidenceBindings.paidConsumerSuccessor.decisionSha256, loadMsPaidConsumerSuccessor().decisionSha256);
-  assert.equal(current[0].finalVerification.state, 'bound');
-  assert.equal(current[0].evidenceBindings.exactPaidPacketProof.currentInputsVerified, true);
+  const live = loadMsPaidConsumerSuccessor();
+  if (live) {
+    assert.equal(current[0].evidenceBindings.paidConsumerSuccessor.decisionSha256, live.decisionSha256);
+    assert.equal(current[0].finalVerification.state, 'bound');
+    assert.equal(current[0].evidenceBindings.exactPaidPacketProof.currentInputsVerified, true);
+  } else {
+    /*
+     * The approval names bytes the product no longer composes, so it is
+     * refused. The record must carry NO owner scope at all -- not a weakened
+     * one -- and must say on its face that an owner decision is what it waits
+     * for. Anything less would leave a reader to infer the hold from an
+     * absence, and an absence is exactly what a later change can fill in.
+     */
+    assert.equal(current[0].evidenceBindings.paidConsumerSuccessor, undefined,
+      'a refused approval must not appear on the record in any form');
+    assert.equal(current[0].evidenceBindings.paidConsumerSuccessorAwaitingOwnerDecision.consumerPaidAuthorized, false);
+    assert.ok(current[0].ownerDecisionPendingOnComposedArtifact,
+      'the record states the pending owner decision where the authority reads it');
+    assert.ok(current[0].ownerDecisionPendingOnComposedArtifact.movedArtifacts.length > 0);
+  }
   assert.equal(current[0].revocation.revoked, false);
   const binding = current[0].evidenceBindings.providerPublication;
   assert.equal(binding.publishedSourceSha, publication.sourceSha, 'the record names the committed publication source, not an owner-typed one');

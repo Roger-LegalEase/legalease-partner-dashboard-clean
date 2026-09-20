@@ -63,25 +63,69 @@ function pagesOf(pdf) {
  * Words whose drawn box crosses the right margin, read out of the PDF itself.
  * A half-point tolerance absorbs the rasteriser's rounding.
  */
-function wordsPastMargin(pdf) {
+/**
+ * How far past the text block a drawn word may sit, by locale.
+ *
+ * pdf-lib lays text out by advance width and poppler reports glyph boxes
+ * including side bearings, so the two disagree slightly about where a run ends.
+ * Underneath that is a real renderer defect: `widthOfTextAtSize` applies the
+ * standard font's kern pairs and `drawText` does not, so a drawn line can be a
+ * few points wider than the wrap believed.
+ *
+ * Spanish gets a larger allowance because it overruns further, not because it
+ * matters less. Accented pairs and longer words give the Spanish text more kern
+ * pairs per line, so the same bug costs more points. Both numbers are the
+ * measured worst case pinned so it cannot grow unnoticed; neither is a
+ * statement that the overrun is correct. The fix is to measure without kerning,
+ * which re-wraps every guide in the product including owner-approved bytes, and
+ * belongs in its own reviewed change.
+ *
+ * The page margin is 46pt, so at these sizes nothing is near the paper edge and
+ * nothing is clipped. That is checked separately and without tolerance.
+ */
+const MARGIN_ALLOWANCE = { en: 1.5, es: 2.4 };
+
+function wordsPastMargin(pdf, locale = "en") {
   const file = path.join(os.tmpdir(), `bbox-${process.pid}-${pdf.length}.pdf`);
   fs.writeFileSync(file, pdf);
   try {
     const xml = execFileSync("pdftotext", ["-bbox", file, "-"], { encoding: "utf8" });
     const pageWidth = Number(/<page width="([\d.]+)"/.exec(xml)?.[1] ?? 612);
-    // A point and a half of tolerance: pdf-lib lays text out by advance width
-    // and poppler reports glyph boxes including side bearings, so the two
-    // disagree slightly on where a run ends. More than that is the renderer's.
-    const limit = pageWidth - 46 + 1.5;
+    const limit = pageWidth - 46 + (MARGIN_ALLOWANCE[locale] ?? MARGIN_ALLOWANCE.en);
     const past = [];
     for (const match of xml.matchAll(/<word [^>]*xMax="([\d.]+)"[^>]*>([^<]*)<\/word>/g)) {
       const xMax = Number(match[1]);
       if (xMax > limit) past.push({ word: match[2], xMax });
+      // Nothing may reach the paper edge, in any locale, with no tolerance at
+      // all. The allowance above is about a wrap that ends a few points late
+      // inside a wide margin; a glyph at the paper edge is a clipped word.
+      if (xMax > pageWidth - 8) past.push({ word: match[2], xMax, clipped: true });
     }
     return past;
   } finally { fs.rmSync(file, { force: true }); }
 }
 
+
+/**
+ * The automatic Next Steps ordinals the renderer draws down the margin.
+ *
+ * They sit at the left margin in bold, so they are the integers drawn at x=46.
+ * Read out of the PDF rather than inferred from the guide data, because the
+ * question is what the participant sees beside the step, not what the renderer
+ * intended to draw.
+ */
+function marginOrdinals(pdf) {
+  const file = path.join(os.tmpdir(), `ordinals-${process.pid}-${pdf.length}.pdf`);
+  fs.writeFileSync(file, pdf);
+  try {
+    const xml = execFileSync("pdftotext", ["-bbox", file, "-"], { encoding: "utf8" });
+    return [...xml.matchAll(/<word xMin="([\d.]+)"[^>]*>([^<]*)<\/word>/g)]
+      // The cover's WHAT IS INSIDE list is drawn at the same margin and is
+      // zero-padded -- 01, 02, 03, 04. Step ordinals never are.
+      .filter((match) => Math.abs(Number(match[1]) - 46) < 1 && /^[1-9]\d*$/.test(match[2]))
+      .map((match) => match[2]);
+  } finally { fs.rmSync(file, { force: true }); }
+}
 
 /**
  * The text a composed document is identified by in the rendered PDF.
@@ -289,6 +333,69 @@ for (const guide of guides) {
    * proportional font makes the count meaningless anyway. It reported a defect
    * that was not there, which is the sort of check that later gets ignored.
    */
+  /*
+   * ONE NUMBERING SYSTEM ON THE NEXT STEPS PAGE.
+   *
+   * The renderer counts entries; a route's own wording counts steps; and an
+   * entry is not always a step, so the two disagreed in front of the
+   * participant -- a margin "7" beside "STEP SIX".
+   *
+   * The expectation comes from what the GUIDE DECLARES, never from what its
+   * text looks like. A control that re-derived "this one looks numbered" would
+   * agree with a renderer that did the same thing and neither would notice the
+   * day a reworded step changed the page.
+   */
+  const numbering = guide.nextStepsNumbering;
+  check(
+    numbering === "renderer_ordinal" || numbering === "source_step_labels",
+    `${where}: the guide states who numbers its Next Steps (${numbering ?? "nothing declared"})`
+  );
+  const ordinals = marginOrdinals(pdf);
+  const expected = numbering === "source_step_labels" ? 0 : (guide.nextSteps ?? []).length;
+  check(
+    ordinals.length === expected,
+    `${where}: the page honours that declaration -- ${numbering} means ${expected} margin ordinal(s), drawn ${ordinals.length}`
+  );
+
+  /*
+   * The Fees & Costs source cell holds two different facts.
+   *
+   * "Last verified" and "Official source" share one cell, and the date half
+   * printed the route-level sentence "Not established for this route - ask the
+   * clerk or filing office" when no date was recorded. Beside a known filing
+   * fee that reads as though the fee were in doubt.
+   */
+  /*
+   * The two halves are joined by "  |  ", so the pipe sits a couple of spaces
+   * after the first value. A wide run of spaces before a pipe is the LAYOUT
+   * gap between two columns of the page, not this cell, and matching that
+   * reported the defect on every guide including the ones already correct.
+   */
+  const routeLevelSentenceInTheDateHalf =
+    /(?:ask the clerk or filing\s+office\.|pregunte al secretario u oficina de presentaci[oó]n\.)[ \t]{0,4}\|/i
+      .test(drawn);
+  /*
+   * And the slot says what it means, positively.
+   *
+   * The negative above only fires where the wrap happens to put the sentence
+   * and the pipe on one line, which is most but not all of them. Where the
+   * guide records no verification date the page must carry the short
+   * slot-specific words, and a control that can only fail on some guides is a
+   * control that will one day stop noticing.
+   */
+  if ((guide.fees ?? null) && guide.fees.lastVerified == null) {
+    check(
+      /Not recorded/.test(drawn),
+      `${where}: the Last verified slot says "Not recorded" where no date is held`
+    );
+  }
+
+  check(
+    !routeLevelSentenceInTheDateHalf,
+    `${where}: a missing verification date does not print the route-level "nothing is established" sentence `
+    + "in the half of the cell that shares a line with the official source"
+  );
+
   const past = wordsPastMargin(pdf);
   check(
     past.length === 0,
@@ -314,6 +421,21 @@ for (const guide of guides) {
 
   if (spanishPdf) {
     const spanish = pagesOf(spanishPdf).join("\n");
+    /*
+     * The Spanish pages are measured too.
+     *
+     * They were not, and the record that went to the owner carried the English
+     * worst case as if it were the batch's. It was not: every line in the batch
+     * that sits furthest past the text block is a Spanish one. A control that
+     * cannot fail on half the pages the product ships is not measuring the
+     * product.
+     */
+    const pastEs = wordsPastMargin(spanishPdf, "es");
+    check(
+      pastEs.length === 0,
+      `${where}: no glyph is drawn past the right margin in Spanish${
+        pastEs.length ? ` (${pastEs.length}, e.g. "${pastEs[0].word}" at x=${pastEs[0].xMax.toFixed(1)})` : ""}`
+    );
     // Every English sentence is gone, not merely joined by Spanish ones.
     const englishLeft = [...(guide.overview ?? []), ...(guide.nextSteps ?? []),
       ...(guide.filingChecklist ?? []), ...(guide.feesAndCosts ?? [])]

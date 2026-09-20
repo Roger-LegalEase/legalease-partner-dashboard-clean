@@ -521,6 +521,35 @@ export function composeGradeAPacket(
     );
   }
 
+  /*
+   * Facts the ROUTE already decides, written from the route rather than asked.
+   *
+   * Mississippi's additional-misdemeanour family is the case this exists for.
+   * One specification serves two exact routes, and which Code section the
+   * petition is brought under follows from which of them the matter is on --
+   * Sec. 9-11-15(3) for the justice court, Sec. 21-23-7(6) for the municipal
+   * court. The specification used to print that as a ruled blank labelled
+   * "This petition is brought under Miss. Code Ann. Sec. ____" and leave the
+   * participant to copy the citation out of the guide, while the same
+   * specification's own final-verification requirements said a client-supplied
+   * section never chooses the route. Both cannot be true, and the one that has
+   * to give is the blank: the server knows the answer before the packet is
+   * composed.
+   *
+   * The derived value OVERWRITES anything the caller supplied, deliberately. A
+   * matter that arrives carrying section_branch is either repeating what the
+   * route already says or contradicting it, and a client must not be able to
+   * put the other section on a court filing.
+   *
+   * The map is keyed by exact route, so it reaches only routes the
+   * specification already names; the membership guard above has already refused
+   * anything else.
+   */
+  const derivedForRoute = specification.routeDerivedFacts?.[matter.routeKey];
+  if (derivedForRoute && Object.keys(derivedForRoute).length > 0) {
+    matter = { ...matter, facts: { ...matter.facts, ...derivedForRoute } };
+  }
+
   // An outside filing-readiness task is not a question the participant has to
   // answer before we will build their packet. We already know a certified
   // disposition has to be fetched; asking them to confirm they have not
@@ -627,7 +656,19 @@ function composeSection(
   // refusal: the composer does not know what the adopted page draws there, and
   // guessing a ruled line is how one shape silently becomes every shape.
   const fieldItem = (field: string) => {
-    const label = section.fieldLabels?.[field] ?? captionLabel(field);
+    /*
+     * A label may name a fact, the same way a body or a value template may.
+     *
+     * Mississippi's certificate of service is why. Its label read "Prosecuting
+     * authority - the MUNICIPAL PROSECUTING ATTORNEY on the Sec. 21-23-7(6)
+     * branch, or the equivalent prosecutor for the justice court on the Sec.
+     * 9-11-15(3) branch", so a page filed with the court presented both
+     * branches and left the participant to work out which was theirs -- from a
+     * fact the route already decides. A label that resolves a fact says one
+     * thing to one participant. No label in the product used templating before
+     * this, so nothing else moves.
+     */
+    const label = fill(section.fieldLabels?.[field] ?? captionLabel(field), matter);
     const treatment = section.fieldTreatments?.[field]
       ?? (blanks.has(field) ? undefined : "value");
     if (treatment === "ruled_blank") return { label, value: "", blank: true, completedBy: "participant" as const };

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "rcap-approved-artifact-move/v1",
+  "recordId": "MS-NONCONVICTION-ARTIFACT-MOVE-20260920",
+  "preparedOn": "2026-09-20",
+  "generatedBy": "the Item 13B correction batch",
+  "createsApproval": false,
+  "approvesMovedBytes": false,
+  "opensAnyRoute": false,
+  "productionAuthorized": false,
+  "awaitingOwnerDecision": true,
+  "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "supersedes": {
+    "decisionId": "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920",
+    "path": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json",
+    "sha256": "be3be9979f69cb01f5ecf5ec003044401b90a48c3c6efb9a0efa514bce647502",
+    "decisionMutated": false,
+    "note": "The 2026-09-20 approval is untouched and still names the bytes Roger approved. It simply no longer describes what the product composes, so loadMsPaidConsumerSuccessor refuses it and this route has no paid consumer authority until the owner decides the new bytes."
+  },
+  "cause": {
+    "change": "The shared §7 guide renderer stopped printing the route-level sentence \"Not established for this route - ask the clerk or filing office\" in the Last verified half of the Fees & Costs source cell, and prints \"Not recorded\" (\"No registrado\") there instead. The official source beside it is unchanged.",
+    "why": "Last verified and Official source are two different facts sharing one cell. Printing a route-level sentence in the date half read, next to Wyoming’s known $300.00 filing fee, as if the fee were in doubt.",
+    "reach": "Every guide in the product, because the renderer is shared. Only the two Mississippi non-conviction artifacts that CARRY a guide moved; the court-only packet carries none and did not move.",
+    "participantFacingChange": "Two words in one cell. No fee, source, instruction, deadline, stop condition or legal statement changed."
+  },
+  "artifacts": [
+    {
+      "id": "full-en",
+      "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf",
+      "variant": "full",
+      "locale": "en",
+      "pageCount": 16,
+      "from": "518f12411df4091927642cd6a0bd6c5cede0833b793e16ab356fef96fbb5408d",
+      "to": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd",
+      "moved": true
+    },
+    {
+      "id": "full-es",
+      "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
+      "variant": "full",
+      "locale": "es",
+      "pageCount": 17,
+      "from": "53d1577b1dc0a023fde8338edb80e16ab36282d827c602f99daf89aaa51386c3",
+      "to": "28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04",
+      "moved": true
+    },
+    {
+      "id": "court-only",
+      "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf",
+      "variant": "court_only",
+      "locale": "en",
+      "pageCount": 8,
+      "from": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe",
+      "to": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe",
+      "moved": false
+    }
+  ],
+  "ownerDecisionNeeded": "Approve, at the Item 13B gate, the three Mississippi non-conviction artifacts at their current digests, or reject the Fees & Costs slot correction and restore the previous copy."
+}
