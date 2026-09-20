@@ -94,6 +94,42 @@ export type PacketSpecificationDocument = {
   conditionDescription?: string;
   includeWhen?: string;
   manifestComponentId?: string;
+  /**
+   * Where this component's text came from, when it was carried into the
+   * specification by a derivation repair rather than authored here.
+   *
+   * Per COMPONENT, not per family. A family whose shipping bytes drifted after
+   * adoption may still be a safe source for one component and an unsafe source
+   * for another: a characterisation proves what changed, and a change elsewhere
+   * in the packet certifies nothing about this page. So the binding records the
+   * adopted digest, what was used, and — where the family drifted — the evidence
+   * that this particular component's substance was untouched.
+   *
+   * `componentEquivalence`:
+   *   exact_adopted_bytes    the source reproduces the adopted artifact exactly,
+   *                          so no per-component argument is needed.
+   *   untouched_by_drift     the family drifted, and the recorded change does not
+   *                          reach this component at all.
+   *   drift_outside_substance the recorded change reaches this component but not
+   *                          the substance carried — a machine footer, a page
+   *                          break — and the record says so in terms.
+   *   recovered_from_adopted the drift reaches this component's substance, so the
+   *                          text was recovered from the adopted version rather
+   *                          than copied from current bytes.
+   *
+   * A characterisation is evidence about what changed. It is never an owner
+   * re-approval, and nothing here claims one.
+   */
+  transcriptionProvenance?: {
+    adoptedDigest: string;
+    sourceUsed: string;
+    componentEquivalence:
+      | "exact_adopted_bytes"
+      | "untouched_by_drift"
+      | "drift_outside_substance"
+      | "recovered_from_adopted";
+    evidence: string;
+  };
   /** One rendered document may intentionally cover multiple manifest components. */
   manifestComponentIds?: string[];
   sections: PacketSpecificationSection[];
@@ -310,6 +346,42 @@ export type DerivedPacketSpecification = {
     requirement?: "required" | "conditional";
     officialFormId?: string | null;
     manifestComponentId?: string;
+  /**
+   * Where this component's text came from, when it was carried into the
+   * specification by a derivation repair rather than authored here.
+   *
+   * Per COMPONENT, not per family. A family whose shipping bytes drifted after
+   * adoption may still be a safe source for one component and an unsafe source
+   * for another: a characterisation proves what changed, and a change elsewhere
+   * in the packet certifies nothing about this page. So the binding records the
+   * adopted digest, what was used, and — where the family drifted — the evidence
+   * that this particular component's substance was untouched.
+   *
+   * `componentEquivalence`:
+   *   exact_adopted_bytes    the source reproduces the adopted artifact exactly,
+   *                          so no per-component argument is needed.
+   *   untouched_by_drift     the family drifted, and the recorded change does not
+   *                          reach this component at all.
+   *   drift_outside_substance the recorded change reaches this component but not
+   *                          the substance carried — a machine footer, a page
+   *                          break — and the record says so in terms.
+   *   recovered_from_adopted the drift reaches this component's substance, so the
+   *                          text was recovered from the adopted version rather
+   *                          than copied from current bytes.
+   *
+   * A characterisation is evidence about what changed. It is never an owner
+   * re-approval, and nothing here claims one.
+   */
+  transcriptionProvenance?: {
+    adoptedDigest: string;
+    sourceUsed: string;
+    componentEquivalence:
+      | "exact_adopted_bytes"
+      | "untouched_by_drift"
+      | "drift_outside_substance"
+      | "recovered_from_adopted";
+    evidence: string;
+  };
     sections?: PacketSpecificationSection[];
   }>;
   /** Exact rendered bytes used as technical evidence; the name deliberately grants no approval. */

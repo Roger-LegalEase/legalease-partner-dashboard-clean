@@ -181,7 +181,29 @@
       "consequenceForTheTranscription": "Neither hop touches the three components whose text was carried. FIX07 changed a route footer on the proposed order, which is not pleading text; FIX72 changed one bullet on referral_instructions, which is a component deliberately left untranscribed because it already composed from a top-level specification block. So the petition, the proposed order and the declaration are the adopted substance.",
       "honestResidual": "Both hops are characterised and neither is an owner re-approval. Nevada's shipping-artifact digest still differs from the adopted one, and the adoption's own condition is that such a change requires re-review. That re-review is not performed or claimed here."
     },
-    "control": "scripts/verify-transcription-provenance.mjs. Classifies every family carrying approved_shipping_component and every family already transcribed, prints the digest movement and the records that explain it, and fails if a family with uncharacterised drift has transcribed text in its specification. Mutation-proven: making Nevada's drift look unexplained while its text is transcribed reds it twice."
+    "control": "scripts/verify-transcription-provenance.mjs. Classifies every family carrying approved_shipping_component and every family already transcribed, prints the digest movement and the records that explain it, and fails if a family with uncharacterised drift has transcribed text in its specification. Mutation-proven: making Nevada's drift look unexplained while its text is transcribed reds it twice.",
+    "refinement_perComponentNotPerFamily": {
+      "rule": "drift_characterised at family level does not authorize the current build host as a transcription source. A characterisation is evidence about what changed; a change elsewhere in the packet certifies nothing about the page being copied. The decision is per component.",
+      "perComponentStates": {
+        "exact_adopted_bytes": "the family's source reproduces the adopted artifact exactly, so no per-component argument is needed. Available only where the family is matches_adopted.",
+        "untouched_by_drift": "the family drifted and the recorded change does not reach this component at all. The record naming what changed has to say so.",
+        "drift_outside_substance": "the recorded change reaches this component but not the substance carried — a machine footer, a page break — and the record says so in terms.",
+        "recovered_from_adopted": "the drift reaches this component's substance, so the text was recovered from the adopted version rather than copied from current bytes. Always available, including where drift is uncharacterised."
+      },
+      "recordedWhere": "packet specification, per document, as transcriptionProvenance { adoptedDigest, sourceUsed, componentEquivalence, evidence }.",
+      "enforcement": "verify-transcription-provenance.mjs now audits every component this program carries in: it must record a binding, the equivalence it claims must be one its family's state can support, the named adopted digest must be the one the adoption pins, and any claim short of exact adopted bytes must argue for itself. Mutation-proven three ways: removing a binding reds it; a component in a drifted family claiming exact adopted bytes reds it twice; and asserting untouched with no argument reds it.",
+      "scope": "The covered set is this program's own work — the eight families that carried approved_shipping_component, plus Nevada, which was transcribed first. Specification text predating the program (MS non-conviction, ND, VA) is deliberately out of scope: this control governs what the program carries in, and claiming provenance for text it did not carry would assert something nobody established.",
+      "nevadaAppliedRetroactively": {
+        "why": "Nevada is the precedent every other family will follow, so its own components were bound rather than grandfathered.",
+        "five_untouched_by_drift": "detection_and_routing, branch_screen, discharge_type_screen, primary_filing, declaration_and_verification. FIX07 names proposed_order only; FIX72 names the referral page only. Neither names these.",
+        "one_drift_outside_substance": "proposed_order is the single component a post-adoption change reaches, so it is not claimed untouched. FIX07 removed the internal route footer, which the build host appends after all component text and outside the pleading substance; the completion note, caption, ordering paragraphs, agency list and subsection 4 sentence are untouched, and FIX07 records in terms that no legal theory, component, filing destination, fee, service statement or substantive instruction changed."
+      }
+    },
+    "howTheEightProceed": {
+      "five_matches_adopted": "DC actual-innocence, GA pardon-J7, GA SB-288, SD SIS, WY 1502 — the current host reproduces the adopted artifact, so it may supply the text and each component records exact_adopted_bytes.",
+      "three_drifted": "IL mistaken-identity, MS 9-11-15-3, MS 99-19-71-1 — the current host may supply a component only where that component is proven untouched or the change is proven outside the substance carried, each recorded with its evidence. Where neither is established, recover the component from the adopted version. A family-level characterisation is not a pass for the whole packet.",
+      "alwaysAndRegardless": "Preserve adopted component membership and requirement state independently of text recovery, and draft no missing legal substance. This remains 8 family derivation repairs, not 36 handcrafted court documents."
+    }
   },
   "denominator": {
     "statement": "Eight caption treatments are recorded on authority: SEVEN full_independent_caption and ONE supporting_page. Both numbers are true of this population and mean different things — seven components carry their own caption, and one is an approved supporting page that carries none.",

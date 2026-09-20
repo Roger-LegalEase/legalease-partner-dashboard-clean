@@ -223,6 +223,104 @@ check(
   "and confines it to the proposed order, not to the petition or the declaration"
 );
 
+// ---------------------------------------------------------------------------
+// 6. Per COMPONENT, not per family.
+//
+// `drift_characterised` at family level does not authorize the current build
+// host as a source. A characterisation proves what changed; a change elsewhere
+// in the packet certifies nothing about this page. So every component carried
+// in by this derivation-repair program records its own binding, and the
+// equivalence it claims has to be available given its family's state.
+//
+// The covered set is this program's own work, named explicitly. It is the eight
+// families that carried approved_shipping_component plus Nevada, which was
+// transcribed first. Specification text that predates the program — Mississippi
+// non-conviction's, North Dakota's, Virginia's — is deliberately out of scope:
+// this control governs what the program carries in, and claiming provenance for
+// text it did not carry would be asserting something nobody established.
+// ---------------------------------------------------------------------------
+
+const TRANSCRIPTION_PROGRAM = new Set([
+  "NV:probation-or-specialty-court-dismissal-set-aside-sealing",
+  "DC:dc_actual_innocence_expungement_16_803",
+  "GA:restriction-and-sealing-of-a-pardoned-felony",
+  "GA:sb-288-misdemeanor-conviction-restriction-and-sealing",
+  "IL:criminal-identity-theft-mistaken-identity-relief",
+  "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+  "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+  "SD:suspended-imposition-of-sentence-sealing",
+  "WY:felony-conviction-expungement-w-s-7-13-1502"
+]);
+
+const EQUIVALENCE_AVAILABLE_IN = {
+  matches_adopted: new Set(["exact_adopted_bytes", "recovered_from_adopted"]),
+  drift_characterised: new Set(["untouched_by_drift", "drift_outside_substance", "recovered_from_adopted"]),
+  drift_uncharacterised: new Set(["recovered_from_adopted"]),
+  not_in_adoption: new Set(["recovered_from_adopted"])
+};
+
+const hasText = (section) => ["body", "assertions"].some((marker) => {
+  const value = section[marker];
+  return typeof value === "string" ? value.trim().length > 0 : Array.isArray(value) && value.length > 0;
+});
+
+let componentsChecked = 0;
+const missingBinding = [];
+const impossibleClaim = [];
+const thinEvidence = [];
+for (const verdict of verdicts) {
+  if (!TRANSCRIPTION_PROGRAM.has(verdict.spec.routeKey)) continue;
+  for (const document of verdict.spec.documents ?? []) {
+    const carriesText = (document.sections ?? []).some(hasText);
+    const awaiting = (document.sections ?? []).some((section) => section.kind === "approved_shipping_component");
+    if (!carriesText || awaiting) continue;
+    componentsChecked += 1;
+    const binding = document.transcriptionProvenance;
+    const where = `${verdict.spec.routeKey}|${document.documentId}`;
+    if (!binding) { missingBinding.push(where); continue; }
+    const allowed = EQUIVALENCE_AVAILABLE_IN[verdict.state] ?? new Set();
+    if (!allowed.has(binding.componentEquivalence)) {
+      impossibleClaim.push(`${where} claims ${binding.componentEquivalence} while its family is ${verdict.state}`);
+    }
+    if (binding.componentEquivalence !== "exact_adopted_bytes"
+      && (typeof binding.evidence !== "string" || binding.evidence.trim().length < 80)) {
+      thinEvidence.push(where);
+    }
+    if (binding.adoptedDigest !== verdict.adoptedSha) {
+      impossibleClaim.push(`${where} names adopted digest ${String(binding.adoptedDigest).slice(0, 16)}… and the adoption pins ${String(verdict.adoptedSha).slice(0, 16)}…`);
+    }
+  }
+}
+
+check(componentsChecked > 0, `components carried in by this program are audited (${componentsChecked})`);
+check(
+  missingBinding.length === 0,
+  `every carried component records where its text came from${missingBinding.length ? `; missing on ${missingBinding.join(", ")}` : ""}`
+);
+check(
+  impossibleClaim.length === 0,
+  `no component claims an equivalence its family's state cannot support${impossibleClaim.length ? `: ${impossibleClaim.join("; ")}` : ""}`
+);
+check(
+  thinEvidence.length === 0,
+  `every equivalence short of exact adopted bytes argues for itself${thinEvidence.length ? `; thin on ${thinEvidence.join(", ")}` : ""}`
+);
+
+// The refinement that matters for Illinois and Mississippi: in a drifted
+// family, a component may not simply be declared untouched. Something has to
+// say so, and the check above requires the argument. This states the rule once
+// more where it is easiest to read.
+const inDriftedFamilies = verdicts
+  .filter((verdict) => verdict.state !== "matches_adopted" && TRANSCRIPTION_PROGRAM.has(verdict.spec.routeKey))
+  .flatMap((verdict) => (verdict.spec.documents ?? [])
+    .filter((document) => document.transcriptionProvenance)
+    .map((document) => ({ where: `${verdict.spec.routeKey}|${document.documentId}`, binding: document.transcriptionProvenance })));
+const unargued = inDriftedFamilies.filter(({ binding }) => binding.componentEquivalence === "exact_adopted_bytes");
+check(
+  unargued.length === 0,
+  `no component in a drifted family claims exact adopted bytes${unargued.length ? `: ${unargued.map((row) => row.where).join(", ")}` : ""}`
+);
+
 console.log(`\n${failures.length === 0 ? "PASS" : "FAIL"} — ${failures.length} failing check(s)`);
 if (failures.length > 0) {
   for (const failure of failures) console.log(`  - ${failure}`);
