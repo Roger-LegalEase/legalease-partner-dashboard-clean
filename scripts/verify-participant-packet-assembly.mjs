@@ -387,23 +387,65 @@ if (guided) {
  * a transient request -- the worker has no session and a repeat download has to
  * reproduce bytes recorded long before.
  */
-const { resolveDeliveryLocale, recordedDeliveryLocale } =
+const { resolveDeliveryLocale, recordedDeliveryLocale, DeliveryLocaleUnavailableError } =
   await import("../src/lib/rcap/render/participant-packet-assembly.ts");
 
+const resolves = (refs) => {
+  try { return { ok: true, locale: resolveDeliveryLocale(refs) }; }
+  catch (error) { return { ok: false, error }; }
+};
+
 check(
-  resolveDeliveryLocale({ attribution: { locale: "es" } }) === "es",
-  "the delivery locale is read from the matter's durable claim attribution"
+  resolves({ attribution: { locale: "en" } }).locale === "en"
+  && resolves({ attribution: { locale: "es" } }).locale === "es",
+  "a durable en or es attribution resolves to that language"
 );
+
+/*
+ * A regioned tag is not an unsupported one. `normalizeLocale` compares against
+ * the literal string "es", so it would have called `es-MX` English -- which is
+ * the same participant harm by a different route.
+ */
 check(
-  resolveDeliveryLocale({ attribution: { locale: "fr" } }) === "en"
-  && resolveDeliveryLocale({}) === "en"
-  && resolveDeliveryLocale(undefined) === "en",
-  "an unsupported or absent attribution locale normalises to English rather than throwing"
+  resolves({ attribution: { locale: "es-MX" } }).locale === "es"
+  && resolves({ attribution: { locale: "EN_US" } }).locale === "en",
+  "a regioned tag resolves by its primary subtag rather than being read as English"
 );
+
+/*
+ * NEW GENERATION FAILS CLOSED. This is the correction: routing absent,
+ * malformed and unsupported alike through `normalizeLocale` reintroduced the
+ * silent English default one layer below the one that was removed.
+ */
+for (const [label, refs] of [
+  ["an unsupported language", { attribution: { locale: "fr" } }],
+  ["no attribution at all", {}],
+  ["no artifact refs", undefined],
+  ["a non-string locale", { attribution: { locale: 7 } }],
+  ["an empty locale", { attribution: { locale: "" } }]
+]) {
+  const outcome = resolves(refs);
+  check(
+    !outcome.ok && outcome.error instanceof DeliveryLocaleUnavailableError,
+    `new generation refuses ${label} rather than choosing English${
+      outcome.ok ? ` (it answered "${outcome.locale}")` : ""}`
+  );
+}
+
+/*
+ * Replay stays lenient, and that is not an inconsistency. Before an artifact
+ * exists, guessing hands someone the wrong language; after it exists, the
+ * language is a historical fact and refusing would take a packet away from the
+ * participant who bought it.
+ */
 check(
   recordedDeliveryLocale({ packetLocale: "es" }) === "es"
   && recordedDeliveryLocale({ attribution: { locale: "es" } }) === "en",
   "a recorded artifact reports the locale it was RENDERED in, not the matter's current one"
+);
+check(
+  recordedDeliveryLocale({}) === "en" && recordedDeliveryLocale(undefined) === "en",
+  "an artifact predating packetLocale replays as English, which is what it was rendered in"
 );
 
 /*

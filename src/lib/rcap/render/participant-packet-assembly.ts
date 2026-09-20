@@ -213,12 +213,45 @@ export async function assembleParticipantPacket(
  * value rather than asking again -- otherwise a participant switching language
  * after purchase would make their own stored packet fail its integrity check.
  */
+export class DeliveryLocaleUnavailableError extends Error {
+  constructor(readonly claimed: unknown) {
+    super(
+      `this matter records no delivery language that can be rendered (attribution.locale = `
+      + `${JSON.stringify(claimed)}). A new packet is rendered in the language the participant was screening in, `
+      + "and choosing English on its behalf is how a Spanish-speaking participant receives an English packet with "
+      + "nothing reporting it. The claim writes this from consumer_pending_screening_results.locale; a matter "
+      + "that carries none needs that recorded before a packet is generated for it."
+    );
+    this.name = "DeliveryLocaleUnavailableError";
+  }
+}
+
+/**
+ * FAIL CLOSED. This is the NEW-ARTIFACT path.
+ *
+ * It used to end in `normalizeLocale`, which answers "en" for absent,
+ * malformed and unsupported alike -- so a matter whose claim never wrote a
+ * locale, or wrote `fr`, produced an English packet indistinguishable from one
+ * a participant chose. That is the exact failure the locale binding was added
+ * to end, reintroduced one layer down.
+ *
+ * `normalizeLocale` stays as it is: answering "en" for anything unrecognised is
+ * right for interface copy, where the alternative is a blank page. It is wrong
+ * here, where the alternative is a refusal someone can act on.
+ *
+ * A REGIONED TAG IS NOT UNSUPPORTED. `es-MX` is Spanish, and
+ * `normalizeLocale` would have called it English, because it compares against
+ * the literal string "es". The primary subtag decides.
+ */
 export function resolveDeliveryLocale(artifactRefs: Record<string, unknown> | undefined | null): GuideLocale {
   const attribution = artifactRefs?.attribution;
   const claimed = attribution && typeof attribution === "object"
     ? (attribution as { locale?: unknown }).locale
     : undefined;
-  return normalizeLocale(typeof claimed === "string" ? claimed : null);
+  if (typeof claimed !== "string") throw new DeliveryLocaleUnavailableError(claimed);
+  const primary = claimed.trim().toLowerCase().split(/[-_]/)[0];
+  if (primary !== "en" && primary !== "es") throw new DeliveryLocaleUnavailableError(claimed);
+  return primary;
 }
 
 /**
@@ -228,6 +261,14 @@ export function resolveDeliveryLocale(artifactRefs: Record<string, unknown> | un
  * predates this field, and those were all rendered in English -- so English is
  * the correct answer for them, and it is a statement about the past rather than
  * a default for the present.
+ *
+ * DELIBERATELY LENIENT, UNLIKE `resolveDeliveryLocale`.
+ *
+ * The two answer different questions. That one is asked before an artifact
+ * exists, where guessing hands someone the wrong language; this one is asked
+ * about an artifact that already exists, where the language is a historical
+ * fact and refusing would take a packet away from the participant who bought
+ * it. A repeat download is not the place to discover a policy.
  */
 export function recordedDeliveryLocale(artifactRefs: Record<string, unknown> | undefined | null): GuideLocale {
   const recorded = artifactRefs?.packetLocale;

@@ -67,6 +67,52 @@ const { SUPPLEMENTAL_GUIDE_SECTIONS, GUIDE_PROVENANCE_KINDS, allGuideEntries } =
   await import("../src/lib/rcap/supplemental/guide-contract.ts");
 const { packetSpecificationFor } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
 
+/**
+ * Which route obligations a superseded component renders, and whether the guide
+ * covers them.
+ *
+ * Hoisted so the controls at the bottom can drive it on fixtures. The maps are
+ * the composer's own section-kind dispatch, read off `composeSection`.
+ */
+const SECTION_SOURCE_FIELDS = {
+  filing_destination: "filingDestination",
+  fee_and_waiver: "feeAndWaiver",
+  service_and_notice: "serviceAndNotice",
+  copy_requirements: "copyRequirements",
+  post_filing_timeline: "postFilingTimeline",
+  hearing_and_objection_stops: "hearingAndObjectionStops",
+  participant_checklist: "participantChecklist",
+  participant_checklist_summary: "participantChecklist",
+  attachments: "attachments"
+};
+
+/**
+ * Section kinds that draw no route obligation: their substance is either the
+ * literal body the line check already measures, or packet chrome the guide
+ * renderer draws itself from the composed packet.
+ */
+const NO_OBLIGATION = new Set(["static", "contents_list", "caption", "signature_block"]);
+
+function obligationCoverage(component, guide, entries) {
+  const kinds = (component.sections ?? []).map((section) => section.kind ?? "static");
+  const unmapped = [...new Set(kinds)].filter((kind) =>
+    !(kind in SECTION_SOURCE_FIELDS) && !NO_OBLIGATION.has(kind));
+  const citations = [
+    ...entries.map((entry) => String(entry.provenance?.cite ?? "")),
+    ...(guide.carriedElsewhere ?? []).flatMap((row) => [String(row.destination ?? ""), String(row.why ?? "")]),
+    ...(guide.editedFromAdopted ?? []).map((row) => String(row.supportMovedTo ?? "")),
+    // The filing strip and the fee panel are entries too, and they carry
+    // exactly the obligations a participant most needs.
+    ...Object.values(guide.filingStrip ?? {}).map((field) => String(field?.provenance?.cite ?? "")),
+    ...(guide.documentDetails ?? []).map((row) => String(row.instruction?.provenance?.cite ?? "")),
+    String(guide.fees?.officialSource?.provenance?.cite ?? ""),
+    ...Object.values(guide.fees?.waiver ?? {}).map((field) => String(field?.provenance?.cite ?? "")),
+    ...(guide.fees?.breakdown ?? []).map((row) => String(row.whenHowPaid?.provenance?.cite ?? ""))
+  ].join("\n");
+  const obligations = [...new Set(kinds.map((kind) => SECTION_SOURCE_FIELDS[kind]).filter(Boolean))];
+  return { kinds, unmapped, obligations, uncovered: obligations.filter((field) => !citations.includes(field)) };
+}
+
 const failures = [];
 const check = (passed, message) => {
   console.log(`${passed ? "ok  " : "FAIL"} ${message}`);
@@ -228,6 +274,38 @@ for (const guide of guides) {
         `${where}: every line of ${component.documentId} arrives somewhere${
           dropped.length ? ` (${dropped.length} dropped, first: "${dropped[0].slice(0, 60)}…")` : ""}`
       );
+      /*
+       * THE LINE CHECK ABOVE CANNOT SEE A COMPOSED PAGE.
+       *
+       * It reads `section.body`, and most of what a filing-instructions page
+       * tells a participant is not in a body. Mississippi non-conviction is the
+       * clearest case: eight sections, seven of them composed at render time
+       * from route data, exactly one literal paragraph. A guide could supersede
+       * that page, drop where to file, the fee position, service, copies, the
+       * timeline, the stop conditions and the whole pre-filing checklist, and
+       * the drop check would pass on one line.
+       *
+       * So the obligations are measured too, by the field each section draws
+       * from. Coverage is NOT verbatim -- a guide is written for the
+       * participant, not transcribed -- it is that some entry names the field
+       * as its source, or that a `carriedElsewhere` row says where the material
+       * went. An unrecognised section kind fails rather than being skipped,
+       * because a kind nobody mapped is an obligation nobody measured.
+       */
+      const { kinds, unmapped, obligations, uncovered } = obligationCoverage(component, guide, entries);
+      check(
+        unmapped.length === 0,
+        `${where}: every section kind on ${component.documentId} is one this control can measure${
+          unmapped.length ? ` (${unmapped.join(", ")} are not)` : ` (${kinds.length} sections)`}`
+      );
+
+      check(
+        uncovered.length === 0,
+        `${where}: every obligation ${component.documentId} renders is covered by a sourced guide entry${
+          uncovered.length ? ` (${uncovered.join(", ")} ${uncovered.length === 1 ? "is" : "are"} not)`
+            : ` (${obligations.length}: ${obligations.join(", ")})`}`
+      );
+
       const vagueEdits = (guide.editedFromAdopted ?? []).filter((row) =>
         !row.why || row.why.length < 40 || !row.supportMovedTo);
       check(
@@ -379,6 +457,74 @@ for (const guard of KNOWN_FALSE_ASSERTIONS) {
       offending.length ? `: "${offending[0].text.slice(0, 70)}…"` : ""}`
   );
 }
+
+/*
+ * OBLIGATION COVERAGE: the pair that shows the check discriminates.
+ *
+ * Both halves use the same synthetic component -- a composed filing-instructions
+ * page with no literal body at all, which is the shape that defeated the
+ * line-by-line drop check. They differ in exactly one thing: whether any guide
+ * entry names `feeAndWaiver` as its source.
+ */
+const SYNTHETIC_COMPONENT = {
+  documentId: "synthetic-filing-instructions",
+  sections: [
+    { heading: "Where this packet goes", kind: "filing_destination" },
+    { heading: "Confirm the fee or waiver", kind: "fee_and_waiver" },
+    { heading: "Before you file", kind: "participant_checklist" }
+  ]
+};
+const coveredEntries = [
+  { text: "File with the clerk of the court that handled the case.",
+    provenance: { kind: "route_data", cite: "SPEC.json filingDestination.statement" } },
+  { text: "Ask the clerk whether a filing fee applies.",
+    provenance: { kind: "route_data", cite: "SPEC.json feeAndWaiver.statement" } },
+  { text: "Check the caption against your records before you file.",
+    provenance: { kind: "route_data", cite: "SPEC.json participantChecklist.confirm-caption" } }
+];
+const droppedFee = coveredEntries.filter((entry) => !entry.provenance.cite.includes("feeAndWaiver"));
+
+const coveredResult = obligationCoverage(SYNTHETIC_COMPONENT, { carriedElsewhere: [] }, coveredEntries);
+const droppedResult = obligationCoverage(SYNTHETIC_COMPONENT, { carriedElsewhere: [] }, droppedFee);
+
+check(
+  coveredResult.uncovered.length === 0,
+  `POSITIVE control: a guide covering all three composed obligations passes (${
+    coveredResult.obligations.join(", ")})`
+);
+check(
+  droppedResult.uncovered.length === 1 && droppedResult.uncovered[0] === "feeAndWaiver",
+  `NEGATIVE control: the same guide with the fee position dropped is refused${
+    droppedResult.uncovered.length ? ` (${droppedResult.uncovered.join(", ")})` : " -- it was NOT refused"}`
+);
+
+/*
+ * And carrying it out deliberately is not a drop. A route whose fee material
+ * belongs somewhere else says so in `carriedElsewhere`, and that counts.
+ */
+const carriedOut = obligationCoverage(SYNTHETIC_COMPONENT, {
+  carriedElsewhere: [{
+    text: "Ask the clerk whether a filing fee applies.",
+    destination: "the packet's own fee panel, built from SPEC.json feeAndWaiver",
+    why: "This route prints the fee position in the panel rather than as a sentence, so carrying it twice would let the two disagree."
+  }]
+}, droppedFee);
+check(
+  carriedOut.uncovered.length === 0,
+  "an obligation carried out deliberately, with its destination and reason, is covered"
+);
+
+/*
+ * A section kind nobody mapped is an obligation nobody measured, so it fails
+ * rather than being skipped silently.
+ */
+const unknownKind = obligationCoverage(
+  { documentId: "synthetic", sections: [{ heading: "?", kind: "some_future_kind" }] },
+  { carriedElsewhere: [] }, []);
+check(
+  unknownKind.unmapped.length === 1 && unknownKind.unmapped[0] === "some_future_kind",
+  "an unrecognised section kind is reported rather than skipped"
+);
 
 console.log(`\n${failures.length === 0 ? "PASS" : "FAIL"} — ${failures.length} failing check(s)`);
 if (failures.length > 0) {
