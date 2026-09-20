@@ -252,8 +252,16 @@ const TRANSCRIPTION_PROGRAM = new Set([
   "WY:felony-conviction-expungement-w-s-7-13-1502"
 ]);
 
+/*
+ * `adopted_substance_split` is available only where the family matches the
+ * adoption, and for the same reason the other exact claims are: the split
+ * record is measured line by line against the adopted artifact, so the artifact
+ * has to be the adopted one. In a drifted family the substance is recovered
+ * first, and a recovered component that also needs splitting is a recovery
+ * followed by a split, not a single claim.
+ */
 const EQUIVALENCE_AVAILABLE_IN = {
-  matches_adopted: new Set(["exact_adopted_bytes", "recovered_from_adopted"]),
+  matches_adopted: new Set(["exact_adopted_bytes", "recovered_from_adopted", "adopted_substance_split"]),
   drift_characterised: new Set(["untouched_by_drift", "drift_outside_substance", "recovered_from_adopted"]),
   drift_uncharacterised: new Set(["recovered_from_adopted"]),
   not_in_adoption: new Set(["recovered_from_adopted"])
@@ -315,7 +323,11 @@ const inDriftedFamilies = verdicts
   .flatMap((verdict) => (verdict.spec.documents ?? [])
     .filter((document) => document.transcriptionProvenance)
     .map((document) => ({ where: `${verdict.spec.routeKey}|${document.documentId}`, binding: document.transcriptionProvenance })));
-const unargued = inDriftedFamilies.filter(({ binding }) => binding.componentEquivalence === "exact_adopted_bytes");
+const unargued = inDriftedFamilies.filter(({ binding }) =>
+  binding.componentEquivalence === "exact_adopted_bytes"
+  // A split makes the same claim about the same bytes, so it is barred from a
+  // drifted family for the same reason and cannot be used to get around this.
+  || binding.componentEquivalence === "adopted_substance_split");
 check(
   unargued.length === 0,
   `no component in a drifted family claims exact adopted bytes${unargued.length ? `: ${unargued.map((row) => row.where).join(", ")}` : ""}`
@@ -384,12 +396,22 @@ const REGENERATION_BRIDGE = {
 };
 
 const CURRENT_HOST = /^scripts\//;
+/*
+ * A split carries the same claim about the same host.
+ *
+ * `adopted_substance_split` still says every line came from the adopted
+ * artifact -- it says only that the lines now sit on two pages instead of one.
+ * Taking them from today's build host therefore needs the same bridge, and
+ * leaving the split out of this loop would have let a component escape the
+ * requirement by being divided.
+ */
+const NEEDS_BRIDGE = new Set(["exact_adopted_bytes", "adopted_substance_split"]);
 const unbridged = [];
 for (const verdict of verdicts) {
   if (!TRANSCRIPTION_PROGRAM.has(verdict.spec.routeKey)) continue;
   for (const document of verdict.spec.documents ?? []) {
     const binding = document.transcriptionProvenance;
-    if (!binding || binding.componentEquivalence !== "exact_adopted_bytes") continue;
+    if (!binding || !NEEDS_BRIDGE.has(binding.componentEquivalence)) continue;
     if (!CURRENT_HOST.test(binding.sourceUsed ?? "")) continue;
     if (REGENERATION_BRIDGE[verdict.spec.routeKey]?.proven !== true) {
       unbridged.push(`${verdict.spec.routeKey}|${document.documentId}`);

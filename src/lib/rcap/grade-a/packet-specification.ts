@@ -170,8 +170,63 @@ export type PacketSpecificationDocument = {
       | "exact_adopted_bytes"
       | "untouched_by_drift"
       | "drift_outside_substance"
-      | "recovered_from_adopted";
+      | "recovered_from_adopted"
+      | "adopted_substance_split";
     evidence: string;
+  };
+  /**
+   * How one adopted component was divided between what the court receives and
+   * what the participant reads.
+   *
+   * WHY A COMPONENT IS EVER SPLIT
+   *
+   * Georgia's adopted exhibit cover sheets carry four things on one page: the
+   * exhibit designation, the document identification, how to obtain the record,
+   * and the platform's own statement that it never collects or authenticates
+   * it. The first two are filing content. The last two are participant
+   * instruction and product disclaimer — and because the page is an
+   * `attachment` whose recipient is the court, a court-only download handed
+   * them to the clerk. Classifying a page as a supporting page settles its
+   * caption treatment; it does not make a product disclaimer appropriate
+   * filing content.
+   *
+   * WHAT THIS RECORD IS FOR
+   *
+   * A split is the one operation that can lose adopted substance without
+   * looking like a deletion: each half is complete on its own terms, and
+   * nothing in either document reports that a line went missing between them.
+   * So the division is written down line by line, as the same object on both
+   * halves, and the control reads the ADOPTED ARTIFACT — not this record — to
+   * prove every adopted line is accounted for on one side or the other.
+   *
+   * `linesEdited` is for relocational rewording ONLY: an "attach behind this
+   * page" has to name the cover page once it no longer sits on it. The adopted
+   * original is kept beside the new wording. Nothing here authorises a change
+   * of substance; a legal or procedural statement is carried verbatim or not
+   * at all.
+   */
+  artifactBoundarySplit?: {
+    /** The adopted component whose single page carried both halves. */
+    adoptedComponentId: string;
+    /** The half the court receives. */
+    filedDocumentId: string;
+    /** The half the participant reads, which is never court-facing. */
+    participantDocumentId: string;
+    why: string;
+    /**
+     * The adopted component's own lines, in the order the adopted page prints
+     * them. This is what the halves are measured against: the control reads the
+     * adopted fixture at the digest `transcriptionProvenance` names and requires
+     * this sequence to appear in it contiguously, so the list is evidence rather
+     * than an assertion about itself.
+     */
+    adoptedLines: string[];
+    /** Adopted lines that stay on the filed page, verbatim. */
+    linesFiled: string[];
+    /** Adopted lines that move to the participant page, verbatim. */
+    linesMovedToParticipant: string[];
+    /** Adopted lines whose wording changed only because they moved. */
+    linesEdited?: Array<{ adoptedText: string; participantText: string; why: string }>;
   };
   /** One rendered document may intentionally cover multiple manifest components. */
   manifestComponentIds?: string[];

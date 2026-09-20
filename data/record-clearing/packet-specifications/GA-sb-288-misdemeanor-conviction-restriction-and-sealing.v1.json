@@ -2,7 +2,6 @@
   "schemaVersion": 2,
   "specificationId": "ga-sb-288-misdemeanor-conviction-restriction-and-sealing",
   "specificationVersion": "1.0.0",
-  "specificationSha256": "c912097021611fc77cf84232f331ad16e169e1991c2ecb3e932ab3d452dca05f",
   "obligationRouteKey": "obligation:track-pathway:GA:ga-misd-j4:sb-288-misdemeanor-conviction-restriction-and-sealing",
   "routeKey": "GA:sb-288-misdemeanor-conviction-restriction-and-sealing",
   "routeKeys": [
@@ -717,10 +716,86 @@
       }
     },
     {
+      "documentId": "exhibit_a_final_disposition_instructions",
+      "role": "filing_instructions",
+      "title": "How to obtain Exhibit A - Final disposition",
+      "order": 4,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "required",
+      "sections": [
+        {
+          "heading": "EXHIBIT A - FINAL DISPOSITION: HOW TO OBTAIN IT AND WHERE IT GOES",
+          "kind": "static",
+          "body": "ATTACH BEHIND THE EXHIBIT A COVER PAGE: a copy of the final disposition of this case.\n\nWHERE YOU GET IT: the clerk of the convicting court.\n\nHOW: Ask the clerk of the convicting court for a copy of the final disposition and attach it behind the Exhibit A cover page.\n\nThe platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        }
+      ],
+      "documentContract": {
+        "instrumentClass": "participant_guidance",
+        "preparedBy": "participant",
+        "signer": "none",
+        "recipient": "participant",
+        "formApplicability": "not_a_filing",
+        "caseMode": "existing_case",
+        "executionType": "none",
+        "serviceTreatment": "no_service",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "no_sensitive_identifiers",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+        "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
+        "componentEquivalence": "adopted_substance_split",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried. This component was then split along the artifact boundary: 2 adopted lines stay on the filed cover and 4 move to exhibit_a_final_disposition_instructions, which is participant_guidance and not court-facing. Every line is carried verbatim except 2 relocational rewording(s) recorded in artifactBoundarySplit, and scripts/verify-filed-artifact-boundary.mjs reads the adopted fixture itself to prove no adopted line was lost between the halves."
+      },
+      "artifactBoundarySplit": {
+        "adoptedComponentId": "ga-misd-j4-attachment-4",
+        "filedDocumentId": "exhibit_a_final_disposition",
+        "participantDocumentId": "exhibit_a_final_disposition_instructions",
+        "why": "The adopted component carried the exhibit designation and document identification on the same page as acquisition instruction and the platform's own disclaimer. Its instrumentClass is `attachment` and its recipient is the court, so a court-only download delivered product copy and participant workflow steps to the clerk. The designation and identification stay on the filed cover; the instruction moves to a participant page that is not court-facing and is therefore absent from a court-only download.",
+        "adoptedLines": [
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.",
+          "ATTACH BEHIND THIS PAGE: a copy of the final disposition of this case.",
+          "WHERE YOU GET IT: the clerk of the convicting court.",
+          "HOW: Ask the clerk of the convicting court for a copy of the final disposition and attach it behind this page.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesFiled": [
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet."
+        ],
+        "linesMovedToParticipant": [
+          "ATTACH BEHIND THIS PAGE: a copy of the final disposition of this case.",
+          "WHERE YOU GET IT: the clerk of the convicting court.",
+          "HOW: Ask the clerk of the convicting court for a copy of the final disposition and attach it behind this page.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesEdited": [
+          {
+            "adoptedText": "ATTACH BEHIND THIS PAGE: a copy of the final disposition of this case.",
+            "participantText": "ATTACH BEHIND THE EXHIBIT A COVER PAGE: a copy of the final disposition of this case.",
+            "why": "The adopted line said \"this page\" while printed on the exhibit cover. On the participant instruction page \"this page\" would name the wrong sheet, so the sentence names the Exhibit A cover page instead. What to attach, where it comes from and who supplies it are unchanged."
+          },
+          {
+            "adoptedText": "HOW: Ask the clerk of the convicting court for a copy of the final disposition and attach it behind this page.",
+            "participantText": "HOW: Ask the clerk of the convicting court for a copy of the final disposition and attach it behind the Exhibit A cover page.",
+            "why": "The adopted line said \"this page\" while printed on the exhibit cover. On the participant instruction page \"this page\" would name the wrong sheet, so the sentence names the Exhibit A cover page instead. What to attach, where it comes from and who supplies it are unchanged."
+          }
+        ]
+      },
+      "supersededBy": "supplemental_guide",
+      "supersessionNote": "Every line of this page is participant guidance and none of it is filed. Its substance belongs in the shared §7 guide's Filing Checklist — the record to obtain, who holds it, and where it goes in the packet — alongside the route's other attachments. It was separated from exhibit_a_final_disposition because that page is filed with the court; it stays in the packet as its own page only until the ga-misd-j4 guide data ships, and retires then rather than shipping beside it. The specification already carries the same facts structurally in attachments[] and participantChecklist[], which is what that guide will be built from."
+    },
+    {
       "documentId": "exhibit_a_final_disposition",
       "role": "attachment",
       "title": "Exhibit A - Final disposition",
-      "order": 4,
+      "order": 5,
       "outputStrategy": "custom_pleading",
       "presentation": "guidance",
       "requirement": "required",
@@ -730,7 +805,7 @@
         {
           "heading": "EXHIBIT A - FINAL DISPOSITION",
           "kind": "static",
-          "body": "For: {{participant_full_legal_name}}\n\nFiling: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.\n\nATTACH BEHIND THIS PAGE: a copy of the final disposition of this case.\n\nWHERE YOU GET IT: the clerk of the convicting court.\n\nHOW: Ask the clerk of the convicting court for a copy of the final disposition and attach it behind this page.\n\nThe platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+          "body": "For: {{participant_full_legal_name}}\n\nFiling: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet."
         }
       ],
       "documentContract": {
@@ -754,15 +829,125 @@
       "transcriptionProvenance": {
         "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
         "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
-        "componentEquivalence": "exact_adopted_bytes",
-        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
+        "componentEquivalence": "adopted_substance_split",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried. This component was then split along the artifact boundary: 2 adopted lines stay on the filed cover and 4 move to exhibit_a_final_disposition_instructions, which is participant_guidance and not court-facing. Every line is carried verbatim except 2 relocational rewording(s) recorded in artifactBoundarySplit, and scripts/verify-filed-artifact-boundary.mjs reads the adopted fixture itself to prove no adopted line was lost between the halves."
+      },
+      "artifactBoundarySplit": {
+        "adoptedComponentId": "ga-misd-j4-attachment-4",
+        "filedDocumentId": "exhibit_a_final_disposition",
+        "participantDocumentId": "exhibit_a_final_disposition_instructions",
+        "why": "The adopted component carried the exhibit designation and document identification on the same page as acquisition instruction and the platform's own disclaimer. Its instrumentClass is `attachment` and its recipient is the court, so a court-only download delivered product copy and participant workflow steps to the clerk. The designation and identification stay on the filed cover; the instruction moves to a participant page that is not court-facing and is therefore absent from a court-only download.",
+        "adoptedLines": [
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.",
+          "ATTACH BEHIND THIS PAGE: a copy of the final disposition of this case.",
+          "WHERE YOU GET IT: the clerk of the convicting court.",
+          "HOW: Ask the clerk of the convicting court for a copy of the final disposition and attach it behind this page.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesFiled": [
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet."
+        ],
+        "linesMovedToParticipant": [
+          "ATTACH BEHIND THIS PAGE: a copy of the final disposition of this case.",
+          "WHERE YOU GET IT: the clerk of the convicting court.",
+          "HOW: Ask the clerk of the convicting court for a copy of the final disposition and attach it behind this page.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesEdited": [
+          {
+            "adoptedText": "ATTACH BEHIND THIS PAGE: a copy of the final disposition of this case.",
+            "participantText": "ATTACH BEHIND THE EXHIBIT A COVER PAGE: a copy of the final disposition of this case.",
+            "why": "The adopted line said \"this page\" while printed on the exhibit cover. On the participant instruction page \"this page\" would name the wrong sheet, so the sentence names the Exhibit A cover page instead. What to attach, where it comes from and who supplies it are unchanged."
+          },
+          {
+            "adoptedText": "HOW: Ask the clerk of the convicting court for a copy of the final disposition and attach it behind this page.",
+            "participantText": "HOW: Ask the clerk of the convicting court for a copy of the final disposition and attach it behind the Exhibit A cover page.",
+            "why": "The adopted line said \"this page\" while printed on the exhibit cover. On the participant instruction page \"this page\" would name the wrong sheet, so the sentence names the Exhibit A cover page instead. What to attach, where it comes from and who supplies it are unchanged."
+          }
+        ]
       }
+    },
+    {
+      "documentId": "exhibit_b_criminal_history_instructions",
+      "role": "filing_instructions",
+      "title": "How to obtain Exhibit B - Georgia criminal history report",
+      "order": 6,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "conditional",
+      "conditionDescription": "Attach this only where you rely on it or the court expects it.",
+      "sections": [
+        {
+          "heading": "EXHIBIT B - GEORGIA CRIMINAL HISTORY REPORT: HOW TO OBTAIN IT AND WHERE IT GOES",
+          "kind": "static",
+          "body": "ATTACH THIS ONLY WHERE YOU RELY ON IT OR THE COURT EXPECTS IT.\n\nATTACH BEHIND THE EXHIBIT B COVER PAGE: your own Georgia criminal history report.\n\nWHERE YOU GET IT: most Georgia sheriff's offices and police departments, or GCIC.\n\nHOW: GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. Bring government photo identification and the agency's fee.\n\nThe platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        }
+      ],
+      "documentContract": {
+        "instrumentClass": "participant_guidance",
+        "preparedBy": "participant",
+        "signer": "none",
+        "recipient": "participant",
+        "formApplicability": "not_a_filing",
+        "caseMode": "existing_case",
+        "executionType": "none",
+        "serviceTreatment": "no_service",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "no_sensitive_identifiers",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+        "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
+        "componentEquivalence": "adopted_substance_split",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried. This component was then split along the artifact boundary: 2 adopted lines stay on the filed cover and 5 move to exhibit_b_criminal_history_instructions, which is participant_guidance and not court-facing. Every line is carried verbatim except 1 relocational rewording(s) recorded in artifactBoundarySplit, and scripts/verify-filed-artifact-boundary.mjs reads the adopted fixture itself to prove no adopted line was lost between the halves."
+      },
+      "artifactBoundarySplit": {
+        "adoptedComponentId": "ga-misd-j4-attachment-5",
+        "filedDocumentId": "exhibit_b_criminal_history",
+        "participantDocumentId": "exhibit_b_criminal_history_instructions",
+        "why": "The adopted component carried the exhibit designation and document identification on the same page as acquisition instruction and the platform's own disclaimer. Its instrumentClass is `attachment` and its recipient is the court, so a court-only download delivered product copy and participant workflow steps to the clerk. The designation and identification stay on the filed cover; the instruction moves to a participant page that is not court-facing and is therefore absent from a court-only download.",
+        "adoptedLines": [
+          "ATTACH THIS ONLY WHERE YOU RELY ON IT OR THE COURT EXPECTS IT.",
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.",
+          "ATTACH BEHIND THIS PAGE: your own Georgia criminal history report.",
+          "WHERE YOU GET IT: most Georgia sheriff's offices and police departments, or GCIC.",
+          "HOW: GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. Bring government photo identification and the agency's fee.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesFiled": [
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet."
+        ],
+        "linesMovedToParticipant": [
+          "ATTACH THIS ONLY WHERE YOU RELY ON IT OR THE COURT EXPECTS IT.",
+          "ATTACH BEHIND THIS PAGE: your own Georgia criminal history report.",
+          "WHERE YOU GET IT: most Georgia sheriff's offices and police departments, or GCIC.",
+          "HOW: GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. Bring government photo identification and the agency's fee.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesEdited": [
+          {
+            "adoptedText": "ATTACH BEHIND THIS PAGE: your own Georgia criminal history report.",
+            "participantText": "ATTACH BEHIND THE EXHIBIT B COVER PAGE: your own Georgia criminal history report.",
+            "why": "The adopted line said \"this page\" while printed on the exhibit cover. On the participant instruction page \"this page\" would name the wrong sheet, so the sentence names the Exhibit B cover page instead. What to attach, where it comes from and who supplies it are unchanged."
+          }
+        ]
+      },
+      "supersededBy": "supplemental_guide",
+      "supersessionNote": "Every line of this page is participant guidance and none of it is filed. Its substance belongs in the shared §7 guide's Filing Checklist — the record to obtain, who holds it, and where it goes in the packet — alongside the route's other attachments. It was separated from exhibit_b_criminal_history because that page is filed with the court; it stays in the packet as its own page only until the ga-misd-j4 guide data ships, and retires then rather than shipping beside it. The specification already carries the same facts structurally in attachments[] and participantChecklist[], which is what that guide will be built from."
     },
     {
       "documentId": "exhibit_b_criminal_history",
       "role": "attachment",
       "title": "Exhibit B - Georgia criminal history report",
-      "order": 5,
+      "order": 7,
       "outputStrategy": "custom_pleading",
       "presentation": "guidance",
       "requirement": "conditional",
@@ -773,7 +958,7 @@
         {
           "heading": "EXHIBIT B - GEORGIA CRIMINAL HISTORY REPORT",
           "kind": "static",
-          "body": "ATTACH THIS ONLY WHERE YOU RELY ON IT OR THE COURT EXPECTS IT.\n\nFor: {{participant_full_legal_name}}\n\nFiling: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.\n\nATTACH BEHIND THIS PAGE: your own Georgia criminal history report.\n\nWHERE YOU GET IT: most Georgia sheriff's offices and police departments, or GCIC.\n\nHOW: GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. Bring government photo identification and the agency's fee.\n\nThe platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+          "body": "For: {{participant_full_legal_name}}\n\nFiling: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet."
         }
       ],
       "documentContract": {
@@ -797,15 +982,122 @@
       "transcriptionProvenance": {
         "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
         "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
-        "componentEquivalence": "exact_adopted_bytes",
-        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
+        "componentEquivalence": "adopted_substance_split",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried. This component was then split along the artifact boundary: 2 adopted lines stay on the filed cover and 5 move to exhibit_b_criminal_history_instructions, which is participant_guidance and not court-facing. Every line is carried verbatim except 1 relocational rewording(s) recorded in artifactBoundarySplit, and scripts/verify-filed-artifact-boundary.mjs reads the adopted fixture itself to prove no adopted line was lost between the halves."
+      },
+      "artifactBoundarySplit": {
+        "adoptedComponentId": "ga-misd-j4-attachment-5",
+        "filedDocumentId": "exhibit_b_criminal_history",
+        "participantDocumentId": "exhibit_b_criminal_history_instructions",
+        "why": "The adopted component carried the exhibit designation and document identification on the same page as acquisition instruction and the platform's own disclaimer. Its instrumentClass is `attachment` and its recipient is the court, so a court-only download delivered product copy and participant workflow steps to the clerk. The designation and identification stay on the filed cover; the instruction moves to a participant page that is not court-facing and is therefore absent from a court-only download.",
+        "adoptedLines": [
+          "ATTACH THIS ONLY WHERE YOU RELY ON IT OR THE COURT EXPECTS IT.",
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.",
+          "ATTACH BEHIND THIS PAGE: your own Georgia criminal history report.",
+          "WHERE YOU GET IT: most Georgia sheriff's offices and police departments, or GCIC.",
+          "HOW: GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. Bring government photo identification and the agency's fee.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesFiled": [
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet."
+        ],
+        "linesMovedToParticipant": [
+          "ATTACH THIS ONLY WHERE YOU RELY ON IT OR THE COURT EXPECTS IT.",
+          "ATTACH BEHIND THIS PAGE: your own Georgia criminal history report.",
+          "WHERE YOU GET IT: most Georgia sheriff's offices and police departments, or GCIC.",
+          "HOW: GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. Bring government photo identification and the agency's fee.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesEdited": [
+          {
+            "adoptedText": "ATTACH BEHIND THIS PAGE: your own Georgia criminal history report.",
+            "participantText": "ATTACH BEHIND THE EXHIBIT B COVER PAGE: your own Georgia criminal history report.",
+            "why": "The adopted line said \"this page\" while printed on the exhibit cover. On the participant instruction page \"this page\" would name the wrong sheet, so the sentence names the Exhibit B cover page instead. What to attach, where it comes from and who supplies it are unchanged."
+          }
+        ]
       }
+    },
+    {
+      "documentId": "exhibit_c_sentence_completion_instructions",
+      "role": "filing_instructions",
+      "title": "How to obtain Exhibit C - Proof of sentence completion",
+      "order": 8,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "conditional",
+      "conditionDescription": "Attach this only where you have it, such as a probation termination order.",
+      "sections": [
+        {
+          "heading": "EXHIBIT C - PROOF OF SENTENCE COMPLETION: HOW TO OBTAIN IT AND WHERE IT GOES",
+          "kind": "static",
+          "body": "ATTACH THIS ONLY WHERE YOU HAVE IT, SUCH AS A PROBATION TERMINATION ORDER.\n\nATTACH BEHIND THE EXHIBIT C COVER PAGE: proof that every term of the sentence was completed, such as a probation termination order.\n\nWHERE YOU GET IT: the clerk of the convicting court, or the supervising probation office.\n\nHOW: Ask the clerk of the convicting court or the supervising probation office for the order terminating probation or documentation that the sentence was completed.\n\nThe platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        }
+      ],
+      "documentContract": {
+        "instrumentClass": "participant_guidance",
+        "preparedBy": "participant",
+        "signer": "none",
+        "recipient": "participant",
+        "formApplicability": "not_a_filing",
+        "caseMode": "existing_case",
+        "executionType": "none",
+        "serviceTreatment": "no_service",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "no_sensitive_identifiers",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+        "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
+        "componentEquivalence": "adopted_substance_split",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried. This component was then split along the artifact boundary: 2 adopted lines stay on the filed cover and 5 move to exhibit_c_sentence_completion_instructions, which is participant_guidance and not court-facing. Every line is carried verbatim except 1 relocational rewording(s) recorded in artifactBoundarySplit, and scripts/verify-filed-artifact-boundary.mjs reads the adopted fixture itself to prove no adopted line was lost between the halves."
+      },
+      "artifactBoundarySplit": {
+        "adoptedComponentId": "ga-misd-j4-attachment-6",
+        "filedDocumentId": "exhibit_c_sentence_completion",
+        "participantDocumentId": "exhibit_c_sentence_completion_instructions",
+        "why": "The adopted component carried the exhibit designation and document identification on the same page as acquisition instruction and the platform's own disclaimer. Its instrumentClass is `attachment` and its recipient is the court, so a court-only download delivered product copy and participant workflow steps to the clerk. The designation and identification stay on the filed cover; the instruction moves to a participant page that is not court-facing and is therefore absent from a court-only download.",
+        "adoptedLines": [
+          "ATTACH THIS ONLY WHERE YOU HAVE IT, SUCH AS A PROBATION TERMINATION ORDER.",
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.",
+          "ATTACH BEHIND THIS PAGE: proof that every term of the sentence was completed, such as a probation termination order.",
+          "WHERE YOU GET IT: the clerk of the convicting court, or the supervising probation office.",
+          "HOW: Ask the clerk of the convicting court or the supervising probation office for the order terminating probation or documentation that the sentence was completed.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesFiled": [
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet."
+        ],
+        "linesMovedToParticipant": [
+          "ATTACH THIS ONLY WHERE YOU HAVE IT, SUCH AS A PROBATION TERMINATION ORDER.",
+          "ATTACH BEHIND THIS PAGE: proof that every term of the sentence was completed, such as a probation termination order.",
+          "WHERE YOU GET IT: the clerk of the convicting court, or the supervising probation office.",
+          "HOW: Ask the clerk of the convicting court or the supervising probation office for the order terminating probation or documentation that the sentence was completed.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesEdited": [
+          {
+            "adoptedText": "ATTACH BEHIND THIS PAGE: proof that every term of the sentence was completed, such as a probation termination order.",
+            "participantText": "ATTACH BEHIND THE EXHIBIT C COVER PAGE: proof that every term of the sentence was completed, such as a probation termination order.",
+            "why": "The adopted line said \"this page\" while printed on the exhibit cover. On the participant instruction page \"this page\" would name the wrong sheet, so the sentence names the Exhibit C cover page instead. What to attach, where it comes from and who supplies it are unchanged."
+          }
+        ]
+      },
+      "supersededBy": "supplemental_guide",
+      "supersessionNote": "Every line of this page is participant guidance and none of it is filed. Its substance belongs in the shared §7 guide's Filing Checklist — the record to obtain, who holds it, and where it goes in the packet — alongside the route's other attachments. It was separated from exhibit_c_sentence_completion because that page is filed with the court; it stays in the packet as its own page only until the ga-misd-j4 guide data ships, and retires then rather than shipping beside it. The specification already carries the same facts structurally in attachments[] and participantChecklist[], which is what that guide will be built from."
     },
     {
       "documentId": "exhibit_c_sentence_completion",
       "role": "attachment",
       "title": "Exhibit C - Proof of sentence completion",
-      "order": 6,
+      "order": 9,
       "outputStrategy": "custom_pleading",
       "presentation": "guidance",
       "requirement": "conditional",
@@ -816,7 +1108,7 @@
         {
           "heading": "EXHIBIT C - PROOF OF SENTENCE COMPLETION",
           "kind": "static",
-          "body": "ATTACH THIS ONLY WHERE YOU HAVE IT, SUCH AS A PROBATION TERMINATION ORDER.\n\nFor: {{participant_full_legal_name}}\n\nFiling: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.\n\nATTACH BEHIND THIS PAGE: proof that every term of the sentence was completed, such as a probation termination order.\n\nWHERE YOU GET IT: the clerk of the convicting court, or the supervising probation office.\n\nHOW: Ask the clerk of the convicting court or the supervising probation office for the order terminating probation or documentation that the sentence was completed.\n\nThe platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+          "body": "For: {{participant_full_legal_name}}\n\nFiling: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet."
         }
       ],
       "documentContract": {
@@ -840,15 +1132,122 @@
       "transcriptionProvenance": {
         "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
         "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
-        "componentEquivalence": "exact_adopted_bytes",
-        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
+        "componentEquivalence": "adopted_substance_split",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried. This component was then split along the artifact boundary: 2 adopted lines stay on the filed cover and 5 move to exhibit_c_sentence_completion_instructions, which is participant_guidance and not court-facing. Every line is carried verbatim except 1 relocational rewording(s) recorded in artifactBoundarySplit, and scripts/verify-filed-artifact-boundary.mjs reads the adopted fixture itself to prove no adopted line was lost between the halves."
+      },
+      "artifactBoundarySplit": {
+        "adoptedComponentId": "ga-misd-j4-attachment-6",
+        "filedDocumentId": "exhibit_c_sentence_completion",
+        "participantDocumentId": "exhibit_c_sentence_completion_instructions",
+        "why": "The adopted component carried the exhibit designation and document identification on the same page as acquisition instruction and the platform's own disclaimer. Its instrumentClass is `attachment` and its recipient is the court, so a court-only download delivered product copy and participant workflow steps to the clerk. The designation and identification stay on the filed cover; the instruction moves to a participant page that is not court-facing and is therefore absent from a court-only download.",
+        "adoptedLines": [
+          "ATTACH THIS ONLY WHERE YOU HAVE IT, SUCH AS A PROBATION TERMINATION ORDER.",
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.",
+          "ATTACH BEHIND THIS PAGE: proof that every term of the sentence was completed, such as a probation termination order.",
+          "WHERE YOU GET IT: the clerk of the convicting court, or the supervising probation office.",
+          "HOW: Ask the clerk of the convicting court or the supervising probation office for the order terminating probation or documentation that the sentence was completed.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesFiled": [
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet."
+        ],
+        "linesMovedToParticipant": [
+          "ATTACH THIS ONLY WHERE YOU HAVE IT, SUCH AS A PROBATION TERMINATION ORDER.",
+          "ATTACH BEHIND THIS PAGE: proof that every term of the sentence was completed, such as a probation termination order.",
+          "WHERE YOU GET IT: the clerk of the convicting court, or the supervising probation office.",
+          "HOW: Ask the clerk of the convicting court or the supervising probation office for the order terminating probation or documentation that the sentence was completed.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesEdited": [
+          {
+            "adoptedText": "ATTACH BEHIND THIS PAGE: proof that every term of the sentence was completed, such as a probation termination order.",
+            "participantText": "ATTACH BEHIND THE EXHIBIT C COVER PAGE: proof that every term of the sentence was completed, such as a probation termination order.",
+            "why": "The adopted line said \"this page\" while printed on the exhibit cover. On the participant instruction page \"this page\" would name the wrong sheet, so the sentence names the Exhibit C cover page instead. What to attach, where it comes from and who supplies it are unchanged."
+          }
+        ]
       }
+    },
+    {
+      "documentId": "exhibit_d_supporting_exhibits_instructions",
+      "role": "filing_instructions",
+      "title": "How to obtain Exhibit D - Participant-supplied supporting exhibits",
+      "order": 10,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "conditional",
+      "conditionDescription": "Attach these only where you choose to supply them.",
+      "sections": [
+        {
+          "heading": "EXHIBIT D - PARTICIPANT-SUPPLIED SUPPORTING EXHIBITS: HOW TO OBTAIN IT AND WHERE IT GOES",
+          "kind": "static",
+          "body": "ATTACH THESE ONLY WHERE YOU CHOOSE TO SUPPLY THEM.\n\nATTACH BEHIND THE EXHIBIT D COVER PAGE: supporting exhibits you choose to supply: diplomas, certificates, letters of support, treatment records, evidence of community involvement.\n\nWHERE YOU GET IT: your own records.\n\nHOW: The packet formats what you supply and assesses none of it.\n\nThe platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        }
+      ],
+      "documentContract": {
+        "instrumentClass": "participant_guidance",
+        "preparedBy": "participant",
+        "signer": "none",
+        "recipient": "participant",
+        "formApplicability": "not_a_filing",
+        "caseMode": "existing_case",
+        "executionType": "none",
+        "serviceTreatment": "no_service",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "no_sensitive_identifiers",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+        "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
+        "componentEquivalence": "adopted_substance_split",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried. This component was then split along the artifact boundary: 2 adopted lines stay on the filed cover and 5 move to exhibit_d_supporting_exhibits_instructions, which is participant_guidance and not court-facing. Every line is carried verbatim except 1 relocational rewording(s) recorded in artifactBoundarySplit, and scripts/verify-filed-artifact-boundary.mjs reads the adopted fixture itself to prove no adopted line was lost between the halves."
+      },
+      "artifactBoundarySplit": {
+        "adoptedComponentId": "ga-misd-j4-attachment-7",
+        "filedDocumentId": "exhibit_d_supporting_exhibits",
+        "participantDocumentId": "exhibit_d_supporting_exhibits_instructions",
+        "why": "The adopted component carried the exhibit designation and document identification on the same page as acquisition instruction and the platform's own disclaimer. Its instrumentClass is `attachment` and its recipient is the court, so a court-only download delivered product copy and participant workflow steps to the clerk. The designation and identification stay on the filed cover; the instruction moves to a participant page that is not court-facing and is therefore absent from a court-only download.",
+        "adoptedLines": [
+          "ATTACH THESE ONLY WHERE YOU CHOOSE TO SUPPLY THEM.",
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.",
+          "ATTACH BEHIND THIS PAGE: supporting exhibits you choose to supply: diplomas, certificates, letters of support, treatment records, evidence of community involvement.",
+          "WHERE YOU GET IT: your own records.",
+          "HOW: The packet formats what you supply and assesses none of it.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesFiled": [
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet."
+        ],
+        "linesMovedToParticipant": [
+          "ATTACH THESE ONLY WHERE YOU CHOOSE TO SUPPLY THEM.",
+          "ATTACH BEHIND THIS PAGE: supporting exhibits you choose to supply: diplomas, certificates, letters of support, treatment records, evidence of community involvement.",
+          "WHERE YOU GET IT: your own records.",
+          "HOW: The packet formats what you supply and assesses none of it.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesEdited": [
+          {
+            "adoptedText": "ATTACH BEHIND THIS PAGE: supporting exhibits you choose to supply: diplomas, certificates, letters of support, treatment records, evidence of community involvement.",
+            "participantText": "ATTACH BEHIND THE EXHIBIT D COVER PAGE: supporting exhibits you choose to supply: diplomas, certificates, letters of support, treatment records, evidence of community involvement.",
+            "why": "The adopted line said \"this page\" while printed on the exhibit cover. On the participant instruction page \"this page\" would name the wrong sheet, so the sentence names the Exhibit D cover page instead. What to attach, where it comes from and who supplies it are unchanged."
+          }
+        ]
+      },
+      "supersededBy": "supplemental_guide",
+      "supersessionNote": "Every line of this page is participant guidance and none of it is filed. Its substance belongs in the shared §7 guide's Filing Checklist — the record to obtain, who holds it, and where it goes in the packet — alongside the route's other attachments. It was separated from exhibit_d_supporting_exhibits because that page is filed with the court; it stays in the packet as its own page only until the ga-misd-j4 guide data ships, and retires then rather than shipping beside it. The specification already carries the same facts structurally in attachments[] and participantChecklist[], which is what that guide will be built from."
     },
     {
       "documentId": "exhibit_d_supporting_exhibits",
       "role": "attachment",
       "title": "Exhibit D - Participant-supplied supporting exhibits",
-      "order": 7,
+      "order": 11,
       "outputStrategy": "custom_pleading",
       "presentation": "guidance",
       "requirement": "conditional",
@@ -859,7 +1258,7 @@
         {
           "heading": "EXHIBIT D - PARTICIPANT-SUPPLIED SUPPORTING EXHIBITS",
           "kind": "static",
-          "body": "ATTACH THESE ONLY WHERE YOU CHOOSE TO SUPPLY THEM.\n\nFor: {{participant_full_legal_name}}\n\nFiling: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.\n\nATTACH BEHIND THIS PAGE: supporting exhibits you choose to supply: diplomas, certificates, letters of support, treatment records, evidence of community involvement.\n\nWHERE YOU GET IT: your own records.\n\nHOW: The packet formats what you supply and assesses none of it.\n\nThe platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+          "body": "For: {{participant_full_legal_name}}\n\nFiling: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet."
         }
       ],
       "documentContract": {
@@ -883,8 +1282,41 @@
       "transcriptionProvenance": {
         "adoptedDigest": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
         "sourceUsed": "scripts/build-census-v1-ga-host.mjs",
-        "componentEquivalence": "exact_adopted_bytes",
-        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
+        "componentEquivalence": "adopted_substance_split",
+        "evidence": "Route A, proven. scripts/build-census-v1-ga-host.mjs ga-misd-j4-set --no-raster was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and both fixtures came back at the digests OWNER_BATCH_ADOPTION_2026-09-02 pins; the canonical digest is b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890 and only build metadata moved, which was restored. The host is therefore the source that produced the adopted bytes. The fixture participant's answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried. This component was then split along the artifact boundary: 2 adopted lines stay on the filed cover and 5 move to exhibit_d_supporting_exhibits_instructions, which is participant_guidance and not court-facing. Every line is carried verbatim except 1 relocational rewording(s) recorded in artifactBoundarySplit, and scripts/verify-filed-artifact-boundary.mjs reads the adopted fixture itself to prove no adopted line was lost between the halves."
+      },
+      "artifactBoundarySplit": {
+        "adoptedComponentId": "ga-misd-j4-attachment-7",
+        "filedDocumentId": "exhibit_d_supporting_exhibits",
+        "participantDocumentId": "exhibit_d_supporting_exhibits_instructions",
+        "why": "The adopted component carried the exhibit designation and document identification on the same page as acquisition instruction and the platform's own disclaimer. Its instrumentClass is `attachment` and its recipient is the court, so a court-only download delivered product copy and participant workflow steps to the clerk. The designation and identification stay on the filed cover; the instruction moves to a participant page that is not court-facing and is therefore absent from a court-only download.",
+        "adoptedLines": [
+          "ATTACH THESE ONLY WHERE YOU CHOOSE TO SUPPLY THEM.",
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet.",
+          "ATTACH BEHIND THIS PAGE: supporting exhibits you choose to supply: diplomas, certificates, letters of support, treatment records, evidence of community involvement.",
+          "WHERE YOU GET IT: your own records.",
+          "HOW: The packet formats what you supply and assesses none of it.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesFiled": [
+          "For: {{participant_full_legal_name}}",
+          "Filing: the Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction in this packet."
+        ],
+        "linesMovedToParticipant": [
+          "ATTACH THESE ONLY WHERE YOU CHOOSE TO SUPPLY THEM.",
+          "ATTACH BEHIND THIS PAGE: supporting exhibits you choose to supply: diplomas, certificates, letters of support, treatment records, evidence of community involvement.",
+          "WHERE YOU GET IT: your own records.",
+          "HOW: The packet formats what you supply and assesses none of it.",
+          "The platform never collects, inspects or authenticates this record. You obtain it, you check your answers against it, and you correct the packet where they disagree."
+        ],
+        "linesEdited": [
+          {
+            "adoptedText": "ATTACH BEHIND THIS PAGE: supporting exhibits you choose to supply: diplomas, certificates, letters of support, treatment records, evidence of community involvement.",
+            "participantText": "ATTACH BEHIND THE EXHIBIT D COVER PAGE: supporting exhibits you choose to supply: diplomas, certificates, letters of support, treatment records, evidence of community involvement.",
+            "why": "The adopted line said \"this page\" while printed on the exhibit cover. On the participant instruction page \"this page\" would name the wrong sheet, so the sentence names the Exhibit D cover page instead. What to attach, where it comes from and who supplies it are unchanged."
+          }
+        ]
       }
     }
   ],
@@ -1021,5 +1453,6 @@
       "text": "Serve the prosecuting attorney and the clerk of court by certified mail, e-filing or hand delivery, and complete the certificate only when the copies actually go out.",
       "requiredBeforeFiling": true
     }
-  ]
+  ],
+  "specificationSha256": "5f485a304ec46190b868ac0d4af171c001cb4cef162ec1b6df424c91b8832892"
 }
