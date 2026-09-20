@@ -313,7 +313,7 @@ state. It was not sufficient, and Item 13B is why.
 
 | # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
 |---|------|-------|----------------|-------------------|--------------------|
-| 13B | Decide the current composed Grade-A artifact for each of the five repaired-specification routes | Roger | Before any of the five is commercially opened | `data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_REVIEW_2026-09-20.json` and the artifacts and per-page rasters it names | Approving the exact bytes a participant receives is an owner decision. The build may produce them and hold the route; it may not approve them |
+| 13B | Decide the current composed Grade-A artifact for each of the five repaired-specification routes | Roger | Before any of the five is commercially opened | `data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_REVIEW_2026-09-20.json`, the artifacts and per-page rasters it names, and the visual review at `CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_2026-09-20.json` | Approving the exact bytes a participant receives is an owner decision. The build may produce them and hold the route; it may not approve them |
 
 **The error Item 13A made.** "No participant-facing byte moved" was measured
 against the census-v1 build hosts. Those hosts do not deliver. For an ordinary
@@ -343,41 +343,63 @@ through publication as intended.
 
 **What the batch contains.** Produced through the real provider path, for the
 same participant each family's approved artifact was reviewed for, with every
-page rendered to an image and hashed:
+page rendered to an image, hashed, **and looked at**:
 
 | Route | Full EN | Court-only | Full ES | Against the adopted artifact |
 |-------|---------|-----------|---------|------------------------------|
-| DC actual innocence | 8 pp `cbbaeb9303a26bb3` | 5 pp `fd47c9fe57b23af5` | no §7 guide | differs |
-| IL felony prostitution | 5 pp `8adb27a8e39232af` | 4 pp `ce3503701f734d45` | no §7 guide | differs |
-| MS justice court 9-11-15-3 | 12 pp `57f1c0ecd30775b7` | 6 pp `bdbcb1ed1a807a13` | **refused** | differs |
-| MS municipal court 21-23-7-6 | **produces no packet** | — | — | n/a |
-| WY felony expungement | 14 pp `b0833d66e012e330` | 7 pp `800cbbaff29c0193` | 14 pp `b5d41ca56519b4fd` | differs |
+| DC actual innocence | 11 pp `114f5ff10b2dbdcb` | 5 pp `761dd42907ca6bb6` | 11 pp `3b8f95d8372202a3` | differs |
+| IL felony prostitution | 9 pp `48519f1381d8e92e` | 4 pp `6e201b2537cdf036` | 11 pp `aad0ed42dbc6942d` | differs |
+| MS justice court 9-11-15-3 | 12 pp `fed4083a51b7c042` | 6 pp `a56f00d0ecb59d97` | 12 pp `28e2b9f21c53dc3c` | differs |
+| MS municipal court 21-23-7-6 | 12 pp `9b00b606a2e1f863` | 6 pp `a56f00d0ecb59d97` | 12 pp `74a71f31bb2e202f` | differs |
+| WY felony expungement | 14 pp `09a9b25590e9e46f` | 7 pp `9cebe2d3cd4ac086` | 14 pp `7f8128a52781854c` | differs |
 
-The court-only packet carries no participant guide on every route that produced
-one, checked rather than assumed. Facts the platform never supplies — a court's
-findings, a notary block, signature and service lines — are proven not to reach
-the page: each packet is composed twice with different values for all of them
-and the bytes are identical. Participant-owned facts the reviewed fixture does
-not carry are listed per route as review-supplied, because those do print.
+The court-only packet carries no participant guide on any route, and is proven
+page-for-page identical to the court-facing pages of its own full packet, so the
+clerk receives exactly the filing documents and nothing else. Facts the platform
+never supplies — a court's findings, a notary block, signature and service lines
+— are proven not to reach the page: each packet is composed twice with different
+values for all of them and the bytes are identical. Participant-owned facts the
+reviewed fixture does not carry are listed per route as review-supplied, because
+those do print.
 
-**Two defects the batch surfaced, invisible until the commercial path was
-actually run:**
+**The two defects the first batch surfaced are repaired.** The municipal route
+composed no packet because `composeGradeAPacket` gated on the single
+`specification.routeKey` while the specification serves both routes through
+`routeKeys`; the guard now admits a matter whose route is the primary key or is
+explicitly listed, and an unlisted sibling still refuses. The shared
+additional-misdemeanour guide now carries reviewed Spanish for every entry, so
+both Mississippi routes render a full Spanish packet. The family is not split:
+the two routes deliver the same participant packet and differ only in the review
+packet identifier printed in the guide footer, because which court it is arrives
+as a blank the participant fills from their own record.
 
-1. **`MS:additional-municipal-court-misdemeanor-relief-21-23-7-6` can compose no
-   packet at all.** `MS-additional-misdemeanor-relief.v1.json` lists both
-   Mississippi additional-misdemeanour routes in `routeKeys`, and
-   `packetSpecificationFor` resolves it for both — but `composeGradeAPacket`
-   gates on the single `specification.routeKey`, which names only the justice
-   court route. The municipal route therefore refuses at composition. Its
-   fulfillment record exists and its route resolves `factory_v2`. Not repaired
-   here: the fix is either a multi-route gate or a per-route specification, and
-   that is a route-behaviour decision rather than build work.
+**Nine further defects were found by looking at the pages, and repaired.** They
+are recorded one by one, with cause and fix, in
+`data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_2026-09-20.json`.
+The ones that would have reached a participant or a clerk: the guide cover
+printed "Not established for this route" under PREPARED FOR, COURT / AGENCY,
+CASE / MATTER and REMEDY because the review composed without a matter at all;
+the Spanish cover named no remedy on four of the five routes, because only
+Mississippi non-conviction carried `pathwayLabelEs`; the Mississippi proposed
+order printed "SO ORDERED AND ADJUDGED this day of , 20:" with its date blanks
+dropped; Wyoming's verified petition printed "(a) (a) That Petitioner has not
+previously pled guilty ..." on each of the four allegations the petitioner
+swears to personally, and printed its docket line twice on two documents; the
+filing checklist printed "- - Certified judgment and sentence ..."; DC's stop
+list printed three bullets introduced by nothing, and split the Seal Team's
+email address across two lines.
 
-2. **That route's §7 guide has no Spanish for at least one Overview entry**, so
-   `full-es` refuses rather than falling back to English — the guide renderer
-   behaving correctly. Mississippi's additional-misdemeanour routes are
-   therefore not deliverable in Spanish today. Wyoming's guide is complete and
-   its Spanish packet renders.
+**Visual review status.** Every page of every produced artifact was opened as an
+image and inspected: 15 artifacts, 146 pages, no remaining defect that changes
+what a participant is asked to do, told, or given somewhere to write. Six
+observations are recorded and **not** fixed here, each with the reason —
+principally that the fixes are widow-and-orphan control and an unkerned wrap
+measurement in the shared renderers, which would move bytes Roger approved on
+2026-09-20 for a route outside this batch. The visual review is bound to the
+batch by sha256 per artifact: rebuild an artifact and its review reads
+`not_inspected` rather than carrying forward. Page hashes in the batch file are
+identity evidence for which bytes were looked at; they are not visual
+acceptance, and the file says so.
 
 **Not repaired here, deliberately.** Approving composed bytes is an owner
 decision, and the build must not manufacture one. All five stay held.

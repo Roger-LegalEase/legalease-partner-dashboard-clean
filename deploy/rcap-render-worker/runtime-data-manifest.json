@@ -4,8 +4,8 @@
   "purpose": "The exact read-only data/ closure the render worker reads at runtime, so the container image carries it and no more.",
   "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
   "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
-  "fileCount": 138,
-  "totalBytes": 14988437,
+  "fileCount": 140,
+  "totalBytes": 15041922,
   "excluded": [
     {
       "path": "data/rcap-all50/composed-routes/**, other than route.json",
@@ -689,7 +689,7 @@
     },
     {
       "path": "data/rcap-grade-a/worker-static-authority.json",
-      "sha256": "e17a5b301bf333a497b8c419d136365bb38f5002cf6e7670495d9fa69c569aea",
+      "sha256": "c9f6d102b65f9d0d13e146a056e36fab83c0ba1dcc63b0898accac9afe085825",
       "bytes": 221705,
       "readBy": "src/lib/rcap/fulfillment/worker-static-authority.ts",
       "why": "Render-only legal/source/specification authority; external publication facts remain outside the image."
@@ -822,8 +822,8 @@
     },
     {
       "path": "data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json",
-      "sha256": "bd1bc2afac28741bd7638119e1350632561ce3e0a4eca3884f03336668657ca7",
-      "bytes": 34814,
+      "sha256": "b91addb76b035b337e2e80bdb4728ac16eaf55233ed328c64e36e963b8d23bcd",
+      "bytes": 35348,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
@@ -857,8 +857,8 @@
     },
     {
       "path": "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
-      "sha256": "aeb7ace411d0389259840df278cce4b4000dc90629e2c54cbbee0fa99c509688",
-      "bytes": 28449,
+      "sha256": "ad588e077ef31a839622bdc65e6279b7f2e69293a8c0b9a659ef3da809a48bc8",
+      "bytes": 28540,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
@@ -878,8 +878,8 @@
     },
     {
       "path": "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
-      "sha256": "737bcbb2edcc853f0e82a9c0867034934c2325543953ae11474a4900b6ad17ab",
-      "bytes": 54054,
+      "sha256": "2cb976a33a7814e53a20e18e34133b457003f81d3fdc22894a7d17fa1e749180",
+      "bytes": 54211,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
@@ -941,10 +941,17 @@
     },
     {
       "path": "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json",
-      "sha256": "c057a748a753f7adc6d7e136ea98708aa00c8bb75bc37a08475e62e7a6cb4e38",
-      "bytes": 51916,
+      "sha256": "6828916e90298f9cfc8e44b80112aa05f6c16a811b66854d01967edf86b1f7b6",
+      "bytes": 51723,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/supplemental-guides/DC-actual-innocence-expungement.v1.json",
+      "sha256": "25432d3da0806654c8155badb3f4178c9174040d826197debc6b4f3d74d51945",
+      "bytes": 23703,
+      "readBy": "src/lib/rcap/supplemental/guide-registry.ts (ESM JSON imports)",
+      "why": "Static imports: the module graph cannot load without every registered guide present, and the participant's full packet is assembled from them."
     },
     {
       "path": "data/record-clearing/supplemental-guides/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json",
@@ -968,16 +975,23 @@
       "why": "Static imports: the module graph cannot load without every registered guide present, and the participant's full packet is assembled from them."
     },
     {
+      "path": "data/record-clearing/supplemental-guides/IL-felony-prostitution-relief.v1.json",
+      "sha256": "8bc2e9b5c4a6956711b6bb46d240c8dd147fab56e496beb86484fe03ced0642c",
+      "bytes": 20234,
+      "readBy": "src/lib/rcap/supplemental/guide-registry.ts (ESM JSON imports)",
+      "why": "Static imports: the module graph cannot load without every registered guide present, and the participant's full packet is assembled from them."
+    },
+    {
       "path": "data/record-clearing/supplemental-guides/MS-additional-misdemeanor-relief.v1.json",
-      "sha256": "daa05d51948456830d24b87096641006750e4ba806f745c85519168be0f3b790",
-      "bytes": 17073,
+      "sha256": "39e1d595f86821683446d263ed96c441c9b0f8b24351d09e0d52faddfde7c247",
+      "bytes": 26066,
       "readBy": "src/lib/rcap/supplemental/guide-registry.ts (ESM JSON imports)",
       "why": "Static imports: the module graph cannot load without every registered guide present, and the participant's full packet is assembled from them."
     },
     {
       "path": "data/record-clearing/supplemental-guides/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json",
-      "sha256": "644d1f18a8ce34d0b27ac47ad7c7d63d9ea177fc2f2b548f6475640fdc4320fe",
-      "bytes": 19467,
+      "sha256": "43066daeae3400c4a99868e5cdbdb55028302c08ba88b181f33a12efa6cd063a",
+      "bytes": 19449,
       "readBy": "src/lib/rcap/supplemental/guide-registry.ts (ESM JSON imports)",
       "why": "Static imports: the module graph cannot load without every registered guide present, and the participant's full packet is assembled from them."
     },
@@ -990,8 +1004,8 @@
     },
     {
       "path": "data/record-clearing/supplemental-guides/WY-felony-conviction-expungement.v1.json",
-      "sha256": "bfe9cbacbe4b086ac9251077c1f108362c196e82e4797df5f2e4bec79ac73987",
-      "bytes": 28258,
+      "sha256": "e5bc43359ff5ee91b8d287f53bd0c4c15be0d4fd173799b5959c9e6263dc1a8e",
+      "bytes": 28242,
       "readBy": "src/lib/rcap/supplemental/guide-registry.ts (ESM JSON imports)",
       "why": "Static imports: the module graph cannot load without every registered guide present, and the participant's full packet is assembled from them."
     }

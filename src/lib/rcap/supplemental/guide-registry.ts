@@ -1,7 +1,9 @@
 import { createHash } from "node:crypto";
 
+import districtOfColumbiaActualInnocence from "@/../data/record-clearing/supplemental-guides/DC-actual-innocence-expungement.v1.json";
 import georgiaPardonedFelonyRestriction from "@/../data/record-clearing/supplemental-guides/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json";
 import georgiaSb288MisdemeanorRestriction from "@/../data/record-clearing/supplemental-guides/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json";
+import illinoisFelonyProstitutionRelief from "@/../data/record-clearing/supplemental-guides/IL-felony-prostitution-relief.v1.json";
 import illinoisMistakenIdentityRelief from "@/../data/record-clearing/supplemental-guides/IL-criminal-identity-theft-mistaken-identity-relief.v1.json";
 import mississippiAdditionalMisdemeanorRelief from "@/../data/record-clearing/supplemental-guides/MS-additional-misdemeanor-relief.v1.json";
 import mississippiFirstOffenderMisdemeanor from "@/../data/record-clearing/supplemental-guides/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json";
@@ -72,6 +74,11 @@ type RegisteredGuide = {
 
 const REGISTERED: ReadonlyArray<RegisteredGuide> = [
   {
+    routeKey: "DC:dc_actual_innocence_expungement_16_803",
+    guide: districtOfColumbiaActualInnocence as unknown as SupplementalGuide,
+    sourcePath: "data/record-clearing/supplemental-guides/DC-actual-innocence-expungement.v1.json"
+  },
+  {
     routeKey: "GA:restriction-and-sealing-of-a-pardoned-felony",
     guide: georgiaPardonedFelonyRestriction as unknown as SupplementalGuide,
     sourcePath: "data/record-clearing/supplemental-guides/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json"
@@ -80,6 +87,11 @@ const REGISTERED: ReadonlyArray<RegisteredGuide> = [
     routeKey: "GA:sb-288-misdemeanor-conviction-restriction-and-sealing",
     guide: georgiaSb288MisdemeanorRestriction as unknown as SupplementalGuide,
     sourcePath: "data/record-clearing/supplemental-guides/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json"
+  },
+  {
+    routeKey: "IL:felony-prostitution-relief",
+    guide: illinoisFelonyProstitutionRelief as unknown as SupplementalGuide,
+    sourcePath: "data/record-clearing/supplemental-guides/IL-felony-prostitution-relief.v1.json"
   },
   {
     routeKey: "IL:criminal-identity-theft-mistaken-identity-relief",

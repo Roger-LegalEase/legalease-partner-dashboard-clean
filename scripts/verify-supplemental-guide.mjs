@@ -257,16 +257,28 @@ for (const guide of guides) {
         components.length}/${supersededIds.length})`
     );
     for (const component of components) {
+      /*
+       * A leading list marker is not content, on either side.
+       *
+       * The adopted page writes its lists as "- Certified judgment and
+       * sentence ...". The guide renderer draws the bullet itself, so an entry
+       * that also carried one printed "- - Certified judgment and sentence" on
+       * the participant's checklist. Removing it from the entry then made this
+       * check report the line as dropped -- the check was holding the guide to
+       * the source's punctuation rather than to its words. Both sides are
+       * compared without the marker, and nothing else about the line moves.
+       */
+      const words = (line) => line.trim().replace(/^[-*]\s+/, "");
       const adoptedLines = component.sections
         .flatMap((section) => String(section.body ?? "").split("\n"))
-        .map((line) => line.trim())
+        .map(words)
         .filter(Boolean);
       const carried = new Set([
-        ...entries.map((entry) => entry.text.trim()),
-        ...(guide.carriedElsewhere ?? []).map((row) => row.text.trim()),
+        ...entries.map((entry) => words(entry.text)),
+        ...(guide.carriedElsewhere ?? []).map((row) => words(row.text)),
         // An edited line is accounted for by its RECORD, which names the
         // adopted original. Recorded, never inferred.
-        ...(guide.editedFromAdopted ?? []).map((row) => row.adoptedText.trim())
+        ...(guide.editedFromAdopted ?? []).map((row) => words(row.adoptedText))
       ]);
       const dropped = adoptedLines.filter((line) => !carried.has(line));
       check(

@@ -487,10 +487,30 @@ export function composeGradeAPacket(
   specification: PacketSpecification,
   matter: GradeAMatter
 ): GradeAPacket {
-  if (matter.routeKey !== specification.routeKey) {
+  /*
+   * A specification serves the routes it enumerates, and only those.
+   *
+   * This used to compare against `specification.routeKey` alone -- the primary
+   * route -- which is right for a single-route family and wrong for a family
+   * that declares more than one. Mississippi's additional-misdemeanour
+   * specification enumerates both the justice-court and municipal-court routes
+   * in `routeKeys`, its owner-bound legal scope covers both, `packetSpecificationFor`
+   * resolves it for both, and the §7 registry serves the same guide to both.
+   * Every one of those said two routes; this guard said one, so the municipal
+   * route could compose no packet at all while its record and its route
+   * resolution said it was a live factory-v2 route.
+   *
+   * So membership is the test, and enumeration is still the limit: a route the
+   * specification does not name is refused exactly as before. This widens
+   * nothing by itself -- a family serves two routes only where its author wrote
+   * two down.
+   */
+  const servedRoutes = [specification.routeKey, ...(specification.routeKeys ?? [])]
+    .filter((routeKey): routeKey is string => typeof routeKey === "string" && routeKey.length > 0);
+  if (!servedRoutes.includes(matter.routeKey)) {
     throw new GradeAPacketCompositionError(
       matter.routeKey, [],
-      `the matter is for ${matter.routeKey} and this specification is for ${specification.routeKey}. `
+      `the matter is for ${matter.routeKey} and this specification serves ${servedRoutes.join(", ") || "no route"}. `
       + "A packet is never composed from another route's specification."
     );
   }

@@ -48,13 +48,24 @@ import { register } from "node:module";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 const { packetSpecificationFor } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
-const { assembleParticipantPacket, packetRequiresSupplementalGuide } =
+const { assembleParticipantPacket, packetRequiresSupplementalGuide, participantGuideMatter } =
   await import("../src/lib/rcap/render/participant-packet-assembly.ts");
 const { composeParticipantDeliveryPacket } = await import("../src/lib/rcap/grade-a/participant-packet.ts");
 const { supplementalGuideFor, supplementalGuideIdentityFor } =
   await import("../src/lib/rcap/supplemental/guide-registry.ts");
 const { assertValidArtifact } = await import("../src/lib/rcap/render/artifact-validation.ts");
 
+/*
+ * The visual review is keyed to bytes, so it cannot drift onto different ones.
+ *
+ * It records that a person opened every page of a named artifact as an image
+ * and what they saw. If the artifact is rebuilt and its digest moves, the
+ * record no longer describes what would ship -- so it is matched by sha256 and
+ * a produced artifact with no match is reported, never quietly carried forward
+ * as reviewed. A batch with an unreviewed artifact is still written; what it
+ * must not do is claim the artifact was looked at.
+ */
+const VISUAL_REVIEW = "data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_2026-09-20.json";
 const OUT_DIR = "data/rcap-ledger/grade-a/artifacts/current-commercial-review";
 const RASTER_ROOT = "data/rcap-ledger/grade-a/reviews/current-commercial-artifact-rasters";
 const EVIDENCE = "data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_REVIEW_2026-09-20.json";
@@ -143,6 +154,17 @@ function declaredFacts(specification) {
 function reviewFacts(specification, participant, alphabet) {
   const owned = participantOwned(specification);
   const facts = {};
+  /*
+   * The subset a real matter would actually carry as an ANSWER.
+   *
+   * The guide cover is drawn from the matter, and the matter is drawn from the
+   * participant's answers -- so feeding it every declared fact would print, on
+   * the cover, a value for a blank the packet leaves for the participant to
+   * write on paper. The leak control catches that as a varying byte, which is
+   * exactly right: a case number the platform never had must not appear under
+   * CASE / MATTER because a review harness invented one.
+   */
+  const participantAnswers = {};
   const synthesized = [];
   /*
    * Participant-owned placeholders do NOT vary between the two runs.
@@ -167,13 +189,18 @@ function reviewFacts(specification, participant, alphabet) {
     email: participant.email
   };
   for (const id of declaredFacts(specification)) {
-    if (identity[id] !== undefined && identity[id] !== null) { facts[id] = identity[id]; continue; }
+    if (identity[id] !== undefined && identity[id] !== null) {
+      facts[id] = identity[id];
+      participantAnswers[id] = identity[id];
+      continue;
+    }
     if (owned.has(id)) {
       // A participant-owned fact with no reviewed value is still the
       // participant's, so it is marked as supplied by the review rather than
       // dressed up as one of their answers. It prints, and it is listed for the
       // owner as review-supplied content rather than reviewed content.
       facts[id] = participantPlaceholder(id);
+      participantAnswers[id] = facts[id];
       synthesized.push({ factId: id, ownership: "participant_owned", printsOnThePage: true,
         note: "The reviewed fixture does not carry this answer, so the review supplied a marked placeholder. It is the participant's own content and it appears in the packet." });
       continue;
@@ -181,8 +208,19 @@ function reviewFacts(specification, participant, alphabet) {
     facts[id] = `${alphabet}-${id}`;
     synthesized.push({ factId: id, ownership: "not_supplied_by_the_platform", printsOnThePage: false });
   }
-  return { facts, synthesized };
+  return { facts, participantAnswers, synthesized };
 }
+
+const visualReview = (() => {
+  const file = path.join(rootDir, VISUAL_REVIEW);
+  if (!fs.existsSync(file)) return null;
+  const record = JSON.parse(fs.readFileSync(file, "utf8"));
+  const byBytes = new Map();
+  for (const entry of record.artifacts ?? []) {
+    byBytes.set(`${entry.routeId}|${entry.artifactId}|${entry.sha256}`, entry);
+  }
+  return { record, byBytes };
+})();
 
 const failures = [];
 const routes = [];
@@ -199,9 +237,28 @@ for (const route of ROUTES) {
     routeKey: route.routeId, generationPurpose: "internal_review", facts,
     verifiedAt: VERIFIED_AT, verificationHash: "current-commercial-artifact-review"
   });
-  const assemble = async (facts, variant, locale) => (await assembleParticipantPacket(
-    composeParticipantDeliveryPacket(specification, matterFor(facts)),
-    { routeKey: route.routeId, specification, variant, locale, verifiedAt: VERIFIED_AT }
+  /*
+   * The guide cover is drawn from the MATTER, and the matter is built the one
+   * way participant delivery builds it.
+   *
+   * Omitting it did not fail: the renderer drew "Not established for this
+   * route - ask the clerk or filing office" under PREPARED FOR, COURT / AGENCY,
+   * CASE / MATTER and REMEDY, which is a sentence the renderer means for a
+   * field the ROUTE establishes nothing for -- not for a field the caller
+   * simply did not pass. A review artifact carrying that cover is not the
+   * artifact the commercial provider delivers, and it is the cover that says so
+   * least visibly, because every cell looks deliberate.
+   */
+  const packetId = `current-commercial-artifact-review-${route.slug}`;
+  const guideMatter = (answers, locale) => participantGuideMatter({
+    verifiedAt: VERIFIED_AT,
+    jurisdiction: route.routeId.split(":")[0],
+    screeningAnswers: {}, prefilledAnswers: {}, packetAnswers: answers, serverFacts: {}
+  }, packetId, locale, specification);
+  const assemble = async (composed, variant, locale) => (await assembleParticipantPacket(
+    composeParticipantDeliveryPacket(specification, matterFor(composed.facts)),
+    { routeKey: route.routeId, specification, variant, locale, verifiedAt: VERIFIED_AT,
+      matter: guideMatter(composed.participantAnswers, locale) }
   ));
 
   // The leak control: two alphabets, one expected set of bytes.
@@ -209,8 +266,8 @@ for (const route of ROUTES) {
   const alternate = reviewFacts(specification, participant, "ZZZ");
   let leaked = null;
   try {
-    const a = await assemble(primary.facts, "full", "en");
-    const b = await assemble(alternate.facts, "full", "en");
+    const a = await assemble(primary, "full", "en");
+    const b = await assemble(alternate, "full", "en");
     if (digest(a.bytes) !== digest(b.bytes)) {
       leaked = primary.synthesized
         .filter((entry) => entry.ownership === "not_supplied_by_the_platform")
@@ -250,7 +307,7 @@ for (const route of ROUTES) {
   const artifacts = [];
   for (const output of outputs) {
     let assembly;
-    try { assembly = await assemble(primary.facts, output.variant, output.locale); }
+    try { assembly = await assemble(primary, output.variant, output.locale); }
     catch (error) {
       artifacts.push({ id: output.id, variant: output.variant, locale: output.locale,
         produced: false, refusal: String(error.message ?? error).slice(0, 300) });
@@ -277,7 +334,21 @@ for (const route of ROUTES) {
       guideAssembled: assembly.guideAssembled,
       supplementalGuide: assembly.guide,
       rasterDirectory: `${RASTER_ROOT}/${route.slug}-${output.id}`,
-      pageSha256: pages.map((name) => digest(fs.readFileSync(path.join(directory, name))))
+      pageSha256: pages.map((name) => digest(fs.readFileSync(path.join(directory, name)))),
+      visualReview: (() => {
+        const entry = visualReview?.byBytes.get(`${route.routeId}|${output.id}|${validation.sha256}`);
+        if (!entry) {
+          return { status: "not_inspected", why: visualReview
+            ? "These exact bytes are not the bytes the visual review record names, so nothing here has been looked at."
+            : "No visual review record is present." };
+        }
+        if (entry.pagesInspectedAsImages !== validation.pageCount) {
+          return { status: "partially_inspected", pagesInspectedAsImages: entry.pagesInspectedAsImages,
+            pageCount: validation.pageCount };
+        }
+        return { status: entry.status, pagesInspectedAsImages: entry.pagesInspectedAsImages,
+          record: `${VISUAL_REVIEW}#${entry.routeId}|${entry.artifactId}` };
+      })()
     });
   }
 
@@ -346,6 +417,18 @@ const evidence = {
     + "them. Until one does, every route here stays held by the current-commercial-artifact proof in the fulfillment "
     + "authority, which worker publication cannot clear.",
   relatedReconciliation: "data/rcap-grade-a/legal-decisions/SPECIFICATION_DERIVATION_RECONCILIATION_2026-09-20.json",
+  visualReview: visualReview
+    ? {
+        record: VISUAL_REVIEW,
+        recordId: visualReview.record.recordId,
+        sha256: digest(read(VISUAL_REVIEW)),
+        /* Said plainly, because a page-hash list next to a page count reads
+         * like acceptance to anyone who does not stop on the sentence. */
+        pageHashesAreNotVisualAcceptance:
+          "Page hashes in this file say which bytes were inspected. They do not say the pages are acceptable. "
+          + "That is what the visual review record says, artifact by artifact, and it is bound here by sha256."
+      }
+    : { record: null, status: "no_visual_review_record" },
   reviewScope: "For each route: the full participant packet, the court-facing subset, and the Spanish full packet "
     + "where the route carries a §7 guide. Every page of every artifact is rendered to an image and hashed. The "
     + "court-only packet is checked to carry no participant guide. Facts the reviewed fixture does not supply are "
