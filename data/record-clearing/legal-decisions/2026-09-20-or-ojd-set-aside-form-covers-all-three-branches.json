@@ -1,0 +1,190 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "OR-OJD-SET-ASIDE-FORM-COVERS-ALL-THREE-BRANCHES-2026-09-20",
+  "reviewer": "Captain (implementation finding from the controlling form's own bytes; not a counsel approval)",
+  "reviewDate": "2026-09-20",
+  "familyId": "rcap-or-official-pdf-fill",
+  "answers": {
+    "record": "data/record-clearing/legal-decisions/2026-09-19-or-137-225-case-mode-spans-two-situations.json",
+    "field": "notModelledHere",
+    "questionAsked": "Which of the three branches the existing or_acquittal-set packet and its OJD form set were actually drafted against, and whether the OR-OJD-ADULT-SET-ASIDE-PACKET form covers all three. That is the first question the §5 split has to answer from the form itself."
+  },
+  "scope": [
+    "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+    "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+    "or_acquittal",
+    "or_arrest_no_charges",
+    "or_dismissed_charge"
+  ],
+  "sourceRead": {
+    "sourceId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+    "officialTitle": "OJD Criminal Set-Aside Adult Packet",
+    "revision": "REV-2026-01",
+    "formRevisionPrintedOnEveryPage": "(Jan 2026)",
+    "location": "STATES/OR/02_PACKET_FORMS/OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
+    "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+    "bytesVerified": "The file read for this record hashes to the sha256 the specification already binds. This is the same bytes the overlay family was profiled against, not a fresh download of a form that may have moved.",
+    "structure": "5 PDF pages: 'Set-Aside – Instructions' pages 1-3, then 'Motion – Set Aside' pages 1-2.",
+    "extraction": "pdftotext -layout"
+  },
+  "finding": "The form covers all three branches, and it covers the conviction route too. It is ONE instrument for the whole Oregon adult set-aside family, and the branch is selected inside it by a check-one-option Eligibility Statement rather than by choosing a different document.",
+  "evidence": {
+    "oneInstrument": {
+      "title": "MOTION TO SET ASIDE AND SEAL",
+      "caption": "IN THE CIRCUIT COURT OF THE STATE OF OREGON",
+      "citedAuthorityOnTheForm": "ORS 137.225 or 137.223",
+      "where": "Motion – Set Aside, page 1 of 2",
+      "titleContinuation": "AND",
+      "titleSecondInstrument": "DECLARATION OF ELIGIBILITY",
+      "titleNote": "The right-hand caption column prints the title on three lines: 'MOTION TO SET ASIDE AND SEAL', 'AND', 'DECLARATION OF ELIGIBILITY'. One filed instrument carrying both the motion and the declaration.",
+      "captionSecondLine": "FOR THE COUNTY OF",
+      "captionNote": "The county is a blank the filer completes; the form prints no default county."
+    },
+    "theCheckOneOptionStatement": {
+      "where": "Motion – Set Aside, page 1 of 2, 'ELIGIBILITY STATEMENT AND LEGAL BASIS — I am eligible and move for a set aside of my record because the following is true (check one option only)'",
+      "options": [
+        {
+          "option": "Option 1",
+          "printedText": "There was a court case, and I was convicted on at least one charge (or found guilty except for insanity (GEI) or in contempt of court)",
+          "branch": "the conviction route",
+          "runtimeRoute": "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+          "caseMode": "existing_case"
+        },
+        {
+          "option": "Option 2",
+          "printedText": "There was a court case, and I am not moving to set aside any convictions. I am moving to set aside all eligible dismissed or acquitted charges only.",
+          "branch": "or_dismissed_charge and or_acquittal together — the form does not separate them",
+          "caseMode": "existing_case"
+        },
+        {
+          "option": "Option 3",
+          "printedText": "I was cited or arrested and there was no court case. I am moving to set aside the citation or arrest records.",
+          "branch": "or_arrest_no_charges",
+          "caseMode": "new_case"
+        }
+      ]
+    },
+    "caseModeIsOnTheFormsOwnFace": {
+      "printedText": "Case No:",
+      "where": "Motion – Set Aside, page 1 of 2, caption block",
+      "why": "The question the 2026-09-19 record could not resolve from the venue sentence is answered by the caption field itself. The form does not need to know whether a case exists; it instructs the filer to leave the number blank when one does not. One caption serves both case modes.",
+      "printedQualifier": "(leave blank if no court case)",
+      "printedTextNote": "The caption prints the label 'Case No:' with the qualifier '(leave blank if no court case)' set beneath it. The blank itself is a fillable space, not printed characters."
+    },
+    "branchDifferencesTheFormDoesEncode": {
+      "where": "Motion – Set Aside, page 2 of 2, 'DECLARATION OF ELIGIBILITY'",
+      "universal": [
+        "I have waited the required period under law to file this Motion",
+        "I believe I am legally eligible for a set aside",
+        "I have filed fingerprints with the Oregon State Police",
+        "I will serve a copy of this Motion on the prosecuting attorney"
+      ],
+      "optionOneOnly": {
+        "printedCondition": "If you selected Option 1 above, all of the following must also be true.",
+        "statements": [
+          "I am not currently charged with a crime or contempt of court related to abuse or a person crime",
+          "I have paid the Oregon State Police background check fee",
+          "I have fully complied and performed all terms of the sentence of the court"
+        ]
+      },
+      "reading": "The form carries the branch difference as conditional statements inside one declaration. It does not carry it as a different document."
+    }
+  },
+  "consequenceForTheSplit": {
+    "whatStands": "The route-level split decided on 2026-09-19 stands. The controlling subsection, the timing precondition and the description of who the prosecuting attorney is still differ between the (1)(c) no-instrument branch and the (1)(d) dismissed and acquitted branches, and the form states the timing difference itself: 'You can file 60 days after the prosecutor says they won't file charges, or you can file any time after your case was dismissed or you were acquitted' (Instructions, page 2 of 3).",
+    "whatDoesNot": "The vehicle-level split does not. The 2026-09-19 comparison recorded three distinct legalNames — 'Motion to Set Aside the Record of an Arrest, Citation or Charge Where No Accusatory Instrument Was Filed', 'Motion to Set Aside the Record of a Dismissed Charge' and 'Motion to Set Aside the Record After an Acquittal' — and marked the vehicle as materially differing. Those three titles are the memo's descriptive names for the situations. They are not the controlling instrument's title, and the controlling instrument is one form with one title for all of them.",
+    "rule": "An official form controls here, so the Form vs Custom Pleading rule says use it. Three separately titled custom pleadings would replace a mandatory official form with generic drafting, which that rule forbids, and would put three different documents in front of a clerk who is expecting the OJD packet.",
+    "correctedModel": "Three routes (eligibility, timing, guidance and screening disposition differ) composing ONE official form, with the option checkbox and the blank-or-filled case number carrying the branch. caseMode per branch remains as 2026-09-19 stated it; it is expressed by the caption field rather than by a document choice.",
+    "alsoEstablished": "The same form serves the conviction route OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a through Option 1, so the Oregon adult set-aside family shares one instrument across four situations. The marijuana route is separate and has its own OJD form (overlay family or-ojd-motion-and-declaration-to-set-aside-marijuana-conviction)."
+  },
+  "sectionContentTheFormSupplies": {
+    "note": "Each entry is quoted from the form and cited to its page. These are the source-backed answers for the specification's unbound legalSections. Recording them here does not bind them; binding happens in the specification after the route split, and counsel review is still required.",
+    "filingDestination": {
+      "printedText": "File your forms in the circuit court where the case happened or would have happened.",
+      "where": "Instructions, page 3 of 3, step 6",
+      "note": "'or would have happened' is how one sentence covers the no-case branch. It agrees with the venue sentence the 2026-09-19 record quoted from the memo, and it is the one dimension that does not differ by branch."
+    },
+    "feeAndWaiver": {
+      "courtFilingFee": {
+        "printedText": "No Filing Fee",
+        "where": "Motion – Set Aside, page 1 of 2, caption block"
+      },
+      "agencyFee": {
+        "printedText": "Pay the Oregon State Police fee if you are asking the court to seal a conviction.",
+        "where": "Instructions, page 2 of 3, step 1",
+        "note": "An agency fee for the fingerprint-based record check, not a court filing fee, and by its own terms conditional on sealing a conviction. The declaration's Option-1-only statement 'I have paid the Oregon State Police background check fee' agrees. The exact OSP fee amount is not stated on this form and is not asserted here."
+      }
+    },
+    "serviceAndNotice": {
+      "recipient": {
+        "printedText": "Mail a copy of motion and declaration to the Prosecuting Attorney in the county where charges were or could have been filed, or arrest occurred.",
+        "where": "Instructions, page 3 of 3, step 4"
+      },
+      "method": "United States mail, per the Certificate of Mailing's own wording.",
+      "certificate": {
+        "printedText": "Fill out the certificate of mailing at the bottom of the form",
+        "where": "Instructions, page 3 of 3, step 5",
+        "onTheInstrument": true,
+        "note": "The certificate of service is part of the official instrument, at the foot of Motion page 2 of 2. It is not a separate component and must not be generated as one.",
+        "certificateHeading": "Certificate of Mailing",
+        "certificateTextContinued": "I placed a true and complete copy of this Motion in the United States mail to the prosecuting attorney at (address):",
+        "certificateTextNote": "Printed across two lines with fillable spaces after '(date):' and after '(address):', and signed and dated by the defendant beneath.",
+        "certificateTextLine1": "I certify that on (date):",
+        "certificateTextLine2": "I placed a true and complete copy of this Motion in the United States mail to the prosecuting attorney at (address):"
+      },
+      "alsoServedByTheState": {
+        "printedText": "Oregon State Police will send the results to the prosecuting attorney.",
+        "where": "Instructions, page 2 of 3, step 1",
+        "note": "The fingerprint results reach the DA from OSP, not from the participant."
+      }
+    },
+    "copyRequirements": {
+      "printedText": "Make 2 copies of the Motion and Declaration:",
+      "where": "Instructions, page 3 of 3, step 3",
+      "printedBullets": [
+        "One for your records",
+        "One to send to the District Attorney (see step 4)"
+      ]
+    },
+    "hearingAndObjectionStops": {
+      "printedText": "The District Attorney typically has 120 days to object. If they object, the court will schedule a hearing. You may receive a hearing notice from the court.",
+      "where": "Instructions, page 3 of 3, 'What happens next?'",
+      "note": "The form says 'typically', so the 120 days is the form's own characterisation rather than a period this record states as a deadline."
+    },
+    "postFilingTimeline": {
+      "printedText": "If the court grants your request:",
+      "where": "Instructions, page 3 of 3, 'What happens next?'",
+      "printedBullets": [
+        "Your record is sealed.",
+        "You will receive a copy of the judicial document sealing your case."
+      ],
+      "printedBulletNote": "The 'Your record is sealed.' bullet continues into the sealing-effect sentence recorded under observationNotActedOn; that continuation is deliberately not quoted as part of this section."
+    },
+    "prerequisiteBeforeFiling": {
+      "printedText": "Get fingerprinted and: … Send your fingerprint card to the Oregon State Police. … Fill out the Oregon State Police Request for Set Aside form.",
+      "where": "Instructions, page 2 of 3, step 1",
+      "note": "This is a filing-readiness step the participant performs at an agency, and the declaration requires it to be done before the motion is filed ('I have filed fingerprints with the Oregon State Police'). It is not a packet-generation prerequisite and must not become an upload gate. The separate OSP form is already a bound source on this route as OR-OSP-SET-ASIDE-CCH."
+    }
+  },
+  "observationNotActedOn": {
+    "what": "The instructions attribute the sealing-effect language to 'ORS 137.255(4)': \"ORS 137.255(4) states that 'upon entry of the order, the conviction, arrest, citation, charge or other proceeding [ordered set aside by the court] shall be deemed not to have occurred, and [you] may answer accordingly any questions relating to its occurrence.'\"",
+    "where": "Instructions, page 3 of 3, 'What happens next?'",
+    "concern": "ORS 137.255 is a different statute from the ORS 137.225 this packet is filed under, and the quoted effect is the effect ORS 137.225 provides. On its face this reads as a citation error in the OJD instructions rather than a cross-reference.",
+    "disposition": "Recorded, not resolved, and not printed. This record does not repeat that subsection cite, and it does not silently substitute a corrected one: which subsection carries the effect language is a legal question, and guessing it into participant-facing text is exactly what the source rule forbids. A participant guide may describe the effect without asserting a subsection number until this is confirmed.",
+    "doesNotAffect": "Nothing in the packet composes from this sentence. It is instruction-page prose, not a field on the instrument."
+  },
+  "whatThisDoesNotDo": {
+    "doesNotBindSections": "legalSectionsBound stays false on OR-set-aside-without-conviction.v1.json. This record supplies the source-backed content and the form determination; the specification is edited when the route split lands, so the binding and the route model move together rather than the specification claiming a shape the registry does not have.",
+    "doesNotSplitTheRoute": "No route, registry, state pack, planner or renderer change is made here.",
+    "doesNotDecideStatutoryAuthority": "The unbound statutoryAuthority section asks for the controlling subsection AND the rule statement a packet may print. The form cites 'ORS 137.225 or 137.223' without resolving which subsection governs which option, so the subsection assignment still rests on the memo reading recorded on 2026-09-19 and still needs counsel.",
+    "doesNotTouchScreening": "No screening question is added. The 2026-09-19 instruction not to introduce an 'Was an accusatory instrument filed?' question stands; Option 2 versus Option 3 follows from the disposition the participant has already answered."
+  },
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "opensAnyRoute": false,
+  "productionAuthorized": false,
+  "remainingReview": "Unchanged from 2026-09-19 and not reduced by this record: counsel review of the branch split, of the exact intake question that establishes whether an accusatory instrument was filed, and of the 60-day declination timing on the uncharged branch. Added by this record: confirmation that one official instrument serving four situations is the correct product model for Oregon, and the ORS 137.255(4) citation question above."
+}

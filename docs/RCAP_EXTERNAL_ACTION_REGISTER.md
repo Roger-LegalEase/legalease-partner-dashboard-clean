@@ -330,6 +330,59 @@ Each is a control describing a product that has moved on, which is a repair to
 make deliberately rather than while chasing a dispatch. They are named here so
 the next pass starts from a list rather than from a rediscovery.
 
+## Item 14 — OPEN — the Stripe sandbox webhook points at the previous Preview
+
+| # | Item | Owner | Evidence | Why it is external |
+|---|------|-------|----------|---------------------|
+| 14 | Retarget the one existing Stripe sandbox webhook endpoint from the previous acceptance Preview to the Preview this candidate created | Operator (Codex hosted-acceptance lane) | Run 35542197750, checkout gate exit 78 | `hosted_full` deliberately does not retarget. The phase table sets `stripeRetarget=false` for `full`, so the mutation lives in its own `stripe_retarget` phase and a full run stops and asks rather than changing a shared external destination mid-matrix |
+
+**This is the designed stop, not a defect.** Run 35542197750 proved the Item 11C
+repair end to end: the Preview was created from the new application pin
+(`dpl_7fS5R3jKGRYeCCyuvafkoMfrkgpe` at
+`legalease-rcap-884ad51d0ad5-roger947s-projects.vercel.app` — the hostname
+carries the pin), `immutable_inputs_exact`, `vercel_project_identity_resolved`,
+`exact_ready_preview_reused` and `worker_pulled_by_immutable_digest` all passed
+against `sha256:9faa24e8…`, and **`GALLERY PASSED`**. The run then stopped where
+it is built to stop:
+
+```
+STRIPE WEBHOOK URL UPDATE REQUIRED
+  current host: legalease-rcap-62425c837b5e-roger947s-projects.vercel.app
+  required host: legalease-rcap-884ad51d0ad5-roger947s-projects.vercel.app
+  required endpoint: /api/stripe/webhook?x-vercel-protection-bypass=<existing secret>
+```
+
+Exit code 78 is this lane's "an external action is required", which is what this
+register exists for. The deploy step had already said the same thing at
+22:40:50, so the gate is confirming a known consequence of creating a new
+Preview rather than discovering a fault.
+
+**Why the run could not do it itself.** The phase table prints
+`phase=full deploy=true matrix=true checkoutGate=true stripeRetarget=false`.
+Retargeting is a release-control mutation of one shared sandbox endpoint, so it
+is isolated into its own phase with its own required inputs — the exact
+deployment id and the exact hostname — and a full run is not allowed to perform
+it as a side effect. The payment matrix cannot pass until it is done, because
+Stripe would deliver `checkout.session.completed` to the previous Preview.
+
+**The action.** Dispatch `rcap-f1-ephemeral-staging.yml` with
+`mode: stripe_retarget`, the same application/worker/tools pins, and:
+
+| input | value |
+|---|---|
+| `preview_deployment_id` | `dpl_7fS5R3jKGRYeCCyuvafkoMfrkgpe` |
+| `preview_hostname` | `legalease-rcap-884ad51d0ad5-roger947s-projects.vercel.app` |
+
+Then re-run `hosted_full` (or `checkout_gate` then `payment`) against the same
+Preview. The retarget updates the URL of one already-existing endpoint
+(`we_1U4AKGRWROAHlAKyNFChAnWr`, `livemode: false`); it never creates or deletes
+an endpoint, never writes `enabled_events`, and never reads or rotates the
+signing secret. Production is not involved and is not authorized.
+
+**Not dispatched by the Captain.** Hosted acceptance is the Codex lane, and this
+step changes a destination shared with other runs, so it is recorded here rather
+than fired unilaterally.
+
 ## Item 11 — the worker publication gate refuses the release candidate
 
 | # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |

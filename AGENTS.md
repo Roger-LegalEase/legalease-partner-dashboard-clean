@@ -2,6 +2,20 @@
 
 ## Plan hierarchy
 
+**Controlling execution document:**
+`docs/EXPUNGEMENT_AI_GRADE_A_MISSION_LOCK_BUILD_PLAN.md`. This repository copy is
+the one both Claude and Codex execute from. Read it at the start of a session and
+use it to decide whether proposed work is required, already complete, owned by the
+other agent, a shared-foundation change needing coordination, or work that should
+not be started. It is committed once and amended in place — do not write a
+derivative plan, a second worklist, or a competing definition of done.
+
+Two things it says about itself that are easy to get wrong. Its §7 release
+snapshot is a reference, not a live record: refresh branch, SHA and run state
+from the repository before acting on it. And its authority order puts Roger's
+current instruction above the plan, so a live instruction that disagrees with §7
+governs.
+
 **Enterprise plan of record:** `docs/LegalEase-Master-Build-Plan-v4.md`. It carries
 all still-controlling v3 content and adds the Company Controls and SOC 2
 Operating System as a parallel cross-company workstream. v3 is preserved
