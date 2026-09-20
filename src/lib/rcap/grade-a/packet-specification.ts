@@ -88,6 +88,23 @@ export type PacketSpecificationSection = {
    * placeholder token.
    */
   /**
+   * Whether this section's heading is PRINTED on the page or is the
+   * specification's own internal label for the part.
+   *
+   * Declared, because the document contract decides structure. Illinois's
+   * mistaken-identity petition prints A. REQUEST FOR MISTAKEN-IDENTITY
+   * CORRECTION through E. CERTIFICATION UNDER 735 ILCS 5/1-109 — its own
+   * filing instructions send the participant to "Complete C1, C2 and C6"
+   * against those markers — while "Caption" and "The conviction" are labels
+   * for whoever reads the file and belong nowhere near a filed page.
+   *
+   * An earlier attempt decided this by how the heading was spelt, which made
+   * renaming an internal label enough to publish it and rewording a printed
+   * one enough to delete it. Absent, a pleading section's heading stays
+   * internal, which is what every route but Illinois relies on.
+   */
+  headingPresentation?: "printed" | "internal";
+  /**
    * The label above a signature block's date rule, where the adopted page
    * rules one. Absent where the page has only a signature line.
    */
@@ -331,6 +348,28 @@ export type PacketSpecificationDocument = {
     /** Adopted lines whose wording changed only because they moved. */
     linesEdited?: Array<{ adoptedText: string; participantText: string; why: string }>;
   };
+  /**
+   * Sentences taken off this FILED page because they instruct the preparer
+   * rather than state the case, with where the participant reads them instead.
+   *
+   * Narrower than `artifactBoundarySplit`, and for a different shape of
+   * defect: nothing is divided into two documents here, one sentence simply
+   * does not belong on a page a judge reads. Illinois's relief request ended
+   * "An unknown offender name must not be invented." -- a drafting rule
+   * addressed to whoever fills the petition in, printed inside the relief the
+   * court is being asked to grant.
+   *
+   * `destinationText` is what the participant actually reads, which may be a
+   * sentence the guidance already carried. Recording the destination rather
+   * than duplicating the line is the point: the instruction has to survive,
+   * and saying it twice in one packet is its own defect.
+   */
+  linesMovedToParticipantGuidance?: Array<{
+    text: string;
+    destinationDocumentId: string;
+    destinationText: string;
+    why: string;
+  }>;
   /** One rendered document may intentionally cover multiple manifest components. */
   manifestComponentIds?: string[];
   sections: PacketSpecificationSection[];

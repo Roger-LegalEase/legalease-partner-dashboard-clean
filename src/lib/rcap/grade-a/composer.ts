@@ -352,7 +352,7 @@ function structuredBlocks(
 }
 
 /**
- * The heading a pleading section DRAWS, where the adopted page draws one.
+ * The heading a pleading section DRAWS, where the section says it draws one.
  *
  * Most section headings are the specification's own labels for its parts --
  * "Caption", "Petitioner", "The conviction" -- and belong in the file rather
@@ -363,15 +363,24 @@ function structuredBlocks(
  * filing instructions tell the participant to "Complete C1, C2 and C6". A page
  * that drops those markers loses the structure its instructions refer to.
  *
- * So a heading is drawn when it LOOKS like a printed marker -- a number or a
- * capital letter, a period, then a title -- and not otherwise. "Caption" and
- * "The conviction" do not match, so nothing already shipping changes; a bare
- * "3." keeps its existing meaning as a numbered block.
+ * IT IS DECLARED, NOT INFERRED FROM SPELLING.
+ *
+ * A first version drew any heading shaped like a marker -- a letter or number,
+ * a period, then a title. That got Illinois's headings onto the page and put a
+ * new shared assumption underneath every route: whether a heading is printed
+ * would depend on how somebody happened to word it, so renaming an internal
+ * label could publish it and rewording a printed one could delete it. The
+ * document contract decides structure, so the section says which it is.
+ *
+ * The pre-existing bare-number rule is untouched: a heading that is literally
+ * "3." has always meant a numbered block and still does. It is not widened,
+ * and no heading anywhere currently relies on it.
  */
-function sectionDesignator(heading: string): string | undefined {
-  const text = String(heading ?? "").trim();
-  if (/^\d+\.$/.test(text)) return text;
-  return /^(?:\d+|[A-Z])\.\s+\S/.test(text) ? text : undefined;
+function sectionDesignator(section: PacketSpecificationSection): string | undefined {
+  const text = String(section.heading ?? "").trim();
+  if (section.headingPresentation === "printed") return text;
+  if (section.headingPresentation === "internal") return undefined;
+  return /^\d+\.$/.test(text) ? text : undefined;
 }
 
 function fill(text: string, matter: GradeAMatter): string {
@@ -641,7 +650,7 @@ function composeSection(
 
     case "pleading_paragraph": {
       const blocks = structuredBlocks(fill(section.body ?? "", matter), "pleading_paragraph");
-      const designator = sectionDesignator(section.heading);
+      const designator = sectionDesignator(section);
       // The designator belongs to the section, so it is drawn once, above the
       // first paragraph -- not repeated over each one.
       if (designator && blocks.length > 0 && blocks[0].kind === "pleading_paragraph") {
@@ -701,7 +710,7 @@ function composeSection(
       const hasImpact = fact(matter, "personal_impact_confirmed") === "Yes";
       const number = section.heading === "AUTO"
         ? (hasImpact ? "5." : "4.")
-        : sectionDesignator(section.heading);
+        : sectionDesignator(section);
       /*
        * A multi-paragraph introduction is not one run of text. Nevada's
        * proposed order opens with a recital, then a blank line, then the

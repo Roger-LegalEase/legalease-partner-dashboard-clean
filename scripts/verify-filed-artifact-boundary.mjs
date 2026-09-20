@@ -299,6 +299,46 @@ for (const specification of specifications) {
 
 check(splitsChecked > 0, `components split along the artifact boundary are audited (${splitsChecked})`);
 
+// ---------------------------------------------------------------------------
+// 1b. A sentence taken off a filed page still reaches the participant.
+//
+// The narrow case: not a component divided in two, but one line that instructs
+// the preparer rather than stating the case. Removing it from the petition is
+// half the job; the other half is that the participant still learns it. The
+// record names where they read it, and that destination is checked to exist --
+// recording a destination is not the same as having one.
+// ---------------------------------------------------------------------------
+
+let movedLines = 0;
+for (const specification of specifications) {
+  const byId = new Map(specification.documents.map((document) => [document.documentId, document]));
+  for (const document of specification.documents) {
+    for (const moved of document.linesMovedToParticipantGuidance ?? []) {
+      movedLines += 1;
+      const where = `${specification.routeKey}|${document.documentId}`;
+      const destination = byId.get(moved.destinationDocumentId);
+      check(
+        Boolean(destination) && destination.documentContract?.recipient === "participant",
+        `${where}: "${moved.text.slice(0, 40)}…" moves to a document the PARTICIPANT reads`
+      );
+      const body = (destination?.sections ?? []).map((section) => flat(section.body ?? "")).join(" ");
+      check(
+        body.includes(flat(moved.destinationText)),
+        `${where}: and that document actually carries the instruction it is recorded as carrying`
+      );
+      check(
+        !(document.sections ?? []).some((section) => flat(section.body ?? "").includes(flat(moved.text))),
+        `${where}: and the filed page no longer carries it`
+      );
+      check(
+        typeof moved.why === "string" && moved.why.length >= 60,
+        `${where}: and says why it does not belong on a filed page`
+      );
+    }
+  }
+}
+check(movedLines >= 0, `sentences moved off a filed page are audited (${movedLines})`);
+
 // ===========================================================================
 // 2. The rendered output, court-only and full.
 // ===========================================================================
@@ -314,7 +354,26 @@ const NOT_FILING_CONTENT = [
   { label: "a product self-reference", pattern: /\bthe platform (never|does not|will not)\b/i },
   { label: "an acquisition instruction", pattern: /\bWHERE YOU GET IT\b/ },
   { label: "an assembly instruction", pattern: /\bATTACH (BEHIND|THIS ONLY|THESE ONLY)\b/i },
-  { label: "a how-to-obtain heading", pattern: /\bHOW TO OBTAIN IT\b/i }
+  { label: "a how-to-obtain heading", pattern: /\bHOW TO OBTAIN IT\b/i },
+  /*
+   * A DRAFTING RULE ADDRESSED TO WHOEVER FILLS THE PAGE IN.
+   *
+   * Illinois's relief request ended "An unknown offender name must not be
+   * invented." -- true, necessary, and printed inside the relief a judge is
+   * being asked to grant, where it reads as part of the request rather than as
+   * the instruction it is. It is a different failure from the Georgia one: not
+   * a product disclaimer and not an acquisition step, so none of the rules
+   * above saw it, and it was found by reading the page.
+   *
+   * Deliberately narrow. It matches an instruction ABOUT filling the document
+   * in -- inventing, guessing, leaving blank, completing before signing -- and
+   * not a pleaded fact. "substituting the offender's name if known" is the
+   * substantive limit on the request and stays.
+   */
+  {
+    label: "a drafting instruction to the preparer",
+    pattern: /\b(must not be invented|do not (invent|guess|make up)|leave (this|it) blank|before signing this)\b/i
+  }
 ];
 
 /**
