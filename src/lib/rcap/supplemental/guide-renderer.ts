@@ -46,7 +46,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFImage, type PDFPage } from "pdf-lib";
 
-import { PAGE_WIDTH, PAGE_HEIGHT, wrap, sanitize } from "../grade-a/renderer";
+import { PAGE_WIDTH, PAGE_HEIGHT, wrap, sanitize, renderGradeAPacketPdf } from "../grade-a/renderer";
+import { type GradeAPacket } from "../grade-a/composer";
 import {
   type SupplementalGuide,
   type SupplementalGuideEntry,
@@ -547,8 +548,19 @@ function drawFeesAndCosts(sheet: Sheet, guide: SupplementalGuide, options: Guide
       ].join("  |  ")]
   ]);
 
+  /*
+   * The breakdown block is DRAWN even where the route establishes no row.
+   *
+   * Omitting the section entirely was the same mistake as a blank cell, one
+   * level up: a participant comparing their guide to another route's sees a
+   * missing block and cannot tell whether nothing is established or whether
+   * something was dropped. Georgia is the case -- its filing fee, its
+   * pauper's-affidavit reach and its e-filing availability are all recorded as
+   * unresolved and county-specific, and the memorandum forbids quoting a figure
+   * until they close -- so the honest page says that where the rows would be.
+   */
+  smallLabel(sheet, w.breakdown);
   if (fees?.breakdown?.length) {
-    smallLabel(sheet, w.breakdown);
     table(sheet, [w.colItem, w.colAmount, w.colWhen],
       fees.breakdown.map((row) => [
         sheet.locale === "es" && row.itemEs ? row.itemEs : row.item,
@@ -556,6 +568,8 @@ function drawFeesAndCosts(sheet: Sheet, guide: SupplementalGuide, options: Guide
         fieldText(sheet, row.whenHowPaid, guide.routeKey, `the payment timing for "${row.item}"`)
       ]),
       [0.5, 0.18, 0.32]);
+  } else {
+    paragraph(sheet, w.notEstablished);
   }
 
   smallLabel(sheet, w.waiver);
@@ -732,9 +746,22 @@ export function guideDocuments(
  *
  * The court-facing bytes are copied in unchanged. Redrawing them here is how a
  * supplemental redesign silently alters a filing.
+ *
+ * IT RENDERS THE PACKET HALF ITSELF, AND THAT IS THE POINT
+ *
+ * A packet component marked `supersededBy: "supplemental_guide"` may only be
+ * dropped when the guide is genuinely in the participant's hands, so the packet
+ * render has to know whether a guide is coming. Taking a finished PDF here
+ * would leave that as a convention a caller has to remember, and a caller who
+ * forgot would ship a route's legacy instructions beside the guide written to
+ * replace them -- two sets of filing instructions, free to drift apart.
+ *
+ * Taking the composed packet instead makes the pairing structural: the one
+ * function that knows whether a guide is being assembled is the one that asks
+ * for the pages.
  */
 export async function assemblePacketWithGuide(
-  courtFacingPdf: Buffer | Uint8Array,
+  packet: GradeAPacket,
   guide: SupplementalGuide | null,
   options: GuideRenderOptions & { routeKey?: string } = {}
 ): Promise<Buffer> {
@@ -763,6 +790,12 @@ export async function assemblePacketWithGuide(
   }
   const guidePages = document.getPageCount();
 
+  const courtFacingPdf = await renderGradeAPacketPdf(packet, {
+    variant,
+    // The guide is assembled only where it is actually drawn. A court-only
+    // download carries no guide, so nothing there is superseded yet.
+    guideAssembled: Boolean(guide) && guideBelongsInPacket(variant)
+  });
   const courtFacing = await PDFDocument.load(courtFacingPdf);
   const copied = await document.copyPages(courtFacing, courtFacing.getPageIndices());
   for (const page of copied) document.addPage(page);

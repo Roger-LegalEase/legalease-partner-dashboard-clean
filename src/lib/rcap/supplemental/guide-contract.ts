@@ -175,8 +175,17 @@ export type SupplementalGuide = {
    * page, which is most of them.
    */
   adoptedDigest?: string;
-  /** The component in the adopted packet this guide replaces, once it ships. */
-  supersedesPacketComponent: string | null;
+  /**
+   * The component or components in the packet this guide replaces, once it ships.
+   *
+   * A list, because a route does not always keep its participant guidance on
+   * one page. Georgia's is spread across a separate instruction page per
+   * exhibit -- each one separated from a filed cover sheet that was carrying
+   * acquisition instructions to the clerk -- so a single id could name only one
+   * of four and the completeness check would silently stop asking about the
+   * rest. `null` is still a route with no packet guidance page to replace.
+   */
+  supersedesPacketComponent: string | string[] | null;
   overview: SupplementalGuideEntry[];
   nextSteps: SupplementalGuideEntry[];
   filingChecklist: SupplementalGuideEntry[];

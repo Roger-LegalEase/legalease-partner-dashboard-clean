@@ -122,8 +122,62 @@ export type PacketSpecificationDocument = {
   outputStrategy: "custom_pleading" | "process_guidance";
   officialFormId?: string | null;
   presentation?: "guidance" | "pleading";
-  requirement: "required" | "conditional";
+  /**
+   * Whether the route's own source makes this component's inclusion a
+   * requirement, a decidable condition, or the participant's choice.
+   *
+   *   required     the source requires it. Always included.
+   *   conditional  the source states a condition. Included when `includeWhen`
+   *                evaluates true; UNRESOLVED, never "no", when it cannot be
+   *                evaluated — the planner reports it and composition refuses.
+   *   optional     the source states no condition the platform may evaluate,
+   *                because the only condition is the participant's own choice
+   *                or the court's expectation. The separator and its
+   *                instructions are PROVIDED; nothing is demanded.
+   *
+   * WHY `optional` EXISTS, AND WHAT IT IS NOT
+   *
+   * Georgia's four participant-supplied exhibits were `conditional` with no
+   * `includeWhen`, which the planner reads as undecidable and correctly omits
+   * — from every packet, permanently. Four components existed, composed and
+   * rendered, and no participant could receive any of them.
+   *
+   * Neither available answer was true. Marking them `required` asserts the
+   * source requires an exhibit it expressly does not: the Georgia memorandum
+   * carries them at `requiredBeforeFiling: false`, and two of them appear in no
+   * source at all beyond the adopted separator. Writing a condition would mean
+   * asking whether the participant HAS the outside record, and a document
+   * Expungement.ai cannot produce is never a condition of anything.
+   *
+   * So `optional` says the third true thing: the component is provided, its
+   * inclusion asserts nothing about whether the participant needs it, and it
+   * gates nothing. It adds no fact, no question, and no completeness
+   * precondition. It is not a softer `required` and never carries an
+   * `includeWhen`.
+   */
+  requirement: "required" | "conditional" | "optional";
   conditionDescription?: string;
+  /**
+   * What the route's own source says about this component's inclusion, cited.
+   *
+   * Recorded wherever the requirement is anything but `required`, because the
+   * classification is the decision a reviewer most needs to see: a component
+   * that is optional because the memorandum says the participant chooses is a
+   * different thing from one that is optional because nobody has decided yet.
+   */
+  requirementBasis?: string;
+  /**
+   * The `attachments[]` entry this component is the cover sheet for.
+   *
+   * Written down rather than inferred from a title, because it is what decides
+   * how far the component's own requirement may go: an attachment the source
+   * records at `requiredBeforeFiling: false` cannot have a cover the packet
+   * calls required. Without the link, "mark every exhibit required" is a
+   * one-word edit that no check can see -- the component still selects, still
+   * renders, still pairs with its instructions, and now tells a participant
+   * that a record the source says is optional is something they must produce.
+   */
+  attachmentId?: string;
   includeWhen?: string;
   manifestComponentId?: string;
   /**

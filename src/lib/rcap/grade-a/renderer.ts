@@ -71,7 +71,24 @@ const MS_REVISION_GUIDANCE_LAYOUT: GuidanceLayout = {
  */
 export type PacketVariant = "full" | "court_only";
 
-export type RenderPacketOptions = { variant?: PacketVariant };
+export type RenderPacketOptions = {
+  variant?: PacketVariant;
+  /**
+   * True when the shared §7 guide is being assembled with this packet.
+   *
+   * Components marked `supersededBy: "supplemental_guide"` are then omitted,
+   * because their replacement is in the participant's hands. Set by the
+   * assembler and by nothing else: a route's guidance page must keep shipping
+   * until its guide actually does, so the flag follows the guide's presence
+   * rather than the marking on the component.
+   *
+   * Without this, marking a component superseded was a note about the future
+   * with no effect, and a route whose guide had landed shipped both -- two sets
+   * of filing instructions for the same filing, free to drift apart. That is
+   * the failure the shared guide exists to end.
+   */
+  guideAssembled?: boolean;
+};
 
 /**
  * A court-only download was asked for and this matter has no filing.
@@ -118,7 +135,18 @@ export async function renderGradeAPacketPdf(
     throw new Error("Refusing to render an empty packet. A zero-document PDF is a receipt, not a filing packet.");
   }
   const variant = options.variant ?? "full";
-  const selected = variant === "court_only" ? packetFilingDocuments(packet) : packet.documents;
+  /*
+   * A superseded page retires the moment its replacement is actually here.
+   *
+   * Only in a FULL render, and only because the assembler said the guide is
+   * coming: a superseded component is always participant material, so
+   * court-only has already excluded it, and a full packet WITHOUT the guide is
+   * the case where the page is the only instructions the participant has.
+   */
+  const shipped = options.guideAssembled
+    ? packet.documents.filter((entry) => !entry.supersededByGuide)
+    : packet.documents;
+  const selected = variant === "court_only" ? packetFilingDocuments(packet) : shipped;
   /*
    * Nothing to file is two different situations, and they must not share a
    * message. A matter whose selection produced only guidance is COMPLETE --

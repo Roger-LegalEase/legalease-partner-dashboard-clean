@@ -8,7 +8,7 @@ import {
   packetSpecificationForTrack,
   type PacketSpecification
 } from "@/lib/rcap/grade-a/packet-specification";
-import { composeGradeAPacket, GradeAPacketCompositionError } from "@/lib/rcap/grade-a/composer";
+import { composeGradeAPacket, GradeAPacketCompositionError, planIncludedDocuments } from "@/lib/rcap/grade-a/composer";
 
 /**
  * Render preflight: proving, before the participant is charged, that the exact
@@ -149,9 +149,23 @@ export function renderPreflight(input: RenderPreflightInput): RenderPreflightOut
     if (text) facts[id] = text;
   }
 
-  const documentIds = specification.documents
-    .filter((document) => document.requirement === "required" || document.includeWhen === "always_unless_participant_declines")
-    .map((document) => document.documentId);
+  /*
+   * THE PLANNER DECIDES THIS, not a second copy of its rule.
+   *
+   * `documentIds` goes into the render-input hash, which is what names the
+   * thing the participant bought. A list built here by re-implementing the
+   * include rule is a promise about a packet this file has not composed, and
+   * the two had already drifted: this filter counted `required` plus one named
+   * `includeWhen`, so a component selected by any OTHER condition -- South
+   * Dakota's enforcement motion, for one -- was composed into the packet and
+   * absent from the hash that was supposed to describe it. Adding a third
+   * requirement would have widened that gap rather than closing it.
+   *
+   * So the question is asked once, of the function that answers it for the
+   * composer too.
+   */
+  const documentIds = planIncludedDocuments(specification, facts)
+    .included.map((document) => document.documentId);
 
   try {
     // The real composition, over the real facts. The value is deliberately not

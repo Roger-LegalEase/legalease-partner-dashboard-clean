@@ -336,8 +336,10 @@ check(guideBelongsInPacket("full") === true && guideBelongsInPacket("court_only"
   };
 
   // 1. Court-only: the filing documents, and nothing addressed to the participant.
-  const courtRender = await renderGradeAPacketPdf(packet, { variant: "court_only" });
-  const courtOnly = await assemblePacketWithGuide(courtRender, guide, { ...options, variant: "court_only" });
+  //
+  // The assembler renders the packet half itself now, so a caller cannot pair a
+  // guide with a packet render that did not know the guide was coming.
+  const courtOnly = await assemblePacketWithGuide(packet, guide, { ...options, variant: "court_only" });
   const courtText = pagesOf(courtOnly).join("\n");
 
   const missingFiling = filing.filter((d) => !courtText.includes(drawnHeading(d).slice(0, 28)));
@@ -354,8 +356,7 @@ check(guideBelongsInPacket("full") === true && guideBelongsInPacket("court_only"
   check(!courtText.includes(BANNER), "court-only carries no supplemental pages");
 
   // 2. Full: the guide, the same filing documents, and no duplicated guidance.
-  const fullRender = await renderGradeAPacketPdf(packet, { variant: "full" });
-  const full = await assemblePacketWithGuide(fullRender, guide, { ...options, variant: "full" });
+  const full = await assemblePacketWithGuide(packet, guide, { ...options, variant: "full" });
   const fullPages = pagesOf(full);
   const fullText = fullPages.join("\n");
   const missingInFull = filing.filter((d) => !fullText.includes(drawnHeading(d).slice(0, 28)));
@@ -368,7 +369,8 @@ check(guideBelongsInPacket("full") === true && guideBelongsInPacket("court_only"
    * document by name, on a page that correctly carries the banner. Position is
    * the honest test -- the guide leads, the court material follows unchanged.
    */
-  const courtPageCount = pagesOf(fullRender).length;
+  const courtPageCount = pagesOf(
+    await renderGradeAPacketPdf(packet, { variant: "full", guideAssembled: true })).length;
   const guidePageCount = fullPages.length - courtPageCount;
   check(
     guidePageCount > 0
@@ -378,16 +380,34 @@ check(guideBelongsInPacket("full") === true && guideBelongsInPacket("court_only"
   );
 
   /*
-   * The legacy filing-instructions component is deliberately still composed
-   * while the guide's replacement coverage is being proven. That is retention
-   * in source; it is not a licence to ship both sets of instructions to a
-   * participant who is reading the new guide. Counted, not assumed.
+   * THE SUPERSEDED PAGE RETIRES, AND ONLY WHEN ITS REPLACEMENT IS HERE.
+   *
+   * A component marked `supersededBy: "supplemental_guide"` is retained in the
+   * specification on purpose: it is the only instructions the participant has
+   * until the guide actually ships for that route. But retention in source is
+   * not a licence to hand someone two sets of filing instructions for the same
+   * filing, free to drift apart -- which is what "marked superseded" meant for
+   * as long as the marking had no effect on anything.
+   *
+   * So both directions are checked on the same packet: assembled WITH the
+   * guide, the page is gone; rendered WITHOUT one, it is still there.
    */
-  const legacy = participantOnly.find((d) => /instruction/i.test(d.documentId));
-  if (legacy) {
-    const occurrences = fullPages.filter((page) => page.includes(drawnHeading(legacy).slice(0, 28))).length;
-    check(occurrences <= 1, `the legacy guidance page is not duplicated in a full packet (${occurrences})`);
+  const legacy = participantOnly.filter((d) => d.supersededByGuide);
+  check(legacy.length > 0, `the route has pages the guide supersedes (${legacy.length})`);
+  for (const page of legacy) {
+    const heading = drawnHeading(page).slice(0, 28);
+    check(
+      !fullText.includes(heading),
+      `${page.documentId} retires from a packet assembled with its replacement`
+    );
   }
+  const withoutGuide = pagesOf(await renderGradeAPacketPdf(packet, { variant: "full" })).join("\n");
+  const missingWithoutGuide = legacy.filter((page) => !withoutGuide.includes(drawnHeading(page).slice(0, 28)));
+  check(
+    missingWithoutGuide.length === 0,
+    `and is still shipped where no guide is assembled${
+      missingWithoutGuide.length ? `; ${missingWithoutGuide[0].documentId} vanished` : ""}`
+  );
 
   // 3. A conditional document and its checklist entry agree with the branch.
   //
@@ -430,7 +450,7 @@ check(guideBelongsInPacket("full") === true && guideBelongsInPacket("court_only"
   // 4. Missing guide data cannot pass as a complete full packet.
   let incomplete = null;
   try {
-    await assemblePacketWithGuide(fullRender, null, { ...options, variant: "full", routeKey: guide.routeKey });
+    await assemblePacketWithGuide(packet, null, { ...options, variant: "full", routeKey: guide.routeKey });
   } catch (error) { incomplete = error; }
   check(
     incomplete !== null && /incomplete data, not a court-only packet/.test(incomplete.message),

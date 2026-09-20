@@ -108,9 +108,25 @@ check(
     jurisdictionNames ? ` (found ${[...new Set(jurisdictionNames)].join(", ")})` : ""}`
 );
 
+/**
+ * The packet components a guide supersedes, always as a list.
+ *
+ * The field takes one id or several because a route's participant guidance is
+ * not always on one page: Georgia keeps an instruction page per exhibit, each
+ * separated from a filed cover that had been carrying acquisition instructions
+ * to the clerk. Reading it as a list in one place is what stops the
+ * completeness check below from measuring the first component and silently
+ * ignoring the rest.
+ */
+const superseded = (guide) => {
+  const value = guide.supersedesPacketComponent;
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value];
+};
+
 // Stop conditions are derived from the specification, never copied into a guide.
 for (const guide of guides) {
-  const specification = guide.supersedesPacketComponent ? packetSpecificationFor(guide.routeKey) : null;
+  const specification = superseded(guide).length > 0 ? packetSpecificationFor(guide.routeKey) : null;
   const stops = (specification?.hearingAndObjectionStops ?? []).map((stop) =>
     (typeof stop === "string" ? stop : stop?.text ?? "").trim()).filter(Boolean);
   if (stops.length === 0) continue;
@@ -179,11 +195,22 @@ for (const guide of guides) {
 
   // Nothing dropped: the component the guide supersedes must still be readable,
   // and every line of it must arrive somewhere.
-  if (guide.supersedesPacketComponent) {
+  //
+  // A route may keep its participant guidance on more than one page -- Georgia
+  // has one per exhibit -- so the field is read as a list either way and every
+  // named component is measured, not just the first.
+  const supersededIds = superseded(guide);
+  if (supersededIds.length > 0) {
     const specification = packetSpecificationFor(guide.routeKey);
-    const component = specification.documents.find((document) => document.documentId === guide.supersedesPacketComponent);
-    check(Boolean(component), `${where}: the component this guide supersedes is still in the specification`);
-    if (component) {
+    const components = supersededIds
+      .map((id) => specification.documents.find((document) => document.documentId === id))
+      .filter(Boolean);
+    check(
+      components.length === supersededIds.length,
+      `${where}: every component this guide supersedes is still in the specification (${
+        components.length}/${supersededIds.length})`
+    );
+    for (const component of components) {
       const adoptedLines = component.sections
         .flatMap((section) => String(section.body ?? "").split("\n"))
         .map((line) => line.trim())
@@ -198,7 +225,7 @@ for (const guide of guides) {
       const dropped = adoptedLines.filter((line) => !carried.has(line));
       check(
         dropped.length === 0,
-        `${where}: every line of the adopted guidance page arrives somewhere${
+        `${where}: every line of ${component.documentId} arrives somewhere${
           dropped.length ? ` (${dropped.length} dropped, first: "${dropped[0].slice(0, 60)}…")` : ""}`
       );
       const vagueEdits = (guide.editedFromAdopted ?? []).filter((row) =>
@@ -210,7 +237,7 @@ for (const guide of guides) {
       );
       check(
         adoptedLines.length > 0 && carried.size >= adoptedLines.length,
-        `${where}: ${adoptedLines.length} adopted lines, ${carried.size} accounted for`
+        `${where}: ${component.documentId} has ${adoptedLines.length} adopted lines, ${carried.size} accounted for`
       );
 
       // The supersession is declared on the component too, so the packet side

@@ -166,6 +166,7 @@ export function composeIlProstitutionJVacateParticipantPacket(
     presentation: "pleading",
     captionTreatment: documentContractFor(document).captionTreatment,
     courtFacing: isCourtFacing(documentContractFor(document)),
+    supersededByGuide: document.supersededBy === "supplemental_guide",
     blocks: composedCourtDocumentBlocks(
       approvedComponentId(matter.routeKey, document.documentId), participant) as GradeABlock[]
   }));

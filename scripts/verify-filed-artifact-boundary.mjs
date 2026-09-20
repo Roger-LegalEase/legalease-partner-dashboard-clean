@@ -56,6 +56,8 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const { composeGradeAPacket } = await import("../src/lib/rcap/grade-a/composer.ts");
 const { renderGradeAPacketPdf, packetFilingDocuments } = await import("../src/lib/rcap/grade-a/renderer.ts");
+const { assemblePacketWithGuide, guideDocuments, guideStopConditions } =
+  await import("../src/lib/rcap/supplemental/guide-renderer.ts");
 
 const failures = [];
 const check = (passed, message) => {
@@ -433,6 +435,336 @@ for (const specification of specifications) {
         demands.length ? `: "${flat(demands[0]).slice(0, 70)}…"` : ""}`
     );
   }
+}
+
+// ===========================================================================
+// 2b. SELECTION. Nothing the route ships is permanently unreachable.
+//
+// THE DEFECT THIS EXISTS FOR
+//
+// A component marked `conditional` with no `includeWhen` is not conditional --
+// it is unreachable. The planner cannot decide a condition that was never
+// written, so it omits the component, correctly, from every packet, for every
+// participant, permanently. Nothing refuses and nothing reports it: the
+// component composes, renders, and is never selected.
+//
+// It has now happened twice. South Dakota's motion to enforce SDCL § 23A-27-17
+// sat that way, so a participant whose record was never corrected had no
+// supported way to obtain the second instrument at all. Georgia's four
+// participant-supplied exhibits sat that way, so the covers and the acquisition
+// instructions for a criminal history report, proof of sentence completion and
+// the participant's own supporting exhibits reached nobody.
+//
+// Mirrored metadata does not catch it. Two halves can agree perfectly while
+// both are permanently unreachable, which is exactly what the artifact-boundary
+// repair produced before this check existed. So reachability is measured
+// against the planner, on the route's own facts, with nothing forced.
+// ===========================================================================
+
+const { planIncludedDocuments } = await import("../src/lib/rcap/grade-a/composer.ts");
+
+for (const specification of specifications) {
+  const where = specification.routeKey;
+
+  // The route's own facts, with nothing promoted and no condition answered:
+  // the state a participant is in before any branch question is asked.
+  const plainFacts = { ...PEOPLE };
+  for (const required of specification.requiredFacts ?? []) {
+    if (plainFacts[required.factId]) continue;
+    plainFacts[required.factId] = /date/i.test(required.factId) ? "2019-03-14" : required.factId.replace(/_/g, " ");
+  }
+  const plan = planIncludedDocuments(specification, plainFacts);
+  const seen = new Set([
+    ...plan.included.map((document) => document.documentId),
+    ...plan.unevaluable.map((document) => document.documentId)
+  ]);
+
+  /*
+   * Every component is INCLUDED or REPORTED. There is no third outcome.
+   *
+   * "Reported" means the planner returned it as unevaluable, which is what a
+   * real condition does before it is answered -- visible, and refused on by the
+   * composer rather than silently decided as no. A component in neither list is
+   * one nobody will ever see and nobody will ever be told about.
+   */
+  const invisible = specification.documents.filter((document) => !seen.has(document.documentId));
+  check(
+    invisible.length === 0,
+    `${where}: every component is selected or reported unevaluable, never silently dropped${
+      invisible.length ? ` (${invisible.length} unreachable: ${invisible.map((d) => d.documentId).join(", ")})` : ""}`
+  );
+
+  // The shape that causes it, named directly so the diagnosis is in the failure.
+  const conditionless = specification.documents.filter((document) =>
+    document.requirement === "conditional" && !document.includeWhen);
+  check(
+    conditionless.length === 0,
+    `${where}: no component is conditional on a condition nobody wrote${
+      conditionless.length ? ` (${conditionless.map((d) => d.documentId).join(", ")})` : ""}`
+  );
+
+  /*
+   * An OPTIONAL classification says why, citing its source.
+   *
+   * This is the step that stops the fix from being "mark everything required".
+   * Georgia's four are optional because the legal-design memorandum carries
+   * them at requiredBeforeFiling false, and two of them appear in no source at
+   * all beyond the adopted separator -- which is a different thing from
+   * optional because nobody has decided yet, and a reviewer has to be able to
+   * see which one it is.
+   *
+   * SCOPE. Only `optional`. A conditional component already says what decides
+   * it, in the condition it names and the description beside it; demanding a
+   * second justification from Nevada's and South Dakota's real conditions
+   * would be a new requirement imposed on work that is already correct, not a
+   * finding about it. `optional` is the classification with no condition to
+   * point at, which is exactly why it has to point somewhere else.
+   */
+  const unjustified = specification.documents.filter((document) =>
+    document.requirement === "optional"
+    && (typeof document.requirementBasis !== "string" || document.requirementBasis.length < 80));
+  check(
+    unjustified.length === 0,
+    `${where}: every optional component cites the source that makes it optional${
+      unjustified.length ? ` (${unjustified.map((d) => d.documentId).join(", ")})` : ""}`
+  );
+
+  /*
+   * A COVER MAY NOT OUTRANK THE RECORD IT COVERS.
+   *
+   * The other half of "do not mark every exhibit required", and the one that
+   * has to be measured rather than promised. Reverting an exhibit to
+   * `conditional` with no condition, deleting it, or inventing a possession
+   * condition are all visible above; quietly marking it `required` is one word
+   * and looks identical from every angle -- it selects, it renders, it pairs
+   * with its instructions -- while telling a participant that a record the
+   * source calls optional is one they must produce before they can file.
+   *
+   * So the exhibit names its `attachments[]` entry and the two are compared.
+   * `requiredBeforeFiling` is the source's own answer, and the component's
+   * requirement may not exceed it in either direction.
+   */
+  const attachments = new Map((specification.attachments ?? []).map((row) => [row.attachmentId, row]));
+  const covers = specification.documents.filter((document) => document.attachmentId);
+  const unlinked = covers.filter((document) => !attachments.has(document.attachmentId));
+  check(
+    unlinked.length === 0,
+    `${where}: every component naming an attachment names one the route has${
+      unlinked.length ? ` (${unlinked.map((d) => d.documentId).join(", ")})` : ""}`
+  );
+  const overstated = covers.filter((document) => {
+    const attachment = attachments.get(document.attachmentId);
+    if (!attachment) return false;
+    return attachment.requiredBeforeFiling === true
+      ? document.requirement !== "required"
+      : document.requirement === "required";
+  });
+  check(
+    overstated.length === 0,
+    `${where}: no exhibit claims a requirement its attachment record does not support (${covers.length} linked)${
+      overstated.length ? `: ${overstated.map((d) =>
+        `${d.documentId} is ${d.requirement} for an attachment at requiredBeforeFiling ${
+          attachments.get(d.attachmentId).requiredBeforeFiling}`).join("; ")}` : ""}`
+  );
+
+  // An optional component is a provision, not a condition. It never carries one.
+  const optionalWithCondition = specification.documents.filter((document) =>
+    document.requirement === "optional" && document.includeWhen);
+  check(
+    optionalWithCondition.length === 0,
+    `${where}: no optional component carries an includeWhen${
+      optionalWithCondition.length ? ` (${optionalWithCondition.map((d) => d.documentId).join(", ")})` : ""}`
+  );
+
+  /*
+   * AND THE INAPPLICABLE CASE, on real route data rather than a fixture.
+   *
+   * Making optional components reachable must not have made the planner
+   * permissive. A component with a REAL condition, before the participant has
+   * answered it, still has to come back unevaluable -- unresolved, never "no".
+   * South Dakota's escalation motion is the live instance.
+   */
+  const realConditionals = specification.documents.filter((document) =>
+    document.requirement === "conditional" && document.includeWhen);
+  if (realConditionals.length > 0) {
+    const decided = realConditionals.filter((document) =>
+      plan.included.some((entry) => entry.documentId === document.documentId));
+    const reported = realConditionals.filter((document) =>
+      plan.unevaluable.some((entry) => entry.documentId === document.documentId));
+    check(
+      decided.length + reported.length === realConditionals.length,
+      `${where}: each of its ${realConditionals.length} real conditional(s) is decided or reported, unanswered`
+    );
+    check(
+      reported.length > 0 || decided.length === realConditionals.length,
+      `${where}: and an unanswered condition is reported unevaluable rather than read as no`
+    );
+  }
+
+  /*
+   * The standing rule where it would actually be broken: a question that SHAPES
+   * THE PACKET.
+   *
+   * Making an exhibit reachable is one sentence away from making it reachable
+   * by asking "do you have it?" -- which is precisely the wording the Georgia
+   * memorandum uses for two of these components, and precisely what this
+   * product may never make anything turn on. The rule is that a document
+   * Expungement.ai cannot produce is never a CONDITION of eligibility, packet
+   * completion, Checkout, generation or delivery.
+   *
+   * SCOPE, and why it is not every question on the surface.
+   *
+   * A first version read every compiled question in the jurisdiction and
+   * reported DC's `record_documents` -- "Do you have your court paperwork
+   * handy?", helper text "No worries if not", carried by 45 of the 51 profiles,
+   * whose own resume copy tells the participant "you don't need them all in
+   * front of you to keep going". Whether that nationwide screening convenience
+   * gates anything is a real question and an open one; what is certain is that
+   * it is not this repair, and a check that fails on it is the "within 30 days"
+   * mistake again -- far broader than the defect, and a false gate on 45
+   * jurisdictions.
+   *
+   * So the domain is the questions that decide what goes in the packet.
+   */
+  const profilePath = path.join(rootDir, "src/lib/rcap-engine/compiled/profiles");
+  const profileFile = fs.existsSync(profilePath)
+    ? fs.readdirSync(profilePath).find((name) => name.startsWith(`${specification.jurisdiction}-`))
+    : null;
+  if (profileFile) {
+    const profile = JSON.parse(fs.readFileSync(path.join(profilePath, profileFile), "utf8"));
+    const packetShaping = (profile.questions ?? []).filter((question) =>
+      question.lifecyclePhase === "postpay_packet_field");
+    const asked = packetShaping.flatMap((question) => [
+      question.prompt, question.helperText, ...(question.options ?? []).map((option) => option.label ?? option)
+    ].filter((value) => typeof value === "string"));
+    const possession = /\b(do you have|have you attached|did you attach|upload|scan a copy|send us)\b/i;
+    const demands = asked.filter((text) => possession.test(text))
+      .filter((text) => !/\b(do not|don't|never|no need|not need|without)\b/i.test(text));
+    check(
+      demands.length === 0,
+      `${where}: no packet-shaping question in ${profileFile} asks whether the participant possesses or has `
+      + `attached an outside record (${packetShaping.length} checked)${
+        demands.length ? `: "${flat(demands[0]).slice(0, 70)}…"` : ""}`
+    );
+  }
+}
+
+// ===========================================================================
+// 2c. GEORGIA'S FOUR, NAMED.
+//
+// The generic checks above would pass on a route that had simply deleted the
+// four components. These name them, because "reachable" for these four is what
+// the repair was for, and an optional exhibit that quietly disappeared would
+// read as a fix.
+// ===========================================================================
+
+const GEORGIA_OPTIONAL = {
+  "GA:restriction-and-sealing-of-a-pardoned-felony": ["exhibit_c_supporting_exhibits"],
+  "GA:sb-288-misdemeanor-conviction-restriction-and-sealing": [
+    "exhibit_b_criminal_history", "exhibit_c_sentence_completion", "exhibit_d_supporting_exhibits"
+  ]
+};
+
+const guideDir = path.join(rootDir, "data/record-clearing/supplemental-guides");
+const guidesByRoute = new Map((fs.existsSync(guideDir) ? fs.readdirSync(guideDir) : [])
+  .filter((file) => file.endsWith(".json"))
+  .map((file) => JSON.parse(fs.readFileSync(path.join(guideDir, file), "utf8")))
+  .map((guide) => [guide.routeKey, guide]));
+
+for (const [routeKey, documentIds] of Object.entries(GEORGIA_OPTIONAL)) {
+  const specification = specifications.find((candidate) => candidate.routeKey === routeKey);
+  check(Boolean(specification), `${routeKey}: the route is still registered`);
+  if (!specification) continue;
+
+  const facts = { ...PEOPLE };
+  for (const required of specification.requiredFacts ?? []) {
+    if (facts[required.factId]) continue;
+    facts[required.factId] = /date/i.test(required.factId) ? "2019-03-14" : required.factId.replace(/_/g, " ");
+  }
+  const included = new Set(planIncludedDocuments(specification, facts).included.map((d) => d.documentId));
+
+  for (const documentId of documentIds) {
+    check(included.has(documentId), `${routeKey}: ${documentId} reaches a real participant's packet`);
+    check(
+      included.has(`${documentId}_instructions`),
+      `${routeKey}: and so does the page telling them where the record comes from`
+    );
+  }
+
+  /*
+   * LEGITIMATE OMISSION STILL EXPLAINS ITSELF.
+   *
+   * A participant who supplies nothing takes the separator out of their
+   * filing, which is the correct outcome and the one the packet cannot decide
+   * for them. What must survive that is the explanation, and the §7 guide is
+   * where it lives -- so every optional cover has a checklist entry that says
+   * it is optional, independent of whether the cover ends up filed.
+   */
+  const guide = guidesByRoute.get(routeKey);
+  check(Boolean(guide), `${routeKey}: the route has §7 guide data carrying the separated instructions`);
+  if (!guide) continue;
+  const details = new Map((guide.documentDetails ?? []).map((detail) => [detail.documentId, detail]));
+  const courtFacing = specification.documents.filter((d) => d.documentContract?.recipient === "court");
+  const undescribed = courtFacing.filter((document) => !details.get(document.documentId)?.instruction?.text);
+  check(
+    undescribed.length === 0,
+    `${routeKey}: the guide's checklist carries a filing instruction for every court-facing component (${
+      courtFacing.length})${undescribed.length ? `; missing ${undescribed[0].documentId}` : ""}`
+  );
+  for (const documentId of documentIds) {
+    const text = details.get(documentId)?.instruction?.text ?? "";
+    check(
+      /^Only if you /.test(text),
+      `${routeKey}: and says in terms that ${documentId} is the participant's choice`
+    );
+    check(
+      /take this cover page out of your filing/i.test(text),
+      `${routeKey}: and what to do with the separator when they supply nothing`
+    );
+  }
+
+  /*
+   * THE HANDOVER, MEASURED ON THE DELIVERED ARTIFACT.
+   *
+   * Everything above is about data. This is the fact the participant actually
+   * experiences: assemble the packet the way it ships, with the guide, and the
+   * standalone instruction pages are gone while their substance is on the page.
+   *
+   * Both halves matter and neither implies the other. Retiring a page whose
+   * replacement had not landed would take the only instructions the
+   * participant has; shipping both would hand them two sets for one filing,
+   * free to drift apart. The rule is "do not retire an instruction page before
+   * its replacement is actually included", and this is where it is true or not.
+   */
+  const packet = composeGradeAPacket(specification, {
+    routeKey, verificationHash: "boundary-assembly", facts
+  }, {});
+  const assembled = flat(textOf(await assemblePacketWithGuide(packet, guide, {
+    stops: guideStopConditions(specification),
+    documents: guideDocuments(packet),
+    matter: { preparedFor: facts.participant_full_legal_name, packetId: "PKT-BOUNDARY" },
+    variant: "full",
+    routeKey
+  })));
+
+  const retired = packet.documents.filter((document) => document.supersededByGuide);
+  check(retired.length > 0, `${routeKey}: the packet carries pages the guide replaces (${retired.length})`);
+  const stillShipped = retired.filter((document) => assembled.includes(flat(document.title)));
+  check(
+    stillShipped.length === 0,
+    `${routeKey}: none of them ships beside its replacement${
+      stillShipped.length ? ` (${stillShipped[0].documentId})` : ""}`
+  );
+
+  const explained = documentIds.filter((documentId) => {
+    const exhibit = specification.documents.find((d) => d.documentId === documentId);
+    return assembled.includes(flat(exhibit.title)) && assembled.includes("Only if you");
+  });
+  check(
+    explained.length === documentIds.length,
+    `${routeKey}: and the delivered packet still explains every optional exhibit (${
+      explained.length}/${documentIds.length})`
+  );
 }
 
 // ===========================================================================

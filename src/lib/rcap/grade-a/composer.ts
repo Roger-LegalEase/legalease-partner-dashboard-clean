@@ -124,6 +124,16 @@ export type GradeADocument = {
    */
   captionTreatment: DocumentContract["captionTreatment"];
   courtFacing: boolean;
+  /**
+   * True where the shared §7 guide is built to replace this page.
+   *
+   * Carried so the renderer can drop it when the guide is actually assembled
+   * with the packet, and only then. Marking a component superseded and then
+   * shipping it beside its replacement gives the participant two sets of
+   * instructions that can drift apart, which is the failure the shared guide
+   * exists to end.
+   */
+  supersededByGuide: boolean;
   blocks: GradeABlock[];
 };
 
@@ -260,7 +270,23 @@ export function planIncludedDocuments(
       : false;
   return {
     included: specification.documents
-      .filter((document) => document.requirement === "required" || decide(document.includeWhen) === true)
+      .filter((document) =>
+        document.requirement === "required"
+        /*
+         * An optional component is PROVIDED, not demanded.
+         *
+         * Its source states no condition the platform may evaluate -- the only
+         * condition is the participant's own choice or the court's expectation
+         * -- so there is nothing to decide and nothing to ask. Georgia's four
+         * participant-supplied exhibits sat as `conditional` with no
+         * `includeWhen`, which reads as undecidable, and were omitted from
+         * every packet permanently. Including them asserts nothing about
+         * whether the participant needs them; it puts the separator and its
+         * instructions in their hands and leaves the choice where the source
+         * leaves it.
+         */
+        || document.requirement === "optional"
+        || decide(document.includeWhen) === true)
       .sort((left, right) => left.order - right.order),
     unevaluable: specification.documents.filter((document) =>
       document.requirement === "conditional"
@@ -493,6 +519,7 @@ export function composeGradeAPacket(
       presentation: document.presentation ?? "guidance",
       captionTreatment: documentContractFor(document).captionTreatment,
       courtFacing: isCourtFacing(documentContractFor(document)),
+      supersededByGuide: document.supersededBy === "supplemental_guide",
       blocks: document.sections.flatMap((section) =>
         composeSection(section, specification, matter, included, document.presentation ?? "guidance"))
     });
