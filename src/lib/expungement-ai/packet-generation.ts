@@ -27,9 +27,12 @@ import { composeGradeAPacket } from "@/lib/rcap/grade-a/composer";
 import { composablePacketSpecificationFor, packetSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
 import { gradeAPacketFilename } from "@/lib/rcap/grade-a/renderer";
 import {
-  renderParticipantPacketPdf, participantGuideMatter, resolveDeliveryLocale, recordedDeliveryLocale,
-  PARTICIPANT_DELIVERY_VARIANT
+  assembleParticipantPacket, renderParticipantPacketPdf, participantGuideMatter,
+  resolveDeliveryLocale, recordedDeliveryLocale, PARTICIPANT_DELIVERY_VARIANT
 } from "@/lib/rcap/render/participant-packet-assembly";
+import { buildDirectArtifactStoragePath } from "@/lib/rcap/render/job-contract";
+import { getPacketArtifactStorage } from "@/lib/rcap/render/artifact-storage";
+import { GUIDE_RENDERER_KIND, GUIDE_RENDERER_VERSION } from "@/lib/rcap/supplemental/guide-renderer";
 import { assertValidArtifact } from "@/lib/rcap/render/artifact-validation";
 import { admitCommercial } from "@/lib/rcap/fulfillment/grade-a-admission";
 import {
@@ -103,12 +106,24 @@ export type ConsumerPacketArtifactRefs = {
   /**
    * The Grade-A artifact.
    *
-   * It carries the specification's identity and hash rather than the packet
-   * bytes. The document set is a deterministic function of the specification
-   * and the verified matter, so the download path recomposes it — which is what
-   * makes repeat download work without a blob store, and what makes a changed
-   * specification visible as a changed hash rather than as a silently different
-   * packet under the same receipt.
+   * IT USED TO CARRY NO BYTES, AND THAT STOPPED BEING SAFE.
+   *
+   * The original reasoning was that the document set is a deterministic
+   * function of the specification and the verified matter, so a download could
+   * recompose it and compare against `artifactSha256` — repeat download with no
+   * blob store, and a changed specification visible as a changed hash.
+   *
+   * Determinism was never the property that held. What held was that the
+   * specification was the only input. §7 added the supplemental guide and an
+   * assembly step, so editing a guide changes what a re-render produces, and a
+   * packet somebody already bought would have failed its own digest check with
+   * nothing wrong with it. Versioning the inputs could not fix that either: the
+   * assembly CODE is an input, and no receipt can reproduce a renderer that has
+   * since been rewritten.
+   *
+   * So the exact bytes are now stored, in the same private content-addressed
+   * bucket the render worker uses, and `storagePath` points at them. A receipt
+   * carrying one is served from storage and never recomposed.
    */
   provider: "rcap_grade_a_composer_v1";
   packetId: string;
@@ -142,6 +157,28 @@ export type ConsumerPacketArtifactRefs = {
    * English is a statement about what was rendered, not a default.
    */
   packetLocale?: "en" | "es";
+  /**
+   * Where the exact assembled bytes live, in the private artifact bucket.
+   *
+   * ABSENT ON ARTIFACTS THAT PREDATE PERSISTENCE, and those keep the recompose
+   * path they were generated under. Writing a path for them would claim an
+   * object exists that never does, which reads as immutable-byte persistence
+   * they never had. An absent pointer is the truth about an older receipt.
+   */
+  storagePath?: string;
+  /**
+   * The guide assembled into these bytes, or an explicit null where the route
+   * has none. `null` and absent are different: the first says this artifact was
+   * built with no guide, the second says nothing was recorded.
+   */
+  supplementalGuide?: {
+    routeKey: string; schemaVersion: string; sourcePath: string; contentSha256: string;
+  } | null;
+  /** `full` or `court_only`, as assembled. */
+  assemblyVariant?: "full" | "court_only";
+  /** The supplemental assembly that produced them. */
+  assemblyKind?: string;
+  assemblyVersion?: string;
 };
 
 export type ConsumerPacketStatus = {
@@ -465,6 +502,41 @@ async function gradeAPacketDownload(
     artifactSha256: artifactSha256Of(artifactRefs),
     repeatDownload: item.packetStatus === "downloaded"
   });
+
+  /*
+   * A PERSISTED ARTIFACT IS READ, NOT REBUILT.
+   *
+   * This is the whole point of storing the bytes. Below this block the packet
+   * is recomposed from the CURRENT specification, guide and assembly code, and
+   * for an artifact generated before any of those changed that reproduces the
+   * same bytes -- but a guide edit or a renderer change makes it produce
+   * different ones, and the digest comparison would then fail on a packet the
+   * participant legitimately owns.
+   *
+   * The authorization above has already run. What is read comes only from the
+   * protected receipt, never from a request, and the stored object is verified
+   * against the receipt's own hash and page count before a byte is served: the
+   * service-role credential can rewrite an object, so a read is never trusted.
+   */
+  if (artifactRefs.storagePath) {
+    const storage = getPacketArtifactStorage();
+    if (!storage) throw new ConsumerPacketNotReadyError();
+    const stored = await storage.read(artifactRefs.storagePath);
+    if (!stored) throw new ConsumerPacketNotReadyError();
+    assertValidArtifact({
+      bytes: stored,
+      expectedContentType: "application/pdf",
+      expectedSha256: artifactRefs.artifactSha256 ?? null,
+      expectedPageCount: artifactRefs.pageCount ?? null
+    });
+    return { fileName: artifactRefs.fileName, contentType: "application/pdf", body: stored };
+  }
+
+  /*
+   * No stored object: this receipt predates persistence, so it keeps the
+   * recompose path it was generated under. Fabricating a storage path for it
+   * would claim immutable-byte persistence it never had.
+   */
 
   // Composable, not merely registered. A specification whose legal sections are
   // still undecided resolves for identity and never composes: it would hand a
@@ -926,7 +998,7 @@ async function buildGradeAArtifact(
    * missing fact; this refuses a render that produced something that is not a
    * multi-page PDF, which is the failure composition cannot see.
    */
-  const bytes = await renderParticipantPacketPdf(packet, {
+  const assembly = await assembleParticipantPacket(packet, {
     routeKey: record.routeKey,
     specification,
     variant: PARTICIPANT_DELIVERY_VARIANT,
@@ -934,7 +1006,51 @@ async function buildGradeAArtifact(
     verifiedAt: snapshot.verifiedAt,
     matter: participantGuideMatter(snapshot, item.id, deliveryLocale)
   });
+  const bytes = assembly.bytes;
   const validation = assertValidArtifact({ bytes, expectedContentType: "application/pdf" });
+
+  /*
+   * PERSIST THE EXACT BYTES, THEN PROVE THEY ARE THE BYTES.
+   *
+   * This provider used to store nothing. Repeat download recomposed from the
+   * CURRENT specification and, once §7 landed, the CURRENT guide and assembly
+   * code -- so editing a guide would have changed what a re-render produced and
+   * the packet somebody already bought would have failed its own digest check.
+   * The comment on the receipt type said "nothing is stored, so nothing can
+   * drift out of sync"; what could drift was the renderer.
+   *
+   * Same bucket, same adapter and the same order the worker uses, because the
+   * failure it survives is the same one: a crash between upload and receipt.
+   * An object already at this path is a previous attempt of this exact
+   * content-addressed name, so its presence is not success -- the read-back
+   * below decides whether it is the artifact or garbage.
+   */
+  const storagePath = buildDirectArtifactStoragePath({
+    partnerId: await partnerSlugForPacketItem(item),
+    matterId: consumerMatterIdForItem(item.id),
+    briefcaseItemId: item.id,
+    outputSha256: validation.sha256
+  });
+  const storage = getPacketArtifactStorage();
+  if (!storage) throw new ConsumerPacketGenerationError("Packet artifact storage is unavailable.");
+
+  const uploaded = await storage.upload(storagePath, bytes);
+  if (!uploaded.ok && !/exists|duplicate|409/i.test(uploaded.reason)) {
+    throw new ConsumerPacketGenerationError(`The packet could not be stored: ${uploaded.reason}`);
+  }
+
+  const stored = await storage.read(storagePath);
+  if (!stored) {
+    throw new ConsumerPacketGenerationError("The stored packet could not be read back after writing.");
+  }
+  // Re-validated from the stored object, against the local render. A path is
+  // never evidence, and neither is a successful upload.
+  assertValidArtifact({
+    bytes: stored,
+    expectedContentType: "application/pdf",
+    expectedSha256: validation.sha256,
+    expectedPageCount: validation.pageCount
+  });
 
   return {
     provider: "rcap_grade_a_composer_v1",
@@ -948,6 +1064,20 @@ async function buildGradeAArtifact(
     packetSpecificationSha256: record.packetSpecificationSha256,
     packetFamily: packet.packetFamily,
     documentCount: packet.documents.length,
+    /*
+     * What these exact bytes were assembled from.
+     *
+     * The receipt used to name the specification and the rendered hash, which
+     * was enough while the packet was a function of the specification alone.
+     * §7 added a guide and an assembly step, so the receipt names those too --
+     * and names the guide as an explicit null where the route has none, since
+     * "no guide" and "nobody recorded one" must not read the same.
+     */
+    storagePath,
+    supplementalGuide: assembly.guide,
+    assemblyVariant: assembly.variant,
+    assemblyKind: GUIDE_RENDERER_KIND,
+    assemblyVersion: GUIDE_RENDERER_VERSION,
     verificationHash: packet.verificationHash,
     downloadPath: `/api/expungement-ai/packet/${item.id}/download`,
     artifactSha256: validation.sha256,

@@ -741,7 +741,22 @@ export async function renderSupplementalGuidePdf(
 
   const drawn = await drawSupplementalGuide(document, guide, options);
   if (drawn === 0) throw new SupplementalGuideRenderError(guide.routeKey, "the guide carries no substance to draw.");
-  return Buffer.from(await document.save());
+  /*
+   * OBJECT STREAMS OFF, LIKE THE GRADE-A RENDERER.
+   *
+   * pdf-lib's default `save()` writes page objects into compressed object
+   * streams, so `/Type /Page` never appears in the file's bytes. The artifact
+   * validator counts pages by scanning for exactly that -- deliberately, so a
+   * defect in the library that produced the PDF cannot hide from the check
+   * meant to catch it -- and it therefore read every assembled packet as a
+   * zero-page PDF and refused to let it become an artifact.
+   *
+   * This never mattered while the assembled output was only a review artifact.
+   * The moment it became the participant's delivered packet, it meant
+   * generation failed for every guide-backed route. `renderGradeAPacketPdf`
+   * has always passed this flag; the guide renderer simply never needed to.
+   */
+  return Buffer.from(await document.save({ useObjectStreams: false }));
 }
 
 /** Stop conditions from a packet specification, in the shape this renderer draws. */
@@ -850,5 +865,8 @@ export async function assemblePacketWithGuide(
       "a full packet was assembled with no guide pages. The guide is part of what a full packet is, so "
       + "producing one without it silently ships a court-only packet under a full packet's name.");
   }
-  return Buffer.from(await document.save());
+  // Object streams off, for the reason given in renderSupplementalGuidePdf:
+  // the artifact validator counts pages by scanning the bytes, and a compressed
+  // page object is a page it cannot see.
+  return Buffer.from(await document.save({ useObjectStreams: false }));
 }

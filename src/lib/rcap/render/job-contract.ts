@@ -131,6 +131,40 @@ export function buildArtifactStoragePath(input: {
   return `packet-artifacts/${owner}/${matter}/${input.jobId}/${input.outputSha256}.pdf`;
 }
 
+/**
+ * The same bucket, for an artifact that never had a render job.
+ *
+ * `buildArtifactStoragePath` above is job-shaped: it requires a job id and
+ * refuses without one. The direct Grade-A provider composes and renders inside
+ * the request, so there is no job, and inventing one to satisfy a path helper
+ * would put a fabricated job id into a storage path and into evidence.
+ *
+ * This binds what that path binds, with the Briefcase artifact's own identity
+ * where the job id would be: the owner boundary, the matter, the artifact, and
+ * the output hash. Same root, same private bucket, same content addressing --
+ * one storage system, two shapes of name.
+ *
+ * `grade-a` is a literal segment rather than a variable, so a direct artifact
+ * and a worker artifact can never collide on a path even if a Briefcase item
+ * id and a job id were ever drawn from the same space.
+ */
+export function buildDirectArtifactStoragePath(input: {
+  partnerId: string | null;
+  matterId: string | null;
+  briefcaseItemId: string;
+  outputSha256: string;
+}) {
+  const owner = input.partnerId ?? "consumer";
+  const matter = input.matterId ?? "unmattered";
+  if (!/^[0-9a-f]{64}$/.test(input.outputSha256)) {
+    throw new RenderContractError("output_not_pdf", "An artifact path requires a sha256 output hash.");
+  }
+  if (!input.briefcaseItemId.trim()) {
+    throw new RenderContractError("unknown_job", "A direct artifact path requires a Briefcase item id.");
+  }
+  return `packet-artifacts/${owner}/${matter}/grade-a/${input.briefcaseItemId}/${input.outputSha256}.pdf`;
+}
+
 /** Statuses at which an artifact provably exists. Nothing else may consume. */
 export const CREDIT_ELIGIBLE_STATUSES: readonly RenderJobStatus[] = ["artifact_validated", "delivered"];
 
