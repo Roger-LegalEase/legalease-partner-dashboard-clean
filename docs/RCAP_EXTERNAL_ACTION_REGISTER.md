@@ -80,6 +80,63 @@ a defect in this branch's own code, not an external dependency.
 
 Items 1–7 are untouched by this branch and remain as their owners left them.
 
+## Item 12 — the Mississippi paid-consumer successor pin is stale, and the route is refused
+
+| # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
+|---|------|-------|----------------|-------------------|--------------------|
+| 12 | Re-pin the MS non-conviction paid-consumer successor decision to the current specification bytes | Roger | Before the MS DTC journey is run | A successor decision naming the current `MS-nonconviction-expungement-99-19-71-4.v1.json` digest, decided against those bytes | The decision is an owner approval of an exact document set. A stale approval naming bytes that legitimately moved is re-decided by its owner, never edited by the build |
+
+**The route is refused right now, on this candidate.** Measured, not inferred:
+
+```
+loadMsPaidConsumerSuccessor()            -> null
+isPersonalizedDeliveryRoute(MS:non-…)    -> false
+packetFulfillmentAuthority("MS", …)      -> allowed: false
+  reason: exact track, family, provider or specification binding mismatch.
+```
+
+`2026-09-14-ms-nonconv-paid-consumer-successor.json` pins three evidence files by
+digest. Two still match. The specification does not:
+
+| Evidence | Pinned | Live |
+|---|---|---|
+| `MS-nonconviction-…-99-19-71-4.v1.json` | `3a1bed79e3760feb…` | `155417ffbfa9bb83…` |
+| `ms-nonconviction-clinic-demo.artifacts.json` | `f9eb16e52304b772…` | matches |
+| `…participant-delivery.raster-review.json` | `74f8aab9cdfb2518…` | matches |
+
+**When it moved.** The pinned bytes were the file's state at `9035ebbdb`
+*fix(ms): require canonical filing-ready states*. The §4.2 document-contract
+work moved it and five later commits moved it again:
+
+```
+9035ebbdb 3a1bed79e3760feb  <- the owner's pinned bytes
+361225c94 c5f848253d8e7206  GA-4.2 the full document contract, populated and enforced
+ab85fe519 f094c572c51db7dd  GA-4.2 populate the contract from the canonical packet-set manifests
+f0bdb4a8c 10f0a09a80df71b0  GA-5-MS court papers stay court papers
+21ede8e15 076913a175b70db0  GA-5-NV Nevada is already split where it matters
+305aa68ff d26de11f2dfad1b2  GA-5-CAPTIONS caption treatment is a component contract
+c4296e0d0 155417ffbfa9bb83  GA-5-CAPTIONS bind every caption treatment to authority
+```
+
+Those commits are correct product work. The approval is what went stale, and
+per the controls doctrine a stale approval naming bytes that legitimately moved
+is re-recorded through the mechanism that exists for it — never by editing the
+old approval. So the build does not touch that file.
+
+**What the refusal does, which is worse than refusing.** `renderClaimPacket`
+asks `isPersonalizedDeliveryRoute` first. With the successor unavailable the
+answer is false, and an MS claim falls through to
+`renderRcapPacketPdf(packet, "full")` — the legacy generator path, which
+AGENTS.md records as not an approved commercial fulfillment path. The routing
+decision changed silently; nothing reports it.
+
+**Fold the §7 acceptance into the same re-pin.** The supplemental guide
+supersedes `ms-filing-and-next-steps`, which is a packet-contents change, and
+the current decision records `packetContentsChanged: false`. Since the pin is
+already stale and the route already refused, making the specification change now
+costs nothing that is not already owed, and it turns two owner decisions into
+one.
+
 ## Item 11 — the worker publication gate refuses the release candidate
 
 | # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
