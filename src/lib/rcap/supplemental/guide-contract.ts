@@ -194,6 +194,16 @@ export type SupplementalGuide = {
   documentDetails?: GuideDocumentDetail[];
   /** Fees, costs and fee-waiver position. */
   fees?: GuideFees;
+  /**
+   * Spanish for the specification's stop conditions, keyed by the English
+   * `situation` the specification carries.
+   *
+   * This is a translation table, not a second list. The stops themselves stay
+   * in `hearingAndObjectionStops`; a key here that matches no stop is a broken
+   * translation and the control says so, rather than letting a Spanish guide
+   * quietly print an English instruction to stop and get help.
+   */
+  stopConditionsEs?: Record<string, { situation: string; whatItMeans: string }>;
 };
 
 export function guideSectionEntries(guide: SupplementalGuide, section: SupplementalGuideSection): SupplementalGuideEntry[] {

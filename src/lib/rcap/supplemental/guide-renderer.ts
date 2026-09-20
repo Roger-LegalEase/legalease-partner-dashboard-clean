@@ -193,44 +193,44 @@ const COPY: Record<GuideLocale, Words> = {
     guideOf: (n: number, total: number) => `GUIDE ${n} OF ${total}`
   },
   es: {
-    eyebrow: "EXPUNGEMENT.AI  /  GUIA COMPLEMENTARIA",
+    eyebrow: "EXPUNGEMENT.AI  /  GUÍA COMPLEMENTARIA",
     banner: "CONSERVE ESTE DOCUMENTO  /  NO LO PRESENTE",
     title: "Su paquete para limpiar antecedentes",
-    subtitle: "Una guia clara sobre lo que incluye, lo que debe hacer a continuacion y lo que debe conservar.",
+    subtitle: "Una guía clara sobre lo que incluye, lo que debe hacer a continuación y lo que debe conservar.",
     preparedFor: "PREPARADO PARA", preparedOn: "PREPARADO EL",
-    jurisdiction: "JURISDICCION", courtOrAgency: "TRIBUNAL / AGENCIA",
+    jurisdiction: "JURISDICCIÓN", courtOrAgency: "TRIBUNAL / AGENCIA",
     caseOrMatter: "CASO / ASUNTO", remedy: "REMEDIO",
-    whatIsInside: "QUE CONTIENE",
+    whatIsInside: "QUÉ CONTIENE",
     inside: [
-      { title: "Pasos siguientes", description: "Adonde ir, que hacer y que ocurre despues de presentar." },
-      { title: "Lista de verificacion", description: "Una revision final antes, durante y despues de presentar." },
-      { title: "Tarifas y costos", description: "Tarifas del tribunal o agencia, pagos e informacion sobre exencion." },
-      { title: "Documentos para el tribunal", description: "Sus formularios, escritos, mociones y ordenes comienzan despues de esta guia." }
+      { title: "Pasos siguientes", description: "Adónde ir, qué hacer y qué ocurre después de presentar." },
+      { title: "Lista de verificación", description: "Una revisión final antes, durante y después de presentar." },
+      { title: "Tarifas y costos", description: "Tarifas del tribunal o agencia, pagos e información sobre exención." },
+      { title: "Documentos para el tribunal", description: "Sus formularios, escritos, mociones y órdenes comienzan después de esta guía." }
     ],
     important: "IMPORTANTE",
-    importantBody: "Estas paginas complementarias son para usted. No las presente ante el secretario ni el tribunal. "
-      + "Presente unicamente los documentos dirigidos al tribunal que se identifican en sus instrucciones.",
+    importantBody: "Estas páginas complementarias son para usted. No las presente ante el secretario ni el tribunal. "
+      + "Presente únicamente los documentos dirigidos al tribunal que se identifican en sus instrucciones.",
     nextSteps: "Pasos siguientes",
-    nextStepsLead: "Aqui aparecen unicamente los pasos que corresponden a su tramite.",
-    whereToFile: "DONDE PRESENTAR", filingMethod: "METODO",
-    deadline: "PLAZO", nextEvent: "PROXIMO EVENTO",
-    checklist: "Lista de verificacion",
-    checklistLead: "Use esta pagina como su revision final de calidad.",
-    documentCheck: "REVISION DE DOCUMENTOS",
-    colDocument: "DOCUMENTO PARA EL TRIBUNAL", colSigned: "FIRMADO?", colCopies: "COPIAS", colAttach: "ADJUNTAR / PRESENTAR?",
+    nextStepsLead: "Aquí aparecen únicamente los pasos que corresponden a su trámite.",
+    whereToFile: "DÓNDE PRESENTAR", filingMethod: "MÉTODO",
+    deadline: "PLAZO", nextEvent: "PRÓXIMO EVENTO",
+    checklist: "Lista de verificación",
+    checklistLead: "Use esta página como su revisión final de calidad.",
+    documentCheck: "REVISIÓN DE DOCUMENTOS",
+    colDocument: "DOCUMENTO PARA EL TRIBUNAL", colSigned: "¿FIRMADO?", colCopies: "COPIAS", colAttach: "¿ADJUNTAR / PRESENTAR?",
     fees: "Tarifas y costos",
     feesLead: "Separe el costo de su paquete de Expungement.ai de los costos del tribunal, la agencia, "
-      + "la notificacion, las certificaciones y otros terceros.",
-    estimate: "COSTO ESTIMADO DE PRESENTACION",
-    lastVerified: "Verificado por ultima vez", officialSource: "Fuente oficial",
+      + "la notificación, las certificaciones y otros terceros.",
+    estimate: "COSTO ESTIMADO DE PRESENTACIÓN",
+    lastVerified: "Verificado por última vez", officialSource: "Fuente oficial",
     breakdown: "DESGLOSE DE TARIFAS",
-    colItem: "CONCEPTO", colAmount: "MONTO", colWhen: "CUANDO / COMO SE PAGA",
-    waiver: "EXENCION DE TARIFAS / INDIGENCIA",
-    availability: "DISPONIBILIDAD", formOrProcess: "FORMULARIO / PROCESO", whereToSubmit: "DONDE PRESENTARLO",
-    stops: "CUANDO DETENERSE Y BUSCAR AYUDA",
-    notEstablished: "No establecido para este tramite — pregunte al secretario u oficina de presentacion.",
+    colItem: "CONCEPTO", colAmount: "MONTO", colWhen: "CUÁNDO / CÓMO SE PAGA",
+    waiver: "EXENCIÓN DE TARIFAS / INDIGENCIA",
+    availability: "DISPONIBILIDAD", formOrProcess: "FORMULARIO / PROCESO", whereToSubmit: "DÓNDE PRESENTARLO",
+    stops: "CUÁNDO DETENERSE Y BUSCAR AYUDA",
+    notEstablished: "No establecido para este trámite — pregunte al secretario u oficina de presentación.",
     footerBrand: "Expungement.ai by LegalEase",
-    guideOf: (n: number, total: number) => `GUIA ${n} DE ${total}`
+    guideOf: (n: number, total: number) => `GUÍA ${n} DE ${total}`
   }
 };
 

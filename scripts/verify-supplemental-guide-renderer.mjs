@@ -219,9 +219,11 @@ for (const guide of guides) {
   // Spanish refuses rather than falling back, until the route carries Spanish.
   const anySpanish = [...(guide.overview ?? []), ...(guide.nextSteps ?? []),
     ...(guide.filingChecklist ?? []), ...(guide.feesAndCosts ?? [])].every((entry) => entry.textEs?.trim());
+  const stopsEs = guide.stopConditionsEs ?? {};
   let refused = null;
+  let spanishPdf = null;
   try {
-    await renderSupplementalGuidePdf(guide, { variant: "full", locale: "es", stops, documents, matter });
+    spanishPdf = await renderSupplementalGuidePdf(guide, { variant: "full", locale: "es", stops, documents, matter, stopsEs });
   } catch (error) { refused = error; }
   check(
     anySpanish ? refused === null : refused !== null && /no Spanish text/.test(refused.message),
@@ -229,6 +231,47 @@ for (const guide of guides) {
       ? `${where}: the route carries Spanish throughout, so the Spanish guide renders`
       : `${where}: a Spanish render refuses the untranslated entry instead of falling back to English`
   );
+
+  if (spanishPdf) {
+    const spanish = pagesOf(spanishPdf).join("\n");
+    // Every English sentence is gone, not merely joined by Spanish ones.
+    const englishLeft = [...(guide.overview ?? []), ...(guide.nextSteps ?? []),
+      ...(guide.filingChecklist ?? []), ...(guide.feesAndCosts ?? [])]
+      .filter((entry) => entry.text.length > 40 && spanish.includes(entry.text.slice(0, 40)));
+    check(
+      englishLeft.length === 0,
+      `${where}: no English entry survives into the Spanish guide${
+        englishLeft.length ? `: "${englishLeft[0].text.slice(0, 50)}"` : ""}`
+    );
+    for (const element of [
+      ["the Spanish cover title", "Su paquete para limpiar antecedentes"],
+      ["the Spanish banner", "CONSERVE ESTE DOCUMENTO"],
+      ["the Spanish filing strip", "DÓNDE PRESENTAR"],
+      ["the Spanish document table", "REVISIÓN DE DOCUMENTOS"],
+      ["the Spanish fee breakdown", "DESGLOSE DE TARIFAS"],
+      ["the Spanish fee-waiver panel", "EXENCIÓN DE TARIFAS"],
+      ["the Spanish stop conditions", "CUÁNDO DETENERSE"],
+      ["the Spanish page counter", "GUÍA 1 DE"]
+    ]) {
+      check(spanish.includes(element[1]), `${where}: ${element[0]} is drawn`);
+    }
+    // Accented characters survive the WinAnsi sanitiser rather than vanishing.
+    check(/[áéíóúñ¿]/.test(spanish), `${where}: Spanish accents survive into the drawn page`);
+    // A stop translated in the guide must still match a stop the specification
+    // carries; a stale key would silently print English in a Spanish guide.
+    const situations = new Set(stops.map((stop) => stop.situation));
+    const orphaned = Object.keys(stopsEs).filter((key) => !situations.has(key));
+    check(
+      orphaned.length === 0,
+      `${where}: every translated stop condition still matches one the specification carries${
+        orphaned.length ? ` (${orphaned.length} orphaned)` : ""}`
+    );
+    const untranslated = stops.filter((stop) => stop.stopAndGetHelp && !stopsEs[stop.situation]);
+    check(
+      untranslated.length === 0,
+      `${where}: every blocking stop condition is translated (${stops.filter((s) => s.stopAndGetHelp).length})`
+    );
+  }
 
   // A court-only packet carries no guide, and says so.
   let courtOnly = null;
