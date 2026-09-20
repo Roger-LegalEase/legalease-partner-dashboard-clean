@@ -10,25 +10,36 @@
  * guide it actually means to ship, and a participant reading two sets of
  * instructions that drifted apart.
  *
- * So the substance is carried here — route by route, from the adopted material
- * and nothing else — into four sections the whole product shares:
+ * So the substance lives here instead — route by route, from that route's own
+ * authoritative material — in four sections the whole product shares:
  *
  *   Overview          what this route is and what the relief does.
  *   Next Steps        where it is filed, on whom it is served, what happens next.
  *   Filing Checklist  what the participant must have or do before filing.
  *   Fees & Costs      what it costs and what is not established about cost.
  *
- * Stop conditions are NOT a fifth section. A specification already carries
- * `hearingAndObjectionStops`, and a route's reasons to stop and get a lawyer
- * belong there rather than in a second list that can disagree with the first.
+ * Stop conditions are NOT a fifth section, and not guide content at all. A
+ * specification already carries `hearingAndObjectionStops`, and the renderer
+ * DERIVES the stops it shows from that source. Copying them into a guide file
+ * would create a second list that can disagree with the first, which is the
+ * failure this whole lane exists to avoid.
  *
- * WHAT THIS IS NOT
+ * WHAT IT REFUSES, AND WHAT IT DOES NOT
  *
- * It is not a place to write guidance. Every string in a route's guide file is
- * carried from that route's adopted artifact, and the control refuses a guide
- * whose text is not traceable to one. A guide that could be authored here would
- * be participant-facing legal instruction no legal review ever saw, which is the
- * same failure the composer's first rule exists to prevent.
+ * The invariant is NO UNSOURCED LEGAL OR PROCEDURAL INSTRUCTION. It is not "no
+ * authored sentence", and the difference decides whether this system works
+ * nationwide at all. Most routes have no legacy approved guidance page to copy,
+ * so requiring every sentence to have appeared in an old PDF would leave them
+ * with no guide. A newly written "File the petition with the clerk of the court
+ * that handled your case" is fine where the route's own source says that; what
+ * is forbidden is asserting it where nothing does.
+ *
+ * So each entry names what supports it, from a fixed set: adopted artifact
+ * text, an authoritative statute, rule, official form or published instruction,
+ * an existing source-backed route or owner decision, deterministic route data
+ * already established elsewhere, or ordinary non-legal product copy. The last
+ * carries no citation because it asserts nothing about the law — and for that
+ * reason it may not carry an instruction.
  */
 
 export type SupplementalGuideSection = "overview" | "nextSteps" | "filingChecklist" | "feesAndCosts";
@@ -40,19 +51,49 @@ export const SUPPLEMENTAL_GUIDE_SECTIONS: ReadonlyArray<{ id: SupplementalGuideS
   { id: "feesAndCosts", heading: "Fees & Costs" }
 ];
 
+/**
+ * What supports a guide entry.
+ *
+ * `product_copy` is the one kind that needs no citation, because it states
+ * nothing about the law — a heading, a greeting, a transition. It is therefore
+ * also the one kind that may not carry a legal or procedural instruction, and
+ * the control enforces that rather than trusting the label.
+ */
+export type GuideProvenanceKind =
+  | "adopted_artifact"
+  | "authoritative_source"
+  | "route_decision"
+  | "route_data"
+  | "product_copy";
+
+export const GUIDE_PROVENANCE_KINDS: ReadonlyArray<GuideProvenanceKind> = [
+  "adopted_artifact",
+  "authoritative_source",
+  "route_decision",
+  "route_data",
+  "product_copy"
+];
+
 export type SupplementalGuideEntry = {
-  /** The adopted sentence or bullet, carried unchanged. */
+  /** The sentence or bullet the participant reads. */
   text: string;
-  /** Where in the adopted artifact it came from, so the carry is checkable. */
-  adoptedSource: string;
+  provenance: {
+    kind: GuideProvenanceKind;
+    /** Where it comes from. Required for everything except product copy. */
+    cite?: string;
+  };
 };
 
 export type SupplementalGuide = {
   schemaVersion: "rcap-supplemental-guide/v1";
   routeKey: string;
   jurisdiction: string;
-  /** The adopted artifact digest the substance was carried from. */
-  adoptedDigest: string;
+  /**
+   * The adopted artifact digest, where this route HAS one and the guide carried
+   * substance from it. Absent for a route with no legacy approved guidance
+   * page, which is most of them.
+   */
+  adoptedDigest?: string;
   /** The component in the adopted packet this guide replaces, once it ships. */
   supersedesPacketComponent: string | null;
   overview: SupplementalGuideEntry[];

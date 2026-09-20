@@ -1,0 +1,618 @@
+{
+  "schemaVersion": "rcap-nationwide-active-dependency-status/v1",
+  "generatedBy": "scripts/rcap-corpus/generate-active-dependency-status.mjs",
+  "regenerate": "node scripts/rcap-corpus/generate-active-dependency-status.mjs",
+  "question": "Of the 583 recorded Nationwide paths, which does a live route actually depend on, and is each held at its exact recorded bytes?",
+  "whyThisExistsBesideTheRecoveryReport": {
+    "theStaleNumber": "private/nationwide-corpus-recovery-report.json reports 513 of 583 recoverable, 70 missing.",
+    "whatThatNumberIs": "What one recovery kit could rebuild on 2026-09-19. It is a statement about that kit's coverage.",
+    "whatItIsNot": "A count of launch blockers. Read as one, it produces a recurring instruction to reacquire seventy files, which is work already answered on 2026-09-02.",
+    "theCorrection": "Dependency is decided by NATIONWIDE_RESIDUAL_EXECUTION.json, which classifies every unrecovered path. This record applies it. Neither number is wrong; they answer different questions, and only this one is about launch."
+  },
+  "theRule": {
+    "failClosed": "A recorded path is an ACTIVE dependency unless the disposition names it BY SHA-256 and classifies it settled. Unclassified is active. A hash that does not match its disposition row is active.",
+    "custodyIsByBytes": "A dependency is held only when a file exists and hashes to the recorded SHA-256 -- in the operational tree, or at a path named by a custody record that is itself checked. Never by filename, folder or jurisdiction.",
+    "settledIsNotRecovered": "A settled classification says no live route depends on the path. It says nothing about whether the bytes exist, and this record does not relabel absent bytes as recovered. Dependency and custody are reported separately below and are never merged.",
+    "completenessUntouched": "This does not relax scripts/rcap-official-forms/operational-corpus-precondition.mjs. Condition 7 is a question about the complete tree and still requires all 583 at their recorded hashes. A partial custody still cannot assert completeness."
+  },
+  "measuredOn": {
+    "operationalCorpusPath": "private/Nationwide Record Clearing",
+    "operationalCorpusMounted": false,
+    "note": "The operational tree is NOT mounted in this checkout, so every dependency below is satisfied -- or not -- by checked custody records alone. An unmounted tree is not a finding about dependency, but it does mean these counts are a floor: a mounted tree can only raise the held count."
+  },
+  "counts": {
+    "residual": 70,
+    "residualActive": 15,
+    "residualActiveHeld": 6,
+    "residualActiveUnheld": 9,
+    "settled": 55,
+    "neverInDispute": 513,
+    "custodyNotMeasurableHere": 512,
+    "bytesHeldAnywhere": 7
+  },
+  "howToReadTheCounts": {
+    "residual": "The paths the 2026-09-02 disposition classifies -- the only ones where a classification decides anything.",
+    "residualActive": "Of those, the ones a live route depends on. These are the launch question.",
+    "residualActiveUnheld": "The findings. Classified live, and held in no custody this repository can check.",
+    "neverInDispute": "Recorded paths the disposition does not name, because they were recovered. Not a launch question.",
+    "custodyNotMeasurableHere": "Never-in-dispute paths whose bytes this checkout cannot confirm because the operational tree is not mounted. This is a statement about the checkout, not about launch, and it is reported separately so it can never be added to the findings."
+  },
+  "dependencyVerdict": "9 of the 15 active residual dependencies are not held in any custody this repository can check.",
+  "unheldActiveDependencies": [
+    {
+      "relativePath": "LegalEase Florida/2026_07-JAN-Criminal-Procedure-Rules-1-1-2026.pdf",
+      "sha256": "794119a4aa9e7f731941609922658963b5e1146c434ccf2fa03b2ecf46b7031c",
+      "jurisdiction": "FL",
+      "classification": "CURRENT_AUTHORITY_OR_INSTRUCTION",
+      "familyIds": [
+        "fl-expunction-set",
+        "fl-10yr-bridge-set",
+        "fl-sealing-set"
+      ],
+      "obligation": "official-form:FL-RULE-3.989-PETITION, official-form:FL-RULE-3.989-ORDER and official-form:FL-RULE-3.989-SWORN-STATEMENT -- the three rule-prescribed instruments the owner determined are COMPOSE_FROM_AUTHORITY"
+    },
+    {
+      "relativePath": "LegalEase Georgia/reference-only/GBI-Time-Expired-Restrictions__georgia-law-regarding-time-expired-restrictions__source-2013-10-08.pdf",
+      "sha256": "0e2f11700b8793c13f848b4837f9a5c56a7e15429f04aa3d41467835bf913f4d",
+      "jurisdiction": "GA",
+      "classification": "CURRENT_AUTHORITY_OR_INSTRUCTION",
+      "familyIds": [
+        "ga-time-expired-set",
+        "rcap-ga-guidance-implementation"
+      ],
+      "obligation": "source-sha256:0e2f11700b8793c13f848b4837f9a5c56a7e15429f04aa3d41467835bf913f4d -- named directly in the requiredSourceIds of obligation:track-only:GA:ga-time-expired"
+    },
+    {
+      "relativePath": "LegalEase Iowa/forms/IA-RULE-2.86-FORM-1__application-to-expunge-court-record-901c-2__rev-2022-01.pdf",
+      "sha256": "d3e68933c4ed878c72784c5b2b191281116f87d953fa6203aecb702584cb5053",
+      "jurisdiction": "IA",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "familyIds": [
+        "ia-901c2-set"
+      ],
+      "obligation": "official-form:Rule 2.86 Form 1 -- the application the section 901C.2 route files, and the Certification of Service printed inside it"
+    },
+    {
+      "relativePath": "LegalEase Iowa/forms/IA-RULE-2.86-FORM-3__application-to-expunge-public-intoxication-records-123-46__rev-2022-01.pdf",
+      "sha256": "6f222685001373ba2e1ef63509e3b42e7e47d5067bfb0ed3b130b62040d80f01",
+      "jurisdiction": "IA",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "familyIds": [
+        "ia-12346-set"
+      ],
+      "obligation": "official-form:Rule 2.86 Form 3 -- the application the section 123.46 public-intoxication route files"
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+      "sha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+      "jurisdiction": "KS",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "familyIds": [
+        "ks-22-2410-arrest-set"
+      ],
+      "obligation": "source-sha256:d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5, named directly by obligation:track-only:KS:ks-22-2410-arrest, and official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016"
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+      "sha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+      "jurisdiction": "KS",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "familyIds": [
+        "ks-22-4908-registration-relief-set"
+      ],
+      "obligation": "source-sha256:0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd, named directly by both ks-22-4908 obligation units, and official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022"
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+      "sha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+      "jurisdiction": "KS",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "familyIds": [
+        "ks-22-2410-arrest-set"
+      ],
+      "obligation": "source-sha256:bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d, named directly by obligation:track-only:KS:ks-22-2410-arrest, and official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013"
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+      "sha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+      "jurisdiction": "KS",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "familyIds": [
+        "ks-22-4908-registration-relief-set"
+      ],
+      "obligation": "source-sha256:9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396, named directly by both ks-22-4908 obligation units, and official-form:KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022"
+    },
+    {
+      "relativePath": "LegalEase Maine/forms/ME-CR-308__order-on-motion-to-seal-criminal-history-victims-of-sex-trafficking-or-sexual-exploitation__rev-2026-06.pdf",
+      "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+      "jurisdiction": "ME",
+      "classification": "LIVE_PACKET_COMPONENT",
+      "familyIds": [
+        "me-seal-survivor-set"
+      ],
+      "obligation": "official-form:CR-308 -- the order the survivor-sealing route submits with its motion"
+    }
+  ],
+  "currentAuthorityDependencies": [
+    {
+      "relativePath": "LegalEase Florida/2026_07-JAN-Criminal-Procedure-Rules-1-1-2026.pdf",
+      "sha256": "794119a4aa9e7f731941609922658963b5e1146c434ccf2fa03b2ecf46b7031c",
+      "jurisdiction": "FL",
+      "bytesHeld": false,
+      "familyIds": [
+        "fl-expunction-set",
+        "fl-10yr-bridge-set",
+        "fl-sealing-set"
+      ],
+      "obligation": "official-form:FL-RULE-3.989-PETITION, official-form:FL-RULE-3.989-ORDER and official-form:FL-RULE-3.989-SWORN-STATEMENT -- the three rule-prescribed instruments the owner determined are COMPOSE_FROM_AUTHORITY",
+      "censusConsumers": [
+        {
+          "censusSourceId": "official-form:FL-RULE-3.989-PETITION",
+          "role": "primary_filing",
+          "documentTheRouteNeeds": "The petition to expunge prescribed by Fla. R. Crim. P. 3.989.",
+          "resolutionStatus": "RESOLVED_NOT_A_SEPARATE_DOCUMENT",
+          "familiesNeedingIt": 3
+        },
+        {
+          "censusSourceId": "official-form:FL-RULE-3.989-ORDER",
+          "role": "proposed_order",
+          "documentTheRouteNeeds": "The order to expunge prescribed by the same rule.",
+          "resolutionStatus": "RESOLVED_NOT_A_SEPARATE_DOCUMENT",
+          "familiesNeedingIt": 3
+        },
+        {
+          "censusSourceId": "official-form:FL-RULE-3.989-SWORN-STATEMENT",
+          "role": "affidavit",
+          "documentTheRouteNeeds": "The sworn statement in support of the petition, prescribed by the same rule.",
+          "resolutionStatus": "RESOLVED_NOT_A_SEPARATE_DOCUMENT",
+          "familiesNeedingIt": 2
+        }
+      ],
+      "status": "UNRESOLVED. No custody this repository can check holds these bytes, and the census entries below resolve to this document rather than to separately issued forms -- so they are one acquisition, not several."
+    },
+    {
+      "relativePath": "LegalEase Georgia/reference-only/GBI-Time-Expired-Restrictions__georgia-law-regarding-time-expired-restrictions__source-2013-10-08.pdf",
+      "sha256": "0e2f11700b8793c13f848b4837f9a5c56a7e15429f04aa3d41467835bf913f4d",
+      "jurisdiction": "GA",
+      "bytesHeld": false,
+      "familyIds": [
+        "ga-time-expired-set",
+        "rcap-ga-guidance-implementation"
+      ],
+      "obligation": "source-sha256:0e2f11700b8793c13f848b4837f9a5c56a7e15429f04aa3d41467835bf913f4d -- named directly in the requiredSourceIds of obligation:track-only:GA:ga-time-expired",
+      "censusConsumers": [],
+      "status": "UNRESOLVED. No custody this repository can check holds these bytes, and the census entries below resolve to this document rather than to separately issued forms -- so they are one acquisition, not several."
+    }
+  ],
+  "activeDependenciesHeldOutsideTheOperationalTree": [
+    {
+      "relativePath": "LegalEase Delaware/forms/Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx",
+      "sha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+      "heldAt": "reference/source-recovery/2026-09-11-wave1/281e---adult-expungement-charge-extension-sheet-09212018.docx",
+      "provenRecord": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+      "why": "The recovery report counts this path missing because it reads the Nationwide tree path. The bytes are held under a different filename and were bound by exact SHA-256 in the record named here. This is bookkeeping, not an acquisition."
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+      "sha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+      "heldAt": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-ELIGIBILITY-ACKNOWLEDGEMENT__691ce0bffc30.pdf",
+      "provenRecord": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+      "why": "The recovery report counts this path missing because it reads the Nationwide tree path. The bytes are held under a different filename and were bound by exact SHA-256 in the record named here. This is bookkeeping, not an acquisition."
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf",
+      "sha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+      "heldAt": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-EXPUNGEMENT-FOR-MILITARY-APPLICATION__87d693a24931.pdf",
+      "provenRecord": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+      "why": "The recovery report counts this path missing because it reads the Nationwide tree path. The bytes are held under a different filename and were bound by exact SHA-256 in the record named here. This is bookkeeping, not an acquisition."
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+      "sha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+      "heldAt": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-ELIGIBILITY-ACKNOWLEDGEMENT__b204190533f2.pdf",
+      "provenRecord": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+      "why": "The recovery report counts this path missing because it reads the Nationwide tree path. The bytes are held under a different filename and were bound by exact SHA-256 in the record named here. This is bookkeeping, not an acquisition."
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf",
+      "sha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+      "heldAt": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC1__PRB-CERTIFICATE-OF-SEALING-APPLICATION__5aa1b7803bfa.pdf",
+      "provenRecord": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+      "why": "The recovery report counts this path missing because it reads the Nationwide tree path. The bytes are held under a different filename and were bound by exact SHA-256 in the record named here. This is bookkeeping, not an acquisition."
+    },
+    {
+      "relativePath": "LegalEase Iowa/forms/DCI-76-and-DCI-77__criminal-history-record-check-billing-and-request-forms-fillable__source-2026.pdf",
+      "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+      "heldAt": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
+      "provenRecord": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+      "why": "The recovery report counts this path missing because it reads the Nationwide tree path. The bytes are held under a different filename and were bound by exact SHA-256 in the record named here. This is bookkeeping, not an acquisition."
+    },
+    {
+      "relativePath": "LegalEase Missouri/Judgment and Order of Expungement - Section 610.140 RSMo CR370.pdf",
+      "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+      "heldAt": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR370__8a4d32d66d3f.pdf",
+      "provenRecord": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+      "why": "The recovery report counts this path missing because it reads the Nationwide tree path. The bytes are held under a different filename and were bound by exact SHA-256 in the record named here. This is bookkeeping, not an acquisition."
+    }
+  ],
+  "settled": {
+    "REFERENCE_ONLY": {
+      "count": 24,
+      "bytesStillAbsent": 24,
+      "meaning": "Background material. No live route names the file. Preserve the historical identity; do not carry it as a launch recovery requirement.",
+      "paths": [
+        {
+          "relativePath": "LegalEase Colorado/guide-sealing-conviction-records-multiple-cases.html",
+          "sha256": "3a28cafa4bf3f79c7461d6870405a2028790d57a7222371d431b3959156fe227",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/how-expunge-juvenile-delinquency-records.html",
+          "sha256": "dfdd6af6b2c34c37dcd8fdbb4128dacd2458b009026e52208dab4ac2961cb2c7",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/how-seal-criminal-records-non-convictions.html",
+          "sha256": "815c34baa1c35141ddd79d56d6d2a9f8da802a0052f59246d4ba303646e9808e",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF613.pdf.html",
+          "sha256": "5099d021a5cd9f17962d53e112b2ec938bc78080101182c6b7bb9e33efb88df7",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/motion-seal-conviction-record-pardoned.html",
+          "sha256": "91410ea5959e8a741bc78774d5f57de81ee86fe14d4a6b21363249affcb3c401",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/order-seal-pardoned-conviction-records.html",
+          "sha256": "52fd67da32b7c561fd8775f728951c419411e16dd16a96c6ce39f3c62a698b76",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/request-hearing-automatic-sealing.html",
+          "sha256": "02f72b5a7a5b5789f89d5fda6352a30a38f22672fbd5d02b136287b7d10d5e98",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Illinois/reference-only/PRB-Guidelines-for-Certificate-of-Expungement-for-Military__guidelines__rev-2024-09-18.pdf",
+          "sha256": "cd9f2e021e7ad90b167d8c9477527896edd7e103fe66cbd9aed05cc5c21bb9c2",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Illinois/reference-only/PRB-Guidelines-for-Certificate-of-Sealing__guidelines__rev-2024-09-18.pdf",
+          "sha256": "b3ad8e361eb51ce05c4ecb917efe59f084add596e4cf1c91d2a2cdca45820e86",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Illinois/reference-only/PRB-Sealable-Convictions-List__offences-eligible-for-certificate-of-sealing__source-undated.pdf",
+          "sha256": "dc2b2c63688ee8028d1d11154f43e7a2aa517fd4d3cd153f320abd8af696f40b",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Indiana/reference-only/CCA-XP-0320-7000B__conviction-petition-instructions__rev-2020-03.pdf",
+          "sha256": "9ca0d41ef75a99e6ae9da9fc67c79dc521794b6b9923bcf1669b5c3c42281429",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Indiana/reference-only/IOCS__detailed-information-on-criminal-case-expungement__rev-2026-07-01.pdf",
+          "sha256": "9c3485e666aa7baaa051e30302b1da39072f97817f076f4b04b3a3e681003510",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-987__motion-to-set-aside-conviction-rule-to-show-cause-and-order-of-dismissal-forms__source-2026-08.html",
+          "sha256": "6f1498a70bc0cbc7f88e721ea24a9d08ab37d757d0c884feeb6db615844fd850",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-988__motion-for-fee-exemption-certification-of-fee-waiver-form__source-2026-08.html",
+          "sha256": "efa0a8631a1c26122dc6f6ac26777eb53e4077e188bc0b5adc54ace5cd6defe7",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-989__motion-for-expungement-form__source-2026-08.html",
+          "sha256": "4c593e60f5c0c67366cab929359e9002a731b7a32523d3b8e24a9299e4a24365",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-991__order-form__source-2026-08.html",
+          "sha256": "a6872580f648c33f766c43c41771a0c1b3f9d91a50e9d0d77bdf4919bf2a79c2",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-992__order-of-expungement-form__source-2026-08.html",
+          "sha256": "fc715f0eea69f2ad56f1c3245ac9570a85e274b7743fc6b488dc8fac763c3bf4",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-994__motion-for-interim-expungement-form__source-2026-08.html",
+          "sha256": "07b0ad437bcd4fceb8fbfd7235d0729ee404f58c342640d399e46f05aa9d1ef3",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Mississippi/reference-only/MS-HB-1546-2026__enrolled-act-chapter-430-laws-of-2026-expunction-waiting-period__source-2026-08.pdf",
+          "sha256": "d5d7169a9553f5c6126602e34165f9ac290773c05800c27e1536bcf86c7a02e4",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Oklahoma/Facets of Expungement of Criminal Records in Oklahoma - Oklahoma Bar Association.html",
+          "sha256": "189922562fb855c91a674e4f556fd2a598807619948e2d573bec5ff0f408c0c9",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Wisconsin/CR-266_summary.pdf",
+          "sha256": "6ea76724d0295ad87b0a474850d0fb9ef2988cb9250f6eb1360ba007d02591a1",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Wisconsin/CR-267_summary.pdf",
+          "sha256": "1c6481cc584bd09196de6122ab5b84572fcabe42d1acc2ee24130e417e5f6342",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Wisconsin/forms-download/CR-266_summary_en.pdf",
+          "sha256": "6ea76724d0295ad87b0a474850d0fb9ef2988cb9250f6eb1360ba007d02591a1",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Wyoming/Wyoming Expungement-Handout_05.01.25.pdf",
+          "sha256": "0ad46f3b216f77af4fc571b24042a2b4c57bdd794b14818c5e6975170be3108d",
+          "bytesHeld": false
+        }
+      ]
+    },
+    "ORPHANED_FROM_LIVE_ROUTES": {
+      "count": 16,
+      "bytesStillAbsent": 16,
+      "meaning": "It was a route input once and no live route names it now. The no-live-dependency determination stands as recorded.",
+      "paths": [
+        {
+          "relativePath": "LegalEase Colorado/JDF302.pdf",
+          "sha256": "53459fde5fcd0d22ca4b93766fe7f2bc6c6c8a578b5044f46bc0317be2b702c5",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF302.spanish.pdf",
+          "sha256": "e11492a29e5edcfe17269cbb4282b08ad747f4b10545715397e343b74f3a1eeb",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF304.pdf",
+          "sha256": "64bd7f9879719bb257b9a794cd1022d27e6c94b5e18ac102cc203064d8109eba",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF324.pdf",
+          "sha256": "fa436ee1561713cad238b33fd761b0a97afbe0e9c0f8b70bdc6662990d7852fa",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF324.spanish.pdf",
+          "sha256": "14c2de516ad4c4d159fa941b114e1bce01f67c85c47b7b480c4fa4ac81f4c795",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF326.pdf",
+          "sha256": "7abccec3a4e65e227661f2716f8e61c4e88e6c33c8c5ded4dd8140bab84b23cd",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF326.spanish.pdf",
+          "sha256": "ee6cb8c259ee0c683a927878bd09d890ef977e8566677c32cdeaf811f9546dd1",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF493.pdf",
+          "sha256": "3dbd29f70847fc488fdba00b0a549b2276ea335bcfd1e72eb19ac2dd220d68d9",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF493.spanish.pdf",
+          "sha256": "037c41260cd352b7b20a8a3ed909e4bffedb1de5ee1e0b174bfbb2f59421f476",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Florida/se (1).pdf",
+          "sha256": "457f7af43bc3cffbab3abce2e63df0655175a70502a92dc03fcf5613c3fc7c08",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Florida/se (2).pdf",
+          "sha256": "8bc405aae745a8d21a14944be00ecb322a26ffe64a2d8af89d89a4463a1227df",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Florida/se (3).pdf",
+          "sha256": "16c6d2afa3e7a94a00d30466637ef2de3f3aa4c673ea96f90a654f6e1af95023",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Florida/se (4).pdf",
+          "sha256": "e8efa1cae99d3463a099d2ed60d4070a195afb24e932f4e0e68113f469634358",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Florida/se (5).pdf",
+          "sha256": "5ee3bca6ad7814c92c69255e447a51a8b6a498bdf6fca7199edc0bf16e825006",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Indiana/forms/IN-FORM-ACR__notice-of-exclusion-of-confidential-information-from-public-access__source-2026-08.docx",
+          "sha256": "21001a1265eb8ff2872f0771ef6e7e75b6b0ad664b2d43aaed912f4e0f4c76c3",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Minnesota/EXP103_Current.pdf",
+          "sha256": "8dd66a22329559fd434f014814dd2895ea434e60f17d652a9816e8f65dae2fd4",
+          "bytesHeld": false
+        }
+      ]
+    },
+    "SUPERSEDED_SOURCE": {
+      "count": 11,
+      "bytesStillAbsent": 11,
+      "meaning": "A later edition of record replaced these bytes. The successor is bound below from repository evidence; the old bytes are not to be hunted.",
+      "paths": [
+        {
+          "relativePath": "LegalEase Colorado/JDF418.pdf",
+          "sha256": "1fae098394b532e45c85ac04019ce3ecff54be2a8382badba4749f25527a5e9d",
+          "bytesHeld": false,
+          "successorEditionOfRecord": {
+            "formNumber": "JDF-418",
+            "heldAt": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-418__order-to-seal-arrest-and-criminal-records__REV-2024-03-20__EN.pdf",
+            "sha256": "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993",
+            "officialSourcePage": "https://www.coloradojudicial.gov/self-help/forms (Colorado Judicial Department JDF forms index)"
+          }
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF477.pdf",
+          "sha256": "9bb822f0163adefb1da1748b50b7323f027b90e32a759e737c0a321c8b47404d",
+          "bytesHeld": false,
+          "successorEditionOfRecord": {
+            "formNumber": "JDF-477",
+            "heldAt": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+            "sha256": "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
+            "officialSourcePage": "https://www.coloradojudicial.gov/self-help/forms (Colorado Judicial Department JDF forms index)"
+          }
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF478.pdf",
+          "sha256": "cbe8ed7ce129cc35a1af1ba778507c771265e326ea0e3c9d94940e3cabeed096",
+          "bytesHeld": false,
+          "successorEditionOfRecord": {
+            "formNumber": "JDF-478",
+            "heldAt": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+            "sha256": "8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159",
+            "officialSourcePage": "https://www.coloradojudicial.gov/self-help/forms (Colorado Judicial Department JDF forms index)"
+          }
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF611.pdf",
+          "sha256": "8f7983af4346e8ccfdc218d01622263af4e783e24a3d7654772d502a74d44fc5",
+          "bytesHeld": false,
+          "successorEditionOfRecord": {
+            "formNumber": "JDF-611",
+            "heldAt": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
+            "sha256": "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
+            "officialSourcePage": "https://www.coloradojudicial.gov/self-help/forms (Colorado Judicial Department JDF forms index)"
+          }
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF612.pdf",
+          "sha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+          "bytesHeld": false,
+          "successorEditionOfRecord": {
+            "formNumber": "JDF-612",
+            "heldAt": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
+            "sha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+            "officialSourcePage": "https://www.coloradojudicial.gov/self-help/forms (Colorado Judicial Department JDF forms index)"
+          }
+        },
+        {
+          "relativePath": "LegalEase Colorado/JDF615.pdf",
+          "sha256": "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26",
+          "bytesHeld": false,
+          "successorEditionOfRecord": {
+            "formNumber": "JDF-615",
+            "heldAt": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
+            "sha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+            "officialSourcePage": "https://www.coloradojudicial.gov/self-help/forms (Colorado Judicial Department JDF forms index)"
+          }
+        },
+        {
+          "relativePath": "LegalEase Maryland/dccr071.pdf",
+          "sha256": "d81027ee0dd84ceac09ce9a1dff0195143e225cdcafa7d953530b7fa8c161e8a",
+          "bytesHeld": false,
+          "successorEditionOfRecord": {
+            "formNumber": "CC-DC-CR-072A / 072B / 072C / 072D",
+            "heldAt": null,
+            "sha256": null,
+            "officialSourcePage": "https://www.mdcourts.gov/courtforms (Maryland Judiciary court forms index)"
+          }
+        },
+        {
+          "relativePath": "LegalEase North Carolina/cr287_1.pdf",
+          "sha256": "d686847a6f824de9c5f34058f23d2e4fded5ee97961a1e7fd57ff5c94196e742",
+          "bytesHeld": false,
+          "successorEditionOfRecord": {
+            "formNumber": "AOC-CR-287",
+            "heldAt": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+            "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+            "officialSourcePage": "https://www.nccourts.gov/documents/forms (North Carolina AOC forms index)"
+          }
+        },
+        {
+          "relativePath": "LegalEase North Carolina/cr297-instr_2.pdf",
+          "sha256": "ea47d3aca9de38a1ce61a1de3ab5eb0bccc736553759b0eebba122558778da9b",
+          "bytesHeld": false,
+          "successorEditionOfRecord": {
+            "formNumber": "AOC-CR-297-INSTRUCTIONS",
+            "heldAt": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-297__aoc-cr-297-instructions__REV-2025-06__EN.pdf",
+            "sha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+            "officialSourcePage": "https://www.nccourts.gov/documents/forms (North Carolina AOC forms index)"
+          }
+        },
+        {
+          "relativePath": "LegalEase North Carolina/cr297.pdf",
+          "sha256": "1dcfc4594a9dc7e1adc2211d18ec655c885d7728926b77d68c660cd5c4a9f9b6",
+          "bytesHeld": false,
+          "successorEditionOfRecord": {
+            "formNumber": "AOC-CR-297",
+            "heldAt": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-297__aoc-cr-297-petition-and-order-of-expunction__REV-2025-06__EN.pdf",
+            "sha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+            "officialSourcePage": "https://www.nccourts.gov/documents/forms (North Carolina AOC forms index)"
+          }
+        },
+        {
+          "relativePath": "LegalEase North Carolina/cr298_1.pdf",
+          "sha256": "af50c33a8d0e8844919bc8a2aaf043953e9ba1ed4b014a49615ea304c3a64ac4",
+          "bytesHeld": false,
+          "successorEditionOfRecord": {
+            "formNumber": "AOC-CR-298",
+            "heldAt": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf",
+            "sha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+            "officialSourcePage": "https://www.nccourts.gov/documents/forms (North Carolina AOC forms index)"
+          }
+        }
+      ]
+    },
+    "ALREADY_HELD_OTHER_CUSTODY": {
+      "count": 4,
+      "bytesStillAbsent": 4,
+      "meaning": "The bytes are held outside the operational tree.",
+      "paths": [
+        {
+          "relativePath": "LegalEase Kansas/source-gated/KSJC__order-for-expungement-of-conviction-or-diversion__rev-2022-08.pdf",
+          "sha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Missouri/forms/CR145__petition-for-expungement-of-arrest-records__rev-2024-04.pdf",
+          "sha256": "7c527bf351e9ab08658f901abc9be15e12e5beb2afe7ded14a8c5e2f0d6eb641",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Missouri/forms/CR360__petition-for-expungement-under-section-610.140__rev-2024-10.pdf",
+          "sha256": "6bfbf26a54f374f7c6bd6dcb59bc199bfe897890c1b3265513b2e7df43990745",
+          "bytesHeld": false
+        },
+        {
+          "relativePath": "LegalEase Missouri/forms/CR375__petition-for-expungement-marijuana-related-offenses__rev-2024-10.pdf",
+          "sha256": "2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780",
+          "bytesHeld": false
+        }
+      ]
+    }
+  },
+  "staleCustodyBindings": [],
+  "whatThisDoesNotEstablish": [
+    "It does not establish that any absent byte was recovered. Absent bytes are reported absent, per class, above.",
+    "It does not open, promote or price any route. No family claim is asserted or released here.",
+    "It does not revisit the 2026-09-02 classifications. It applies them; changing one is a separate decision with its own evidence.",
+    "It does not answer condition 7, which remains a question about the complete corpus and is refused by the precondition module when the tree is partial."
+  ],
+  "productionTouched": false,
+  "commercialRoutesOpened": 0
+}

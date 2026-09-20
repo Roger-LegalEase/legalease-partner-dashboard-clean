@@ -4,11 +4,14 @@
  *
  * Two things it exists to prevent.
  *
- * The first is authored guidance. Every string in a route's guide is carried
- * from that route's adopted artifact; none may be written here. A guide that
- * could be authored would be participant-facing legal instruction no legal
- * review ever saw, which is the failure the composer's first rule exists to
- * prevent, relocated one directory over.
+ * The first is an UNSOURCED INSTRUCTION. Not an authored sentence — the two are
+ * different, and confusing them would break this system nationwide. Most routes
+ * have no legacy approved guidance page to copy, so a rule of "it must have
+ * appeared in an old PDF" would leave them with no guide at all. A newly
+ * written "File the petition with the clerk of the court that handled your
+ * case" is fine where the route's source says so; asserting it where nothing
+ * does is not. So every entry names what supports it, and an entry that carries
+ * a legal or procedural instruction must name something more than product copy.
  *
  * The second is a silent drop. A migration that loses a line looks exactly like
  * a migration that never had it, so every line of the adopted guidance page has
@@ -29,7 +32,7 @@ import { fileURLToPath } from "node:url";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
-const { SUPPLEMENTAL_GUIDE_SECTIONS, allGuideEntries } =
+const { SUPPLEMENTAL_GUIDE_SECTIONS, GUIDE_PROVENANCE_KINDS, allGuideEntries } =
   await import("../src/lib/rcap/supplemental/guide-contract.ts");
 const { packetSpecificationFor } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
 
@@ -53,29 +56,90 @@ check(
   "the guide's sections are the four the plan names, in order"
 );
 
+/*
+ * The schema stays a schema.
+ *
+ * The failure mode is gradual and comfortable: one route's wording gets a
+ * special case, then another, and the shared contract becomes a content
+ * warehouse that every future route has to read around. Route substance lives
+ * in the route's own data file; this module holds the shape.
+ */
+const contractSource = fs.readFileSync(
+  path.join(rootDir, "src/lib/rcap/supplemental/guide-contract.ts"), "utf8");
+const jurisdictionNames = contractSource
+  .split("\n")
+  .filter((line) => !line.trimStart().startsWith("*") && !line.trimStart().startsWith("//"))
+  .join("\n")
+  .match(/\b(Wyoming|Nevada|Mississippi|Illinois|Georgia|Florida|Kansas|Iowa|Maine|Maryland)\b/g);
+check(
+  jurisdictionNames === null,
+  `the guide contract is route-agnostic -- no jurisdiction appears in its code${
+    jurisdictionNames ? ` (found ${[...new Set(jurisdictionNames)].join(", ")})` : ""}`
+);
+
+// Stop conditions are derived from the specification, never copied into a guide.
+for (const guide of guides) {
+  const specification = guide.supersedesPacketComponent ? packetSpecificationFor(guide.routeKey) : null;
+  const stops = (specification?.hearingAndObjectionStops ?? []).map((stop) =>
+    (typeof stop === "string" ? stop : stop?.text ?? "").trim()).filter(Boolean);
+  if (stops.length === 0) continue;
+  const duplicated = allGuideEntries(guide).filter((entry) => stops.includes(entry.text.trim()));
+  check(
+    duplicated.length === 0,
+    `${guide.routeKey}: no guide section duplicates a stop condition -- the renderer derives them from hearingAndObjectionStops${
+      duplicated.length ? ` (${duplicated.length} duplicated)` : ""}`
+  );
+}
+
 for (const guide of guides) {
   const where = guide.routeKey;
 
   check(guide.schemaVersion === "rcap-supplemental-guide/v1", `${where}: the guide states its schema`);
-  check(
-    typeof guide.adoptedDigest === "string" && /^[0-9a-f]{64}$/.test(guide.adoptedDigest),
-    `${where}: the guide names the adopted artifact digest its substance came from`
-  );
 
   const entries = allGuideEntries(guide);
   check(entries.length > 0, `${where}: the guide carries substance (${entries.length} entries)`);
+
+  // Only a route that actually carried substance from an adopted artifact needs
+  // to name its digest. Most routes have no legacy guidance page at all.
+  const carriedFromAdopted = entries.some((entry) => entry.provenance?.kind === "adopted_artifact");
+  check(
+    !carriedFromAdopted || (typeof guide.adoptedDigest === "string" && /^[0-9a-f]{64}$/.test(guide.adoptedDigest)),
+    `${where}: a guide carrying adopted text names the artifact digest it came from`
+  );
   check(
     SUPPLEMENTAL_GUIDE_SECTIONS.every((section) => Array.isArray(guide[section.id])),
     `${where}: every one of the four sections is present, even where empty`
   );
 
-  // Nothing authored: every entry says where in the adopted artifact it came
-  // from, and none is a bare assertion with no provenance.
-  const unsourced = entries.filter((entry) =>
-    typeof entry.adoptedSource !== "string" || !/adopted/i.test(entry.adoptedSource));
+  // Every entry declares a provenance kind from the contract's fixed set.
+  const badKind = entries.filter((entry) => !GUIDE_PROVENANCE_KINDS.includes(entry.provenance?.kind));
   check(
-    unsourced.length === 0,
-    `${where}: every guide entry names its adopted source${unsourced.length ? ` (${unsourced.length} do not)` : ""}`
+    badKind.length === 0,
+    `${where}: every guide entry declares a provenance kind the contract recognises${
+      badKind.length ? ` (${badKind.length} do not)` : ""}`
+  );
+
+  // Anything but product copy has to say what supports it.
+  const uncited = entries.filter((entry) =>
+    entry.provenance?.kind !== "product_copy"
+    && (typeof entry.provenance?.cite !== "string" || entry.provenance.cite.trim().length < 8));
+  check(
+    uncited.length === 0,
+    `${where}: every entry beyond product copy cites its source${uncited.length ? ` (${uncited.length} do not)` : ""}`
+  );
+
+  // The invariant: no unsourced legal or procedural instruction. An entry that
+  // tells the participant to do something, or states what the law requires,
+  // cannot be carried by product copy — which by definition asserts nothing
+  // about the law. This is a text test rather than a trusted label, because the
+  // label is the thing most likely to be wrong.
+  const INSTRUCTION = /\b(file|serve|mail|deliver|submit|pay|sign|notari[sz]e|ask the clerk|must|shall|required|requires|deadline|within \d+|\d+ days?|do not|cannot|may not|entitled|statute|Sec\.|section \d|§)\b/i;
+  const unsupportedInstruction = entries.filter((entry) =>
+    entry.provenance?.kind === "product_copy" && INSTRUCTION.test(entry.text));
+  check(
+    unsupportedInstruction.length === 0,
+    `${where}: no legal or procedural instruction is carried as product copy${
+      unsupportedInstruction.length ? `: "${unsupportedInstruction[0].text.slice(0, 70)}…"` : ""}`
   );
 
   // Nothing dropped: the component the guide supersedes must still be readable,
