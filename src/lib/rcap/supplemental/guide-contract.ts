@@ -93,6 +93,16 @@ export const GUIDE_PROVENANCE_KINDS: ReadonlyArray<GuideProvenanceKind> = [
 export type SupplementalGuideEntry = {
   /** The sentence or bullet the participant reads. */
   text: string;
+  /**
+   * The same sentence in Spanish.
+   *
+   * Optional in the schema because routes land one at a time, but NOT optional
+   * at render time: a Spanish render refuses when an entry lacks it rather than
+   * falling back to English. A half-translated guide reads as finished while
+   * telling a Spanish-speaking participant nothing they can act on, and the
+   * guide is the page that says where to file and what to bring.
+   */
+  textEs?: string;
   provenance: {
     kind: GuideProvenanceKind;
     /** Where it comes from. Required for everything except product copy. */

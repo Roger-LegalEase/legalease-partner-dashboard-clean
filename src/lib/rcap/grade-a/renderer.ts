@@ -23,9 +23,9 @@ export const GRADE_A_RENDERER_KIND = "rcap_grade_a_document_v1";
 export const GRADE_A_RENDERER_VERSION = "2.0.0";
 export const GRADE_A_CONTENT_TYPE = "application/pdf";
 
-const PAGE_WIDTH = 612;
-const PAGE_HEIGHT = 792;
-const MARGIN = 54;
+export const PAGE_WIDTH = 612;
+export const PAGE_HEIGHT = 792;
+export const MARGIN = 54;
 const CONTENT_WIDTH = PAGE_WIDTH - MARGIN * 2;
 
 const INK = rgb(0.06, 0.13, 0.22);
@@ -957,7 +957,7 @@ function ensure(cursor: Cursor, document: PDFDocument, needed: number) {
  * number, a verification hash — is split by character so nothing is drawn past
  * the right margin and silently clipped.
  */
-function wrap(text: string, font: PDFFont, size: number, maxWidth: number): string[] {
+export function wrap(text: string, font: PDFFont, size: number, maxWidth: number): string[] {
   const lines: string[] = [];
   let current = "";
   for (const word of text.split(/\s+/).filter(Boolean)) {
@@ -991,7 +991,7 @@ function wrap(text: string, font: PDFFont, size: number, maxWidth: number): stri
  * their ASCII equivalents and anything still outside the range is dropped, so a
  * stray character can never throw mid-render and fail a participant's download.
  */
-function sanitize(value: string) {
+export function sanitize(value: string) {
   return String(value ?? "")
     .replaceAll("‘", "'")
     .replaceAll("’", "'")
