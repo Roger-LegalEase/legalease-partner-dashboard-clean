@@ -270,6 +270,6 @@ export async function renderPersonalizedClaim(claim: RenderJobClaim): Promise<Bu
     // their job identity names.
     locale: jobLocale,
     verifiedAt: verification.snapshot.verifiedAt,
-    matter: participantGuideMatter(verification.snapshot, claim.packetId, jobLocale)
+    matter: participantGuideMatter(verification.snapshot, claim.packetId, jobLocale, prepared.specification)
   });
 }

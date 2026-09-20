@@ -499,6 +499,56 @@ if (guided) {
   );
 }
 
+/* ----------------------- 6c. the assembled packet is a pure function */
+
+/**
+ * THE DEFECT THIS CAUGHT.
+ *
+ * `assemblePacketWithGuide` creates its own PDFDocument, so pdf-lib stamped
+ * the current clock into CreationDate and ModDate. The bare Grade-A render
+ * hashed identically three times out of three; the assembled packet produced a
+ * different hash whenever a second ticked over.
+ *
+ * Everything downstream rests on this. A recorded artifact digest would name a
+ * moment rather than a packet; the download's re-render check would fail on a
+ * correct packet; and review evidence would name bytes nobody could reproduce,
+ * including the evidence an owner is asked to decide on.
+ *
+ * Four consecutive assemblies, because the defect hid whenever two runs landed
+ * inside the same second -- two of three runs agreeing is exactly what it
+ * looked like.
+ */
+if (guided) {
+  const { specification, packet } = compose(guided, "determinism-0001");
+  const hashes = [];
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const assembly = await assembleParticipantPacket(packet, {
+      routeKey: guided, specification, variant: "full", locale: "en",
+      verifiedAt: "2026-09-20T00:00:00.000Z"
+    });
+    hashes.push(crypto.createHash("sha256").update(assembly.bytes).digest("hex"));
+  }
+  check(
+    new Set(hashes).size === 1,
+    `${guided}: assembling the same packet four times produces the same bytes${
+      new Set(hashes).size === 1 ? "" : ` (${new Set(hashes).size} distinct hashes)`}`
+  );
+
+  /*
+   * And the dates come from the matter, not the clock: a different verifiedAt
+   * is a different document, which is what makes the first check meaningful
+   * rather than a constant.
+   */
+  const later = await assembleParticipantPacket(packet, {
+    routeKey: guided, specification, variant: "full", locale: "en",
+    verifiedAt: "2027-01-02T00:00:00.000Z"
+  });
+  check(
+    crypto.createHash("sha256").update(later.bytes).digest("hex") !== hashes[0],
+    "POSITIVE control: a different verification time does produce different bytes"
+  );
+}
+
 /* ------------------------------------------- 7. the logo is on the page */
 
 /**

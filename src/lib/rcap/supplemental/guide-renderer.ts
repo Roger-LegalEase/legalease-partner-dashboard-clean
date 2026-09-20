@@ -845,6 +845,35 @@ export async function assemblePacketWithGuide(
   }
 
   const document = await PDFDocument.create();
+
+  /*
+   * THE ASSEMBLED DOCUMENT'S DATES ARE THE MATTER'S, NOT NOW.
+   *
+   * This document is created here, so pdf-lib stamps the current clock into
+   * CreationDate and ModDate unless told otherwise -- and it was not told.
+   * `renderGradeAPacketPdf` and `renderSupplementalGuidePdf` both bind their
+   * dates to the verification for exactly this reason; the assembler, which
+   * produces the bytes a participant actually receives, did not.
+   *
+   * Measured: the bare Grade-A render hashed identically three times out of
+   * three; the assembled packet produced a different hash whenever a second
+   * ticked over. That is fatal to everything downstream. A recorded artifact
+   * digest would name a moment rather than a packet, the download's re-render
+   * check would fail on a correct packet, and review evidence would name bytes
+   * nobody could reproduce -- including the evidence for an owner decision.
+   *
+   * The packet already carries the right value, and it is the same one the
+   * court-facing half is stamped with, so the two halves of an assembled
+   * document cannot disagree about when it was made.
+   */
+  const verifiedAt = new Date(options.verifiedAt ?? packet.verifiedAt);
+  const stamp = Number.isNaN(verifiedAt.getTime()) ? new Date(0) : verifiedAt;
+  document.setTitle(packet.packetFamilyLabel);
+  document.setProducer("LegalEase participant packet assembler");
+  document.setCreator("LegalEase");
+  document.setCreationDate(stamp);
+  document.setModificationDate(stamp);
+
   if (guide && guideBelongsInPacket(variant)) {
     await drawSupplementalGuide(document, guide, options);
   }

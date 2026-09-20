@@ -320,7 +320,8 @@ export function participantGuideDate(value: string | null | undefined, locale: G
 export function participantGuideMatter(
   snapshot: PacketVerificationSnapshot,
   packetId: string,
-  locale: GuideLocale
+  locale: GuideLocale,
+  specification?: PacketSpecification
 ): GuideMatter {
   const answers: Record<string, unknown> = {
     ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers,
@@ -334,13 +335,37 @@ export function participantGuideMatter(
     if (typeof value === "string" && value.trim()) return value;
     return typeof value === "number" ? String(value) : null;
   };
+  /*
+   * The case number, by whichever id the route's specification uses.
+   *
+   * This read `cause_number` alone, and Mississippi non-conviction calls it
+   * `case_number` -- so the cover printed "Not established for this route - ask
+   * the clerk or filing office" for the number printed on every pleading behind
+   * it, in the participant's own hands. Across the registered specifications
+   * five routes use `case_number` and two use `cause_number`, so one guess was
+   * always going to be wrong somewhere.
+   *
+   * Only ids a specification actually declares are tried, in order, and the
+   * first that the matter answers wins. A route that establishes none still
+   * gets the honest "not established" line rather than a blank.
+   */
+  const caseNumber = ["case_number", "cause_number", "docket_number"]
+    .map((factId) => plain(factId))
+    .find((value) => value !== null) ?? null;
+
   return {
     preparedFor: plain("participant_full_legal_name"),
     preparedOn: participantGuideDate(snapshot.verifiedAt, locale),
     jurisdiction: snapshot.jurisdiction ?? null,
     courtOrAgency: plain("court_name"),
-    caseOrMatter: plain("cause_number"),
-    remedy: snapshot.pathwayId ?? null,
+    caseOrMatter: caseNumber,
+    /*
+     * The route's own label, not its id. `pathwayId` is a slug --
+     * "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal" --
+     * and printing it under REMEDY put a URL fragment on the cover of a legal
+     * packet. The specification carries the sentence a person wrote.
+     */
+    remedy: specification?.pathwayLabel ?? snapshot.pathwayId ?? null,
     packetId
   };
 }

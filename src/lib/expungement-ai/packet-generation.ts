@@ -589,7 +589,7 @@ async function gradeAPacketDownload(
     // afterwards fail the integrity check on their own packet.
     locale: recordedDeliveryLocale(artifactRefs as unknown as Record<string, unknown>),
     verifiedAt: verification.snapshot.verifiedAt,
-    matter: participantGuideMatter(verification.snapshot, item.id, recordedDeliveryLocale(artifactRefs as unknown as Record<string, unknown>))
+    matter: participantGuideMatter(verification.snapshot, item.id, recordedDeliveryLocale(artifactRefs as unknown as Record<string, unknown>), specification)
   });
   assertValidArtifact({
     bytes,
@@ -1004,7 +1004,7 @@ async function buildGradeAArtifact(
     variant: PARTICIPANT_DELIVERY_VARIANT,
     locale: deliveryLocale,
     verifiedAt: snapshot.verifiedAt,
-    matter: participantGuideMatter(snapshot, item.id, deliveryLocale)
+    matter: participantGuideMatter(snapshot, item.id, deliveryLocale, specification)
   });
   const bytes = assembly.bytes;
   const validation = assertValidArtifact({ bytes, expectedContentType: "application/pdf" });

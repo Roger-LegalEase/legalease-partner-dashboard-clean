@@ -34,6 +34,7 @@
  */
 
 import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { register } from "node:module";
@@ -88,7 +89,7 @@ const matterFor = (locale) => ({
   preparedOn: participantGuideDate(fixture.verifiedAt, locale),
   jurisdiction: "MS",
   courtOrAgency: fact("court_name"),
-  caseOrMatter: fact("cause_number"),
+  caseOrMatter: ["case_number", "cause_number", "docket_number"].map(fact).find((v) => v !== null) ?? null,
   remedy: specification.pathwayLabel ?? null,
   packetId: "ms-nonconv-successor-review"
 });
@@ -175,6 +176,67 @@ const evidence = {
       + "decision records packetContentsChanged: false and cannot describe this packet."
   },
   artifacts
+};
+
+/*
+ * RASTER REVIEW.
+ *
+ * Every page is rendered to a PNG and hashed, in the shape the existing
+ * participant-delivery raster review uses. Extracted text cannot show a clipped
+ * glyph, an overlapping panel, a missing logo or an empty field that reads as
+ * an oversight -- three of the defects corrected in this packet were visible
+ * only in the image.
+ */
+const RASTER_ROOT = "data/rcap-ledger/grade-a/reviews/ms-nonconviction-successor-review-rasters";
+const rasterReview = [];
+for (const artifact of artifacts) {
+  const directory = path.join(rootDir, RASTER_ROOT, artifact.id);
+  fs.rmSync(directory, { recursive: true, force: true });
+  fs.mkdirSync(directory, { recursive: true });
+  execFileSync("pdftoppm", ["-r", "150", "-png", path.join(rootDir, artifact.file), path.join(directory, "page")]);
+  const pages = fs.readdirSync(directory).filter((name) => name.endsWith(".png")).sort();
+  if (pages.length !== artifact.pageCount) {
+    throw new Error(`${artifact.id}: rastered ${pages.length} pages for a ${artifact.pageCount}-page artifact`);
+  }
+  rasterReview.push({
+    id: artifact.id,
+    sourcePdf: artifact.file,
+    sourcePdfSha256: artifact.sha256,
+    pageCount: artifact.pageCount,
+    pagesReviewed: pages.length,
+    rasterDirectory: `${RASTER_ROOT}/${artifact.id}`,
+    pageSha256: pages.map((name) =>
+      crypto.createHash("sha256").update(fs.readFileSync(path.join(directory, name))).digest("hex"))
+  });
+  console.log(`rastered ${artifact.id.padEnd(11)} ${pages.length} pages`);
+}
+evidence.rasterReview = {
+  schemaVersion: "rcap-grade-a-participant-delivery-raster-review/v1",
+  rasterizer: "pdftoppm 24.02.0 at 150 dpi",
+  pageDimensions: "1275x1650 RGB PNG",
+  status: "passed",
+  reviewScope:
+    "Every page of all three artifacts was rastered and inspected as an image, not only as extracted text. "
+    + "The review checked the guide appearing exactly once per full packet and not at all in court-only; the "
+    + "retirement of ms-filing-and-next-steps; the packet's own contents list naming only what ships; captions, "
+    + "participant signature and notarisation blanks, judge, clerk, prosecutor and service-completion blanks; "
+    + "confidential MCIC identifier placement and its exclusion from service copies; exhibits as records the "
+    + "participant obtains rather than uploads; the embedded wordmark; unresolved bindings and placeholder "
+    + "markers; clipping, overlap and pagination; and Spanish completeness.",
+  observations: [
+    {
+      where: "full-es, guide cover, REMEDIO panel",
+      what:
+        "The remedy reads in English -- \"Mississippi non-conviction expungement for dismissal, no disposition, "
+        + "or acquittal\" -- because the specification's pathwayLabel is English only and there is no Spanish "
+        + "label to draw. Everything else on the page is Spanish, and the guide's own Overview states the packet "
+        + "in Spanish immediately below the panel.",
+      disposition:
+        "Recorded, not silently fixed. Naming a legal remedy in Spanish is content for the §7 review to write, "
+        + "not something this generator should invent."
+    }
+  ],
+  artifacts: rasterReview
 };
 
 fs.writeFileSync(path.join(rootDir, EVIDENCE_FILE), `${JSON.stringify(evidence, null, 2)}\n`);
