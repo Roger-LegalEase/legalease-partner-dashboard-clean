@@ -205,7 +205,7 @@ the workflow's own safe path. The re-pin of `AUTHORIZED_WORKER_SOURCE_SHA` and
 `AUTHORIZED_WORKER_DIGEST` to the resulting digest is ordinary build work and
 does not need Roger; it is the same move recorded at `a1eed1c6e`.
 
-## Item 13 — RESOLVED 2026-09-20 — five routes the registry could no longer prove from a stale pin
+## Item 13A — RESOLVED 2026-09-20 — five routes the registry could no longer prove from a stale pin
 
 | # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
 |---|------|-------|----------------|-------------------|--------------------|
@@ -300,14 +300,84 @@ still fails against the original literal.
 **What it deliberately does not do.** It carries a specification digest forward
 and nothing else. It creates no approval, opens no route, and establishes no
 provider or publication proof. In particular it does **not** approve the packet
-these repaired specifications now compose: that composed output is new, no
-owner approval names it, and a route that ever delivers it needs those exact
-composed bytes reviewed and approved first. That remains open work, and none of
-the five is sellable through the route resolver today.
+these repaired specifications now compose. That is Item 13B, below, and it is
+the part that nearly went wrong: this entry originally concluded that the
+routes' artifacts were unchanged, which is true of the build-host artifacts and
+**false of the bytes the commercial provider delivers**.
 
-**Where the five now stand.** Zero revoked. All five are STALE for one shared
-reason — `observation: the current world could not be established` — which is
-the worker-publication gap, the same gate that leaves the Mississippi
-non-conviction successor INCOMPLETE for `provider`. `commerciallyEligible` stays
-0 until that publication happens, which is the correct pre-publication state
-rather than a residue of this repair.
+**Where the five stood after 13A.** Zero revoked, all five STALE for the
+worker-publication gap alone. That looked like the correct pre-publication
+state. It was not sufficient, and Item 13B is why.
+
+## Item 13B — OPEN — the five routes' current commercial artifacts are unapproved
+
+| # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
+|---|------|-------|----------------|-------------------|--------------------|
+| 13B | Decide the current composed Grade-A artifact for each of the five repaired-specification routes | Roger | Before any of the five is commercially opened | `data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_REVIEW_2026-09-20.json` and the artifacts and per-page rasters it names | Approving the exact bytes a participant receives is an owner decision. The build may produce them and hold the route; it may not approve them |
+
+**The error Item 13A made.** "No participant-facing byte moved" was measured
+against the census-v1 build hosts. Those hosts do not deliver. For an ordinary
+paid Grade-A route the product composes at delivery —
+`packetFulfillmentAuthority` → `rcap_grade_a_composer_v1` →
+`buildGradeAArtifact` → the **current** specification → `composeGradeAPacket` →
+`assembleParticipantPacket` — and Illinois composes the same way inside the
+personalized worker, which names it explicitly. So reproducing the old builder's
+PDF proves the old builder is stable; it says nothing about what the product now
+delivers. The correct statement is narrower: *the adopted build-host artifacts
+did not move, and the bytes the current commercial provider produces are new.*
+
+**The hold, and why publication cannot clear it.** A record now has to say
+whether its filing-format artifact is the one the current commercial provider
+composes, and the answer is derived from the producer the record already
+carries — only `rcap_grade_a_document_v1` counts, so no record can assert its
+way past it. Where the answer is no and no approval names the composed bytes,
+the route is INCOMPLETE. That check lives in the packet-completeness gaps, which
+`collectMissingProof` collects **before** the authority looks for an
+observation, and worker publication only clears the observation.
+`scripts/test-current-commercial-artifact-hold.mjs` proves this by evaluating
+every one of the five against a fully current observation — the state the
+repository will be in after the next publication — and requiring them to stay
+closed. All five stay closed. Mississippi non-conviction is unaffected: its
+filing-format artifact **is** the composed artifact Roger approved, so it clears
+through publication as intended.
+
+**What the batch contains.** Produced through the real provider path, for the
+same participant each family's approved artifact was reviewed for, with every
+page rendered to an image and hashed:
+
+| Route | Full EN | Court-only | Full ES | Against the adopted artifact |
+|-------|---------|-----------|---------|------------------------------|
+| DC actual innocence | 8 pp `cbbaeb9303a26bb3` | 5 pp `fd47c9fe57b23af5` | no §7 guide | differs |
+| IL felony prostitution | 5 pp `8adb27a8e39232af` | 4 pp `ce3503701f734d45` | no §7 guide | differs |
+| MS justice court 9-11-15-3 | 12 pp `57f1c0ecd30775b7` | 6 pp `bdbcb1ed1a807a13` | **refused** | differs |
+| MS municipal court 21-23-7-6 | **produces no packet** | — | — | n/a |
+| WY felony expungement | 14 pp `b0833d66e012e330` | 7 pp `800cbbaff29c0193` | 14 pp `b5d41ca56519b4fd` | differs |
+
+The court-only packet carries no participant guide on every route that produced
+one, checked rather than assumed. Facts the platform never supplies — a court's
+findings, a notary block, signature and service lines — are proven not to reach
+the page: each packet is composed twice with different values for all of them
+and the bytes are identical. Participant-owned facts the reviewed fixture does
+not carry are listed per route as review-supplied, because those do print.
+
+**Two defects the batch surfaced, invisible until the commercial path was
+actually run:**
+
+1. **`MS:additional-municipal-court-misdemeanor-relief-21-23-7-6` can compose no
+   packet at all.** `MS-additional-misdemeanor-relief.v1.json` lists both
+   Mississippi additional-misdemeanour routes in `routeKeys`, and
+   `packetSpecificationFor` resolves it for both — but `composeGradeAPacket`
+   gates on the single `specification.routeKey`, which names only the justice
+   court route. The municipal route therefore refuses at composition. Its
+   fulfillment record exists and its route resolves `factory_v2`. Not repaired
+   here: the fix is either a multi-route gate or a per-route specification, and
+   that is a route-behaviour decision rather than build work.
+
+2. **That route's §7 guide has no Spanish for at least one Overview entry**, so
+   `full-es` refuses rather than falling back to English — the guide renderer
+   behaving correctly. Mississippi's additional-misdemeanour routes are
+   therefore not deliverable in Spanish today. Wyoming's guide is complete and
+   its Spanish packet renders.
+
+**Not repaired here, deliberately.** Approving composed bytes is an owner
+decision, and the build must not manufacture one. All five stay held.

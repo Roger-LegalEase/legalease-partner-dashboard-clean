@@ -183,7 +183,7 @@
     "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs": "993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b",
     "scripts/build-census-v1-ms-misd-addl-set.mjs": "cc66b9fb6092bb826a2cd91a829a8bb0e550242c71ec7564368f238cb210553f",
     "scripts/build-census-v1-wy_fel_1502-set.mjs": "5ff1ae7b72ad6d52281c68fc18b7431ba5ca2a2c974aa67f6de3dc6880b5bf76",
-    "scripts/lib/artifact-approval-successor.mjs": "561fe882c03b7756b00198db0fbaad4857b616353eb43dbe55b7a686da39e3c7",
+    "scripts/lib/artifact-approval-successor.mjs": "d2bbc76f50cd1386ceba2aea71b962406b3c1c4b55b625abbae50ff2db65655f",
     "scripts/lib/ms-unchanged-track-authority.mjs": "26308a0a69b7fffccf1578b4f671d9d06a93be44d1e5c36b0af163d067aa4acc",
     "scripts/lib/owner-artifact-approval.mjs": "bb1a835ed44067afe72f79bd0001aeec03dca7b20f3201e1b0019935549b02dd",
     "scripts/lib/wy-unchanged-track-authority.mjs": "c6da711492c2a1c4b3f2ce32ae591c7980203395ac6b5b866c45c177d825133a"
@@ -197,7 +197,7 @@
       "pathwayId": "dc_actual_innocence_expungement_16_803",
       "packetFamilyId": "dc_innocence_expungement-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 24,
+      "version": 25,
       "effectiveFrom": "2026-09-02",
       "supersededBy": null,
       "supersededAt": null,
@@ -348,6 +348,13 @@
             "matchesRecordProvider": false,
             "reconciliation": "The filing proof was produced by the committed census-v1 family builder. The record provider is the separately digest-pinned delivery worker image; no evidence claims that image produced the reviewed PDF.",
             "deterministicRenderVerified": true
+          },
+          "isCurrentCommercialArtifact": false,
+          "currentCommercialArtifactReview": {
+            "state": "pending_owner_review",
+            "composedBy": "rcap_grade_a_composer_v1 -> buildGradeAArtifact -> composeGradeAPacket -> assembleParticipantPacket, from the current packet specification",
+            "approval": null,
+            "why": "The reviewed artifact d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076 was produced by scripts/build-census-v1-dc_innocence_expungement-set.mjs@sha256:8b59bddbdc444d40aca545651c96373bddec47a822fc740b6ce3c6feeaa14268, which is not the current commercial provider. The packet a participant would receive is composed from the current specification at delivery, and no approval names those composed bytes. Specification derivation may be reconciled separately; that reconciles the words, not the output."
           }
         }
       },
@@ -766,6 +773,15 @@
           "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
           "recordSha256": "df28516b07935fc94c99bfbf2b3786ea36118df65997ce9e5aed963692b86943",
           "supersedesRecordSha256": "2d67559e818f7bbc57ce6a25813116bdf1e6229d95275f6246822639c18dd6a7"
+        },
+        {
+          "version": 25,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-20",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "11c7612615dfe92f628391b41817950bc8c7c2c19b757f80f3f8448159e1c3ce",
+          "supersedesRecordSha256": "df28516b07935fc94c99bfbf2b3786ea36118df65997ce9e5aed963692b86943"
         }
       ]
     },
@@ -777,7 +793,7 @@
       "pathwayId": "felony-prostitution-relief",
       "packetFamilyId": "il-prostitution-j-vacate-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 25,
+      "version": 26,
       "effectiveFrom": "2026-09-14",
       "supersededBy": null,
       "supersededAt": null,
@@ -928,6 +944,13 @@
             "matchesRecordProvider": false,
             "reconciliation": "The filing proof was produced by the committed census-v1 family builder. The record provider is the separately digest-pinned delivery worker image; no evidence claims that image produced the reviewed PDF.",
             "deterministicRenderVerified": true
+          },
+          "isCurrentCommercialArtifact": false,
+          "currentCommercialArtifactReview": {
+            "state": "pending_owner_review",
+            "composedBy": "rcap_grade_a_composer_v1 -> buildGradeAArtifact -> composeGradeAPacket -> assembleParticipantPacket, from the current packet specification",
+            "approval": null,
+            "why": "The reviewed artifact d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657 was produced by scripts/build-census-v1-il-prostitution-j-vacate-set.mjs@sha256:993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b, which is not the current commercial provider. The packet a participant would receive is composed from the current specification at delivery, and no approval names those composed bytes. Specification derivation may be reconciled separately; that reconciles the words, not the output."
           }
         }
       },
@@ -1541,6 +1564,15 @@
           "reason": "Reinstated: the evidence the revoked version 24 lacked holds again on the current bytes, raster receipt and independent verification.",
           "recordSha256": "b65d8bf6ddf556a87eec665aae9bd601171d848a23d99a71c4145df235d4aadb",
           "supersedesRecordSha256": "fcb69cf6ac9f40c4f309a6468f8617565c42d408e9ee3740db44abbbcca6f8e8"
+        },
+        {
+          "version": 26,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-20",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "2cdb1c08fb159032077d4fc277c38f30955e6626b7a26ec99bfe626028256643",
+          "supersedesRecordSha256": "b65d8bf6ddf556a87eec665aae9bd601171d848a23d99a71c4145df235d4aadb"
         }
       ]
     },
@@ -1552,7 +1584,7 @@
       "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
       "packetFamilyId": "ms-misd-addl-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 25,
+      "version": 26,
       "effectiveFrom": "2026-09-14",
       "supersededBy": null,
       "supersededAt": null,
@@ -1722,6 +1754,13 @@
             "matchesRecordProvider": false,
             "reconciliation": "The filing proof was produced by the committed census-v1 family builder. The record provider is the separately digest-pinned delivery worker image; no evidence claims that image produced the reviewed PDF.",
             "deterministicRenderVerified": true
+          },
+          "isCurrentCommercialArtifact": false,
+          "currentCommercialArtifactReview": {
+            "state": "pending_owner_review",
+            "composedBy": "rcap_grade_a_composer_v1 -> buildGradeAArtifact -> composeGradeAPacket -> assembleParticipantPacket, from the current packet specification",
+            "approval": null,
+            "why": "The reviewed artifact c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b was produced by scripts/build-census-v1-ms-misd-addl-set.mjs@sha256:cc66b9fb6092bb826a2cd91a829a8bb0e550242c71ec7564368f238cb210553f, which is not the current commercial provider. The packet a participant would receive is composed from the current specification at delivery, and no approval names those composed bytes. Specification derivation may be reconciled separately; that reconciles the words, not the output."
           }
         }
       },
@@ -2335,6 +2374,15 @@
           "reason": "Reinstated: the evidence the revoked version 24 lacked holds again on the current bytes, raster receipt and independent verification.",
           "recordSha256": "4ce93515ab5a019c29f25557561e5cde1316ac207516fecbf060efe3b03f42de",
           "supersedesRecordSha256": "46296dbc79fb9f4117f31911ef95842df22d66cf7bdeed3e065f1445d2ad7fb4"
+        },
+        {
+          "version": 26,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-20",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "9fc5463b24b891b6bec8900be58c703c3b5c11998cbc4584624c3053fc38aa91",
+          "supersedesRecordSha256": "4ce93515ab5a019c29f25557561e5cde1316ac207516fecbf060efe3b03f42de"
         }
       ]
     },
@@ -2346,7 +2394,7 @@
       "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
       "packetFamilyId": "ms-misd-addl-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 25,
+      "version": 26,
       "effectiveFrom": "2026-09-14",
       "supersededBy": null,
       "supersededAt": null,
@@ -2516,6 +2564,13 @@
             "matchesRecordProvider": false,
             "reconciliation": "The filing proof was produced by the committed census-v1 family builder. The record provider is the separately digest-pinned delivery worker image; no evidence claims that image produced the reviewed PDF.",
             "deterministicRenderVerified": true
+          },
+          "isCurrentCommercialArtifact": false,
+          "currentCommercialArtifactReview": {
+            "state": "pending_owner_review",
+            "composedBy": "rcap_grade_a_composer_v1 -> buildGradeAArtifact -> composeGradeAPacket -> assembleParticipantPacket, from the current packet specification",
+            "approval": null,
+            "why": "The reviewed artifact c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b was produced by scripts/build-census-v1-ms-misd-addl-set.mjs@sha256:cc66b9fb6092bb826a2cd91a829a8bb0e550242c71ec7564368f238cb210553f, which is not the current commercial provider. The packet a participant would receive is composed from the current specification at delivery, and no approval names those composed bytes. Specification derivation may be reconciled separately; that reconciles the words, not the output."
           }
         }
       },
@@ -3129,6 +3184,15 @@
           "reason": "Reinstated: the evidence the revoked version 24 lacked holds again on the current bytes, raster receipt and independent verification.",
           "recordSha256": "a0b2a33a66ebb2f5034d71f1178f302af57614f3ba6e72e7a192716e870020e8",
           "supersedesRecordSha256": "94c4832550627661bd9272f621908be1c28b82830a79c00f62b746dd39cf8457"
+        },
+        {
+          "version": 26,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-20",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "4ac4af6568322c5eb16c77d7849b9e07dbf20a6a04e13e08229aa324b6635324",
+          "supersedesRecordSha256": "a0b2a33a66ebb2f5034d71f1178f302af57614f3ba6e72e7a192716e870020e8"
         }
       ]
     },
@@ -3140,7 +3204,7 @@
       "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
       "packetFamilyId": "ms-nonconv-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 1,
+      "version": 2,
       "effectiveFrom": "2026-09-20",
       "supersededBy": null,
       "supersededAt": null,
@@ -3402,7 +3466,9 @@
             "matchesRecordProvider": false,
             "reconciliation": "The reviewed PDF producer is rcap_grade_a_document_v1@2.0.0. The delivery worker uses packet_document_v1 dispatch and selects the protected exact-route participant composer. Current worker publication remains separately required.",
             "deterministicRenderVerified": true
-          }
+          },
+          "isCurrentCommercialArtifact": true,
+          "currentCommercialArtifactReview": null
         }
       },
       "visualReview": {
@@ -3472,6 +3538,15 @@
           "reason": "New exact paid-consumer owner approval data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json sha256:be3be9979f69cb01f5ecf5ec003044401b90a48c3c6efb9a0efa514bce647502, superseding data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json sha256:e2ad8a71790622fb23037c88ce5afed6ea2caeb0e86942390eeb73f9e9b69ec8. The packet contents changed: the shared §7 supplemental guide is assembled into the full packet and the specification's own ms-filing-and-next-steps page is retired in its favour, and the owner approved those exact bytes. Preserves the prior sponsored Preview authority separately. No technical proof, legal review or retirement status is fabricated or waived, and no production or publication authority is created.",
           "recordSha256": "3610777a00f0d65e34df2c2ff2b299580fe606d145c7c139be75d362bc6cbe3f",
           "supersedesRecordSha256": null
+        },
+        {
+          "version": 2,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-20",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "New exact paid-consumer owner approval data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json sha256:be3be9979f69cb01f5ecf5ec003044401b90a48c3c6efb9a0efa514bce647502, superseding data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json sha256:e2ad8a71790622fb23037c88ce5afed6ea2caeb0e86942390eeb73f9e9b69ec8. The packet contents changed: the shared §7 supplemental guide is assembled into the full packet and the specification's own ms-filing-and-next-steps page is retired in its favour, and the owner approved those exact bytes. Preserves the prior sponsored Preview authority separately. No technical proof, legal review or retirement status is fabricated or waived, and no production or publication authority is created.",
+          "recordSha256": "5b05850f5c8f5bf57b714fa92e02e034ca2089ed3ab3a599cc3514345b981cde",
+          "supersedesRecordSha256": "3610777a00f0d65e34df2c2ff2b299580fe606d145c7c139be75d362bc6cbe3f"
         }
       ]
     },
@@ -4764,7 +4839,7 @@
       "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
       "packetFamilyId": "rcap-or-official-pdf-fill",
       "serviceDisposition": "paid_packet_intended",
-      "version": 15,
+      "version": 16,
       "effectiveFrom": "2026-08-19",
       "supersededBy": null,
       "supersededAt": null,
@@ -4878,6 +4953,13 @@
             "matchesRecordProvider": false,
             "reconciliation": "The record's provider is the digest-pinned worker image that renders packets at delivery. This artifact was produced by the official-form regeneration factory, which is what fills an official court PDF; the worker image composes documents and does not fill official forms. Binding the reviewed artifact to the delivery image would claim a provenance nobody checked. Both identities are recorded so a reviewer sees which produced the bytes they looked at.",
             "deterministicRenderVerified": true
+          },
+          "isCurrentCommercialArtifact": false,
+          "currentCommercialArtifactReview": {
+            "state": "pending_owner_review",
+            "composedBy": "rcap_grade_a_composer_v1 -> buildGradeAArtifact -> composeGradeAPacket -> assembleParticipantPacket, from the current packet specification",
+            "approval": null,
+            "why": "The reviewed artifact 582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f was produced by scripts/rcap-official-forms/lanes/d3b-regenerate.mjs on the D0 remediated factory, which is not the current commercial provider. The packet a participant would receive is composed from the current specification at delivery, and no approval names those composed bytes. Specification derivation may be reconciled separately; that reconciles the words, not the output."
           }
         },
         "companionArtifacts": [
@@ -5049,6 +5131,15 @@
           "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
           "recordSha256": "28cea44d0451fe449c574b72b3ad87100867f348403620c8b973a8d36cbe806e",
           "supersedesRecordSha256": "cc02cfc6e1381c365d5744c900cfbaff15c268e8532ec3287d2ecc447bc6cb9e"
+        },
+        {
+          "version": 16,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-20",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "f48e9d2de6ebea6a66b4a43e44f0610d1d2bc9fb57fba5091a3e0c0e0e4c99af",
+          "supersedesRecordSha256": "28cea44d0451fe449c574b72b3ad87100867f348403620c8b973a8d36cbe806e"
         }
       ]
     },
@@ -5290,7 +5381,7 @@
       "pathwayId": "felony-conviction-expungement-w-s-7-13-1502",
       "packetFamilyId": "wy_fel_1502-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 25,
+      "version": 26,
       "effectiveFrom": "2026-09-02",
       "supersededBy": null,
       "supersededAt": null,
@@ -5547,6 +5638,13 @@
             "matchesRecordProvider": false,
             "reconciliation": "The filing proof was produced by the committed census-v1 family builder. The record provider is the separately digest-pinned delivery worker image; no evidence claims that image produced the reviewed PDF.",
             "deterministicRenderVerified": true
+          },
+          "isCurrentCommercialArtifact": false,
+          "currentCommercialArtifactReview": {
+            "state": "pending_owner_review",
+            "composedBy": "rcap_grade_a_composer_v1 -> buildGradeAArtifact -> composeGradeAPacket -> assembleParticipantPacket, from the current packet specification",
+            "approval": null,
+            "why": "The reviewed artifact 3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30 was produced by scripts/build-census-v1-wy_fel_1502-set.mjs@sha256:5ff1ae7b72ad6d52281c68fc18b7431ba5ca2a2c974aa67f6de3dc6880b5bf76, which is not the current commercial provider. The packet a participant would receive is composed from the current specification at delivery, and no approval names those composed bytes. Specification derivation may be reconciled separately; that reconciles the words, not the output."
           }
         }
       },
@@ -6079,6 +6177,15 @@
           "reason": "Reinstated: the evidence the revoked version 24 lacked holds again on the current bytes, raster receipt and independent verification.",
           "recordSha256": "27577905a04a7ca3e6b07b532a0201220d099b594b222b38d3e8ae3c8fbee4b9",
           "supersedesRecordSha256": "2e59afbe21ba46d46f39956e77eec058e969b286d82621d692b7f953b15486d1"
+        },
+        {
+          "version": 26,
+          "changeKind": "proof_added",
+          "changedAt": "2026-09-20",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
+          "recordSha256": "806047e017b27f67a5a120166642c0961a0649e2f0a84e5d8e4ab2bb04703130",
+          "supersedesRecordSha256": "27577905a04a7ca3e6b07b532a0201220d099b594b222b38d3e8ae3c8fbee4b9"
         }
       ]
     }
