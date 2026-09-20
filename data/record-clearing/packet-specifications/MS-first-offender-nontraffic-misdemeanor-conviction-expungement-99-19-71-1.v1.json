@@ -2,7 +2,6 @@
   "schemaVersion": 2,
   "specificationId": "ms-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
   "specificationVersion": "1.0.0",
-  "specificationSha256": "93e76c87942059ab40d5df42ceb2600144ff1f434b97d1f52de72e812d307d5c",
   "obligationRouteKey": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
   "routeKey": "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
   "routeKeys": [
@@ -237,6 +236,30 @@
       "use": "the county sheriff's department and any other office the case papers show keeping an official record, named in the proposed order",
       "inRegistryRequiredInputs": false,
       "ownership": "participant"
+    },
+    {
+      "factId": "order_other_record_holders",
+      "use": "a labelled dotted blank the participant completes on the printed page at filing",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant_completes_before_filing"
+    },
+    {
+      "factId": "prosecuting_authority_address",
+      "use": "a labelled dotted blank the participant completes on the printed page at filing",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant_completes_before_filing"
+    },
+    {
+      "factId": "service_manner",
+      "use": "a labelled dotted blank the participant completes on the printed page at filing",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant_completes_before_filing"
+    },
+    {
+      "factId": "service_date",
+      "use": "a labelled dotted blank the participant completes on the printed page at filing",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant_completes_before_filing"
     }
   ],
   "finalVerificationRequirements": [
@@ -253,21 +276,8 @@
       "participant_full_legal_name",
       "date_of_birth",
       "contact_information",
-      "court",
-      "county",
-      "cause_number",
-      "charge",
-      "offense_date",
-      "arrest_date",
-      "arresting_agency",
-      "agency_case_number",
-      "disposition_date",
-      "first_offender_status",
-      "nontraffic_classification",
       "financial_obligations",
-      "prior_relief",
-      "prosecuting_authority",
-      "order_record_holders"
+      "prior_relief"
     ],
     "serverOwnedRouteFacts": [
       "jurisdiction",
@@ -295,8 +305,28 @@
       "proposed_order.approved_as_to_form"
     ],
     "courtOwnedFields": [
-      "proposed_order.entry_date",
-      "proposed_order.judicial_signature"
+      "order_entry_date",
+      "order_judicial_signature",
+      "order_approved_as_to_form"
+    ],
+    "participantCompletesBeforeFilingFields": [
+      "court",
+      "county",
+      "cause_number",
+      "charge",
+      "offense_date",
+      "arrest_date",
+      "arresting_agency",
+      "agency_case_number",
+      "disposition_date",
+      "first_offender_status",
+      "nontraffic_classification",
+      "prosecuting_authority",
+      "prosecuting_authority_address",
+      "service_manner",
+      "service_date",
+      "order_record_holders",
+      "order_other_record_holders"
     ]
   },
   "documents": [
@@ -312,23 +342,128 @@
       "manifestComponentId": "ms-misd-1st-primary-filing-1",
       "sections": [
         {
-          "heading": "Convicting-court caption, identifying block, conviction facts, the participant's initialled first-offender and nontraffic statements, and the request",
-          "kind": "approved_shipping_component",
+          "heading": "Caption",
+          "kind": "pleading_caption",
           "fields": [
             "court",
             "county",
-            "cause_number",
-            "participant_full_legal_name",
+            "cause_number"
+          ],
+          "captionContract": {
+            "court": "court",
+            "courtLines": [
+              {
+                "prefix": "IN THE",
+                "field": "court",
+                "suffix": "COURT OF"
+              },
+              {
+                "field": "county",
+                "suffix": ", MISSISSIPPI"
+              }
+            ],
+            "courtInstruction": "WRITE THE COURT THAT ENTERED THE CONVICTION - JUSTICE, COUNTY, CIRCUIT OR MUNICIPAL - AND ITS COUNTY, OR FOR A MUNICIPAL COURT ITS CITY",
+            "matterTitle": "STATE OF MISSISSIPPI v. {{participant_full_legal_name}}, PETITIONER",
+            "captionOrder": "matter_title_first",
+            "caseNumber": "cause_number",
+            "caseNumberLabel": "Cause No.",
+            "caseNumberInstruction": "copy the cause number from the court record; where the court assigns a new number for the expungement it is supplied at filing",
+            "documentTitle": "PETITION FOR EXPUNGEMENT OF CRIMINAL RECORD UNDER MISS. CODE ANN. Sec. 99-19-71(1)"
+          },
+          "fieldTreatments": {
+            "court": "ruled_blank",
+            "county": "ruled_blank",
+            "cause_number": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Petition",
+          "kind": "pleading_paragraph",
+          "body": "The petitioner, {{participant_full_legal_name}}, petitions this Court, as the court in which the conviction was had, for an order expunging the misdemeanour conviction described below from all public records, pursuant to Miss. Code Ann. Sec. 99-19-71(1), and states:"
+        },
+        {
+          "heading": "FIRST. The identifying facts of the conviction",
+          "headingPresentation": "internal",
+          "kind": "pleading_identity_list",
+          "body": "FIRST. The identifying facts of the conviction, each taken from the court record:",
+          "fields": [
             "date_of_birth",
             "charge",
             "offense_date",
             "arrest_date",
             "arresting_agency",
             "agency_case_number",
-            "disposition_date",
-            "first_offender_status",
-            "nontraffic_classification"
-          ]
+            "disposition_date"
+          ],
+          "fieldLabels": {
+            "date_of_birth": "Petitioner's date of birth",
+            "charge": "Offence of which the petitioner was convicted, worded as the court record words it, with the Mississippi Code section where the record states one",
+            "offense_date": "Date of the offence",
+            "arrest_date": "Date of arrest or citation",
+            "arresting_agency": "Agency that made the arrest or issued the citation",
+            "agency_case_number": "That agency's own case or citation number, where the record states one",
+            "disposition_date": "Date of the conviction, from the judgment"
+          },
+          "fieldTreatments": {
+            "charge": "ruled_blank",
+            "offense_date": "ruled_blank",
+            "arrest_date": "ruled_blank",
+            "arresting_agency": "ruled_blank",
+            "agency_case_number": "ruled_blank",
+            "disposition_date": "ruled_blank"
+          }
+        },
+        {
+          "heading": "SECOND.",
+          "headingPresentation": "internal",
+          "kind": "pleading_paragraph",
+          "body": "SECOND. The offence is a misdemeanour, and the judgment of this Court is the disposition of the case."
+        },
+        {
+          "heading": "THIRD. The petitioner's own statements",
+          "headingPresentation": "internal",
+          "kind": "pleading_paragraph",
+          "body": "THIRD. The following two statements are the petitioner's own, made after the petitioner has reviewed the petitioner's own Mississippi criminal history record. Each is made by the petitioner's initials beside it, and nothing is initialled for the petitioner:"
+        },
+        {
+          "heading": "The two initialled statements",
+          "headingPresentation": "internal",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "nontraffic_classification",
+            "first_offender_status"
+          ],
+          "fieldLabels": {
+            "nontraffic_classification": "PETITIONER'S INITIALS The offence is not a traffic violation, and is not a DUI.",
+            "first_offender_status": "PETITIONER'S INITIALS I am a first offender. I have no conviction for any other offence, in Mississippi or anywhere else, and I have never had a conviction expunged before."
+          },
+          "fieldTreatments": {
+            "nontraffic_classification": "ruled_blank",
+            "first_offender_status": "ruled_blank"
+          }
+        },
+        {
+          "heading": "FOURTH.",
+          "headingPresentation": "internal",
+          "kind": "pleading_paragraph",
+          "body": "FOURTH. Section 99-19-71(1) states no waiting period for this petition, and none is asserted or required here."
+        },
+        {
+          "heading": "FIFTH.",
+          "headingPresentation": "internal",
+          "kind": "pleading_paragraph",
+          "body": "FIFTH. The petitioner therefore requests that the Court enter an order expunging the conviction described above from all public records, with a nonpublic record retained by the Mississippi Criminal Information Center solely for the purpose Miss. Code Ann. Sec. 99-19-71(3) states."
+        },
+        {
+          "heading": "Declaration",
+          "kind": "pleading_paragraph",
+          "body": "I declare that the facts stated in this petition are true and correct.\n\n(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)"
+        },
+        {
+          "heading": "SIGNATURE OF PETITIONER",
+          "kind": "pro_se_signature_block",
+          "signatureDateLabel": "DATE",
+          "body": "{{participant_full_legal_name}}, Petitioner"
         }
       ],
       "documentContract": {
@@ -345,7 +480,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "The repaired artifact prints this component's own caption above its own title: the two court rules with their instruction, STATE OF MISSISSIPPI v. the petitioner, and the cause-number rule with its own instruction. It is filed behind nothing and borrows no other component's caption."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+        "sourceUsed": "scripts/build-census-v1-ms-misd-1st-set.mjs",
+        "componentEquivalence": "untouched_by_drift",
+        "evidence": "Carried from scripts/build-census-v1-ms-misd-1st-set.mjs's own composedBody(), the function that produced the bytes on disk, with every string additionally checked against the rendered page. The family drifted from the 2026-09-02 adoption (e9483733fabca9e0… -> 96ae8c01ec97fe34…) and the drift is characterised: VF08 failed CLIPPING_AND_OVERLAP and nothing else, and FIX36 (data/rcap-grade-a/packet-factory-24h/fix36/rows.json) repaired exactly that -- the shared host moved onto the token splitter, because the route key was breaking mid-word and severing \"expungement\", and this family's builder stopped appending the machine \"Route:\" trailer below the proposed order's execution band. Neither change alters a word of substance. VF06 (data/rcap-grade-a/packet-factory-24h/vf06/rows.json) then read 96ae8c01ec97fe34… independently and returned PASS_COMPLETE_INDEPENDENT on every measurable obligation. Owner re-review of these bytes is recorded as OWED and is not claimed here; the VF06 row grants nothing. The recorded change does not reach this component: the trailer move was confined to the proposed order, and the token splitter changed where a long route key breaks, which is machine provenance this specification does not carry."
       }
     },
     {
@@ -360,15 +503,100 @@
       "manifestComponentId": "ms-misd-1st-proposed-order-2",
       "sections": [
         {
-          "heading": "Tendered order with the fillable agency list, the fingerprint-record exception, the restoration and perjury-protection language, and the protected entry, judicial and approved-as-to-form blocks",
-          "kind": "approved_shipping_component",
+          "heading": "Caption",
+          "kind": "pleading_caption",
           "fields": [
             "court",
             "county",
-            "cause_number",
+            "cause_number"
+          ],
+          "captionContract": {
+            "court": "court",
+            "courtLines": [
+              {
+                "prefix": "IN THE",
+                "field": "court",
+                "suffix": "COURT OF"
+              },
+              {
+                "field": "county",
+                "suffix": ", MISSISSIPPI"
+              }
+            ],
+            "courtInstruction": "WRITE THE COURT THAT ENTERED THE CONVICTION - JUSTICE, COUNTY, CIRCUIT OR MUNICIPAL - AND ITS COUNTY, OR FOR A MUNICIPAL COURT ITS CITY",
+            "matterTitle": "STATE OF MISSISSIPPI v. {{participant_full_legal_name}}, PETITIONER",
+            "captionOrder": "matter_title_first",
+            "caseNumber": "cause_number",
+            "caseNumberLabel": "Cause No.",
+            "caseNumberInstruction": "copy the cause number from the court record; where the court assigns a new number for the expungement it is supplied at filing",
+            "documentTitle": "PROPOSED ORDER OF EXPUNGEMENT"
+          },
+          "fieldTreatments": {
+            "court": "ruled_blank",
+            "county": "ruled_blank",
+            "cause_number": "ruled_blank"
+          }
+        },
+        {
+          "heading": "What this page is",
+          "kind": "pleading_paragraph",
+          "body": "(This order is tendered with the petition for the Court's consideration, which is Mississippi practice. Every finding below is a proposal for the Court to make; nothing in it is an assertion of fact by the preparer, and nothing on this page is completed for the Court.)"
+        },
+        {
+          "heading": "The proposed findings",
+          "kind": "pleading_paragraph",
+          "body": "THIS CAUSE came before the Court on the petition of {{participant_full_legal_name}} for expungement of a misdemeanour conviction under Miss. Code Ann. Sec. 99-19-71(1), and the Court, having considered the petition, would find that the petitioner meets the criteria of Sec. 99-19-71(1): the offence is a misdemeanour that is not a traffic violation, and the petitioner is a first offender."
+        },
+        {
+          "heading": "The agencies the order directs",
+          "kind": "pleading_identity_list",
+          "fields": [
             "arresting_agency",
-            "order_record_holders"
-          ]
+            "order_record_holders",
+            "order_other_record_holders"
+          ],
+          "body": "IT IS THEREFORE ORDERED that the conviction described in the petition is expunged from all public records, and that every person and agency keeping an official record of the arrest or the conviction shall expunge it, including the following, each named by the petitioner from the case record:",
+          "fieldLabels": {
+            "arresting_agency": "Agency that made the arrest or issued the citation, as the order must direct it",
+            "order_record_holders": "Sheriff's department of the county, where its records carry the case",
+            "order_other_record_holders": "Any other person or agency keeping an official record of the case"
+          },
+          "fieldTreatments": {
+            "arresting_agency": "ruled_blank",
+            "order_record_holders": "ruled_blank",
+            "order_other_record_holders": "ruled_blank"
+          }
+        },
+        {
+          "heading": "The statutory provisos",
+          "kind": "pleading_paragraph",
+          "body": "PROVIDED that the existing records of fingerprints are excepted from this order, as Miss. Code Ann. Sec. 99-19-71 provides; that the Mississippi Criminal Information Center shall retain a nonpublic record solely for the purpose of determining, in subsequent proceedings, whether the person is a first offender; and that upon entry of this order the petitioner is restored, in contemplation of law, to the status the petitioner occupied before the arrest, and shall not be held thereafter guilty of perjury for failure to recite the arrest or conviction, except as Sec. 99-19-71(3) provides for first-offender determinations."
+        },
+        {
+          "heading": "SO ORDERED.",
+          "headingPresentation": "internal",
+          "kind": "pleading_identity_list",
+          "body": "SO ORDERED.",
+          "fields": [
+            "order_entry_date",
+            "order_judicial_signature",
+            "order_approved_as_to_form"
+          ],
+          "fieldLabels": {
+            "order_entry_date": "ENTERED, this the day of ,",
+            "order_judicial_signature": "JUDICIAL OFFICER OF THE COURT (the Court alone completes, signs and enters this order)",
+            "order_approved_as_to_form": "APPROVED AS TO FORM, for the prosecuting authority"
+          },
+          "fieldTreatments": {
+            "order_entry_date": "court_owned_space",
+            "order_judicial_signature": "court_owned_space",
+            "order_approved_as_to_form": "court_owned_space"
+          }
+        },
+        {
+          "heading": "Who completes this page",
+          "kind": "pleading_paragraph",
+          "body": "(some districts expect the prosecuting authority to approve the order as to form before it is presented; this block is never completed by the preparer and is never pre-signed)"
         }
       ],
       "documentContract": {
@@ -385,7 +613,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "The repaired artifact prints this component's own caption above its own title: the two court rules with their instruction, STATE OF MISSISSIPPI v. the petitioner, and the cause-number rule with its own instruction. It is filed behind nothing and borrows no other component's caption."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+        "sourceUsed": "scripts/build-census-v1-ms-misd-1st-set.mjs",
+        "componentEquivalence": "drift_outside_substance",
+        "evidence": "Carried from scripts/build-census-v1-ms-misd-1st-set.mjs's own composedBody(), the function that produced the bytes on disk, with every string additionally checked against the rendered page. The family drifted from the 2026-09-02 adoption (e9483733fabca9e0… -> 96ae8c01ec97fe34…) and the drift is characterised: VF08 failed CLIPPING_AND_OVERLAP and nothing else, and FIX36 (data/rcap-grade-a/packet-factory-24h/fix36/rows.json) repaired exactly that -- the shared host moved onto the token splitter, because the route key was breaking mid-word and severing \"expungement\", and this family's builder stopped appending the machine \"Route:\" trailer below the proposed order's execution band. Neither change alters a word of substance. VF06 (data/rcap-grade-a/packet-factory-24h/vf06/rows.json) then read 96ae8c01ec97fe34… independently and returned PASS_COMPLETE_INDEPENDENT on every measurable obligation. Owner re-review of these bytes is recorded as OWED and is not claimed here; the VF06 row grants nothing. This component is the one the trailer move reaches: the \"Route:\" line left the page's execution band and now closes the preparer's half above \"SO ORDERED.\". VF06 measured the result in coordinates -- the trailer at y 64.487-88.887, \"SO ORDERED.\" at y 107.987 -- and confirmed no preparer's text sits at or below it. The trailer is machine provenance and is not carried into this specification at all, so the change reaches this component and not the substance transcribed from it."
       }
     },
     {
@@ -400,14 +636,76 @@
       "manifestComponentId": "ms-misd-1st-certificate-of-service-3",
       "sections": [
         {
-          "heading": "Service of the petition and proposed order on the prosecuting authority by United States mail or hand delivery",
-          "kind": "approved_shipping_component",
+          "heading": "Caption",
+          "kind": "pleading_caption",
           "fields": [
             "court",
             "county",
-            "cause_number",
-            "prosecuting_authority"
-          ]
+            "cause_number"
+          ],
+          "captionContract": {
+            "court": "court",
+            "courtLines": [
+              {
+                "prefix": "IN THE",
+                "field": "court",
+                "suffix": "COURT OF"
+              },
+              {
+                "field": "county",
+                "suffix": ", MISSISSIPPI"
+              }
+            ],
+            "courtInstruction": "WRITE THE COURT THAT ENTERED THE CONVICTION - JUSTICE, COUNTY, CIRCUIT OR MUNICIPAL - AND ITS COUNTY, OR FOR A MUNICIPAL COURT ITS CITY",
+            "matterTitle": "STATE OF MISSISSIPPI v. {{participant_full_legal_name}}, PETITIONER",
+            "captionOrder": "matter_title_first",
+            "caseNumber": "cause_number",
+            "caseNumberLabel": "Cause No.",
+            "caseNumberInstruction": "copy the cause number from the court record; where the court assigns a new number for the expungement it is supplied at filing",
+            "documentTitle": "CERTIFICATE OF SERVICE"
+          },
+          "fieldTreatments": {
+            "court": "ruled_blank",
+            "county": "ruled_blank",
+            "cause_number": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Certificate",
+          "kind": "pleading_paragraph",
+          "body": "I, {{participant_full_legal_name}}, certify that a true and correct copy of the Petition for Expungement of Criminal Record and of the proposed Order of Expungement in this cause was delivered to the prosecuting authority named below:"
+        },
+        {
+          "heading": "Who was served, and how",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "prosecuting_authority",
+            "prosecuting_authority_address",
+            "service_manner",
+            "service_date"
+          ],
+          "fieldLabels": {
+            "prosecuting_authority": "Prosecuting authority served - for a circuit court case the district attorney for the circuit district, for a county, justice or municipal court case the county or municipal prosecuting attorney (write the office as the court record names it)",
+            "prosecuting_authority_address": "Mailing address at which that office was served",
+            "service_manner": "Manner of delivery (mark the one used): [ ] By United States mail [ ] By hand delivery",
+            "service_date": "DATE OF DELIVERY OF THE COPY"
+          },
+          "fieldTreatments": {
+            "prosecuting_authority": "ruled_blank",
+            "prosecuting_authority_address": "ruled_blank",
+            "service_manner": "ruled_blank",
+            "service_date": "ruled_blank"
+          }
+        },
+        {
+          "heading": "SIGNATURE OF PETITIONER",
+          "kind": "pro_se_signature_block",
+          "body": "{{participant_full_legal_name}}, Petitioner"
+        },
+        {
+          "heading": "When this page is completed",
+          "kind": "pleading_paragraph",
+          "body": "(This page is completed and signed by the petitioner when the copy actually goes out. A date or a signature written before the copy goes out would be false.)"
         }
       ],
       "documentContract": {
@@ -424,7 +722,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "The repaired artifact prints this component's own caption above its own title: the two court rules with their instruction, STATE OF MISSISSIPPI v. the petitioner, and the cause-number rule with its own instruction. It is filed behind nothing and borrows no other component's caption."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+        "sourceUsed": "scripts/build-census-v1-ms-misd-1st-set.mjs",
+        "componentEquivalence": "untouched_by_drift",
+        "evidence": "Carried from scripts/build-census-v1-ms-misd-1st-set.mjs's own composedBody(), the function that produced the bytes on disk, with every string additionally checked against the rendered page. The family drifted from the 2026-09-02 adoption (e9483733fabca9e0… -> 96ae8c01ec97fe34…) and the drift is characterised: VF08 failed CLIPPING_AND_OVERLAP and nothing else, and FIX36 (data/rcap-grade-a/packet-factory-24h/fix36/rows.json) repaired exactly that -- the shared host moved onto the token splitter, because the route key was breaking mid-word and severing \"expungement\", and this family's builder stopped appending the machine \"Route:\" trailer below the proposed order's execution band. Neither change alters a word of substance. VF06 (data/rcap-grade-a/packet-factory-24h/vf06/rows.json) then read 96ae8c01ec97fe34… independently and returned PASS_COMPLETE_INDEPENDENT on every measurable obligation. Owner re-review of these bytes is recorded as OWED and is not claimed here; the VF06 row grants nothing. The recorded change does not reach this component: the trailer move was confined to the proposed order, and the token splitter changed where a long route key breaks, which is machine provenance this specification does not carry."
       }
     },
     {
@@ -439,41 +745,9 @@
       "manifestComponentId": "ms-misd-1st-attachment-4",
       "sections": [
         {
-          "heading": "Documents the participant obtains and attaches, and where each comes from",
-          "kind": "approved_shipping_component"
-        }
-      ],
-      "documentContract": {
-        "instrumentClass": "attachment",
-        "preparedBy": "participant",
-        "signer": "none",
-        "recipient": "court",
-        "formApplicability": "not_a_filing",
-        "caseMode": "existing_case",
-        "executionType": "signature",
-        "serviceTreatment": "participant_serves",
-        "orderTreatment": "no_proposed_order",
-        "privacyTreatment": "masked_on_public_filing",
-        "localVariant": "unresolved",
-        "unresolvedReasons": {
-          "localVariant": "no source read states whether a local form or practice controls this component."
-        }
-      }
-    },
-    {
-      "documentId": "instructions",
-      "role": "instructions",
-      "title": "Participant Filing Instructions",
-      "order": 5,
-      "outputStrategy": "process_guidance",
-      "presentation": "guidance",
-      "requirement": "required",
-      "officialFormId": null,
-      "manifestComponentId": "ms-misd-1st-instructions-5",
-      "sections": [
-        {
-          "heading": "Identify the court, obtain the records, call the clerk, file, serve, and the stop conditions",
-          "kind": "approved_shipping_component"
+          "heading": "EXHIBIT CHECKLIST",
+          "kind": "static",
+          "body": "Prepared for: {{participant_full_legal_name}}\n\nAttach these exhibits to the petition. Each is named here and obtained by you; nothing is obtained, inspected or authenticated for you.\n\nEXHIBIT A - IN EVERY CASE. A certified copy of the judgment of conviction, from the office that keeps the records of the convicting court. It establishes the court, the offence and the conviction date.\n\nADVISABLE, AND EXPECTED IN PRACTICE IN MANY COURTS, THOUGH SUBSECTION (1) DOES NOT REQUIRE THEM:\n\n- The docket sheet for the case, from the same office. It shows every court-imposed term and whether each was satisfied.\n- An account balance sheet for the case showing a zero balance, from the same office. Subsection (1) does not require payment, but courts commonly require a zero balance in practice.\n- Your own Mississippi criminal history record, from the Mississippi Criminal Information Center. It is the only reliable way to check first-offender status across all courts, and self-report is not enough.\n\nDo NOT attach an indictment on this track unless the case was actually indicted; most misdemeanour cases are not, and pleading an indictment that does not exist would be false."
         }
       ],
       "documentContract": {
@@ -491,7 +765,69 @@
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
         }
-      }
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+        "sourceUsed": "scripts/build-census-v1-ms-misd-1st-set.mjs",
+        "componentEquivalence": "untouched_by_drift",
+        "evidence": "Carried from scripts/build-census-v1-ms-misd-1st-set.mjs's own composedBody(), the function that produced the bytes on disk, with every string additionally checked against the rendered page. The family drifted from the 2026-09-02 adoption (e9483733fabca9e0… -> 96ae8c01ec97fe34…) and the drift is characterised: VF08 failed CLIPPING_AND_OVERLAP and nothing else, and FIX36 (data/rcap-grade-a/packet-factory-24h/fix36/rows.json) repaired exactly that -- the shared host moved onto the token splitter, because the route key was breaking mid-word and severing \"expungement\", and this family's builder stopped appending the machine \"Route:\" trailer below the proposed order's execution band. Neither change alters a word of substance. VF06 (data/rcap-grade-a/packet-factory-24h/vf06/rows.json) then read 96ae8c01ec97fe34… independently and returned PASS_COMPLETE_INDEPENDENT on every measurable obligation. Owner re-review of these bytes is recorded as OWED and is not claimed here; the VF06 row grants nothing. The recorded change does not reach this component: the trailer move was confined to the proposed order, and the token splitter changed where a long route key breaks, which is machine provenance this specification does not carry."
+      },
+      "contractCorrection": {
+        "finding": "The component was classified as a court-facing attachment and is a participant checklist.",
+        "was": {
+          "instrumentClass": "attachment",
+          "recipient": "court"
+        },
+        "now": {
+          "instrumentClass": "participant_guidance",
+          "recipient": "participant"
+        },
+        "why": "Every line of the page is addressed to the participant and tells them which records to obtain and from which office. It carries no exhibit designation, no caption and nothing identifying a document the court receives. Classified as it was, it rode into the court-only download -- the same boundary defect Georgia's exhibit covers carried, reached from the other side: there the page mixed filed content with instruction, here the page is instruction throughout."
+      },
+      "supersededBy": "supplemental_guide",
+      "supersessionNote": "Every line of this page is participant guidance and none of it is filed. Its substance is carried into the shared §7 guide at data/record-clearing/supplemental-guides/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json, across Overview, Next Steps, Filing Checklist and Fees & Costs, with the route's stop conditions left to hearingAndObjectionStops rather than copied into a second list. It stays in the packet only until that guide is assembled with the delivery."
+    },
+    {
+      "documentId": "instructions",
+      "role": "instructions",
+      "title": "Participant Filing Instructions",
+      "order": 5,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "required",
+      "officialFormId": null,
+      "manifestComponentId": "ms-misd-1st-instructions-5",
+      "sections": [
+        {
+          "heading": "FILING INSTRUCTIONS",
+          "kind": "static",
+          "body": "This packet is prepared for expunging a first-offender Mississippi misdemeanour conviction that is not a traffic violation, under Miss. Code Ann. Sec. 99-19-71(1).\n\nPrepared for: {{participant_full_legal_name}}\n\nWHAT YOU DO, IN ORDER\n\nSTEP ONE. Identify the correct court and county first. Mississippi has four trial court levels - justice, county, circuit and municipal - that all handle expungements, and people routinely misidentify which one heard their case. The office that keeps the records of the court that entered the conviction can confirm it.\n\nSTEP TWO. Ask that office for the case file, the docket sheet, an account balance sheet, and a certified copy of the judgment of conviction. Request your own Mississippi criminal history record from the Mississippi Criminal Information Center, and check the first-offender statement against it before you initial it.\n\nSTEP THREE. Call that court's records office before filing and ask whether that court has its own preferred petition or order form or any additional requirement. Mississippi has no statewide form, practice varies by county and circuit district, and this packet defers to the local form wherever one is preferred.\n\nSTEP FOUR. Fill in every dotted blank this packet's participant instructions list, from the records. Do not guess a date or a charge wording. Initial the two statements in the petition only if each is true.\n\nSTEP FIVE. Sign and date the petition yourself.\n\nSTEP SIX. File the petition, with the proposed order and the certificate of service, with the court in which the conviction was had, and pay the filing fee. No fee amount is published in this packet: Miss. Code Ann. Sec. 99-19-72 levies a fee on petitions to expunge an offence under Sec. 99-19-71, but its reach and its collection in lower courts are recorded open questions, so confirm the amount - and any pauper's-affidavit route if you cannot pay - with the court's records office before filing.\n\nSTEP SEVEN. Deliver a copy of the petition and the proposed order to the prosecuting authority - for a municipal court case the city prosecutor, not the district attorney - by United States mail or hand delivery, and complete the certificate of service when the copy actually goes out.\n\nSTEP EIGHT. Expect that some districts want the district attorney to approve the order as to form before the judicial officer signs. That is a negotiation this packet does not conduct for you.\n\nSTEP NINE. After the order issues, obtain certified copies and deliver them to every agency named in the order.\n\nWHAT THE ORDER DOES, FROM THE RECORD\n\n- Fingerprint records are excepted from expungement.\n- The Mississippi Criminal Information Center keeps a nonpublic record solely for determining, in subsequent proceedings, whether you are a first offender - so an expunged conviction can still defeat first-offender status later.\n- An employer may still ask whether an order of expunction has been entered.\n\nWHEN TO STOP AND GET HELP INSTEAD OF FILING Stop, and take this packet to a lawyer or a legal-aid office, if any of these is true:\n\n- your first-offender status is uncertain, or you have any prior conviction anywhere;\n- you have any prior expunged case - an earlier expungement does not restore first-offender status;\n- the offence may be a traffic violation - many Mississippi misdemeanours sit close to that line;\n- the offence is a DUI, which has its own separate route and is never handled here;\n- the conviction is in municipal court and you also have justice court convictions, which may be better handled on the additional-misdemeanours track;\n- you are not a United States citizen - expungement does not resolve immigration consequences.\n\nWHAT THIS PACKET DOES NOT TELL YOU\n\n- The filing fee amount, and whether Sec. 99-19-72's fee reaches this petition in this court. The records office of the convicting court is the authority that can answer both.\n- Whether your court requires verification or notarization of the petition. No held record establishes a notarization requirement, so the petition carries a simple truth statement; the same office can say whether that court expects more.\n- Your court's own preferred forms or local requirements, which vary by county and district. Ask before you file.\n\nWHAT THIS PACKET IS NOT\n\nThis is a prepared set of composed pleadings and process pages. Mississippi publishes no statewide expungement form, which is why these pages are composed. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement."
+        }
+      ],
+      "documentContract": {
+        "instrumentClass": "participant_guidance",
+        "preparedBy": "participant",
+        "signer": "none",
+        "recipient": "participant",
+        "formApplicability": "not_a_filing",
+        "caseMode": "existing_case",
+        "executionType": "none",
+        "serviceTreatment": "no_service",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "no_sensitive_identifiers",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+        "sourceUsed": "scripts/build-census-v1-ms-misd-1st-set.mjs",
+        "componentEquivalence": "untouched_by_drift",
+        "evidence": "Carried from scripts/build-census-v1-ms-misd-1st-set.mjs's own composedBody(), the function that produced the bytes on disk, with every string additionally checked against the rendered page. The family drifted from the 2026-09-02 adoption (e9483733fabca9e0… -> 96ae8c01ec97fe34…) and the drift is characterised: VF08 failed CLIPPING_AND_OVERLAP and nothing else, and FIX36 (data/rcap-grade-a/packet-factory-24h/fix36/rows.json) repaired exactly that -- the shared host moved onto the token splitter, because the route key was breaking mid-word and severing \"expungement\", and this family's builder stopped appending the machine \"Route:\" trailer below the proposed order's execution band. Neither change alters a word of substance. VF06 (data/rcap-grade-a/packet-factory-24h/vf06/rows.json) then read 96ae8c01ec97fe34… independently and returned PASS_COMPLETE_INDEPENDENT on every measurable obligation. Owner re-review of these bytes is recorded as OWED and is not claimed here; the VF06 row grants nothing. The recorded change does not reach this component: the trailer move was confined to the proposed order, and the token splitter changed where a long route key breaks, which is machine provenance this specification does not carry."
+      },
+      "supersededBy": "supplemental_guide",
+      "supersessionNote": "Every line of this page is participant guidance and none of it is filed. Its substance is carried into the shared §7 guide at data/record-clearing/supplemental-guides/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json, across Overview, Next Steps, Filing Checklist and Fees & Costs, with the route's stop conditions left to hearingAndObjectionStops rather than copied into a second list. It stays in the packet only until that guide is assembled with the delivery."
     }
   ],
   "filingDestination": {
@@ -631,5 +967,6 @@
       "text": "Confirm the prosecuting authority and its mailing address with the court's records office, serve by mail or hand delivery, and complete the certificate of service only after service occurs.",
       "requiredBeforeFiling": true
     }
-  ]
+  ],
+  "specificationSha256": "79caa993390e027cf004d2491d9e4ca70599a79e2bcbaaf1a854b6b5937ee989"
 }

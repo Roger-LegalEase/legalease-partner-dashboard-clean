@@ -64,6 +64,8 @@ export type GradeABlock =
       courtBlank?: boolean;
       /** An in-the-matter-of caption, drawn instead of PLAINTIFF / VS. / DEFENDANT. */
       matterTitle?: string;
+      /** Whether the party line is drawn above the cause number or below it. */
+      captionOrder?: "case_number_first" | "matter_title_first";
       caseNumberInstruction?: string;
       caseNumberBlank?: boolean;
       plaintiff: string;
@@ -630,6 +632,7 @@ function composeSection(
           ...(contract.caseNumberLabel ? { caseNumberLabel: contract.caseNumberLabel } : {}),
           ...(contract.courtInstruction ? { courtInstruction: contract.courtInstruction } : {}),
           ...(contract.matterTitle ? { matterTitle: fill(contract.matterTitle, matter) } : {}),
+          ...(contract.captionOrder ? { captionOrder: contract.captionOrder } : {}),
           plaintiff: "",
           defendant: "",
           caseNumber: blanks.has(contract.caseNumber) ? "" : fact(matter, contract.caseNumber),

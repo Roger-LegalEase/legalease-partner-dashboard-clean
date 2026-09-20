@@ -67,7 +67,16 @@ const FIXTURE_IDENTITIES = [
   "42 Magnolia Street",
   "Springfield 62704",
   "555-0142",
-  "1991-04-17"
+  "1991-04-17",
+  // Mississippi renders with two more sample people, one per family.
+  "Marcus Deshawn Whitfield",
+  "218 Pinehurst Avenue",
+  "662-555-0148",
+  "marcus.whitfield@example.org",
+  "1993-06-08",
+  "Hattiesburg, MS 39401",
+  "601-555-0142",
+  "1990-04-17"
 ];
 
 /** Two participants who share no name part, so a leak cannot hide behind a match. */

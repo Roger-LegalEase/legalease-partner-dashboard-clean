@@ -61,6 +61,36 @@ const digestOf = (relative) => {
 // 1. What the owner adopted, per family.
 // ---------------------------------------------------------------------------
 
+/**
+ * A LATER OWNER RE-REVIEW OF THE CURRENT BYTES.
+ *
+ * The batch adoption's own travelling condition is that a shipping-artifact
+ * digest change requires fresh re-review. Where that re-review happened and
+ * APPROVED the new digest, the family is not drifting away from an approval --
+ * it is sitting on a newer one, and reporting it as drifted reads the record
+ * backwards.
+ *
+ * Mississippi's additional-misdemeanour family is the case: Roger Roman
+ * approved the repaired pair by exact digest on 2026-09-14 after a typographic
+ * change he describes in terms. Only APPROVED_EXACT_SHIPPING_ARTIFACTS counts,
+ * only for the digests it names, and the approval travels no further than
+ * those -- the record says so itself, and so does this.
+ */
+const ownerReapprovals = new Map();
+for (const file of fs.readdirSync(path.join(rootDir, "data/rcap-grade-a/legal-decisions"))) {
+  if (!/^OWNER_ARTIFACT_REREVIEW_.*\.json$/.test(file)) continue;
+  const record = read(`data/rcap-grade-a/legal-decisions/${file}`);
+  if (record.decision !== "APPROVED_EXACT_SHIPPING_ARTIFACTS" || !record.familyId) continue;
+  const canonical = (record.approvedArtifacts ?? []).find((a) => a.fixture === "canonical");
+  if (!canonical?.sha256) continue;
+  ownerReapprovals.set(record.familyId, {
+    sha256: canonical.sha256,
+    record: `data/rcap-grade-a/legal-decisions/${file}`,
+    decidedOn: record.decidedOn,
+    decisionOwner: record.decisionOwner
+  });
+}
+
 const adoption = read("data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json");
 const adopted = new Map();
 for (const qualification of adoption.adoption.qualifications) {
@@ -144,6 +174,19 @@ for (const family of families.sort((a, b) => a.spec.routeKey.localeCompare(b.spe
     verdicts.push({ ...family, state: "matches_adopted", adoptedSha: canonical.sha256, onDisk });
     continue;
   }
+  // The bytes moved AND the owner re-approved exactly these bytes afterwards.
+  const reapproved = ownerReapprovals.get(family.key);
+  if (reapproved && onDisk === reapproved.sha256) {
+    verdicts.push({
+      ...family,
+      state: "matches_owner_rereview",
+      adoptedSha: reapproved.sha256,
+      batchAdoptedSha: canonical.sha256,
+      onDisk,
+      reapproval: reapproved
+    });
+    continue;
+  }
   const traceable = onDisk ? committedDigests.get(onDisk) ?? [] : [];
   verdicts.push({
     ...family,
@@ -158,6 +201,12 @@ console.log("");
 for (const verdict of verdicts) {
   const counts = `awaiting=${verdict.awaiting} transcribed=${verdict.transcribed}`;
   console.log(`${verdict.state.toUpperCase().padEnd(21)} ${verdict.spec.routeKey}  (${counts})`);
+  if (verdict.state === "matches_owner_rereview") {
+    console.log(`                      batch adopted ${verdict.batchAdoptedSha.slice(0, 16)}… -> on disk ${
+      verdict.onDisk.slice(0, 16)}…, which ${verdict.reapproval.decisionOwner} approved by exact digest on ${
+      verdict.reapproval.decidedOn}`);
+    console.log(`                      ${verdict.reapproval.record}`);
+  }
   if (verdict.state === "drift_characterised") {
     console.log(`                      adopted ${verdict.adoptedSha.slice(0, 16)}… -> on disk ${verdict.onDisk.slice(0, 16)}…`);
     for (const where of verdict.recordedIn) console.log(`                      recorded in ${where}`);
@@ -182,7 +231,6 @@ check(
 // next agent what to do. "not_in_adoption" is not one of them: a family whose
 // artifact the owner never adopted has no adopted substance to carry.
 const awaitingFamilies = verdicts.filter((verdict) => verdict.awaiting > 0);
-check(awaitingFamilies.length > 0, `families awaiting transcription are classified (${awaitingFamilies.length})`);
 const unclassified = awaitingFamilies.filter((verdict) => verdict.state === "not_in_adoption");
 check(
   unclassified.length === 0,
@@ -253,6 +301,28 @@ const TRANSCRIPTION_PROGRAM = new Set([
 ]);
 
 /*
+ * THE PROGRAMME FINISHING IS NOT A FAILURE.
+ *
+ * This asserted that families were still waiting, which was a useful thing to
+ * know while any were -- it would have caught a specification quietly losing
+ * its `approved_shipping_component` marker without gaining any text. It is not
+ * what the check is for, and with the last family transcribed it turned into a
+ * control that fails because the work is done.
+ *
+ * What matters is that nothing is awaiting text AND untranscribed at once, and
+ * that every family this program covers ended up with substance. Both hold
+ * whether the count is nine or zero.
+ */
+const programme = verdicts.filter((verdict) => TRANSCRIPTION_PROGRAM.has(verdict.spec.routeKey));
+const stillEmpty = programme.filter((verdict) => verdict.awaiting > 0 || verdict.transcribed === 0);
+check(
+  stillEmpty.length === 0,
+  `every family this program covers carries its text (${programme.length} families, ${
+    verdicts.filter((v) => v.awaiting > 0).length} still awaiting)${
+    stillEmpty.length ? `; empty: ${stillEmpty.map((v) => v.spec.routeKey).join(", ")}` : ""}`
+);
+
+/*
  * `adopted_substance_split` is available only where the family matches the
  * adoption, and for the same reason the other exact claims are: the split
  * record is measured line by line against the adopted artifact, so the artifact
@@ -270,6 +340,9 @@ const TRANSCRIPTION_PROGRAM = new Set([
  */
 const EQUIVALENCE_AVAILABLE_IN = {
   matches_adopted: new Set(["exact_adopted_bytes", "recovered_from_adopted", "adopted_substance_split"]),
+  // The owner approved THESE bytes by exact digest, so they are adopted bytes
+  // in every sense that matters here -- by a newer record than the batch.
+  matches_owner_rereview: new Set(["exact_adopted_bytes", "recovered_from_adopted", "adopted_substance_split"]),
   drift_characterised: new Set([
     "untouched_by_drift", "drift_outside_substance", "recovered_from_adopted", "recovered_from_recorded_repair"
   ]),
@@ -328,8 +401,9 @@ check(
 // family, a component may not simply be declared untouched. Something has to
 // say so, and the check above requires the argument. This states the rule once
 // more where it is easiest to read.
+const REAPPROVED_STATES = new Set(["matches_adopted", "matches_owner_rereview"]);
 const inDriftedFamilies = verdicts
-  .filter((verdict) => verdict.state !== "matches_adopted" && TRANSCRIPTION_PROGRAM.has(verdict.spec.routeKey))
+  .filter((verdict) => !REAPPROVED_STATES.has(verdict.state) && TRANSCRIPTION_PROGRAM.has(verdict.spec.routeKey))
   .flatMap((verdict) => (verdict.spec.documents ?? [])
     .filter((document) => document.transcriptionProvenance)
     .map((document) => ({ where: `${verdict.spec.routeKey}|${document.documentId}`, binding: document.transcriptionProvenance })));

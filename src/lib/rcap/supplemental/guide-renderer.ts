@@ -313,7 +313,17 @@ function ensure(sheet: Sheet, needed: number) {
 function paragraph(sheet: Sheet, value: string, {
   size = BODY, font = sheet.fonts.body, color = INK, indent = 0, gap = 5, width = CONTENT_WIDTH
 } = {}) {
-  for (const line of wrap(sanitize(value), font, size, width - indent)) {
+  /*
+   * Wrapped text reserves the same inset right-aligned text does.
+   *
+   * `wrap` fits by advance width, and a rasteriser's glyph box includes side
+   * bearings, so a line that fills the measured width exactly can put its last
+   * glyph a point or two past the margin. Most lines never come that close;
+   * Mississippi's records-to-obtain checklist has one that does, and it was
+   * drawn 0.8pt past. Reserving the inset makes "inside the margin" true
+   * however it is measured, rather than true on average.
+   */
+  for (const line of wrap(sanitize(value), font, size, width - indent - RIGHT_INSET)) {
     ensure(sheet, LINE);
     sheet.page.drawText(line, { x: MARGIN + indent, y: sheet.y, size, font, color });
     sheet.y -= LINE;

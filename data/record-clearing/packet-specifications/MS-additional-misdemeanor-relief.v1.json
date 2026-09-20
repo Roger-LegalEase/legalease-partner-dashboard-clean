@@ -2,7 +2,6 @@
   "schemaVersion": 2,
   "specificationId": "ms-additional-misdemeanor-relief",
   "specificationVersion": "1.0.0",
-  "specificationSha256": "89d8e34547a1ab536cbad2a0ba95c044ac017b14e71725745fedbbb84207f980",
   "routeKey": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
   "routeKeys": [
     "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
@@ -164,6 +163,54 @@
       "use": "recipient identity and service address for the selected lower-court branch",
       "inRegistryRequiredInputs": false,
       "ownership": "participant"
+    },
+    {
+      "factId": "prosecutor_address",
+      "use": "a labelled dotted blank the participant completes on the printed page at filing",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant_completes_before_filing"
+    },
+    {
+      "factId": "service_manner",
+      "use": "a labelled dotted blank the participant completes on the printed page at filing",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant_completes_before_filing"
+    },
+    {
+      "factId": "service_date",
+      "use": "a labelled dotted blank the participant completes on the printed page at filing",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant_completes_before_filing"
+    },
+    {
+      "factId": "order_findings",
+      "use": "a space the Court or the prosecuting authority completes; never written by the packet",
+      "inRegistryRequiredInputs": false,
+      "ownership": "court"
+    },
+    {
+      "factId": "order_entry_date",
+      "use": "a space the Court or the prosecuting authority completes; never written by the packet",
+      "inRegistryRequiredInputs": false,
+      "ownership": "court"
+    },
+    {
+      "factId": "judge_signature",
+      "use": "a space the Court or the prosecuting authority completes; never written by the packet",
+      "inRegistryRequiredInputs": false,
+      "ownership": "court"
+    },
+    {
+      "factId": "approved_as_to_form",
+      "use": "a space the Court or the prosecuting authority completes; never written by the packet",
+      "inRegistryRequiredInputs": false,
+      "ownership": "court"
+    },
+    {
+      "factId": "section_branch",
+      "use": "the Code section the petition is brought under, written on the page by the participant from which court convicted them",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant_completes_before_filing"
     }
   ],
   "finalVerificationRequirements": [
@@ -178,20 +225,13 @@
     "participantOwnedFacts": [
       "participant_full_legal_name",
       "date_of_birth",
-      "contact_information",
-      "court",
-      "county",
-      "conviction_list",
-      "last_conviction_any_court_date",
-      "cause_number",
-      "prosecuting_authority"
+      "contact_information"
     ],
     "serverOwnedRouteFacts": [
       "jurisdiction",
       "pathway_id",
       "route_key",
-      "packet_family",
-      "section_branch"
+      "packet_family"
     ],
     "participantAtSigningFields": [
       "ms-misd-addl-primary-filing-1.signature",
@@ -210,9 +250,22 @@
       "ms-misd-addl-proposed-order-2.approved_as_to_form"
     ],
     "courtOwnedFields": [
-      "ms-misd-addl-proposed-order-2.order_findings",
-      "ms-misd-addl-proposed-order-2.order_entry_date",
-      "ms-misd-addl-proposed-order-2.judge_signature"
+      "order_findings",
+      "order_entry_date",
+      "judge_signature",
+      "approved_as_to_form"
+    ],
+    "participantCompletesBeforeFilingFields": [
+      "court",
+      "county",
+      "cause_number",
+      "section_branch",
+      "conviction_list",
+      "last_conviction_any_court_date",
+      "prosecuting_authority",
+      "prosecutor_address",
+      "service_manner",
+      "service_date"
     ]
   },
   "documents": [
@@ -227,16 +280,140 @@
       "manifestComponentId": "ms-misd-addl-primary-filing-1",
       "sections": [
         {
-          "heading": "Selected lower-court caption and petition",
-          "kind": "approved_shipping_component",
+          "heading": "Caption",
+          "kind": "pleading_caption",
           "fields": [
             "court",
             "county",
-            "cause_number",
+            "cause_number"
+          ],
+          "captionContract": {
+            "court": "court",
+            "courtLines": [
+              {
+                "prefix": "IN THE",
+                "field": "court",
+                "suffix": "COURT OF"
+              },
+              {
+                "field": "county",
+                "suffix": ", MISSISSIPPI"
+              }
+            ],
+            "courtInstruction": "the JUSTICE COURT of the county, or the MUNICIPAL COURT of the municipality, in which the convictions were had",
+            "matterTitle": "STATE OF MISSISSIPPI VS. {{participant_full_legal_name}}, PETITIONER",
+            "captionOrder": "matter_title_first",
+            "caseNumber": "cause_number",
+            "caseNumberLabel": "CAUSE NO.",
+            "documentTitle": "PETITION FOR EXPUNGEMENT OF MISDEMEANOR CONVICTIONS"
+          },
+          "fieldTreatments": {
+            "court": "ruled_blank",
+            "county": "ruled_blank",
+            "cause_number": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Which section this petition is brought under",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "section_branch"
+          ],
+          "body": "STATE THE SECTION THIS PETITION IS BROUGHT UNDER. Both sections say the same thing; which one applies depends on which court convicted you.\n\nJustice court conviction .... Miss. Code Ann. Sec. 9-11-15(3)\n\nMunicipal court conviction .. Miss. Code Ann. Sec. 21-23-7(6)",
+          "fieldLabels": {
+            "section_branch": "This petition is brought under Miss. Code Ann. Sec."
+          },
+          "fieldTreatments": {
+            "section_branch": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Petition",
+          "kind": "pleading_paragraph",
+          "body": "COMES NOW the Petitioner, {{participant_full_legal_name}}, and petitions this Court, in its discretion, to expunge the record of conviction of the misdemeanors identified below, all of which were had IN THIS COURT, and would show:"
+        },
+        {
+          "heading": "1. IDENTIFYING INFORMATION.",
+          "headingPresentation": "internal",
+          "kind": "pleading_identity_list",
+          "body": "1. IDENTIFYING INFORMATION.",
+          "fields": [
             "participant_full_legal_name",
-            "conviction_list",
+            "date_of_birth",
+            "mailing_address",
+            "phone_number",
+            "email_address"
+          ],
+          "fieldLabels": {
+            "participant_full_legal_name": "Petitioner's name",
+            "date_of_birth": "Date of birth",
+            "mailing_address": "Mailing address",
+            "phone_number": "Telephone",
+            "email_address": "Email"
+          }
+        },
+        {
+          "heading": "2. THE CONVICTIONS IN THIS COURT.",
+          "headingPresentation": "internal",
+          "kind": "pleading_identity_list",
+          "body": "2. THE CONVICTIONS IN THIS COURT. This route reaches ANY OR ALL misdemeanors in this one court, and only in this one court. List each conviction you ask this Court to expunge - the charge, the cause number and the conviction date - copied from the certified judgments:",
+          "fields": [
+            "conviction_list"
+          ],
+          "fieldLabels": {
+            "conviction_list": "Each conviction, copied from the certified judgments"
+          },
+          "fieldTreatments": {
+            "conviction_list": "ruled_blank"
+          }
+        },
+        {
+          "heading": "One court at a time",
+          "kind": "pleading_paragraph",
+          "body": "(If you have convictions in another justice or municipal court, they are NOT reached by this petition. Each court expunges only its own misdemeanors, and a separate petition goes to that other court.)"
+        },
+        {
+          "heading": "3. THE THREE-ELEMENT SHOWING.",
+          "headingPresentation": "internal",
+          "kind": "pleading_paragraph",
+          "body": "3. THE THREE-ELEMENT SHOWING. Both sections permit the Court, in its discretion, to expunge on a showing made IN OPEN COURT of the following three things. Petitioner will make that showing in open court; it is not made on this page:\n\n(i) that Petitioner has been rehabilitated;\n(ii) that Petitioner has been of good behaviour and has not been convicted of any offence in ANY COURT for two (2) years since the last conviction; and\n(iii) that the best interest of society would be served by the expungement."
+        },
+        {
+          "heading": "4. THE TWO-YEAR CLOCK.",
+          "headingPresentation": "internal",
+          "kind": "pleading_identity_list",
+          "body": "4. THE TWO-YEAR CLOCK RUNS FROM THE LAST CONVICTION IN ANY COURT - not merely in this court. Petitioner has obtained a Mississippi criminal history record to confirm it rather than relying on memory.",
+          "fields": [
             "last_conviction_any_court_date"
-          ]
+          ],
+          "fieldLabels": {
+            "last_conviction_any_court_date": "Date of the last conviction in ANY court, per the Mississippi criminal history record"
+          },
+          "fieldTreatments": {
+            "last_conviction_any_court_date": "ruled_blank"
+          }
+        },
+        {
+          "heading": "5. NOTICE TO THE PROSECUTING AUTHORITY.",
+          "headingPresentation": "internal",
+          "kind": "pleading_paragraph",
+          "body": "5. NOTICE TO THE PROSECUTING AUTHORITY. The prosecuting authority for this court receives prior notice of this petition, and the certificate of service evidences it."
+        },
+        {
+          "heading": "Prayer",
+          "kind": "pleading_paragraph",
+          "body": "WHEREFORE, Petitioner asks the Court, in its discretion, to expunge the record of conviction of the misdemeanors identified above."
+        },
+        {
+          "heading": "SIGNATURE OF PETITIONER",
+          "kind": "pro_se_signature_block",
+          "signatureDateLabel": "DATE",
+          "body": "{{participant_full_legal_name}}, Petitioner"
+        },
+        {
+          "heading": "Who signs",
+          "kind": "pleading_paragraph",
+          "body": "(Petitioner signs and dates this petition. Nothing on this page is signed or dated for Petitioner.)\n\nDECLARATION. Petitioner states that the matters set out above are true and correct to the best of Petitioner's knowledge, information and belief."
         }
       ],
       "documentContract": {
@@ -253,7 +430,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "The owner-approved artifact prints this component's own caption above its own title: the court and county rules with their branch instruction, STATE OF MISSISSIPPI VS. the petitioner, and the cause-number rule. Each of the three filed components repeats it in full and none is filed behind another."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
+        "sourceUsed": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Carried from the artifact on disk, which is the artifact the OWNER APPROVED. This family's bytes moved after the 2026-09-02 batch adoption, and the mechanism that adoption named for a moved digest was used: data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json records Roger Roman's decision of 2026-09-14, APPROVED_EXACT_SHIPPING_ARTIFACTS, for canonical c2938658151e650f… and its boundary pair. The reviewed change is typographic in terms -- \"Proposed-order leading reduced from 14.5pt to 13pt, retaining 11pt font; unchanged explanatory parenthetical now immediately below the prosecuting-authority signature block on page 3; former mostly empty page eliminated.\" -- and the record states eligibilityChanged false, operativeReliefChanged false and routeTreatmentChanged false. The approval is limited to these exact digests, expressly does not travel to a future digest, and authorises no production, deployment, hosted execution or runtime; nothing here claims otherwise. The preserved rejection of the earlier pair is recorded at data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REJECTION_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json."
       }
     },
     {
@@ -267,8 +452,86 @@
       "manifestComponentId": "ms-misd-addl-proposed-order-2",
       "sections": [
         {
-          "heading": "Tendered order and protected decision fields",
-          "kind": "approved_shipping_component"
+          "heading": "Caption",
+          "kind": "pleading_caption",
+          "fields": [
+            "court",
+            "county",
+            "cause_number"
+          ],
+          "captionContract": {
+            "court": "court",
+            "courtLines": [
+              {
+                "prefix": "IN THE",
+                "field": "court",
+                "suffix": "COURT OF"
+              },
+              {
+                "field": "county",
+                "suffix": ", MISSISSIPPI"
+              }
+            ],
+            "courtInstruction": "the JUSTICE COURT of the county, or the MUNICIPAL COURT of the municipality, in which the convictions were had",
+            "matterTitle": "STATE OF MISSISSIPPI VS. {{participant_full_legal_name}}, PETITIONER",
+            "captionOrder": "matter_title_first",
+            "caseNumber": "cause_number",
+            "caseNumberLabel": "CAUSE NO.",
+            "documentTitle": "ORDER OF EXPUNGEMENT"
+          },
+          "fieldTreatments": {
+            "court": "ruled_blank",
+            "county": "ruled_blank",
+            "cause_number": "ruled_blank"
+          }
+        },
+        {
+          "heading": "What this page is",
+          "kind": "pleading_paragraph",
+          "body": "THIS DOCUMENT IS A PROPOSED ORDER. It is unexecuted. It records no finding this Court has made and nothing in it asserts that the Court has acted."
+        },
+        {
+          "heading": "The proposed recital",
+          "kind": "pleading_identity_list",
+          "body": "THIS CAUSE came before the Court on the Petition of {{participant_full_legal_name}} for expungement of misdemeanor convictions had in this Court, under Miss. Code Ann. Sec. ........................ , and upon the showing made in open court.",
+          "fields": [
+            "order_findings"
+          ],
+          "fieldLabels": {
+            "order_findings": "The Court FINDS (findings to be made by the Court, on the showing made in open court)"
+          },
+          "fieldTreatments": {
+            "order_findings": "court_owned_space"
+          }
+        },
+        {
+          "heading": "The proposed decretal paragraphs",
+          "kind": "pleading_paragraph",
+          "body": "IT IS THEREFORE ORDERED AND ADJUDGED that the record of conviction of the misdemeanors identified in the Petition, all of which were had in this Court, be and the same is hereby EXPUNGED.\n\nIT IS FURTHER ORDERED that this Order does NOT apply to the confidential records of law-enforcement agencies, and has NO EFFECT on the driving record maintained under Title 63 of the Mississippi Code."
+        },
+        {
+          "heading": "The court's own block",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "order_entry_date",
+            "judge_signature",
+            "approved_as_to_form"
+          ],
+          "fieldLabels": {
+            "order_entry_date": "SO ORDERED AND ADJUDGED this day of , 20",
+            "judge_signature": "JUDGE",
+            "approved_as_to_form": "APPROVED AS TO FORM: Prosecuting authority"
+          },
+          "fieldTreatments": {
+            "order_entry_date": "court_owned_space",
+            "judge_signature": "court_owned_space",
+            "approved_as_to_form": "court_owned_space"
+          }
+        },
+        {
+          "heading": "What is left blank",
+          "kind": "pleading_paragraph",
+          "body": "(The findings, the date of entry, the judge's signature and the prosecuting authority's approval as to form are all left blank.)"
         }
       ],
       "documentContract": {
@@ -285,7 +548,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "The owner-approved artifact prints this component's own caption above its own title: the court and county rules with their branch instruction, STATE OF MISSISSIPPI VS. the petitioner, and the cause-number rule. Each of the three filed components repeats it in full and none is filed behind another."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
+        "sourceUsed": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Carried from the artifact on disk, which is the artifact the OWNER APPROVED. This family's bytes moved after the 2026-09-02 batch adoption, and the mechanism that adoption named for a moved digest was used: data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json records Roger Roman's decision of 2026-09-14, APPROVED_EXACT_SHIPPING_ARTIFACTS, for canonical c2938658151e650f… and its boundary pair. The reviewed change is typographic in terms -- \"Proposed-order leading reduced from 14.5pt to 13pt, retaining 11pt font; unchanged explanatory parenthetical now immediately below the prosecuting-authority signature block on page 3; former mostly empty page eliminated.\" -- and the record states eligibilityChanged false, operativeReliefChanged false and routeTreatmentChanged false. The approval is limited to these exact digests, expressly does not travel to a future digest, and authorises no production, deployment, hosted execution or runtime; nothing here claims otherwise. The preserved rejection of the earlier pair is recorded at data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REJECTION_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json."
       }
     },
     {
@@ -299,11 +570,81 @@
       "manifestComponentId": "ms-misd-addl-certificate-of-service-3",
       "sections": [
         {
-          "heading": "Service on the selected branch's prosecuting authority",
-          "kind": "approved_shipping_component",
+          "heading": "Caption",
+          "kind": "pleading_caption",
           "fields": [
-            "prosecuting_authority"
-          ]
+            "court",
+            "county",
+            "cause_number"
+          ],
+          "captionContract": {
+            "court": "court",
+            "courtLines": [
+              {
+                "prefix": "IN THE",
+                "field": "court",
+                "suffix": "COURT OF"
+              },
+              {
+                "field": "county",
+                "suffix": ", MISSISSIPPI"
+              }
+            ],
+            "courtInstruction": "the JUSTICE COURT of the county, or the MUNICIPAL COURT of the municipality, in which the convictions were had",
+            "matterTitle": "STATE OF MISSISSIPPI VS. {{participant_full_legal_name}}, PETITIONER",
+            "captionOrder": "matter_title_first",
+            "caseNumber": "cause_number",
+            "caseNumberLabel": "CAUSE NO.",
+            "documentTitle": "CERTIFICATE OF SERVICE"
+          },
+          "fieldTreatments": {
+            "court": "ruled_blank",
+            "county": "ruled_blank",
+            "cause_number": "ruled_blank"
+          }
+        },
+        {
+          "heading": "What this certificate is",
+          "kind": "pleading_paragraph",
+          "body": "This certificate is captioned for THIS petition. The prosecuting authority receives PRIOR notice of the petition, and this certificate is the evidence of it."
+        },
+        {
+          "heading": "Certificate",
+          "kind": "pleading_paragraph",
+          "body": "I, {{participant_full_legal_name}}, certify that I have this day served a true and correct copy of the Petition for Expungement of Misdemeanor Convictions on the prosecuting authority for this Court, by United States mail, postage prepaid, or by hand delivery, addressed as follows:"
+        },
+        {
+          "heading": "Who was served, and how",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "prosecuting_authority",
+            "prosecutor_address",
+            "service_manner",
+            "service_date"
+          ],
+          "fieldLabels": {
+            "prosecuting_authority": "Prosecuting authority - the MUNICIPAL PROSECUTING ATTORNEY on the Sec. 21-23-7(6) branch, or the equivalent prosecutor for the justice court on the Sec. 9-11-15(3) branch. Name and office",
+            "prosecutor_address": "Address served",
+            "service_manner": "Manner of service (United States mail or hand delivery)",
+            "service_date": "Date served"
+          },
+          "fieldTreatments": {
+            "prosecuting_authority": "ruled_blank",
+            "prosecutor_address": "ruled_blank",
+            "service_manner": "ruled_blank",
+            "service_date": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Petitioner",
+          "kind": "pro_se_signature_block",
+          "signatureDateLabel": "Date",
+          "body": "{{participant_full_legal_name}}, Petitioner"
+        },
+        {
+          "heading": "Why no prosecutor is printed here",
+          "kind": "pleading_paragraph",
+          "body": "(Service dates are written when service is actually made. No prosecutor's name or address is printed here: the platform holds none for any Mississippi justice or municipal court and does not guess one.)"
         }
       ],
       "documentContract": {
@@ -320,7 +661,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "The owner-approved artifact prints this component's own caption above its own title: the court and county rules with their branch instruction, STATE OF MISSISSIPPI VS. the petitioner, and the cause-number rule. Each of the three filed components repeats it in full and none is filed behind another."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
+        "sourceUsed": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Carried from the artifact on disk, which is the artifact the OWNER APPROVED. This family's bytes moved after the 2026-09-02 batch adoption, and the mechanism that adoption named for a moved digest was used: data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json records Roger Roman's decision of 2026-09-14, APPROVED_EXACT_SHIPPING_ARTIFACTS, for canonical c2938658151e650f… and its boundary pair. The reviewed change is typographic in terms -- \"Proposed-order leading reduced from 14.5pt to 13pt, retaining 11pt font; unchanged explanatory parenthetical now immediately below the prosecuting-authority signature block on page 3; former mostly empty page eliminated.\" -- and the record states eligibilityChanged false, operativeReliefChanged false and routeTreatmentChanged false. The approval is limited to these exact digests, expressly does not travel to a future digest, and authorises no production, deployment, hosted execution or runtime; nothing here claims otherwise. The preserved rejection of the earlier pair is recorded at data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REJECTION_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json."
       }
     },
     {
@@ -334,40 +683,9 @@
       "manifestComponentId": "ms-misd-addl-attachment-4",
       "sections": [
         {
-          "heading": "Documents the participant obtains and attaches",
-          "kind": "approved_shipping_component"
-        }
-      ],
-      "documentContract": {
-        "instrumentClass": "attachment",
-        "preparedBy": "participant",
-        "signer": "none",
-        "recipient": "court",
-        "formApplicability": "not_a_filing",
-        "caseMode": "existing_case",
-        "executionType": "signature",
-        "serviceTreatment": "participant_serves",
-        "orderTreatment": "no_proposed_order",
-        "privacyTreatment": "masked_on_public_filing",
-        "localVariant": "unresolved",
-        "unresolvedReasons": {
-          "localVariant": "no source read states whether a local form or practice controls this component."
-        }
-      }
-    },
-    {
-      "documentId": "ms-misd-addl-instructions-5",
-      "role": "instructions",
-      "title": "Participant Filing Instructions",
-      "order": 5,
-      "outputStrategy": "process_guidance",
-      "presentation": "guidance",
-      "requirement": "required",
-      "manifestComponentId": "ms-misd-addl-instructions-5",
-      "sections": [
-        {
-          "heading": "Court, fee, service, hearing, and effect instructions",
-          "kind": "approved_shipping_component"
+          "heading": "DOCUMENTS TO OBTAIN BEFORE FILING",
+          "kind": "static",
+          "body": "Prepared for: {{participant_full_legal_name}}\n\nGet these before you write anything on the petition.\n\n1. YOUR MISSISSIPPI CRIMINAL HISTORY RECORD - from the Mississippi Criminal Information Center. THIS ONE IS NOT OPTIONAL ON THIS ROUTE. The two-year good-conduct clock runs from your last conviction in ANY COURT, not just this one, so the only reliable way to know whether two years have actually passed is to look at your whole record. Do not rely on memory.\n\n2. CERTIFIED COPIES OF EACH JUDGMENT OF CONVICTION IN THAT COURT - from the clerk of the justice court or municipal court. Ask for a certified copy of each conviction you want expunged. You list them all on the petition.\n\n3. DOCKET SHEET FOR THE CASE - from the clerk of the court where the case was heard. It shows every court-imposed term and whether each was satisfied.\n\nONE COURT AT A TIME. Each court expunges only its own misdemeanors. If your convictions are spread across two justice or municipal courts, you need a separate petition in each, with its own certified judgments and its own prosecuting authority served."
         }
       ],
       "documentContract": {
@@ -385,7 +703,68 @@
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
         }
-      }
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
+        "sourceUsed": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Carried from the artifact on disk, which is the artifact the OWNER APPROVED. This family's bytes moved after the 2026-09-02 batch adoption, and the mechanism that adoption named for a moved digest was used: data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json records Roger Roman's decision of 2026-09-14, APPROVED_EXACT_SHIPPING_ARTIFACTS, for canonical c2938658151e650f… and its boundary pair. The reviewed change is typographic in terms -- \"Proposed-order leading reduced from 14.5pt to 13pt, retaining 11pt font; unchanged explanatory parenthetical now immediately below the prosecuting-authority signature block on page 3; former mostly empty page eliminated.\" -- and the record states eligibilityChanged false, operativeReliefChanged false and routeTreatmentChanged false. The approval is limited to these exact digests, expressly does not travel to a future digest, and authorises no production, deployment, hosted execution or runtime; nothing here claims otherwise. The preserved rejection of the earlier pair is recorded at data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REJECTION_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json."
+      },
+      "contractCorrection": {
+        "finding": "The component was classified as a court-facing attachment and is a participant checklist.",
+        "was": {
+          "instrumentClass": "attachment",
+          "recipient": "court"
+        },
+        "now": {
+          "instrumentClass": "participant_guidance",
+          "recipient": "participant"
+        },
+        "why": "Every line is addressed to the participant and names a record to obtain and the office that issues it. It carries no exhibit designation, no caption and nothing identifying a document the court receives, so a court-only download was handing a clerk the participant's shopping list."
+      },
+      "supersededBy": "supplemental_guide",
+      "supersessionNote": "Every line of this page is participant guidance and none of it is filed. Its substance is carried into the shared §7 guide at data/record-clearing/supplemental-guides/MS-additional-misdemeanor-relief.v1.json, across Overview, Next Steps, Filing Checklist and Fees & Costs, with the route's stop conditions left to hearingAndObjectionStops rather than copied into a second list. It stays in the packet only until that guide is assembled with the delivery."
+    },
+    {
+      "documentId": "ms-misd-addl-instructions-5",
+      "role": "instructions",
+      "title": "Participant Filing Instructions",
+      "order": 5,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "required",
+      "manifestComponentId": "ms-misd-addl-instructions-5",
+      "sections": [
+        {
+          "heading": "FILING INSTRUCTIONS, THE OPEN-COURT SHOWING, AND WHAT THIS ORDER DOES NOT REACH",
+          "kind": "static",
+          "body": "This packet is prepared for asking the Mississippi justice court or municipal court that convicted you to expunge any or all of its own misdemeanor convictions.\n\nPrepared for: {{participant_full_legal_name}}\n\nGET AN ADVOCATE OR A LAWYER FOR THE HEARING. The committed legal record puts this route in the stop-and-get-help class whenever it is in play, and the reason is specific: the three-element showing is DISCRETIONARY ADVOCACY made in open court, not a form to fill. You will stand up and persuade a judge.\n\nWHICH SECTION, AND WHERE THIS IS FILED. Both sections say the same thing and which applies depends only on which court convicted you.\n\nConvicted in JUSTICE COURT .... Miss. Code Ann. Sec. 9-11-15(3), filed with the clerk of that justice court.\nConvicted in MUNICIPAL COURT .. Miss. Code Ann. Sec. 21-23-7(6), filed with the clerk of that municipal court.\n\nFile with the CLERK OF THE COURT IN WHICH THE CONVICTIONS WERE HAD. Justice and municipal courts are the least standardized courts in Mississippi, so CALL THAT CLERK BEFORE FILING and ask how that court wants this done.\n\nONE PETITION PER COURT. Each court expunges only its own misdemeanors. Convictions in two courts need two petitions.\n\nWHAT IT COSTS, AND WHAT IS ACTUALLY KNOWN.\n\nThe $150 filing fee you may have read about is levied by Miss. Code Ann. Sec. 99-19-72 on petitions to expunge an offense under Sec. 99-19-71. THIS PETITION IS NOT BROUGHT UNDER SEC. 99-19-71. It is brought under Sec. 9-11-15(3) or Sec. 21-23-7(6), and the Sec. 99-19-72 fee does not reach those sections by its terms. Neither Sec. 9-11-15(3) nor Sec. 21-23-7(6) specifies a fee of its own.\n\nSo the honest answer is: no fee amount is established for this route in the records this packet is built from, and the $150 figure is not yours to pay unless that court itself charges it for some other reason. ASK THE CLERK OF THE JUSTICE COURT OR MUNICIPAL COURT WHERE YOU ARE FILING what that court charges, before you file.\n\nABOUT A FEE WAIVER. No waiver procedure is established for these sections either. Ask THE SAME CLERK.\n\nWHO YOU SERVE. The PROSECUTING AUTHORITY for that court receives PRIOR NOTICE - the municipal prosecuting attorney on the Sec. 21-23-7(6) branch, and the equivalent prosecutor for the justice court on the Sec. 9-11-15(3) branch. Serve by United States mail or hand delivery and file the certificate of service as your evidence.\n\nTHERE WILL BE A HEARING. This is not a contingency. Both sections require the showing to be made IN OPEN COURT, so a hearing always occurs on this route. Be ready to show three things:\n\n(i) that you have been rehabilitated;\n(ii) that you have been of good behaviour and have not been convicted of any offence IN ANY COURT for two years since your last conviction; and\n(iii) that the best interest of society would be served by the expungement.\n\nTHE TWO-YEAR CLOCK COUNTS EVERY COURT. It runs from your last conviction in ANY court, not merely in the court you are petitioning. That is why the Mississippi criminal history record is not optional here: a conviction you forgot, in another court, restarts it.\n\nRELIEF IS DISCRETIONARY. Both sections say the court MAY expunge. Meeting all three elements does not entitle you to the order.\n\nWHAT THIS ORDER DOES NOT REACH.\n\nIt does not apply to the confidential records of law-enforcement agencies.\n\nIT HAS NO EFFECT ON YOUR DRIVING RECORD. The driving record maintained under Title 63 of the Mississippi Code is untouched by this order. If clearing your driving record is what you are after, this route will not do it, and you should say so to whoever is helping you before you spend the effort.\n\nWhere self-help stops, the clerk of the justice or municipal court answers filing mechanics, and the Mississippi Criminal Information Center issues the criminal history record the two-year element depends on."
+        }
+      ],
+      "documentContract": {
+        "instrumentClass": "participant_guidance",
+        "preparedBy": "participant",
+        "signer": "none",
+        "recipient": "participant",
+        "formApplicability": "not_a_filing",
+        "caseMode": "existing_case",
+        "executionType": "none",
+        "serviceTreatment": "no_service",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "no_sensitive_identifiers",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        }
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
+        "sourceUsed": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Carried from the artifact on disk, which is the artifact the OWNER APPROVED. This family's bytes moved after the 2026-09-02 batch adoption, and the mechanism that adoption named for a moved digest was used: data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json records Roger Roman's decision of 2026-09-14, APPROVED_EXACT_SHIPPING_ARTIFACTS, for canonical c2938658151e650f… and its boundary pair. The reviewed change is typographic in terms -- \"Proposed-order leading reduced from 14.5pt to 13pt, retaining 11pt font; unchanged explanatory parenthetical now immediately below the prosecuting-authority signature block on page 3; former mostly empty page eliminated.\" -- and the record states eligibilityChanged false, operativeReliefChanged false and routeTreatmentChanged false. The approval is limited to these exact digests, expressly does not travel to a future digest, and authorises no production, deployment, hosted execution or runtime; nothing here claims otherwise. The preserved rejection of the earlier pair is recorded at data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REJECTION_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json."
+      },
+      "supersededBy": "supplemental_guide",
+      "supersessionNote": "Every line of this page is participant guidance and none of it is filed. Its substance is carried into the shared §7 guide at data/record-clearing/supplemental-guides/MS-additional-misdemeanor-relief.v1.json, across Overview, Next Steps, Filing Checklist and Fees & Costs, with the route's stop conditions left to hearingAndObjectionStops rather than copied into a second list. It stays in the packet only until that guide is assembled with the delivery."
     }
   ],
   "filingDestination": {
@@ -483,5 +862,6 @@
       "text": "Confirm and serve the correct prosecuting authority for the selected lower-court branch.",
       "requiredBeforeFiling": true
     }
-  ]
+  ],
+  "specificationSha256": "585fc1449aed2138f6c5f50bd6d94951d812b9db659e69a3e6b3adb59c02a71c"
 }

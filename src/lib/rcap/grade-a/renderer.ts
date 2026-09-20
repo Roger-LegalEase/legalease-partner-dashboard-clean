@@ -382,6 +382,21 @@ function drawPleadingCaption(
       );
     }
     cursor.y -= 20;
+    /*
+     * WHICH COMES FIRST, THE PARTY LINE OR THE CAUSE NUMBER.
+     *
+     * Wyoming and Nevada print the docket line and then the matter; Mississippi
+     * prints "STATE OF MISSISSIPPI v. <petitioner>, PETITIONER" and then "Cause
+     * No.". Both are ordinary captions and neither is the general case, so the
+     * caption says which it is rather than the renderer choosing. Absent, the
+     * order is the one every caption already drawn relies on.
+     */
+    const matterFirst = block.captionOrder === "matter_title_first";
+    if (matterFirst && block.matterTitle) {
+      cursor.y = drawCenteredWrapped(
+        cursor.page, fonts.pleadingBold, sanitize(block.matterTitle.toUpperCase()), 12,
+        PLEADING_CONTENT_WIDTH, cursor.y, PLEADING_LEADING) - 20;
+    }
     const docketLabel = block.caseNumberLabel ?? "CASE NO.";
     cursor.page.drawText(sanitize(docketLabel), { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
     const afterDocket = PLEADING_MARGIN + fonts.pleadingBold.widthOfTextAtSize(`${docketLabel} `, 12);
@@ -409,7 +424,7 @@ function drawPleadingCaption(
       );
     }
     cursor.y -= 14;
-    if (block.matterTitle) {
+    if (!matterFirst && block.matterTitle) {
       cursor.y = drawCenteredWrapped(cursor.page, fonts.pleadingBold, sanitize(block.matterTitle.toUpperCase()), 12, PLEADING_CONTENT_WIDTH, cursor.y, PLEADING_LEADING) - 20;
     }
     cursor.y = drawCenteredWrapped(cursor.page, fonts.pleadingBold, sanitize(block.title), 13, PLEADING_CONTENT_WIDTH, cursor.y, PLEADING_LEADING) - 26;

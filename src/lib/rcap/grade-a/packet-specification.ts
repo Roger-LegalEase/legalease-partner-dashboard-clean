@@ -127,6 +127,15 @@ export type PacketSpecificationSection = {
     caseNumberLabel?: string;
     /** Replaces PLAINTIFF / VS. / DEFENDANT for an in-the-matter-of caption. */
     matterTitle?: string;
+    /**
+     * Where the party line sits relative to the cause number.
+     *
+     * Wyoming and Nevada print the docket line and then the matter; Mississippi
+     * prints the party line and then "Cause No.". Both are ordinary captions,
+     * so the adopted page says which it is instead of the renderer assuming.
+     * Absent, the order is the one every caption already drawn uses.
+     */
+    captionOrder?: "case_number_first" | "matter_title_first";
     caseNumber: string;
     caseNumberInstruction?: string;
     documentTitle?: string;
