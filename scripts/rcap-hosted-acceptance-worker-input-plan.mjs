@@ -17,6 +17,18 @@ export const CANONICAL_WORKER_INPUTS = Object.freeze([
   "src",
   "deploy/rcap-render-worker/Dockerfile",
   /*
+   * The build-context allowlist, which decides what the Dockerfile can copy.
+   *
+   * `Dockerfile.dockerignore` excludes `*` and re-includes the runtime closure,
+   * so it is not packaging trivia: editing it changes the contents of the
+   * image as surely as editing a COPY line does. Without it here, narrowing the
+   * allowlist would leave a runtime file out of the image while the input plan
+   * reported "no rebuild required" and happily reused the old digest -- an
+   * image whose contents no longer match the tree that claims to describe it,
+   * which is the exact failure this list exists to prevent.
+   */
+  "deploy/rcap-render-worker/Dockerfile.dockerignore",
+  /*
    * §7, named here rather than left to Dockerfile derivation.
    *
    * `dockerCopyInputs` reads the COPY lines of the FREEZE's Dockerfile, so an
@@ -43,6 +55,7 @@ export const FIXED_FILE_INPUTS = new Set([
   "tsconfig.json",
   "scripts/rcap-render-worker.mjs",
   "deploy/rcap-render-worker/Dockerfile",
+  "deploy/rcap-render-worker/Dockerfile.dockerignore",
   // A single asset, not a directory: only this one file is read, and shipping
   // the whole brand folder would put unrelated art in the worker image.
   "data/record-clearing/brand/legalease-logo.png"

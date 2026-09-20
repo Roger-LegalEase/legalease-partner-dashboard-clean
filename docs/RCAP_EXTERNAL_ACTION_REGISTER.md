@@ -234,6 +234,45 @@ does not need Roger; it is the same move recorded at `a1eed1c6e`.
 > SHA; that is true and beside the point, since the risk it removes is
 > transcription and the risk it adds is building an entirely different branch.
 
+> **SECOND DEFECT, found by the corrected dispatch — the candidate could not be
+> built at all.** Run
+> [35538205516](https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35538205516),
+> dispatched with the exact SHA, passed every gate — resolve, containment,
+> exact checkout, tag guard — and then failed in the build:
+>
+> ```
+> ERROR: failed to compute cache key: failed to calculate checksum of ref ...
+> "/data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf": not found
+> ```
+>
+> The worker's build context is an allowlist: `Dockerfile.dockerignore` excludes
+> `*` and re-includes exactly the runtime closure. Commit `b26a2bf45` added
+> three COPY instructions — the Mississippi successor decision, its review
+> evidence and its three approved PDFs — and did not extend the allowlist. Six
+> paths the Dockerfile copies were not in the context, so the image could not be
+> built.
+>
+> It is pre-existing and predates the owner decision: `b26a2bf45` landed after
+> the last successful publication (`58e76b81e`, 2026-09-19) and after the last
+> edit to the allowlist (`d842d893d`). No publication reached the build step in
+> between — the one attempt failed earlier, at the integration-history gate — so
+> a Dockerfile that could not build sat on the release branch undetected until
+> the approved candidate was published from it.
+>
+> **Repaired, and made un-repeatable.** The allowlist re-includes all six paths;
+> the Dockerfile also copies the v3 successor decision, which the loader now
+> reads and which was missing from both the Dockerfile and the runtime manifest;
+> and `scripts/test-worker-image-copy-context-agreement.mjs` proves the three
+> lists agree — every COPY source survives the allowlist, every COPY source
+> exists, and every file the runtime manifest names is copied. Before the fix it
+> reported exactly the five paths buildx did.
+>
+> **And one more, found while fixing it.** `Dockerfile.dockerignore` decides
+> what the image contains, and was not in `CANONICAL_WORKER_INPUTS`. Narrowing
+> the allowlist would have dropped a runtime file from the image while the input
+> plan reported "no rebuild required" and reused the old digest. It is a
+> canonical input now.
+
 ## Item 13A — RESOLVED 2026-09-20 — five routes the registry could no longer prove from a stale pin
 
 | # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |

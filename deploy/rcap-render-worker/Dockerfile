@@ -78,10 +78,20 @@ COPY data/record-clearing/brand/legalease-logo.png data/record-clearing/brand/
 # The MS paid-consumer successor closure. The loader reads all of it on every
 # call and returns null when any part is absent, so an omission here does not
 # fail the build or crash the worker -- it quietly withdraws the owner's scope.
-# The controlling decision is the 2026-09-20 one; the 2026-09-14 decision ships
-# beside it because the loader proves the superseded record is still present and
-# unedited before it admits the successor.
-COPY data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json \
+#
+# All three links ship. The controlling decision is v3, which names the bytes
+# the shared Fees & costs correction moved; v2 and the 2026-09-14 record ship
+# beside it because the loader walks the chain two links back and proves each
+# superseded record is still present and unedited before it admits the
+# successor. Dropping either one does not degrade to "an older approval" -- it
+# refuses the current one.
+#
+# Every path below must also be re-included in Dockerfile.dockerignore, which
+# excludes `*` by default. That agreement is checked by
+# scripts/test-worker-image-copy-context-agreement.mjs, because these two lists
+# drifted apart once and produced an image that could not be built.
+COPY data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json \
+     data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json \
      data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json \
      data/record-clearing/legal-decisions/
 COPY data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json \
