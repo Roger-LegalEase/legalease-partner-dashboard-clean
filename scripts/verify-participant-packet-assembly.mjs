@@ -499,6 +499,93 @@ if (guided) {
   );
 }
 
+/* ------------- 6b-ii. the cover reads the route's DECLARED identifier */
+
+/**
+ * THE DEFECT, AND THE HALF-REPAIR THAT FOLLOWED IT.
+ *
+ * The CASE / MATTER panel read `cause_number`; Mississippi non-conviction
+ * calls it `case_number`. The cover printed "not established" for the number
+ * on every pleading behind it.
+ *
+ * The first repair tried `case_number`, then `cause_number`, then
+ * `docket_number`, and took whichever the snapshot answered -- a better guess,
+ * and still a guess: a matter carrying two of them would have its cover decided
+ * by the order the list was written in. These drive the route's own
+ * declaration instead.
+ */
+const { specificationCaseIdentifierFactId, packetSpecificationFor: specFor } =
+  await import("../src/lib/rcap/grade-a/packet-specification.ts");
+const { participantGuideMatter } = await import("../src/lib/rcap/render/participant-packet-assembly.ts");
+
+const snapshotWith = (facts) => ({
+  jurisdiction: "MS", pathwayId: "p", verifiedAt: "2026-09-20T00:00:00.000Z",
+  screeningAnswers: {}, prefilledAnswers: {}, packetAnswers: facts, serverFacts: {}
+});
+
+const msSpec = specFor("MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal");
+check(
+  specificationCaseIdentifierFactId(msSpec) === "case_number",
+  `the route declares which fact holds its case identifier (${specificationCaseIdentifierFactId(msSpec)})`
+);
+
+/*
+ * THE DISCRIMINATING CASE. A matter answering BOTH ids must take the declared
+ * one. A priority list would have taken whichever came first in the list.
+ */
+const both = participantGuideMatter(
+  snapshotWith({ case_number: "2024-MC-001234", cause_number: "SOME-OTHER-9999" }),
+  "packet-1", "en", msSpec
+);
+check(
+  both.caseOrMatter === "2024-MC-001234",
+  `a matter carrying two case-shaped facts takes the declared one (got ${JSON.stringify(both.caseOrMatter)})`
+);
+
+/*
+ * And nothing is scanned: the undeclared id alone yields no case number, rather
+ * than the panel quietly finding a value the route does not use.
+ */
+const undeclaredOnly = participantGuideMatter(
+  snapshotWith({ cause_number: "SOME-OTHER-9999" }), "packet-1", "en", msSpec
+);
+check(
+  undeclaredOnly.caseOrMatter === null,
+  `an undeclared case-shaped fact is not used (got ${JSON.stringify(undeclaredOnly.caseOrMatter)})`
+);
+
+/* A route that declares nothing is answered honestly. */
+check(
+  specificationCaseIdentifierFactId({ documents: [] }) === undefined
+  && participantGuideMatter(snapshotWith({ case_number: "X" }), "p", "en",
+    { documents: [], pathwayLabel: "L" }).caseOrMatter === null,
+  "a route declaring no case identifier yields none rather than a found value"
+);
+
+/* ------------------------- 6b-iii. the remedy is in the packet's language */
+
+/**
+ * The Spanish cover printed the English remedy, because the specification
+ * carried no Spanish label. Naming a legal remedy in Spanish is reviewed
+ * content, so the renderer takes the reviewed label or says nothing -- it never
+ * prints English on a Spanish page and never translates.
+ */
+check(
+  participantGuideMatter(snapshotWith({}), "p", "en", msSpec).remedy === msSpec.pathwayLabel
+  && participantGuideMatter(snapshotWith({}), "p", "es", msSpec).remedy === msSpec.pathwayLabelEs,
+  "each language takes its own reviewed route label"
+);
+check(
+  typeof msSpec.pathwayLabelEs === "string" && msSpec.pathwayLabelEs.length > 0
+  && msSpec.pathwayLabelEs !== msSpec.pathwayLabel,
+  "the Spanish label exists and is not the English one repeated"
+);
+check(
+  participantGuideMatter(snapshotWith({}), "p", "es",
+    { documents: [], pathwayLabel: "English only" }).remedy === null,
+  "a route with no Spanish label yields none rather than falling back to English"
+);
+
 /* ----------------------- 6c. the assembled packet is a pure function */
 
 /**

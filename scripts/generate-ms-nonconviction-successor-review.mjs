@@ -55,7 +55,8 @@ const { supplementalGuideIdentityFor } = await import("../src/lib/rcap/supplemen
 const { GUIDE_RENDERER_KIND, GUIDE_RENDERER_VERSION } =
   await import("../src/lib/rcap/supplemental/guide-renderer.ts");
 const { composeGradeAPacket } = await import("../src/lib/rcap/grade-a/composer.ts");
-const { packetSpecificationFor } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
+const { packetSpecificationFor, specificationCaseIdentifierFactId } =
+  await import("../src/lib/rcap/grade-a/packet-specification.ts");
 const { assertValidArtifact } = await import("../src/lib/rcap/render/artifact-validation.ts");
 const { participantGuideDate } = await import("../src/lib/rcap/render/participant-packet-assembly.ts");
 
@@ -89,8 +90,10 @@ const matterFor = (locale) => ({
   preparedOn: participantGuideDate(fixture.verifiedAt, locale),
   jurisdiction: "MS",
   courtOrAgency: fact("court_name"),
-  caseOrMatter: ["case_number", "cause_number", "docket_number"].map(fact).find((v) => v !== null) ?? null,
-  remedy: specification.pathwayLabel ?? null,
+  // The route's declared identifier, through the product's own resolver -- not a
+  // scan of likely names, and not a second copy of the rule.
+  caseOrMatter: fact(specificationCaseIdentifierFactId(specification) ?? ""),
+  remedy: locale === "es" ? specification.pathwayLabelEs ?? null : specification.pathwayLabel ?? null,
   packetId: "ms-nonconv-successor-review"
 });
 
@@ -223,19 +226,7 @@ evidence.rasterReview = {
     + "confidential MCIC identifier placement and its exclusion from service copies; exhibits as records the "
     + "participant obtains rather than uploads; the embedded wordmark; unresolved bindings and placeholder "
     + "markers; clipping, overlap and pagination; and Spanish completeness.",
-  observations: [
-    {
-      where: "full-es, guide cover, REMEDIO panel",
-      what:
-        "The remedy reads in English -- \"Mississippi non-conviction expungement for dismissal, no disposition, "
-        + "or acquittal\" -- because the specification's pathwayLabel is English only and there is no Spanish "
-        + "label to draw. Everything else on the page is Spanish, and the guide's own Overview states the packet "
-        + "in Spanish immediately below the panel.",
-      disposition:
-        "Recorded, not silently fixed. Naming a legal remedy in Spanish is content for the §7 review to write, "
-        + "not something this generator should invent."
-    }
-  ],
+  observations: [],
   artifacts: rasterReview
 };
 

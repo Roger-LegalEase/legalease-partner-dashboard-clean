@@ -1,6 +1,8 @@
 import { type GradeAPacket } from "@/lib/rcap/grade-a/composer";
 import { renderGradeAPacketPdf, type PacketVariant } from "@/lib/rcap/grade-a/renderer";
-import { type PacketSpecification } from "@/lib/rcap/grade-a/packet-specification";
+import {
+  specificationCaseIdentifierFactId, type PacketSpecification
+} from "@/lib/rcap/grade-a/packet-specification";
 import {
   assemblePacketWithGuide, guideDocuments, guideStopConditions,
   type GuideLocale, type GuideMatter
@@ -336,22 +338,25 @@ export function participantGuideMatter(
     return typeof value === "number" ? String(value) : null;
   };
   /*
-   * The case number, by whichever id the route's specification uses.
+   * The case number, from the fact the ROUTE DECLARES. One id, not a search.
    *
    * This read `cause_number` alone, and Mississippi non-conviction calls it
    * `case_number` -- so the cover printed "Not established for this route - ask
    * the clerk or filing office" for the number printed on every pleading behind
-   * it, in the participant's own hands. Across the registered specifications
-   * five routes use `case_number` and two use `cause_number`, so one guess was
-   * always going to be wrong somewhere.
+   * it, in the participant's own hands.
    *
-   * Only ids a specification actually declares are tried, in order, and the
-   * first that the matter answers wins. A route that establishes none still
-   * gets the honest "not established" line rather than a blank.
+   * The first repair tried `case_number`, then `cause_number`, then
+   * `docket_number`, and took whichever the snapshot answered. That is a better
+   * guess and still a guess: a matter carrying two of them for unrelated
+   * reasons would have its cover decided by the order someone happened to write
+   * the list in. `specificationCaseIdentifierFactId` asks the route instead --
+   * its caption contract where it draws one, else the id it declares -- and a
+   * route that declares none gets the honest "not established" line.
    */
-  const caseNumber = ["case_number", "cause_number", "docket_number"]
-    .map((factId) => plain(factId))
-    .find((value) => value !== null) ?? null;
+  const declaredCaseIdentifier = specification
+    ? specificationCaseIdentifierFactId(specification)
+    : undefined;
+  const caseNumber = declaredCaseIdentifier ? plain(declaredCaseIdentifier) : null;
 
   return {
     preparedFor: plain("participant_full_legal_name"),
@@ -365,7 +370,19 @@ export function participantGuideMatter(
      * and printing it under REMEDY put a URL fragment on the cover of a legal
      * packet. The specification carries the sentence a person wrote.
      */
-    remedy: specification?.pathwayLabel ?? snapshot.pathwayId ?? null,
+    /*
+     * The remedy in the packet's own language.
+     *
+     * It printed `pathwayId` -- a slug -- until this was corrected, and then
+     * printed the English label on a Spanish cover, because the specification
+     * carried no Spanish one. A reviewer writes `pathwayLabelEs`; where none
+     * exists the field is null and the renderer says the remedy is not
+     * established in this language, rather than printing English on a Spanish
+     * page or inventing a legal translation here.
+     */
+    remedy: locale === "es"
+      ? specification?.pathwayLabelEs ?? null
+      : specification?.pathwayLabel ?? null,
     packetId
   };
 }

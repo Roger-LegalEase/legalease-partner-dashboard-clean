@@ -145,6 +145,27 @@ export type PacketSpecificationSection = {
   notarisationRequired?: boolean;
 };
 
+/**
+ * The fact id this route uses for the case or matter identifier.
+ *
+ * `captionContract.caseNumber` already declares it for every family that draws
+ * a contract caption, and that declaration is the authority. This exists for
+ * the families still on the older `fields` caption form, which names the fact
+ * but not its role, and it is the smallest thing that turns "one of these
+ * likely names" into "the one this route declares".
+ *
+ * The guide's CASE / MATTER panel read `cause_number` and this route calls it
+ * `case_number`, so the cover printed "not established" for the number on every
+ * pleading behind it. Replacing one guessed name with a priority list of
+ * guessed names would still be guessing: a snapshot carrying two of them for
+ * unrelated reasons would decide the panel by the order someone happened to
+ * write.
+ *
+ * Populated per route as routes come through the build, never inferred. A route
+ * that declares none is answered honestly as not established.
+ */
+export type SpecificationCaseIdentifier = string;
+
 export type PacketSpecificationDocument = {
   documentId: string;
   role: string;
@@ -436,6 +457,18 @@ export type PacketSpecification = {
   jurisdiction: string;
   pathwayId: string;
   pathwayLabel: string;
+  /**
+   * The route's own label in Spanish, where a reviewer has written one.
+   *
+   * The guide is bilingual and its cover prints this as the remedy, so an
+   * English-only label put an English remedy name on an otherwise Spanish page.
+   * Absent, the guide says the remedy is not established in this language
+   * rather than printing the English or inventing a translation: naming a legal
+   * remedy in Spanish is reviewed content, not a rendering decision.
+   */
+  pathwayLabelEs?: string;
+  /** See `SpecificationCaseIdentifier`. Declared per route, never inferred. */
+  caseIdentifierFactId?: string;
   packetFamily: string;
   packetFamilyLabel: string;
   trackId: string;
@@ -755,6 +788,28 @@ export function packetSpecificationFactFor(
   factId: string
 ): PacketSpecificationFact | undefined {
   return composablePacketSpecificationFor(routeKey)?.requiredFacts.find((fact) => fact.factId === factId);
+}
+
+/**
+ * The fact id that holds this route's case or matter identifier, as the route
+ * declares it.
+ *
+ * Preference order is by authority, not by likelihood: a caption contract is
+ * the adopted page's own statement of which fact prints as the case number, so
+ * it wins over the specification-level declaration, which exists only for the
+ * families whose captions predate that contract.
+ */
+export function specificationCaseIdentifierFactId(
+  specification: Pick<PacketSpecification, "documents"> & { caseIdentifierFactId?: string }
+): string | undefined {
+  for (const document of specification.documents ?? []) {
+    for (const section of document.sections ?? []) {
+      const declared = (section as { captionContract?: { caseNumber?: string } }).captionContract?.caseNumber;
+      if (typeof declared === "string" && declared.trim()) return declared;
+    }
+  }
+  const fallback = specification.caseIdentifierFactId;
+  return typeof fallback === "string" && fallback.trim() ? fallback : undefined;
 }
 
 export function packetSpecificationRouteKeys(): string[] {
