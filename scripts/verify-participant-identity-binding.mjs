@@ -210,6 +210,17 @@ for (const specification of specifications) {
    * So each boundary is checked where it actually shows: the last words of one
    * paragraph must never be drawn immediately followed by the first words of
    * the next. If they are, the boundary is gone however complete the text is.
+   *
+   * SCOPE. This is ACCEPTANCE EVIDENCE, not the document contract. The
+   * authoritative invariant is that adopted semantic boundaries survive --
+   * paragraph, recital, numbered assertion, list introduction, list item,
+   * caption, signature and execution structure -- and those live in the section
+   * and block model. How a boundary is DRAWN is the adopted template's
+   * business: spacing, indentation, a numbered block or a rule are all
+   * legitimate. A line break is simply what these templates use, so it is what
+   * proves they were not flattened here. Do not normalise a future official
+   * form or a differently laid out pleading to satisfy this pattern; where a
+   * template separates blocks another way, prove it another way.
    */
   {
     /*

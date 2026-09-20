@@ -119,46 +119,25 @@
       "ownership": "participant"
     },
     {
-      "factId": "contact_information",
-      "use": "movant mailing address, telephone, and email",
+      "factId": "mailing_address",
+      "use": "mailing address of the movant, printed on the motion",
       "inRegistryRequiredInputs": true,
-      "ownership": "participant"
+      "ownership": "participant",
+      "decomposedFrom": "contact_information"
     },
     {
-      "factId": "charge",
-      "use": "charge wording copied from the court record before filing",
+      "factId": "phone_number",
+      "use": "telephone of the movant, printed on the motion",
       "inRegistryRequiredInputs": true,
-      "ownership": "participant"
+      "ownership": "participant",
+      "decomposedFrom": "contact_information"
     },
     {
-      "factId": "case_outcome",
-      "use": "disposition and final-disposition date copied from the court record",
+      "factId": "email_address",
+      "use": "email of the movant, printed on the motion",
       "inRegistryRequiredInputs": true,
-      "ownership": "participant"
-    },
-    {
-      "factId": "actual_innocence_basis",
-      "use": "participant-authored innocence statement; the packet writes none of it",
-      "inRegistryRequiredInputs": true,
-      "ownership": "participant"
-    },
-    {
-      "factId": "prior_motions",
-      "use": "participant-supplied prior § 16-803 motion history and resolution dates",
-      "inRegistryRequiredInputs": false,
-      "ownership": "participant"
-    },
-    {
-      "factId": "underlying_case_number",
-      "use": "underlying case number copied from the court record before filing",
-      "inRegistryRequiredInputs": false,
-      "ownership": "participant"
-    },
-    {
-      "factId": "prosecuting_office_name_address",
-      "use": "prosecuting office identity and address confirmed with the Criminal Division clerk or Seal Team",
-      "inRegistryRequiredInputs": false,
-      "ownership": "participant"
+      "ownership": "participant",
+      "decomposedFrom": "contact_information"
     }
   ],
   "finalVerificationRequirements": [
@@ -172,13 +151,9 @@
     "participantOwnedFacts": [
       "participant_full_legal_name",
       "date_of_birth",
-      "contact_information",
-      "charge",
-      "case_outcome",
-      "actual_innocence_basis",
-      "prior_motions",
-      "underlying_case_number",
-      "prosecuting_office_name_address"
+      "mailing_address",
+      "phone_number",
+      "email_address"
     ],
     "serverOwnedRouteFacts": [
       "jurisdiction",
@@ -187,14 +162,29 @@
       "packet_family"
     ],
     "participantAtSigningFields": [
-      "primary_filing.movant_signature",
-      "primary_filing.signature_date"
+      "dc_signature",
+      "dc_signature_date",
+      "dc_service_signature"
     ],
     "participantAtServiceFields": [],
     "notaryOwnedFields": [],
     "prosecutorOwnedFields": [],
     "courtOwnedFields": [
-      "primary_filing.motion_case_number"
+      "dc_motion_case_number"
+    ],
+    "participantCompletesBeforeFilingFields": [
+      "dc_case_number",
+      "dc_charge_wording",
+      "dc_disposition",
+      "dc_innocence_statement_1",
+      "dc_innocence_statement_2",
+      "dc_innocence_statement_3",
+      "dc_attachments_1",
+      "dc_attachments_2",
+      "dc_prior_motions",
+      "dc_prosecuting_office_1",
+      "dc_prosecuting_office_2",
+      "dc_service_date"
     ]
   },
   "documents": [
@@ -209,18 +199,150 @@
       "manifestComponentId": "dc_innocence_expungement-primary-filing-1",
       "sections": [
         {
-          "heading": "Caption and motion",
-          "kind": "approved_shipping_component",
+          "heading": "Caption",
+          "kind": "pleading_caption",
+          "fields": [
+            "dc_case_number",
+            "dc_motion_case_number"
+          ],
+          "fieldTreatments": {
+            "dc_case_number": "ruled_blank",
+            "dc_motion_case_number": "court_owned_space"
+          },
+          "captionContract": {
+            "courtLines": [
+              {
+                "prefix": "SUPERIOR COURT OF THE DISTRICT OF COLUMBIA"
+              },
+              {
+                "prefix": "CRIMINAL DIVISION"
+              }
+            ],
+            "matterTitle": "IN THE MATTER OF THE MOTION OF {{participant_full_legal_name}}, MOVANT",
+            "caseNumber": "dc_case_number",
+            "caseNumberLabel": "Case number of the case this motion addresses (copy it exactly from the court record):",
+            "documentTitle": "MOTION FOR EXPUNGEMENT OF RECORDS ON GROUNDS OF ACTUAL INNOCENCE UNDER D.C. CODE Sec. 16-803"
+          }
+        },
+        {
+          "heading": "The motion",
+          "kind": "pleading_paragraph",
+          "body": "1. The movant, {{participant_full_legal_name}}, date of birth {{date_of_birth}}, moves this Court under D.C. Code Sec. 16-803 to expunge the record of the case identified in the caption above, on grounds of actual innocence."
+        },
+        {
+          "heading": "Grounds for eligibility",
+          "kind": "pleading_paragraph",
+          "body": "2. Grounds for eligibility: the case was terminated by the prosecutor or reached a final disposition, did not result in a conviction, and did not result in an acquittal by reason of insanity under D.C. Code Sec. 24-501. The movant asserts, and will demonstrate by a preponderance of the evidence, that the offence did not occur or was not committed by the movant. The movant states the case facts from the court record:"
+        },
+        {
+          "heading": "The charge and the disposition, copied from the court record",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "dc_charge_wording",
+            "dc_disposition"
+          ],
+          "fieldLabels": {
+            "dc_charge_wording": "What the movant was charged with, worded exactly as the court record words it:",
+            "dc_disposition": "Disposition of the case - how it ended, and the date of final disposition:"
+          },
+          "fieldTreatments": {
+            "dc_charge_wording": "ruled_blank",
+            "dc_disposition": "ruled_blank"
+          }
+        },
+        {
+          "heading": "The movant's own statement of innocence",
+          "kind": "pleading_paragraph",
+          "body": "3. The movant's own statement of why the offence did not occur, or why the movant was not the person who committed it, in the movant's own words (state only facts you know first-hand; this packet writes none of these lines for you):"
+        },
+        {
+          "heading": "The movant's statement",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "dc_innocence_statement_1",
+            "dc_innocence_statement_2",
+            "dc_innocence_statement_3"
+          ],
+          "fieldLabels": {
+            "dc_innocence_statement_1": "The movant's own words",
+            "dc_innocence_statement_2": "The movant's own words (continued)",
+            "dc_innocence_statement_3": "The movant's own words (continued)"
+          },
+          "fieldTreatments": {
+            "dc_innocence_statement_1": "ruled_blank",
+            "dc_innocence_statement_2": "ruled_blank",
+            "dc_innocence_statement_3": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Points, authorities and attachments",
+          "kind": "pleading_paragraph",
+          "body": "4. Statement of points and authorities, exhibits, affidavits and supporting documents attached to the motion (list what you attach; the movant carries the burden and supplies the supporting material):"
+        },
+        {
+          "heading": "What the movant attaches",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "dc_attachments_1",
+            "dc_attachments_2"
+          ],
+          "fieldLabels": {
+            "dc_attachments_1": "Attached",
+            "dc_attachments_2": "Attached (continued)"
+          },
+          "fieldTreatments": {
+            "dc_attachments_1": "ruled_blank",
+            "dc_attachments_2": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Prior motions",
+          "kind": "pleading_paragraph",
+          "body": "5. Prior expungement motions like this one the movant has filed, and when each was resolved (write NONE if none):"
+        },
+        {
+          "heading": "Prior expungement motions",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "dc_prior_motions"
+          ],
+          "fieldLabels": {
+            "dc_prior_motions": "Prior motions, and when each was resolved"
+          },
+          "fieldTreatments": {
+            "dc_prior_motions": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Relief requested",
+          "kind": "pleading_paragraph",
+          "body": "6. The movant therefore asks the Court to expunge the records relating to the case identified above, pursuant to D.C. Code Sec. 16-803."
+        },
+        {
+          "heading": "Signature",
+          "kind": "pro_se_signature_block",
+          "body": "{{participant_full_legal_name}}, Movant"
+        },
+        {
+          "heading": "Who signs this page",
+          "kind": "pleading_paragraph",
+          "body": "The movant signs and dates this motion personally. Nothing on this page is signed or dated for the movant."
+        },
+        {
+          "heading": "The movant's contact details",
+          "kind": "pleading_identity_list",
           "fields": [
             "participant_full_legal_name",
-            "date_of_birth",
-            "contact_information",
-            "underlying_case_number",
-            "charge",
-            "case_outcome",
-            "actual_innocence_basis",
-            "prior_motions"
-          ]
+            "mailing_address",
+            "phone_number",
+            "email_address"
+          ],
+          "fieldLabels": {
+            "participant_full_legal_name": "PRINTED NAME",
+            "mailing_address": "MAILING ADDRESS",
+            "phone_number": "TELEPHONE",
+            "email_address": "EMAIL"
+          }
         }
       ],
       "documentContract": {
@@ -237,7 +359,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "Adopted artifact. The owner-adopted output opens this component with SUPERIOR COURT OF THE DISTRICT OF COLUMBIA / CRIMINAL DIVISION, the in-the-matter-of line, and the case-number lines beneath, and the build host that produced those adopted bytes composes it."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
+        "sourceUsed": "scripts/build-census-v1-dc_innocence_expungement-set.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-dc_innocence_expungement-set.mjs was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and the canonical fixture still hashes to d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076, the digest OWNER_BATCH_ADOPTION_2026-09-02 pins for dc_innocence_expungement-set; the working tree came back clean. The host is therefore the source that produced the adopted bytes. The fixture participant's own answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
       }
     },
     {
@@ -246,15 +376,52 @@
       "title": "Prosecutor Service Information",
       "order": 2,
       "outputStrategy": "process_guidance",
-      "presentation": "guidance",
+      "presentation": "pleading",
       "requirement": "required",
       "sections": [
         {
-          "heading": "Confirm the prosecuting office before service",
-          "kind": "approved_shipping_component",
+          "heading": "Copy for the prosecuting office",
+          "kind": "pleading_paragraph",
+          "body": "Enclosed is a copy of the motion filed by {{participant_full_legal_name}} under D.C. Code Sec. 16-803: MOTION FOR EXPUNGEMENT OF RECORDS ON GROUNDS OF ACTUAL INNOCENCE UNDER D.C. CODE Sec. 16-803."
+        },
+        {
+          "heading": "What service means here",
+          "kind": "pleading_paragraph",
+          "body": "Under the recorded rule for this motion, the motion is served on the prosecutor, and the prosecutor need not respond unless the Court orders it. Do not expect an opposition by default."
+        },
+        {
+          "heading": "Which office, and where, is not stated here",
+          "kind": "pleading_paragraph",
+          "body": "WHICH OFFICE, AND WHERE, IS NOT STATED HERE. Two offices prosecute District of Columbia cases - the United States Attorney's Office for the District of Columbia and the Office of the Attorney General for the District of Columbia - and no source this packet is built from states the rule for which office prosecuted a given case or its correct service address. A guessed recipient in a service instruction is worse than none. Before you serve this copy, ask the Criminal Division clerk's office, 500 Indiana Avenue NW, Room 4001, Washington, DC (202-879-1373), or the Seal Team at criminalmotionsealteam@dcsc.gov which office prosecuted your case and the correct service address, and use exactly what they tell you."
+        },
+        {
+          "heading": "Name and mailing address of the prosecuting office",
+          "kind": "pleading_identity_list",
           "fields": [
-            "prosecuting_office_name_address"
-          ]
+            "dc_prosecuting_office_1",
+            "dc_prosecuting_office_2",
+            "dc_service_date"
+          ],
+          "fieldLabels": {
+            "dc_prosecuting_office_1": "NAME AND MAILING ADDRESS OF THE PROSECUTING OFFICE FOR THE CASE (you write it here before service; the Criminal Division clerk's office can confirm it)",
+            "dc_prosecuting_office_2": "Prosecuting office (continued)",
+            "dc_service_date": "DATE OF SERVICE OF THE COPY"
+          },
+          "fieldTreatments": {
+            "dc_prosecuting_office_1": "ruled_blank",
+            "dc_prosecuting_office_2": "ruled_blank",
+            "dc_service_date": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Signature",
+          "kind": "pro_se_signature_block",
+          "body": "{{participant_full_legal_name}}, Movant"
+        },
+        {
+          "heading": "What this page is not",
+          "kind": "pleading_paragraph",
+          "body": "This page is not proof of service and does not say that anything has been served. It is completed and signed by the movant when the copy actually goes out, in the manner the clerk directs. A date or a signature written before the copy goes out would be false."
         }
       ],
       "documentContract": {
@@ -271,8 +438,17 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
-      }
+        },
+        "captionTreatment": "supporting_page",
+        "captionTreatmentEvidence": "Adopted artifact. This page accompanies the captioned motion as the copy served on the prosecuting office; the adopted page carries no caption of its own, only the enclosure text and the service lines."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
+        "sourceUsed": "scripts/build-census-v1-dc_innocence_expungement-set.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-dc_innocence_expungement-set.mjs was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and the canonical fixture still hashes to d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076, the digest OWNER_BATCH_ADOPTION_2026-09-02 pins for dc_innocence_expungement-set; the working tree came back clean. The host is therefore the source that produced the adopted bytes. The fixture participant's own answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
+      },
+      "presentationNote": "Corrected from \"guidance\". Its own 4.2 contract classifies it certificate_of_service, prepared and SIGNED by the participant with recipient court, and the adopted page carries ruled blanks for the prosecuting office and a SIGNATURE OF MOVANT line. The guidance path can express none of that: it draws headings and paragraphs only. Presentation was stale against the contract, and the guidance renderer refused the component rather than dropping its blanks and signature silently."
     },
     {
       "documentId": "filing_instructions",
@@ -284,8 +460,49 @@
       "requirement": "required",
       "sections": [
         {
-          "heading": "Filing, service, and post-filing steps",
-          "kind": "approved_shipping_component"
+          "heading": "What this packet is for",
+          "kind": "static",
+          "body": "This packet is prepared for expunging a District of Columbia record on grounds of actual innocence by motion under D.C. Code § 16-803."
+        },
+        {
+          "heading": "WHAT YOU DO, IN ORDER (steps one, two and five are stated by the Criminal Division's own instruction sheet, Rev. April 10, 2024, verified byte-exact for this packet):",
+          "kind": "static",
+          "body": "STEP ONE. Call (202) 727-4245 to make an appointment with the Metropolitan Police Department (MPD) to request a copy of your arrest history report.\nSTEP TWO. Request the disposition of your case from DC Superior Court: email criminalcustomerservice@dcsc.gov, or ask in person at the Criminal Division clerk's office, 500 Indiana Avenue NW, Room 4001, Washington, DC, between 8:30 a.m. and 5:00 p.m.\nSTEP THREE. Fill in every dotted blank in this packet from those records. Do not guess a date, a charge wording or a case number.\nSTEP FOUR. Sign and date the motion yourself. The platform never signs for you and never dates a signature.\nSTEP FIVE. Send all your documents - your arrest record, your case disposition, and the motion - to criminalmotionsealteam@dcsc.gov. The Seal Team gives the motion a case number and assigns it to a judge to decide. The instruction sheet states this process can take up to six months. Whether any other filing channel is available is not stated by any held source; ask the clerk's office if email will not work for you.\nSTEP SIX. Serve a copy of the motion on the prosecuting office, using the service page in this packet, after asking the clerk which office prosecuted your case and its correct service address. The prosecutor need not respond unless the Court orders it."
+        },
+        {
+          "heading": "MONEY",
+          "kind": "static",
+          "body": "MONEY. No source this packet is built from states a filing fee, that filing is free, or a fee-waiver procedure for this motion. Before filing, ask the Criminal Division clerk's office, 500 Indiana Avenue NW, Room 4001, Washington, DC (202-879-1373), or the Seal Team at criminalmotionsealteam@dcsc.gov whether any fee applies and, if you cannot pay it, how to ask for a waiver."
+        },
+        {
+          "heading": "ONE MOTION PER CASE NUMBER",
+          "kind": "static",
+          "body": "ONE MOTION PER CASE NUMBER. File one motion per case number in the case being addressed. The filing window is any time."
+        },
+        {
+          "heading": "THE STATUTORY WARNING, D.C. CODE Sec. 16-803(e)",
+          "kind": "static",
+          "body": "THE STATUTORY WARNING, D.C. CODE Sec. 16-803(e). An acquittal or dismissal does not establish a presumption of innocence. You carry the burden of demonstrating, by a preponderance of the evidence, that the offence did not occur or was not committed by you."
+        },
+        {
+          "heading": "REPEAT MOTIONS",
+          "kind": "static",
+          "body": "REPEAT MOTIONS. A second motion no sooner than one year after the first is resolved, and a third and final motion no sooner than one year after the second - except that a motion on different grounds may be filed at any time."
+        },
+        {
+          "heading": "WHEN TO STOP AND GET HELP INSTEAD OF FILING",
+          "kind": "static",
+          "body": "- the prosecutor files an opposition or the court orders a response;\n- the court sets a hearing, at which both sides may present witnesses or proceed by proffer;\n- the relief turns on an affirmative evidentiary showing of innocence on disputed facts and you are unsure of your evidence;\n- the record is federal, military, tribal, or from another jurisdiction;\n- a prior motion was denied inside the one-year window;\n- immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play."
+        },
+        {
+          "heading": "THESE ORGANIZATIONS CAN HELP (named, with numbers, on the Criminal Division's own instruction sheet):",
+          "kind": "static",
+          "body": "- Christian Legal Society - 202-710-0592\n- Legal Aid DC - 202-628-1161\n- Neighborhood Legal Services Program - 202-832-6577\n- Public Defender Service (ask for the Duty Day Attorney for Seal cases) - 202-824-2801\n- Rising for Justice - 202-638-4798"
+        },
+        {
+          "heading": "WHAT THIS PACKET IS NOT",
+          "kind": "static",
+          "body": "This is a prepared set of composed pleading and process pages. No official court form exists for this motion - the statute fixes the motion's content, which is why these pages are composed - and this packet is not legal advice, it is not filed for you, and it does not decide whether the Court will grant relief. Expunging destroys a record; sealing hides it from public view."
         }
       ],
       "documentContract": {
@@ -302,7 +519,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "not_applicable",
+        "captionTreatmentEvidence": "Adopted artifact. A guidance page addressed to the participant, not an instrument filed with a court; the adopted page carries no caption and none is owed."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
+        "sourceUsed": "scripts/build-census-v1-dc_innocence_expungement-set.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-dc_innocence_expungement-set.mjs was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and the canonical fixture still hashes to d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076, the digest OWNER_BATCH_ADOPTION_2026-09-02 pins for dc_innocence_expungement-set; the working tree came back clean. The host is therefore the source that produced the adopted bytes. The fixture participant's own answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried."
       }
     }
   ],
@@ -384,5 +609,41 @@
       "text": "Sign and date the motion personally.",
       "requiredBeforeFiling": true
     }
-  ]
+  ],
+  "requiredFactReconciliation": {
+    "rule": "A value the adopted artifact PRINTS is a fact the platform collects. A value it rules a dotted line for is a blank the participant completes at filing.",
+    "printedAsValues": [
+      "participant_full_legal_name",
+      "date_of_birth",
+      "mailing_address",
+      "phone_number",
+      "email_address"
+    ],
+    "ruledAsBlanks": [
+      "dc_case_number",
+      "dc_charge_wording",
+      "dc_disposition",
+      "dc_innocence_statement_1",
+      "dc_innocence_statement_2",
+      "dc_innocence_statement_3",
+      "dc_attachments_1",
+      "dc_attachments_2",
+      "dc_prior_motions",
+      "dc_prosecuting_office_1",
+      "dc_prosecuting_office_2",
+      "dc_service_date"
+    ],
+    "removedBecauseTheAdoptedPageRulesALineForThem": [
+      "charge",
+      "case_outcome",
+      "actual_innocence_basis",
+      "prior_motions",
+      "underlying_case_number",
+      "prosecuting_office_name_address"
+    ],
+    "courtOwned": [
+      "dc_motion_case_number"
+    ],
+    "noNewQuestionsCreated": "Zero questions were added. Six were removed, and contact_information was decomposed into the three values the adopted page prints."
+  }
 }
