@@ -2,6 +2,30 @@
 /**
  * The §7 supplemental-guide control.
  *
+ * WHAT THIS CHECKS, STATED PRECISELY
+ *
+ * This is a PROVENANCE-METADATA control. It establishes that every entry
+ * declares a recognised kind, that anything beyond product copy names a source,
+ * that an instruction is not carried as product copy, and that no adopted line
+ * is silently dropped. It does NOT read the cited authority and it does NOT
+ * establish that the cited passage supports the sentence.
+ *
+ * That distinction is not pedantry, and it was earned. An earlier version of
+ * this file's positive example asserted "File the petition with the clerk
+ * within 30 days" against Wyo. Stat. Ann. 7-13-1502(c). Every check here
+ * passed it, and it was wrong twice: (c) is the PROSECUTOR's obligation to
+ * notify identifiable victims after service, not a participant filing
+ * deadline — and thirty days is the misdemeanour route's objection window
+ * under 7-13-1501, where this route's is ninety. A citation string satisfied
+ * the control while the sentence assigned the wrong action to the wrong person
+ * on the wrong clock.
+ *
+ * So: a green run here means the metadata is well-formed and an instruction is
+ * not masquerading as product copy. Whether a cited source actually says what
+ * the entry claims is decided by the §7 content review — actor, action,
+ * recipient, trigger, deadline and applicability read against the cited
+ * passage — which is human work and is not automated here.
+ *
  * Two things it exists to prevent.
  *
  * The first is an UNSOURCED INSTRUCTION. Not an authored sentence — the two are
@@ -91,6 +115,11 @@ for (const guide of guides) {
   );
 }
 
+// What counts as a legal or procedural instruction. Used both to police the
+// route data and to build the control fixtures below, so the fixtures cannot
+// drift away from the rule they are proving.
+const INSTRUCTION = /\b(file|serve|mail|deliver|submit|pay|sign|notari[sz]e|ask the clerk|must|shall|required|requires|deadline|within \d+|\d+ days?|do not|cannot|may not|entitled|statute|Sec\.|section \d|§)\b/i;
+
 for (const guide of guides) {
   const where = guide.routeKey;
 
@@ -133,7 +162,6 @@ for (const guide of guides) {
   // cannot be carried by product copy — which by definition asserts nothing
   // about the law. This is a text test rather than a trusted label, because the
   // label is the thing most likely to be wrong.
-  const INSTRUCTION = /\b(file|serve|mail|deliver|submit|pay|sign|notari[sz]e|ask the clerk|must|shall|required|requires|deadline|within \d+|\d+ days?|do not|cannot|may not|entitled|statute|Sec\.|section \d|§)\b/i;
   const unsupportedInstruction = entries.filter((entry) =>
     entry.provenance?.kind === "product_copy" && INSTRUCTION.test(entry.text));
   check(
@@ -191,6 +219,58 @@ for (const guide of guides) {
       vagueDiversions.length ? ` (${vagueDiversions.length} do not)` : ""}`
   );
 }
+
+/*
+ * The provenance rule, proven in both directions on fixtures rather than by
+ * mutating a real route's data.
+ *
+ * An invariant that only refuses is satisfied by refusing everything, and one
+ * that only accepts is satisfied by accepting everything. So both fixtures
+ * carry an instruction, and the ONLY difference between them is whether the
+ * instruction names something beyond product copy.
+ *
+ * The positive fixture states a proposition Wyo. Stat. Ann. 7-13-1502(c)
+ * genuinely carries — the prosecuting attorney, not the participant, notifies
+ * identifiable victims after service — which the adopted artifact states in
+ * the same terms on its filing-instructions page. It is deliberately the same
+ * subsection the earlier bad example misused, put to the proposition it
+ * actually supports. It is newly authored rather than carried verbatim, which
+ * is the whole point: a source-backed new sentence has to pass.
+ */
+const instructionCarriedByProductCopy = {
+  text: "Serve the prosecuting attorney and file proof of service with the court.",
+  provenance: { kind: "product_copy" }
+};
+const instructionProperlySourced = {
+  text: "The prosecuting attorney, not you, notifies any identifiable victims after you serve the petition.",
+  provenance: {
+    kind: "authoritative_source",
+    cite: "Wyo. Stat. Ann. 7-13-1502(c) — the prosecuting attorney's victim-notice obligation following service; stated in the same terms on the adopted wy_fel_1502-set filing-instructions page, line 8"
+  }
+};
+
+const carriesInstruction = (entry) => INSTRUCTION.test(entry.text);
+const refusedAsProductCopy = (entry) => entry.provenance.kind === "product_copy" && carriesInstruction(entry);
+const citesASource = (entry) =>
+  entry.provenance.kind === "product_copy"
+  || (typeof entry.provenance.cite === "string" && entry.provenance.cite.trim().length >= 8);
+
+check(
+  carriesInstruction(instructionCarriedByProductCopy) && carriesInstruction(instructionProperlySourced),
+  "control fixtures: both carry a legal or procedural instruction, so the pair differs only in provenance"
+);
+check(
+  refusedAsProductCopy(instructionCarriedByProductCopy),
+  "NEGATIVE control: an instruction carried as product copy is refused"
+);
+check(
+  !refusedAsProductCopy(instructionProperlySourced) && citesASource(instructionProperlySourced),
+  "POSITIVE control: the same kind of instruction, cited to the source that supports it, is accepted"
+);
+check(
+  !/within 30 days|within thirty days/i.test(JSON.stringify(guides)),
+  "no route guide asserts a 30-day filing deadline -- 7-13-1502's objection window is ninety days; thirty is 7-13-1501's"
+);
 
 console.log(`\n${failures.length === 0 ? "PASS" : "FAIL"} — ${failures.length} failing check(s)`);
 if (failures.length > 0) {

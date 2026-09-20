@@ -34,6 +34,22 @@
  * that handled your case" is fine where the route's own source says that; what
  * is forbidden is asserting it where nothing does.
  *
+ * WHAT PROVENANCE IS, AND WHAT IT IS NOT
+ *
+ * A provenance record says what an entry is offered on the authority of. It is
+ * metadata, and the control that reads it checks metadata: that the kind is
+ * recognised, that a source is named, that an instruction is not carried as
+ * product copy. Nothing here reads the cited passage, so a citation is not a
+ * finding that the source says what the entry claims.
+ *
+ * Treating it as one is a real failure mode and it has already happened once:
+ * a sentence citing Wyo. Stat. Ann. 7-13-1502(c) for a participant filing
+ * deadline satisfied every check, while that subsection is the prosecuting
+ * attorney's victim-notice obligation and the deadline belonged to a different
+ * route. Correct metadata, wrong actor, wrong clock. Whether a source supports
+ * a sentence -- actor, action, recipient, trigger, deadline, applicability --
+ * is settled by reading it, in the route's content review.
+ *
  * So each entry names what supports it, from a fixed set: adopted artifact
  * text, an authoritative statute, rule, official form or published instruction,
  * an existing source-backed route or owner decision, deterministic route data

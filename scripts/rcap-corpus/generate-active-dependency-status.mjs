@@ -109,6 +109,26 @@ const status = {
     ? "Every active dependency in the residual set is held at its exact recorded bytes."
     : `${contract.counts.residualActiveUnheld} of the ${contract.counts.residualActive} active residual dependencies ${contract.counts.residualActiveUnheld === 1 ? "is" : "are"} not held in any custody this repository can check.`,
 
+  /*
+   * The remainder, grouped, because a worklist that names only the most
+   * interesting item leaves the rest to be rediscovered later. Two of the nine
+   * are authority or instruction sources; seven are packet components. Each
+   * already carries its consumer obligation, so none of them needs a new
+   * investigation -- they need the bytes.
+   */
+  remainingByJurisdiction: Object.entries(
+    contract.findings.reduce((grouped, row) => {
+      (grouped[row.jurisdiction ?? "unknown"] ??= []).push(row);
+      return grouped;
+    }, {})
+  ).sort((a, b) => a[0].localeCompare(b[0])).map(([jurisdiction, rows]) => ({
+    jurisdiction,
+    count: rows.length,
+    authorityOrInstruction: rows.filter((row) => row.classification === "CURRENT_AUTHORITY_OR_INSTRUCTION").length,
+    packetComponents: rows.filter((row) => row.classification === "LIVE_PACKET_COMPONENT").length,
+    paths: rows.map((row) => row.relativePath)
+  })),
+
   unheldActiveDependencies: contract.findings.map((row) => ({
     relativePath: row.relativePath,
     sha256: row.sha256,
