@@ -45,7 +45,10 @@ function failures(harness) {
     "the image preflight runs AFTER the Checkout call, so a run can still spend real money before learning the image refuses the tuple");
 
   // It is a required case, so a run that skips it cannot report a pass.
-  fail(/"immutable_image_admits_the_tuple_before_any_charge",/.test(harness.slice(0, harness.indexOf("];"))),
+  // Locate the named declaration, not the first array in the file: copy-review
+  // collection arrays may precede REQUIRED_CASES without changing its contract.
+  const requiredCases = harness.match(/const REQUIRED_CASES = \[([\s\S]*?)\n\];/)?.[1] ?? "";
+  fail(/"immutable_image_admits_the_tuple_before_any_charge",/.test(requiredCases),
     "the preflight is not in REQUIRED_CASES, so a run that never reached it would still be able to pass");
 
   // The shipped bytes, by digest, with no host source.
@@ -108,6 +111,13 @@ if (MUTATIONS) {
     process.exit(1);
   }
   const M = [
+    ["the preflight is removed from the required cases", (h) =>
+      h.replace('  "immutable_image_admits_the_tuple_before_any_charge",\n', "")],
+    ["an unrelated array claims the preflight while REQUIRED_CASES omits it", (h) =>
+      'const unrelatedCases = ["immutable_image_admits_the_tuple_before_any_charge",];\n' +
+      h.replace('  "immutable_image_admits_the_tuple_before_any_charge",\n', "")],
+    ["the required-case declaration is missing", (h) =>
+      h.replace("const REQUIRED_CASES = [", "const UNENFORCED_CASES = [")],
     ["a probe that returned no verdict reads as admission", (h) =>
       h.replace("const imageAdmits = Boolean(probe) && probe.claim?.attempted === true && probe.claim.accepted === true && probe.admitsProfileVersion === true;",
         "const imageAdmits = !probe || probe.claim?.accepted !== false;")],
