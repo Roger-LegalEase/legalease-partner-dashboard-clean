@@ -112,6 +112,10 @@ function* leaves(value, path = '') {
  * the record, so the record cannot point the comparison at a document that was
  * never this specification.
  */
+export function specificationBytesAtDigest(rootDir, specificationPath, sha256) {
+  return priorSpecificationBytes(rootDir, specificationPath, sha256);
+}
+
 function priorSpecificationBytes(rootDir, specificationPath, priorSha256) {
   const log = execFileSync('git', ['-C', rootDir, 'log', '--format=%H', '--', specificationPath],
     { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }).trim().split('\n').filter(Boolean);

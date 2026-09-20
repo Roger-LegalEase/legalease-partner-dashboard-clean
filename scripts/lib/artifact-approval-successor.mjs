@@ -1,7 +1,8 @@
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { loadIlArtifactApproval, loadMsArtifactApproval, REQUIRED_ARTIFACT_OBLIGATIONS } from './owner-artifact-approval.mjs';
-import { carriedForwardSpecificationSha256 } from './artifact-approval-carry-forward.mjs';
+import { carriedForwardSpecificationSha256, specificationBytesAtDigest } from './artifact-approval-carry-forward.mjs';
+import { derivationReconciledSpecificationSha256, reconciledSpecificationDigests } from './specification-derivation-reconciliation.mjs';
 
 // The last pre-approval records are immutable provenance, not current approval.
 export const SUCCESSOR_BASE_SHA = '7cb3133a5ca8a5bac80550cb7bdc0e38d2359ce8';
@@ -72,17 +73,95 @@ export function createArtifactSuccessor({routeId, readBytes, stableStringify, pr
   // it approves. The exception proves itself -- it recomputes the delta from
   // the prior bytes in Git and refuses if anything but the pins moved.
   let carriedForward = null;
+  let derivationReconciled = null;
   if (digest(specificationBytes) !== record.packetSpecification.sha256) {
-    carriedForward = carriedForwardSpecificationSha256({
-      rootDir: process.cwd(),
-      familyId: record.packetFamilyId,
-      routeId,
-      specificationPath: b.packetSpecification.path,
-      specificationBytes,
-      recordSpecificationSha256: record.packetSpecification.sha256,
-      approvedArtifacts: approval.approvedArtifacts,
-      readBytes
-    });
+    /*
+     * TWO EXITS, FOR TWO DIFFERENT MOVES.
+     *
+     * The owner carry-forward covers a specification whose bytes moved BECAUSE
+     * the owner approved new artifacts and directed the pins be carried in.
+     *
+     * The derivation reconciliation covers the opposite case: the approved
+     * artifacts did not move at all, and the specification moved because it had
+     * kept a DESCRIPTION of an approved component and dropped its substance --
+     * the defect the composer refuses by name. The repair transcribes the
+     * adopted words back in from the family's own build host.
+     *
+     * Illinois needs both, in that order and in this shape: its carry-forward
+     * record is real, so the first exit does not decline, it THROWS, because
+     * the specification has since moved again past the digest that record
+     * carries forward to. A thrown carry-forward is therefore not the end of
+     * the question -- the derivation reconciliation is asked next, and the
+     * original refusal is re-raised only if that one has nothing for this
+     * family either. Neither exit is weakened to make the other reachable.
+     */
+    /*
+     * Illinois is two hops, so each is proven against its own end point.
+     *
+     * Its history is: the digest the historical record holds, then the owner
+     * carry-forward of 2026-09-19 which moved it because the owner approved new
+     * artifacts, then the derivation repair which moved it again. Checking the
+     * carry-forward against the bytes on disk would fail it for a move it never
+     * claimed to make. So when a derivation reconciliation exists, the
+     * carry-forward is validated against the specification as Git holds it at
+     * the digest that reconciliation starts from -- the intermediate state --
+     * and the derivation hop then runs from where the carry-forward ended.
+     *
+     * Neither hop is relaxed. The carry-forward still recomputes its delta leaf
+     * by leaf and still refuses anything but the approved pins; the derivation
+     * still requires unchanged artifacts, a build host that reads no
+     * specification, and a prior specification that could produce no packet.
+     */
+    const reconciledMove = reconciledSpecificationDigests(readBytes).get(routeId) ?? null;
+    const intermediateSha256 = reconciledMove?.priorSpecificationSha256 ?? null;
+    const intermediateBytes = intermediateSha256 && intermediateSha256 !== record.packetSpecification.sha256
+      ? specificationBytesAtDigest(process.cwd(), b.packetSpecification.path, intermediateSha256)
+      : null;
+
+    let carryForwardRefusal = null;
+    try {
+      carriedForward = carriedForwardSpecificationSha256({
+        rootDir: process.cwd(),
+        familyId: record.packetFamilyId,
+        routeId,
+        specificationPath: b.packetSpecification.path,
+        specificationBytes: intermediateBytes ?? specificationBytes,
+        recordSpecificationSha256: record.packetSpecification.sha256,
+        approvedArtifacts: approval.approvedArtifacts,
+        readBytes
+      });
+    } catch (error) { carryForwardRefusal = error; }
+
+    // The derivation hop starts wherever the carry-forward left off, which is
+    // the record's own digest when there was no carry-forward at all.
+    const afterCarryForward = carriedForward?.specificationSha256 ?? record.packetSpecification.sha256;
+    if (!carriedForward || carriedForward.specificationSha256 !== digest(specificationBytes)) {
+      derivationReconciled = derivationReconciledSpecificationSha256({
+        familyId: record.packetFamilyId,
+        routeId,
+        specificationPath: b.packetSpecification.path,
+        specificationBytes,
+        recordSpecificationSha256: afterCarryForward,
+        readBytes
+      });
+      if (derivationReconciled) {
+        // The content digest the specification states about itself, so the
+        // record's content pin moves with the file digest rather than being
+        // left describing a document that is no longer there.
+        const contentSha256 = JSON.parse(specificationBytes.toString('utf8')).specificationSha256 ?? null;
+        carriedForward = {
+          specificationSha256: derivationReconciled.specificationSha256,
+          // The record's own starting digest, so the source-authority re-pin
+          // below still recognises the pin it is replacing.
+          priorSpecificationSha256: record.packetSpecification.sha256,
+          derivationPriorSpecificationSha256: derivationReconciled.priorSpecificationSha256,
+          contentSha256,
+          priorContentSha256: b.packetSpecification.contentSha256 ?? null,
+          movedLeaves: null,
+          record: derivationReconciled
+        };
+      } else if (carryForwardRefusal) throw carryForwardRefusal;
+    }
     insist(carriedForward, 'legal specification changed');
     record.packetSpecification.sha256 = carriedForward.specificationSha256;
     b.packetSpecification.sha256 = carriedForward.specificationSha256;
@@ -90,7 +169,9 @@ export function createArtifactSuccessor({routeId, readBytes, stableStringify, pr
       b.packetSpecification.contentSha256 = carriedForward.contentSha256;
     }
     b.packetSpecificationCarryForward = {
-      contract: 'rcap-owner-artifact-carry-forward/v1',
+      contract: derivationReconciled
+        ? 'rcap-specification-derivation-reconciliation/v1'
+        : 'rcap-owner-artifact-carry-forward/v1',
       ...carriedForward.record,
       priorSpecificationSha256: carriedForward.priorSpecificationSha256,
       priorContentSha256: carriedForward.priorContentSha256,
@@ -100,6 +181,14 @@ export function createArtifactSuccessor({routeId, readBytes, stableStringify, pr
       changesLegalContent: false,
       approvesNewBytes: false
     };
+    if (derivationReconciled) {
+      // Named explicitly on the record, because a reader must be able to tell
+      // which of the two moves this was without inferring it from a field's
+      // absence.
+      b.packetSpecificationCarryForward.moveKind = 'derivation_defect_repair';
+      b.packetSpecificationCarryForward.approvedArtifactsUnchanged = true;
+      b.packetSpecificationCarryForward.approvesComposedOutput = false;
+    }
   }
   const specification = JSON.parse(specificationBytes);
   insist(specification.packetFamily === record.packetFamilyId && specification.routeKeys.includes(routeId), 'specification identity changed');

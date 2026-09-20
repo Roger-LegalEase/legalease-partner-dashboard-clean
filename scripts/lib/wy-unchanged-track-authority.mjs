@@ -1,5 +1,6 @@
 // Bounded reconciliation of a sibling-only memo addition. This is no new approval.
 import crypto from 'node:crypto';
+import { derivationReconciledSpecificationSha256 } from './specification-derivation-reconciliation.mjs';
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const requireProof = (condition, message) => { if (!condition) throw new Error(`WY unchanged-track refusal: ${message}`); };
 export const WY_CONTAINER = Object.freeze({
@@ -13,6 +14,7 @@ export const WY_CONTAINER = Object.freeze({
   selectedTrackSha256: '0917450737bf52e2371467090e57d4456ff4220cb56106534ff22a455abe5687',
 });
 const folder = 'data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading';
+const SPECIFICATION_PATH = 'data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json';
 const frozenFiles = Object.freeze({
   [`${folder}/fixtures/canonical.pdf`]: '3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30',
   [`${folder}/fixtures/boundary.pdf`]: '703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800',
@@ -21,7 +23,7 @@ const frozenFiles = Object.freeze({
   [`${folder}/reports/rendered-artifacts.json`]: '3697fe56e7c614e15d6f44fb12fee41383c4ed04196c346354d400eb20b1bed3',
   [`${folder}/participant-instructions.md`]: 'c6294b42fcb82670223e2812992b0e4f899fad818c4469c75e66b76f65ca8976',
   'scripts/build-census-v1-wy_fel_1502-set.mjs': '5ff1ae7b72ad6d52281c68fc18b7431ba5ca2a2c974aa67f6de3dc6880b5bf76',
-  'data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json': '97572a2e564a1ae4c4ca857a90af2c6536fdd68ae1ac3ed7a2766827e1557d2f',
+  [SPECIFICATION_PATH]: '97572a2e564a1ae4c4ca857a90af2c6536fdd68ae1ac3ed7a2766827e1557d2f',
   'data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json': '32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3',
 });
 
@@ -45,7 +47,32 @@ export function reconcileWyUnchangedTrack({ familyId, routeId, approvedBytes, cu
     requireProof(matches.length === 1 && JSON.stringify(track) === JSON.stringify(matches[0]), 'pre-existing track changed');
   }
   requireProof(after.tracks.filter(t => t.trackId === 'wy_traffick_6_2_708').length === 1, 'expected sibling addition absent');
-  for (const [path, sha256] of Object.entries(frozenFiles)) requireProof(hash(readBytes(path)) === sha256, `approved supporting bytes changed: ${path}`);
+  /*
+   * The frozen set is still exact, with one file allowed to move through a
+   * recorded reconciliation rather than not at all.
+   *
+   * The packet specification is in this list because a moved specification is,
+   * by default, moved legal content. But this family's specification moved for
+   * a reason that is neither: it had kept a description of an approved
+   * component and dropped its substance, and the repair transcribed the adopted
+   * words back in from this family's own build host. The approved artifacts --
+   * which are also in this list, and are still checked against their exact
+   * pins -- did not move at all.
+   *
+   * So the specification is admitted at the digest the derivation
+   * reconciliation proves, and at no other. With no reconciliation the frozen
+   * pin stands and this refuses exactly as before.
+   */
+  const reconciled = derivationReconciledSpecificationSha256({
+    familyId: c.familyId, routeId: c.routeId,
+    specificationPath: SPECIFICATION_PATH,
+    specificationBytes: readBytes(SPECIFICATION_PATH),
+    recordSpecificationSha256: frozenFiles[SPECIFICATION_PATH],
+    readBytes
+  });
+  const admitted = { ...frozenFiles };
+  if (reconciled) admitted[SPECIFICATION_PATH] = reconciled.specificationSha256;
+  for (const [path, sha256] of Object.entries(admitted)) requireProof(hash(readBytes(path)) === sha256, `approved supporting bytes changed: ${path}`);
   const auditPath = 'data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json';
   const audit = JSON.parse(readBytes(auditPath)).families.filter(r => r.familyId === familyId);
   requireProof(audit.length === 1 && hash(JSON.stringify(audit[0])) === '8daf694071c249b9c888e7083cf9e9a86de4493f65466db7b2ffeb7e6a8cb712', 'approved successor audit changed');
@@ -62,7 +89,8 @@ export function reconcileWyUnchangedTrack({ familyId, routeId, approvedBytes, cu
     currentMemo: { path: c.path, sha256: c.currentSha256 },
     selectedTrackSha256: c.selectedTrackSha256,
     delta: 'Only wy_traffick_6_2_708 added; all pre-existing tracks and shared memo properties unchanged.',
-    unchangedSupportingFiles: { ...frozenFiles },
+    unchangedSupportingFiles: { ...admitted },
+    specificationDerivationReconciliation: reconciled ?? null,
     successor: { auditPath, reviewPath, registryPath, lane: 'vf07', verifiedAtBase: 'aefd46f7c', evidenceRowSha256: '68ec092ccbeeed2b5c25fe87aaf03721cba07124e1295a560866b34e40a2d4db' },
     createsApproval: false, changesShippingArtifacts: false,
   };

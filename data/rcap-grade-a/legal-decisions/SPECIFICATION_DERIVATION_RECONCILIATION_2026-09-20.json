@@ -1,0 +1,304 @@
+{
+  "schemaVersion": "rcap-specification-derivation-reconciliation/v1",
+  "recordId": "SPEC-DERIVATION-RECONCILIATION-2026-09-20",
+  "generatedBy": "scripts/verify-specification-derivation-reconciliation.mjs",
+  "reconciledOn": "2026-09-20",
+  "createsApproval": false,
+  "changesApprovedArtifacts": false,
+  "approvesComposedOutput": false,
+  "opensAnyRoute": false,
+  "establishesProviderOrPublicationProof": false,
+  "rule": "A specification digest may be carried forward on the evidence that the owner-approved artifacts did not move and that the build host which produced them never reads the specification. This is evidence reconciliation, not a new owner decision. It carries forward a digest and nothing else: a route that delivers a packet composed FROM the specification still needs those exact composed bytes reviewed and approved, which this file does not do and must never be read as doing.",
+  "whatMoved": "Four reviewed commits on 2026-09-20 repaired a derivation defect the composer names in terms: the specifications had kept a DESCRIPTION of each approved component and dropped its substance, and the repair transcribed the adopted text back in from each family's census-v1 build host. The approved artifacts are byte-identical throughout.",
+  "families": [
+    {
+      "familyId": "dc_innocence_expungement-set",
+      "routeIds": [
+        "DC:dc_actual_innocence_expungement_16_803"
+      ],
+      "specificationPath": "data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json",
+      "priorSpecificationSha256": "a66e9b44315db4cfcbbb103630e210c3a43ffd4bfac6d2a8049bbe208b38d0c8",
+      "priorSpecificationCommit": "1061539c4",
+      "currentSpecificationSha256": "bd1bc2afac28741bd7638119e1350632561ce3e0a4eca3884f03336668657ca7",
+      "movedIn": [
+        {
+          "commit": "b45949177",
+          "date": "2026-09-20",
+          "subject": "Repair the District of Columbia derivation defect (3 of 8)"
+        },
+        {
+          "commit": "ab85fe519",
+          "date": "2026-09-19",
+          "subject": "GA-4.2 populate the contract from the canonical packet-set manifests"
+        },
+        {
+          "commit": "361225c94",
+          "date": "2026-09-19",
+          "subject": "GA-4.2 the full document contract, populated and enforced"
+        }
+      ],
+      "providerPaths": [
+        "scripts/build-census-v1-dc_innocence_expungement-set.mjs",
+        "scripts/build-census-v1-dc_seal_nonconviction-set.mjs"
+      ],
+      "buildHostReadsSpecification": false,
+      "buildHostNeedsMountedCorpus": true,
+      "approvedArtifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
+          "byteLength": 14157,
+          "pageCount": 5,
+          "bytesUnchanged": true
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d",
+          "byteLength": 14422,
+          "pageCount": 5,
+          "bytesUnchanged": true
+        }
+      ],
+      "priorSpecificationProducesAPacket": false,
+      "priorSpecificationRefusal": "Cannot compose the packet for DC:dc_actual_innocence_expungement_16_803: section \"Caption and motion\" is recorded as an approved_shipping_component, which describes an approved component rather than carrying its text. The approved substance is in this family's census-v1 build host and was dropped when the specification was derived; transcribe it into the specification. Refusing rather than inventi",
+      "currentSpecificationProducesAPacket": true,
+      "transcriptionFidelity": {
+        "measuredOver": "the composed participant packet's body blocks, excluding renderer-composed captions",
+        "substantiveSentences": 57,
+        "presentInApprovedArtifact": 57,
+        "regroupedButPresent": [],
+        "notFoundVerbatim": []
+      }
+    },
+    {
+      "familyId": "il-prostitution-j-vacate-set",
+      "routeIds": [
+        "IL:felony-prostitution-relief"
+      ],
+      "specificationPath": "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+      "priorSpecificationSha256": "50dfb8afa1ca0d434a9a9792ec5963299600ca291647d66343bacd96295028cb",
+      "priorSpecificationCommit": "3cc607dc0",
+      "currentSpecificationSha256": "aeb7ace411d0389259840df278cce4b4000dc90629e2c54cbbee0fa99c509688",
+      "movedIn": [
+        {
+          "commit": "c4296e0d0",
+          "date": "2026-09-20",
+          "subject": "GA-5-CAPTIONS bind every caption treatment to authority, and classify the marker once"
+        },
+        {
+          "commit": "305aa68ff",
+          "date": "2026-09-20",
+          "subject": "GA-5-CAPTIONS caption treatment is a component contract, not a presentation"
+        },
+        {
+          "commit": "ab85fe519",
+          "date": "2026-09-19",
+          "subject": "GA-4.2 populate the contract from the canonical packet-set manifests"
+        },
+        {
+          "commit": "361225c94",
+          "date": "2026-09-19",
+          "subject": "GA-4.2 the full document contract, populated and enforced"
+        }
+      ],
+      "providerPaths": [
+        "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs"
+      ],
+      "buildHostReadsSpecification": false,
+      "buildHostNeedsMountedCorpus": false,
+      "approvedArtifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+          "byteLength": 7895,
+          "pageCount": 3,
+          "bytesUnchanged": true
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e",
+          "byteLength": 8073,
+          "pageCount": 3,
+          "bytesUnchanged": true
+        }
+      ],
+      "priorSpecificationProducesAPacket": false,
+      "priorSpecificationRefusal": "Court-facing document primary_filing has no resolved caption treatment. Record whether it carries its own caption, is a supporting page filed with a captioned instrument, or takes its caption from an official form. Refusing rather than guessing one.",
+      "currentSpecificationProducesAPacket": true,
+      "transcriptionFidelity": {
+        "measuredOver": "the composed participant packet's body blocks, excluding renderer-composed captions",
+        "substantiveSentences": 16,
+        "presentInApprovedArtifact": 16,
+        "regroupedButPresent": [
+          {
+            "text": "(THE COUNTY OF THE CONVICTION - THE MOTION IS FILED WITH THE CIRCUIT COURT WITH JURISDICTION OVER THE UNDERLYING CONVICTION, THE CHIEF JUDGE OF THAT JUDICIAL CIRCUIT, OR A JUDGE DESIGNATED BY THE CHIEF JUDGE) CASE NO.",
+            "why": "the transcription carries two caption annotations in one paragraph; the approved artifact lays them out in different places on the sheet. Every segment is present in the approved bytes, so the words are the approved words and only the grouping differs."
+          }
+        ],
+        "notFoundVerbatim": []
+      }
+    },
+    {
+      "familyId": "ms-misd-addl-set",
+      "routeIds": [
+        "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+      ],
+      "specificationPath": "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
+      "priorSpecificationSha256": "e870e694b9170d5b136bb1a99c53bc56231e3161ad9ea4adf60927a984996064",
+      "priorSpecificationCommit": "1061539c4",
+      "currentSpecificationSha256": "737bcbb2edcc853f0e82a9c0867034934c2325543953ae11474a4900b6ad17ab",
+      "movedIn": [
+        {
+          "commit": "94f70f10a",
+          "date": "2026-09-20",
+          "subject": "Mississippi document purity, and the check that was missing it"
+        },
+        {
+          "commit": "f1f2324a8",
+          "date": "2026-09-20",
+          "subject": "Repair both Mississippi families (8 of 8)"
+        },
+        {
+          "commit": "ab85fe519",
+          "date": "2026-09-19",
+          "subject": "GA-4.2 populate the contract from the canonical packet-set manifests"
+        },
+        {
+          "commit": "361225c94",
+          "date": "2026-09-19",
+          "subject": "GA-4.2 the full document contract, populated and enforced"
+        }
+      ],
+      "providerPaths": [
+        "scripts/build-census-v1-ms-misd-addl-set.mjs"
+      ],
+      "buildHostReadsSpecification": false,
+      "buildHostNeedsMountedCorpus": false,
+      "approvedArtifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
+          "byteLength": 20886,
+          "pageCount": 7,
+          "bytesUnchanged": true
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "61c429c2135a6b3b79de26adea8eb6f6ed1288aaf21c0a604dd656c431848c84",
+          "byteLength": 21205,
+          "pageCount": 7,
+          "bytesUnchanged": true
+        }
+      ],
+      "priorSpecificationProducesAPacket": false,
+      "priorSpecificationRefusal": "Cannot compose the packet for MS:additional-justice-court-misdemeanor-relief-9-11-15-3: section \"Selected lower-court caption and petition\" is recorded as an approved_shipping_component, which describes an approved component rather than carrying its text. The approved substance is in this family's census-v1 build host and was dropped when the specification was derived; transcribe it into the speci",
+      "currentSpecificationProducesAPacket": true,
+      "transcriptionFidelity": {
+        "measuredOver": "the composed participant packet's body blocks, excluding renderer-composed captions",
+        "substantiveSentences": 67,
+        "presentInApprovedArtifact": 66,
+        "regroupedButPresent": [],
+        "notFoundVerbatim": [
+          {
+            "text": "EACH CONVICTION, COPIED FROM THE CERTIFIED JUDGMENTS",
+            "classification": "structural_label",
+            "why": "a document title, section heading or field label; the specification and the build host each print it their own way"
+          }
+        ]
+      }
+    },
+    {
+      "familyId": "wy_fel_1502-set",
+      "routeIds": [
+        "WY:felony-conviction-expungement-w-s-7-13-1502"
+      ],
+      "specificationPath": "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json",
+      "priorSpecificationSha256": "97572a2e564a1ae4c4ca857a90af2c6536fdd68ae1ac3ed7a2766827e1557d2f",
+      "priorSpecificationCommit": "1061539c4",
+      "currentSpecificationSha256": "c057a748a753f7adc6d7e136ea98708aa00c8bb75bc37a08475e62e7a6cb4e38",
+      "movedIn": [
+        {
+          "commit": "94f70f10a",
+          "date": "2026-09-20",
+          "subject": "Mississippi document purity, and the check that was missing it"
+        },
+        {
+          "commit": "fe96162b8",
+          "date": "2026-09-20",
+          "subject": "Select the filing subset from the document contract, not from appearance"
+        },
+        {
+          "commit": "afab00bc1",
+          "date": "2026-09-20",
+          "subject": "Stop the sample participant's name reaching real packets"
+        },
+        {
+          "commit": "3d9712a74",
+          "date": "2026-09-20",
+          "subject": "GA-5-WY separate ownership from presentation, and open the §7 guide lane"
+        },
+        {
+          "commit": "380ce3e28",
+          "date": "2026-09-20",
+          "subject": "GA-5-WY repair the Wyoming 7-13-1502 derivation, first of eight families"
+        },
+        {
+          "commit": "ab85fe519",
+          "date": "2026-09-19",
+          "subject": "GA-4.2 populate the contract from the canonical packet-set manifests"
+        },
+        {
+          "commit": "361225c94",
+          "date": "2026-09-19",
+          "subject": "GA-4.2 the full document contract, populated and enforced"
+        }
+      ],
+      "providerPaths": [
+        "scripts/build-census-v1-wy_fel_1502-set.mjs"
+      ],
+      "buildHostReadsSpecification": false,
+      "buildHostNeedsMountedCorpus": false,
+      "approvedArtifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+          "byteLength": 21843,
+          "pageCount": 8,
+          "bytesUnchanged": true
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800",
+          "byteLength": 22165,
+          "pageCount": 8,
+          "bytesUnchanged": true
+        }
+      ],
+      "priorSpecificationProducesAPacket": false,
+      "priorSpecificationRefusal": "Cannot compose the packet for WY:felony-conviction-expungement-w-s-7-13-1502: section \"Convicting-court caption, record facts, participant allegations, and request\" is recorded as an approved_shipping_component, which describes an approved component rather than carrying its text. The approved substance is in this family's census-v1 build host and was dropped when the specification was derived; tra",
+      "currentSpecificationProducesAPacket": true,
+      "transcriptionFidelity": {
+        "measuredOver": "the composed participant packet's body blocks, excluding renderer-composed captions",
+        "substantiveSentences": 87,
+        "presentInApprovedArtifact": 86,
+        "regroupedButPresent": [],
+        "notFoundVerbatim": [
+          {
+            "text": "FILING FEE, SERVICE, OBJECTION PERIOD, LOCAL PRACTICE, AND SELF-HELP STOPS",
+            "classification": "structural_label",
+            "why": "a document title, section heading or field label; the specification and the build host each print it their own way"
+          }
+        ]
+      }
+    }
+  ]
+}

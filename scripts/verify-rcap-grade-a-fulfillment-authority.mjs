@@ -2,6 +2,7 @@
 import { loadIlArtifactApproval, loadMsArtifactApproval } from "./lib/owner-artifact-approval.mjs";
 import { artifactSuccessorInputs, createArtifactSuccessor, SUCCESSOR_FAMILIES, MS_SUCCESSOR_VERIFICATION } from "./lib/artifact-approval-successor.mjs";
 import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-track-authority.mjs';
+import { reconciledSpecificationDigests } from './lib/specification-derivation-reconciliation.mjs';
 // GRADE-A FULFILLMENT AUTHORITY — acceptance gate.
 //
 //   node scripts/verify-rcap-grade-a-fulfillment-authority.mjs
@@ -237,7 +238,33 @@ const IL_EXISTING_V2_EXPECTED = {
 
 // Historical pins above remain immutable. Only an independently validated new
 // owner decision can select successor pins; absence or changed bytes throws.
-const EXACT_PRODUCTIZED_EXPECTED = [...FIRST_COHORT_EXPECTED, IL_EXISTING_V2_EXPECTED].map(expected => {
+/*
+ * The specification digest each route is admitted at.
+ *
+ * The literals in the tables above are the digests as they stood when each
+ * route was productized. Where a specification has since moved through the
+ * recorded derivation reconciliation -- the repair that transcribed each
+ * family's already-adopted words back into a specification that had kept only
+ * a description of them -- the admitted digest is the one that reconciliation
+ * proves, read from it here.
+ *
+ * This is not the same as writing the current digest into the table. The
+ * reconciliation is pinned by its own bytes and re-proves, every run, that the
+ * approved artifacts did not move, that the build host reads no specification,
+ * and that the prior specification could produce no packet at all. A digest
+ * that no reconciliation covers still fails against the literal, which is what
+ * a real specification change should do.
+ */
+const RECONCILED_SPECIFICATIONS = reconciledSpecificationDigests(
+  rel => fs.readFileSync(path.join(rootDir, rel)));
+
+const EXACT_PRODUCTIZED_EXPECTED = [...FIRST_COHORT_EXPECTED, IL_EXISTING_V2_EXPECTED].map(original => {
+  const reconciled = RECONCILED_SPECIFICATIONS.get(original.routeId) ?? null;
+  const expected = reconciled && reconciled.specificationPath === original.specificationPath
+    && reconciled.priorSpecificationSha256 === original.specificationSha256
+    ? { ...original, specificationSha256: reconciled.currentSpecificationSha256,
+        specificationDerivationReconciled: true }
+    : original;
   if (!SUCCESSOR_FAMILIES.includes(expected.familyId)) return expected;
   const read = rel => fs.readFileSync(path.join(rootDir, rel));
   const approval = expected.familyId === 'ms-misd-addl-set' ? loadMsArtifactApproval(read) : loadIlArtifactApproval(read);
