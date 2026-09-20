@@ -352,17 +352,25 @@ const REGENERATION_BRIDGE = {
     proven: true,
     detail: "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs regenerated in place; both fixtures came back byte-identical and the canonical digest d74ec3c175844dbe… is the one the adoption pins. Only build metadata moved, because the run used --no-raster, and it was restored."
   },
+  /*
+   * These three were recorded as unregenerable because their hosts assert the
+   * Master Library corpus, and the corpus is not at the path they default to.
+   * That was read as the GA-8-22E1 external blocker. It is not: the hosts take
+   * MASTER_LIBRARY_SOURCE_DIR, and the corpus is readable in this environment,
+   * so all three regenerate and route A is available after all. "Blocked on a
+   * mount" and "blocked on a default path" are not the same sentence.
+   */
   "DC:dc_actual_innocence_expungement_16_803": {
-    proven: false,
-    detail: "cannot be regenerated in this environment: the build host asserts the Master Library corpus is mounted at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, which is the existing GA-8-22E1 external blocker. Use route B, or regenerate once the corpus is mounted."
+    proven: true,
+    detail: "scripts/build-census-v1-dc_innocence_expungement-set.mjs regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library; the canonical fixture still hashes to the digest OWNER_BATCH_ADOPTION_2026-09-02 pins and the working tree came back clean. The host is therefore the source that produced the adopted bytes."
   },
   "GA:restriction-and-sealing-of-a-pardoned-felony": {
-    proven: false,
-    detail: "same corpus assertion, via scripts/build-census-v1-ga-host.mjs. Use route B, or regenerate once the corpus is mounted."
+    proven: true,
+    detail: "scripts/build-census-v1-ga-host.mjs ga-pardon-j7-set --no-raster regenerated with the Master Library pointed at; both the canonical and boundary fixtures came back at the digests the adoption pins. Only build metadata moved, and it was restored."
   },
   "GA:sb-288-misdemeanor-conviction-restriction-and-sealing": {
-    proven: false,
-    detail: "same corpus assertion, via scripts/build-census-v1-ga-host.mjs. Use route B, or regenerate once the corpus is mounted."
+    proven: true,
+    detail: "scripts/build-census-v1-ga-host.mjs ga-seal-m-set --no-raster regenerated the same way; both fixtures came back at the adopted digests. Only build metadata moved, and it was restored."
   }
 };
 
