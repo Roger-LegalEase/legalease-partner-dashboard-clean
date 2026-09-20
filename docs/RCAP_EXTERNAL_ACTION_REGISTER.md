@@ -148,11 +148,40 @@ already stale and the route already refused, making the specification change now
 costs nothing that is not already owed, and it turns two owner decisions into
 one.
 
-## Item 11B — OPEN — hosted `full` acceptance is blocked by a control pinned to a freeze 600 commits old
+## Item 11B — RESOLVED 2026-09-20 — the hosted acceptance freeze is `117b469c4`
 
-| # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
-|---|------|-------|----------------|-------------------|--------------------|
-| 11B | Decide how `verify-rcap-hosted-checkout-gate.mjs` regains a truthful freeze, given that re-pinning `RELEASE_CONTROL_BASE_SHA` to the candidate would make its own question vacuous | Roger | Before hosted `full` or `checkout_gate` acceptance is expected to pass | The three failing checks, reproduced at `95913fd49`; the verifier's pinned constants; and whatever re-pin or restatement is decided | Two of the three checks exist to prove the candidate has **not** drifted from a frozen baseline. Choosing the new baseline decides what "has not drifted" means, and a build that picks its own baseline is not being checked by it |
+| # | Item | Owner | Decided | Evidence | Why it was external |
+|---|------|-------|---------|----------|---------------------|
+| 11B | Decide how `verify-rcap-hosted-checkout-gate.mjs` regains a truthful freeze, given that re-pinning `RELEASE_CONTROL_BASE_SHA` to the candidate would make its own question vacuous | Roger | 2026-09-20 — freeze at `117b469c453a403fbd217f1c441a08c7c68f6b3a` | 95/95 checks pass, and a one-line edit to a canonical worker input still fails both frozen-input checks | Two of the three checks exist to prove the candidate has **not** drifted from a frozen baseline. Choosing the new baseline decides what "has not drifted" means, and a build that picks its own baseline is not being checked by it |
+
+**The decision.** The freeze is `117b469c4` — the exact tree the accepted
+worker was built from. Publication run 35538783807 records that source SHA, and
+its Dockerfile and lockfile digests were reproduced from that tree before the
+image was bound. The accepted tuple is therefore:
+
+| | |
+|---|---|
+| frozen application / worker baseline | `117b469c453a403fbd217f1c441a08c7c68f6b3a` |
+| accepted worker digest | `sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f` |
+
+**Why this is not tautological.** Acceptance runs from a *later* commit —
+`09bcf84f1` and onward carry publication evidence, pins and register text — so
+the verifier is still asking a real question: has anything canonical moved
+since `117b469c4`? Pointing the freeze at `09bcf84f1`, `884ad51d0` or a moving
+branch tip is what would have made it compare the candidate with itself.
+
+**The rebind reached three places, not one.** The same accepted tuple was
+recorded in `verify-rcap-hosted-checkout-gate.mjs`, in the gate it verifies
+(`scripts/rcap-hosted-checkout-gate.mjs`), and in the entry workflow
+(`rcap-f1-ephemeral-staging.yml`) — and the verifier refuses unless all three
+agree, which is how the second and third were found. The superseded
+`4e16d6d8e` / `c88f10341` / `sha256:df6c2965…` tuple is preserved in comments
+as history and governs nothing.
+
+**Proven to still bite.** Appending one line to
+`src/lib/rcap/fulfillment/paid-consumer-successor.ts` — a canonical worker
+input — fails both frozen-input checks; restoring it returns them to green. The
+checks pass because nothing canonical moved, not because they stopped asking.
 
 **Measured, not inferred.** Hosted acceptance ran cleanly through preflight and
 the acceptance-project migration against the newly published image, then

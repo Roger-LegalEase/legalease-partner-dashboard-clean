@@ -50,7 +50,10 @@ const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
 const EXPECTED_RETURN_ORIGIN = applicationShaExact ? expectedHostedReturnOrigin(APPLICATION_SHA) : "";
 const EXPECTED_RETURN_HOST = EXPECTED_RETURN_ORIGIN ? new URL(EXPECTED_RETURN_ORIGIN).host : "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const EXPECTED_WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06";
+// Rebound again on 2026-09-20 to the image published from 117b469c4 by run
+// 35538783807, which is the worker the six approved routes are open on. The
+// superseded sha256:df6c2965… is history, not authority.
+const EXPECTED_WORKER_DIGEST = "sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const PA_PATHWAY = "Path A — Non-conviction expungement";
 const EXPECTED_EVENTS = [

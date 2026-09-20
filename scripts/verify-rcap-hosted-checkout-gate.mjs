@@ -35,16 +35,37 @@ function includesEvery(text, values, label) {
 // read-only (run 35027988039). The checked-out tools commit may not change
 // the application's frozen inputs relative to that candidate, nor the
 // worker's canonical inputs relative to the published worker source.
-// The successor application and the worker it was accepted against are two
-// different commits here, and deliberately so: the image is built from
-// 35d337550, and the application SHA is the later commit 0fee79bd1 in which
-// the publication evidence and every route observation finally name that
-// image. The two are image-input-equivalent — nothing between them touches a
-// canonical worker input — which is what lets one application pin a digest
-// built from an earlier tree without the digest becoming a fiction.
-const RELEASE_CONTROL_BASE_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
-const ACCEPTED_WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
-const ACCEPTED_WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06";
+/*
+ * The immutable release freeze the candidate is measured against.
+ *
+ * All three name the SAME commit now, because the current accepted worker was
+ * built from exactly that tree: publication run 35538783807 recorded
+ * sourceSha 117b469c4, and the Dockerfile and lockfile digests in its artifact
+ * were reproduced from that tree before anything was bound to the image.
+ *
+ * WHY THIS IS NOT THE BRANCH TIP, AND MUST NEVER BE
+ *
+ * Two of the checks below ask whether the candidate being exercised has
+ * changed a frozen application or worker input since the freeze. Point the
+ * freeze at the tip and they compare the candidate with itself: both go green
+ * while asking nothing, which is worse than deleting them, because a green
+ * check is read as an answer. Acceptance legitimately runs from a LATER commit
+ * than the freeze -- 09bcf84f1 and after carry publication evidence, pins and
+ * register text -- and the question "has anything canonical moved since
+ * 117b469c4" is exactly what makes pinning that earlier digest honest.
+ *
+ * So this is updated only when a new worker image is published and bound, and
+ * only to the source SHA that image was actually built from.
+ *
+ * Superseded, and kept here as history rather than as authority: the
+ * 4e16d6d8e / c88f10341 / sha256:df6c2965… tuple, which by 2026-09-20 was 599
+ * and 601 commits behind the candidate with a digest three publications old.
+ * It had been failing this file since long before the Mississippi owner
+ * decision; it governs nothing now.
+ */
+const RELEASE_CONTROL_BASE_SHA = "117b469c453a403fbd217f1c441a08c7c68f6b3a";
+const ACCEPTED_WORKER_SOURCE_SHA = "117b469c453a403fbd217f1c441a08c7c68f6b3a";
+const ACCEPTED_WORKER_DIGEST = "sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f";
 
 includesEvery(gate, [
   "applicationShaExact",

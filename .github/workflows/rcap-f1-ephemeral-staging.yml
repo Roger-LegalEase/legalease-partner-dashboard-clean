@@ -89,8 +89,11 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  AUTHORIZED_WORKER_SOURCE_SHA: c88f10341fec848b3f6f4dec9fc3381e6eea0530
-  AUTHORIZED_WORKER_DIGEST: sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06
+  # The accepted worker tuple, rebound 2026-09-20 to the image published from
+  # 117b469c4 by run 35538783807. Superseded: c88f10341 / sha256:df6c2965…,
+  # which was 601 commits and three publications behind the candidate.
+  AUTHORIZED_WORKER_SOURCE_SHA: 117b469c453a403fbd217f1c441a08c7c68f6b3a
+  AUTHORIZED_WORKER_DIGEST: sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
