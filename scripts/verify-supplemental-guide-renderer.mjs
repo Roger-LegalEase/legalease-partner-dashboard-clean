@@ -32,7 +32,7 @@ const guideRenderer = await import("../src/lib/rcap/supplemental/guide-renderer.
 const { renderSupplementalGuidePdf, guideBelongsInPacket, guideStopConditions, guideDocuments,
   assemblePacketWithGuide } = guideRenderer;
 const { composeGradeAPacket } = await import("../src/lib/rcap/grade-a/composer.ts");
-const { renderGradeAPacketPdf } = await import("../src/lib/rcap/grade-a/renderer.ts");
+const { renderGradeAPacketPdf, packetFilingDocuments } = await import("../src/lib/rcap/grade-a/renderer.ts");
 const { packetSpecificationFor } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
 
 const failures = [];
@@ -82,12 +82,44 @@ function wordsPastMargin(pdf) {
   } finally { fs.rmSync(file, { force: true }); }
 }
 
+
+/**
+ * The text a composed document is identified by in the rendered PDF.
+ *
+ * A pleading prints its caption's documentTitle, which is the adopted page's
+ * own heading and is often not the component's catalogue `title` -- Wyoming's
+ * proposed order is titled "Proposed Order for Expungement" in the
+ * specification and prints "ORDER FOR EXPUNGEMENT", because that is what the
+ * adopted page says. Matching on the catalogue title reported it missing from
+ * a packet it was in.
+ */
+function drawnHeading(entry) {
+  for (const block of entry.blocks ?? []) {
+    if (block.kind !== "pleading_caption") continue;
+    if (typeof block.title === "string" && block.title.trim()) return block.title.trim();
+  }
+  return entry.title;
+}
+
 for (const guide of guides) {
   const where = guide.routeKey;
   const specification = packetSpecificationFor(where);
   const stops = guideStopConditions(specification);
 
-  const documents = guideDocuments(specification);
+  // The checklist lists what THIS MATTER ships, so the table is built from a
+  // composed packet rather than from the specification's catalogue.
+  const sampleFacts = { participant_full_legal_name: "Marisol Okonkwo-Baptiste",
+    date_of_birth: "1984-11-02", mailing_address: "9 Larkspur Row, Cheyenne, WY 82001",
+    phone_number: "307-555-0188", email_address: "m.okonkwo@example.test" };
+  for (const required of specification.requiredFacts ?? []) {
+    if (!sampleFacts[required.factId]) {
+      sampleFacts[required.factId] = /date/i.test(required.factId) ? "2019-03-14" : `${required.factId.replace(/_/g, " ")} value`;
+    }
+  }
+  const samplePacket = composeGradeAPacket(specification, {
+    routeKey: where, verificationHash: "guide-table-0001", facts: sampleFacts
+  }, {});
+  const documents = guideDocuments(samplePacket);
   const matter = {
     preparedFor: "Marisol Okonkwo-Baptiste",
     preparedOn: "March 14, 2026",
@@ -213,11 +245,19 @@ check(guideBelongsInPacket("full") === true && guideBelongsInPacket("court_only"
   "the full packet carries the guide and the court-only packet does not");
 
 /*
- * ASSEMBLY, which is the behaviour a participant actually receives.
+ * ASSEMBLY, proven by WHICH DOCUMENTS SHIPPED.
  *
- * A court-only packet must SUCCEED with zero guide pages. The standalone guide
- * renderer refusing a court-only request is correct -- there is no such
- * document -- but that refusal must never become a court-only packet failure.
+ * The previous version of this named the output of renderGradeAPacketPdf
+ * "courtFacing" and checked the assembled pages for the absence of the guide's
+ * banner. Neither held. That renderer draws EVERY composed document and appends
+ * an "About this packet" provenance page, so the variable was a full packet
+ * under a court-only name -- and legacy participant guidance does not acquire a
+ * DO NOT FILE banner merely by being non-filing material, so its absence proved
+ * nothing about what was in there.
+ *
+ * The selection is the §4.2 contract's `courtFacing`, derived from each
+ * component's instrumentClass. Never presentation, never a filename, never a
+ * banner.
  */
 {
   const guide = guides.find((candidate) => candidate.routeKey.startsWith("WY:"));
@@ -237,37 +277,114 @@ check(guideBelongsInPacket("full") === true && guideBelongsInPacket("court_only"
   const packet = composeGradeAPacket(specification, {
     routeKey: guide.routeKey, verificationHash: "assembly-proof-0001", facts
   }, {});
-  const courtFacing = await renderGradeAPacketPdf(packet);
-  const courtPages = pagesOf(courtFacing).length;
-  check(courtPages > 0, `court-facing material renders on its own (${courtPages} pages)`);
+
+  const filing = packetFilingDocuments(packet);
+  const participantOnly = packet.documents.filter((d) => !d.courtFacing);
+  check(filing.length > 0, `the route composes court-facing documents (${filing.length} of ${packet.documents.length})`);
+  check(
+    participantOnly.length > 0,
+    `and participant-facing ones that must stay out of a court-only download (${participantOnly.map((d) => d.documentId).join(", ")})`
+  );
 
   const options = {
     stops: guideStopConditions(specification),
-    documents: guideDocuments(specification),
+    documents: guideDocuments(packet),
     matter: { preparedFor: facts.participant_full_legal_name, packetId: "PKT-ASSEMBLY-1" }
   };
 
-  const courtOnly = await assemblePacketWithGuide(courtFacing, guide, { ...options, variant: "court_only" });
-  const courtOnlyPages = pagesOf(courtOnly);
+  // 1. Court-only: the filing documents, and nothing addressed to the participant.
+  const courtRender = await renderGradeAPacketPdf(packet, { variant: "court_only" });
+  const courtOnly = await assemblePacketWithGuide(courtRender, guide, { ...options, variant: "court_only" });
+  const courtText = pagesOf(courtOnly).join("\n");
+
+  const missingFiling = filing.filter((d) => !courtText.includes(drawnHeading(d).slice(0, 28)));
   check(
-    courtOnlyPages.length === courtPages,
-    `a court-only packet assembles successfully with ZERO guide pages (${courtOnlyPages.length} = ${courtPages})`
+    missingFiling.length === 0,
+    `court-only carries every filing document${missingFiling.length ? `; missing ${missingFiling[0].documentId}` : ` (${filing.map((d) => d.documentId).join(", ")})`}`
   );
+  const strayGuidance = participantOnly.filter((d) => courtText.includes(drawnHeading(d).slice(0, 28)));
   check(
-    courtOnlyPages.every((page) => !page.includes(BANNER)),
-    "and carries the DO NOT FILE banner on none of them"
+    strayGuidance.length === 0,
+    `court-only carries NO participant guidance${strayGuidance.length ? `; found ${strayGuidance[0].documentId}` : ""}`
+  );
+  check(!courtText.includes("About this packet"), "court-only carries no internal provenance appendix");
+  check(!courtText.includes(BANNER), "court-only carries no supplemental pages");
+
+  // 2. Full: the guide, the same filing documents, and no duplicated guidance.
+  const fullRender = await renderGradeAPacketPdf(packet, { variant: "full" });
+  const full = await assemblePacketWithGuide(fullRender, guide, { ...options, variant: "full" });
+  const fullPages = pagesOf(full);
+  const fullText = fullPages.join("\n");
+  const missingInFull = filing.filter((d) => !fullText.includes(drawnHeading(d).slice(0, 28)));
+  check(missingInFull.length === 0, "a full packet carries the same filing documents");
+  check(fullText.includes("Your record-clearing packet"), "and carries the guide");
+  /*
+   * The banner belongs to the leading guide pages and to none of the court
+   * pages. It cannot be tested by looking for filing-document titles on
+   * bannered pages: the guide's own DOCUMENT CHECK table lists every filing
+   * document by name, on a page that correctly carries the banner. Position is
+   * the honest test -- the guide leads, the court material follows unchanged.
+   */
+  const courtPageCount = pagesOf(fullRender).length;
+  const guidePageCount = fullPages.length - courtPageCount;
+  check(
+    guidePageCount > 0
+    && fullPages.slice(0, guidePageCount).every((page) => page.includes(BANNER))
+    && fullPages.slice(guidePageCount).every((page) => !page.includes(BANNER)),
+    `the banner is on all ${guidePageCount} leading guide pages and on none of the ${courtPageCount} court pages`
   );
 
-  const full = await assemblePacketWithGuide(courtFacing, guide, { ...options, variant: "full" });
-  const fullPages = pagesOf(full);
+  /*
+   * The legacy filing-instructions component is deliberately still composed
+   * while the guide's replacement coverage is being proven. That is retention
+   * in source; it is not a licence to ship both sets of instructions to a
+   * participant who is reading the new guide. Counted, not assumed.
+   */
+  const legacy = participantOnly.find((d) => /instruction/i.test(d.documentId));
+  if (legacy) {
+    const occurrences = fullPages.filter((page) => page.includes(drawnHeading(legacy).slice(0, 28))).length;
+    check(occurrences <= 1, `the legacy guidance page is not duplicated in a full packet (${occurrences})`);
+  }
+
+  // 3. A conditional document and its checklist entry agree with the branch.
+  {
+    const sd = packetSpecificationFor("SD:suspended-imposition-of-sentence-sealing");
+    const sdFacts = { participant_full_legal_name: "Tobias Fenwick Ashgrove" };
+    for (const required of sd.requiredFacts ?? []) {
+      if (!sdFacts[required.factId]) sdFacts[required.factId] = `${required.factId.replace(/_/g, " ")} value`;
+    }
+    const make = (spec) => composeGradeAPacket(spec, {
+      routeKey: sd.routeKey, verificationHash: "branch-agreement-0001", facts: sdFacts
+    }, {});
+
+    const notSelected = make(sd);
+    const selectedSpec = structuredClone(sd);
+    selectedSpec.documents.find((d) => d.documentId === "enforcement_motion").requirement = "required";
+    const selected = make(selectedSpec);
+
+    const idsIn = (p) => guideDocuments(p).map((d) => d.documentId);
+    check(
+      !idsIn(notSelected).includes("enforcement_motion") && !packetFilingDocuments(notSelected).some((d) => d.documentId === "enforcement_motion"),
+      "on the branch that omits the escalation motion, neither the packet nor the checklist lists it"
+    );
+    check(
+      idsIn(selected).includes("enforcement_motion") && packetFilingDocuments(selected).some((d) => d.documentId === "enforcement_motion"),
+      "on the branch that selects it, both the packet and the checklist list it"
+    );
+    check(
+      idsIn(notSelected).length + 1 === idsIn(selected).length,
+      "the checklist tracks the selected set exactly, not the specification's catalogue"
+    );
+  }
+
+  // 4. Missing guide data cannot pass as a complete full packet.
+  let incomplete = null;
+  try {
+    await assemblePacketWithGuide(fullRender, null, { ...options, variant: "full", routeKey: guide.routeKey });
+  } catch (error) { incomplete = error; }
   check(
-    fullPages.length > courtPages,
-    `a full packet carries the guide as well as the court material (${fullPages.length} > ${courtPages})`
-  );
-  check(
-    fullPages.slice(0, fullPages.length - courtPages).every((page) => page.includes(BANNER))
-    && fullPages.slice(fullPages.length - courtPages).every((page) => !page.includes(BANNER)),
-    "the guide pages lead, the court pages follow, and only the guide pages carry the banner"
+    incomplete !== null && /incomplete data, not a court-only packet/.test(incomplete.message),
+    "a full packet with missing guide data is reported incomplete, not silently returned as court material"
   );
 }
 
@@ -305,7 +422,14 @@ check(guideBelongsInPacket("full") === true && guideBelongsInPacket("court_only"
  * file the document they must file is worse than not telling them anything, so
  * the document renderer must not know this string at all.
  */
-const documentRenderer = fs.readFileSync(path.join(rootDir, "src/lib/rcap/grade-a/renderer.ts"), "utf8");
+/*
+ * The document renderer never DRAWS the banner. Comments are stripped before
+ * looking: the file explains why the banner is not its business, and a scan
+ * that cannot tell an explanation from an instruction reds on the explanation.
+ */
+const documentRenderer = fs.readFileSync(path.join(rootDir, "src/lib/rcap/grade-a/renderer.ts"), "utf8")
+  .replace(/\/\*[\s\S]*?\*\//g, "")
+  .split("\n").filter((line) => !line.trimStart().startsWith("//")).join("\n");
 check(
   !documentRenderer.includes(BANNER) && !/DO NOT FILE/.test(documentRenderer),
   "the Grade-A document renderer never draws the DO NOT FILE banner -- it belongs to guide pages only"

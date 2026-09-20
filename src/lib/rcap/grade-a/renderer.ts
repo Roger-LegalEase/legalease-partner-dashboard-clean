@@ -63,9 +63,50 @@ const MS_REVISION_GUIDANCE_LAYOUT: GuidanceLayout = {
   keepBlocksTogether: true
 };
 
-export async function renderGradeAPacketPdf(packet: GradeAPacket): Promise<Buffer> {
+/**
+ * What a packet is, for a given download.
+ *
+ * `full` is everything the packet composes. `court_only` is the subset the
+ * participant hands the clerk.
+ */
+export type PacketVariant = "full" | "court_only";
+
+export type RenderPacketOptions = { variant?: PacketVariant };
+
+/**
+ * The filing subset, selected from the §4.2 document contract.
+ *
+ * `courtFacing` is derived by `isCourtFacing` from the component's
+ * `instrumentClass` -- a participant filing, a proposed order, a certificate of
+ * service, an attachment. It is NOT read from `presentation`, from a filename,
+ * or from whether a page happens to carry a banner. Those are appearances; this
+ * is what the component is for and who receives it.
+ *
+ * This matters because the alternative is silently wrong. A legacy filing-
+ * instructions component and the provenance appendix are both participant
+ * material, both carry no DO NOT FILE banner, and both would ride into a
+ * court-only download unnoticed by any test that only counts pages or looks for
+ * a banner.
+ */
+export function packetFilingDocuments(packet: GradeAPacket): GradeADocument[] {
+  return packet.documents.filter((entry) => entry.courtFacing);
+}
+
+export async function renderGradeAPacketPdf(
+  packet: GradeAPacket,
+  options: RenderPacketOptions = {}
+): Promise<Buffer> {
   if (packet.documents.length === 0) {
     throw new Error("Refusing to render an empty packet. A zero-document PDF is a receipt, not a filing packet.");
+  }
+  const variant = options.variant ?? "full";
+  const selected = variant === "court_only" ? packetFilingDocuments(packet) : packet.documents;
+  if (selected.length === 0) {
+    throw new Error(
+      `Refusing to render a court-only packet for ${packet.routeKey} with no court-facing documents. `
+      + `The route composes ${packet.documents.length} document(s) and the §4.2 contract marks none of them as `
+      + `going to a court or agency, so there is nothing to file. That is a specification defect, not an empty download.`
+    );
   }
 
   const document = await PDFDocument.create();
@@ -92,7 +133,7 @@ export async function renderGradeAPacketPdf(packet: GradeAPacket): Promise<Buffe
     bold: await document.embedFont(StandardFonts.HelveticaBold)
   };
 
-  const ordered = [...packet.documents].sort((left, right) => left.order - right.order);
+  const ordered = [...selected].sort((left, right) => left.order - right.order);
   const hasPleading = ordered.some((entry) => entry.presentation === "pleading");
   const pleadingFonts: PleadingFonts | null = hasPleading
     ? {
@@ -119,7 +160,12 @@ export async function renderGradeAPacketPdf(packet: GradeAPacket): Promise<Buffe
     }
   });
 
-  drawProvenanceFooter(cursor, document, fonts, packet, guidanceLayout);
+  /*
+   * The provenance appendix is participant material: it explains what the
+   * packet was built from, for someone coming back with a question. It is not
+   * filed, so a court-only download does not carry it.
+   */
+  if (variant === "full") drawProvenanceFooter(cursor, document, fonts, packet, guidanceLayout);
 
   const bytes = await document.save({ useObjectStreams: false });
   return Buffer.from(bytes);

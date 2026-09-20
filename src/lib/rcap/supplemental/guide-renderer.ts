@@ -692,12 +692,26 @@ export function guideStopConditions(
   return specification.hearingAndObjectionStops ?? [];
 }
 
-/** Court-facing components of a specification, for the checklist's document table. */
+/**
+ * The documents the checklist lists: the ones THIS MATTER actually ships.
+ *
+ * It takes the composed packet, not the specification. A specification is a
+ * catalogue of everything a route can produce, including conditionals the
+ * matter did not select -- South Dakota's escalation motion is the live
+ * example. Reading the catalogue would print a checklist row for a document
+ * that is not in the participant's hands, which is worse than omitting it:
+ * they would go looking for it, or file believing something is missing.
+ *
+ * Selection is the §4.2 contract's `courtFacing`, the same predicate the
+ * court-only download uses, so the packet and its checklist cannot disagree.
+ * Records the participant must obtain elsewhere are not documents this packet
+ * contains and belong in the filing checklist as tasks, not here.
+ */
 export function guideDocuments(
-  specification: { documents?: ReadonlyArray<{ documentId: string; title?: string; presentation?: string }> }
+  packet: { documents?: ReadonlyArray<{ documentId: string; title?: string; courtFacing?: boolean }> }
 ): ReadonlyArray<GuideDocument> {
-  return (specification.documents ?? [])
-    .filter((document) => document.presentation !== "guidance")
+  return (packet.documents ?? [])
+    .filter((document) => document.courtFacing === true)
     .map((document) => ({ documentId: document.documentId, title: document.title ?? document.documentId }));
 }
 
@@ -722,21 +736,39 @@ export function guideDocuments(
 export async function assemblePacketWithGuide(
   courtFacingPdf: Buffer | Uint8Array,
   guide: SupplementalGuide | null,
-  options: GuideRenderOptions = {}
+  options: GuideRenderOptions & { routeKey?: string } = {}
 ): Promise<Buffer> {
   const variant = options.variant ?? "full";
-  const document = await PDFDocument.create();
 
+  /*
+   * A full packet without its guide is not a full packet.
+   *
+   * The earlier version took `guide: null` and simply skipped drawing, and the
+   * completeness assertion also skipped because it required a guide to be
+   * present. A route whose guide data failed to load therefore returned court
+   * material under a full-packet request -- the participant would have received
+   * a download missing the pages that tell them where to file, with nothing
+   * anywhere reporting it. Missing guide data is incomplete, not court-only.
+   */
+  if (variant === "full" && !guide) {
+    throw new SupplementalGuideRenderError(options.routeKey ?? "unknown route",
+      "a full packet was requested and no guide data was supplied. A full packet is the guide plus the "
+      + "court-facing material, so this is incomplete data, not a court-only packet. Assemble a court-only "
+      + "packet deliberately, or supply the route's guide.");
+  }
+
+  const document = await PDFDocument.create();
   if (guide && guideBelongsInPacket(variant)) {
     await drawSupplementalGuide(document, guide, options);
   }
+  const guidePages = document.getPageCount();
 
   const courtFacing = await PDFDocument.load(courtFacingPdf);
   const copied = await document.copyPages(courtFacing, courtFacing.getPageIndices());
   for (const page of copied) document.addPage(page);
 
-  if (document.getPageCount() === courtFacing.getPageCount() && variant === "full" && guide) {
-    throw new SupplementalGuideRenderError(guide.routeKey,
+  if (variant === "full" && guidePages === 0) {
+    throw new SupplementalGuideRenderError(guide!.routeKey,
       "a full packet was assembled with no guide pages. The guide is part of what a full packet is, so "
       + "producing one without it silently ships a court-only packet under a full packet's name.");
   }
