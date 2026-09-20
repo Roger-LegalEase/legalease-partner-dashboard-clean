@@ -195,6 +195,17 @@ export type SupplementalGuide = {
   /** Fees, costs and fee-waiver position. */
   fees?: GuideFees;
   /**
+   * Adopted lines whose participant WORDING was edited, with the original.
+   *
+   * Carrying a line verbatim and dropping it are not the only two outcomes. A
+   * sentence can be corrected for the reader — internal evidence terminology
+   * removed, a meaningless literal translation fixed — while its legal
+   * substance is unchanged. That edit is recorded here against the adopted
+   * text, because an edit nobody wrote down is indistinguishable from a line
+   * somebody lost, and the drop check cannot tell them apart on its own.
+   */
+  editedFromAdopted?: Array<{ adoptedText: string; why: string; supportMovedTo: string }>;
+  /**
    * Spanish for the specification's stop conditions, keyed by the English
    * `situation` the specification carries.
    *

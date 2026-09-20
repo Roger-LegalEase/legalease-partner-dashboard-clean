@@ -42,8 +42,27 @@ export const SD_SIS_STAGE_REQUEST_NOT_MADE = "request_not_yet_made";
 export const SD_SIS_STAGE_RECORD_CORRECTED = "request_made_record_corrected";
 export const SD_SIS_STAGE_RECORD_NOT_CORRECTED = "request_made_record_not_corrected";
 
-/** The condition name the packet specification points at. */
+/** The condition the escalation motion is selected by. */
 export const SD_SIS_ESCALATION_CONDITION = "sd_sis_enforcement_stage_reached";
+
+/**
+ * The condition every REMEDIAL component is selected by.
+ *
+ * Conditioning only the motion was a half-fix, and it produced a worse document
+ * than the one it replaced. The written request alleges, in its own third
+ * paragraph, that "the matter still appears on a public record search" -- so a
+ * participant who had just told us the record WAS corrected received a freshly
+ * generated filing contradicting the answer they had given a moment earlier.
+ *
+ * Nothing about that is fixed by rewriting the allegation. The allegation is
+ * correct; the document simply does not belong in that packet. So the request
+ * and the filing instructions are selected by whether a remedy is still needed
+ * at all, and the completion guidance is selected by the same fact inverted.
+ */
+export const SD_SIS_REMEDY_NEEDED_CONDITION = "sd_sis_remedy_still_needed";
+
+/** The condition the completion guidance is selected by. */
+export const SD_SIS_COMPLETED_CONDITION = "sd_sis_record_already_corrected";
 
 export const SD_SIS_STAGE_QUESTION = {
   id: SD_SIS_STAGE_FACT_ID,
@@ -98,6 +117,30 @@ export function southDakotaEscalationStageReached(
   if (answer === SD_SIS_STAGE_RECORD_NOT_CORRECTED) return true;
   if (answer === SD_SIS_STAGE_REQUEST_NOT_MADE || answer === SD_SIS_STAGE_RECORD_CORRECTED) return false;
   return undefined;
+}
+
+/**
+ * Is there still a record-clearing problem for this route to solve?
+ *
+ * False once the record has been corrected: the statute's duty has been carried
+ * out and there is nothing left to ask a court for on this route.
+ */
+export function southDakotaRemedyStillNeeded(
+  facts: Readonly<Record<string, string>>
+): boolean | undefined {
+  const answer = facts[SD_SIS_STAGE_FACT_ID];
+  if (!answer) return undefined;
+  if (answer === SD_SIS_STAGE_RECORD_CORRECTED) return false;
+  if (answer === SD_SIS_STAGE_REQUEST_NOT_MADE || answer === SD_SIS_STAGE_RECORD_NOT_CORRECTED) return true;
+  return undefined;
+}
+
+/** The mirror of the above, for the completion guidance. */
+export function southDakotaRecordAlreadyCorrected(
+  facts: Readonly<Record<string, string>>
+): boolean | undefined {
+  const needed = southDakotaRemedyStillNeeded(facts);
+  return needed === undefined ? undefined : !needed;
 }
 
 /** What the participant is told at each stage, in their own terms. */

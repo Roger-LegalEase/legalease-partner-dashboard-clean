@@ -190,13 +190,23 @@ for (const guide of guides) {
         .filter(Boolean);
       const carried = new Set([
         ...entries.map((entry) => entry.text.trim()),
-        ...(guide.carriedElsewhere ?? []).map((row) => row.text.trim())
+        ...(guide.carriedElsewhere ?? []).map((row) => row.text.trim()),
+        // An edited line is accounted for by its RECORD, which names the
+        // adopted original. Recorded, never inferred.
+        ...(guide.editedFromAdopted ?? []).map((row) => row.adoptedText.trim())
       ]);
       const dropped = adoptedLines.filter((line) => !carried.has(line));
       check(
         dropped.length === 0,
         `${where}: every line of the adopted guidance page arrives somewhere${
           dropped.length ? ` (${dropped.length} dropped, first: "${dropped[0].slice(0, 60)}…")` : ""}`
+      );
+      const vagueEdits = (guide.editedFromAdopted ?? []).filter((row) =>
+        !row.why || row.why.length < 40 || !row.supportMovedTo);
+      check(
+        vagueEdits.length === 0,
+        `${where}: every edited adopted line says why and where its support went${
+          vagueEdits.length ? ` (${vagueEdits.length} do not)` : ""}`
       );
       check(
         adoptedLines.length > 0 && carried.size >= adoptedLines.length,
@@ -215,6 +225,27 @@ for (const guide of guides) {
       );
     }
   }
+
+  /*
+   * Participant text is for the participant.
+   *
+   * "The committed Wyoming record and the compiled Wyoming profile both state
+   * this" describes our evidence chain; someone at the clerk's counter needs
+   * the instruction, not the software's reasoning about where it came from.
+   * Worse in translation: "committed record" became "registro comprometido",
+   * which means nothing to a Spanish reader.
+   *
+   * The support does not disappear -- it belongs in `provenance.cite`, which is
+   * exactly why this check looks only at what is drawn.
+   */
+  const INTERNAL_TERMS = /(committed (Wyoming )?record|compiled [A-Z][a-z]+ profile|compiled profile|legal-design record|registro comprometido|perfil compilado)/i;
+  const internal = entries.filter((entry) =>
+    INTERNAL_TERMS.test(entry.text) || INTERNAL_TERMS.test(entry.textEs ?? ""));
+  check(
+    internal.length === 0,
+    `${where}: no participant-facing entry carries internal software or evidence terminology${
+      internal.length ? `: "${internal[0].text.slice(0, 60)}…"` : ""}`
+  );
 
   // Every diverted line says where it went and why. "Dropped" is not a
   // destination, and neither is silence.

@@ -224,7 +224,7 @@
       "order": 1,
       "outputStrategy": "custom_pleading",
       "presentation": "pleading",
-      "requirement": "required",
+      "requirement": "conditional",
       "officialFormId": null,
       "sections": [
         {
@@ -361,7 +361,9 @@
         "sourceUsed": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
         "componentEquivalence": "exact_adopted_bytes",
         "evidence": "Route A, proven. scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs was regenerated in place and both fixtures came back byte-identical; the canonical digest d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32 is the one OWNER_BATCH_ADOPTION_2026-09-02 pins for the sd_sis_sealing family. The host is therefore the source that produced the adopted bytes, and every substantive line carried here was read back from that host's own composed output. The trailing machine route footer is not carried, on the basis recorded for Nevada's proposed_order under FIX07: the host appends it after all component text, outside the instrument's substance."
-      }
+      },
+      "includeWhen": "sd_sis_remedy_still_needed",
+      "conditionNote": "The request alleges that the matter still appears on a public record search. Where the participant reports the record already corrected, that allegation is not wrong -- the document simply does not belong in their packet."
     },
     {
       "documentId": "enforcement_motion",
@@ -518,42 +520,42 @@
       "order": 3,
       "outputStrategy": "process_guidance",
       "presentation": "guidance",
-      "requirement": "required",
+      "requirement": "conditional",
       "officialFormId": null,
       "sections": [
         {
           "heading": "What this packet is for",
-          "kind": "pleading_paragraph",
+          "kind": "static",
           "body": "This packet is prepared for asking the original South Dakota court to enter and implement the mandatory SDCL § 23A-27-17 sealing order it did not enter after your discharge and dismissal."
         },
         {
           "heading": "The one situation this packet is for",
-          "kind": "pleading_paragraph",
+          "kind": "static",
           "body": "THE ONE SITUATION THIS PACKET IS FOR\n\nAfter a suspended imposition of sentence, when you complete the court's conditions and the court enters the discharge and dismissal, SDCL Sec. 23A-27-17 makes sealing the COURT'S duty: upon the discharge and dismissal a court shall order the official records sealed, other than the nonpublic records retained by the Division of Criminal Investigation. You apply for nothing to obtain it. This packet is only for the case where the discharge and dismissal issued and the sealing did not happen."
         },
         {
           "heading": "What you do, in order",
-          "kind": "pleading_paragraph",
+          "kind": "static",
           "body": "WHAT YOU DO, IN ORDER\n\nSTEP ONE. Confirm the duty was triggered: your conditions are complete and the order of discharge and dismissal issued. If it has not issued, stop - nothing here applies yet.\nSTEP TWO. Get the SIS order and the order of discharge and dismissal from the office of the court in the original criminal case, and keep dated evidence of the public record entry that still shows the matter.\nSTEP THREE. Complete and file the WRITTEN REQUEST in the original case, attaching a copy of the discharge and dismissal order. Ask the office of that court how it accepts delivery and whether any fee applies - no committed record this packet is built from states either.\nSTEP FOUR. Only if the record is not corrected, complete and file the ENFORCEMENT MOTION in the original criminal docket.\nSTEP FIVE. Sign and date each page yourself."
         },
         {
           "heading": "What sealing does, and does not do",
-          "kind": "pleading_paragraph",
+          "kind": "static",
           "body": "WHAT SEALING DOES, AND DOES NOT DO\n\nThe recorded effect: the order restores you to the status you occupied before arrest, indictment or information, and you are not guilty of perjury or of giving a false statement for failing to recite or acknowledge the matter. The recorded limits: the nonpublic records retained by the Division of Criminal Investigation are expressly outside the sealing order, and sealing is not expungement. If your underlying conviction was under SDCL Sec. 22-22-1 or Sec. 22-22-7 and you hold or seek a certified teaching licence, the recorded caveat is that the licensure authority may refuse or revoke notwithstanding the sealing - get advice before relying on the seal."
         },
         {
           "heading": "What this packet must never be used for",
-          "kind": "pleading_paragraph",
+          "kind": "static",
           "body": "WHAT THIS PACKET MUST NEVER BE USED FOR\n\n- As an arrest-expungement filing. The recorded rule: do not use a form designed for a separate arrest-expungement statute as a fallback.\n- After a refusal, or where eligibility is disputed. The recorded escalation is attorney handoff for refusal or mandamus."
         },
         {
           "heading": "When to stop and get help instead of filing",
-          "kind": "pleading_paragraph",
+          "kind": "static",
           "body": "WHEN TO STOP AND GET HELP INSTEAD OF FILING\n\n- the discharge and dismissal has not issued, your conditions are not complete, or your discharge status is unclear;\n- the court refuses after the motion, or eligibility is disputed;\n- the underlying conviction was under SDCL Sec. 22-22-1 or Sec. 22-22-7 and a teaching licence is in play;\n- you are relying on sealing to erase the matter everywhere;\n- any immigration question is involved."
         },
         {
           "heading": "What this packet is not",
-          "kind": "pleading_paragraph",
+          "kind": "static",
           "body": "WHAT THIS PACKET IS NOT\n\nThis is a prepared set of composed enforcement instruments for one recorded failure branch. It is not legal advice, it is not filed for you, and it does not decide whether the court will act. Sealing restricts access; it does not erase the DCI's nonpublic records."
         }
       ],
@@ -580,7 +582,62 @@
         "sourceUsed": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
         "componentEquivalence": "exact_adopted_bytes",
         "evidence": "Route A, proven. scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs was regenerated in place and both fixtures came back byte-identical; the canonical digest d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32 is the one OWNER_BATCH_ADOPTION_2026-09-02 pins for the sd_sis_sealing family. The host is therefore the source that produced the adopted bytes, and every substantive line carried here was read back from that host's own composed output. The trailing machine route footer is not carried, on the basis recorded for Nevada's proposed_order under FIX07: the host appends it after all component text, outside the instrument's substance."
-      }
+      },
+      "includeWhen": "sd_sis_remedy_still_needed",
+      "conditionNote": "These are step-by-step instructions for filing the request. Where there is nothing to file, they instruct the participant to do something the route no longer asks of them."
+    },
+    {
+      "documentId": "completion_guidance",
+      "role": "completion_guidance",
+      "title": "Your record has been sealed - what to keep",
+      "order": 4,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "conditional",
+      "includeWhen": "sd_sis_record_already_corrected",
+      "conditionNote": "Selected where the participant reports the record corrected after the written request. The route's remedial instruments are not selected on this branch, because the duty the statute imposes has been carried out.",
+      "officialFormId": null,
+      "documentContract": {
+        "instrumentClass": "participant_guidance",
+        "preparedBy": "participant",
+        "signer": "none",
+        "recipient": "participant",
+        "formApplicability": "not_a_filing",
+        "caseMode": "existing_case",
+        "executionType": "none",
+        "serviceTreatment": "no_service",
+        "orderTreatment": "no_proposed_order",
+        "privacyTreatment": "no_sensitive_identifiers",
+        "localVariant": "unresolved",
+        "unresolvedReasons": {
+          "localVariant": "no source read states whether a local form or practice controls this component."
+        },
+        "captionTreatment": "not_applicable",
+        "captionTreatmentEvidence": "Adopted artifact. A guidance page addressed to the participant, carrying the adopted page's own sections; the adopted page carries no caption and none is owed."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32",
+        "sourceUsed": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs was regenerated in place and both fixtures came back byte-identical; the canonical digest d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32 is the one OWNER_BATCH_ADOPTION_2026-09-02 pins for the sd_sis_sealing family. The host is therefore the source that produced the adopted bytes, and every substantive line carried here was read back from that host's own composed output. The trailing machine route footer is not carried, on the basis recorded for Nevada's proposed_order under FIX07: the host appends it after all component text, outside the instrument's substance. The sections carried into this completion component are the adopted guidance page's own WHAT SEALING DOES, AND DOES NOT DO and WHAT THIS PACKET IS NOT, unchanged. The single route-outcome sentence states what the participant's own answer establishes -- that no further filing is asked for on this route -- and asserts nothing about the law."
+      },
+      "sections": [
+        {
+          "heading": "The sealing has been carried out",
+          "kind": "static",
+          "body": "You told us the record was corrected after your written request. The duty SDCL Sec. 23A-27-17 places on the court has been carried out, so this route asks nothing further of you and no filing is prepared. Keep this packet and your copies of what you filed."
+        },
+        {
+          "heading": "What sealing does, and does not do",
+          "kind": "static",
+          "body": "WHAT SEALING DOES, AND DOES NOT DO\n\nThe recorded effect: the order restores you to the status you occupied before arrest, indictment or information, and you are not guilty of perjury or of giving a false statement for failing to recite or acknowledge the matter. The recorded limits: the nonpublic records retained by the Division of Criminal Investigation are expressly outside the sealing order, and sealing is not expungement. If your underlying conviction was under SDCL Sec. 22-22-1 or Sec. 22-22-7 and you hold or seek a certified teaching licence, the recorded caveat is that the licensure authority may refuse or revoke notwithstanding the sealing - get advice before relying on the seal."
+        },
+        {
+          "heading": "What this packet is not",
+          "kind": "static",
+          "body": "WHAT THIS PACKET IS NOT\n\nThis is a prepared set of composed enforcement instruments for one recorded failure branch. It is not legal advice, it is not filed for you, and it does not decide whether the court will act. Sealing restricts access; it does not erase the DCI's nonpublic records."
+        }
+      ]
     }
   ],
   "filingDestination": {

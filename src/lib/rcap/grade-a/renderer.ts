@@ -74,6 +74,24 @@ export type PacketVariant = "full" | "court_only";
 export type RenderPacketOptions = { variant?: PacketVariant };
 
 /**
+ * A court-only download was asked for and this matter has no filing.
+ *
+ * Carried as its own type so a caller can tell a COMPLETED matter (deliver the
+ * guidance) from a broken one (report it), instead of parsing a message.
+ */
+export class PacketHasNothingToFileError extends Error {
+  readonly routeKey: string;
+  /** True when the matter composed guidance and no filing -- a real outcome. */
+  readonly guidanceOnly: boolean;
+  constructor(routeKey: string, guidanceOnly: boolean, message: string) {
+    super(`Refusing to render a court-only packet for ${routeKey}. ${message}`);
+    this.name = "PacketHasNothingToFileError";
+    this.routeKey = routeKey;
+    this.guidanceOnly = guidanceOnly;
+  }
+}
+
+/**
  * The filing subset, selected from the §4.2 document contract.
  *
  * `courtFacing` is derived by `isCourtFacing` from the component's
@@ -101,12 +119,22 @@ export async function renderGradeAPacketPdf(
   }
   const variant = options.variant ?? "full";
   const selected = variant === "court_only" ? packetFilingDocuments(packet) : packet.documents;
+  /*
+   * Nothing to file is two different situations, and they must not share a
+   * message. A matter whose selection produced only guidance is COMPLETE --
+   * South Dakota's record-corrected branch is the case: the statute's duty was
+   * carried out, so the route asks for no filing. That is a correct outcome and
+   * the caller should hand over the guidance. A packet with no guidance either
+   * is a specification that composed nothing at all.
+   */
   if (selected.length === 0) {
-    throw new Error(
-      `Refusing to render a court-only packet for ${packet.routeKey} with no court-facing documents. `
-      + `The route composes ${packet.documents.length} document(s) and the §4.2 contract marks none of them as `
-      + `going to a court or agency, so there is nothing to file. That is a specification defect, not an empty download.`
-    );
+    const guidanceOnly = packet.documents.length > 0;
+    throw new PacketHasNothingToFileError(packet.routeKey, guidanceOnly,
+      guidanceOnly
+        ? `This matter has nothing to file: its ${packet.documents.length} selected component(s) are all addressed `
+          + `to the participant. That is an outcome, not a defect -- deliver the guidance rather than a court-only `
+          + `download, which is a document that does not exist for this matter.`
+        : `The route composed no documents at all, so there is neither a filing nor guidance to deliver.`);
   }
 
   const document = await PDFDocument.create();
@@ -861,6 +889,23 @@ function drawBlock(
       horizontalRule(cursor, document);
       return;
   }
+
+  /*
+   * An unhandled block kind is a silent drop, and a silent drop in a guidance
+   * page is the worst kind: the heading still prints, so the page looks
+   * finished and the instructions underneath it are simply gone.
+   *
+   * That is not hypothetical. South Dakota's filing-instructions component was
+   * transcribed with `pleading_paragraph` sections, which only the pleading
+   * path draws. The packet rendered, the page carried its title, and every
+   * step the participant was supposed to follow was missing -- with nothing
+   * anywhere reporting it.
+   */
+  throw new Error(
+    `The guidance renderer has no drawing for a "${(block as { kind: string }).kind}" block, so its content would `
+    + `be dropped while the surrounding page still rendered. Either draw this kind here, or compose the section to `
+    + `a kind this path handles.`
+  );
 }
 
 function signature(

@@ -7,7 +7,11 @@ import { documentContractFor, isCourtFacing, type DocumentContract } from "@/lib
 import { NEVADA_176A_PETITION_BRANCH_CONDITION, nevada176ABranch } from "@/lib/rcap-engine/nevada-176a-branch";
 import {
   SD_SIS_ESCALATION_CONDITION,
-  southDakotaEscalationStageReached
+  SD_SIS_REMEDY_NEEDED_CONDITION,
+  SD_SIS_COMPLETED_CONDITION,
+  southDakotaEscalationStageReached,
+  southDakotaRemedyStillNeeded,
+  southDakotaRecordAlreadyCorrected
 } from "@/lib/rcap-engine/south-dakota-23a-27-17-escalation";
 
 /**
@@ -229,7 +233,15 @@ const CONDITION_EVALUATORS: Record<string, (facts: Readonly<Record<string, strin
    * condition unevaluable and composition refuses rather than shipping a packet
    * missing the instrument the participant needs.
    */
-  [SD_SIS_ESCALATION_CONDITION]: (facts) => southDakotaEscalationStageReached(facts)
+  [SD_SIS_ESCALATION_CONDITION]: (facts) => southDakotaEscalationStageReached(facts),
+  /*
+   * Every remedial component on the route, not just the escalation motion. The
+   * written request asks a court to fix a record the participant may already
+   * have told us is fixed, so it is selected by whether a remedy is needed at
+   * all rather than shipped unconditionally.
+   */
+  [SD_SIS_REMEDY_NEEDED_CONDITION]: (facts) => southDakotaRemedyStillNeeded(facts),
+  [SD_SIS_COMPLETED_CONDITION]: (facts) => southDakotaRecordAlreadyCorrected(facts)
 };
 
 /**

@@ -39,6 +39,17 @@ const { packetSpecificationFor } = await import("../src/lib/rcap/grade-a/packet-
 const SD = await import("../src/lib/rcap-engine/south-dakota-23a-27-17-escalation.ts");
 const { guideDocuments } = await import("../src/lib/rcap/supplemental/guide-renderer.ts");
 
+import os from "node:os";
+import { execFileSync } from "node:child_process";
+
+/** The drawn text, read back out of the rendered PDF. */
+function textOf(pdf) {
+  const file = path.join(os.tmpdir(), `sd-${process.pid}-${pdf.length}.pdf`);
+  fs.writeFileSync(file, pdf);
+  try { return execFileSync("pdftotext", ["-layout", file, "-"], { encoding: "utf8" }); }
+  finally { fs.rmSync(file, { force: true }); }
+}
+
 const failures = [];
 const check = (passed, message) => {
   console.log(`${passed ? "ok  " : "FAIL"} ${message}`);
@@ -89,38 +100,110 @@ check(
 
 // ------------------------------------------------- each answer, end to end
 
+/*
+ * THE CONTRADICTION THIS EXISTS TO STOP.
+ *
+ * The written request alleges, in its own third paragraph, that "the matter
+ * still appears on a public record search". A first version of this control
+ * checked only whether the MOTION appeared, so it passed a branch where a
+ * participant who had just reported the record corrected received a freshly
+ * generated filing contradicting the answer they gave a moment earlier.
+ *
+ * So each branch now asserts its WHOLE selected set and reads the rendered
+ * text. A completed matter is not an empty filing packet: it is guidance, and
+ * a court-only download for it is a document that does not exist.
+ */
+const STILL_PUBLIC = "still appears on a public record search";
+
 const CASES = [
-  { stage: SD.SD_SIS_STAGE_REQUEST_NOT_MADE, expectMotion: false, why: "the request has not been filed yet" },
-  { stage: SD.SD_SIS_STAGE_RECORD_CORRECTED, expectMotion: false, why: "the record was corrected, so the motion does not apply" },
-  { stage: SD.SD_SIS_STAGE_RECORD_NOT_CORRECTED, expectMotion: true, why: "the request was made and the record was not corrected" }
+  {
+    stage: SD.SD_SIS_STAGE_REQUEST_NOT_MADE,
+    documents: ["implementation_request", "filing_instructions"],
+    allegesStillPublic: true,
+    why: "the request has not been filed yet, so the participant files it"
+  },
+  {
+    stage: SD.SD_SIS_STAGE_RECORD_CORRECTED,
+    documents: ["completion_guidance"],
+    allegesStillPublic: false,
+    why: "the record was corrected, so the route asks for no filing at all"
+  },
+  {
+    stage: SD.SD_SIS_STAGE_RECORD_NOT_CORRECTED,
+    documents: ["implementation_request", "enforcement_motion", "filing_instructions"],
+    allegesStillPublic: true,
+    why: "the request was made and the record was not corrected, so the escalation applies"
+  }
 ];
 
-for (const { stage, expectMotion, why } of CASES) {
+for (const { stage, documents: expected, allegesStillPublic, why } of CASES) {
   const facts = factsFor(stage);
   const plan = planIncludedDocuments(specification, facts);
-  const planned = plan.included.some((document) => document.documentId === MOTION);
+  const planned = plan.included.map((document) => document.documentId).sort();
   check(
-    planned === expectMotion,
-    `${stage}: the planner ${expectMotion ? "includes" : "omits"} the motion -- ${why}`
+    JSON.stringify(planned) === JSON.stringify([...expected].sort()),
+    `${stage}: the selected set is exactly [${expected.join(", ")}] -- ${why}${
+      JSON.stringify(planned) === JSON.stringify([...expected].sort()) ? "" : ` (got [${planned.join(", ")}])`}`
   );
   check(plan.unevaluable.length === 0, `${stage}: no condition is left unevaluable`);
 
   const packet = composeGradeAPacket(specification, {
     routeKey: SD.SD_SIS_ROUTE_KEY, verificationHash: `sd-escalation-${stage}`, facts
   }, {});
-  const inPacket = packet.documents.some((document) => document.documentId === MOTION);
-  check(inPacket === expectMotion, `${stage}: the composed packet agrees with the planner`);
+  const composed = packet.documents.map((document) => document.documentId).sort();
+  check(
+    JSON.stringify(composed) === JSON.stringify([...expected].sort()),
+    `${stage}: the composed packet carries the same set`
+  );
 
-  // The checklist and the packet read the same selected set, so they cannot
-  // disagree about what the participant is holding.
-  const listed = guideDocuments(packet).some((document) => document.documentId === MOTION);
-  check(listed === expectMotion, `${stage}: the guide's document checklist agrees`);
-
-  const filing = packetFilingDocuments(packet).some((document) => document.documentId === MOTION);
-  check(filing === expectMotion, `${stage}: the court-only filing subset agrees`);
+  const listed = guideDocuments(packet).map((document) => document.documentId).sort();
+  const filing = packetFilingDocuments(packet).map((document) => document.documentId).sort();
+  check(
+    JSON.stringify(listed) === JSON.stringify(filing),
+    `${stage}: the guide's checklist and the court-only filing subset name the same documents`
+  );
 
   const pdf = await renderGradeAPacketPdf(packet);
-  check(pdf.length > 4000, `${stage}: the packet renders (${pdf.length} bytes, ${packet.documents.length} documents)`);
+  const text = textOf(pdf);
+  check(pdf.length > 2000, `${stage}: the packet renders (${pdf.length} bytes, ${packet.documents.length} document(s))`);
+
+  // The decisive one: does anything in the participant's hands contradict the
+  // answer they just gave?
+  check(
+    text.includes(STILL_PUBLIC) === allegesStillPublic,
+    allegesStillPublic
+      ? `${stage}: the request's public-record allegation is present, as it should be`
+      : `${stage}: NOTHING in the packet alleges the matter "${STILL_PUBLIC}" -- the participant said it was corrected`
+  );
+
+  /*
+   * A completed matter has no court-only download, and the refusal says so as
+   * an outcome rather than as a defect.
+   */
+  let courtOnly = null;
+  try { courtOnly = await renderGradeAPacketPdf(packet, { variant: "court_only" }); }
+  catch (error) { courtOnly = error; }
+  if (filing.length === 0) {
+    check(
+      courtOnly instanceof Error && courtOnly.guidanceOnly === true,
+      `${stage}: a court-only download is refused as a COMPLETED matter, not as a malformed packet`
+    );
+    check(
+      /nothing to file/i.test(courtOnly.message) && /deliver the guidance/i.test(courtOnly.message),
+      "and the refusal tells the caller to deliver the guidance instead"
+    );
+    check(
+      text.includes("no filing is prepared") || text.includes("Keep this packet"),
+      `${stage}: the participant receives completion guidance telling them to keep their records`
+    );
+  } else {
+    check(!(courtOnly instanceof Error), `${stage}: a court-only download renders (${filing.length} filing document(s))`);
+    const courtText = textOf(courtOnly);
+    check(
+      !courtText.includes("FILING INSTRUCTIONS") && !courtText.includes("About this packet"),
+      `${stage}: and carries no participant guidance or provenance appendix`
+    );
+  }
 }
 
 // --------------------------------------- reachable on the participant's path
