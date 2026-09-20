@@ -148,6 +148,50 @@ already stale and the route already refused, making the specification change now
 costs nothing that is not already owed, and it turns two owner decisions into
 one.
 
+## Item 11B — OPEN — hosted `full` acceptance is blocked by a control pinned to a freeze 600 commits old
+
+| # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
+|---|------|-------|----------------|-------------------|--------------------|
+| 11B | Decide how `verify-rcap-hosted-checkout-gate.mjs` regains a truthful freeze, given that re-pinning `RELEASE_CONTROL_BASE_SHA` to the candidate would make its own question vacuous | Roger | Before hosted `full` or `checkout_gate` acceptance is expected to pass | The three failing checks, reproduced at `95913fd49`; the verifier's pinned constants; and whatever re-pin or restatement is decided | Two of the three checks exist to prove the candidate has **not** drifted from a frozen baseline. Choosing the new baseline decides what "has not drifted" means, and a build that picks its own baseline is not being checked by it |
+
+**Measured, not inferred.** Hosted acceptance ran cleanly through preflight and
+the acceptance-project migration against the newly published image, then
+`hosted_full` failed at *Verify the reuse-only human Checkout gate*. Run the
+verifier directly and it reports:
+
+```
+FAIL verify-rcap-hosted-checkout-gate — 3/95 checks failed
+  - hosted workflow release identity contract is incomplete
+  - checkout-gate branch changes frozen application inputs
+  - checkout-gate branch changes frozen worker inputs
+```
+
+The **identical three** fail at `95913fd49`, this session's starting commit —
+before the owner decision, before the publication, before the acceptance pins
+moved. So `hosted_full` could not have passed at any point in this session, and
+none of this change caused it.
+
+**Why.** The verifier carries its own pinned freeze, and the candidate has long
+since moved past it:
+
+| Constant | Value | Distance from the candidate |
+|---|---|---|
+| `RELEASE_CONTROL_BASE_SHA` | `4e16d6d8e` | 599 commits |
+| `ACCEPTED_WORKER_SOURCE_SHA` | `c88f10341` | 601 commits |
+| `ACCEPTED_WORKER_DIGEST` | `sha256:df6c2965…` | superseded three publications ago |
+
+That is a fourth pin pair, independent of the three already in the workflows
+(`rcap-hosted-acceptance-staging.yml`, `rcap-f1-ephemeral-staging.yml`,
+`rcap-github-hosted-acceptance.yml`), and they have all drifted apart.
+
+**Why the build did not simply re-pin it.** Two of the three checks ask whether
+the candidate has drifted from a frozen application and worker baseline. Setting
+that baseline to the candidate makes both checks compare the candidate with
+itself, so they would pass while asking nothing — the precise failure the
+"green is not the goal" rule exists to prevent. Which commit is the legitimate
+freeze is a release decision, so it is recorded here rather than chosen by the
+thing being checked.
+
 ## Item 11 — the worker publication gate refuses the release candidate
 
 | # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
