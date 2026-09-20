@@ -47,6 +47,9 @@ export type GradeABlock =
   | {
       kind: "pleading_caption";
       court: string;
+      /** Adopted multi-line court caption; each line may carry one blank. */
+      courtLines?: Array<{ prefix?: string; value?: string; blank?: boolean; suffix?: string }>;
+      caseNumberLabel?: string;
       /** Drawn beneath the court line where the court is a blank to complete. */
       courtInstruction?: string;
       /** True where the participant writes the court in at filing. */
@@ -143,7 +146,21 @@ export class GradeAPacketCompositionError extends Error {
  * rather than making it.
  */
 function completedBeforeFiling(specification: PacketSpecification): ReadonlySet<string> {
-  return new Set(specification.fieldOwnership?.participantCompletesBeforeFilingFields ?? []);
+  const ownership = specification.fieldOwnership;
+  // Every ownership bucket except the platform's own says the same thing about
+  // rendering: this value is not one we hold, so the page carries a line for
+  // whoever does supply it. Who that is differs — the participant at filing, the
+  // participant at signing, the court, a notary, the prosecutor — and the
+  // buckets keep that distinction for every other purpose. The composer only
+  // needs to know not to demand it as a fact and not to fill it.
+  return new Set([
+    ...(ownership?.participantCompletesBeforeFilingFields ?? []),
+    ...(ownership?.participantAtSigningFields ?? []),
+    ...(ownership?.participantAtServiceFields ?? []),
+    ...(ownership?.notaryOwnedFields ?? []),
+    ...(ownership?.prosecutorOwnedFields ?? []),
+    ...(ownership?.courtOwnedFields ?? [])
+  ]);
 }
 
 /** Facts a document actually reads, so a missing-fact refusal names the real cause. */
@@ -452,6 +469,14 @@ function composeSection(
           kind: "pleading_caption",
           court: blanks.has(contract.court) ? "" : fact(matter, contract.court),
           courtBlank: blanks.has(contract.court),
+          ...(contract.courtLines ? { courtLines: contract.courtLines.map((line) => ({
+            ...(line.prefix ? { prefix: line.prefix } : {}),
+            ...(line.suffix ? { suffix: line.suffix } : {}),
+            ...(line.field
+              ? (blanks.has(line.field) ? { blank: true } : { value: fact(matter, line.field) })
+              : {})
+          })) } : {}),
+          ...(contract.caseNumberLabel ? { caseNumberLabel: contract.caseNumberLabel } : {}),
           ...(contract.courtInstruction ? { courtInstruction: contract.courtInstruction } : {}),
           ...(contract.matterTitle ? { matterTitle: fill(contract.matterTitle, matter) } : {}),
           plaintiff: "",

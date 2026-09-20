@@ -216,12 +216,11 @@
       "packet_family"
     ],
     "participantAtSigningFields": [
-      "wy_fel_1502-primary-filing-1.signature",
-      "wy_fel_1502-primary-filing-1.signature_date",
-      "wy_fel_1502-verification-3.petitioner_signature",
-      "wy_fel_1502-verification-3.signature_date",
-      "wy_fel_1502-certificate-of-service-4.signature",
-      "wy_fel_1502-certificate-of-service-4.signature_date"
+      "signature",
+      "signature_date",
+      "verification_signature",
+      "cos_signature",
+      "cos_signature_date"
     ],
     "participantAtServiceFields": [
       "wy_fel_1502-certificate-of-service-4.prosecutor_identity",
@@ -237,8 +236,40 @@
     ],
     "prosecutorOwnedFields": [],
     "courtOwnedFields": [
-      "wy_fel_1502-proposed-order-2.order_entry_date",
-      "wy_fel_1502-proposed-order-2.judge_signature"
+      "order_findings",
+      "order_entry_date",
+      "judge_signature",
+      "notary_block"
+    ],
+    "participantCompletesBeforeFilingFields": [
+      "judicial_district",
+      "county_of_conviction",
+      "docket_number",
+      "felony_offense",
+      "statute_of_conviction",
+      "conviction_date",
+      "same_occurrence_felonies",
+      "sentence_expiry_date",
+      "program_completion",
+      "restitution_satisfaction",
+      "no_other_felony_allegation",
+      "not_excluded_allegation",
+      "not_substantial_danger_allegation",
+      "no_prior_1502_allegation",
+      "order_judicial_district",
+      "order_county",
+      "order_docket_number",
+      "verification_docket_number",
+      "verification_state",
+      "verification_county",
+      "cos_docket_number",
+      "prosecutor_identity",
+      "prosecutor_address",
+      "prosecutor_service_manner",
+      "prosecutor_service_date",
+      "dci_address",
+      "dci_service_manner",
+      "dci_service_date"
     ]
   },
   "documents": [
@@ -253,18 +284,145 @@
       "manifestComponentId": "wy_fel_1502-primary-filing-1",
       "sections": [
         {
-          "heading": "Convicting-court caption, record facts, participant allegations, and request",
-          "kind": "approved_shipping_component",
+          "heading": "Caption",
+          "kind": "pleading_caption",
           "fields": [
-            "court",
-            "charge",
-            "disposition_date",
-            "sentence_completion_date",
-            "financial_obligations",
-            "prior_relief",
-            "other_felony_history",
-            "statutory_exclusion_review"
-          ]
+            "judicial_district",
+            "county_of_conviction",
+            "docket_number"
+          ],
+          "captionContract": {
+            "court": "judicial_district",
+            "courtLines": [
+              {
+                "prefix": "IN THE DISTRICT COURT OF THE",
+                "field": "judicial_district",
+                "suffix": "JUDICIAL DISTRICT"
+              },
+              {
+                "prefix": "COUNTY OF",
+                "field": "county_of_conviction",
+                "suffix": ", STATE OF WYOMING"
+              }
+            ],
+            "courtInstruction": "Caption this petition for the court that convicted you. The convicting court, its judicial district, its county and the docket number are copied from your judgment and sentence; nothing on those lines is written for you.",
+            "matterTitle": "IN THE MATTER OF THE EXPUNGEMENT OF THE RECORDS OF CONVICTION OF:",
+            "caseNumber": "docket_number",
+            "caseNumberLabel": "Docket / Criminal Case No.:",
+            "documentTitle": "VERIFIED PETITION FOR EXPUNGEMENT OF RECORDS OF CONVICTION"
+          }
+        },
+        {
+          "heading": "Petitioner",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "participant_full_legal_name",
+            "date_of_birth",
+            "mailing_address",
+            "phone_number",
+            "email_address"
+          ],
+          "fieldLabels": {
+            "participant_full_legal_name": "Petitioner",
+            "date_of_birth": "Date of birth",
+            "mailing_address": "Mailing address",
+            "phone_number": "Telephone",
+            "email_address": "Email"
+          }
+        },
+        {
+          "heading": "Petition",
+          "kind": "pleading_paragraph",
+          "body": "1. Petitioner Jordan Avery Reyes petitions this Court under Wyo. Stat. Sec. 7-13-1502 to expunge the records of the felony conviction identified below, entered in this Court."
+        },
+        {
+          "heading": "The conviction",
+          "kind": "pleading_paragraph",
+          "body": "2. THE CONVICTION. Copied from the judgment and sentence:"
+        },
+        {
+          "heading": "Conviction facts, copied from the judgment and sentence",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "felony_offense",
+            "statute_of_conviction",
+            "conviction_date",
+            "same_occurrence_felonies"
+          ],
+          "fieldLabels": {
+            "felony_offense": "Felony offense, worded exactly as the judgment and sentence states it:",
+            "statute_of_conviction": "Wyoming statute section of conviction, as the judgment states it:",
+            "conviction_date": "Date of conviction / date judgment and sentence entered:",
+            "same_occurrence_felonies": "Where more than one felony is included, state that they arose out of the same occurrence or the same related course of events, and identify each:"
+          }
+        },
+        {
+          "heading": "The ten-year period",
+          "kind": "pleading_paragraph",
+          "body": "3. THE TEN-YEAR PERIOD. Section 7-13-1502 requires that at least ten (10) years have passed since the expiration of the terms of the sentence, including any period of probation."
+        },
+        {
+          "heading": "The ten-year period",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "sentence_expiry_date"
+          ],
+          "fieldLabels": {
+            "sentence_expiry_date": "Date all terms of the sentence expired, including any probation:"
+          }
+        },
+        {
+          "heading": "Programs and restitution",
+          "kind": "pleading_paragraph",
+          "body": "4. PROGRAMS AND RESTITUTION. Any court-ordered program is complete and any court-ordered restitution has been paid in full."
+        },
+        {
+          "heading": "Programs and restitution",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "program_completion",
+            "restitution_satisfaction"
+          ],
+          "fieldLabels": {
+            "program_completion": "Date any court-ordered program was completed (or state that none was ordered):",
+            "restitution_satisfaction": "Restitution ordered, and the date it was paid in full (or state that none was ordered):"
+          }
+        },
+        {
+          "heading": "Eligibility allegations",
+          "kind": "pleading_paragraph",
+          "body": "5. ELIGIBILITY ALLEGATIONS PETITIONER MUST MAKE PERSONALLY.\n\nThese three are left for you and, where you have one, your attorney. The platform does not assert them, because each depends on your whole record or on a judgment reserved to the Court."
+        },
+        {
+          "heading": "Allegations the petitioner makes personally",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "no_other_felony_allegation",
+            "not_excluded_allegation",
+            "not_substantial_danger_allegation",
+            "no_prior_1502_allegation"
+          ],
+          "fieldLabels": {
+            "no_other_felony_allegation": "(a) That Petitioner has not previously pled guilty or nolo contendere to, and has not been convicted of, any felony other than the felony or felonies in this petition, anywhere:",
+            "not_excluded_allegation": "(b) That the felony is not an offense excluded from expungement by Sec. 7-13-1502:",
+            "not_substantial_danger_allegation": "(c) That Petitioner does not represent a substantial danger to himself or herself, to any identifiable victim, or to society:",
+            "no_prior_1502_allegation": "(d) That Petitioner has not previously received an expungement of records of conviction under Sec. 7-13-1502, which permits one in a lifetime:"
+          }
+        },
+        {
+          "heading": "Relief requested",
+          "kind": "pleading_paragraph",
+          "body": ""
+        },
+        {
+          "heading": "Verification",
+          "kind": "pleading_paragraph",
+          "body": ""
+        },
+        {
+          "heading": "Signature",
+          "kind": "pro_se_signature_block",
+          "body": "{{participant_full_legal_name}}, Petitioner"
         }
       ],
       "documentContract": {
@@ -281,7 +439,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "Adopted artifact. The owner-adopted wy_fel_1502-set output carries a full caption on this component — IN THE DISTRICT COURT OF THE ____ JUDICIAL DISTRICT / COUNTY OF ____, STATE OF WYOMING, with the docket line beneath — and the build host that produced those adopted bytes composes it. OWNER_BATCH_ADOPTION_2026-09-02 adopts the family and names it in none of the eight withholding answers."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+        "sourceUsed": "scripts/build-census-v1-wy_fel_1502-set.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. The build host was regenerated in place and the canonical fixture hashed 3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30 before and after, which is the digest OWNER_BATCH_ADOPTION_2026-09-02 pins for wy_fel_1502-set; nothing in the family directory changed. The host is therefore the source that produced the adopted bytes, and every substantive line carried here was additionally checked back against the adopted PDF text — 74 of 74 matched verbatim."
       }
     },
     {
@@ -295,8 +461,61 @@
       "manifestComponentId": "wy_fel_1502-proposed-order-2",
       "sections": [
         {
-          "heading": "Tendered order and protected judicial findings",
-          "kind": "approved_shipping_component"
+          "heading": "Caption",
+          "kind": "pleading_caption",
+          "fields": [
+            "order_judicial_district",
+            "order_county",
+            "order_docket_number"
+          ],
+          "captionContract": {
+            "court": "order_judicial_district",
+            "courtLines": [
+              {
+                "prefix": "IN THE DISTRICT COURT OF THE",
+                "field": "order_judicial_district",
+                "suffix": "JUDICIAL DISTRICT"
+              },
+              {
+                "prefix": "COUNTY OF",
+                "field": "order_county",
+                "suffix": ", STATE OF WYOMING"
+              }
+            ],
+            "matterTitle": "IN THE MATTER OF THE EXPUNGEMENT OF THE RECORDS OF CONVICTION OF:",
+            "caseNumber": "order_docket_number",
+            "caseNumberLabel": "Docket / Criminal Case No.:",
+            "documentTitle": ""
+          }
+        },
+        {
+          "heading": "This document is a proposed order",
+          "kind": "pleading_paragraph",
+          "body": "IN THE MATTER OF THE EXPUNGEMENT OF THE RECORDS OF CONVICTION OF Jordan Avery Reyes"
+        },
+        {
+          "heading": "Presentation",
+          "kind": "pleading_paragraph",
+          "body": ""
+        },
+        {
+          "heading": "Findings reserved to the Court",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "order_findings"
+          ],
+          "fieldLabels": {
+            "order_findings": "ORDER FOR EXPUNGEMENT"
+          }
+        },
+        {
+          "heading": "Order",
+          "kind": "pleading_paragraph",
+          "body": "IT IS THEREFORE ORDERED that the records of conviction identified in the Petition are expunged under Wyo. Stat. Sec. 7-13-1502.\n\nIT IS FURTHER ORDERED that the files and records of this Court in this matter be SEALED, and be available for inspection only upon order of this Court.\n\nIT IS FURTHER ORDERED that the Clerk transmit a certified copy of this Order to the Wyoming Division of Criminal Investigation.\n\nIT IS FURTHER ORDERED that, as Wyo. Stat. Sec. 7-13-1502(m) provides, this expungement restores to Petitioner any rights that were removed as a result of the conviction."
+        },
+        {
+          "heading": "The Court's signature",
+          "kind": "court_signature_block"
         }
       ],
       "documentContract": {
@@ -313,7 +532,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "Adopted artifact. The owner-adopted wy_fel_1502-set output carries a full caption on this component — IN THE DISTRICT COURT OF THE ____ JUDICIAL DISTRICT / COUNTY OF ____, STATE OF WYOMING, with the docket line beneath — and the build host that produced those adopted bytes composes it. OWNER_BATCH_ADOPTION_2026-09-02 adopts the family and names it in none of the eight withholding answers."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+        "sourceUsed": "scripts/build-census-v1-wy_fel_1502-set.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. The build host was regenerated in place and the canonical fixture hashed 3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30 before and after, which is the digest OWNER_BATCH_ADOPTION_2026-09-02 pins for wy_fel_1502-set; nothing in the family directory changed. The host is therefore the source that produced the adopted bytes, and every substantive line carried here was additionally checked back against the adopted PDF text — 74 of 74 matched verbatim."
       }
     },
     {
@@ -327,8 +554,56 @@
       "manifestComponentId": "wy_fel_1502-verification-3",
       "sections": [
         {
-          "heading": "Participant verification and local notary confirmation",
-          "kind": "approved_shipping_component"
+          "heading": "Docket",
+          "kind": "pleading_paragraph",
+          "body": "Docket / Criminal Case No.:"
+        },
+        {
+          "heading": "Docket",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "verification_docket_number"
+          ],
+          "fieldLabels": {
+            "verification_docket_number": "Docket / Criminal Case No."
+          }
+        },
+        {
+          "heading": "Verification",
+          "kind": "pleading_paragraph",
+          "body": "Wyoming Statute Sec. 7-13-1502 requires the petition to be VERIFIED by the petitioner. This page is that verification. It is not signed for you."
+        },
+        {
+          "heading": "Venue of the oath",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "verification_state",
+            "verification_county"
+          ],
+          "fieldLabels": {
+            "verification_state": "STATE OF",
+            "verification_county": "COUNTY OF"
+          }
+        },
+        {
+          "heading": "Sworn statement",
+          "kind": "pleading_paragraph",
+          "body": "I, Jordan Avery Reyes, being first duly sworn, state that I am the Petitioner in this matter; that I have read the foregoing Verified Petition for Expungement of Records of Conviction; and that the matters stated in it are true and correct to the best of my knowledge, information and belief."
+        },
+        {
+          "heading": "Signature",
+          "kind": "pro_se_signature_block",
+          "body": "{{participant_full_legal_name}}, Petitioner"
+        },
+        {
+          "heading": "Notarisation",
+          "kind": "pleading_paragraph",
+          "body": "SUBSCRIBED AND SWORN TO before me this ............ day of ...................., 20.....\n\nNotary Public / Officer authorized to administer oaths\n\nMy commission expires: .............................."
+        },
+        {
+          "heading": "Ask the clerk first",
+          "kind": "pleading_paragraph",
+          "body": "ASK THE CLERK FIRST. Verification is required by statute. Whether THIS court requires the verification to be sworn before a notary is that court's practice, and the committed record does not settle it. Ask the clerk of the convicting court before you sign."
         }
       ],
       "documentContract": {
@@ -345,7 +620,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "supporting_page",
+        "captionTreatmentEvidence": "Adopted artifact, read page by page. Page 5 of the owner-adopted wy_fel_1502-set output is the verification and carries NO caption: it opens with the docket line \"Docket / Criminal Case No.: ____\" and then VERIFICATION, while pages 3 and 4 (the petition and the proposed order) each carry the full two-line court caption. It is a page filed with the captioned petition and identified by the docket it repeats."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+        "sourceUsed": "scripts/build-census-v1-wy_fel_1502-set.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. The build host was regenerated in place and the canonical fixture hashed 3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30 before and after, which is the digest OWNER_BATCH_ADOPTION_2026-09-02 pins for wy_fel_1502-set; nothing in the family directory changed. The host is therefore the source that produced the adopted bytes, and every substantive line carried here was additionally checked back against the adopted PDF text — 74 of 74 matched verbatim."
       }
     },
     {
@@ -359,11 +642,79 @@
       "manifestComponentId": "wy_fel_1502-certificate-of-service-4",
       "sections": [
         {
-          "heading": "Service on the prosecuting attorney and Division of Criminal Investigation",
-          "kind": "approved_shipping_component",
+          "heading": "Docket",
+          "kind": "pleading_paragraph",
+          "body": "Docket / Criminal Case No.:"
+        },
+        {
+          "heading": "Docket",
+          "kind": "pleading_identity_list",
           "fields": [
-            "service_details"
-          ]
+            "cos_docket_number"
+          ],
+          "fieldLabels": {
+            "cos_docket_number": "Docket / Criminal Case No."
+          }
+        },
+        {
+          "heading": "Certificate of service",
+          "kind": "pleading_paragraph",
+          "body": "Section 7-13-1502 requires the verified petition to be SERVED ON TWO RECIPIENTS and proof of service filed: the prosecuting attorney, and the Wyoming Division of Criminal Investigation. The 90-day objection window runs from service on the prosecuting attorney."
+        },
+        {
+          "heading": "Certification",
+          "kind": "pleading_paragraph",
+          "body": "I, Jordan Avery Reyes, certify that I served a true and correct copy of the Verified Petition for Expungement of Records of Conviction as follows:"
+        },
+        {
+          "heading": "On the prosecuting attorney",
+          "kind": "pleading_paragraph",
+          "body": "1. ON THE PROSECUTING ATTORNEY"
+        },
+        {
+          "heading": "Service on the prosecuting attorney",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "prosecutor_identity",
+            "prosecutor_address",
+            "prosecutor_service_manner",
+            "prosecutor_service_date"
+          ],
+          "fieldLabels": {
+            "prosecutor_identity": "Name and office of the prosecuting attorney (the county and prosecuting attorney for the county of conviction):",
+            "prosecutor_address": "Address served:",
+            "prosecutor_service_manner": "Manner of service",
+            "prosecutor_service_date": "Date served"
+          }
+        },
+        {
+          "heading": "On the Wyoming Division of Criminal Investigation",
+          "kind": "pleading_paragraph",
+          "body": "2. ON THE WYOMING DIVISION OF CRIMINAL INVESTIGATION"
+        },
+        {
+          "heading": "Service on the Division of Criminal Investigation",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "dci_address",
+            "dci_service_manner",
+            "dci_service_date"
+          ],
+          "fieldLabels": {
+            "dci_address": "Address served (confirm the current address for service with the Division before sending):",
+            "dci_service_manner": "Manner of service",
+            "dci_service_date": "Date served"
+          }
+        },
+        {
+          "heading": "Signature",
+          "kind": "pro_se_signature_block",
+          "body": "{{participant_full_legal_name}}, Petitioner"
+        },
+        {
+          "heading": "When the dates are written",
+          "kind": "pleading_paragraph",
+          "body": "(The service dates are written when service is actually made. Nothing on this page is dated for you. File this certificate with the court as your proof of service.)"
         }
       ],
       "documentContract": {
@@ -380,7 +731,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "supporting_page",
+        "captionTreatmentEvidence": "Adopted artifact, read page by page. Page 6 of the owner-adopted output is the certificate of service and carries NO caption: it opens with the docket line and then CERTIFICATE OF SERVICE, exactly as the verification page does, while the petition and proposed order pages carry the full caption."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+        "sourceUsed": "scripts/build-census-v1-wy_fel_1502-set.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. The build host was regenerated in place and the canonical fixture hashed 3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30 before and after, which is the digest OWNER_BATCH_ADOPTION_2026-09-02 pins for wy_fel_1502-set; nothing in the family directory changed. The host is therefore the source that produced the adopted bytes, and every substantive line carried here was additionally checked back against the adopted PDF text — 74 of 74 matched verbatim."
       }
     },
     {
@@ -395,7 +754,8 @@
       "sections": [
         {
           "heading": "Filing fee, service, objection period, local practice, and self-help stops",
-          "kind": "approved_shipping_component"
+          "kind": "static",
+          "body": "This packet is prepared for asking the Wyoming court that convicted you to expunge the records of that felony conviction under Wyo. Stat. § 7-13-1502.\n\nPrepared for: Jordan Avery Reyes\n\nWHERE THIS IS FILED. File the verified Petition and the proposed Order for Expungement with the CLERK OF THE CONVICTING COURT — the court that entered your felony judgment and sentence. That is the destination the committed Wyoming record and the compiled Wyoming profile both state for a Sec. 7-13-1502 petition.\n\nWHAT IT COSTS. The filing fee is $300.00 per petition. That figure is stated for this exact route by the committed Wyoming legal-design record and, keyed to the section, by the compiled Wyoming profile: 'Adult felony conviction under 7-13-1502 $300'. Where you are asking to expunge more than one petition's worth of records, the fee is per petition.\n\nABOUT A FEE WAIVER. No fee-waiver procedure is established for Sec. 7-13-1502 in the records this packet is built from. That is not the same as there being none. ASK THE CLERK OF THE CONVICTING COURT — the same clerk who takes the filing — whether that court has an indigency or fee-waiver procedure, before you pay.\n\nWHO YOU SERVE. Two recipients, and proof of service is filed with the court:\n\n  (1) THE PROSECUTING ATTORNEY for the county of conviction; and\n  (2) THE WYOMING DIVISION OF CRIMINAL INVESTIGATION.\n\nThe prosecuting attorney — not you — notifies any identifiable victims.\n\nTHE 90-DAY WINDOW. The prosecuting attorney has NINETY (90) DAYS to object, and no order may be granted before that window closes. The window runs from service on the prosecuting attorney, which is why the date of service matters and why you fill it in on the certificate of service when service is actually made. If no objection is filed, the court may enter the order summarily on finding eligibility.\n\nWHAT THE ORDER DOES. On a grant the court seals its file, and a certified copy of the order is transmitted to the Division of Criminal Investigation. Under Sec. 7-13-1502(m) the expungement restores any rights that were removed as a result of the conviction.\n\nWHAT THIS PACKET WILL NOT TELL YOU, AND WHY. It does not tell you that you may answer an inquiry as though the conviction did not occur. That entitlement appears in Wyo. Stat. Sec. 7-13-1401(f), which by its own words is confined to the NON-CONVICTION route, and it does not appear in Sec. 7-13-1502. The committed record says so in terms. Do not state that the conviction did not happen.\n\nONE IN A LIFETIME. Section 7-13-1502 permits one expungement of records of conviction in a lifetime. Spend it deliberately.\n\nVERIFICATION. The petition must be verified by you. Ask the clerk of the convicting court whether that court requires the verification sworn before a notary; the committed record does not settle it.\n\nWYOMING'S OWN SELF-HELP PAGE. The Wyoming Judicial Branch publishes an expungement page and an Expungement Handout at wyocourts.gov (Legal Help by Topic — Expungements). It does not publish a complete mandatory petition packet, which is why this petition is drafted rather than filled.\n\nWHEN TO STOP AND GET A LAWYER INSTEAD.\n- The felony may be on the Sec. 7-13-1502 exclusion list. The list is long and statute-specific and is not encoded here; have it checked.\n- You have any other felony plea, nolo plea or conviction anywhere. The other-felony bar looks at your entire record.\n- Any firearm use or attempted use, including where you believe a Title 23 carve-out applies.\n- Any offense subject to sex offender registration under Secs. 7-19-302(g) through (j).\n- You have already received one expungement under Sec. 7-13-1502.\n- You completed a felony DEFERRAL rather than being convicted. There is no Wyoming expungement route for that, and this packet will not pretend otherwise: Sec. 7-13-1401(a)(i) is barred by the deferral disposition itself, Sec. 7-13-1502 requires a conviction you do not have, and Sec. 7-13-307 forbids construing Secs. 7-13-301 through 7-13-306 to authorize expunging the record. Where the Division of Criminal Investigation record misdescribes the disposition, a W.S. Sec. 7-19-109 application to purge, modify or supplement inaccurate or incomplete criminal history record information is the only thing available. It corrects the record to say what actually happened; it is not expungement, and it is not a route this packet offers.\n- The prosecuting attorney files an objection, or the court sets a contested hearing.\n- An identifiable victim is likely to object.\n- Facts indicating human trafficking or coercion, which route to the Sec. 6-2-708 vacatur outside this track.\n- Immigration consequences.\n- Federal, tribal or out-of-state records, which Wyoming relief does not reach.\n\nDOCUMENTS TO OBTAIN BEFORE YOU FILE, AND WHO HAS THEM.\n- Certified judgment and sentence for the felony conviction — the clerk of the convicting court.\n- Proof that probation and any court-ordered program were completed, showing the date the terms of sentence expired — the supervising probation office, or the clerk of the convicting court. The ten-year clock runs from that date.\n- Proof that court-ordered restitution was paid in full — the clerk of the convicting court.\n- Your Wyoming DCI criminal history record — the Wyoming Division of Criminal Investigation, Criminal Records Unit. It is the only reliable way to check the other-felony bar against your whole record."
         }
       ],
       "documentContract": {
@@ -413,6 +773,12 @@
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
         }
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+        "sourceUsed": "scripts/build-census-v1-wy_fel_1502-set.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. The build host was regenerated in place and the canonical fixture hashed 3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30 before and after, which is the digest OWNER_BATCH_ADOPTION_2026-09-02 pins for wy_fel_1502-set; nothing in the family directory changed. The host is therefore the source that produced the adopted bytes, and every substantive line carried here was additionally checked back against the adopted PDF text — 74 of 74 matched verbatim."
       }
     }
   ],

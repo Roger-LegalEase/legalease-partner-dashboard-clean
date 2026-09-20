@@ -250,6 +250,51 @@ function drawPleadingCaption(
   block: Extract<GradeABlock, { kind: "pleading_caption" }>
 ) {
   ensurePleading(cursor, document, fonts, context, 245);
+  if (block.courtLines?.length) {
+    // The adopted caption takes more than one court line. Each is drawn as its
+    // own line: prefix, a rule where the participant writes the value, suffix.
+    for (const line of block.courtLines) {
+      let x = PLEADING_MARGIN;
+      if (line.prefix) {
+        cursor.page.drawText(sanitize(line.prefix), { x, y: cursor.y, size: PLEADING_BODY_SIZE, font: fonts.pleadingBold, color: INK });
+        x += fonts.pleadingBold.widthOfTextAtSize(`${line.prefix} `, PLEADING_BODY_SIZE);
+      }
+      if (line.blank) {
+        const width = Math.max(120, 320 - (x - PLEADING_MARGIN));
+        cursor.page.drawLine({ start: { x, y: cursor.y - 2 }, end: { x: x + width, y: cursor.y - 2 }, thickness: 0.75, color: INK });
+        x += width + 6;
+      } else if (line.value) {
+        cursor.page.drawText(sanitize(line.value.toUpperCase()), { x, y: cursor.y, size: PLEADING_BODY_SIZE, font: fonts.pleadingBold, color: INK });
+        x += fonts.pleadingBold.widthOfTextAtSize(`${line.value.toUpperCase()} `, PLEADING_BODY_SIZE);
+      }
+      if (line.suffix) {
+        cursor.page.drawText(sanitize(line.suffix), { x, y: cursor.y, size: PLEADING_BODY_SIZE, font: fonts.pleadingBold, color: INK });
+      }
+      cursor.y -= PLEADING_LEADING;
+    }
+    if (block.courtInstruction) {
+      cursor.y -= 4;
+      cursor.y = drawCenteredWrapped(
+        cursor.page, fonts.pleadingBody, sanitize(`(${block.courtInstruction})`), 9,
+        PLEADING_CONTENT_WIDTH, cursor.y, 11
+      );
+    }
+    cursor.y -= 20;
+    const docketLabel = block.caseNumberLabel ?? "CASE NO.";
+    cursor.page.drawText(sanitize(docketLabel), { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+    const afterDocket = PLEADING_MARGIN + fonts.pleadingBold.widthOfTextAtSize(`${docketLabel} `, 12);
+    if (block.caseNumberBlank) {
+      cursor.page.drawLine({ start: { x: afterDocket, y: cursor.y - 2 }, end: { x: afterDocket + 240, y: cursor.y - 2 }, thickness: 0.75, color: INK });
+    } else {
+      cursor.page.drawText(sanitize(block.caseNumber), { x: afterDocket, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+    }
+    cursor.y -= 26;
+    if (block.matterTitle) {
+      cursor.y = drawCenteredWrapped(cursor.page, fonts.pleadingBold, sanitize(block.matterTitle.toUpperCase()), 12, PLEADING_CONTENT_WIDTH, cursor.y, PLEADING_LEADING) - 20;
+    }
+    cursor.y = drawCenteredWrapped(cursor.page, fonts.pleadingBold, sanitize(block.title), 13, PLEADING_CONTENT_WIDTH, cursor.y, PLEADING_LEADING) - 26;
+    return;
+  }
   if (block.courtBlank) {
     // The court is a line the participant completes at filing. Drawing "IN THE"
     // with a rule after it, and the instruction beneath, says that; centring an

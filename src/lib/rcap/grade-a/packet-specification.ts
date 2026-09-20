@@ -71,6 +71,19 @@ export type PacketSpecificationSection = {
   captionContract?: {
     court: string;
     courtInstruction?: string;
+    /**
+     * The adopted caption's court lines, where it takes more than one.
+     *
+     * Wyoming's runs "IN THE DISTRICT COURT OF THE ____ JUDICIAL DISTRICT" and
+     * "COUNTY OF ____, STATE OF WYOMING": two lines, two blanks, and a shape the
+     * single `court` slot cannot hold. Forcing it into one would move the county
+     * out of the caption, which is a change to the adopted structure rather than
+     * a rendering detail. Each entry draws its prefix, a rule where it names a
+     * participant-completable field, then its suffix.
+     */
+    courtLines?: Array<{ prefix?: string; field?: string; suffix?: string }>;
+    /** The adopted label before the number, where it is not "CASE NO.". */
+    caseNumberLabel?: string;
     /** Replaces PLAINTIFF / VS. / DEFENDANT for an in-the-matter-of caption. */
     matterTitle?: string;
     caseNumber: string;
