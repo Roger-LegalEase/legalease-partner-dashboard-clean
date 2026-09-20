@@ -110,6 +110,61 @@ export type SupplementalGuideEntry = {
   };
 };
 
+/**
+ * A value the approved design shows in a panel or table cell.
+ *
+ * `null` is a first-class answer and means NOT ESTABLISHED for this route. The
+ * renderer prints that in terms rather than leaving a blank that reads as an
+ * oversight, and never fills it with a plausible figure. The requirement is
+ * explicit: the renderer must never invent a fee, address, filing location,
+ * method, deadline, waiting period, copy count, notarisation or service
+ * requirement.
+ */
+export type GuideField = SupplementalGuideEntry | null;
+
+/** The four-cell strip on the Next Steps page. */
+export type GuideFilingStrip = {
+  whereToFile: GuideField;
+  filingMethod: GuideField;
+  deadline: GuideField;
+  nextEvent: GuideField;
+};
+
+/** One row of the fee breakdown. An unestablished amount stays null. */
+export type GuideFeeRow = {
+  item: string;
+  itemEs?: string;
+  amount: string | null;
+  whenHowPaid: GuideField;
+};
+
+export type GuideFees = {
+  /** The headline out-of-pocket figure, or null where nothing establishes one. */
+  estimate: string | null;
+  lastVerified: string | null;
+  officialSource: GuideField;
+  breakdown: GuideFeeRow[];
+  waiver: {
+    availability: GuideField;
+    formOrProcess: GuideField;
+    whereToSubmit: GuideField;
+  };
+};
+
+/**
+ * Per-document filing detail for the checklist table.
+ *
+ * The DOCUMENTS themselves come from the packet specification, not from here —
+ * a guide that carried its own document list could name a component the packet
+ * does not contain. This carries only what the specification cannot know:
+ * how many copies the office wants, and what to do with each one.
+ */
+export type GuideDocumentDetail = {
+  documentId: string;
+  copies: string | null;
+  instruction: GuideField;
+};
+
 export type SupplementalGuide = {
   schemaVersion: "rcap-supplemental-guide/v1";
   routeKey: string;
@@ -132,6 +187,13 @@ export type SupplementalGuide = {
    * migration is indistinguishable from a line nobody noticed.
    */
   carriedElsewhere: Array<{ text: string; destination: string; why: string }>;
+
+  /** The Next Steps strip. Absent where the route establishes none of it. */
+  filingStrip?: GuideFilingStrip;
+  /** Filing detail per court-facing component, keyed to the specification's ids. */
+  documentDetails?: GuideDocumentDetail[];
+  /** Fees, costs and fee-waiver position. */
+  fees?: GuideFees;
 };
 
 export function guideSectionEntries(guide: SupplementalGuide, section: SupplementalGuideSection): SupplementalGuideEntry[] {
