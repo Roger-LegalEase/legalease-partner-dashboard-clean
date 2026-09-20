@@ -64,13 +64,13 @@ const SHA = "a".repeat(64);
 
 check(
   buildDirectArtifactStoragePath({
-    partnerId: null, matterId: "matter-1", briefcaseItemId: "item-1", outputSha256: SHA
+    ownerNamespace: null, matterId: "matter-1", briefcaseItemId: "item-1", outputSha256: SHA
   }) === `packet-artifacts/consumer/matter-1/grade-a/item-1/${SHA}.pdf`,
   "a consumer artifact's path binds the owner boundary, the matter, the artifact and the hash"
 );
 check(
   buildDirectArtifactStoragePath({
-    partnerId: "partner-9", matterId: "matter-1", briefcaseItemId: "item-1", outputSha256: SHA
+    ownerNamespace: "partner-9", matterId: "matter-1", briefcaseItemId: "item-1", outputSha256: SHA
   }).startsWith("packet-artifacts/partner-9/"),
   "a partner-sponsored artifact is written under the partner, not under consumer"
 );
@@ -81,14 +81,14 @@ check(
  * `grade-a` segment is a literal, not a variable.
  */
 check(
-  buildDirectArtifactStoragePath({ partnerId: null, matterId: "m", briefcaseItemId: "x", outputSha256: SHA })
+  buildDirectArtifactStoragePath({ ownerNamespace: null, matterId: "m", briefcaseItemId: "x", outputSha256: SHA })
     !== buildArtifactStoragePath({ partnerId: null, matterId: "m", jobId: "x", outputSha256: SHA }),
   "a direct artifact path cannot collide with a render job's path"
 );
 
 for (const [label, input] of [
-  ["a non-sha output", { partnerId: null, matterId: "m", briefcaseItemId: "i", outputSha256: "nope" }],
-  ["an empty artifact id", { partnerId: null, matterId: "m", briefcaseItemId: "  ", outputSha256: SHA }]
+  ["a non-sha output", { ownerNamespace: null, matterId: "m", briefcaseItemId: "i", outputSha256: "nope" }],
+  ["an empty artifact id", { ownerNamespace: null, matterId: "m", briefcaseItemId: "  ", outputSha256: SHA }]
 ]) {
   let refused = false;
   try { buildDirectArtifactStoragePath(input); } catch { refused = true; }
@@ -198,7 +198,7 @@ if (!guided) {
 
   const validation = assertValidArtifact({ bytes: assembly.bytes, expectedContentType: "application/pdf" });
   const storagePath = buildDirectArtifactStoragePath({
-    partnerId: null, matterId: "matter-persist", briefcaseItemId: "item-persist",
+    ownerNamespace: null, matterId: "matter-persist", briefcaseItemId: "item-persist",
     outputSha256: validation.sha256
   });
 
@@ -315,7 +315,148 @@ if (!guided) {
   );
 }
 
-/* ------------------------------------- 6. other providers are untouched */
+/* ------------------- 6. the receipt crosses the real runtime parser */
+
+/**
+ * THE GAP THIS SECTION EXISTS FOR.
+ *
+ * Everything above proved the bytes: composed, validated, persisted, read back
+ * and byte-identical. None of it proved that the APPLICATION recognises the
+ * receipt it had just written.
+ *
+ * It did not. `artifactRefsForValue` had no branch for a plain
+ * `rcap_grade_a_composer_v1` receipt -- the only conversion required
+ * `renderJobId` and `renderPacketId`, which only the sponsored durable path
+ * writes. So a correct PDF could be sitting in private storage under a correct
+ * receipt and the Briefcase would parse it to `undefined` and show no artifact.
+ *
+ * These drive the exported `readyPacketArtifactAccess`, which is the boundary
+ * the Briefcase and the download actually cross.
+ */
+const { readyPacketArtifactAccess } = await import("../src/lib/expungement-ai/packet-generation.ts");
+
+const HASH = "b".repeat(64);
+const ITEM = { id: "item-1", type: "packet", title: "m", state: "MS", status: "packet_ready",
+  createdAt: "2026-09-20T00:00:00.000Z", summary: "", nextSteps: [], paymentAllowed: true };
+const ready = (artifact) => readyPacketArtifactAccess(ITEM, {
+  status: "ready", revision: 1, verificationHash: HASH,
+  entitlementSource: "consumer_payment", artifact
+});
+
+/** A receipt of exactly the shape buildGradeAArtifact now returns. */
+const persistedReceipt = {
+  provider: "rcap_grade_a_composer_v1",
+  source: "grade_a_packet_specification",
+  packetId: "item-1",
+  fileName: "packet.pdf",
+  contentType: "application/pdf",
+  generatedAt: "2026-09-20T00:00:00.000Z",
+  downloadPath: "/api/expungement-ai/packet/item-1/download",
+  packetSpecificationId: "spec-1",
+  packetSpecificationVersion: "1.0.0",
+  packetSpecificationSha256: "c".repeat(64),
+  packetFamily: "family-1",
+  documentCount: 4,
+  verificationHash: HASH,
+  artifactSha256: "d".repeat(64),
+  pageCount: 7,
+  packetLocale: "es",
+  storagePath: `packet-artifacts/consumer/matter-1/grade-a/item-1/${"d".repeat(64)}.pdf`,
+  supplementalGuide: {
+    routeKey: "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+    schemaVersion: "rcap-supplemental-guide/v1",
+    sourcePath: "data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json",
+    contentSha256: "e".repeat(64)
+  },
+  assemblyVariant: "full",
+  assemblyKind: "rcap_supplemental_guide_v1",
+  assemblyVersion: "2.0.0"
+};
+
+const parsed = ready(persistedReceipt);
+check(parsed !== undefined, "a newly persisted direct Grade-A receipt is recognised");
+check(
+  parsed?.storagePath === persistedReceipt.storagePath
+  && parsed?.artifactSha256 === persistedReceipt.artifactSha256
+  && parsed?.pageCount === 7
+  && parsed?.packetLocale === "es"
+  && parsed?.assemblyVariant === "full"
+  && parsed?.assemblyKind === "rcap_supplemental_guide_v1"
+  && parsed?.assemblyVersion === "2.0.0"
+  && parsed?.supplementalGuide?.contentSha256 === "e".repeat(64)
+  && parsed?.packetSpecificationSha256 === "c".repeat(64)
+  && parsed?.verificationHash === HASH,
+  "every immutable binding survives the parse unchanged"
+);
+
+/** A guide-less route records an explicit null, and that is a complete receipt. */
+check(
+  ready({ ...persistedReceipt, supplementalGuide: null }) !== undefined,
+  "a persisted receipt with an explicit null guide is recognised"
+);
+
+/*
+ * PARTIAL RECEIPTS ARE REFUSED, NOT DEMOTED.
+ *
+ * Each of these has a storage path and one binding missing or malformed.
+ * Treating any of them as the historical shape would send a packet that HAS
+ * stored bytes down the recompose path -- the exact failure this repair ends,
+ * on a receipt that looked almost right.
+ */
+for (const [label, mutate] of [
+  ["no guide binding at all", (r) => { delete r.supplementalGuide; }],
+  ["a malformed guide digest", (r) => { r.supplementalGuide = { ...r.supplementalGuide, contentSha256: "short" }; }],
+  ["no locale", (r) => { delete r.packetLocale; }],
+  ["an unsupported locale", (r) => { r.packetLocale = "fr"; }],
+  ["no assembly variant", (r) => { delete r.assemblyVariant; }],
+  ["no assembly version", (r) => { delete r.assemblyVersion; }],
+  ["a storage path outside the bucket root", (r) => { r.storagePath = "elsewhere/x.pdf"; }],
+  ["a zero page count", (r) => { r.pageCount = 0; }],
+  ["a malformed artifact hash", (r) => { r.artifactSha256 = "nope"; }]
+]) {
+  const broken = JSON.parse(JSON.stringify(persistedReceipt));
+  mutate(broken);
+  check(ready(broken) === undefined, `a persisted receipt with ${label} is refused, not demoted`);
+}
+
+/*
+ * The historical shape still parses, and gains nothing it never had. An
+ * artifact that was never stored must not appear to have been.
+ */
+const historical = { ...persistedReceipt };
+delete historical.storagePath;
+delete historical.supplementalGuide;
+delete historical.packetLocale;
+delete historical.assemblyVariant;
+delete historical.assemblyKind;
+delete historical.assemblyVersion;
+const historicalParsed = ready(historical);
+check(historicalParsed !== undefined, "a pre-storage direct Grade-A receipt is still recognised");
+check(
+  historicalParsed?.storagePath === undefined && historicalParsed?.supplementalGuide === undefined,
+  "and is not given a storage path or a guide identity it never had"
+);
+
+/* And other providers are untouched. */
+check(
+  ready({
+    provider: "rcap_durable_render_v1", source: "verified_render_job", packetId: "p",
+    renderJobId: "j", artifactSha256: "f".repeat(64), contentType: "application/pdf",
+    fileName: "x.pdf", generatedAt: "2026-09-20T00:00:00.000Z", downloadPath: "/d", pageCount: 3
+  })?.provider === "rcap_durable_render_v1",
+  "the durable worker receipt still parses unchanged"
+);
+check(
+  ready({
+    provider: "rcap_legacy_mississippi", packetId: "p", fileName: "x.pdf",
+    generatedAt: "2026-09-20T00:00:00.000Z", source: "mississippi_legacy_petition_packet",
+    contentType: "application/pdf", downloadPath: "/d", courtPacketDownloadPath: "/c"
+  })?.provider === "rcap_legacy_mississippi",
+  "the legacy Mississippi receipt still parses unchanged"
+);
+check(ready({ provider: "something_else" }) === undefined, "an unknown provider is still refused");
+
+/* ------------------------------------- 7. other providers are untouched */
 
 /**
  * Scoped by provider dispatch rather than by a route list or a guide count.

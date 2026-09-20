@@ -149,12 +149,24 @@ export function buildArtifactStoragePath(input: {
  * id and a job id were ever drawn from the same space.
  */
 export function buildDirectArtifactStoragePath(input: {
-  partnerId: string | null;
+  /**
+   * The owner namespace this object is filed under: a partner SLUG, or null for
+   * a direct consumer artifact.
+   *
+   * Named for what it is. The field was `partnerId` and the caller passes
+   * `partnerSlugForPacketItem(item)`, which is a slug -- so the parameter was
+   * claiming to bind an immutable partner identity while binding a mutable
+   * human-readable name. Nothing was mis-authorized by that, because the
+   * protected receipt is the authority and stores the exact path rather than
+   * re-deriving it, but a path contract that describes itself wrongly is a
+   * contract someone will later rely on.
+   */
+  ownerNamespace: string | null;
   matterId: string | null;
   briefcaseItemId: string;
   outputSha256: string;
 }) {
-  const owner = input.partnerId ?? "consumer";
+  const owner = input.ownerNamespace ?? "consumer";
   const matter = input.matterId ?? "unmattered";
   if (!/^[0-9a-f]{64}$/.test(input.outputSha256)) {
     throw new RenderContractError("output_not_pdf", "An artifact path requires a sha256 output hash.");

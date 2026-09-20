@@ -1026,7 +1026,7 @@ async function buildGradeAArtifact(
    * below decides whether it is the artifact or garbage.
    */
   const storagePath = buildDirectArtifactStoragePath({
-    partnerId: await partnerSlugForPacketItem(item),
+    ownerNamespace: await partnerSlugForPacketItem(item),
     matterId: consumerMatterIdForItem(item.id),
     briefcaseItemId: item.id,
     outputSha256: validation.sha256
@@ -1360,6 +1360,74 @@ function artifactRefsForValue(refs: Record<string, unknown> | undefined | null):
     && typeof refs.pageCount === "number" && refs.pageCount > 0) {
     return refs as ConsumerPacketArtifactRefs;
   }
+  /*
+   * THE DIRECT GRADE-A RECEIPT.
+   *
+   * There was no branch for one. The only conversion above requires
+   * `renderJobId` and `renderPacketId`, which only the SPONSORED durable path
+   * writes (sponsored-packet.ts), so a receipt from `buildGradeAArtifact` --
+   * the ordinary direct Grade-A artifact -- parsed to `undefined`. The PDF
+   * could be composed, validated, persisted and verified, and the Briefcase
+   * would still not recognise it as a usable artifact.
+   *
+   * TWO SCHEMAS, CHOSEN BY THE STORAGE POINTER, NEVER BLENDED.
+   *
+   * A receipt that names stored bytes is held to the full persisted contract:
+   * everything the download needs to serve those exact bytes and everything
+   * that says what they were assembled from. A receipt that names none keeps
+   * the historical shape and the recompose path it was generated under.
+   *
+   * The pointer decides, and a partial receipt is refused rather than demoted.
+   * Demoting one would send a packet that HAS stored bytes down the recompose
+   * path, which is the whole failure this repair exists to end -- and it would
+   * do it silently, on a receipt that looked almost right.
+   */
+  if (refs?.provider === "rcap_grade_a_composer_v1" && refs.source === "grade_a_packet_specification") {
+    const common = typeof refs.packetId === "string" && refs.packetId.length > 0
+      && typeof refs.fileName === "string" && refs.fileName.length > 0
+      && refs.contentType === "application/pdf"
+      && typeof refs.generatedAt === "string" && refs.generatedAt.length > 0
+      && typeof refs.downloadPath === "string" && refs.downloadPath.length > 0
+      && typeof refs.packetSpecificationId === "string" && refs.packetSpecificationId.length > 0
+      && typeof refs.packetSpecificationVersion === "string" && refs.packetSpecificationVersion.length > 0
+      && typeof refs.packetSpecificationSha256 === "string" && /^[a-f0-9]{64}$/.test(refs.packetSpecificationSha256)
+      && typeof refs.packetFamily === "string" && refs.packetFamily.length > 0
+      && typeof refs.verificationHash === "string" && /^[a-f0-9]{64}$/.test(refs.verificationHash)
+      && typeof refs.artifactSha256 === "string" && /^[a-f0-9]{64}$/.test(refs.artifactSha256)
+      && typeof refs.pageCount === "number" && Number.isInteger(refs.pageCount) && refs.pageCount > 0;
+
+    if (refs.storagePath !== undefined) {
+      // A guide identity is an object or an explicit null. `undefined` is not
+      // "no guide"; it is "nobody recorded one", and those must not be the same
+      // answer on an artifact whose bytes depend on it.
+      const guide = refs.supplementalGuide;
+      const guideBound = guide === null || (
+        typeof guide === "object" && guide !== null
+        && typeof (guide as { routeKey?: unknown }).routeKey === "string"
+        && typeof (guide as { schemaVersion?: unknown }).schemaVersion === "string"
+        && typeof (guide as { sourcePath?: unknown }).sourcePath === "string"
+        && /^[a-f0-9]{64}$/.test(String((guide as { contentSha256?: unknown }).contentSha256 ?? ""))
+      );
+      const persisted = common && guideBound
+        && typeof refs.storagePath === "string" && refs.storagePath.startsWith("packet-artifacts/")
+        && refs.storagePath.endsWith(".pdf")
+        && (refs.packetLocale === "en" || refs.packetLocale === "es")
+        && (refs.assemblyVariant === "full" || refs.assemblyVariant === "court_only")
+        && typeof refs.assemblyKind === "string" && refs.assemblyKind.length > 0
+        && typeof refs.assemblyVersion === "string" && refs.assemblyVersion.length > 0;
+      return persisted ? (refs as ConsumerPacketArtifactRefs) : undefined;
+    }
+
+    /*
+     * No storage pointer: a receipt written before persistence. It keeps the
+     * fields it was written with and the recompose path in
+     * `gradeAPacketDownload`. Nothing here invents a path, a guide identity or
+     * a locale for it -- an artifact that was never stored does not become
+     * stored because a parser filled in a blank.
+     */
+    return common ? (refs as ConsumerPacketArtifactRefs) : undefined;
+  }
+
   if (
     refs?.provider === "rcap_source_engine" &&
     typeof refs.packetId === "string" &&
